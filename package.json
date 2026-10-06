@@ -1,0 +1,25 @@
+{
+  "name": "oceanx-pos",
+  "private": true,
+  "version": "0.1.0",
+  "description": "OceanX — multi-tenant Restaurant & Cafe Management SaaS",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev -w @oceanx/api",
+    "dev:web": "npm run dev -w @oceanx/web",
+    "build": "npm run build -w @oceanx/api && npm run build -w @oceanx/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "db:generate": "npm run db:generate -w @oceanx/api",
+    "db:migrate": "npm run db:migrate -w @oceanx/api",
+    "db:seed": "npm run db:seed -w @oceanx/api",
+    "superadmin:create": "npm run superadmin:create -w @oceanx/api",
+    "i18n:check": "npm run i18n:check -w @oceanx/shared"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
