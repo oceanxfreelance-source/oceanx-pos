@@ -78,7 +78,9 @@
     "reports": "Reports",
     "group_catalog": "Menu & stock",
     "group_customers": "Customers & documents",
-    "group_finance": "Finance"
+    "group_finance": "Finance",
+    "more": "More",
+    "open_pos": "Open POS"
   },
   "business_types": {
     "restaurant": "Restaurant",
@@ -1683,6 +1685,15 @@
       "team_hint": "Give each person a role.",
       "first_sale": "Make a first sale",
       "first_sale_hint": "Open the POS."
-    }
+    },
+    "progress": "{{done}} of {{total}} done"
+  },
+  "palette": {
+    "title": "Quick search",
+    "placeholder": "Search or jump to…",
+    "no_results": "Nothing matches.",
+    "pages": "Go to",
+    "actions": "Quick actions",
+    "account": "Account"
   }
 }

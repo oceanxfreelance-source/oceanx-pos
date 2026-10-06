@@ -22,6 +22,7 @@ import {
   PackagePlus,
   Puzzle,
   Receipt,
+  ShoppingCart,
   Settings,
   ShieldCheck,
   Store,
@@ -37,6 +38,7 @@ import { useToastError } from '../lib/useApiError';
 import { Shell, type NavGroup } from './Shell';
 import { Dropdown, DropdownItem } from '../components/Dropdown';
 import { NotificationBell } from '../components/NotificationBell';
+import { AppLoader } from '../components/AppLoader';
 import { SkeletonRows } from '../components/ui/Card';
 import { StatusScreen, ForcePasswordChange } from '../pages/business/StatusScreens';
 
@@ -89,10 +91,23 @@ export function useBusinessNav(): NavGroup[] {
   ].filter((g) => g.items.length > 0);
 }
 
+/** Shortcuts to the most common tasks (dashboard tiles + ⌘K). Gated exactly like the screens they open. */
+export function useQuickActions(): NavGroup['items'] {
+  const { can, hasModule } = useBiz();
+  const items: NavGroup['items'] = [];
+  if (hasModule('pos') && can('pos.access')) items.push({ to: '/pos', label: 'pos.new_sale', icon: ShoppingCart });
+  if (hasModule('invoices') && can('invoices.create')) items.push({ to: '/invoices/new', label: 'invoices.create', icon: FileSpreadsheet });
+  if (hasModule('quotations') && can('quotations.create')) items.push({ to: '/quotations/new', label: 'quotations.create', icon: FileText });
+  if (hasModule('products') && can('products.create')) items.push({ to: '/products?new=1', label: 'products.create', icon: UtensilsCrossed });
+  if (hasModule('customers') && can('customers.create')) items.push({ to: '/customers?new=1', label: 'customers.create', icon: Contact });
+  if (hasModule('expenses') && can('expenses.create')) items.push({ to: '/expenses?new=1', label: 'expenses.create', icon: Wallet });
+  return items;
+}
+
 /** Auth gate for business pages. `bare` renders full-screen pages (POS, kitchen display, print) without the app shell. */
 export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   const { session, isLoading } = useBiz();
-  if (isLoading) return <SkeletonRows rows={6} />;
+  if (isLoading) return <AppLoader />;
   if (!session) return <Navigate to="/login" replace />;
   if (session.state !== 'ok') return <StatusScreen />;
   if (session.user.mustChangePassword) return <ForcePasswordChange />;
@@ -170,6 +185,15 @@ function BusinessLayout() {
   const { logout, refresh } = useBiz();
   const navigate = useNavigate();
   const groups = useBusinessNav();
+  const quick = useQuickActions();
+  const allItems = groups.flatMap((g) => g.items);
+  const pos = allItems.find((i) => i.to === '/pos');
+  // Phone tab bar: the four most-used destinations this user can open.
+  const bottomNav = ['/', '/pos', '/sales', '/products', '/kitchen', '/customers', '/reports']
+    .map((to) => allItems.find((i) => i.to === to))
+    .filter((i): i is NonNullable<typeof i> => !!i)
+    .map((i) => (i.to === '/products' ? { ...i, label: 'nav.menu' } : i))
+    .slice(0, 4);
   const toastErr = useToastError();
   const setLang = useMutation({ mutationFn: (language: string) => api.patch('/me/preferences', { language }), onSuccess: () => refresh(), onError: toastErr });
 
@@ -177,7 +201,15 @@ function BusinessLayout() {
     <Shell
       brand={<span dir="auto">{session.business.name}</span>}
       brandSub={t(`business_types.${session.business.businessType}`)}
-      groups={groups.map((g) => ({ ...g, label: g.label ? t(g.label) : undefined }))}
+      // POS is reached through the prominent "Open POS" button, so it is not repeated in the list.
+      groups={groups.map((g) => ({ ...g, label: g.label ? t(g.label) : undefined, items: pos ? g.items.filter((i) => i.to !== '/pos') : g.items }))}
+      primaryAction={pos ? { to: '/pos', label: 'nav.open_pos', icon: MonitorSmartphone } : undefined}
+      bottomNav={bottomNav}
+      palette={[
+        ...(quick.length ? [{ label: 'palette.actions', items: quick }] : []),
+        { label: 'palette.pages', items: groups.flatMap((g) => g.items) },
+        { label: 'palette.account', items: [{ to: '/account', label: 'nav.account', icon: UserCircle }] },
+      ]}
       topbar={
         <>
           <div className="me-auto">

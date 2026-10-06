@@ -915,5 +915,26 @@
     "suggested": "ކަރަންޓް",
     "status": "confirmed",
     "notes": "ކަރަންޓް — standard everyday term."
+  },
+  {
+    "key": "palette.placeholder",
+    "english": "Search or jump to…",
+    "suggested": "ހޯދާ ނުވަތަ ސީދާ ދާ…",
+    "status": "needs_review",
+    "notes": "UI phrase for the quick-search box; confirm natural wording."
+  },
+  {
+    "key": "palette.actions",
+    "english": "Quick actions",
+    "suggested": "އަވަސް ކަންތައްތައް",
+    "status": "needs_review",
+    "notes": "Shortcut buttons on the dashboard; confirm wording."
+  },
+  {
+    "key": "nav.open_pos",
+    "english": "Open POS",
+    "suggested": "POS ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "Sidebar button; acronym kept in Latin per decision."
   }
 ]

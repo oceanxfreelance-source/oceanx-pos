@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { ArrowLeft, CheckCircle2, ClipboardList, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, Trash2, User, X } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ClipboardList, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, X } from 'lucide-react';
+import { ItemAvatar, tintFor } from '../../components/ItemAvatar';
 import type { OptionGroup } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
@@ -383,7 +384,10 @@ export default function PosPage() {
                     category === c.id ? 'bg-brand-700 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-700',
                   )}
                 >
-                  <span dir="auto">{c.name}</span>
+                  <span className="flex items-center gap-2">
+                    {c.id !== 'all' && <span aria-hidden className={clsx('size-2 rounded-full', tintFor(c.id).bar)} />}
+                    <span dir="auto">{c.name}</span>
+                  </span>
                 </button>
               ))}
             </div>
@@ -407,17 +411,25 @@ export default function PosPage() {
                       type="button"
                       onClick={() => onProduct(p)}
                       className={clsx(
-                        'flex min-h-28 flex-col justify-between rounded-2xl bg-white p-3 text-start shadow-sm ring-1 ring-slate-200 transition-transform active:scale-[0.98] dark:bg-slate-900 dark:ring-slate-800',
+                        'group relative flex min-h-32 flex-col overflow-hidden rounded-2xl bg-white text-start shadow-sm ring-1 ring-slate-200 transition hover:shadow-md hover:ring-brand-300 active:scale-[0.98] dark:bg-slate-900 dark:ring-slate-800',
                         out && 'opacity-60',
                       )}
                     >
-                      {p.hasImage && <img src={`/api/products/${p.id}/image`} alt="" loading="lazy" className="mb-2 h-20 w-full rounded-xl object-cover" />}
-                      <span className="line-clamp-2 font-medium" dir="auto">
-                        {p.name}
-                      </span>
-                      <span className="mt-2 flex items-center justify-between gap-1">
-                        <span className="font-semibold text-brand-700 tabular-nums dark:text-brand-300">{money(p.sellingPrice)}</span>
-                        {p.trackStock && p.stock !== null && <Badge tone={out ? 'red' : p.stock < 5 ? 'amber' : 'gray'}>{p.stock}</Badge>}
+                      <span aria-hidden className={clsx('h-1.5 w-full', tintFor(p.categoryId ?? p.name).bar)} />
+                      <span className="flex flex-1 flex-col gap-2 p-3">
+                        <span className="flex items-start gap-2.5">
+                          <ItemAvatar name={p.name} tintKey={p.categoryId ?? p.name} src={p.hasImage ? `/api/products/${p.id}/image` : null} className="size-11 text-sm" />
+                          <span className="line-clamp-2 min-w-0 flex-1 pt-0.5 leading-snug font-medium" dir="auto">
+                            {p.name}
+                          </span>
+                        </span>
+                        <span className="mt-auto flex items-center justify-between gap-1">
+                          <span className="rounded-lg bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-900 tabular-nums dark:bg-slate-800 dark:text-white">{money(p.sellingPrice)}</span>
+                          <span className="flex items-center gap-1">
+                            {p.options.length > 0 && <SlidersHorizontal className="size-3.5 text-slate-400" aria-label={t('products.options')} />}
+                            {p.trackStock && p.stock !== null && <Badge tone={out ? 'red' : p.stock < 5 ? 'amber' : 'gray'}>{p.stock}</Badge>}
+                          </span>
+                        </span>
                       </span>
                     </button>
                   );

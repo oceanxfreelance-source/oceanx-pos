@@ -7,6 +7,7 @@ import { RequireBusinessAuth } from './layouts/BusinessLayout';
 import { RequireSuperAdmin } from './layouts/SuperAdminLayout';
 import { SkeletonRows } from './components/ui/Card';
 import { Button } from './components/ui/Button';
+import { AppLoader } from './components/AppLoader';
 
 // Business (tenant) pages
 const BusinessLogin = lazy(() => import('./pages/auth/BusinessLogin'));
@@ -75,14 +76,14 @@ const withSuspense = (el: React.ReactNode) => <Suspense fallback={<Loading />}>{
 
 const BusinessRoot = () => (
   <BusinessAuthProvider>
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<AppLoader />}>
       <Outlet />
     </Suspense>
   </BusinessAuthProvider>
 );
 const SuperAdminRoot = () => (
   <SuperAdminAuthProvider>
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<AppLoader />}>
       <Outlet />
     </Suspense>
   </SuperAdminAuthProvider>

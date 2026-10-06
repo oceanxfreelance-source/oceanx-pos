@@ -61,14 +61,14 @@ export function Badge({ tone = 'gray', children, dot }: { tone?: BadgeTone; chil
 
 export function StatCard({ label, value, hint, icon, tone = 'blue' }: { label: ReactNode; value: ReactNode; hint?: ReactNode; icon?: ReactNode; tone?: BadgeTone }) {
   return (
-    <Card className="animate-pop-in">
-      <div className="flex items-start justify-between gap-3">
+    <Card className="animate-pop-in h-full !p-4 sm:!p-5" padded>
+      <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{label}</p>
-          <p className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 tabular-nums dark:text-white">{value}</p>
+          <p className="text-xs font-medium text-slate-500 sm:text-sm dark:text-slate-400">{label}</p>
+          <p className="mt-1.5 truncate text-xl font-semibold tracking-tight text-slate-900 tabular-nums sm:mt-2 sm:text-2xl dark:text-white">{value}</p>
           {hint && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{hint}</p>}
         </div>
-        {icon && <div className={clsx('rounded-xl p-2.5 ring-1 ring-inset', badgeTones[tone])}>{icon}</div>}
+        {icon && <div className={clsx('hidden rounded-xl p-2.5 ring-1 ring-inset min-[400px]:block', badgeTones[tone])}>{icon}</div>}
       </div>
     </Card>
   );

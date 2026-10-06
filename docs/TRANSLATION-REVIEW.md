@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 108 · **confirmed**: 23
+Status: **needs_review**: 111 · **confirmed**: 23
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -56,10 +56,13 @@ review of the whole file is still recommended before launch.
 | `modules.quotations` | Quotations | ކޮޓޭޝަން | needs_review | Loanword. Alternative: އަގު ހުށަހެޅުން. Which do your salespeople and customers actually use? |
 | `modules.sales` | Sales | ވިއްކުން | needs_review | Alternative loanword: ސޭލްސް. ވިއްކުން reads naturally in reports; ސޭލްސް is common in POS UIs. |
 | `nav.activity` | Activity log | ހަރަކާތްތަކުގެ ލޮގް | needs_review | Alternative: އޮޑިޓް ލޮގް. |
+| `nav.open_pos` | Open POS | POS ހުޅުވާ | needs_review | Sidebar button; acronym kept in Latin per decision. |
 | `nav.outlets` | Outlets | އައުޓްލެޓްތައް | needs_review | Alternatives: ބްރާންޗުތައް, ފިހާރަތައް. ބްރާންޗު may be clearer for multi-branch restaurants. |
 | `notifications.empty` | You're all caught up. | އާ ނޮޓިފިކޭޝަނެއް ނެތް. | needs_review | Idiom 'You're all caught up' rendered literally as 'no new notifications'. |
 | `notify.credit_payment` | {{customer}} paid {{amount}} towards credit | {{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި | needs_review | '{{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި' — check word order and verb. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
+| `palette.actions` | Quick actions | އަވަސް ކަންތައްތައް | needs_review | Shortcut buttons on the dashboard; confirm wording. |
+| `palette.placeholder` | Search or jump to… | ހޯދާ ނުވަތަ ސީދާ ދާ… | needs_review | UI phrase for the quick-search box; confirm natural wording. |
 | `payment_methods.credit` | Credit (pay later) | ދަރަންޏަށް (ފަހުން ދައްކާ) | needs_review | ދަރަންޏަށް (ފަހުން ދައްކާ). Alternative: ކްރެޑިޓް (ފަހުން ދައްކާ). |
 | `payments.kinds.credit_payment` | Credit payment | ދަރަނީގެ ފައިސާ | needs_review | ދަރަނީގެ ފައިސާ, matches existing perm.credit_payment wording. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |

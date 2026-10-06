@@ -12,6 +12,9 @@ interface OnboardingState {
   completed: boolean;
   categories: number;
   products: number;
+  tables: number;
+  users: number;
+  sales: number;
   hasLogo: boolean;
 }
 
@@ -29,10 +32,12 @@ export function OnboardingCard() {
     { key: 'profile', done: q.data.hasLogo, to: '/settings' },
     { key: 'categories', done: q.data.categories > 0, to: '/products' },
     { key: 'products', done: q.data.products > 0, to: '/products' },
-    ...(session.business.profile.tableService && session.modules.includes('tables') ? [{ key: 'tables', done: false, to: '/tables' }] : []),
-    { key: 'team', done: false, to: '/users' },
-    ...(session.modules.includes('pos') ? [{ key: 'first_sale', done: false, to: '/pos' }] : []),
+    ...(session.business.profile.tableService && session.modules.includes('tables') ? [{ key: 'tables', done: q.data.tables > 0, to: '/tables' }] : []),
+    { key: 'team', done: q.data.users > 1, to: '/users' },
+    ...(session.modules.includes('pos') ? [{ key: 'first_sale', done: q.data.sales > 0, to: '/pos' }] : []),
   ];
+  const doneCount = steps.filter((x) => x.done).length;
+  if (doneCount === steps.length) return null;
   return (
     <Card>
       <CardHeader
@@ -41,7 +46,14 @@ export function OnboardingCard() {
             <Rocket className="size-5 text-brand-600" /> {t('onboarding.title')}
           </span>
         }
-        description={t('onboarding.subtitle')}
+        description={
+          <span className="mt-1 flex items-center gap-3">
+            <span className="h-1.5 w-28 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+              <span className="block h-full rounded-full bg-brand-600" style={{ width: `${(doneCount / steps.length) * 100}%` }} />
+            </span>
+            {t('onboarding.progress', { done: doneCount, total: steps.length })}
+          </span>
+        }
         actions={
           can('settings.manage') && (
             <Button size="sm" variant="ghost" onClick={() => done.mutate()} loading={done.isPending}>
@@ -52,7 +64,7 @@ export function OnboardingCard() {
       />
       <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {steps.map((s) => (
-          <li key={s.key}>
+          <li key={s.key} className={s.done ? 'hidden sm:block' : undefined}>
             <Link to={s.to} className="flex items-start gap-3 rounded-xl p-3 ring-1 ring-slate-200 hover:bg-slate-50 dark:ring-slate-800 dark:hover:bg-slate-800/50">
               {s.done ? <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-emerald-600" /> : <Circle className="mt-0.5 size-5 shrink-0 text-slate-300" />}
               <span>

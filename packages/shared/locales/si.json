@@ -78,7 +78,9 @@
     "reports": "වාර්තා",
     "group_catalog": "මෙනුව සහ තොග",
     "group_customers": "පාරිභෝගිකයින් සහ ලේඛන",
-    "group_finance": "මූල්‍ය"
+    "group_finance": "මූල්‍ය",
+    "more": "තවත්",
+    "open_pos": "POS විවෘත කරන්න"
   },
   "business_types": {
     "restaurant": "අවන්හල",
@@ -1683,6 +1685,15 @@
       "team_hint": "සෑම කෙනෙකුටම භූමිකාවක් දෙන්න.",
       "first_sale": "පළමු විකුණුම කරන්න",
       "first_sale_hint": "POS විවෘත කරන්න."
-    }
+    },
+    "progress": "{{total}} න් {{done}} ක් සම්පූර්ණයි"
+  },
+  "palette": {
+    "title": "ඉක්මන් සෙවුම",
+    "placeholder": "සොයන්න හෝ කෙලින්ම යන්න…",
+    "no_results": "කිසිවක් හමු නොවීය.",
+    "pages": "යන්න",
+    "actions": "ඉක්මන් ක්‍රියා",
+    "account": "ගිණුම"
   }
 }

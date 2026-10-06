@@ -78,7 +78,9 @@
     "reports": "রিপোর্ট",
     "group_catalog": "মেনু ও স্টক",
     "group_customers": "গ্রাহক ও ডকুমেন্ট",
-    "group_finance": "অর্থ"
+    "group_finance": "অর্থ",
+    "more": "আরও",
+    "open_pos": "POS খুলুন"
   },
   "business_types": {
     "restaurant": "রেস্টুরেন্ট",
@@ -1683,6 +1685,15 @@
       "team_hint": "প্রত্যেককে একটি ভূমিকা দিন।",
       "first_sale": "প্রথম বিক্রি করুন",
       "first_sale_hint": "POS খুলুন।"
-    }
+    },
+    "progress": "{{total}}টির মধ্যে {{done}}টি সম্পন্ন"
+  },
+  "palette": {
+    "title": "দ্রুত খোঁজ",
+    "placeholder": "খুঁজুন বা সরাসরি যান…",
+    "no_results": "কিছু মেলেনি।",
+    "pages": "যান",
+    "actions": "দ্রুত কাজ",
+    "account": "অ্যাকাউন্ট"
   }
 }

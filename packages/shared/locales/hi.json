@@ -78,7 +78,9 @@
     "reports": "रिपोर्ट",
     "group_catalog": "मेनू और स्टॉक",
     "group_customers": "ग्राहक और दस्तावेज़",
-    "group_finance": "वित्त"
+    "group_finance": "वित्त",
+    "more": "और",
+    "open_pos": "POS खोलें"
   },
   "business_types": {
     "restaurant": "रेस्टोरेंट",
@@ -1683,6 +1685,15 @@
       "team_hint": "हर व्यक्ति को एक भूमिका दें।",
       "first_sale": "पहली बिक्री करें",
       "first_sale_hint": "POS खोलें।"
-    }
+    },
+    "progress": "{{total}} में से {{done}} पूरे"
+  },
+  "palette": {
+    "title": "त्वरित खोज",
+    "placeholder": "खोजें या सीधे जाएँ…",
+    "no_results": "कुछ नहीं मिला।",
+    "pages": "जाएँ",
+    "actions": "त्वरित कार्य",
+    "account": "खाता"
   }
 }

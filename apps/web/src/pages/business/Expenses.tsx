@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -39,6 +40,13 @@ export default function ExpensesPage() {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [editing, setEditing] = useState<Expense | 'new' | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    if (searchParams.get('new') === '1') {
+      setEditing('new');
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
   const { query, page, setPage, search, setSearch, pageSize } = useList<Expense>('expenses', '/expenses', { category, from, to });
   const columns: Column<Expense>[] = [
     { key: 'd', header: t('common.date'), cell: (e) => f.date(e.expenseDate) },

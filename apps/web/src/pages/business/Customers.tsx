@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Plus, Users } from 'lucide-react';
@@ -40,6 +40,13 @@ export default function CustomersPage() {
   const { can } = useBiz();
   const money = useMoney();
   const [editing, setEditing] = useState<Customer | 'new' | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    if (searchParams.get('new') === '1') {
+      setEditing('new');
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
   const [profile, setProfile] = useState<string | null>(null);
   const { query, page, setPage, search, setSearch, pageSize } = useList<Customer>('customers', '/customers');
   const columns: Column<Customer>[] = [

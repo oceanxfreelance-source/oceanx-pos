@@ -78,7 +78,9 @@
     "reports": "ރިޕޯޓްތައް",
     "group_catalog": "މެނޫ އަދި ސްޓޮކް",
     "group_customers": "ކަސްޓަމަރުން އަދި ޑޮކިއުމަންޓް",
-    "group_finance": "މާލީ"
+    "group_finance": "މާލީ",
+    "more": "އިތުރު",
+    "open_pos": "POS ހުޅުވާ"
   },
   "business_types": {
     "restaurant": "ރެސްޓޯރަންޓް",
@@ -1683,6 +1685,15 @@
       "team_hint": "ކޮންމެ މީހަކަށް ރޯލެއް ދެއްވާ.",
       "first_sale": "ފުރަތަމަ ވިއްކުން ކުރައްވާ",
       "first_sale_hint": "POS ހުޅުއްވާ."
-    }
+    },
+    "progress": "{{total}} އިން {{done}} ނިމިއްޖެ"
+  },
+  "palette": {
+    "title": "އަވަސް ހޯދުން",
+    "placeholder": "ހޯދާ ނުވަތަ ސީދާ ދާ…",
+    "no_results": "އެއްވެސް އެއްޗެއް ނުފެނުނު.",
+    "pages": "ދާ",
+    "actions": "އަވަސް ކަންތައްތައް",
+    "account": "އެކައުންޓް"
   }
 }

@@ -8,6 +8,7 @@ import { useFormat } from '../../lib/format';
 import { actionLabel, addonLabel, moduleLabel } from '../../lib/labels';
 import { Badge, Card, CardHeader, EmptyState, PageHeader, Skeleton, StatCard } from '../../components/ui/Card';
 import { SalesWidgets } from './SalesWidgets';
+import { useQuickActions } from '../../layouts/BusinessLayout';
 import { OnboardingCard } from './Onboarding';
 
 interface DashboardData {
@@ -39,10 +40,11 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <PageHeader title={`${greeting}, ${s.user.name.split(' ')[0]}`} description={t('dashboard.subtitle', { business: s.business.name })} />
+      <QuickActions />
       {can('settings.view') && <OnboardingCard />}
       <SalesWidgets />
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         {!w ? (
           Array.from({ length: 4 }, (_, i) => <Skeleton key={i} className="h-28 rounded-2xl" />)
         ) : (
@@ -145,5 +147,35 @@ export default function Dashboard() {
         </Card>
       </div>
     </div>
+  );
+}
+
+/** One-tap shortcuts to the most common tasks for this user. */
+function QuickActions() {
+  const { t } = useTranslation();
+  const actions = useQuickActions();
+  if (!actions.length) return null;
+  return (
+    <section aria-label={t('palette.actions')} className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+      <ul className="flex gap-3 sm:grid sm:grid-cols-3 lg:grid-cols-6">
+        {actions.map((a, i) => (
+          <li key={a.to} className="shrink-0">
+            <Link
+              to={a.to}
+              className={
+                i === 0
+                  ? 'flex h-full min-w-36 items-center gap-3 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 p-4 text-white shadow-sm shadow-brand-900/20 transition hover:from-brand-500 hover:to-brand-700'
+                  : 'flex h-full min-w-36 items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200/80 transition hover:ring-brand-300 dark:bg-slate-900 dark:ring-slate-800'
+              }
+            >
+              <span className={i === 0 ? 'rounded-xl bg-white/15 p-2' : 'rounded-xl bg-brand-50 p-2 text-brand-700 dark:bg-brand-950 dark:text-brand-300'}>
+                <a.icon className="size-5" />
+              </span>
+              <span className="text-sm leading-tight font-semibold">{t(a.label)}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

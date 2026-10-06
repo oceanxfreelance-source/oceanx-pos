@@ -320,10 +320,21 @@ export async function reportRoutes(app: FastifyInstance) {
   // ---------------------------------------------------------------- onboarding
   app.get('/onboarding', { preHandler: requirePermission('settings.view') }, async (req) => {
     const ctx = bizCtx(req);
-    const [c] = (await db.execute<{ cats: number; prods: number }>(sql`
+    const [c] = (await db.execute<{ cats: number; prods: number; tables: number; users: number; sales: number }>(sql`
       SELECT (SELECT count(*)::int FROM categories WHERE business_id = ${ctx.businessId}) AS cats,
-             (SELECT count(*)::int FROM products WHERE business_id = ${ctx.businessId} AND deleted_at IS NULL) AS prods`)).rows;
-    return { completed: !!ctx.access.business.onboardingCompletedAt, categories: c?.cats ?? 0, products: c?.prods ?? 0, hasLogo: !!ctx.access.business.logoPath };
+             (SELECT count(*)::int FROM products WHERE business_id = ${ctx.businessId} AND deleted_at IS NULL) AS prods,
+             (SELECT count(*)::int FROM dining_tables WHERE business_id = ${ctx.businessId}) AS tables,
+             (SELECT count(*)::int FROM users WHERE business_id = ${ctx.businessId} AND deleted_at IS NULL) AS users,
+             (SELECT count(*)::int FROM sales WHERE business_id = ${ctx.businessId} AND status = 'completed') AS sales`)).rows;
+    return {
+      completed: !!ctx.access.business.onboardingCompletedAt,
+      categories: c?.cats ?? 0,
+      products: c?.prods ?? 0,
+      tables: c?.tables ?? 0,
+      users: c?.users ?? 0,
+      sales: c?.sales ?? 0,
+      hasLogo: !!ctx.access.business.logoPath,
+    };
   });
 
   app.post('/onboarding/complete', { preHandler: requirePermission('settings.manage') }, async (req) => {

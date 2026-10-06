@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -16,6 +17,7 @@ import { DataTable, Pagination, type Column } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { ProductPicker } from '../../components/Pickers';
+import { ItemAvatar } from '../../components/ItemAvatar';
 
 interface Category {
   id: string;
@@ -84,6 +86,13 @@ function ProductList() {
   const [categoryId, setCategoryId] = useState('');
   const [type, setType] = useState('');
   const [editing, setEditing] = useState<Product | 'new' | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    if (searchParams.get('new') === '1') {
+      setEditing('new');
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
   const [deleting, setDeleting] = useState<Product | null>(null);
   const qc = useQueryClient();
   const toastErr = useToastError();
@@ -103,7 +112,7 @@ function ProductList() {
       header: t('common.name'),
       cell: (p) => (
         <div className="flex items-center gap-3">
-          {p.imagePath ? <img src={`/api/products/${p.id}/image`} alt="" className="hidden size-10 rounded-lg object-cover sm:block" /> : <span className="hidden size-10 rounded-lg bg-slate-100 sm:block dark:bg-slate-800" />}
+          <ItemAvatar name={p.name} tintKey={p.categoryId ?? p.name} src={p.imagePath ? `/api/products/${p.id}/image` : null} className="hidden size-10 text-xs sm:flex" />
           <div className="min-w-0">
             <p className="truncate font-medium" dir="auto">
               {p.name} {!p.isActive && <Badge>{t('common.inactive')}</Badge>}
