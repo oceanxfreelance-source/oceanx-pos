@@ -936,5 +936,12 @@
     "suggested": "POS ހުޅުވާ",
     "status": "needs_review",
     "notes": "Sidebar button; acronym kept in Latin per decision."
+  },
+  {
+    "key": "products.photo_hint",
+    "english": "Shown on the POS and the QR menu. Any phone or camera photo works; it is resized automatically.",
+    "suggested": "POS އާއި QR މެނޫގައި ދައްކާނެ. ފޯނު ނުވަތަ ކެމެރާގެ ކޮންމެ ފޮޓޯއެއް ވެސް ބޭނުންކުރެވޭނެ؛ ސައިޒު އަމިއްލައަށް ހަމަޖެހޭނެ.",
+    "status": "needs_review",
+    "notes": "New help text under the product photo picker; confirm natural wording."
   }
 ]

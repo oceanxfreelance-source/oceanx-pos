@@ -225,6 +225,16 @@ export async function catalogRoutes(app: FastifyInstance) {
     return { ok: true };
   });
 
+  app.delete('/products/:id/image', { preHandler: requirePermission('products.edit') }, async (req) => {
+    const ctx = bizCtx(req);
+    const id = idParam(req);
+    const [p] = await db.select({ imagePath: products.imagePath }).from(products).where(own(products, ctx, id));
+    if (!p) throw notFound();
+    await db.update(products).set({ imagePath: null, updatedAt: new Date() }).where(own(products, ctx, id));
+    if (p.imagePath) await storage.remove(p.imagePath);
+    return { ok: true };
+  });
+
   app.get('/products/:id/image', async (req, reply) => {
     const ctx = bizCtx(req);
     const id = idParam(req);
@@ -232,7 +242,7 @@ export async function catalogRoutes(app: FastifyInstance) {
     if (!p?.imagePath) throw notFound();
     const ext = p.imagePath.split('.').pop();
     const type = Object.entries(IMAGE_TYPES).find(([, d]) => d.ext === ext)?.[0] ?? 'application/octet-stream';
-    reply.header('content-type', type).header('cache-control', 'private, max-age=600').header('x-content-type-options', 'nosniff');
+    reply.header('content-type', type).header('cache-control', 'private, no-cache').header('x-content-type-options', 'nosniff');
     return reply.send(await storage.read(p.imagePath));
   });
 

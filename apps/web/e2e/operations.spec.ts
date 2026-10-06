@@ -142,4 +142,34 @@ test.describe.serial('OceanX operations', () => {
     expect((await p2.request.get(`/api/invoices/${inv}`)).status()).toBe(404);
     await other.close();
   });
+
+  test('manager adds an item with a photo; POS shows it; dark mode switch', async ({ page }) => {
+    await login(page);
+    await page.goto('/products?new=1');
+    const d = page.getByRole('dialog');
+    await d.getByLabel('Name').fill('Tuna sashimi');
+    await d.getByLabel('Selling price').fill('150');
+    await d.locator('input[type=file]').setInputFiles('e2e/fixtures/dish.jpg');
+    await expect(d.locator('img').first()).toBeVisible();
+    await d.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByRole('table').getByText('Tuna sashimi')).toBeVisible();
+
+    await page.goto('/pos');
+    const tile = page.getByRole('button', { name: /Tuna sashimi/ });
+    const img = tile.locator('img');
+    await expect(img).toBeVisible();
+    // The photo really loaded (served from storage), not a broken image.
+    await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth)).toBeGreaterThan(0);
+
+    await page.getByRole('button', { name: 'Appearance' }).click();
+    await page.getByRole('menuitem', { name: 'Dark' }).click();
+    await expect(page.locator('html')).toHaveClass(/dark/);
+    await page.screenshot({ path: `${SHOTS}/pos-dark.png` });
+    // Saved to the user's profile: survives a reload.
+    await page.reload();
+    await expect(page.locator('html')).toHaveClass(/dark/);
+    await page.getByRole('button', { name: 'Appearance' }).click();
+    await page.getByRole('menuitem', { name: 'Light' }).click();
+    await expect(page.locator('html')).not.toHaveClass(/dark/);
+  });
 });

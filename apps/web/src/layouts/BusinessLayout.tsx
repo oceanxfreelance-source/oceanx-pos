@@ -39,6 +39,8 @@ import { Shell, type NavGroup } from './Shell';
 import { Dropdown, DropdownItem } from '../components/Dropdown';
 import { NotificationBell } from '../components/NotificationBell';
 import { AppLoader } from '../components/AppLoader';
+import { ThemeToggle } from '../components/ThemeToggle';
+import { applyPreferences, type ThemeChoice } from '../lib/theme';
 import { SkeletonRows } from '../components/ui/Card';
 import { StatusScreen, ForcePasswordChange } from '../pages/business/StatusScreens';
 
@@ -105,6 +107,21 @@ export function useQuickActions(): NavGroup['items'] {
 }
 
 /** Auth gate for business pages. `bare` renders full-screen pages (POS, kitchen display, print) without the app shell. */
+/** Switch light/dark/system: applied instantly on this device and saved to the user's profile. */
+export function useThemeSwitch() {
+  const { session, refresh } = useBiz();
+  const toastErr = useToastError();
+  const m = useMutation({ mutationFn: (theme: ThemeChoice) => api.patch('/me/preferences', { theme }), onSuccess: () => refresh(), onError: toastErr });
+  const value = (session?.user.preferences.theme as ThemeChoice | undefined) ?? 'system';
+  return {
+    value,
+    set: (theme: ThemeChoice) => {
+      applyPreferences({ ...session?.user.preferences, theme });
+      m.mutate(theme);
+    },
+  };
+}
+
 export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   const { session, isLoading } = useBiz();
   if (isLoading) return <AppLoader />;
@@ -186,6 +203,7 @@ function BusinessLayout() {
   const navigate = useNavigate();
   const groups = useBusinessNav();
   const quick = useQuickActions();
+  const theme = useThemeSwitch();
   const allItems = groups.flatMap((g) => g.items);
   const pos = allItems.find((i) => i.to === '/pos');
   // Phone tab bar: the four most-used destinations this user can open.
@@ -216,6 +234,7 @@ function BusinessLayout() {
             <OutletSwitcher session={session} />
           </div>
           <NotificationBell />
+          <ThemeToggle value={theme.value} onChange={theme.set} />
           <LanguageMenu current={session.user.language} languages={session.languages} onChange={(c) => setLang.mutate(c)} />
           <Dropdown
             trigger={() => (

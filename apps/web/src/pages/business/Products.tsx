@@ -18,6 +18,7 @@ import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { ProductPicker } from '../../components/Pickers';
 import { ItemAvatar } from '../../components/ItemAvatar';
+import { preparePhoto } from '../../lib/image';
 
 interface Category {
   id: string;
@@ -245,7 +246,18 @@ function ProductDialog({ product, categories, onClose }: { product: Product | nu
         minStock: parseAmount(form.minStock),
         options: options.map((g) => ({ ...g, choices: g.choices.filter((c) => c.name.trim()).map((c) => ({ name: c.name, price: parseAmount(c.price) })) })).filter((g) => g.name.trim() && g.choices.length),
       };
-      return product ? api.put<Product>(`/products/${product.id}`, body) : api.post<Product>('/products', body);
+      const saved = product ? await api.put<Product>(`/products/${product.id}`, body) : await api.post<Product>('/products', body);
+      const id = product?.id ?? saved.id;
+      if (photo) {
+        try {
+          await api.upload(`/products/${id}/image`, photo.blob);
+        } catch (e) {
+          toastErr(e); // the item itself is saved; only the photo failed
+        }
+      } else if (removePhoto && product?.imagePath) {
+        await api.delete(`/products/${id}/image`);
+      }
+      return saved;
     },
     onSuccess: () => {
       toast.success(t('common.saved'));
@@ -254,14 +266,29 @@ function ProductDialog({ product, categories, onClose }: { product: Product | nu
       onClose();
     },
   });
-  const upload = useMutation({
-    mutationFn: (file: File) => api.upload(`/products/${product!.id}/image`, file),
-    onSuccess: () => {
-      toast.success(t('products.image_updated'));
-      void qc.invalidateQueries({ queryKey: ['biz', 'products'] });
+  const [photo, setPhoto] = useState<{ blob: Blob; url: string } | null>(null);
+  const [removePhoto, setRemovePhoto] = useState(false);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  useEffect(
+    () => () => {
+      if (photo) URL.revokeObjectURL(photo.url);
     },
-    onError: toastErr,
-  });
+    [photo],
+  );
+  const pickPhoto = async (file: File | undefined) => {
+    if (!file) return;
+    setPhotoBusy(true);
+    try {
+      const blob = await preparePhoto(file);
+      setPhoto({ blob, url: URL.createObjectURL(blob) });
+      setRemovePhoto(false);
+    } catch {
+      toast.error(t('validation.invalid_image'));
+    } finally {
+      setPhotoBusy(false);
+    }
+  };
+  const currentPhoto = photo?.url ?? (product?.imagePath && !removePhoto ? `/api/products/${product.id}/image` : null);
   const fieldErr = useFieldErrors(save.error);
   const tabs: { value: 'details' | 'options' | 'recipe'; label: string }[] = [
     { value: 'details', label: t('products.details') },
@@ -293,6 +320,37 @@ function ProductDialog({ product, categories, onClose }: { product: Product | nu
         {save.error && !(save.error instanceof ApiError && save.error.code === 'validation_failed') && <Alert tone="red">{errMsg(save.error)}</Alert>}
         {tab === 'details' && (
           <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-4 rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/40">
+              {currentPhoto ? (
+                <img src={currentPhoto} alt="" className="size-24 rounded-2xl object-cover shadow-sm ring-1 ring-slate-200 dark:ring-slate-700" />
+              ) : (
+                <ItemAvatar name={form.name || '?'} tintKey={form.categoryId || form.name} className="size-24 text-2xl" />
+              )}
+              <div className="min-w-0 flex-1 space-y-2">
+                <p className="text-sm font-medium">{t('products.photo')}</p>
+                <p className="text-xs text-slate-500">{t('products.photo_hint')}</p>
+                <div className="flex flex-wrap gap-2">
+                  <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm font-medium text-brand-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-brand-300 dark:ring-slate-700">
+                    <ImagePlus className="size-4" />
+                    {photoBusy ? t('common.loading') : currentPhoto ? t('products.change_photo') : t('products.add_photo')}
+                    <input type="file" accept="image/*" className="hidden" onChange={(e) => void pickPhoto(e.target.files?.[0])} />
+                  </label>
+                  {currentPhoto && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-rose-600"
+                      onClick={() => {
+                        setPhoto(null);
+                        setRemovePhoto(true);
+                      }}
+                    >
+                      {t('products.remove_photo')}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
             <div className="grid gap-4 sm:grid-cols-3">
               <Input className="sm:col-span-2" label={t('common.name')} value={form.name} onChange={set('name')} error={fieldErr('name')} required />
               <Input label={t('products.sku')} value={form.sku} dir="ltr" onChange={set('sku')} error={fieldErr('sku')} />
@@ -327,13 +385,6 @@ function ProductDialog({ product, categories, onClose }: { product: Product | nu
               <Checkbox checked={form.sendToKitchen} onChange={(v) => setForm({ ...form, sendToKitchen: v })} label={t('products.send_to_kitchen')} />
               {hasAddon('qr_menu') && <Checkbox checked={form.showInMenu} onChange={(v) => setForm({ ...form, showInMenu: v })} label={t('products.show_in_menu')} />}
             </div>
-            {product && can('products.edit') && (
-              <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-brand-700 ring-1 ring-slate-200 hover:bg-slate-50 dark:text-brand-300 dark:ring-slate-700">
-                <ImagePlus className="size-4" />
-                {t('products.upload_image')}
-                <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(e) => e.target.files?.[0] && upload.mutate(e.target.files[0])} />
-              </label>
-            )}
           </div>
         )}
         {tab === 'options' && <OptionsEditor value={options} onChange={setOptions} />}

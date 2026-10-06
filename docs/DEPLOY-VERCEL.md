@@ -19,13 +19,14 @@ The repository builds for Vercel with the Build Output API (`scripts/build-verce
 | `COOKIE_SECURE` | `true` |
 | `TRUST_PROXY` | `1` |
 | `MAIL_TRANSPORT` / `SMTP_URL` / `MAIL_FROM` | SMTP settings. For a demo without SMTP: `MAIL_TRANSPORT=log` + `ALLOW_LOG_MAIL=true` (emails only appear in function logs) |
-| `STORAGE_DIR` | `/tmp/oceanx-storage` |
+| `STORAGE_DRIVER` | `db` — uploaded files (product photos, logos, receipts) are stored in PostgreSQL so they survive serverless restarts |
+| `STORAGE_DIR` | `/tmp/oceanx-storage` (only used with `STORAGE_DRIVER=fs`) |
 | `BOOTSTRAP_SUPERADMIN_EMAIL` / `BOOTSTRAP_SUPERADMIN_PASSWORD` | Optional: creates the first Super Admin only if none exists. Remove after first sign-in. |
 
 ## Limitations on serverless
 
-- **Uploaded files are temporary.** Logos, product photos and expense attachments are written to the
-  function's `/tmp` and disappear when the instance is recycled. Use the Docker/VM deployment (persistent
-  volume) for production, or add object storage.
+- **Uploads live in the database** with `STORAGE_DRIVER=db` (table `stored_files`). This is durable and simple,
+  but for large photo libraries an object store (S3/R2) is cheaper; the storage layer has a backend interface
+  for that (`apps/api/src/lib/storage.ts`).
 - **Rate limits are per instance.** Login rate limits are kept in each function instance's memory, so they
   are not shared across instances.

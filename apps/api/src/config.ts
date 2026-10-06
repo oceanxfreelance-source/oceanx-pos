@@ -27,6 +27,8 @@ const envSchema = z.object({
   /** Demo deployments without SMTP: allow MAIL_TRANSPORT=log in production (emails are only logged). */
   ALLOW_LOG_MAIL: bool,
   STORAGE_DIR: z.string().default('./storage'),
+  /** fs = STORAGE_DIR on disk; db = PostgreSQL stored_files table (serverless hosts without a persistent disk). */
+  STORAGE_DRIVER: z.enum(['fs', 'db']).default('fs'),
 });
 
 export type AppConfig = z.infer<typeof envSchema> & { encryptionKey: Buffer };

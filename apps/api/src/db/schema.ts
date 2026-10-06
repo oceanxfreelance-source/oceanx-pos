@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm';
 import {
+  customType,
   bigint,
   bigserial,
   boolean,
@@ -1130,3 +1131,18 @@ export const notifications = pgTable(
     foreignKey({ columns: [t.businessId, t.userId], foreignColumns: [users.businessId, users.id], name: 'notifications_user_fk' }).onDelete('cascade'),
   ],
 );
+
+// ---------------------------------------------------------------- file storage (optional DB backend)
+const bytea = customType<{ data: Buffer; driverData: Buffer }>({ dataType: () => 'bytea' });
+
+/**
+ * Uploaded files when STORAGE_DRIVER=db (serverless deployments without a persistent disk).
+ * `path` is the same server-generated relative path the filesystem backend uses
+ * (businesses/<businessId>/<kind>-<random>.<ext>); reads are authorised by the owning row first.
+ */
+export const storedFiles = pgTable('stored_files', {
+  path: text('path').primaryKey(),
+  data: bytea('data').notNull(),
+  size: integer('size').notNull(),
+  createdAt: createdAt(),
+});

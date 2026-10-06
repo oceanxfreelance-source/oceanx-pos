@@ -6,6 +6,8 @@ import { toast } from 'sonner';
 import clsx from 'clsx';
 import { ArrowLeft, CheckCircle2, ClipboardList, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, X } from 'lucide-react';
 import { ItemAvatar, tintAt, tintFor } from '../../components/ItemAvatar';
+import { ThemeToggle } from '../../components/ThemeToggle';
+import { useThemeSwitch } from '../../layouts/BusinessLayout';
 import type { OptionGroup } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
@@ -70,6 +72,7 @@ type Method = 'cash' | 'card' | 'bank_transfer' | 'other' | 'credit';
 let lineSeq = 0;
 
 export default function PosPage() {
+  const theme = useThemeSwitch();
   const { t } = useTranslation();
   const session = useBizSession();
   const { can, hasAddon, hasModule } = useBiz();
@@ -351,6 +354,7 @@ export default function PosPage() {
           </p>
         </div>
         <div className="ms-auto flex items-center gap-2">
+          <ThemeToggle value={theme.value} onChange={theme.set} />
           {editingOrderId && <Badge tone="amber">{t('pos.editing_order')}</Badge>}
           <Button variant="secondary" size="sm" icon={<ClipboardList className="size-4" />} onClick={() => setShowOrders(true)}>
             {t('pos.open_orders')}
@@ -417,10 +421,17 @@ export default function PosPage() {
                         out && 'opacity-60',
                       )}
                     >
-                      <span aria-hidden className={clsx('h-1.5 w-full', catTint(p.categoryId).bar)} />
+                      {p.hasImage ? (
+                        <span className="relative block aspect-[4/3] w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                          <img src={`/api/products/${p.id}/image`} alt="" loading="lazy" className="size-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                          <span aria-hidden className={clsx('absolute inset-x-0 top-0 h-1.5', catTint(p.categoryId).bar)} />
+                        </span>
+                      ) : (
+                        <span aria-hidden className={clsx('h-1.5 w-full', catTint(p.categoryId).bar)} />
+                      )}
                       <span className="flex flex-1 flex-col gap-2 p-3">
                         <span className="flex items-start gap-2.5">
-                          <ItemAvatar name={p.name} tint={catTint(p.categoryId)} src={p.hasImage ? `/api/products/${p.id}/image` : null} className="size-11 text-sm" />
+                          {!p.hasImage && <ItemAvatar name={p.name} tint={catTint(p.categoryId)} className="size-11 text-sm" />}
                           <span className="line-clamp-2 min-w-0 flex-1 pt-0.5 leading-snug font-medium" dir="auto">
                             {p.name}
                           </span>

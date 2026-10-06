@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isLanguageCode } from '@oceanx/shared';
 import { ApiError, onUnauthorized, saApi, setCsrfToken } from '../lib/api';
 import { applyLanguage } from '../i18n';
-import { applyPreferences } from '../lib/theme';
+import { applyPreferences, readStoredTheme } from '../lib/theme';
 
 export interface SuperAdminSession {
   admin: { id: string; name: string; email: string; totpEnabled: boolean };
@@ -62,7 +62,7 @@ export function SuperAdminAuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => onUnauthorized('superadmin', () => qc.setQueryData(SA_SESSION_KEY, null)), [qc]);
   useEffect(() => {
     void applyLanguage(superAdminLanguage());
-    applyPreferences({ theme: 'system' });
+    applyPreferences({ theme: readStoredTheme() });
   }, []);
 
   const session = query.data ?? null;

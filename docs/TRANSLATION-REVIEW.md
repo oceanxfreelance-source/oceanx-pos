@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 111 · **confirmed**: 23
+Status: **needs_review**: 112 · **confirmed**: 23
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -82,6 +82,7 @@ review of the whole file is still recommended before launch.
 | `products.cost_price` | Cost price | ކޮސްޓް އަގު | needs_review | ކޮސްޓް އަގު (loanword). Alternative: ގަތް އަގު (purchase price). |
 | `products.item` | Item | އައިޓަމް | needs_review | 'Item' as loanword އައިޓަމް across the file. Existing dv.json uses ޕްރޮޑަކްޓްސް for products and ތަކެތި for goods; alternatives: ބާވަތް, ތަކެތި. Confirm. |
 | `products.min_stock` | Low-stock alert at | ސްޓޮކް މަދުވާ އެލާޓް | needs_review | 'Low-stock alert at' → ސްޓޮކް މަދުވާ އެލާޓް (threshold field label). Confirm. |
+| `products.photo_hint` | Shown on the POS and the QR menu. Any phone or camera photo works; it is resized automatically. | POS އާއި QR މެނޫގައި ދައްކާނެ. ފޯނު ނުވަތަ ކެމެރާގެ ކޮންމެ ފޮޓޯއެއް ވެސް ބޭނުންކުރެވޭނެ؛ ސައިޒު އަމިއްލައަށް ހަމަޖެހޭނެ. | needs_review | New help text under the product photo picker; confirm natural wording. |
 | `products.recipe_cost` | Cost per portion | ކޮންމެ ޕޯޝަނެއްގެ ޚަރަދު | needs_review | ކޮންމެ ޕޯޝަނެއްގެ ޚަރަދު; 'portion' loanword ޕޯޝަން — alternative: ބައި / ޕްލޭޓް. |
 | `products.sku` | SKU | SKU | needs_review | އެސްކޭޔޫ transliteration. Users may prefer Latin SKU or ކޯޑު. |
 | `products.types.ingredient` | Ingredient | ތަކެތި (އިންގްރީޑިއަންޓް) | needs_review | ތަކެތި (އިންގްރީޑިއަންޓް). ތަކެތި alone is ambiguous (things/goods); alternative: ކާނާގެ ތަކެތި / އަސާސީ ތަކެތި. |

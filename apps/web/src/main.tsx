@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 import './index.css';
 import { applyLanguage, readStoredLanguage } from './i18n';
 import App from './App';
+import { initTheme } from './lib/theme';
 import { ApiError } from './lib/api';
 
 const queryClient = new QueryClient({
@@ -17,6 +18,7 @@ const queryClient = new QueryClient({
 });
 
 void applyLanguage(readStoredLanguage());
+initTheme();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

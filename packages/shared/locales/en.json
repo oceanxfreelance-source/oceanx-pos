@@ -1165,7 +1165,12 @@
     "add_ingredient": "Add ingredient…",
     "quantity": "Quantity",
     "recipe_cost": "Cost per portion",
-    "save_recipe": "Save recipe"
+    "save_recipe": "Save recipe",
+    "photo": "Photo",
+    "photo_hint": "Shown on the POS and the QR menu. Any phone or camera photo works; it is resized automatically.",
+    "add_photo": "Add photo",
+    "change_photo": "Change photo",
+    "remove_photo": "Remove"
   },
   "customers": {
     "title": "Customers",

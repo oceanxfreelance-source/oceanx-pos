@@ -2,12 +2,16 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '../../components/Logo';
 import { FarumaWarning } from '../../components/FarumaWarning';
+import { DeviceThemeToggle } from '../../components/DeviceThemeToggle';
 
 export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' }) {
   const { t } = useTranslation();
   return (
-    <div className="min-h-dvh">
+    <div className="relative min-h-dvh">
       <FarumaWarning />
+      <div className="absolute end-4 top-4 z-10">
+        <DeviceThemeToggle />
+      </div>
       <div className="grid min-h-dvh lg:grid-cols-2">
         <div className="flex flex-col justify-center px-5 py-10 sm:px-10">
           <div className="mx-auto w-full max-w-sm">

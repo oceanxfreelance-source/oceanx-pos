@@ -20,7 +20,7 @@ export interface TestEnv {
   close: () => Promise<void>;
 }
 
-export async function createTestEnv(opts: { authRateLimit?: number } = {}): Promise<TestEnv> {
+export async function createTestEnv(opts: { authRateLimit?: number; storageDriver?: 'fs' | 'db' } = {}): Promise<TestEnv> {
   const config = loadConfig({
     NODE_ENV: 'test',
     DATABASE_URL: TEST_DATABASE_URL,
@@ -28,6 +28,7 @@ export async function createTestEnv(opts: { authRateLimit?: number } = {}): Prom
     APP_URL: 'http://app.test',
     STORAGE_DIR: mkdtempSync(path.join(tmpdir(), 'oceanx-test-')),
     COOKIE_SECURE: 'false',
+    STORAGE_DRIVER: opts.storageDriver ?? 'fs',
   });
   const { db, pool } = createDb(TEST_DATABASE_URL, 5);
   const mailer = createMailer(config, { warn() {} } as never);
@@ -49,7 +50,7 @@ export async function resetDb(db: DB) {
   await db.execute(sql`
     TRUNCATE activity_logs, document_sequences, user_tokens, user_sessions, user_outlets, user_roles, role_permissions, roles,
       users, business_settings, outlets, business_addons, subscriptions, businesses,
-      super_admin_tokens, super_admin_sessions, platform_settings, super_admins, plans, addons, platform_languages CASCADE`);
+      super_admin_tokens, super_admin_sessions, platform_settings, super_admins, plans, addons, platform_languages, stored_files CASCADE`);
   await syncReferenceData(db);
 }
 
