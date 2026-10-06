@@ -229,5 +229,691 @@
     "suggested": "{{count}} މިނެޓު ކުރިން",
     "status": "needs_review",
     "notes": "Relative time phrasing used in lists (e.g. last sign-in). Confirm natural word order."
+  },
+  {
+    "key": "credit.credit",
+    "english": "Credit",
+    "suggested": "ކްރެޑިޓް",
+    "status": "needs_review",
+    "notes": "Ledger column. Loanword ކްރެޑިޓް chosen to pair with ޑެބިޓް; native alternative ލިބުނު (received). Note: elsewhere 'credit' as a sale/debt concept uses ދަރަނި, so the same English word maps to two Dhivehi words — confirm this split."
+  },
+  {
+    "key": "credit.debit",
+    "english": "Debit",
+    "suggested": "ޑެބިޓް",
+    "status": "needs_review",
+    "notes": "Ledger column loanword. Native alternative: ދަރަނި އިތުރުވި / ދައްކަންޖެހޭ. Confirm accountants' preferred term."
+  },
+  {
+    "key": "credit.limit",
+    "english": "Credit limit",
+    "suggested": "ކްރެޑިޓް ލިމިޓް",
+    "status": "needs_review",
+    "notes": "Matches existing perm.credit_manage (ކްރެޑިޓް ލިމިޓް). Alternative: ދަރަނީގެ ހަދު. Depends on the open credit-terminology decision in the existing review list."
+  },
+  {
+    "key": "credit.outstanding",
+    "english": "Outstanding",
+    "suggested": "ބާކީ ދަރަނި",
+    "status": "needs_review",
+    "notes": "'Outstanding' rendered as ބާކީ ދަރަނި (remaining debt). Alternatives: ދައްކަން ބާކީ, އައުޓްސްޓޭންޑިންގ. Also used in reports.columns.outstanding, reports.summary.outstanding, dashboard.w.outstanding_due."
+  },
+  {
+    "key": "credit.balance",
+    "english": "Balance",
+    "suggested": "ބާކީ",
+    "status": "needs_review",
+    "notes": "Running ledger balance as ބާކީ. Same word is used for 'remaining' in POS; confirm no confusion."
+  },
+  {
+    "key": "credit.balance_due",
+    "english": "Balance due",
+    "suggested": "ދައްކަންޖެހޭ ބާކީ",
+    "status": "needs_review",
+    "notes": "ދައްކަންޖެހޭ ބާކީ. Alternative: ދައްކަން ބާކީ އަދަދު."
+  },
+  {
+    "key": "credit.available",
+    "english": "Available credit",
+    "suggested": "ލިބެން ހުރި ކްރެޑިޓް",
+    "status": "needs_review",
+    "notes": "ލިބެން ހުރި ކްރެޑިޓް; alternative: ބޭނުންކުރެވޭ ކްރެޑިޓް."
+  },
+  {
+    "key": "credit.days",
+    "english": "Credit days",
+    "suggested": "ކްރެޑިޓް ދުވަސް",
+    "status": "needs_review",
+    "notes": "Literal 'credit days'. Alternative: ދަރަނި ދައްކަންޖެހޭ މުއްދަތު (ދުވަސް) — clearer but longer."
+  },
+  {
+    "key": "credit.statement",
+    "english": "Statement",
+    "suggested": "ސްޓޭޓްމަންޓް",
+    "status": "needs_review",
+    "notes": "Loanword ސްޓޭޓްމަންޓް, consistent with existing addons.descriptions.credit. Native alternative: ހިސާބު ބަޔާން."
+  },
+  {
+    "key": "credit.entry",
+    "english": "Entry",
+    "suggested": "އެންޓްރީ",
+    "status": "needs_review",
+    "notes": "Ledger entry loanword އެންޓްރީ. Alternative: ބަޔާން / ރެކޯޑު."
+  },
+  {
+    "key": "credit.fifo_hint",
+    "english": "The payment is applied to the oldest unpaid credit sales first.",
+    "suggested": "ފައިސާ ކެނޑޭނީ ފުރަތަމަ އެންމެ ކުރީގެ ނުދައްކާ ދަރަނީގެ ވިއްކުންތަކުން.",
+    "status": "needs_review",
+    "notes": "FIFO allocation explanation; please check the phrasing ފައިސާ ކެނޑޭނީ (amount is deducted from) reads naturally."
+  },
+  {
+    "key": "credit.kinds.credit_sale",
+    "english": "Credit sale",
+    "suggested": "ދަރަންޏަށް ވިއްކުން",
+    "status": "needs_review",
+    "notes": "ދަރަންޏަށް ވިއްކުން — follows existing perm.credit_create. Depends on the credit-terminology decision."
+  },
+  {
+    "key": "payment_methods.credit",
+    "english": "Credit (pay later)",
+    "suggested": "ދަރަންޏަށް (ފަހުން ދައްކާ)",
+    "status": "needs_review",
+    "notes": "ދަރަންޏަށް (ފަހުން ދައްކާ). Alternative: ކްރެޑިޓް (ފަހުން ދައްކާ)."
+  },
+  {
+    "key": "payments.kinds.credit_payment",
+    "english": "Credit payment",
+    "suggested": "ދަރަނީގެ ފައިސާ",
+    "status": "needs_review",
+    "notes": "ދަރަނީގެ ފައިސާ, matches existing perm.credit_payment wording."
+  },
+  {
+    "key": "pos.credit_to",
+    "english": "{{amount}} on credit to {{name}}",
+    "suggested": "{{amount}} {{name}} ގެ ނަމުގައި ދަރަންޏަށް",
+    "status": "needs_review",
+    "notes": "Word order reversed for Dhivehi: '{{amount}} {{name}} ގެ ނަމުގައި ދަރަންޏަށް'. Check it reads naturally with real values."
+  },
+  {
+    "key": "notify.credit_payment",
+    "english": "{{customer}} paid {{amount}} towards credit",
+    "suggested": "{{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި",
+    "status": "needs_review",
+    "notes": "'{{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި' — check word order and verb."
+  },
+  {
+    "key": "sales.void",
+    "english": "Void",
+    "suggested": "ބާތިލުކުރޭ",
+    "status": "needs_review",
+    "notes": "ބާތިލުކުރޭ follows existing perm.sales_void / invoices_void. Note 'cancel' uses the loanword ކެންސަލް, so void vs cancel stay distinct; confirm."
+  },
+  {
+    "key": "status_labels.void",
+    "english": "Void",
+    "suggested": "ބާތިލު",
+    "status": "needs_review",
+    "notes": "ބާތިލު (void) vs ކެންސަލްކޮށްފައި (cancelled) — keep the two distinct."
+  },
+  {
+    "key": "sales.void_hint",
+    "english": "Stock is returned and payments are reversed. This cannot be undone.",
+    "suggested": "ސްޓޮކް އަނބުރާ އިތުރުވެ، ދެއްކި ފައިސާ އަނބުރާ ރިވާސްވާނެ. މިކަން އަނބުރާ ނުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "'payments are reversed' rendered with loanword ރިވާސްވާނެ. Alternative: ދެއްކި ފައިސާ އަނބުރާ ބާތިލުވާނެ."
+  },
+  {
+    "key": "invoices.issue",
+    "english": "Issue invoice",
+    "suggested": "އިންވޮއިސް ނެރޭ",
+    "status": "needs_review",
+    "notes": "'Issue invoice' as އިންވޮއިސް ނެރޭ (lit. 'release/publish'). Alternatives: އިންވޮއިސް ފައިނަލްކުރޭ, އިޝޫކުރޭ. Also status_labels.issued (ނެރެފައި), documents.actions_done.issue, activity.actions.invoice_issued, documents.confirm.issue_title."
+  },
+  {
+    "key": "status_labels.issued",
+    "english": "Issued",
+    "suggested": "ނެރެފައި",
+    "status": "needs_review",
+    "notes": "ނެރެފައި — see invoices.issue."
+  },
+  {
+    "key": "quotations.convert",
+    "english": "Convert to invoice",
+    "suggested": "އިންވޮއިސްއަކަށް ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "އިންވޮއިސްއަކަށް ބަދަލުކުރޭ follows existing perm.quotations_convert_to_invoice."
+  },
+  {
+    "key": "quotations.valid_until",
+    "english": "Valid until",
+    "suggested": "ޞައްޙަ ތާރީޚު",
+    "status": "needs_review",
+    "notes": "ޞައްޙަ ތާރީޚު (valid-until date), based on existing settings.validity_days. Alternative: ޞައްޙަ ވާނީ މި ތާރީޚާ ހަމައަށް."
+  },
+  {
+    "key": "status_labels.rejected",
+    "english": "Rejected",
+    "suggested": "ރިޖެކްޓްކޮށްފައި",
+    "status": "needs_review",
+    "notes": "Loanword ރިޖެކްޓް. Native alternative: ގަބޫލުނުކުރެވި / ރައްދުކުރެވި. Same choice used across quotations/online orders."
+  },
+  {
+    "key": "status_labels.overdue",
+    "english": "Overdue",
+    "suggested": "މުއްދަތު ފަހަނައަޅާފައި",
+    "status": "needs_review",
+    "notes": "މުއްދަތު ފަހަނައަޅާފައި. Existing superadmin uses ފައިސާ ލަސްވެފައި for past_due; consider aligning."
+  },
+  {
+    "key": "status_labels.no_show",
+    "english": "No-show",
+    "suggested": "ނާދޭ",
+    "status": "needs_review",
+    "notes": "ނާދޭ (did not come). Alternative loanword: ނޯ-ޝޯ."
+  },
+  {
+    "key": "status_labels.seated",
+    "english": "Seated",
+    "suggested": "އިށީނދެފައި",
+    "status": "needs_review",
+    "notes": "އިށީނދެފައި (seated); alternative: މޭޒަށް ވަޑައިގެންފި."
+  },
+  {
+    "key": "status_labels.occupied",
+    "english": "Occupied",
+    "suggested": "ބޭނުންކުރަމުން",
+    "status": "needs_review",
+    "notes": "Table status: ބޭނުންކުރަމުން; alternative: ހުސްނޫން."
+  },
+  {
+    "key": "status_labels.available",
+    "english": "Available",
+    "suggested": "ހުސް",
+    "status": "needs_review",
+    "notes": "Table status: ހުސް (free). If also shown for products, ލިބެން ހުރި would fit better."
+  },
+  {
+    "key": "loyalty.points",
+    "english": "Points",
+    "suggested": "ޕޮއިންޓް",
+    "status": "needs_review",
+    "notes": "ޕޮއިންޓް — loanword, consistent with existing addons.descriptions.loyalty."
+  },
+  {
+    "key": "perm.loyalty_view",
+    "english": "View loyalty points",
+    "suggested": "ލޮޔަލްޓީ ޕޮއިންޓް ބަލާ",
+    "status": "needs_review",
+    "notes": "ލޮޔަލްޓީ ޕޮއިންޓް — consistent with existing addons.names.loyalty. Native alternative not common."
+  },
+  {
+    "key": "pos.redeem_points",
+    "english": "Redeem points (available: {{points}})",
+    "suggested": "ޕޮއިންޓް ބޭނުންކުރޭ (ލިބެން ހުރި: {{points}})",
+    "status": "needs_review",
+    "notes": "'Redeem' rendered as ބޭނުންކުރޭ (use). Alternative: ބަދަލުކޮށްލާ / ރިޑީމްކުރޭ."
+  },
+  {
+    "key": "inventory.adjust",
+    "english": "Adjust stock",
+    "suggested": "ސްޓޮކް އެޑްޖަސްޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "Loanword ސްޓޮކް އެޑްޖަސްޓްކުރޭ follows existing perm.inventory_adjust. Native alternative: ސްޓޮކް ރަނގަޅުކުރޭ."
+  },
+  {
+    "key": "inventory.modes.wastage",
+    "english": "Record wastage",
+    "suggested": "ގެއްލުނު / ހަލާކުވި ތަކެތި ރެކޯޑުކުރޭ",
+    "status": "needs_review",
+    "notes": "Wastage rendered as ގެއްލުނު / ހަލާކުވި ތަކެތި (lost/spoiled). Alternative loanword: ވޭސްޓޭޖް. Also inventory.types.wastage."
+  },
+  {
+    "key": "inventory.types.wastage",
+    "english": "Wastage",
+    "suggested": "ގެއްލުނު / ހަލާކުވި",
+    "status": "needs_review",
+    "notes": "See inventory.modes.wastage."
+  },
+  {
+    "key": "inventory.modes.set",
+    "english": "Set counted quantity",
+    "suggested": "ގުނި އަދަދު ސެޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "'Set counted quantity' — ގުނި އަދަދު ސެޓްކުރޭ; confirm."
+  },
+  {
+    "key": "inventory.types.transfer_in",
+    "english": "Transfer in",
+    "suggested": "ޓްރާންސްފަރ (ލިބުނު)",
+    "status": "needs_review",
+    "notes": "Rendered with parenthetical (ލިބުނު); alternative: ވަދެފައިވާ ޓްރާންސްފަރ."
+  },
+  {
+    "key": "inventory.transfer",
+    "english": "Transfer",
+    "suggested": "ޓްރާންސްފަރ",
+    "status": "needs_review",
+    "notes": "Loanword ޓްރާންސްފަރ, from existing addons.descriptions.advanced_inventory. Native alternative: ބަދަލުކުރުން."
+  },
+  {
+    "key": "reports.types.costing",
+    "english": "Recipe costing",
+    "suggested": "ރެސިޕީގެ ޚަރަދު",
+    "status": "needs_review",
+    "notes": "Recipe costing as ރެސިޕީގެ ޚަރަދު. Existing addons.names.ingredient_costing uses ތަކެތީގެ ޚަރަދު ހިސާބުކުރުން. Note: report columns use loanword ކޮސްޓް for cost of goods while ޚަރަދު is reserved for expenses — confirm this split."
+  },
+  {
+    "key": "products.recipe_cost",
+    "english": "Cost per portion",
+    "suggested": "ކޮންމެ ޕޯޝަނެއްގެ ޚަރަދު",
+    "status": "needs_review",
+    "notes": "ކޮންމެ ޕޯޝަނެއްގެ ޚަރަދު; 'portion' loanword ޕޯޝަން — alternative: ބައި / ޕްލޭޓް."
+  },
+  {
+    "key": "products.cost_price",
+    "english": "Cost price",
+    "suggested": "ކޮސްޓް އަގު",
+    "status": "needs_review",
+    "notes": "ކޮސްޓް އަގު (loanword). Alternative: ގަތް އަގު (purchase price)."
+  },
+  {
+    "key": "reports.columns.margin",
+    "english": "Margin",
+    "suggested": "މާޖިން",
+    "status": "needs_review",
+    "notes": "Loanword މާޖިން. Alternative: ފައިދާގެ މިންވަރު."
+  },
+  {
+    "key": "reports.summary.cogs",
+    "english": "Cost of goods",
+    "suggested": "ވިއްކި ތަކެތީގެ ކޮސްޓް",
+    "status": "needs_review",
+    "notes": "Cost of goods: ވިއްކި ތަކެތީގެ ކޮސްޓް. Confirm with accountant."
+  },
+  {
+    "key": "reports.summary.grossProfit",
+    "english": "Gross profit",
+    "suggested": "ގްރޮސް ފައިދާ",
+    "status": "needs_review",
+    "notes": "ގްރޮސް ފައިދާ (mixed loanword). Alternative: ޚަރަދު ކުރިން ފައިދާ."
+  },
+  {
+    "key": "reports.summary.netProfit",
+    "english": "Net profit",
+    "suggested": "ނެޓް ފައިދާ",
+    "status": "needs_review",
+    "notes": "ނެޓް ފައިދާ. Alternative: ޞާފު ފައިދާ."
+  },
+  {
+    "key": "reports.columns.gross",
+    "english": "Gross",
+    "suggested": "ގްރޮސް",
+    "status": "needs_review",
+    "notes": "Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން)."
+  },
+  {
+    "key": "reports.types.profit",
+    "english": "Profit & loss",
+    "suggested": "ފައިދާއާއި ގެއްލުން",
+    "status": "needs_review",
+    "notes": "Profit & loss: ފައިދާއާއި ގެއްލުން — standard phrase, but please confirm."
+  },
+  {
+    "key": "reports.types.credit",
+    "english": "Credit & dues",
+    "suggested": "ދަރަނި އަދި ދައްކަންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Credit & dues: ދަރަނި އަދި ދައްކަންޖެހޭ ފައިސާ."
+  },
+  {
+    "key": "documents.subtotal",
+    "english": "Subtotal",
+    "suggested": "ސަބްޓޯޓަލް",
+    "status": "needs_review",
+    "notes": "Loanword ސަބްޓޯޓަލް. Alternative: ޖުމްލަ (ޓެކްސް ނުލާ)."
+  },
+  {
+    "key": "print.bill_to",
+    "english": "Bill to",
+    "suggested": "ބިލު ފޮނުވާ ފަރާތް",
+    "status": "needs_review",
+    "notes": "'Bill to' → ބިލު ފޮނުވާ ފަރާތް; alternative: ބިލު ދޫކުރާ ފަރާތް / ކަސްޓަމަރު."
+  },
+  {
+    "key": "print.prepared_for",
+    "english": "Prepared for",
+    "suggested": "ތައްޔާރުކުރީ",
+    "status": "needs_review",
+    "notes": "Rendered as ތައްޔާރުކުރީ (prepared for — name follows). Alternative: މި ފަރާތަށް ތައްޔާރުކުރީ. Check layout with name."
+  },
+  {
+    "key": "print.change",
+    "english": "Change",
+    "suggested": "އަނބުރާ ދިން ފައިސާ",
+    "status": "needs_review",
+    "notes": "Cash change as އަނބުރާ ދިން ފައިސާ; alternative: ބާކީ ފައިސާ (but ބާކީ is used for balance)."
+  },
+  {
+    "key": "pos.change_due",
+    "english": "Change",
+    "suggested": "އަނބުރާ ދޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "See print.change."
+  },
+  {
+    "key": "karaoke.title",
+    "english": "Karaoke",
+    "suggested": "ކަރައޮކޭ",
+    "status": "needs_review",
+    "notes": "ކަރައޮކޭ — transliteration, consistent with existing addons.names.karaoke."
+  },
+  {
+    "key": "karaoke.deposit",
+    "english": "Deposit (cash)",
+    "suggested": "ޑިޕޮޒިޓް (ނަގުދު)",
+    "status": "needs_review",
+    "notes": "Loanword ޑިޕޮޒިޓް, consistent with existing addons.descriptions.karaoke."
+  },
+  {
+    "key": "reservations.title",
+    "english": "Reservations",
+    "suggested": "ރިޒަވޭޝަންތައް",
+    "status": "needs_review",
+    "notes": "Loanword ރިޒަވޭޝަން, consistent with existing addons.names.reservations. Native alternative: މޭޒު ބުކްކުރުން."
+  },
+  {
+    "key": "reservations.party_other",
+    "english": "{{count}} guests",
+    "suggested": "{{count}} މެހެމާނުން",
+    "status": "needs_review",
+    "notes": "Guests as މެހެމާނުން; singular form މެހެމާނަކު used for _one. Alternative: ގެސްޓުން."
+  },
+  {
+    "key": "perm.qr_menu_manage",
+    "english": "Manage QR menu",
+    "suggested": "ކިއުއާރް މެނޫ މެނޭޖްކުރޭ",
+    "status": "needs_review",
+    "notes": "QR transliterated to ކިއުއާރް as instructed. NOTE: existing dv.json keeps Latin 'QR' (addons.names.qr_menu = 'QR މެނޫ') and Latin 'POS' (modules.pos, perm.pos_access). This file uses ޕީއޯއެސް / ކިއުއާރް / އެސްކޭޔޫ / ސީއެސްވީ — decide one convention and align both files."
+  },
+  {
+    "key": "nav.pos",
+    "english": "POS",
+    "suggested": "ޕީއޯއެސް",
+    "status": "needs_review",
+    "notes": "ޕީއޯއެސް transliteration; existing dv.json shows Latin 'POS'. See perm.qr_menu_manage."
+  },
+  {
+    "key": "products.sku",
+    "english": "SKU",
+    "suggested": "އެސްކޭޔޫ",
+    "status": "needs_review",
+    "notes": "އެސްކޭޔޫ transliteration. Users may prefer Latin SKU or ކޯޑު."
+  },
+  {
+    "key": "reports.export_csv",
+    "english": "Export CSV",
+    "suggested": "ސީއެސްވީ އެކްސްޕޯޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "ސީއެސްވީ transliteration."
+  },
+  {
+    "key": "settings.hints.pos",
+    "english": "How the point of sale behaves.",
+    "suggested": "ޕޮއިންޓް އޮފް ސޭލް ހިނގާނެ ގޮތް.",
+    "status": "needs_review",
+    "notes": "'Point of sale' transliterated ޕޮއިންޓް އޮފް ސޭލް. Alternative: ވިއްކާ ސިސްޓަމް."
+  },
+  {
+    "key": "products.item",
+    "english": "Item",
+    "suggested": "އައިޓަމް",
+    "status": "needs_review",
+    "notes": "'Item' as loanword އައިޓަމް across the file. Existing dv.json uses ޕްރޮޑަކްޓްސް for products and ތަކެތި for goods; alternatives: ބާވަތް, ތަކެތި. Confirm."
+  },
+  {
+    "key": "products.types.ingredient",
+    "english": "Ingredient",
+    "suggested": "ތަކެތި (އިންގްރީޑިއަންޓް)",
+    "status": "needs_review",
+    "notes": "ތަކެތި (އިންގްރީޑިއަންޓް). ތަކެތި alone is ambiguous (things/goods); alternative: ކާނާގެ ތަކެތި / އަސާސީ ތަކެތި."
+  },
+  {
+    "key": "products.types.service",
+    "english": "Service",
+    "suggested": "ޚިދުމަތް",
+    "status": "confirmed",
+    "notes": "ޚިދުމަތް is the standard word for service."
+  },
+  {
+    "key": "products.unit",
+    "english": "Unit",
+    "suggested": "ޔުނިޓް",
+    "status": "needs_review",
+    "notes": "Loanword ޔުނިޓް; alternative: މިންވަރު."
+  },
+  {
+    "key": "pos.order_types.dine_in",
+    "english": "Dine-in",
+    "suggested": "ތިބެގެން ކެއުން",
+    "status": "needs_review",
+    "notes": "ތިބެގެން ކެއުން (eat in). Alternative loanword: ޑައިން-އިން. Also used in errors.table_required, tables.empty_body, onboarding.steps.tables_hint, settings.pos.require_table."
+  },
+  {
+    "key": "pos.order_types.takeaway",
+    "english": "Takeaway",
+    "suggested": "ޓޭކްއަވޭ",
+    "status": "confirmed",
+    "notes": "ޓޭކްއަވޭ — matches existing business_types.takeaway."
+  },
+  {
+    "key": "pos.hold",
+    "english": "Hold",
+    "suggested": "ހިފަހައްޓާ",
+    "status": "needs_review",
+    "notes": "'Hold' (park order) as ހިފަހައްޓާ. Alternative: ފަހުން ނިންމަން ބަހައްޓާ."
+  },
+  {
+    "key": "pos.discount_short",
+    "english": "Disc.",
+    "suggested": "ޑިސް.",
+    "status": "needs_review",
+    "notes": "Abbreviation ޑިސް. — Dhivehi rarely abbreviates; could use full ޑިސްކައުންޓް if space allows."
+  },
+  {
+    "key": "kitchen.rush",
+    "english": "Mark as rush",
+    "suggested": "އަވަސް އޯޑަރެއްގެ ގޮތުގައި ފާހަގަކުރޭ",
+    "status": "needs_review",
+    "notes": "'Mark as rush' — އަވަސް އޯޑަރެއްގެ ގޮތުގައި ފާހަގަކުރޭ; may be long for a button."
+  },
+  {
+    "key": "kitchen.actions.ready",
+    "english": "Served",
+    "suggested": "ކަސްޓަމަރަށް ދީފި",
+    "status": "needs_review",
+    "notes": "'Served' → ކަސްޓަމަރަށް ދީފި. Alternative: ސާވްކުރެވިއްޖެ / ހިލަ ދީފި."
+  },
+  {
+    "key": "dashboard.w.kitchen_pending",
+    "english": "Kitchen tickets waiting",
+    "suggested": "އިންތިޒާރުކުރާ ބަދިގޭގެ ޓިކެޓް",
+    "status": "needs_review",
+    "notes": "'Kitchen tickets' as ބަދިގޭގެ ޓިކެޓް (loanword)."
+  },
+  {
+    "key": "expenses.payee",
+    "english": "Paid to",
+    "suggested": "ފައިސާ ދިން ފަރާތް",
+    "status": "needs_review",
+    "notes": "Paid to: ފައިސާ ދިން ފަރާތް."
+  },
+  {
+    "key": "expenses.categories.ingredients",
+    "english": "Ingredients",
+    "suggested": "ކާނާގެ ތަކެތި",
+    "status": "needs_review",
+    "notes": "ކާނާގެ ތަކެތި; see products.types.ingredient."
+  },
+  {
+    "key": "products.min_stock",
+    "english": "Low-stock alert at",
+    "suggested": "ސްޓޮކް މަދުވާ އެލާޓް",
+    "status": "needs_review",
+    "notes": "'Low-stock alert at' → ސްޓޮކް މަދުވާ އެލާޓް (threshold field label). Confirm."
+  },
+  {
+    "key": "settings.pos.allow_negative_stock",
+    "english": "Allow selling when out of stock",
+    "suggested": "ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ",
+    "status": "needs_review",
+    "notes": "Check phrasing: ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ."
+  },
+  {
+    "key": "settings.loyalty.points_per_unit",
+    "english": "Points per 1 currency unit spent",
+    "suggested": "ޚަރަދުކުރާ ކޮންމެ 1 ފައިސާ ޔުނިޓަކަށް ލިބޭ ޕޮއިންޓް",
+    "status": "needs_review",
+    "notes": "Long phrasing; check clarity."
+  },
+  {
+    "key": "public_menu.not_found_body",
+    "english": "This menu does not exist or is not published.",
+    "suggested": "މި މެނޫ ނެތް ނުވަތަ ޝާއިޢުކޮށްފައެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "'published' as ޝާއިޢުކޮށް; also settings.online.menu_enabled (މެނޫ ޝާއިޢުކުރޭ). Alternative: ޕަބްލިޝް."
+  },
+  {
+    "key": "onboarding.title",
+    "english": "Get set up",
+    "suggested": "ސެޓްއަޕް ކުރައްވާ",
+    "status": "needs_review",
+    "notes": "'Get set up' → ސެޓްއަޕް ކުރައްވާ."
+  },
+  {
+    "key": "notifications.empty",
+    "english": "You're all caught up.",
+    "suggested": "އާ ނޮޓިފިކޭޝަނެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "Idiom 'You're all caught up' rendered literally as 'no new notifications'."
+  },
+  {
+    "key": "activity.actions.karaoke_no_show",
+    "english": "Karaoke booking no-show",
+    "suggested": "ކަރައޮކޭ ބުކިންގ – ނާދޭ",
+    "status": "needs_review",
+    "notes": "Uses dash '–' between noun and status; see status_labels.no_show."
+  },
+  {
+    "key": "customers.overview",
+    "english": "Overview",
+    "suggested": "ޚުލާޞާ",
+    "status": "needs_review",
+    "notes": "ޚުލާޞާ (summary); alternative: އާންމު މަޢުލޫމާތު."
+  },
+  {
+    "key": "documents.server_totals_hint",
+    "english": "Totals are recalculated by the server when you save.",
+    "suggested": "ސޭވްކުރާއިރު ޖުމްލަތައް ސާވަރުން އަލުން ހިސާބުކުރާނެ.",
+    "status": "needs_review",
+    "notes": "Technical note mentioning the server (ސާވަރު, as in existing settings.hints.tax)."
+  },
+  {
+    "key": "print.receipt",
+    "english": "Receipt",
+    "suggested": "ރަސީދު",
+    "status": "confirmed",
+    "notes": "ރަސީދު — confirmed in existing review list."
+  },
+  {
+    "key": "print.invoice",
+    "english": "Invoice",
+    "suggested": "އިންވޮއިސް",
+    "status": "needs_review",
+    "notes": "އިންވޮއިސް — reused; still open in existing review (modules.invoices)."
+  },
+  {
+    "key": "print.quotation",
+    "english": "Quotation",
+    "suggested": "ކޮޓޭޝަން",
+    "status": "needs_review",
+    "notes": "ކޮޓޭޝަން — reused; still open in existing review (modules.quotations)."
+  },
+  {
+    "key": "documents.service_charge",
+    "english": "Service charge",
+    "suggested": "ސަރވިސް ޗާޖު",
+    "status": "confirmed",
+    "notes": "ސަރވިސް ޗާޖު — confirmed in existing review list."
+  },
+  {
+    "key": "print.cashier",
+    "english": "Cashier",
+    "suggested": "ކެޝިއަރު",
+    "status": "confirmed",
+    "notes": "ކެޝިއަރު — confirmed in existing review list."
+  },
+  {
+    "key": "print.thank_you",
+    "english": "Thank you!",
+    "suggested": "ޝުކުރިއްޔާ!",
+    "status": "confirmed",
+    "notes": "ޝުކުރިއްޔާ — standard."
+  },
+  {
+    "key": "payment_methods.cash",
+    "english": "Cash",
+    "suggested": "ނަގުދު",
+    "status": "confirmed",
+    "notes": "ނަގުދު — standard."
+  },
+  {
+    "key": "payment_methods.card",
+    "english": "Card",
+    "suggested": "ކާޑު",
+    "status": "confirmed",
+    "notes": "ކާޑު — standard."
+  },
+  {
+    "key": "documents.tax",
+    "english": "Tax",
+    "suggested": "ޓެކްސް",
+    "status": "confirmed",
+    "notes": "ޓެކްސް — standard, matches existing."
+  },
+  {
+    "key": "documents.total",
+    "english": "Total",
+    "suggested": "ޖުމްލަ",
+    "status": "confirmed",
+    "notes": "ޖުމްލަ — standard."
+  },
+  {
+    "key": "tables.seats_other",
+    "english": "{{count}} seats",
+    "suggested": "{{count}} ގޮނޑި",
+    "status": "confirmed",
+    "notes": "ގޮނޑި — standard (chair/seat)."
+  },
+  {
+    "key": "expenses.categories.rent",
+    "english": "Rent",
+    "suggested": "ކުލި",
+    "status": "confirmed",
+    "notes": "ކުލި — standard."
+  },
+  {
+    "key": "expenses.categories.salaries",
+    "english": "Salaries",
+    "suggested": "މުސާރަ",
+    "status": "confirmed",
+    "notes": "މުސާރަ — standard."
+  },
+  {
+    "key": "expenses.categories.electricity",
+    "english": "Electricity",
+    "suggested": "ކަރަންޓް",
+    "status": "confirmed",
+    "notes": "ކަރަންޓް — standard everyday term."
   }
 ]
