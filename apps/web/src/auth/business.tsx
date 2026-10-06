@@ -38,6 +38,7 @@ export interface BusinessSession {
   outlets: { id: string; name: string; isDefault: boolean }[];
   languages: { code: string; nativeName: string; direction: string; isDefault: boolean }[];
   regional: { currencySymbol: string; currencyDecimals: number; dateFormat: string; timeFormat: string };
+  tax: import('@oceanx/shared').BusinessSettings['tax'];
   pos: { defaultOrderType: 'dine_in' | 'takeaway' | 'delivery'; allowNegativeStock: boolean; sendToKitchen: boolean; requireTableForDineIn: boolean; maxDiscountPercent: number };
 }
 

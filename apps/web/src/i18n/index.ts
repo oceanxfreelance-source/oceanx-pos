@@ -14,7 +14,7 @@ const loaders: Record<Exclude<LanguageCode, 'en'>, () => Promise<{ default: obje
   si: () => import('@oceanx/shared/locales/si.json'),
 };
 
-async function ensureLoaded(lang: LanguageCode) {
+export async function ensureLoaded(lang: LanguageCode) {
   if (lang === 'en' || i18n.hasResourceBundle(lang, 'translation')) return;
   const mod = await loaders[lang]();
   i18n.addResourceBundle(lang, 'translation', mod.default, true, true);

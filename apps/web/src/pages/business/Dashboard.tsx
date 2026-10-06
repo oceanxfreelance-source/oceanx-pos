@@ -7,6 +7,8 @@ import { useBiz, useBizSession } from '../../auth/business';
 import { useFormat } from '../../lib/format';
 import { actionLabel, addonLabel, moduleLabel } from '../../lib/labels';
 import { Badge, Card, CardHeader, EmptyState, PageHeader, Skeleton, StatCard } from '../../components/ui/Card';
+import { SalesWidgets } from './SalesWidgets';
+import { OnboardingCard } from './Onboarding';
 
 interface DashboardData {
   widgets: {
@@ -21,8 +23,8 @@ interface DashboardData {
 
 /**
  * Configurable dashboard: each widget is returned by the API only when the user's
- * permissions allow it, and rendered only if present. Sales/order widgets are added
- * by the POS & sales modules (Phase 2) using the business-type widget profile.
+ * permissions allow it, and rendered only if present. Sales/order widgets follow the
+ * business-type widget profile (see SalesWidgets).
  */
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -37,6 +39,8 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <PageHeader title={`${greeting}, ${s.user.name.split(' ')[0]}`} description={t('dashboard.subtitle', { business: s.business.name })} />
+      {can('settings.view') && <OnboardingCard />}
+      <SalesWidgets />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {!w ? (
@@ -136,7 +140,6 @@ export default function Dashboard() {
                   </div>
                 </div>
               )}
-              <p className="rounded-xl bg-slate-50 p-3 text-xs text-slate-500 dark:bg-slate-800/50 dark:text-slate-400">{t('dashboard.phase_note')}</p>
             </div>
           )}
         </Card>

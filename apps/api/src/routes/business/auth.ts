@@ -68,6 +68,8 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
       timeFormat: settings.regional.timeFormat,
     },
     pos: settings.pos,
+    /** Tax config (not secret) lets editors show a live preview; the server recalculates on save. */
+    tax: settings.tax,
   };
 }
 

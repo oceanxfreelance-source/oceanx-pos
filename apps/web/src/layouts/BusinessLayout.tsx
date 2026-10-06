@@ -1,13 +1,42 @@
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
-import { Check, ChevronDown, History, Languages, LayoutDashboard, LogOut, Puzzle, Settings, ShieldCheck, Store, UserCircle, Users } from 'lucide-react';
+import {
+  BarChart3,
+  Boxes,
+  CalendarClock,
+  Check,
+  ChefHat,
+  ChevronDown,
+  Contact,
+  FileSpreadsheet,
+  FileText,
+  Globe,
+  History,
+  Languages,
+  LayoutDashboard,
+  LayoutGrid,
+  LogOut,
+  Mic2,
+  MonitorSmartphone,
+  PackagePlus,
+  Puzzle,
+  Receipt,
+  Settings,
+  ShieldCheck,
+  Store,
+  UserCircle,
+  Users,
+  UtensilsCrossed,
+  Wallet,
+} from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { useBiz, useBizSession, type BusinessSession } from '../auth/business';
 import { api } from '../lib/api';
 import { useToastError } from '../lib/useApiError';
 import { Shell, type NavGroup } from './Shell';
 import { Dropdown, DropdownItem } from '../components/Dropdown';
+import { NotificationBell } from '../components/NotificationBell';
 import { SkeletonRows } from '../components/ui/Card';
 import { StatusScreen, ForcePasswordChange } from '../pages/business/StatusScreens';
 
@@ -18,9 +47,32 @@ const SETTINGS_VIEW_PERMS = [...new Set(Object.values(SETTINGS_SECTION_PERMISSIO
  * Only implemented modules appear; the server enforces the same rules on every request.
  */
 export function useBusinessNav(): NavGroup[] {
-  const { can, canAny } = useBiz();
+  const { can, canAny, hasModule, hasAddon } = useBiz();
+  const session = useBizSession();
   const operations: NavGroup['items'] = [];
-  if (can('dashboard.view')) operations.unshift({ to: '/', label: 'nav.dashboard', icon: LayoutDashboard, end: true });
+  if (can('dashboard.view')) operations.push({ to: '/', label: 'nav.dashboard', icon: LayoutDashboard, end: true });
+  if (hasModule('pos') && can('pos.access')) operations.push({ to: '/pos', label: 'nav.pos', icon: MonitorSmartphone });
+  if (hasModule('sales') && canAny('sales.view', 'payments.view')) operations.push({ to: '/sales', label: 'nav.sales', icon: Receipt });
+  if (hasModule('kitchen') && can('kitchen.view')) operations.push({ to: '/kitchen', label: 'nav.kitchen', icon: ChefHat });
+  if (hasModule('tables') && can('tables.view')) operations.push({ to: '/tables', label: 'nav.tables', icon: LayoutGrid });
+  if (hasAddon('online_ordering') && can('online_orders.manage')) operations.push({ to: '/online-orders', label: 'nav.online_orders', icon: Globe });
+  if (hasAddon('reservations') && can('reservations.view')) operations.push({ to: '/reservations', label: 'nav.reservations', icon: CalendarClock });
+  if (hasAddon('karaoke') && can('karaoke.view')) operations.push({ to: '/karaoke', label: 'nav.karaoke', icon: Mic2 });
+
+  const catalog: NavGroup['items'] = [];
+  if (hasModule('products') && canAny('products.view', 'categories.view')) catalog.push({ to: '/products', label: session.business.profile.productsLabelKey, icon: UtensilsCrossed });
+  if (hasModule('inventory') && can('inventory.view')) catalog.push({ to: '/inventory', label: 'nav.inventory', icon: Boxes });
+  if ((hasModule('purchases') && can('purchases.view')) || (hasModule('suppliers') && can('suppliers.view'))) catalog.push({ to: '/purchases', label: 'nav.purchases', icon: PackagePlus });
+
+  const sales: NavGroup['items'] = [];
+  if (hasModule('customers') && can('customers.view')) sales.push({ to: '/customers', label: 'nav.customers', icon: Contact });
+  if (hasModule('quotations') && can('quotations.view')) sales.push({ to: '/quotations', label: 'nav.quotations', icon: FileText });
+  if (hasModule('invoices') && can('invoices.view')) sales.push({ to: '/invoices', label: 'nav.invoices', icon: FileSpreadsheet });
+
+  const finance: NavGroup['items'] = [];
+  if (hasModule('expenses') && can('expenses.view')) finance.push({ to: '/expenses', label: 'nav.expenses', icon: Wallet });
+  if (hasModule('reports') && can('reports.view')) finance.push({ to: '/reports', label: 'nav.reports', icon: BarChart3 });
+
   const management: NavGroup['items'] = [];
   if (can('users.view')) management.push({ to: '/users', label: 'nav.users', icon: Users });
   if (can('roles.view')) management.push({ to: '/roles', label: 'nav.roles', icon: ShieldCheck });
@@ -30,17 +82,21 @@ export function useBusinessNav(): NavGroup[] {
   if (canAny(...SETTINGS_VIEW_PERMS)) management.push({ to: '/settings', label: 'nav.settings', icon: Settings });
   return [
     { items: operations },
+    { label: 'nav.group_catalog', items: catalog },
+    { label: 'nav.group_customers', items: sales },
+    { label: 'nav.group_finance', items: finance },
     { label: 'nav.group_management', items: management },
-  ];
+  ].filter((g) => g.items.length > 0);
 }
 
-export function RequireBusinessAuth() {
+/** Auth gate for business pages. `bare` renders full-screen pages (POS, kitchen display, print) without the app shell. */
+export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   const { session, isLoading } = useBiz();
   if (isLoading) return <SkeletonRows rows={6} />;
   if (!session) return <Navigate to="/login" replace />;
   if (session.state !== 'ok') return <StatusScreen />;
   if (session.user.mustChangePassword) return <ForcePasswordChange />;
-  return <BusinessLayout />;
+  return bare ? <Outlet /> : <BusinessLayout />;
 }
 
 function OutletSwitcher({ session }: { session: BusinessSession }) {
@@ -127,6 +183,7 @@ function BusinessLayout() {
           <div className="me-auto">
             <OutletSwitcher session={session} />
           </div>
+          <NotificationBell />
           <LanguageMenu current={session.user.language} languages={session.languages} onChange={(c) => setLang.mutate(c)} />
           <Dropdown
             trigger={() => (
