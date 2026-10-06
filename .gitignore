@@ -10,3 +10,4 @@ apps/web/playwright-report
 .DS_Store
 storage/
 apps/web/e2e/screenshots
+.vercel

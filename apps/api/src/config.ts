@@ -24,6 +24,8 @@ const envSchema = z.object({
   SMTP_URL: z.string().optional(),
   MAIL_FROM: z.string().default('OceanX <no-reply@example.com>'),
   RATE_LIMIT_DISABLED: bool,
+  /** Demo deployments without SMTP: allow MAIL_TRANSPORT=log in production (emails are only logged). */
+  ALLOW_LOG_MAIL: bool,
   STORAGE_DIR: z.string().default('./storage'),
 });
 
@@ -47,7 +49,7 @@ export function loadConfig(overrides: Record<string, string | undefined> = {}): 
   }
   if (env.NODE_ENV === 'production') {
     if (!env.COOKIE_SECURE) throw new Error('COOKIE_SECURE must be true in production.');
-    if (env.MAIL_TRANSPORT !== 'smtp') throw new Error('MAIL_TRANSPORT must be "smtp" in production.');
+    if (env.MAIL_TRANSPORT !== 'smtp' && !(env.MAIL_TRANSPORT === 'log' && env.ALLOW_LOG_MAIL)) throw new Error('MAIL_TRANSPORT must be "smtp" in production (or "log" with ALLOW_LOG_MAIL=true for demos).');
   }
   return { ...env, encryptionKey };
 }
