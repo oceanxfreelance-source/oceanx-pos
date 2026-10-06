@@ -632,28 +632,28 @@
   {
     "key": "perm.qr_menu_manage",
     "english": "Manage QR menu",
-    "suggested": "ކިއުއާރް މެނޫ މެނޭޖްކުރޭ",
-    "status": "needs_review",
-    "notes": "QR transliterated to ކިއުއާރް as instructed. NOTE: existing dv.json keeps Latin 'QR' (addons.names.qr_menu = 'QR މެނޫ') and Latin 'POS' (modules.pos, perm.pos_access). This file uses ޕީއޯއެސް / ކިއުއާރް / އެސްކޭޔޫ / ސީއެސްވީ — decide one convention and align both files."
+    "suggested": "QR މެނޫ މެނޭޖްކުރޭ",
+    "status": "confirmed",
+    "notes": "Business decision: acronyms (POS, QR, SKU, CSV) stay in Latin letters inside Dhivehi text, matching hardware labels and receipts."
   },
   {
     "key": "nav.pos",
     "english": "POS",
-    "suggested": "ޕީއޯއެސް",
-    "status": "needs_review",
-    "notes": "ޕީއޯއެސް transliteration; existing dv.json shows Latin 'POS'. See perm.qr_menu_manage."
+    "suggested": "POS",
+    "status": "confirmed",
+    "notes": "Business decision: acronyms (POS, QR, SKU, CSV) stay in Latin letters inside Dhivehi text, matching hardware labels and receipts."
   },
   {
     "key": "products.sku",
     "english": "SKU",
-    "suggested": "އެސްކޭޔޫ",
+    "suggested": "SKU",
     "status": "needs_review",
     "notes": "އެސްކޭޔޫ transliteration. Users may prefer Latin SKU or ކޯޑު."
   },
   {
     "key": "reports.export_csv",
     "english": "Export CSV",
-    "suggested": "ސީއެސްވީ އެކްސްޕޯޓްކުރޭ",
+    "suggested": "CSV އެކްސްޕޯޓްކުރޭ",
     "status": "needs_review",
     "notes": "ސީއެސްވީ transliteration."
   },

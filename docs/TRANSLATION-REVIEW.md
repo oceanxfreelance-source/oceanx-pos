@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 110 · **confirmed**: 21
+Status: **needs_review**: 108 · **confirmed**: 23
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -57,7 +57,6 @@ review of the whole file is still recommended before launch.
 | `modules.sales` | Sales | ވިއްކުން | needs_review | Alternative loanword: ސޭލްސް. ވިއްކުން reads naturally in reports; ސޭލްސް is common in POS UIs. |
 | `nav.activity` | Activity log | ހަރަކާތްތަކުގެ ލޮގް | needs_review | Alternative: އޮޑިޓް ލޮގް. |
 | `nav.outlets` | Outlets | އައުޓްލެޓްތައް | needs_review | Alternatives: ބްރާންޗުތައް, ފިހާރަތައް. ބްރާންޗު may be clearer for multi-branch restaurants. |
-| `nav.pos` | POS | ޕީއޯއެސް | needs_review | ޕީއޯއެސް transliteration; existing dv.json shows Latin 'POS'. See perm.qr_menu_manage. |
 | `notifications.empty` | You're all caught up. | އާ ނޮޓިފިކޭޝަނެއް ނެތް. | needs_review | Idiom 'You're all caught up' rendered literally as 'no new notifications'. |
 | `notify.credit_payment` | {{customer}} paid {{amount}} towards credit | {{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި | needs_review | '{{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި' — check word order and verb. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
@@ -66,7 +65,6 @@ review of the whole file is still recommended before launch.
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.loyalty_view` | View loyalty points | ލޮޔަލްޓީ ޕޮއިންޓް ބަލާ | needs_review | ލޮޔަލްޓީ ޕޮއިންޓް — consistent with existing addons.names.loyalty. Native alternative not common. |
-| `perm.qr_menu_manage` | Manage QR menu | ކިއުއާރް މެނޫ މެނޭޖްކުރޭ | needs_review | QR transliterated to ކިއުއާރް as instructed. NOTE: existing dv.json keeps Latin 'QR' (addons.names.qr_menu = 'QR މެނޫ') and Latin 'POS' (modules.pos, perm.pos_access). This file uses ޕީއޯއެސް / ކިއުއާރް / އެސްކޭޔޫ / ސީއެސްވީ — decide one convention and align both files. |
 | `pos.change_due` | Change | އަނބުރާ ދޭ ފައިސާ | needs_review | See print.change. |
 | `pos.credit_to` | {{amount}} on credit to {{name}} | {{amount}} {{name}} ގެ ނަމުގައި ދަރަންޏަށް | needs_review | Word order reversed for Dhivehi: '{{amount}} {{name}} ގެ ނަމުގައި ދަރަންޏަށް'. Check it reads naturally with real values. |
 | `pos.discount_short` | Disc. | ޑިސް. | needs_review | Abbreviation ޑިސް. — Dhivehi rarely abbreviates; could use full ޑިސްކައުންޓް if space allows. |
@@ -82,7 +80,7 @@ review of the whole file is still recommended before launch.
 | `products.item` | Item | އައިޓަމް | needs_review | 'Item' as loanword އައިޓަމް across the file. Existing dv.json uses ޕްރޮޑަކްޓްސް for products and ތަކެތި for goods; alternatives: ބާވަތް, ތަކެތި. Confirm. |
 | `products.min_stock` | Low-stock alert at | ސްޓޮކް މަދުވާ އެލާޓް | needs_review | 'Low-stock alert at' → ސްޓޮކް މަދުވާ އެލާޓް (threshold field label). Confirm. |
 | `products.recipe_cost` | Cost per portion | ކޮންމެ ޕޯޝަނެއްގެ ޚަރަދު | needs_review | ކޮންމެ ޕޯޝަނެއްގެ ޚަރަދު; 'portion' loanword ޕޯޝަން — alternative: ބައި / ޕްލޭޓް. |
-| `products.sku` | SKU | އެސްކޭޔޫ | needs_review | އެސްކޭޔޫ transliteration. Users may prefer Latin SKU or ކޯޑު. |
+| `products.sku` | SKU | SKU | needs_review | އެސްކޭޔޫ transliteration. Users may prefer Latin SKU or ކޯޑު. |
 | `products.types.ingredient` | Ingredient | ތަކެތި (އިންގްރީޑިއަންޓް) | needs_review | ތަކެތި (އިންގްރީޑިއަންޓް). ތަކެތި alone is ambiguous (things/goods); alternative: ކާނާގެ ތަކެތި / އަސާސީ ތަކެތި. |
 | `products.unit` | Unit | ޔުނިޓް | needs_review | Loanword ޔުނިޓް; alternative: މިންވަރު. |
 | `public_menu.not_found_body` | This menu does not exist or is not published. | މި މެނޫ ނެތް ނުވަތަ ޝާއިޢުކޮށްފައެއް ނެތް. | needs_review | 'published' as ޝާއިޢުކޮށް; also settings.online.menu_enabled (މެނޫ ޝާއިޢުކުރޭ). Alternative: ޕަބްލިޝް. |
@@ -90,7 +88,7 @@ review of the whole file is still recommended before launch.
 | `quotations.valid_until` | Valid until | ޞައްޙަ ތާރީޚު | needs_review | ޞައްޙަ ތާރީޚު (valid-until date), based on existing settings.validity_days. Alternative: ޞައްޙަ ވާނީ މި ތާރީޚާ ހަމައަށް. |
 | `reports.columns.gross` | Gross | ގްރޮސް | needs_review | Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން). |
 | `reports.columns.margin` | Margin | މާޖިން | needs_review | Loanword މާޖިން. Alternative: ފައިދާގެ މިންވަރު. |
-| `reports.export_csv` | Export CSV | ސީއެސްވީ އެކްސްޕޯޓްކުރޭ | needs_review | ސީއެސްވީ transliteration. |
+| `reports.export_csv` | Export CSV | CSV އެކްސްޕޯޓްކުރޭ | needs_review | ސީއެސްވީ transliteration. |
 | `reports.summary.cogs` | Cost of goods | ވިއްކި ތަކެތީގެ ކޮސްޓް | needs_review | Cost of goods: ވިއްކި ތަކެތީގެ ކޮސްޓް. Confirm with accountant. |
 | `reports.summary.grossProfit` | Gross profit | ގްރޮސް ފައިދާ | needs_review | ގްރޮސް ފައިދާ (mixed loanword). Alternative: ޚަރަދު ކުރިން ފައިދާ. |
 | `reports.summary.netProfit` | Net profit | ނެޓް ފައިދާ | needs_review | ނެޓް ފައިދާ. Alternative: ޞާފު ފައިދާ. |
@@ -127,8 +125,10 @@ review of the whole file is still recommended before launch.
 | `expenses.categories.electricity` | Electricity | ކަރަންޓް | confirmed | ކަރަންޓް — standard everyday term. |
 | `expenses.categories.rent` | Rent | ކުލި | confirmed | ކުލި — standard. |
 | `expenses.categories.salaries` | Salaries | މުސާރަ | confirmed | މުސާރަ — standard. |
+| `nav.pos` | POS | POS | confirmed | Business decision: acronyms (POS, QR, SKU, CSV) stay in Latin letters inside Dhivehi text, matching hardware labels and receipts. |
 | `payment_methods.card` | Card | ކާޑު | confirmed | ކާޑު — standard. |
 | `payment_methods.cash` | Cash | ނަގުދު | confirmed | ނަގުދު — standard. |
+| `perm.qr_menu_manage` | Manage QR menu | QR މެނޫ މެނޭޖްކުރޭ | confirmed | Business decision: acronyms (POS, QR, SKU, CSV) stay in Latin letters inside Dhivehi text, matching hardware labels and receipts. |
 | `pos.order_types.takeaway` | Takeaway | ޓޭކްއަވޭ | confirmed | ޓޭކްއަވޭ — matches existing business_types.takeaway. |
 | `print.cashier` | Cashier | ކެޝިއަރު | confirmed | ކެޝިއަރު — confirmed in existing review list. |
 | `print.receipt` | Receipt | ރަސީދު | confirmed | ރަސީދު — confirmed in existing review list. |
