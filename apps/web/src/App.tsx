@@ -21,6 +21,24 @@ const Outlets = lazy(() => import('./pages/business/Outlets'));
 const Addons = lazy(() => import('./pages/business/Addons'));
 const Activity = lazy(() => import('./pages/business/Activity'));
 const Account = lazy(() => import('./pages/business/Account'));
+const Pos = lazy(() => import('./pages/business/Pos'));
+const Kitchen = lazy(() => import('./pages/business/Kitchen'));
+const Sales = lazy(() => import('./pages/business/Sales'));
+const Products = lazy(() => import('./pages/business/Products'));
+const Customers = lazy(() => import('./pages/business/Customers'));
+const DocList = lazy(() => import('./pages/business/Documents').then((m) => ({ default: m.DocumentListPage })));
+const DocEditor = lazy(() => import('./pages/business/Documents').then((m) => ({ default: m.DocumentEditorPage })));
+const DocDetail = lazy(() => import('./pages/business/Documents').then((m) => ({ default: m.DocumentDetailPage })));
+const Inventory = lazy(() => import('./pages/business/Inventory'));
+const Purchasing = lazy(() => import('./pages/business/Purchasing'));
+const Expenses = lazy(() => import('./pages/business/Expenses'));
+const Tables = lazy(() => import('./pages/business/Tables'));
+const Reports = lazy(() => import('./pages/business/Reports'));
+const Karaoke = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.KaraokePage })));
+const Reservations = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.ReservationsPage })));
+const OnlineOrders = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.OnlineOrdersPage })));
+const PrintPage = lazy(() => import('./pages/print/PrintPage'));
+const PublicMenu = lazy(() => import('./pages/public/PublicMenu'));
 
 // Super Admin pages (separate chunk + separate auth context)
 const SaLogin = lazy(() => import('./pages/superadmin/Login'));
@@ -102,6 +120,11 @@ const router = createBrowserRouter([
     ],
   },
   {
+    // Public QR menu: no authentication, no business session.
+    path: '/menu/:slug',
+    element: withSuspense(<PublicMenu />),
+  },
+  {
     path: '/',
     element: <BusinessRoot />,
     children: [
@@ -110,9 +133,38 @@ const router = createBrowserRouter([
       { path: 'forgot-password', element: <ForgotPassword domain="business" /> },
       { path: 'reset-password', element: <ResetPassword domain="business" /> },
       {
+        // Full-screen operational screens (no sidebar shell).
+        element: <RequireBusinessAuth bare />,
+        children: [
+          { path: 'pos', element: withSuspense(<Pos />) },
+          { path: 'kitchen', element: withSuspense(<Kitchen />) },
+          { path: 'print/:kind/:id', element: withSuspense(<PrintPage />) },
+        ],
+      },
+      {
         element: <RequireBusinessAuth />,
         children: [
           { index: true, element: withSuspense(<Dashboard />) },
+          { path: 'sales', element: withSuspense(<Sales />) },
+          { path: 'products', element: withSuspense(<Products />) },
+          { path: 'customers', element: withSuspense(<Customers />) },
+          { path: 'quotations', element: withSuspense(<DocList kind="quotation" />) },
+          { path: 'quotations/new', element: withSuspense(<DocEditor key="qn" kind="quotation" />) },
+          { path: 'quotations/:id', element: withSuspense(<DocDetail kind="quotation" />) },
+          { path: 'quotations/:id/edit', element: withSuspense(<DocEditor key="qe" kind="quotation" />) },
+          { path: 'invoices', element: withSuspense(<DocList kind="invoice" />) },
+          { path: 'invoices/new', element: withSuspense(<DocEditor key="in" kind="invoice" />) },
+          { path: 'invoices/:id', element: withSuspense(<DocDetail kind="invoice" />) },
+          { path: 'invoices/:id/edit', element: withSuspense(<DocEditor key="ie" kind="invoice" />) },
+          { path: 'inventory', element: withSuspense(<Inventory />) },
+          { path: 'purchases', element: withSuspense(<Purchasing />) },
+          { path: 'suppliers', element: withSuspense(<Purchasing initialTab="suppliers" />) },
+          { path: 'expenses', element: withSuspense(<Expenses />) },
+          { path: 'tables', element: withSuspense(<Tables />) },
+          { path: 'reports', element: withSuspense(<Reports />) },
+          { path: 'karaoke', element: withSuspense(<Karaoke />) },
+          { path: 'reservations', element: withSuspense(<Reservations />) },
+          { path: 'online-orders', element: withSuspense(<OnlineOrders />) },
           { path: 'users', element: withSuspense(<Users />) },
           { path: 'roles', element: withSuspense(<Roles />) },
           { path: 'settings', element: withSuspense(<Settings />) },

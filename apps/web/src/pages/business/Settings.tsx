@@ -2,10 +2,11 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import QRCode from 'qrcode';
 import { ImageUp, Lock } from 'lucide-react';
 import { BUSINESS_TYPES, formatDocumentNumber, LANGUAGES, type BusinessSettings, type NumberingSettings } from '@oceanx/shared';
 import { api } from '../../lib/api';
-import { useBiz } from '../../auth/business';
+import { useBiz, useBizSession } from '../../auth/business';
 import { useFieldErrors, useToastError } from '../../lib/useApiError';
 import { Alert, Card, CardHeader, Ltr, PageHeader, SkeletonRows } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
@@ -27,7 +28,7 @@ export default function SettingsPage() {
   const [tab, setTab] = useState<Tab | null>(null);
   const tabs: { value: Tab; label: string }[] = [];
   if (q.data?.profile) tabs.push({ value: 'profile', label: t('settings.tabs.profile') });
-  for (const s of ['regional', 'tax', 'receipt', 'invoice', 'quotation'] as const) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
+  for (const s of ['regional', 'tax', 'receipt', 'invoice', 'quotation', 'pos', 'loyalty', 'online'] as const) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
   const active = tab ?? tabs[0]?.value ?? null;
 
   return (
@@ -154,7 +155,7 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
     onSuccess: () => {
       toast.success(t('common.saved'));
       void qc.invalidateQueries({ queryKey: ['biz', 'settings'] });
-      if (section === 'regional') void refresh();
+      if (section === 'regional' || section === 'pos' || section === 'tax') void refresh();
     },
   });
   const fieldErr = useFieldErrors(save.error);
@@ -221,6 +222,45 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
           disabled={!x.serviceChargeEnabled}
           error={fieldErr('serviceChargeRate')}
         />
+      </div>
+    );
+  } else if (section === 'pos') {
+    const x = value as BusinessSettings['pos'];
+    body = (
+      <div className="space-y-5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Select label={t('settings.pos.default_order_type')} value={x.defaultOrderType} onChange={(e) => set({ defaultOrderType: e.target.value } as never)}>
+            {['dine_in', 'takeaway', 'delivery'].map((o) => (
+              <option key={o} value={o}>
+                {t(`pos.order_types.${o}`)}
+              </option>
+            ))}
+          </Select>
+          <Input type="number" min={0} max={100} step="0.01" label={t('settings.pos.max_discount')} hint={t('settings.pos.max_discount_hint')} value={x.maxDiscountPercent} onChange={(e) => set({ maxDiscountPercent: Number(e.target.value) } as never)} error={fieldErr('maxDiscountPercent')} />
+        </div>
+        <Switch checked={x.sendToKitchen} onChange={(c) => set({ sendToKitchen: c } as never)} label={t('settings.pos.send_to_kitchen')} description={t('settings.pos.send_to_kitchen_hint')} />
+        <Switch checked={x.requireTableForDineIn} onChange={(c) => set({ requireTableForDineIn: c } as never)} label={t('settings.pos.require_table')} />
+        <Switch checked={x.allowNegativeStock} onChange={(c) => set({ allowNegativeStock: c } as never)} label={t('settings.pos.allow_negative_stock')} description={t('settings.pos.allow_negative_stock_hint')} />
+      </div>
+    );
+  } else if (section === 'loyalty') {
+    const x = value as BusinessSettings['loyalty'];
+    body = (
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Input type="number" min={0} step="0.01" label={t('settings.loyalty.points_per_unit')} hint={t('settings.loyalty.points_per_unit_hint')} value={x.pointsPerUnit} onChange={(e) => set({ pointsPerUnit: Number(e.target.value) } as never)} error={fieldErr('pointsPerUnit')} />
+        <Input type="number" min={0} step="0.01" label={t('settings.loyalty.point_value')} hint={t('settings.loyalty.point_value_hint')} value={x.pointValue / 100} onChange={(e) => set({ pointValue: Math.round(Number(e.target.value) * 100) } as never)} error={fieldErr('pointValue')} />
+        <Input type="number" min={0} step="1" label={t('settings.loyalty.min_redeem')} value={x.minRedeemPoints} onChange={(e) => set({ minRedeemPoints: Math.floor(Number(e.target.value)) } as never)} error={fieldErr('minRedeemPoints')} />
+      </div>
+    );
+  } else if (section === 'online') {
+    const x = value as BusinessSettings['online'];
+    body = (
+      <div className="space-y-5">
+        <MenuLink />
+        <Switch checked={x.menuEnabled} onChange={(c) => set({ menuEnabled: c } as never)} label={t('settings.online.menu_enabled')} description={t('settings.online.menu_enabled_hint')} />
+        <Switch checked={x.showPrices} onChange={(c) => set({ showPrices: c } as never)} label={t('settings.online.show_prices')} />
+        <Switch checked={x.ordersEnabled} onChange={(c) => set({ ordersEnabled: c } as never)} label={t('settings.online.orders_enabled')} description={t('settings.online.orders_enabled_hint')} />
+        <Textarea label={t('settings.online.message')} value={x.message} onChange={(e) => set({ message: e.target.value } as never)} error={fieldErr('message')} />
       </div>
     );
   } else {
@@ -334,6 +374,33 @@ function NumberingEditor({ value, onChange, fieldErr }: { value: NumberingSettin
       <p className="mt-3 text-xs text-slate-500">
         {t('settings.format_tokens')} <Ltr className="font-mono">{'{PREFIX} {YYYY} {YY} {MM} {SEQ}'}</Ltr>
       </p>
+    </div>
+  );
+}
+
+/** Public QR-menu link and a scannable QR code generated locally (no external service). */
+function MenuLink() {
+  const { t } = useTranslation();
+  const session = useBizSession();
+  const url = `${window.location.origin}/menu/${session.business.slug}`;
+  const [png, setPng] = useState<string | null>(null);
+  useEffect(() => {
+    void QRCode.toDataURL(url, { margin: 1, width: 240 }).then(setPng);
+  }, [url]);
+  return (
+    <div className="flex flex-wrap items-center gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40">
+      {png && <img src={png} alt={t('settings.online.qr_alt')} className="size-32 rounded-lg bg-white p-1" />}
+      <div className="min-w-0 space-y-2 text-sm">
+        <p className="font-medium">{t('settings.online.public_link')}</p>
+        <a href={url} target="_blank" rel="noopener noreferrer" className="block break-all text-brand-700 underline dark:text-brand-300" dir="ltr">
+          {url}
+        </a>
+        {png && (
+          <a href={png} download={`menu-qr-${session.business.slug}.png`} className="inline-block font-medium text-brand-700 hover:underline dark:text-brand-300">
+            {t('settings.online.download_qr')}
+          </a>
+        )}
+      </div>
     </div>
   );
 }

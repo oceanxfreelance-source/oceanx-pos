@@ -1,0 +1,145 @@
+import { expect, test, type Page } from '@playwright/test';
+
+const SHOTS = 'e2e/screenshots';
+const OWNER = { email: 'owner@reef.test', password: 'Reef-Kitchen-123' };
+
+async function login(page: Page) {
+  await page.goto('/login');
+  await page.getByLabel('Email').fill(OWNER.email);
+  await page.getByLabel('Password').fill(OWNER.password);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page).toHaveURL(/\/$/);
+}
+
+/**
+ * End-to-end operations: menu → POS sale → sales list, and
+ * quotation → accept → convert → issue invoice → payment → print in the document language.
+ */
+test.describe.serial('OceanX operations', () => {
+  test('restaurant owner registers and sets up a menu item and a customer', async ({ page }) => {
+    await page.goto('/register');
+    await page.getByLabel('Business type').selectOption('restaurant');
+    await page.getByLabel('Business name').fill('Reef Kitchen');
+    await page.getByLabel('Your name').fill('Hassan Reef');
+    await page.getByLabel('Email').fill(OWNER.email);
+    await page.getByLabel('Password').fill(OWNER.password);
+    await page.getByRole('button', { name: 'Create my business' }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Hassan');
+    const nav = page.locator('aside').first();
+    for (const item of ['POS', 'Sales', 'Kitchen', 'Customers', 'Quotations', 'Invoices', 'Reports']) await expect(nav.getByRole('link', { name: item })).toBeVisible();
+
+    await page.goto('/products');
+    await page.getByRole('button', { name: 'New item' }).first().click();
+    const dialog = page.getByRole('dialog');
+    await dialog.getByLabel('Name').fill('Grilled Reef Fish');
+    await dialog.getByLabel('Selling price').fill('120');
+    await dialog.getByLabel('Cost price').fill('55');
+    await dialog.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByRole('table').getByText('Grilled Reef Fish')).toBeVisible();
+
+    await page.goto('/customers');
+    await page.getByRole('button', { name: 'New customer' }).click();
+    const c = page.getByRole('dialog');
+    await c.getByLabel('Name').fill('Aishath Shifa');
+    await c.getByLabel('Email').fill('aishath@reef.test');
+    await c.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByRole('table').getByText('Aishath Shifa')).toBeVisible();
+  });
+
+  test('cashier flow: POS sale is priced by the server and appears in sales', async ({ page }) => {
+    await login(page);
+    await page.goto('/pos');
+    const tile = page.getByRole('button', { name: /Grilled Reef Fish/ });
+    await tile.click();
+    await tile.click();
+    // 2 × 120.00 — the total shown comes from the server quote.
+    const pay = page.getByRole('button', { name: /^Pay/ });
+    await expect(pay).toContainText('240.00');
+    await page.screenshot({ path: `${SHOTS}/pos-desktop.png`, fullPage: true });
+    await pay.click();
+    await page.getByRole('button', { name: 'Complete sale' }).click();
+    await expect(page.getByRole('dialog').getByText('Sale complete')).toBeVisible();
+    await page.getByRole('button', { name: 'New sale' }).click();
+
+    await page.goto('/sales');
+    const row = page.getByRole('table').locator('tbody tr').first();
+    await expect(row).toContainText('240.00');
+    await expect(row).toContainText('Completed');
+  });
+
+  test('quotation → invoice → payment → printed invoice', async ({ page }) => {
+    await login(page);
+    await page.goto('/quotations/new');
+    await page.getByPlaceholder('Search name, phone or email…').fill('Aish');
+    await page.getByRole('button', { name: /Aishath Shifa/ }).click();
+    await page.getByPlaceholder('Add a product…').fill('Grilled');
+    await page.getByRole('button', { name: /Grilled Reef Fish/ }).click();
+    await page.getByRole('spinbutton', { name: 'Qty' }).fill('3');
+    await page.getByRole('button', { name: 'Save' }).click();
+    await expect(page).toHaveURL(/\/quotations\/[0-9a-f-]{36}$/);
+    await expect(page.locator('main')).toContainText('360.00');
+
+    await page.getByRole('button', { name: 'Accept' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm' }).click();
+    await expect(page.locator('main h1')).toContainText('Accepted');
+
+    await page.getByRole('button', { name: 'Convert to invoice' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm' }).click();
+    await expect(page).toHaveURL(/\/invoices\/[0-9a-f-]{36}$/);
+    await expect(page.getByText('Created from quotation')).toBeVisible();
+
+    await page.getByRole('button', { name: 'Issue invoice' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm' }).click();
+    await expect(page.locator('main h1')).toContainText('Issued');
+
+    await page.getByRole('button', { name: 'Record payment' }).click();
+    const payDialog = page.getByRole('dialog');
+    await expect(payDialog.getByLabel('Amount')).toHaveValue('360.00');
+    await payDialog.getByLabel('Amount').fill('400');
+    await payDialog.getByRole('button', { name: 'Save' }).click();
+    // Overpayment is refused by the server.
+    await expect(payDialog.getByText('The payment is more than the balance due.')).toBeVisible();
+    await payDialog.getByLabel('Amount').fill('360');
+    await payDialog.getByRole('button', { name: 'Save' }).click();
+    await expect(page.locator('main h1')).toContainText('Paid');
+    await page.screenshot({ path: `${SHOTS}/invoice-detail.png`, fullPage: true });
+
+    const invoiceId = page.url().split('/').pop();
+    await page.goto(`/print/invoice/${invoiceId}`);
+    const doc = page.locator('article');
+    await expect(doc).toContainText('Invoice');
+    await expect(doc).toContainText('Aishath Shifa');
+    await expect(doc).toContainText(/INV-\d{4}-00001/);
+    await page.screenshot({ path: `${SHOTS}/invoice-print.png`, fullPage: true });
+  });
+
+  test('documents print in the document language, not the UI language', async ({ page }) => {
+    await login(page);
+    await page.goto('/settings');
+    await page.getByRole('tab', { name: 'Regional' }).click();
+    await page.getByLabel('Default document language').selectOption('dv');
+    await page.getByRole('button', { name: 'Save changes' }).click();
+    await expect(page.getByText('Saved')).toBeVisible();
+    const saleId = await page.request.get('/api/sales').then(async (r) => (await r.json()).items[0].id as string);
+    await page.goto(`/print/receipt/${saleId}`);
+    const doc = page.locator('article');
+    await expect(doc).toHaveAttribute('dir', 'rtl');
+    await expect(doc).toHaveAttribute('lang', 'dv');
+    // The UI around the document stays English.
+    await expect(page.getByRole('button', { name: 'Print' })).toBeVisible();
+  });
+
+  test('tenant isolation: another business cannot read this invoice', async ({ page, browser }) => {
+    await login(page);
+    const inv = await page.request.get('/api/invoices').then(async (r) => (await r.json()).items[0].id as string);
+    const other = await browser.newContext();
+    const p2 = await other.newPage();
+    await p2.goto('/login');
+    await p2.getByLabel('Email').fill('owner@lagoon.test');
+    await p2.getByLabel('Password').fill('Lagoon-Pass-123');
+    await p2.getByRole('button', { name: 'Sign in' }).click();
+    await expect(p2).toHaveURL(/\/$/);
+    expect((await p2.request.get(`/api/invoices/${inv}`)).status()).toBe(404);
+    await other.close();
+  });
+});
