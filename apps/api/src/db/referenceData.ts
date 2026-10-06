@@ -80,7 +80,10 @@ export async function syncReferenceData(db: Executor): Promise<void> {
 
   for (const code of ADDONS) {
     const info = ADDON_INFO[code];
-    await db.insert(addons).values({ code, name: info.name, description: info.description, category: info.category }).onConflictDoNothing();
+    await db
+      .insert(addons)
+      .values({ code, name: info.name, description: info.description, category: info.category, isActive: !NOT_IMPLEMENTED_ADDONS.has(code) })
+      .onConflictDoNothing();
   }
 
   for (const p of DEFAULT_PLANS) {
@@ -89,5 +92,12 @@ export async function syncReferenceData(db: Executor): Promise<void> {
       .values({ ...p, description: '', currency: 'USD', limits: p.limits as Record<string, number | null>, modules: p.modules })
       .onConflictDoNothing();
   }
-  await db.execute(sql`SELECT 1`);
+  // The protected Business Admin role always holds every permission, including ones added in later releases.
+  await db.execute(sql`
+    INSERT INTO role_permissions (role_id, permission_key)
+    SELECT r.id, p.key FROM roles r CROSS JOIN permissions p WHERE r.system_key = 'business_admin'
+    ON CONFLICT DO NOTHING`);
 }
+
+/** Add-ons listed in the catalog but without a shipped implementation yet; created inactive (cannot be granted). */
+export const NOT_IMPLEMENTED_ADDONS = new Set<AddonKey>(['catering', 'events', 'guesthouse']);

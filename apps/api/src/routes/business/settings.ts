@@ -23,8 +23,6 @@ const LOGO_MAX_BYTES = 1_048_576;
 export async function settingsRoutes(app: FastifyInstance) {
   const { db, storage } = app.deps;
 
-  // Raw image uploads (content is re-validated by magic bytes in Storage).
-  app.addContentTypeParser(Object.keys(IMAGE_TYPES), { parseAs: 'buffer', bodyLimit: LOGO_MAX_BYTES }, (_req, body, done) => done(null, body));
 
   const viewAny = requireAnyPermission(...new Set(Object.values(SETTINGS_SECTION_PERMISSIONS).map((p) => p.view)));
 

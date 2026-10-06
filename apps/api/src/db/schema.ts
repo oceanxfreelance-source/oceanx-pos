@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm';
 import {
+  bigint,
   bigserial,
   boolean,
   foreignKey,
@@ -478,5 +479,654 @@ export const activityLogs = pgTable(
     index('activity_logs_business_created_idx').on(t.businessId, t.createdAt),
     index('activity_logs_actor_created_idx').on(t.actorType, t.createdAt),
     index('activity_logs_action_idx').on(t.action),
+  ],
+);
+
+// =====================================================================================
+// OPERATIONS (Phases 2–5). Every table carries business_id; outlet-bound tables carry
+// outlet_id. Money columns are integer MINOR units (bigint); quantities are numeric(14,3).
+// Composite FKs to (business_id, id) keep references inside one tenant at the DB level.
+// =====================================================================================
+const money = (name: string) => bigint(name, { mode: 'number' });
+const qty = (name: string) => numeric(name, { precision: 14, scale: 3, mode: 'number' });
+const tenantFk = <T extends { businessId: unknown }>(name: string, t: T, col: unknown, target: { businessId: unknown; id: unknown }) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  foreignKey({ columns: [t.businessId as any, col as any], foreignColumns: [target.businessId as any, target.id as any], name });
+
+export const categories = pgTable(
+  'categories',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    description: text('description').notNull().default(''),
+    sortOrder: integer('sort_order').notNull().default(0),
+    isActive: boolean('is_active').notNull().default(true),
+    kitchenStation: text('kitchen_station').notNull().default(''),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [unique('categories_business_id_uq').on(t.businessId, t.id), uniqueIndex('categories_business_name_uq').on(t.businessId, sql`lower(${t.name})`)],
+);
+
+export const products = pgTable(
+  'products',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    categoryId: uuid('category_id'),
+    name: text('name').notNull(),
+    sku: text('sku').notNull().default(''),
+    description: text('description').notNull().default(''),
+    unit: text('unit').notNull().default('pcs'),
+    type: text('type').notNull().default('item'),
+    costPrice: money('cost_price').notNull().default(0),
+    sellingPrice: money('selling_price').notNull().default(0),
+    taxRate: numeric('tax_rate', { precision: 6, scale: 3, mode: 'number' }),
+    trackStock: boolean('track_stock').notNull().default(false),
+    minStock: qty('min_stock').notNull().default(0),
+    isActive: boolean('is_active').notNull().default(true),
+    showInPos: boolean('show_in_pos').notNull().default(true),
+    showInMenu: boolean('show_in_menu').notNull().default(true),
+    sendToKitchen: boolean('send_to_kitchen').notNull().default(true),
+    options: jsonb('options').$type<{ name: string; required: boolean; multiple: boolean; choices: { name: string; price: number }[] }[]>().notNull().default([]),
+    imagePath: text('image_path'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    unique('products_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('products_business_sku_uq')
+      .on(t.businessId, sql`lower(${t.sku})`)
+      .where(sql`${t.sku} <> '' AND ${t.deletedAt} IS NULL`),
+    index('products_business_category_idx').on(t.businessId, t.categoryId),
+    index('products_business_name_idx').on(t.businessId, t.name),
+    tenantFk('products_category_fk', t, t.categoryId, categories).onDelete('set null'),
+  ],
+);
+
+export const stockLevels = pgTable(
+  'stock_levels',
+  {
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    productId: uuid('product_id').notNull(),
+    quantity: qty('quantity').notNull().default(0),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.outletId, t.productId] }),
+    index('stock_levels_business_idx').on(t.businessId, t.productId),
+    tenantFk('stock_levels_outlet_fk', t, t.outletId, outlets).onDelete('cascade'),
+    tenantFk('stock_levels_product_fk', t, t.productId, products).onDelete('cascade'),
+  ],
+);
+
+export const inventoryTransactions = pgTable(
+  'inventory_transactions',
+  {
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    productId: uuid('product_id').notNull(),
+    type: text('type').notNull(), // sale | sale_void | purchase | adjustment | wastage | count | transfer_in | transfer_out | recipe
+    quantity: qty('quantity').notNull(), // signed change
+    balanceAfter: qty('balance_after').notNull(),
+    unitCost: money('unit_cost').notNull().default(0),
+    referenceType: text('reference_type'),
+    referenceId: text('reference_id'),
+    note: text('note').notNull().default(''),
+    userId: uuid('user_id'),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('inventory_tx_business_product_idx').on(t.businessId, t.productId, t.createdAt),
+    index('inventory_tx_business_created_idx').on(t.businessId, t.createdAt),
+    tenantFk('inventory_tx_outlet_fk', t, t.outletId, outlets).onDelete('cascade'),
+    tenantFk('inventory_tx_product_fk', t, t.productId, products).onDelete('cascade'),
+  ],
+);
+
+export const recipeItems = pgTable(
+  'recipe_items',
+  {
+    businessId: uuid('business_id').notNull(),
+    productId: uuid('product_id').notNull(),
+    ingredientId: uuid('ingredient_id').notNull(),
+    quantity: qty('quantity').notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.productId, t.ingredientId] }),
+    tenantFk('recipe_items_product_fk', t, t.productId, products).onDelete('cascade'),
+    tenantFk('recipe_items_ingredient_fk', t, t.ingredientId, products).onDelete('cascade'),
+  ],
+);
+
+export const customers = pgTable(
+  'customers',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    phone: text('phone').notNull().default(''),
+    email: text('email').notNull().default(''),
+    company: text('company').notNull().default(''),
+    address: text('address').notNull().default(''),
+    taxNumber: text('tax_number').notNull().default(''),
+    notes: text('notes').notNull().default(''),
+    creditLimit: money('credit_limit'),
+    creditDays: integer('credit_days'),
+    loyaltyPoints: integer('loyalty_points').notNull().default(0),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    unique('customers_business_id_uq').on(t.businessId, t.id),
+    index('customers_business_name_idx').on(t.businessId, t.name),
+    index('customers_business_phone_idx').on(t.businessId, t.phone),
+  ],
+);
+
+export const diningTables = pgTable(
+  'dining_tables',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    name: text('name').notNull(),
+    capacity: integer('capacity').notNull().default(4),
+    area: text('area').notNull().default(''),
+    isActive: boolean('is_active').notNull().default(true),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    unique('tables_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('tables_outlet_name_uq').on(t.outletId, sql`lower(${t.name})`),
+    tenantFk('tables_outlet_fk', t, t.outletId, outlets).onDelete('cascade'),
+  ],
+);
+
+export const sales = pgTable(
+  'sales',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    number: text('number'),
+    status: text('status').notNull().default('open'), // open | completed | void
+    source: text('source').notNull().default('pos'), // pos | online
+    orderType: text('order_type').notNull().default('dine_in'),
+    tableId: uuid('table_id'),
+    customerId: uuid('customer_id'),
+    cashierId: uuid('cashier_id'),
+    currency: text('currency').notNull(),
+    subtotal: money('subtotal').notNull().default(0),
+    discount: money('discount').notNull().default(0),
+    serviceCharge: money('service_charge').notNull().default(0),
+    tax: money('tax').notNull().default(0),
+    deliveryFee: money('delivery_fee').notNull().default(0),
+    pointsDiscount: money('points_discount').notNull().default(0),
+    total: money('total').notNull().default(0),
+    paidAmount: money('paid_amount').notNull().default(0),
+    changeAmount: money('change_amount').notNull().default(0),
+    balanceDue: money('balance_due').notNull().default(0),
+    pointsRedeemed: integer('points_redeemed').notNull().default(0),
+    pointsEarned: integer('points_earned').notNull().default(0),
+    note: text('note').notNull().default(''),
+    delivery: jsonb('delivery').$type<{ address: string; phone: string } | null>(),
+    onlineCustomer: jsonb('online_customer').$type<{ name: string; phone: string; tableName?: string } | null>(),
+    voidReason: text('void_reason'),
+    voidedBy: uuid('voided_by'),
+    voidedAt: ts('voided_at'),
+    completedAt: ts('completed_at'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    unique('sales_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('sales_business_number_uq')
+      .on(t.businessId, t.number)
+      .where(sql`${t.number} IS NOT NULL`),
+    index('sales_business_created_idx').on(t.businessId, t.createdAt),
+    index('sales_business_status_idx').on(t.businessId, t.status),
+    index('sales_business_customer_idx').on(t.businessId, t.customerId),
+    tenantFk('sales_outlet_fk', t, t.outletId, outlets),
+    tenantFk('sales_customer_fk', t, t.customerId, customers),
+    tenantFk('sales_table_fk', t, t.tableId, diningTables).onDelete('set null'),
+  ],
+);
+
+export const saleItems = pgTable(
+  'sale_items',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    saleId: uuid('sale_id').notNull(),
+    productId: uuid('product_id'),
+    categoryId: uuid('category_id'),
+    nameSnapshot: text('name_snapshot').notNull(),
+    skuSnapshot: text('sku_snapshot').notNull().default(''),
+    quantity: qty('quantity').notNull(),
+    unitPrice: money('unit_price').notNull(),
+    options: jsonb('options').$type<{ group: string; choice: string; price: number }[]>().notNull().default([]),
+    discount: money('discount').notNull().default(0),
+    taxRate: numeric('tax_rate', { precision: 6, scale: 3, mode: 'number' }).notNull().default(0),
+    tax: money('tax').notNull().default(0),
+    total: money('total').notNull(),
+    costPrice: money('cost_price').notNull().default(0),
+    note: text('note').notNull().default(''),
+    sendToKitchen: boolean('send_to_kitchen').notNull().default(true),
+  },
+  (t) => [
+    index('sale_items_sale_idx').on(t.saleId),
+    index('sale_items_business_product_idx').on(t.businessId, t.productId),
+    tenantFk('sale_items_sale_fk', t, t.saleId, sales).onDelete('cascade'),
+  ],
+);
+
+export const kitchenOrders = pgTable(
+  'kitchen_orders',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    saleId: uuid('sale_id').notNull(),
+    ticketNumber: integer('ticket_number').notNull(),
+    status: text('status').notNull().default('new'),
+    orderType: text('order_type').notNull(),
+    tableName: text('table_name'),
+    station: text('station').notNull().default(''),
+    priority: integer('priority').notNull().default(0),
+    items: jsonb('items').$type<{ name: string; quantity: number; options: string[]; note: string }[]>().notNull(),
+    note: text('note').notNull().default(''),
+    createdAt: createdAt(),
+    startedAt: ts('started_at'),
+    readyAt: ts('ready_at'),
+    completedAt: ts('completed_at'),
+  },
+  (t) => [
+    index('kitchen_orders_outlet_status_idx').on(t.businessId, t.outletId, t.status, t.createdAt),
+    tenantFk('kitchen_orders_sale_fk', t, t.saleId, sales).onDelete('cascade'),
+  ],
+);
+
+export const quotations = pgTable(
+  'quotations',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id'),
+    number: text('number').notNull(),
+    customerId: uuid('customer_id').notNull(),
+    quotationDate: text('quotation_date').notNull(),
+    validUntil: text('valid_until').notNull(),
+    salespersonId: uuid('salesperson_id'),
+    status: text('status').notNull().default('draft'),
+    language: text('language'),
+    notes: text('notes').notNull().default(''),
+    terms: text('terms').notNull().default(''),
+    currency: text('currency').notNull(),
+    subtotal: money('subtotal').notNull().default(0),
+    discount: money('discount').notNull().default(0),
+    orderDiscount: money('order_discount').notNull().default(0),
+    serviceCharge: money('service_charge').notNull().default(0),
+    tax: money('tax').notNull().default(0),
+    total: money('total').notNull().default(0),
+    taxConfig: jsonb('tax_config').notNull(),
+    createdBy: uuid('created_by'),
+    updatedBy: uuid('updated_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    unique('quotations_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('quotations_business_number_uq').on(t.businessId, t.number),
+    index('quotations_business_status_idx').on(t.businessId, t.status),
+    index('quotations_business_customer_idx').on(t.businessId, t.customerId),
+    tenantFk('quotations_customer_fk', t, t.customerId, customers),
+  ],
+);
+
+export const quotationItems = pgTable(
+  'quotation_items',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    quotationId: uuid('quotation_id').notNull(),
+    position: integer('position').notNull(),
+    productId: uuid('product_id'),
+    itemNameSnapshot: text('item_name_snapshot').notNull(),
+    description: text('description').notNull().default(''),
+    quantity: qty('quantity').notNull(),
+    unit: text('unit').notNull().default('pcs'),
+    unitPrice: money('unit_price').notNull(),
+    discount: money('discount').notNull().default(0),
+    taxRate: numeric('tax_rate', { precision: 6, scale: 3, mode: 'number' }),
+    tax: money('tax').notNull().default(0),
+    total: money('total').notNull(),
+  },
+  (t) => [index('quotation_items_q_idx').on(t.quotationId), tenantFk('quotation_items_q_fk', t, t.quotationId, quotations).onDelete('cascade')],
+);
+
+export const invoices = pgTable(
+  'invoices',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id'),
+    number: text('number').notNull(),
+    customerId: uuid('customer_id').notNull(),
+    invoiceDate: text('invoice_date').notNull(),
+    dueDate: text('due_date').notNull(),
+    salespersonId: uuid('salesperson_id'),
+    status: text('status').notNull().default('draft'),
+    sourceQuotationId: uuid('source_quotation_id'),
+    language: text('language'),
+    notes: text('notes').notNull().default(''),
+    terms: text('terms').notNull().default(''),
+    currency: text('currency').notNull(),
+    subtotal: money('subtotal').notNull().default(0),
+    discount: money('discount').notNull().default(0),
+    orderDiscount: money('order_discount').notNull().default(0),
+    serviceCharge: money('service_charge').notNull().default(0),
+    tax: money('tax').notNull().default(0),
+    total: money('total').notNull().default(0),
+    paidAmount: money('paid_amount').notNull().default(0),
+    balanceDue: money('balance_due').notNull().default(0),
+    taxConfig: jsonb('tax_config').notNull(),
+    voidReason: text('void_reason'),
+    issuedAt: ts('issued_at'),
+    createdBy: uuid('created_by'),
+    updatedBy: uuid('updated_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    unique('invoices_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('invoices_business_number_uq').on(t.businessId, t.number),
+    uniqueIndex('invoices_source_quotation_uq')
+      .on(t.sourceQuotationId)
+      .where(sql`${t.sourceQuotationId} IS NOT NULL`),
+    index('invoices_business_status_idx').on(t.businessId, t.status),
+    index('invoices_business_customer_idx').on(t.businessId, t.customerId),
+    tenantFk('invoices_customer_fk', t, t.customerId, customers),
+  ],
+);
+
+export const invoiceItems = pgTable(
+  'invoice_items',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    invoiceId: uuid('invoice_id').notNull(),
+    position: integer('position').notNull(),
+    productId: uuid('product_id'),
+    itemNameSnapshot: text('item_name_snapshot').notNull(),
+    description: text('description').notNull().default(''),
+    quantity: qty('quantity').notNull(),
+    unit: text('unit').notNull().default('pcs'),
+    unitPrice: money('unit_price').notNull(),
+    discount: money('discount').notNull().default(0),
+    taxRate: numeric('tax_rate', { precision: 6, scale: 3, mode: 'number' }),
+    tax: money('tax').notNull().default(0),
+    total: money('total').notNull(),
+  },
+  (t) => [index('invoice_items_i_idx').on(t.invoiceId), tenantFk('invoice_items_i_fk', t, t.invoiceId, invoices).onDelete('cascade')],
+);
+
+/** One payments table for POS sales, credit payments and invoice payments (single financial ledger). */
+export const payments = pgTable(
+  'payments',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id'),
+    customerId: uuid('customer_id'),
+    saleId: uuid('sale_id'),
+    invoiceId: uuid('invoice_id'),
+    bookingId: uuid('booking_id'),
+    kind: text('kind').notNull(), // sale | credit_payment | invoice | booking
+    method: text('method').notNull(),
+    amount: money('amount').notNull(),
+    reference: text('reference').notNull().default(''),
+    notes: text('notes').notNull().default(''),
+    receivedBy: uuid('received_by'),
+    paidAt: ts('paid_at').notNull().defaultNow(),
+    voidedAt: ts('voided_at'),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('payments_business_paid_idx').on(t.businessId, t.paidAt),
+    index('payments_sale_idx').on(t.saleId),
+    index('payments_invoice_idx').on(t.invoiceId),
+    index('payments_business_customer_idx').on(t.businessId, t.customerId),
+    tenantFk('payments_sale_fk', t, t.saleId, sales).onDelete('cascade'),
+    tenantFk('payments_invoice_fk', t, t.invoiceId, invoices).onDelete('cascade'),
+    tenantFk('payments_customer_fk', t, t.customerId, customers),
+  ],
+);
+
+export const suppliers = pgTable(
+  'suppliers',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    phone: text('phone').notNull().default(''),
+    email: text('email').notNull().default(''),
+    address: text('address').notNull().default(''),
+    notes: text('notes').notNull().default(''),
+    isActive: boolean('is_active').notNull().default(true),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [unique('suppliers_business_id_uq').on(t.businessId, t.id), index('suppliers_business_name_idx').on(t.businessId, t.name)],
+);
+
+export const purchases = pgTable(
+  'purchases',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    supplierId: uuid('supplier_id').notNull(),
+    number: text('number').notNull(),
+    purchaseDate: text('purchase_date').notNull(),
+    status: text('status').notNull().default('draft'), // draft | received | cancelled
+    paymentStatus: text('payment_status').notNull().default('unpaid'),
+    total: money('total').notNull().default(0),
+    paidAmount: money('paid_amount').notNull().default(0),
+    reference: text('reference').notNull().default(''),
+    notes: text('notes').notNull().default(''),
+    receivedAt: ts('received_at'),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    unique('purchases_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('purchases_business_number_uq').on(t.businessId, t.number),
+    index('purchases_business_supplier_idx').on(t.businessId, t.supplierId),
+    tenantFk('purchases_supplier_fk', t, t.supplierId, suppliers),
+    tenantFk('purchases_outlet_fk', t, t.outletId, outlets),
+  ],
+);
+
+export const purchaseItems = pgTable(
+  'purchase_items',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    purchaseId: uuid('purchase_id').notNull(),
+    productId: uuid('product_id').notNull(),
+    nameSnapshot: text('name_snapshot').notNull(),
+    quantity: qty('quantity').notNull(),
+    unitCost: money('unit_cost').notNull(),
+    total: money('total').notNull(),
+  },
+  (t) => [
+    index('purchase_items_p_idx').on(t.purchaseId),
+    tenantFk('purchase_items_p_fk', t, t.purchaseId, purchases).onDelete('cascade'),
+    tenantFk('purchase_items_product_fk', t, t.productId, products),
+  ],
+);
+
+export const expenses = pgTable(
+  'expenses',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    category: text('category').notNull(),
+    amount: money('amount').notNull(),
+    expenseDate: text('expense_date').notNull(),
+    paymentMethod: text('payment_method').notNull(),
+    payee: text('payee').notNull().default(''),
+    reference: text('reference').notNull().default(''),
+    notes: text('notes').notNull().default(''),
+    attachmentPath: text('attachment_path'),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    unique('expenses_business_id_uq').on(t.businessId, t.id),
+    index('expenses_business_date_idx').on(t.businessId, t.expenseDate),
+    tenantFk('expenses_outlet_fk', t, t.outletId, outlets),
+  ],
+);
+
+export const stockTransfers = pgTable(
+  'stock_transfers',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    fromOutletId: uuid('from_outlet_id').notNull(),
+    toOutletId: uuid('to_outlet_id').notNull(),
+    items: jsonb('items').$type<{ productId: string; name: string; quantity: number }[]>().notNull(),
+    notes: text('notes').notNull().default(''),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('stock_transfers_business_idx').on(t.businessId, t.createdAt),
+    tenantFk('stock_transfers_from_fk', t, t.fromOutletId, outlets),
+    tenantFk('stock_transfers_to_fk', t, t.toOutletId, outlets),
+  ],
+);
+
+export const karaokeRooms = pgTable(
+  'karaoke_rooms',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    name: text('name').notNull(),
+    capacity: integer('capacity').notNull(),
+    hourlyRate: money('hourly_rate').notNull(),
+    isActive: boolean('is_active').notNull().default(true),
+    notes: text('notes').notNull().default(''),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [unique('karaoke_rooms_business_id_uq').on(t.businessId, t.id), tenantFk('karaoke_rooms_outlet_fk', t, t.outletId, outlets)],
+);
+
+export const karaokeBookings = pgTable(
+  'karaoke_bookings',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    roomId: uuid('room_id').notNull(),
+    customerId: uuid('customer_id'),
+    customerName: text('customer_name').notNull(),
+    customerPhone: text('customer_phone').notNull().default(''),
+    startAt: ts('start_at').notNull(),
+    endAt: ts('end_at').notNull(),
+    hourlyRate: money('hourly_rate').notNull(),
+    total: money('total').notNull(),
+    deposit: money('deposit').notNull().default(0),
+    paidAmount: money('paid_amount').notNull().default(0),
+    status: text('status').notNull().default('booked'),
+    notes: text('notes').notNull().default(''),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    index('karaoke_bookings_room_time_idx').on(t.roomId, t.startAt),
+    tenantFk('karaoke_bookings_room_fk', t, t.roomId, karaokeRooms).onDelete('cascade'),
+    tenantFk('karaoke_bookings_customer_fk', t, t.customerId, customers),
+  ],
+);
+
+export const reservations = pgTable(
+  'reservations',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    tableId: uuid('table_id'),
+    customerName: text('customer_name').notNull(),
+    phone: text('phone').notNull().default(''),
+    partySize: integer('party_size').notNull(),
+    reservedAt: ts('reserved_at').notNull(),
+    durationMinutes: integer('duration_minutes').notNull().default(90),
+    status: text('status').notNull().default('booked'),
+    notes: text('notes').notNull().default(''),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    index('reservations_outlet_time_idx').on(t.businessId, t.outletId, t.reservedAt),
+    tenantFk('reservations_table_fk', t, t.tableId, diningTables).onDelete('set null'),
+  ],
+);
+
+export const loyaltyTransactions = pgTable(
+  'loyalty_transactions',
+  {
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    businessId: uuid('business_id').notNull(),
+    customerId: uuid('customer_id').notNull(),
+    points: integer('points').notNull(),
+    balanceAfter: integer('balance_after').notNull(),
+    reason: text('reason').notNull(),
+    saleId: uuid('sale_id'),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+  },
+  (t) => [index('loyalty_tx_customer_idx').on(t.businessId, t.customerId, t.createdAt), tenantFk('loyalty_tx_customer_fk', t, t.customerId, customers).onDelete('cascade')],
+);
+
+export const notifications = pgTable(
+  'notifications',
+  {
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    businessId: uuid('business_id').notNull(),
+    userId: uuid('user_id').notNull(),
+    key: text('key').notNull(),
+    params: jsonb('params').notNull().default({}),
+    link: text('link'),
+    readAt: ts('read_at'),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('notifications_user_idx').on(t.userId, t.readAt, t.createdAt),
+    foreignKey({ columns: [t.businessId, t.userId], foreignColumns: [users.businessId, users.id], name: 'notifications_user_fk' }).onDelete('cascade'),
   ],
 );

@@ -109,6 +109,24 @@ export const PERMISSIONS = [
 
   p('outlets.view', 'settings', 'multi_outlet'),
   p('outlets.manage', 'settings', 'multi_outlet'),
+
+  p('payments.view', 'sales'),
+
+  // Add-on features: gated by their add-on (module is core so the plan never blocks a granted add-on).
+  p('karaoke.view', 'addons', 'karaoke'),
+  p('karaoke.manage', 'addons', 'karaoke'),
+  p('reservations.view', 'addons', 'reservations'),
+  p('reservations.manage', 'addons', 'reservations'),
+  p('delivery.manage', 'addons', 'delivery'),
+  p('qr_menu.manage', 'addons', 'qr_menu'),
+  p('online_orders.manage', 'addons', 'online_ordering'),
+  p('loyalty.view', 'addons', 'loyalty'),
+  p('loyalty.manage', 'addons', 'loyalty'),
+  p('recipes.view', 'addons', 'recipes'),
+  p('recipes.manage', 'addons', 'recipes'),
+  p('costing.view', 'addons', 'ingredient_costing'),
+  p('transfers.manage', 'addons', 'advanced_inventory'),
+  p('stations.manage', 'addons', 'advanced_kitchen'),
 ] as const satisfies readonly PermissionDef[];
 
 export type PermissionKey = (typeof PERMISSIONS)[number]['key'];
@@ -159,7 +177,25 @@ export const SYSTEM_ROLE_TEMPLATES: Record<SystemRoleKey, readonly PermissionKey
     'invoices.create',
     'invoices.print',
   ],
-  cashier: ['dashboard.view', 'pos.access', 'sales.view', 'sales.create', 'customers.view', 'customers.create', 'invoices.payment'],
+  cashier: [
+    'dashboard.view',
+    'pos.access',
+    'sales.view',
+    'sales.create',
+    'customers.view',
+    'customers.create',
+    'invoices.payment',
+    'payments.view',
+    'credit.view',
+    'credit.create',
+    'credit.payment',
+    'tables.view',
+    'delivery.manage',
+    'online_orders.manage',
+    'loyalty.view',
+    'karaoke.view',
+    'reservations.view',
+  ],
   kitchen_staff: ['dashboard.view', 'kitchen.view', 'kitchen.manage'],
-  waiter: ['dashboard.view', 'pos.access', 'sales.view', 'sales.create', 'tables.view', 'kitchen.view', 'customers.view'],
+  waiter: ['dashboard.view', 'pos.access', 'sales.view', 'sales.create', 'tables.view', 'kitchen.view', 'customers.view', 'reservations.view', 'reservations.manage'],
 };

@@ -10,6 +10,7 @@ import { Storage } from './lib/storage';
 import type { AppDeps } from './types';
 import { businessRoutes } from './routes/business';
 import { superAdminRoutes } from './routes/superadmin';
+import { publicRoutes } from './routes/public';
 import './types';
 
 export interface BuildOptions {
@@ -29,6 +30,10 @@ const UNIQUE_CONSTRAINT_CODES: Record<string, AppError['code']> = {
   outlets_business_name_uq: 'outlet_name_taken',
   plans_code_uq: 'code_taken',
   addons_code_uq: 'code_taken',
+  products_business_sku_uq: 'sku_taken',
+  categories_business_name_uq: 'category_name_taken',
+  tables_outlet_name_uq: 'table_name_taken',
+  invoices_source_quotation_uq: 'already_converted',
 };
 
 export async function buildApp(opts: BuildOptions): Promise<FastifyInstance> {
@@ -94,6 +99,7 @@ export async function buildApp(opts: BuildOptions): Promise<FastifyInstance> {
   const authRateLimit = opts.authRateLimit ?? (config.RATE_LIMIT_DISABLED ? 1_000_000 : 10);
   await app.register(superAdminRoutes, { prefix: '/api/superadmin', authRateLimit });
   await app.register(businessRoutes, { prefix: '/api', authRateLimit });
+  await app.register(publicRoutes, { prefix: '/api/public', authRateLimit });
 
   return app;
 }

@@ -74,6 +74,24 @@ export const settingsSectionSchemas = {
     footer: shortText(500),
     language: z.enum(LANGUAGE_CODES).nullable(),
   }),
+  pos: z.object({
+    defaultOrderType: z.enum(['dine_in', 'takeaway', 'delivery']),
+    allowNegativeStock: z.boolean(),
+    sendToKitchen: z.boolean(),
+    requireTableForDineIn: z.boolean(),
+    maxDiscountPercent: z.number().min(0).max(100),
+  }),
+  loyalty: z.object({
+    pointsPerUnit: z.number().min(0).max(1000),
+    pointValue: z.number().min(0).max(1_000_000),
+    minRedeemPoints: z.number().int().min(0).max(1_000_000),
+  }),
+  online: z.object({
+    menuEnabled: z.boolean(),
+    ordersEnabled: z.boolean(),
+    showPrices: z.boolean(),
+    message: shortText(500),
+  }),
 } as const;
 
 export type SettingsSection = keyof typeof settingsSectionSchemas;
@@ -90,6 +108,9 @@ export const SETTINGS_SECTION_PERMISSIONS: Record<SettingsSection, { view: strin
   receipt: { view: 'settings.view', manage: 'settings.manage' },
   invoice: { view: 'invoice_settings.view', manage: 'invoice_settings.manage' },
   quotation: { view: 'quotation_settings.view', manage: 'quotation_settings.manage' },
+  pos: { view: 'settings.view', manage: 'settings.manage' },
+  loyalty: { view: 'loyalty.view', manage: 'loyalty.manage' },
+  online: { view: 'qr_menu.manage', manage: 'qr_menu.manage' },
 };
 
 export function defaultBusinessSettings(opts: { currency?: string; timezone?: string } = {}): BusinessSettings {
@@ -137,6 +158,9 @@ export function defaultBusinessSettings(opts: { currency?: string; timezone?: st
       footer: '',
       language: null,
     },
+    pos: { defaultOrderType: 'dine_in', allowNegativeStock: true, sendToKitchen: true, requireTableForDineIn: false, maxDiscountPercent: 100 },
+    loyalty: { pointsPerUnit: 1, pointValue: 1, minRedeemPoints: 100 },
+    online: { menuEnabled: true, ordersEnabled: false, showPrices: true, message: '' },
   };
 }
 

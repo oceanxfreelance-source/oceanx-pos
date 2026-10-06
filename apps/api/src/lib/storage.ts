@@ -10,6 +10,12 @@ export const IMAGE_TYPES = {
 } as const;
 export type ImageType = keyof typeof IMAGE_TYPES;
 
+export function contentTypeFor(rel: string): string {
+  const ext = rel.split('.').pop();
+  if (ext === 'pdf') return 'application/pdf';
+  return Object.entries(IMAGE_TYPES).find(([, d]) => d.ext === ext)?.[0] ?? 'application/octet-stream';
+}
+
 /** Verify the file content really is the declared image type (never trust the client's content-type). */
 export function detectImage(buf: Buffer): ImageType | null {
   for (const [type, def] of Object.entries(IMAGE_TYPES) as [ImageType, (typeof IMAGE_TYPES)[ImageType]][]) {
@@ -43,6 +49,17 @@ export class Storage {
     await mkdir(path.dirname(full), { recursive: true });
     await writeFile(full, buf, { mode: 0o640 });
     return { rel, type };
+  }
+
+  /** Images or PDF (e.g. expense receipts). */
+  async saveBusinessDocument(businessId: string, kind: string, buf: Buffer): Promise<{ rel: string; type: string }> {
+    const isPdf = buf.subarray(0, 5).toString('latin1') === '%PDF-';
+    if (!isPdf) return this.saveBusinessImage(businessId, kind, buf);
+    const rel = path.posix.join('businesses', businessId, `${kind}-${randomToken(9)}.pdf`);
+    const full = this.resolve(rel);
+    await mkdir(path.dirname(full), { recursive: true });
+    await writeFile(full, buf, { mode: 0o640 });
+    return { rel, type: 'application/pdf' };
   }
 
   async read(rel: string): Promise<Buffer> {
