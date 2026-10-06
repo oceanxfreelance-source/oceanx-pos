@@ -943,5 +943,89 @@
     "suggested": "POS އާއި QR މެނޫގައި ދައްކާނެ. ފޯނު ނުވަތަ ކެމެރާގެ ކޮންމެ ފޮޓޯއެއް ވެސް ބޭނުންކުރެވޭނެ؛ ސައިޒު އަމިއްލައަށް ހަމަޖެހޭނެ.",
     "status": "needs_review",
     "notes": "New help text under the product photo picker; confirm natural wording."
+  },
+  {
+    "key": "print.statement",
+    "english": "Statement of account",
+    "suggested": "ހިސާބުގެ ސްޓޭޓްމަންޓް",
+    "status": "needs_review",
+    "notes": "Uses the loanword ސްޓޭޓްމަންޓް (as in credit.statement). Native alternative: ހިސާބު ބަޔާން. Confirm which reads better as a PDF title."
+  },
+  {
+    "key": "print.opening_balance",
+    "english": "Opening balance",
+    "suggested": "ފެށިގެންދާ ބާކީ",
+    "status": "needs_review",
+    "notes": "ބާކީ as in credit.balance. Alternatives: ފެށުނު ބާކީ, އޯޕަނިންގ ބެލެންސް (loanword used by some accountants)."
+  },
+  {
+    "key": "print.closing_balance",
+    "english": "Closing balance",
+    "suggested": "ނިމިގެންދާ ބާކީ",
+    "status": "needs_review",
+    "notes": "Alternatives: ނިމުނު ބާކީ, ކްލޯޒިންގ ބެލެންސް. Keep parallel with print.opening_balance."
+  },
+  {
+    "key": "print.charges",
+    "english": "Charges",
+    "suggested": "ޗާޖުތައް",
+    "status": "needs_review",
+    "notes": "Loanword consistent with ސަރވިސް ޗާޖު. These are debits (credit sales/invoices) on the statement; alternative: ދަރަނި އިތުރުވުން or ޑެބިޓް (as in credit.debit)."
+  },
+  {
+    "key": "print.days_overdue",
+    "english": "Days overdue",
+    "suggested": "މުއްދަތު ފަހަނައެޅި ދުވަސް",
+    "status": "needs_review",
+    "notes": "Built on status_labels.overdue (މުއްދަތު ފަހަނައަޅާފައި), itself still needs_review. Alternative aligned with superadmin past_due: ލަސްވި ދުވަސް."
+  },
+  {
+    "key": "print.overdue_amount",
+    "english": "Overdue",
+    "suggested": "މުއްދަތު ފަހަނައަޅާފައި",
+    "status": "needs_review",
+    "notes": "Same as status_labels.overdue; used as an amount column header, so ފައިސާ ލަސްވެފައި might fit better."
+  },
+  {
+    "key": "print.total_outstanding",
+    "english": "Total outstanding",
+    "suggested": "ޖުމްލަ ބާކީ ދަރަނި",
+    "status": "needs_review",
+    "notes": "Follows credit.outstanding = ބާކީ ދަރަނި (needs_review there)."
+  },
+  {
+    "key": "print.payments",
+    "english": "Payments",
+    "suggested": "ދެއްކި ފައިސާ",
+    "status": "needs_review",
+    "notes": "Alternative: ލިބުނު ފައިސާ (customer-facing vs business view — this PDF goes to the customer, so 'paid' wording chosen)."
+  },
+  {
+    "key": "print.open_items",
+    "english": "Unpaid items",
+    "suggested": "ނުދައްކާ އައިޓަމްތައް",
+    "status": "needs_review",
+    "notes": "'Items' here means unpaid sales/invoices, not menu items. Alternative: ނުދައްކާ ބިލުތައް / ނުދައްކާ މުޢާމަލާތް."
+  },
+  {
+    "key": "print.pdf_failed",
+    "english": "Could not create the PDF. Try Print → Save as PDF instead.",
+    "suggested": "PDF ހެދޭނެ ނުވި. އޭގެ ބަދަލުގައި ޕްރިންޓް → PDF ގެ ގޮތުގައި ސޭވްކުރޭ ބޭނުންކޮށްލާ.",
+    "status": "needs_review",
+    "notes": "'Save as PDF' is a browser dialog label that will likely appear in English; consider keeping it in Latin ('Save as PDF')."
+  },
+  {
+    "key": "reports.rows_count_other",
+    "english": "{{count}} rows",
+    "suggested": "{{count}} ރޯ",
+    "status": "needs_review",
+    "notes": "Loanword ރޯ (row). Dhivehi has no plural inflection after numerals; alternative: {{count}} ލައިން."
+  },
+  {
+    "key": "credit.all_time",
+    "english": "All time",
+    "suggested": "ހުރިހާ މުއްދަތެއް",
+    "status": "needs_review",
+    "notes": "Date-range preset; alternative: ފެށުނީއްސުރެ."
   }
 ]

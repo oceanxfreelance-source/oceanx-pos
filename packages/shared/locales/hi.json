@@ -1096,7 +1096,12 @@
       "credit_sale": "उधार बिक्री",
       "invoice": "इनवॉइस",
       "credit_payment": "भुगतान प्राप्त"
-    }
+    },
+    "this_month": "इस महीने",
+    "last_month": "पिछले महीने",
+    "last_90_days": "पिछले 90 दिन",
+    "all_time": "अब तक का सब",
+    "statement_pdf": "स्टेटमेंट PDF"
   },
   "loyalty": {
     "title": "लॉयल्टी",
@@ -1381,7 +1386,26 @@
     "notes": "नोट्स",
     "terms": "नियम और शर्तें",
     "tax_number": "{{tax}} नंबर",
-    "thank_you": "धन्यवाद!"
+    "thank_you": "धन्यवाद!",
+    "download_pdf": "PDF डाउनलोड करें",
+    "pdf_failed": "PDF नहीं बन सका। इसके बजाय प्रिंट करें → PDF के रूप में सेव करें आज़माएँ।",
+    "statement": "खाता विवरण",
+    "period": "अवधि",
+    "beginning": "शुरुआत",
+    "generated_on": "बनाया गया",
+    "opening_balance": "प्रारंभिक शेष",
+    "closing_balance": "अंतिम शेष",
+    "charges": "शुल्क",
+    "payments": "भुगतान",
+    "balance": "शेष",
+    "description": "विवरण",
+    "no_activity": "इस अवधि में कोई लेन-देन नहीं।",
+    "open_items": "अदत्त आइटम",
+    "nothing_due": "कुछ भी बकाया नहीं है। धन्यवाद!",
+    "days_overdue": "अतिदेय दिन",
+    "total_outstanding": "कुल बकाया",
+    "overdue_amount": "अतिदेय",
+    "statement_note": "यदि इस विवरण में कुछ भी गलत लगे तो कृपया हमसे संपर्क करें।"
   },
   "inventory": {
     "title": "इन्वेंटरी",
@@ -1596,7 +1620,10 @@
       "creditSales": "उधार बिक्री",
       "creditPayments": "उधार भुगतान",
       "outstanding": "बकाया"
-    }
+    },
+    "download_pdf": "PDF डाउनलोड करें",
+    "rows_count_one": "{{count}} पंक्ति",
+    "rows_count_other": "{{count}} पंक्तियाँ"
   },
   "karaoke": {
     "title": "कराओके",

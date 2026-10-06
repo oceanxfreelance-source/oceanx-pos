@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 112 · **confirmed**: 23
+Status: **needs_review**: 124 · **confirmed**: 23
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -17,6 +17,7 @@ review of the whole file is still recommended before launch.
 | `addons.names.credit` | Credit / Customer Due | ކްރެޑިޓް / ކަސްޓަމަރުގެ ދަރަނި | needs_review | Business terminology decision: ދަރަނި (debt) vs ކްރެޑިޓް. Spec requires 'Credit Sale / Customer Due / Outstanding Balance / Credit Payment' wording — please confirm Dhivehi equivalents before Phase 4. |
 | `common.reset` | Reset | ފުރަތަމަ ހާލަތަށް | needs_review | Used on settings forms to discard unsaved edits. Alternative: ރީސެޓް. |
 | `common.showing_range` | Showing {{from}}–{{to}} of {{total}} | {{total}} އިން {{from}}–{{to}} ދައްކަނީ | needs_review | Word order with numbers in RTL — please check it reads naturally. |
+| `credit.all_time` | All time | ހުރިހާ މުއްދަތެއް | needs_review | Date-range preset; alternative: ފެށުނީއްސުރެ. |
 | `credit.available` | Available credit | ލިބެން ހުރި ކްރެޑިޓް | needs_review | ލިބެން ހުރި ކްރެޑިޓް; alternative: ބޭނުންކުރެވޭ ކްރެޑިޓް. |
 | `credit.balance` | Balance | ބާކީ | needs_review | Running ledger balance as ބާކީ. Same word is used for 'remaining' in POS; confirm no confusion. |
 | `credit.balance_due` | Balance due | ދައްކަންޖެހޭ ބާކީ | needs_review | ދައްކަންޖެހޭ ބާކީ. Alternative: ދައްކަން ބާކީ އަދަދު. |
@@ -76,9 +77,19 @@ review of the whole file is still recommended before launch.
 | `pos.redeem_points` | Redeem points (available: {{points}}) | ޕޮއިންޓް ބޭނުންކުރޭ (ލިބެން ހުރި: {{points}}) | needs_review | 'Redeem' rendered as ބޭނުންކުރޭ (use). Alternative: ބަދަލުކޮށްލާ / ރިޑީމްކުރޭ. |
 | `print.bill_to` | Bill to | ބިލު ފޮނުވާ ފަރާތް | needs_review | 'Bill to' → ބިލު ފޮނުވާ ފަރާތް; alternative: ބިލު ދޫކުރާ ފަރާތް / ކަސްޓަމަރު. |
 | `print.change` | Change | އަނބުރާ ދިން ފައިސާ | needs_review | Cash change as އަނބުރާ ދިން ފައިސާ; alternative: ބާކީ ފައިސާ (but ބާކީ is used for balance). |
+| `print.charges` | Charges | ޗާޖުތައް | needs_review | Loanword consistent with ސަރވިސް ޗާޖު. These are debits (credit sales/invoices) on the statement; alternative: ދަރަނި އިތުރުވުން or ޑެބިޓް (as in credit.debit). |
+| `print.closing_balance` | Closing balance | ނިމިގެންދާ ބާކީ | needs_review | Alternatives: ނިމުނު ބާކީ, ކްލޯޒިންގ ބެލެންސް. Keep parallel with print.opening_balance. |
+| `print.days_overdue` | Days overdue | މުއްދަތު ފަހަނައެޅި ދުވަސް | needs_review | Built on status_labels.overdue (މުއްދަތު ފަހަނައަޅާފައި), itself still needs_review. Alternative aligned with superadmin past_due: ލަސްވި ދުވަސް. |
 | `print.invoice` | Invoice | އިންވޮއިސް | needs_review | އިންވޮއިސް — reused; still open in existing review (modules.invoices). |
+| `print.open_items` | Unpaid items | ނުދައްކާ އައިޓަމްތައް | needs_review | 'Items' here means unpaid sales/invoices, not menu items. Alternative: ނުދައްކާ ބިލުތައް / ނުދައްކާ މުޢާމަލާތް. |
+| `print.opening_balance` | Opening balance | ފެށިގެންދާ ބާކީ | needs_review | ބާކީ as in credit.balance. Alternatives: ފެށުނު ބާކީ, އޯޕަނިންގ ބެލެންސް (loanword used by some accountants). |
+| `print.overdue_amount` | Overdue | މުއްދަތު ފަހަނައަޅާފައި | needs_review | Same as status_labels.overdue; used as an amount column header, so ފައިސާ ލަސްވެފައި might fit better. |
+| `print.payments` | Payments | ދެއްކި ފައިސާ | needs_review | Alternative: ލިބުނު ފައިސާ (customer-facing vs business view — this PDF goes to the customer, so 'paid' wording chosen). |
+| `print.pdf_failed` | Could not create the PDF. Try Print → Save as PDF instead. | PDF ހެދޭނެ ނުވި. އޭގެ ބަދަލުގައި ޕްރިންޓް → PDF ގެ ގޮތުގައި ސޭވްކުރޭ ބޭނުންކޮށްލާ. | needs_review | 'Save as PDF' is a browser dialog label that will likely appear in English; consider keeping it in Latin ('Save as PDF'). |
 | `print.prepared_for` | Prepared for | ތައްޔާރުކުރީ | needs_review | Rendered as ތައްޔާރުކުރީ (prepared for — name follows). Alternative: މި ފަރާތަށް ތައްޔާރުކުރީ. Check layout with name. |
 | `print.quotation` | Quotation | ކޮޓޭޝަން | needs_review | ކޮޓޭޝަން — reused; still open in existing review (modules.quotations). |
+| `print.statement` | Statement of account | ހިސާބުގެ ސްޓޭޓްމަންޓް | needs_review | Uses the loanword ސްޓޭޓްމަންޓް (as in credit.statement). Native alternative: ހިސާބު ބަޔާން. Confirm which reads better as a PDF title. |
+| `print.total_outstanding` | Total outstanding | ޖުމްލަ ބާކީ ދަރަނި | needs_review | Follows credit.outstanding = ބާކީ ދަރަނި (needs_review there). |
 | `products.cost_price` | Cost price | ކޮސްޓް އަގު | needs_review | ކޮސްޓް އަގު (loanword). Alternative: ގަތް އަގު (purchase price). |
 | `products.item` | Item | އައިޓަމް | needs_review | 'Item' as loanword އައިޓަމް across the file. Existing dv.json uses ޕްރޮޑަކްޓްސް for products and ތަކެތި for goods; alternatives: ބާވަތް, ތަކެތި. Confirm. |
 | `products.min_stock` | Low-stock alert at | ސްޓޮކް މަދުވާ އެލާޓް | needs_review | 'Low-stock alert at' → ސްޓޮކް މަދުވާ އެލާޓް (threshold field label). Confirm. |
@@ -93,6 +104,7 @@ review of the whole file is still recommended before launch.
 | `reports.columns.gross` | Gross | ގްރޮސް | needs_review | Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން). |
 | `reports.columns.margin` | Margin | މާޖިން | needs_review | Loanword މާޖިން. Alternative: ފައިދާގެ މިންވަރު. |
 | `reports.export_csv` | Export CSV | CSV އެކްސްޕޯޓްކުރޭ | needs_review | ސީއެސްވީ transliteration. |
+| `reports.rows_count_other` | {{count}} rows | {{count}} ރޯ | needs_review | Loanword ރޯ (row). Dhivehi has no plural inflection after numerals; alternative: {{count}} ލައިން. |
 | `reports.summary.cogs` | Cost of goods | ވިއްކި ތަކެތީގެ ކޮސްޓް | needs_review | Cost of goods: ވިއްކި ތަކެތީގެ ކޮސްޓް. Confirm with accountant. |
 | `reports.summary.grossProfit` | Gross profit | ގްރޮސް ފައިދާ | needs_review | ގްރޮސް ފައިދާ (mixed loanword). Alternative: ޚަރަދު ކުރިން ފައިދާ. |
 | `reports.summary.netProfit` | Net profit | ނެޓް ފައިދާ | needs_review | ނެޓް ފައިދާ. Alternative: ޞާފު ފައިދާ. |

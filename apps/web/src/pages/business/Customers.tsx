@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Plus, Users } from 'lucide-react';
-import { api, ApiError } from '../../lib/api';
+import { FileDown, Plus, Printer, Users } from 'lucide-react';
+import { api, ApiError, qs } from '../../lib/api';
 import { useBiz } from '../../auth/business';
 import { useFormat } from '../../lib/format';
 import { parseAmount, useMoney } from '../../lib/money';
@@ -241,6 +241,11 @@ function CustomerProfile({ id, onClose, onEdit }: { id: string; onClose: () => v
                 {t('common.delete')}
               </Button>
             )}
+            {hasAddon('credit') && can('credit.view') && (
+              <Button variant="secondary" icon={<FileDown className="size-4" />} onClick={() => setTab('statement')}>
+                {t('credit.statement_pdf')}
+              </Button>
+            )}
             {hasAddon('credit') && can('credit.payment') && p.outstanding > 0 && <Button onClick={() => setPaying(true)}>{t('credit.receive_payment')}</Button>}
             {can('customers.edit') && (
               <Button variant="secondary" onClick={() => onEdit(p.customer)}>
@@ -331,42 +336,98 @@ function Row({ left, mid, sub, right, to }: { left: React.ReactNode; mid?: React
   return to ? <Link to={to}>{inner}</Link> : inner;
 }
 
+const isoDay = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
 function Statement({ id }: { id: string }) {
   const { t } = useTranslation();
   const money = useMoney();
   const f = useFormat();
+  const now = new Date();
+  const [from, setFrom] = useState(isoDay(new Date(now.getFullYear(), now.getMonth(), 1)));
+  const [to, setTo] = useState(isoDay(now));
+  const range = { from: from || undefined, to: to || undefined };
   const q = useQuery({
-    queryKey: ['biz', 'customer', id, 'statement'],
-    queryFn: () => api.get<{ entries: { date: string; kind: string; reference: string | null; debit: number; credit: number; balance: number }[]; balance: number }>(`/customers/${id}/statement`),
+    queryKey: ['biz', 'customer', id, 'statement', from, to],
+    queryFn: () =>
+      api.get<{
+        openingBalance: number;
+        closingBalance: number;
+        totals: { debit: number; credit: number };
+        outstanding: number;
+        overdue: number;
+        entries: { date: string; kind: string; reference: string | null; debit: number; credit: number; balance: number }[];
+      }>(`/customers/${id}/statement${qs(range)}`),
   });
-  if (!q.data) return <SkeletonRows rows={4} />;
-  if (!q.data.entries.length) return <p className="text-sm text-slate-400">{t('credit.statement_empty')}</p>;
+  const open = (download: boolean) => window.open(`/print/statement/${id}${qs({ ...range, download: download ? '1' : undefined })}`, '_blank', 'noopener');
+  const presets: [string, () => void][] = [
+    [t('credit.this_month'), () => (setFrom(isoDay(new Date(now.getFullYear(), now.getMonth(), 1))), setTo(isoDay(now)))],
+    [t('credit.last_month'), () => (setFrom(isoDay(new Date(now.getFullYear(), now.getMonth() - 1, 1))), setTo(isoDay(new Date(now.getFullYear(), now.getMonth(), 0))))],
+    [t('credit.last_90_days'), () => (setFrom(isoDay(new Date(now.getTime() - 89 * 86_400_000))), setTo(isoDay(now)))],
+    [t('credit.all_time'), () => (setFrom(''), setTo(isoDay(now)))],
+  ];
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead className="text-xs text-slate-500">
-          <tr>
-            <th className="py-2 text-start font-medium">{t('common.date')}</th>
-            <th className="py-2 text-start font-medium">{t('credit.entry')}</th>
-            <th className="py-2 text-end font-medium">{t('credit.debit')}</th>
-            <th className="py-2 text-end font-medium">{t('credit.credit')}</th>
-            <th className="py-2 text-end font-medium">{t('credit.balance')}</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-          {q.data.entries.map((e, i) => (
-            <tr key={i}>
-              <td className="py-2">{f.date(e.date)}</td>
-              <td className="py-2">
-                {t(`credit.kinds.${e.kind}`)} {e.reference && <Ltr className="text-slate-500">{e.reference}</Ltr>}
-              </td>
-              <td className="py-2 text-end tabular-nums">{e.debit ? money(e.debit) : ''}</td>
-              <td className="py-2 text-end tabular-nums">{e.credit ? money(e.credit) : ''}</td>
-              <td className="py-2 text-end font-medium tabular-nums">{money(e.balance)}</td>
-            </tr>
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-end gap-3 rounded-xl bg-slate-50 p-3 dark:bg-slate-800/40">
+        <Input type="date" label={t('common.from')} value={from} onChange={(e) => setFrom(e.target.value)} />
+        <Input type="date" label={t('common.to')} value={to} onChange={(e) => setTo(e.target.value)} />
+        <div className="ms-auto flex flex-wrap gap-2">
+          <Button variant="secondary" icon={<Printer className="size-4" />} onClick={() => open(false)}>
+            {t('print.print')}
+          </Button>
+          <Button icon={<FileDown className="size-4" />} onClick={() => open(true)}>
+            {t('print.download_pdf')}
+          </Button>
+        </div>
+        <div className="flex w-full flex-wrap gap-1.5">
+          {presets.map(([label, fn]) => (
+            <button key={label} type="button" onClick={fn} className="rounded-full px-3 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200 hover:bg-white dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-900">
+              {label}
+            </button>
           ))}
-        </tbody>
-      </table>
+        </div>
+      </div>
+      {!q.data ? (
+        <SkeletonRows rows={4} />
+      ) : (
+        <>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <StatCard label={t('print.opening_balance')} value={money(q.data.openingBalance)} />
+            <StatCard label={t('print.charges')} value={money(q.data.totals.debit)} />
+            <StatCard label={t('print.payments')} value={money(q.data.totals.credit)} />
+            <StatCard label={t('print.closing_balance')} value={money(q.data.closingBalance)} tone={q.data.overdue > 0 ? 'red' : 'blue'} hint={q.data.overdue > 0 ? `${t('status_labels.overdue')}: ${money(q.data.overdue)}` : undefined} />
+          </div>
+          {!q.data.entries.length ? (
+            <p className="text-sm text-slate-400">{t('credit.statement_empty')}</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="text-xs text-slate-500">
+                  <tr>
+                    <th className="py-2 text-start font-medium">{t('common.date')}</th>
+                    <th className="py-2 text-start font-medium">{t('credit.entry')}</th>
+                    <th className="py-2 text-end font-medium">{t('credit.debit')}</th>
+                    <th className="py-2 text-end font-medium">{t('credit.credit')}</th>
+                    <th className="py-2 text-end font-medium">{t('credit.balance')}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  {q.data.entries.map((e, i) => (
+                    <tr key={i}>
+                      <td className="py-2">{f.date(e.date)}</td>
+                      <td className="py-2">
+                        {t(`credit.kinds.${e.kind}`)} {e.reference && <Ltr className="text-slate-500">{e.reference}</Ltr>}
+                      </td>
+                      <td className="py-2 text-end tabular-nums">{e.debit ? money(e.debit) : ''}</td>
+                      <td className="py-2 text-end tabular-nums">{e.credit ? money(e.credit) : ''}</td>
+                      <td className="py-2 text-end font-medium tabular-nums">{money(e.balance)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

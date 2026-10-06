@@ -1096,7 +1096,12 @@
       "credit_sale": "Credit sale",
       "invoice": "Invoice",
       "credit_payment": "Payment received"
-    }
+    },
+    "this_month": "This month",
+    "last_month": "Last month",
+    "last_90_days": "Last 90 days",
+    "all_time": "All time",
+    "statement_pdf": "Statement PDF"
   },
   "loyalty": {
     "title": "Loyalty",
@@ -1381,7 +1386,26 @@
     "notes": "Notes",
     "terms": "Terms & conditions",
     "tax_number": "{{tax}} number",
-    "thank_you": "Thank you!"
+    "thank_you": "Thank you!",
+    "download_pdf": "Download PDF",
+    "pdf_failed": "Could not create the PDF. Try Print → Save as PDF instead.",
+    "statement": "Statement of account",
+    "period": "Period",
+    "beginning": "Beginning",
+    "generated_on": "Generated",
+    "opening_balance": "Opening balance",
+    "closing_balance": "Closing balance",
+    "charges": "Charges",
+    "payments": "Payments",
+    "balance": "Balance",
+    "description": "Description",
+    "no_activity": "No transactions in this period.",
+    "open_items": "Unpaid items",
+    "nothing_due": "Nothing is due. Thank you!",
+    "days_overdue": "Days overdue",
+    "total_outstanding": "Total outstanding",
+    "overdue_amount": "Overdue",
+    "statement_note": "Please contact us if anything in this statement looks incorrect."
   },
   "inventory": {
     "title": "Inventory",
@@ -1596,7 +1620,10 @@
       "creditSales": "Credit sales",
       "creditPayments": "Credit payments",
       "outstanding": "Outstanding"
-    }
+    },
+    "download_pdf": "Download PDF",
+    "rows_count_one": "{{count}} row",
+    "rows_count_other": "{{count}} rows"
   },
   "karaoke": {
     "title": "Karaoke",

@@ -1,4 +1,5 @@
 import type { FastifyInstance } from 'fastify';
+import { z } from 'zod';
 import { and, asc, count, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
 import { customerSchema, loyaltyAdjustSchema, paginationQuerySchema, toMinor } from '@oceanx/shared';
 import { customers, invoices, loyaltyTransactions, payments, quotations, sales } from '../../db/schema';
@@ -6,9 +7,18 @@ import { bizCtx, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
 import { idParam } from '../../lib/params';
-import { actor, own } from '../../lib/tenant';
+import { actor, businessToday, own } from '../../lib/tenant';
+import { loadBusinessSettings } from '../../services/settings';
 import { parse } from '../../lib/validation';
 import { lockCustomer, outstandingFor } from '../../services/ops/customers';
+
+const statementQuery = z.object({ from: z.iso.date().optional(), to: z.iso.date().optional() });
+const addDays = (iso: string, n: number) => {
+  const d = new Date(`${iso}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+};
+const daysBetween = (a: string, b: string) => Math.round((Date.parse(`${b}T12:00:00Z`) - Date.parse(`${a}T12:00:00Z`)) / 86_400_000);
 
 export async function customerRoutes(app: FastifyInstance) {
   const { db } = app.deps;
@@ -156,29 +166,80 @@ export async function customerRoutes(app: FastifyInstance) {
     };
   });
 
-  /** Statement: chronological debits (credit sales, invoices) and credits (payments) with running balance. */
+  /**
+   * Statement of account for a period: opening balance, chronological debits (credit sales, invoices)
+   * and credits (payments) with running balance, closing balance, and the open (unpaid) items with
+   * their age. Dates are calendar days in the business time zone. Used on screen and for the PDF.
+   */
   app.get('/customers/:id/statement', { preHandler: requirePermission('credit.view') }, async (req) => {
     const ctx = bizCtx(req);
     const id = idParam(req);
-    const [c] = await db.select({ id: customers.id, name: customers.name }).from(customers).where(own(customers, ctx, id));
+    const q = parse(statementQuery, req.query);
+    if (q.from && q.to && q.from > q.to) throw new AppError('validation_failed', 'Invalid range', { fields: { to: { code: 'invalid' } } });
+    const [c] = await db.select().from(customers).where(own(customers, ctx, id));
     if (!c) throw notFound();
+    const tz = ctx.access.business.timezone;
+    const ledger = sql`
+      SELECT completed_at AS date, 'credit_sale' AS kind, number AS ref, (total - paid_amount + change_amount) AS debit, 0 AS credit
+        FROM sales WHERE business_id = ${ctx.businessId} AND customer_id = ${id} AND status = 'completed' AND (total - paid_amount + change_amount) > 0
+      UNION ALL
+      SELECT COALESCE(issued_at, created_at), 'invoice', number, total, 0
+        FROM invoices WHERE business_id = ${ctx.businessId} AND customer_id = ${id} AND status IN ('issued','partially_paid','paid')
+      UNION ALL
+      SELECT paid_at, kind, reference, 0, amount
+        FROM payments WHERE business_id = ${ctx.businessId} AND customer_id = ${id} AND voided_at IS NULL AND kind IN ('credit_payment','invoice')`;
+    const day = sql`(l.date AT TIME ZONE ${tz})::date`;
+    const [opening] = q.from
+      ? (await db.execute<{ bal: string }>(sql`SELECT COALESCE(SUM(l.debit - l.credit), 0)::bigint AS bal FROM (${ledger}) l WHERE ${day} < ${q.from}::date`)).rows
+      : [{ bal: '0' }];
     const rows = await db.execute<{ date: string; kind: string; ref: string | null; debit: string; credit: string }>(sql`
-      SELECT * FROM (
-        SELECT completed_at AS date, 'credit_sale' AS kind, number AS ref, (total - paid_amount + change_amount) AS debit, 0 AS credit
-          FROM sales WHERE business_id = ${ctx.businessId} AND customer_id = ${id} AND status = 'completed' AND (total - paid_amount + change_amount) > 0
-        UNION ALL
-        SELECT COALESCE(issued_at, created_at), 'invoice', number, total, 0
-          FROM invoices WHERE business_id = ${ctx.businessId} AND customer_id = ${id} AND status IN ('issued','partially_paid','paid')
-        UNION ALL
-        SELECT paid_at, kind, reference, 0, amount
-          FROM payments WHERE business_id = ${ctx.businessId} AND customer_id = ${id} AND voided_at IS NULL AND kind IN ('credit_payment','invoice')
-      ) s ORDER BY date ASC LIMIT 1000`);
-    let balance = 0;
+      SELECT l.* FROM (${ledger}) l
+      WHERE ${q.from ? sql`${day} >= ${q.from}::date` : sql`TRUE`} AND ${q.to ? sql`${day} <= ${q.to}::date` : sql`TRUE`}
+      ORDER BY l.date ASC LIMIT 5000`);
+    const openingBalance = Number(opening?.bal ?? 0);
+    let balance = openingBalance;
+    let totalDebit = 0;
+    let totalCredit = 0;
     const entries = rows.rows.map((r) => {
-      balance += Number(r.debit) - Number(r.credit);
-      return { date: r.date, kind: r.kind, reference: r.ref, debit: Number(r.debit), credit: Number(r.credit), balance };
+      const debit = Number(r.debit);
+      const credit = Number(r.credit);
+      totalDebit += debit;
+      totalCredit += credit;
+      balance += debit - credit;
+      return { date: r.date, kind: r.kind, reference: r.ref, debit, credit, balance };
     });
-    return { customer: c, entries, balance };
+    const today = businessToday(tz);
+    const openItems = (
+      await db.execute<{ kind: string; ref: string | null; date: string; due_date: string | null; total: string; due: string }>(sql`
+        SELECT 'credit_sale' AS kind, number AS ref, (completed_at AT TIME ZONE ${tz})::date::text AS date, NULL AS due_date, total, balance_due AS due
+          FROM sales WHERE business_id = ${ctx.businessId} AND customer_id = ${id} AND status = 'completed' AND balance_due > 0
+        UNION ALL
+        SELECT 'invoice', number, invoice_date::text, due_date::text, total, balance_due
+          FROM invoices WHERE business_id = ${ctx.businessId} AND customer_id = ${id} AND status IN ('issued','partially_paid') AND balance_due > 0
+        ORDER BY 3 ASC`)
+    ).rows.map((r) => {
+      const dueOn = r.due_date ?? (c.creditDays != null ? addDays(r.date, c.creditDays) : r.date);
+      return { kind: r.kind, reference: r.ref, date: r.date, dueDate: dueOn, total: Number(r.total), due: Number(r.due), daysOverdue: Math.max(0, daysBetween(dueOn, today)) };
+    });
+    const settings = await loadBusinessSettings(db, ctx.businessId);
+    const b = ctx.access.business;
+    return {
+      customer: { id: c.id, name: c.name, company: c.company, phone: c.phone, email: c.email, address: c.address, taxNumber: c.taxNumber, creditLimit: c.creditLimit, creditDays: c.creditDays },
+      period: { from: q.from ?? null, to: q.to ?? today },
+      openingBalance,
+      entries,
+      totals: { debit: totalDebit, credit: totalCredit },
+      closingBalance: balance,
+      openItems,
+      outstanding: openItems.reduce((a, i) => a + i.due, 0),
+      overdue: openItems.filter((i) => i.daysOverdue > 0).reduce((a, i) => a + i.due, 0),
+      // Kept for older clients.
+      balance,
+      business: { name: b.name, address: b.address, phone: b.phone, email: b.email, hasLogo: !!b.logoPath },
+      settings: { regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber } },
+      documentLanguage: settings.regional.documentLanguage,
+      generatedAt: new Date().toISOString(),
+    };
   });
 
   // ---------------------------------------------------------------- loyalty (add-on)

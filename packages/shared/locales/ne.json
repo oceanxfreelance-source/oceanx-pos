@@ -1096,7 +1096,12 @@
       "credit_sale": "उधारो बिक्री",
       "invoice": "इनभ्वाइस",
       "credit_payment": "भुक्तानी प्राप्त"
-    }
+    },
+    "this_month": "यो महिना",
+    "last_month": "गत महिना",
+    "last_90_days": "पछिल्ला 90 दिन",
+    "all_time": "सबै समय",
+    "statement_pdf": "विवरण PDF"
   },
   "loyalty": {
     "title": "लोयल्टी",
@@ -1381,7 +1386,26 @@
     "notes": "टिप्पणी",
     "terms": "नियम र सर्तहरू",
     "tax_number": "{{tax}} नम्बर",
-    "thank_you": "धन्यवाद!"
+    "thank_you": "धन्यवाद!",
+    "download_pdf": "PDF डाउनलोड गर्नुहोस्",
+    "pdf_failed": "PDF बनाउन सकिएन। बरु प्रिन्ट → PDF को रूपमा सेभ गर्नुहोस् प्रयोग गर्नुहोस्।",
+    "statement": "खाता विवरण",
+    "period": "अवधि",
+    "beginning": "सुरुवात",
+    "generated_on": "तयार गरिएको",
+    "opening_balance": "सुरु मौज्दात",
+    "closing_balance": "अन्तिम मौज्दात",
+    "charges": "शुल्क",
+    "payments": "भुक्तानी",
+    "balance": "मौज्दात",
+    "description": "विवरण",
+    "no_activity": "यस अवधिमा कुनै कारोबार छैन।",
+    "open_items": "भुक्तानी बाँकी आइटम",
+    "nothing_due": "तिर्न बाँकी केही छैन। धन्यवाद!",
+    "days_overdue": "म्याद नाघेको दिन",
+    "total_outstanding": "कुल बाँकी",
+    "overdue_amount": "म्याद नाघेको",
+    "statement_note": "यस विवरणमा केही गलत देखिएमा कृपया हामीलाई सम्पर्क गर्नुहोस्।"
   },
   "inventory": {
     "title": "इन्भेन्टरी",
@@ -1596,7 +1620,10 @@
       "creditSales": "उधारो बिक्री",
       "creditPayments": "उधारो भुक्तानी",
       "outstanding": "बाँकी"
-    }
+    },
+    "download_pdf": "PDF डाउनलोड गर्नुहोस्",
+    "rows_count_one": "{{count}} पङ्क्ति",
+    "rows_count_other": "{{count}} पङ्क्तिहरू"
   },
   "karaoke": {
     "title": "कराओके",

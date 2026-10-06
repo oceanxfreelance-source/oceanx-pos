@@ -3,14 +3,14 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import type { TFunction } from 'i18next';
-import { Printer, X } from 'lucide-react';
 import { isLanguageCode } from '@oceanx/shared';
 import i18n, { ensureLoaded } from '../../i18n';
 import { api } from '../../lib/api';
 import { useErrorMessage } from '../../lib/useApiError';
 import { Alert, SkeletonRows } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
 import { DocumentView, type DocData } from '../../components/DocumentView';
+import { pdfName } from '../../lib/pdf';
+import { PrintFrame } from './PrintFrame';
 
 type Kind = 'receipt' | 'invoice' | 'quotation';
 
@@ -98,29 +98,18 @@ export default function PrintPage() {
     if (q.data) document.title = `${q.data.sale?.number ?? q.data.invoice?.number ?? q.data.quotation?.number ?? ''}`;
   }, [q.data]);
 
+  const number = q.data?.sale?.number ?? q.data?.invoice?.number ?? q.data?.quotation?.number ?? kind;
   return (
-    <div className="min-h-screen bg-slate-100 py-6 print:bg-white print:py-0">
-      <div className="mx-auto mb-4 flex max-w-[210mm] justify-end gap-2 px-4 print:hidden">
-        <Button variant="secondary" icon={<X className="size-4" />} onClick={() => window.close()}>
-          {uiT('common.close')}
-        </Button>
-        <Button icon={<Printer className="size-4" />} onClick={() => window.print()} disabled={!docT}>
-          {uiT('print.print')}
-        </Button>
-      </div>
+    <PrintFrame ready={!!q.data && !!docT} filename={pdfName(number, q.data?.customer?.name)} width={kind === 'receipt' && q.data?.settings?.receipt?.paperWidth !== 'a4' ? '120mm' : '210mm'}>
       {q.error ? (
-        <div className="mx-auto max-w-md">
+        <div className="p-6">
           <Alert tone="red">{errMsg(q.error)}</Alert>
         </div>
       ) : !q.data || !docT ? (
-        <div className="mx-auto max-w-[210mm]">
-          <SkeletonRows rows={8} />
-        </div>
+        <SkeletonRows rows={8} />
       ) : (
-        <div className="shadow-sm print:shadow-none">
-          <DocumentView doc={toDoc(kind!, q.data, docT)} t={docT} />
-        </div>
+        <DocumentView doc={toDoc(kind!, q.data, docT)} t={docT} />
       )}
-    </div>
+    </PrintFrame>
   );
 }

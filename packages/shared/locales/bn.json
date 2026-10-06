@@ -1096,7 +1096,12 @@
       "credit_sale": "বাকিতে বিক্রি",
       "invoice": "ইনভয়েস",
       "credit_payment": "পেমেন্ট গৃহীত"
-    }
+    },
+    "this_month": "এই মাস",
+    "last_month": "গত মাস",
+    "last_90_days": "গত 90 দিন",
+    "all_time": "সব সময়",
+    "statement_pdf": "স্টেটমেন্ট PDF"
   },
   "loyalty": {
     "title": "লয়্যালটি",
@@ -1381,7 +1386,26 @@
     "notes": "নোট",
     "terms": "শর্তাবলি",
     "tax_number": "{{tax}} নম্বর",
-    "thank_you": "ধন্যবাদ!"
+    "thank_you": "ধন্যবাদ!",
+    "download_pdf": "PDF ডাউনলোড করুন",
+    "pdf_failed": "PDF তৈরি করা যায়নি। এর বদলে প্রিন্ট → PDF হিসেবে সেভ করুন চেষ্টা করুন।",
+    "statement": "হিসাবের স্টেটমেন্ট",
+    "period": "সময়কাল",
+    "beginning": "শুরু",
+    "generated_on": "তৈরি হয়েছে",
+    "opening_balance": "প্রারম্ভিক ব্যালেন্স",
+    "closing_balance": "সমাপনী ব্যালেন্স",
+    "charges": "চার্জ",
+    "payments": "পেমেন্ট",
+    "balance": "ব্যালেন্স",
+    "description": "বিবরণ",
+    "no_activity": "এই সময়ে কোনো লেনদেন নেই।",
+    "open_items": "অপরিশোধিত আইটেম",
+    "nothing_due": "কিছুই বকেয়া নেই। ধন্যবাদ!",
+    "days_overdue": "মেয়াদোত্তীর্ণ দিন",
+    "total_outstanding": "মোট বকেয়া",
+    "overdue_amount": "মেয়াদ পেরিয়েছে",
+    "statement_note": "এই স্টেটমেন্টে কিছু ভুল মনে হলে অনুগ্রহ করে আমাদের সাথে যোগাযোগ করুন।"
   },
   "inventory": {
     "title": "স্টক",
@@ -1596,7 +1620,10 @@
       "creditSales": "বাকিতে বিক্রি",
       "creditPayments": "বাকির পেমেন্ট",
       "outstanding": "বকেয়া"
-    }
+    },
+    "download_pdf": "PDF ডাউনলোড করুন",
+    "rows_count_one": "{{count}}টি সারি",
+    "rows_count_other": "{{count}}টি সারি"
   },
   "karaoke": {
     "title": "কারাওকে",

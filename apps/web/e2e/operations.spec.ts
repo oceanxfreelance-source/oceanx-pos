@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { SA_EMAIL, SA_PASSWORD } from './global-setup';
 
 const SHOTS = 'e2e/screenshots';
 const OWNER = { email: 'owner@reef.test', password: 'Reef-Kitchen-123' };
@@ -171,5 +172,70 @@ test.describe.serial('OceanX operations', () => {
     await page.getByRole('button', { name: 'Appearance' }).click();
     await page.getByRole('menuitem', { name: 'Light' }).click();
     await expect(page.locator('html')).not.toHaveClass(/dark/);
+  });
+
+  test('manager downloads a customer due statement and a report as PDF', async ({ page, browser }) => {
+    // Super Admin grants the credit add-on to Reef Kitchen.
+    const sa = await browser.newContext();
+    const sap = await sa.newPage();
+    await sap.goto('/superadmin/login');
+    await sap.getByLabel('Email').fill(SA_EMAIL);
+    await sap.getByLabel('Password').fill(SA_PASSWORD);
+    await sap.getByRole('button', { name: 'Sign in' }).click();
+    await expect(sap.getByRole('heading', { name: 'Platform dashboard' })).toBeVisible();
+    const csrf = await sap.evaluate(async () => (await (await fetch('/api/superadmin/auth/session')).json()).csrfToken as string);
+    const biz = await sap.evaluate(async () => (await (await fetch('/api/superadmin/businesses?q=Reef')).json()).items[0].id as string);
+    const granted = await sap.evaluate(
+      async ([id, token]) => (await fetch(`/api/superadmin/businesses/${id}/addons/credit/grant`, { method: 'POST', headers: { 'x-csrf-token': token!, 'content-type': 'application/json' }, body: '{}' })).status,
+      [biz, csrf],
+    );
+    expect([200, 201, 409]).toContain(granted);
+    await sa.close();
+
+    await login(page);
+    // A sale on credit for Aishath creates a due.
+    const customers = await page.request.get('/api/customers?q=Aishath');
+    const customerId = (await customers.json()).items[0].id as string;
+    const catalog = await (await page.request.get('/api/pos/catalog')).json();
+    const fish = catalog.products.find((p: { name: string }) => p.name === 'Grilled Reef Fish');
+    const session = await (await page.request.get('/api/auth/session')).json();
+    const sale = await page.request.post('/api/pos/orders', {
+      headers: { 'x-csrf-token': session.csrfToken },
+      data: { customerId, orderType: 'takeaway', items: [{ productId: fish.id, quantity: 1 }], payments: [{ method: 'credit', amount: 120 }] },
+    });
+    expect(sale.status()).toBe(201);
+
+    // Statement tab → Download PDF for the selected dates.
+    await page.goto('/customers');
+    await page.getByRole('table').getByText('Aishath Shifa').click();
+    await page.getByRole('tab', { name: 'Statement' }).click();
+    await expect(page.getByText('Closing balance').first()).toBeVisible();
+    const popupPromise = page.waitForEvent('popup');
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    const popup = await popupPromise;
+    const download = await popup.waitForEvent('download', { timeout: 30000 });
+    expect(download.suggestedFilename()).toMatch(/^statement_Aishath-Shifa_.*\.pdf$/);
+    const file = await download.path();
+    const { readFileSync } = await import('node:fs');
+    const pdf = readFileSync(file!);
+    expect(pdf.subarray(0, 5).toString()).toBe('%PDF-');
+    expect(pdf.length).toBeGreaterThan(10_000);
+    // Reef Kitchen prints customer documents in Dhivehi (set earlier): the statement follows the document language.
+    await expect(popup.locator('article')).toHaveAttribute('lang', 'dv');
+    await expect(popup.locator('article')).toHaveAttribute('dir', 'rtl');
+    await expect(popup.locator('article')).toContainText('120.00');
+    await popup.screenshot({ path: `${SHOTS}/statement-print.png`, fullPage: true });
+    await popup.close();
+
+    // Reports → Download PDF.
+    await page.goto('/reports');
+    await expect(page.getByRole('table')).toBeVisible();
+    const rp = page.waitForEvent('popup');
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    const reportTab = await rp;
+    const rd = await reportTab.waitForEvent('download', { timeout: 30000 });
+    expect(rd.suggestedFilename()).toMatch(/Daily-sales.*\.pdf$/);
+    expect(readFileSync((await rd.path())!).subarray(0, 5).toString()).toBe('%PDF-');
+    await reportTab.screenshot({ path: `${SHOTS}/report-print.png`, fullPage: true });
   });
 });

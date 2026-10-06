@@ -39,6 +39,8 @@ const Karaoke = lazy(() => import('./pages/business/AddonPages').then((m) => ({ 
 const Reservations = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.ReservationsPage })));
 const OnlineOrders = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.OnlineOrdersPage })));
 const PrintPage = lazy(() => import('./pages/print/PrintPage'));
+const StatementPrint = lazy(() => import('./pages/print/StatementPrint'));
+const ReportPrint = lazy(() => import('./pages/print/ReportPrint'));
 const PublicMenu = lazy(() => import('./pages/public/PublicMenu'));
 
 // Super Admin pages (separate chunk + separate auth context)
@@ -139,6 +141,8 @@ const router = createBrowserRouter([
         children: [
           { path: 'pos', element: withSuspense(<Pos />) },
           { path: 'kitchen', element: withSuspense(<Kitchen />) },
+          { path: 'print/statement/:id', element: withSuspense(<StatementPrint />) },
+          { path: 'print/report/:type', element: withSuspense(<ReportPrint />) },
           { path: 'print/:kind/:id', element: withSuspense(<PrintPage />) },
         ],
       },

@@ -204,6 +204,24 @@ describe('credit / customer due', () => {
     expect(sales.find((s: { id: string }) => s.id === s1.id).balanceDue).toBe(0); // oldest paid first
     const statement = (await owner.get(`/api/customers/${c.id}/statement`)).json();
     expect(statement.balance).toBe(8000);
+    expect(statement.closingBalance).toBe(8000);
+    expect(statement.totals).toEqual({ debit: 16000, credit: 8000 });
+    // Open items: the second credit sale still owes 80.00 (the first was paid off FIFO).
+    expect(statement.openItems).toHaveLength(1);
+    expect(statement.openItems[0].due).toBe(8000);
+    expect(statement.outstanding).toBe(8000);
+    // Date range: a period starting tomorrow carries everything as the opening balance.
+    const tomorrow = new Date(Date.now() + 2 * 86_400_000).toISOString().slice(0, 10);
+    const later = (await owner.get(`/api/customers/${c.id}/statement?from=${tomorrow}`)).json();
+    expect(later.openingBalance).toBe(8000);
+    expect(later.entries).toHaveLength(0);
+    expect(later.closingBalance).toBe(8000);
+    // A period that ended before any activity is empty.
+    const before = (await owner.get(`/api/customers/${c.id}/statement?from=2020-01-01&to=2020-01-31`)).json();
+    expect(before.openingBalance).toBe(0);
+    expect(before.entries).toHaveLength(0);
+    expect(before.closingBalance).toBe(0);
+    expect((await owner.get(`/api/customers/${c.id}/statement?from=2024-02-01&to=2024-01-01`)).json().error.code).toBe('validation_failed');
     // A sale with collected credit payments cannot be voided silently.
     expect((await owner.post(`/api/sales/${s1.id}/void`, { reason: 'test reason' })).json().error.code).toBe('invalid_status_transition');
   });

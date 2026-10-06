@@ -1096,7 +1096,12 @@
       "credit_sale": "ණය විකුණුම",
       "invoice": "ඉන්වොයිසිය",
       "credit_payment": "ලැබුණු ගෙවීම"
-    }
+    },
+    "this_month": "මෙම මාසය",
+    "last_month": "පසුගිය මාසය",
+    "last_90_days": "පසුගිය දින 90",
+    "all_time": "සියලු කාලය",
+    "statement_pdf": "ප්‍රකාශය PDF"
   },
   "loyalty": {
     "title": "පක්ෂපාතීත්වය",
@@ -1381,7 +1386,26 @@
     "notes": "සටහන්",
     "terms": "නියම සහ කොන්දේසි",
     "tax_number": "{{tax}} අංකය",
-    "thank_you": "ස්තූතියි!"
+    "thank_you": "ස්තූතියි!",
+    "download_pdf": "PDF බාගන්න",
+    "pdf_failed": "PDF සෑදීමට නොහැකි විය. ඒ වෙනුවට මුද්‍රණය → PDF ලෙස සුරකින්න උත්සාහ කරන්න.",
+    "statement": "ගිණුම් ප්‍රකාශය",
+    "period": "කාල සීමාව",
+    "beginning": "ආරම්භය",
+    "generated_on": "සකස් කළේ",
+    "opening_balance": "ආරම්භක ශේෂය",
+    "closing_balance": "අවසාන ශේෂය",
+    "charges": "ගාස්තු",
+    "payments": "ගෙවීම්",
+    "balance": "ශේෂය",
+    "description": "විස්තරය",
+    "no_activity": "මෙම කාල සීමාවේ ගනුදෙනු නැත.",
+    "open_items": "නොගෙවූ අයිතම",
+    "nothing_due": "ගෙවිය යුතු කිසිවක් නැත. ස්තූතියි!",
+    "days_overdue": "කල් ඉකුත් වූ දින",
+    "total_outstanding": "මුළු හිඟ මුදල",
+    "overdue_amount": "කල් ඉකුත් වූ ගෙවීම",
+    "statement_note": "මෙම ප්‍රකාශයේ කිසිවක් වැරදි බව පෙනේ නම් කරුණාකර අප අමතන්න."
   },
   "inventory": {
     "title": "තොග",
@@ -1596,7 +1620,10 @@
       "creditSales": "ණය විකුණුම්",
       "creditPayments": "ණය ගෙවීම්",
       "outstanding": "හිඟ මුදල"
-    }
+    },
+    "download_pdf": "PDF බාගන්න",
+    "rows_count_one": "පේළි {{count}}",
+    "rows_count_other": "පේළි {{count}}"
   },
   "karaoke": {
     "title": "කැරෝකේ",

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
-import { BarChart3, Download } from 'lucide-react';
+import { BarChart3, Download, FileDown } from 'lucide-react';
 import { api, qs } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
 import { useFormat } from '../../lib/format';
@@ -12,7 +12,7 @@ import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Form';
 
 /** Report types and the extra permission (and add-on) each one needs, mirroring the API. */
-const REPORTS: { type: string; perm?: string; addon?: string }[] = [
+export const REPORTS: { type: string; perm?: string; addon?: string }[] = [
   { type: 'sales-summary' },
   { type: 'products' },
   { type: 'categories' },
@@ -29,7 +29,7 @@ const REPORTS: { type: string; perm?: string; addon?: string }[] = [
   { type: 'costing', perm: 'costing.view', addon: 'ingredient_costing' },
 ];
 
-const MONEY_COLS = new Set(['gross', 'discount', 'service_charge', 'tax', 'total', 'average', 'revenue', 'cost', 'margin', 'amount', 'unit_cost', 'value', 'spent', 'due', 'paid', 'outstanding', 'credit_limit', 'sales_due', 'invoice_due', 'price', 'recipe_cost']);
+export const MONEY_COLS = new Set(['gross', 'discount', 'service_charge', 'tax', 'total', 'average', 'revenue', 'cost', 'margin', 'amount', 'unit_cost', 'value', 'spent', 'due', 'paid', 'outstanding', 'credit_limit', 'sales_due', 'invoice_due', 'price', 'recipe_cost']);
 
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const daysAgo = (n: number) => {
@@ -37,6 +37,28 @@ const daysAgo = (n: number) => {
   d.setDate(d.getDate() - n);
   return iso(d);
 };
+
+/** Formats one report cell (money, dates, enums translated) — shared by the screen and the PDF. */
+export function useReportCell(type: string) {
+  const { t } = useTranslation();
+  const money = useMoney();
+  const f = useFormat();
+  return (key: string, v: unknown): React.ReactNode => {
+    if (v === null || v === undefined || v === '') return '—';
+    if (MONEY_COLS.has(key) && typeof v === 'number') return money(v);
+    if (key === 'day') return f.date(String(v));
+    if (key === 'method') return t(`payment_methods.${v}`);
+    if (key === 'kind') return t(`payments.kinds.${v}`);
+    if (key === 'status') return t(`status_labels.${v}`);
+    if (key === 'source') return t(`reports.sources.${v}`);
+    if (key === 'category' && type === 'expenses') return t(`expenses.categories.${v}`);
+    if (typeof v === 'number') return <Ltr>{f.number(v, Number.isInteger(v) ? 0 : 3)}</Ltr>;
+    return <span dir="auto">{String(v)}</span>;
+  };
+}
+
+/** Columns whose totals are meaningful (money columns except unit prices / averages / limits). */
+export const totalColumns = (cols: string[]) => cols.filter((c) => MONEY_COLS.has(c) && !['unit_cost', 'price', 'average', 'credit_limit'].includes(c));
 
 export default function ReportsPage() {
   const { t } = useTranslation();
@@ -60,21 +82,10 @@ export default function ReportsPage() {
     setFrom(daysAgo(days - 1));
     setTo(iso(new Date()));
   };
-  const cell = (key: string, v: unknown) => {
-    if (v === null || v === undefined || v === '') return '—';
-    if (MONEY_COLS.has(key) && typeof v === 'number') return money(v);
-    if (key === 'day') return f.date(String(v));
-    if (key === 'method') return t(`payment_methods.${v}`);
-    if (key === 'kind') return t(`payments.kinds.${v}`);
-    if (key === 'status') return t(`status_labels.${v}`);
-    if (key === 'source') return t(`reports.sources.${v}`);
-    if (key === 'category' && type === 'expenses') return t(`expenses.categories.${v}`);
-    if (typeof v === 'number') return <Ltr>{f.number(v, Number.isInteger(v) ? 0 : 3)}</Ltr>;
-    return <span dir="auto">{String(v)}</span>;
-  };
+  const cell = useReportCell(type);
   const rows = q.data?.rows ?? [];
   const cols = rows[0] ? Object.keys(rows[0]) : [];
-  const totals = cols.filter((c) => MONEY_COLS.has(c) && !['unit_cost', 'price', 'average', 'credit_limit'].includes(c));
+  const totals = totalColumns(cols);
   return (
     <div className="space-y-6">
       <PageHeader
@@ -82,11 +93,16 @@ export default function ReportsPage() {
         description={t('reports.subtitle')}
         actions={
           can('reports.export') && (
-            <a href={`/api/reports/${type}${qs({ ...params, format: 'csv' })}`} download>
-              <Button variant="secondary" icon={<Download className="size-4" />}>
-                {t('reports.export_csv')}
+            <div className="flex flex-wrap gap-2">
+              <Button icon={<FileDown className="size-4" />} onClick={() => window.open(`/print/report/${type}${qs({ ...params, download: '1' })}`, '_blank', 'noopener')}>
+                {t('reports.download_pdf')}
               </Button>
-            </a>
+              <a href={`/api/reports/${type}${qs({ ...params, format: 'csv' })}`} download>
+                <Button variant="secondary" icon={<Download className="size-4" />}>
+                  {t('reports.export_csv')}
+                </Button>
+              </a>
+            </div>
           )
         }
       />
