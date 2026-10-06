@@ -1,0 +1,125 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Faruma — the ONLY font used for Dhivehi. The files are not bundled
+ * (see public/fonts/README.md). No other Thaana font is substituted.
+ */
+@font-face {
+  font-family: 'Faruma';
+  src:
+    url('/fonts/Faruma.woff2') format('woff2'),
+    url('/fonts/Faruma.ttf') format('truetype');
+  font-display: swap;
+  unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2;
+}
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+
+  --color-brand-50: #eefbfd;
+  --color-brand-100: #d3f3f8;
+  --color-brand-200: #ace6f0;
+  --color-brand-300: #72d1e3;
+  --color-brand-400: #33b3cd;
+  --color-brand-500: #1797b3;
+  --color-brand-600: #157996;
+  --color-brand-700: #0b5f73;
+  --color-brand-800: #0f4f60;
+  --color-brand-900: #114252;
+  --color-brand-950: #062a37;
+
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
+
+  --animate-fade-in: fade-in 160ms ease-out;
+  --animate-pop-in: pop-in 180ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --animate-slide-in-start: slide-in-start 200ms ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes slide-in-start {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+  }
+  /* Dhivehi: Faruma for Thaana glyphs (unicode-range), system font for Latin/digits in mixed text. */
+  html[lang='dv'] body {
+    font-family: 'Faruma', var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  html[lang='dv'] .ltr-text,
+  html[lang='dv'] input[type='email'],
+  html[lang='dv'] input[type='tel'],
+  html[lang='dv'] input[type='number'] {
+    font-family: var(--font-sans);
+  }
+  /* Sinhala / Indic scripts need a little more line height for stacked vowel signs. */
+  html[lang='si'] body,
+  html[lang='hi'] body,
+  html[lang='bn'] body,
+  html[lang='ne'] body {
+    line-height: 1.65;
+  }
+  [dir='rtl'] .rtl-flip {
+    transform: scaleX(-1);
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+}
+
+/* Reduce Animations (user preference) and OS-level reduced motion. */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

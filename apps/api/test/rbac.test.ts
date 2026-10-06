@@ -68,6 +68,15 @@ describe('role permissions (server-side enforcement)', () => {
     expect(logs[0].metadata.removed).toEqual(['users.view']);
   });
 
+  it('users.create alone can read the role list (to assign roles) but not manage roles', async () => {
+    const { owner } = await setupBusiness(env, sa, 'Role List');
+    const role = (await owner.post('/api/roles', { name: 'Onboarder', permissions: ['dashboard.view', 'users.view', 'users.create'] })).json();
+    const { client } = await createStaff(env, owner, 'onb@rolelist.test', [role.id]);
+    expect((await client.get('/api/roles')).statusCode).toBe(200);
+    expect((await client.get('/api/permissions')).statusCode).toBe(403);
+    expect((await client.post('/api/roles', { name: 'Nope', permissions: [] })).statusCode).toBe(403);
+  });
+
   it('unknown permission keys are rejected', async () => {
     const { owner } = await setupBusiness(env, sa, 'Unknown Perm');
     const res = await owner.post('/api/roles', { name: 'Hacker', permissions: ['superadmin.everything'] });

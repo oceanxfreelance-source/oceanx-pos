@@ -1,0 +1,233 @@
+[
+  {
+    "key": "modules.invoices",
+    "english": "Invoices",
+    "suggested": "އިންވޮއިސް",
+    "status": "needs_review",
+    "notes": "Loanword used in Maldivian business. Alternative: ބިލު (but ބިލު is commonly a café/restaurant bill, which would clash with receipts). Business decision needed."
+  },
+  {
+    "key": "modules.quotations",
+    "english": "Quotations",
+    "suggested": "ކޮޓޭޝަން",
+    "status": "needs_review",
+    "notes": "Loanword. Alternative: އަގު ހުށަހެޅުން. Which do your salespeople and customers actually use?"
+  },
+  {
+    "key": "settings.tabs.receipt",
+    "english": "Receipts",
+    "suggested": "ރަސީދު",
+    "status": "confirmed",
+    "notes": "Standard term."
+  },
+  {
+    "key": "modules.sales",
+    "english": "Sales",
+    "suggested": "ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Alternative loanword: ސޭލްސް. ވިއްކުން reads naturally in reports; ސޭލްސް is common in POS UIs."
+  },
+  {
+    "key": "modules.inventory",
+    "english": "Inventory",
+    "suggested": "ސްޓޮކް",
+    "status": "needs_review",
+    "notes": "Alternatives: އިންވެންޓަރީ, ގުދަން (storeroom). Chose ސްޓޮކް as the everyday word in shops."
+  },
+  {
+    "key": "modules.purchases",
+    "english": "Purchases",
+    "suggested": "ގަތުން",
+    "status": "needs_review",
+    "notes": "Alternative loanword: ޕާޗޭސް."
+  },
+  {
+    "key": "nav.outlets",
+    "english": "Outlets",
+    "suggested": "އައުޓްލެޓްތައް",
+    "status": "needs_review",
+    "notes": "Alternatives: ބްރާންޗުތައް, ފިހާރަތައް. ބްރާންޗު may be clearer for multi-branch restaurants."
+  },
+  {
+    "key": "roles.title",
+    "english": "Roles & permissions",
+    "suggested": "ރޯލްތަކާއި ހުއްދަތައް",
+    "status": "needs_review",
+    "notes": "ހުއްދަ for 'permission' is natural Dhivehi; some staff may expect the loanword ޕަމިޝަން."
+  },
+  {
+    "key": "addons.names.credit",
+    "english": "Credit / Customer Due",
+    "suggested": "ކްރެޑިޓް / ކަސްޓަމަރުގެ ދަރަނި",
+    "status": "needs_review",
+    "notes": "Business terminology decision: ދަރަނި (debt) vs ކްރެޑިޓް. Spec requires 'Credit Sale / Customer Due / Outstanding Balance / Credit Payment' wording — please confirm Dhivehi equivalents before Phase 4."
+  },
+  {
+    "key": "perm.credit_create",
+    "english": "Make credit sales",
+    "suggested": "ދަރަންޏަށް ވިއްކާ",
+    "status": "needs_review",
+    "notes": "Depends on the credit terminology decision above."
+  },
+  {
+    "key": "perm.credit_view",
+    "english": "View customer due",
+    "suggested": "ކަސްޓަމަރުންގެ ދަރަނި ބަލާ",
+    "status": "needs_review",
+    "notes": "Depends on the credit terminology decision above."
+  },
+  {
+    "key": "roles.system.salesperson",
+    "english": "Salesperson",
+    "suggested": "ސޭލްސް ޕާސަން",
+    "status": "needs_review",
+    "notes": "Alternative: ވިއްކާ މުވައްޒަފު."
+  },
+  {
+    "key": "roles.system.business_admin",
+    "english": "Business Admin",
+    "suggested": "ބިޒްނަސް އެޑްމިން",
+    "status": "needs_review",
+    "notes": "Alternative: ވިޔަފާރީގެ އެޑްމިން."
+  },
+  {
+    "key": "roles.system.kitchen_staff",
+    "english": "Kitchen Staff",
+    "suggested": "ބަދިގޭގެ މުވައްޒަފު",
+    "status": "confirmed",
+    "notes": ""
+  },
+  {
+    "key": "roles.system.cashier",
+    "english": "Cashier",
+    "suggested": "ކެޝިއަރު",
+    "status": "confirmed",
+    "notes": ""
+  },
+  {
+    "key": "roles.system.waiter",
+    "english": "Waiter",
+    "suggested": "ވެއިޓަރު",
+    "status": "confirmed",
+    "notes": ""
+  },
+  {
+    "key": "users.owner",
+    "english": "Owner",
+    "suggested": "ވެރިފަރާތް",
+    "status": "confirmed",
+    "notes": ""
+  },
+  {
+    "key": "settings.service_charge_enabled",
+    "english": "Apply service charge",
+    "suggested": "ސަރވިސް ޗާޖު ނަގާ",
+    "status": "confirmed",
+    "notes": "ސަރވިސް ޗާޖު is the common term on Maldivian bills."
+  },
+  {
+    "key": "dashboard.good_afternoon",
+    "english": "Good afternoon",
+    "suggested": "މެންދުރު ފަހުގެ ސަލާމް",
+    "status": "needs_review",
+    "notes": "Time-of-day greetings are not idiomatic in Dhivehi. Option: always show އައްސަލާމު ޢަލައިކުމް."
+  },
+  {
+    "key": "dashboard.good_morning",
+    "english": "Good morning",
+    "suggested": "ހެނދުނުގެ ސަލާމް",
+    "status": "needs_review",
+    "notes": "See dashboard.good_afternoon."
+  },
+  {
+    "key": "dashboard.good_evening",
+    "english": "Good evening",
+    "suggested": "ހަވީރުގެ ސަލާމް",
+    "status": "needs_review",
+    "notes": "See dashboard.good_afternoon."
+  },
+  {
+    "key": "superadmin.status.suspended",
+    "english": "Suspended",
+    "suggested": "ހުއްޓާލާފައި",
+    "status": "needs_review",
+    "notes": "Alternative: ސަސްޕެންޑްކޮށްފައި."
+  },
+  {
+    "key": "status.pending_title",
+    "english": "Awaiting approval",
+    "suggested": "އެޕްރޫވަލަށް އިންތިޒާރުކުރަނީ",
+    "status": "needs_review",
+    "notes": "Alternative with native vocabulary: ހުއްދައަށް އިންތިޒާރުކުރަނީ."
+  },
+  {
+    "key": "nav.activity",
+    "english": "Activity log",
+    "suggested": "ހަރަކާތްތަކުގެ ލޮގް",
+    "status": "needs_review",
+    "notes": "Alternative: އޮޑިޓް ލޮގް."
+  },
+  {
+    "key": "account.reduce_animations",
+    "english": "Reduce animations",
+    "suggested": "އެނިމޭޝަން ކުޑަކުރޭ",
+    "status": "needs_review",
+    "notes": "Technical term; confirm users understand it."
+  },
+  {
+    "key": "account.theme_dark",
+    "english": "Dark",
+    "suggested": "އަނދިރި",
+    "status": "needs_review",
+    "notes": "Alternative loanword: ޑާކް މޯޑް."
+  },
+  {
+    "key": "superadmin.security.two_factor",
+    "english": "Two-factor authentication",
+    "suggested": "ދެ ފިޔަވަޅުގެ ވެރިފިކޭޝަން",
+    "status": "needs_review",
+    "notes": "Literal; '2FA' loanword may be clearer to admins."
+  },
+  {
+    "key": "superadmin.dashboard.mrr",
+    "english": "Monthly recurring revenue",
+    "suggested": "މަހުން މަހަށް ލިބޭ އާމްދަނީ",
+    "status": "needs_review",
+    "notes": "Financial term; confirm wording."
+  },
+  {
+    "key": "common.showing_range",
+    "english": "Showing {{from}}–{{to}} of {{total}}",
+    "suggested": "{{total}} އިން {{from}}–{{to}} ދައްކަނީ",
+    "status": "needs_review",
+    "notes": "Word order with numbers in RTL — please check it reads naturally."
+  },
+  {
+    "key": "common.reset",
+    "english": "Reset",
+    "suggested": "ފުރަތަމަ ހާލަތަށް",
+    "status": "needs_review",
+    "notes": "Used on settings forms to discard unsaved edits. Alternative: ރީސެޓް."
+  },
+  {
+    "key": "validation.too_many",
+    "english": "Select at most {{max}}.",
+    "suggested": "{{max}} އަށްވުރެ ގިނަ ނުހޮވާށެވެ.",
+    "status": "needs_review",
+    "notes": "Formal written ending; other messages use a polite conversational tone."
+  },
+  {
+    "key": "system.faruma_missing",
+    "english": "The Faruma font is not installed, so Dhivehi text may not display correctly.",
+    "suggested": "ފަރުމާ ފޮންޓް އިންސްޓޯލްކޮށްފައި ނުވާތީ ދިވެހި ލިޔުން ރަނގަޅަށް ނުފެނިދާނެ.",
+    "status": "confirmed",
+    "notes": ""
+  },
+  {
+    "key": "time.minutes_ago",
+    "english": "{{count}} minutes ago",
+    "suggested": "{{count}} މިނެޓު ކުރިން",
+    "status": "needs_review",
+    "notes": "Relative time phrasing used in lists (e.g. last sign-in). Confirm natural word order."
+  }
+]

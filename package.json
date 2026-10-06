@@ -2,7 +2,7 @@
   "name": "oceanx-pos",
   "private": true,
   "version": "0.1.0",
-  "description": "OceanX — multi-tenant Restaurant & Cafe Management SaaS",
+  "description": "OceanX \u2014 multi-tenant Restaurant & Cafe Management SaaS",
   "workspaces": [
     "packages/*",
     "apps/*"
@@ -17,7 +17,8 @@
     "db:migrate": "npm run db:migrate -w @oceanx/api",
     "db:seed": "npm run db:seed -w @oceanx/api",
     "superadmin:create": "npm run superadmin:create -w @oceanx/api",
-    "i18n:check": "npm run i18n:check -w @oceanx/shared"
+    "i18n:check": "npm run i18n:check -w @oceanx/shared",
+    "e2e": "npm run e2e -w @oceanx/web"
   },
   "engines": {
     "node": ">=20"

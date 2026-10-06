@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { adminSetPasswordSchema, createUserSchema, paginationQuerySchema, roleSchema, updateUserSchema } from '@oceanx/shared';
-import { bizCtx, requirePermission } from '../../guards/business';
+import { bizCtx, requireAnyPermission, requirePermission } from '../../guards/business';
 import { idParam } from '../../lib/params';
 import { parse } from '../../lib/validation';
 import { createRole, deleteRole, getRole, listRoles, permissionCatalog, updateRole } from '../../services/roles';
@@ -30,7 +30,10 @@ export async function userRoutes(app: FastifyInstance) {
     return { ok: true };
   });
 
-  app.get('/roles', { preHandler: requirePermission('roles.view') }, async (req) => ({ items: await listRoles(db, bizCtx(req)) }));
+  // People who can create/edit users need the role list to assign roles (read-only).
+  app.get('/roles', { preHandler: requireAnyPermission('roles.view', 'users.create', 'users.edit') }, async (req) => ({
+    items: await listRoles(db, bizCtx(req)),
+  }));
   app.get('/roles/:id', { preHandler: requirePermission('roles.view') }, async (req) => getRole(db, bizCtx(req), idParam(req)));
   app.post('/roles', { preHandler: requirePermission('roles.manage') }, async (req, reply) => {
     const role = await createRole(db, bizCtx(req), parse(roleSchema, req.body), req);
