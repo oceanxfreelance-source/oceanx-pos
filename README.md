@@ -4,8 +4,12 @@ Multi-tenant platform for restaurants, cafés, coffee shops, bakeries, fast food
 takeaways and other food businesses. One codebase and one data model; the business type only changes
 defaults, terminology and suggestions.
 
-> **Status: Phase 1 (platform foundation) is complete.** POS, menu, sales, documents and operations modules
-> are added in Phases 2–4 on top of this foundation. See [`docs/PHASE-1-REPORT.md`](docs/PHASE-1-REPORT.md).
+> **Status: Phases 1–6 are implemented.** That covers the platform foundation, menu, POS, sales, kitchen
+> display, customers and credit, quotations and invoices (with conversion and printing in the document
+> language), inventory, purchases, suppliers, expenses, add-ons (karaoke, reservations, QR menu, online ordering,
+> loyalty, recipes and costing, transfers), reports, notifications and six languages.
+> See [`docs/PHASE-1-REPORT.md`](docs/PHASE-1-REPORT.md) and [`docs/PHASES-2-6-REPORT.md`](docs/PHASES-2-6-REPORT.md)
+> for details and the known limitations. The Faruma font file is still required to finalize Dhivehi typography.
 
 ## Stack
 
@@ -97,6 +101,14 @@ npm run dev:web                              # http://localhost:5173  (proxies /
 
 There are no default credentials and no demo tenants. Create businesses from the Super Admin console, or
 self-register at `/register` (Super Admin → Settings → Self-registration: open / requires approval / closed).
+**Money and pricing.** Amounts are integer minor units. The server prices every POS order, quotation, invoice,
+booking and public QR-menu order from database prices with the shared `calculateTotals` (discount allocation,
+service charge, inclusive/exclusive tax). Client totals are never trusted. All money received is recorded in a
+single `payments` ledger, and customer balances are calculated from it.
+
+**Public QR menu.** `/menu/:slug` needs no login and only shows what the business publishes (QR-menu add-on +
+setting). Orders placed there are re-priced on the server and arrive under *Online orders* for staff to accept.
+
 In development, emails (invitations, password resets) are printed to the API log (`MAIL_TRANSPORT=log`).
 
 ## Tests
