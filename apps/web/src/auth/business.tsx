@@ -37,6 +37,8 @@ export interface BusinessSession {
   outlet: { id: string; name: string } | null;
   outlets: { id: string; name: string; isDefault: boolean }[];
   languages: { code: string; nativeName: string; direction: string; isDefault: boolean }[];
+  regional: { currencySymbol: string; currencyDecimals: number; dateFormat: string; timeFormat: string };
+  pos: { defaultOrderType: 'dine_in' | 'takeaway' | 'delivery'; allowNegativeStock: boolean; sendToKitchen: boolean; requireTableForDineIn: boolean; maxDiscountPercent: number };
 }
 
 export const BIZ_SESSION_KEY = ['biz', 'session'] as const;

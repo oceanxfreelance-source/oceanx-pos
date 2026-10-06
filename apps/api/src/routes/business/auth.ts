@@ -18,6 +18,7 @@ import { parse } from '../../lib/validation';
 import { authenticateBusiness, bizCtx } from '../../guards/business';
 import { loadBusinessAccess } from '../../services/access';
 import { getPlatformSettings } from '../../services/platformSettings';
+import { loadBusinessSettings } from '../../services/settings';
 import { provisionBusiness } from '../../services/provisioning';
 import { consumeUserToken, issueUserToken } from '../../services/tokens';
 import type { BusinessContext } from '../../types';
@@ -33,6 +34,7 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
   const assignedIds = new Set(assigned.map((a) => a.id));
   const accessibleOutlets = assignedIds.size ? all.filter((o) => assignedIds.has(o.id)) : all;
   const languages = await enabledLanguages(req);
+  const settings = await loadBusinessSettings(db, ctx.businessId);
   const b = ctx.access.business;
   return {
     csrfToken: ctx.csrfToken,
@@ -59,6 +61,13 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
     outlet: accessibleOutlets.find((o) => o.id === ctx.outletId) ?? null,
     outlets: accessibleOutlets,
     languages,
+    regional: {
+      currencySymbol: settings.regional.currencySymbol,
+      currencyDecimals: settings.regional.currencyDecimals,
+      dateFormat: settings.regional.dateFormat,
+      timeFormat: settings.regional.timeFormat,
+    },
+    pos: settings.pos,
   };
 }
 
