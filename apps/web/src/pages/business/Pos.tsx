@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
 import { ArrowLeft, CheckCircle2, ClipboardList, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, X } from 'lucide-react';
-import { ItemAvatar, tintFor } from '../../components/ItemAvatar';
+import { ItemAvatar, tintAt, tintFor } from '../../components/ItemAvatar';
 import type { OptionGroup } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
@@ -79,6 +79,8 @@ export default function PosPage() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   const catalog = useQuery({ queryKey: ['biz', 'pos', 'catalog'], queryFn: () => api.get<{ categories: { id: string; name: string }[]; products: PosProduct[] }>('/pos/catalog'), staleTime: 60_000 });
+  const catIndex = new Map((catalog.data?.categories ?? []).map((c, i) => [c.id, i]));
+  const catTint = (id: string | null) => (id && catIndex.has(id) ? tintAt(catIndex.get(id)!) : tintFor('uncategorised'));
   const tables = useQuery({ queryKey: ['biz', 'tables'], queryFn: () => api.get<{ items: Table[] }>('/tables'), enabled: hasModule('tables') });
   const openOrders = useQuery({ queryKey: ['biz', 'pos', 'open'], queryFn: () => api.get<{ items: OpenOrder[] }>('/pos/open-orders'), refetchInterval: 20_000 });
 
@@ -385,7 +387,7 @@ export default function PosPage() {
                   )}
                 >
                   <span className="flex items-center gap-2">
-                    {c.id !== 'all' && <span aria-hidden className={clsx('size-2 rounded-full', tintFor(c.id).bar)} />}
+                    {c.id !== 'all' && <span aria-hidden className={clsx('size-2 rounded-full', catTint(c.id).bar)} />}
                     <span dir="auto">{c.name}</span>
                   </span>
                 </button>
@@ -415,10 +417,10 @@ export default function PosPage() {
                         out && 'opacity-60',
                       )}
                     >
-                      <span aria-hidden className={clsx('h-1.5 w-full', tintFor(p.categoryId ?? p.name).bar)} />
+                      <span aria-hidden className={clsx('h-1.5 w-full', catTint(p.categoryId).bar)} />
                       <span className="flex flex-1 flex-col gap-2 p-3">
                         <span className="flex items-start gap-2.5">
-                          <ItemAvatar name={p.name} tintKey={p.categoryId ?? p.name} src={p.hasImage ? `/api/products/${p.id}/image` : null} className="size-11 text-sm" />
+                          <ItemAvatar name={p.name} tint={catTint(p.categoryId)} src={p.hasImage ? `/api/products/${p.id}/image` : null} className="size-11 text-sm" />
                           <span className="line-clamp-2 min-w-0 flex-1 pt-0.5 leading-snug font-medium" dir="auto">
                             {p.name}
                           </span>

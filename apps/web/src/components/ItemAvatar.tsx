@@ -12,6 +12,11 @@ const TINTS = [
   { bg: 'bg-fuchsia-100 dark:bg-fuchsia-950', fg: 'text-fuchsia-800 dark:text-fuchsia-200', bar: 'bg-fuchsia-400' },
 ] as const;
 
+/** Distinct tint by position (e.g. category order), so neighbouring categories never share a colour. */
+export function tintAt(index: number) {
+  return TINTS[((index % TINTS.length) + TINTS.length) % TINTS.length]!;
+}
+
 export function tintFor(key: string | null | undefined) {
   let h = 0;
   for (const ch of key ?? '') h = (h * 31 + ch.charCodeAt(0)) >>> 0;
@@ -24,8 +29,8 @@ export function initials(name: string) {
 }
 
 /** Photo if available, otherwise coloured initials. */
-export function ItemAvatar({ name, tintKey, src, className }: { name: string; tintKey?: string | null; src?: string | null; className?: string }) {
-  const tint = tintFor(tintKey ?? name);
+export function ItemAvatar({ name, tintKey, tint: given, src, className }: { name: string; tintKey?: string | null; tint?: ReturnType<typeof tintAt>; src?: string | null; className?: string }) {
+  const tint = given ?? tintFor(tintKey ?? name);
   if (src) return <img src={src} alt="" loading="lazy" className={clsx('shrink-0 rounded-xl object-cover', className)} />;
   return (
     <span aria-hidden className={clsx('flex shrink-0 items-center justify-center rounded-xl font-semibold', tint.bg, tint.fg, className)} dir="auto">
