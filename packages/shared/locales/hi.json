@@ -1739,7 +1739,10 @@
     "reference": "संदर्भ",
     "total_to_pay": "कुल देय: {{total}}",
     "your_table": "टेबल {{table}}",
-    "staff_will_take": "हमारा स्टाफ़ आपका ऑर्डर लेगा"
+    "staff_will_take": "हमारा स्टाफ़ आपका ऑर्डर लेगा",
+    "menu_title": "मेनू",
+    "top": "टॉप {{rank}}",
+    "more": "और"
   },
   "notifications": {
     "title": "सूचनाएँ",

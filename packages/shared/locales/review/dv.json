@@ -1328,5 +1328,26 @@
     "suggested": "ކަސްޓަމަރަކު މި ބަސް ޚިޔާރުކުރުމުން ކިއުއާރް މެނޫގައި ފެންނާނީ މިއެވެ. ހުސްކޮށް ބަހައްޓައިފިނަމަ މައި ނަން ފެންނާނެއެވެ.",
     "status": "needs_review",
     "notes": "New: labels for item names in other languages."
+  },
+  {
+    "key": "public_menu.menu_title",
+    "english": "Menu",
+    "suggested": "މެނޫ",
+    "status": "needs_review",
+    "notes": "New: dark QR menu design (big title, best-seller badge, items without a category)."
+  },
+  {
+    "key": "public_menu.top",
+    "english": "TOP {{rank}}",
+    "suggested": "ޓޮޕް {{rank}}",
+    "status": "needs_review",
+    "notes": "New: dark QR menu design (big title, best-seller badge, items without a category)."
+  },
+  {
+    "key": "public_menu.more",
+    "english": "More",
+    "suggested": "އިތުރު",
+    "status": "needs_review",
+    "notes": "New: dark QR menu design (big title, best-seller badge, items without a category)."
   }
 ]

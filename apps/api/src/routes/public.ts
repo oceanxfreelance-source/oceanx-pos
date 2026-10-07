@@ -58,6 +58,22 @@ export async function publicRoutes(app: FastifyInstance, opts: { authRateLimit: 
         .where(and(eq(products.businessId, bid), eq(products.isActive, true), eq(products.showInMenu, true), isNull(products.deletedAt), sql`${products.type} <> 'ingredient'`))
         .orderBy(asc(products.name)),
     ]);
+    // "TOP 1/2/3" badges: best sellers of the last 30 days among items shown on the menu.
+    const shown = new Set(prods.map((p) => p.id));
+    const sellers = await db
+      .select({ productId: saleItems.productId, qty: sql<string>`sum(${saleItems.quantity})` })
+      .from(saleItems)
+      .innerJoin(sales, eq(sales.id, saleItems.saleId))
+      .where(and(eq(saleItems.businessId, bid), eq(sales.status, 'completed'), sql`${sales.createdAt} > now() - interval '30 days'`))
+      .groupBy(saleItems.productId)
+      .orderBy(sql`sum(${saleItems.quantity}) desc`)
+      .limit(10);
+    const top = new Map(
+      sellers
+        .filter((r) => r.productId && shown.has(r.productId))
+        .slice(0, 3)
+        .map((r, i) => [r.productId!, i + 1]),
+    );
     const b = access.business;
     return {
       business: { name: b.name, businessType: b.businessType, address: b.address, phone: b.phone, currency: b.currency, hasLogo: !!b.logoPath },
@@ -68,7 +84,7 @@ export async function publicRoutes(app: FastifyInstance, opts: { authRateLimit: 
       ordersEnabled: settings.online.ordersEnabled && access.addons.has('online_ordering'),
       deliveryEnabled: access.addons.has('delivery'),
       categories: cats,
-      products: prods.map((p) => ({ ...p, price: settings.online.showPrices ? p.price : null, options: settings.online.showPrices ? p.options : p.options.map((g) => ({ ...g, choices: g.choices.map((c) => ({ ...c, price: 0 })) })) })),
+      products: prods.map((p) => ({ ...p, topRank: top.get(p.id) ?? null, price: settings.online.showPrices ? p.price : null, options: settings.online.showPrices ? p.options : p.options.map((g) => ({ ...g, choices: g.choices.map((c) => ({ ...c, price: 0 })) })) })),
     };
   });
 

@@ -1739,7 +1739,10 @@
     "reference": "Reference",
     "total_to_pay": "Total to pay: {{total}}",
     "your_table": "Table {{table}}",
-    "staff_will_take": "Our staff will take your order"
+    "staff_will_take": "Our staff will take your order",
+    "menu_title": "Menu",
+    "top": "TOP {{rank}}",
+    "more": "More"
   },
   "notifications": {
     "title": "Notifications",

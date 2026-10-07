@@ -1739,7 +1739,10 @@
     "reference": "রেফারেন্স",
     "total_to_pay": "মোট পরিশোধযোগ্য: {{total}}",
     "your_table": "টেবিল {{table}}",
-    "staff_will_take": "আমাদের কর্মীরা আপনার অর্ডার নেবেন"
+    "staff_will_take": "আমাদের কর্মীরা আপনার অর্ডার নেবেন",
+    "menu_title": "মেনু",
+    "top": "টপ {{rank}}",
+    "more": "আরও"
   },
   "notifications": {
     "title": "নোটিফিকেশন",

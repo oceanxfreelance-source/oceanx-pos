@@ -33,6 +33,7 @@ interface MenuProduct {
   options: Group[];
   hasImage: boolean;
   translations?: Translations;
+  topRank?: number | null;
 }
 interface Menu {
   business: {
@@ -128,7 +129,7 @@ export default function PublicMenu() {
 
   if (q.isLoading)
     return (
-      <div className="mx-auto max-w-3xl p-6">
+      <div className="min-h-screen bg-[#2b2520] p-6">
         <SkeletonRows rows={8} />
       </div>
     );
@@ -138,90 +139,105 @@ export default function PublicMenu() {
         <EmptyState icon={<UtensilsCrossed className="size-6" />} title={t('public_menu.not_found')} description={t('public_menu.not_found_body')} />
       </div>
     );
-  const visible = m.products.filter((p) => cat === 'all' || p.categoryId === cat);
+  // One scrolling page, grouped by category (items without a category last).
+  const known = new Set(m.categories.map((c) => c.id));
+  const sections = [
+    ...m.categories.map((c) => ({ id: c.id, name: c.name, items: m.products.filter((p) => p.categoryId === c.id) })),
+    { id: 'other', name: '', items: m.products.filter((p) => !p.categoryId || !known.has(p.categoryId)) },
+  ].filter((x) => x.items.length > 0);
+  const jump = (id: string) => {
+    setCat(id);
+    document.getElementById(`cat-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
   return (
-    <div className="min-h-screen bg-slate-50 pb-28 dark:bg-slate-950">
-      <header className="bg-white shadow-sm dark:bg-slate-900">
-        <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-4">
-          {m.business.hasLogo && <img src={`/api/public/menu/${slug}/logo`} alt="" className="size-12 rounded-xl object-contain" />}
-          <div className="min-w-0 flex-1">
-            <h1 className="truncate text-lg font-bold" dir="auto">
-              {m.business.name}
-            </h1>
-            {m.business.address && (
-              <p className="truncate text-xs text-slate-500" dir="auto">
-                {m.business.address}
-              </p>
-            )}
-          </div>
-          <LanguageMenu
-            current={i18n.language}
-            languages={LANGUAGES.map((l) => ({
-              code: l.code,
-              nativeName: l.nativeName,
-            }))}
-            onChange={(c) => void applyLanguage(c, { persist: true })}
-          />
+    <div className="menu-theme min-h-screen bg-[radial-gradient(ellipse_at_top_left,#4a4038_0%,#2b2520_45%,#1a1613_100%)] pb-28 text-stone-100">
+      <header className="mx-auto flex max-w-5xl items-center gap-3 px-4 pt-4">
+        {m.business.hasLogo && <img src={`/api/public/menu/${slug}/logo`} alt="" className="size-10 rounded-full bg-white/90 object-contain p-1" />}
+        <p className="min-w-0 flex-1 truncate text-sm font-semibold tracking-wide text-stone-200" dir="auto">
+          {m.business.name}
+        </p>
+        <div className="rounded-xl bg-white/10 [&_button]:text-stone-100 [&_button:hover]:bg-white/10">
+          <LanguageMenu current={i18n.language} languages={LANGUAGES.map((l) => ({ code: l.code, nativeName: l.nativeName }))} onChange={(c) => void applyLanguage(c, { persist: true })} />
         </div>
-        {table && (
-          <div className="mx-auto max-w-3xl px-4 pb-3">
-            <p className="flex items-center justify-between gap-3 rounded-xl bg-brand-50 px-3 py-2 text-sm text-brand-900 dark:bg-brand-950 dark:text-brand-100">
-              <span className="font-semibold" dir="auto">
+      </header>
+
+      <section className="relative mx-auto max-w-5xl overflow-hidden px-4 pt-6 pb-4 text-center">
+        <h1 className="text-[clamp(5rem,26vw,13rem)] leading-none font-black tracking-tighter text-black/35 uppercase select-none" style={{ textShadow: '0 1px 0 rgba(255,255,255,0.04)' }}>
+          {t('public_menu.menu_title')}
+        </h1>
+        <p
+          className="absolute inset-x-0 bottom-6 truncate px-6 text-end text-[clamp(1.75rem,8vw,3.5rem)] text-stone-100 sm:pe-16"
+          style={{ fontFamily: "'Snell Roundhand', 'Segoe Script', 'Brush Script MT', 'Apple Chancery', cursive", transform: 'rotate(-6deg)' }}
+          dir="auto"
+        >
+          {m.business.name}
+        </p>
+      </section>
+
+      {(table || m.message) && (
+        <div className="mx-auto max-w-5xl space-y-2 px-4 pb-4 text-center">
+          {table && (
+            <p className="inline-flex flex-wrap items-center justify-center gap-x-3 rounded-full bg-[#efe7dc] px-4 py-1.5 text-sm text-stone-900">
+              <span className="font-bold" dir="auto">
                 {t('public_menu.your_table', { table })}
               </span>
-              {!m.ordersEnabled && <span className="text-xs">{t('public_menu.staff_will_take')}</span>}
+              {!m.ordersEnabled && <span>{t('public_menu.staff_will_take')}</span>}
             </p>
-          </div>
-        )}
-        {m.message && (
-          <p className="mx-auto max-w-3xl px-4 pb-3 text-sm text-slate-600 dark:text-slate-300" dir="auto">
-            {m.message}
-          </p>
-        )}
-        <nav className="mx-auto flex max-w-3xl gap-2 overflow-x-auto px-4 pb-3" aria-label={t('public_menu.categories')}>
-          {[{ id: 'all', name: t('common.all') }, ...m.categories].map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              onClick={() => setCat(c.id)}
-              className={clsx(
-                'shrink-0 rounded-full px-4 py-1.5 text-sm font-medium',
-                cat === c.id ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200',
-              )}
-            >
-              <span dir="auto">{c.name}</span>
-            </button>
-          ))}
-        </nav>
-      </header>
-      <main className="mx-auto max-w-3xl space-y-3 px-4 py-4">
-        {visible.length === 0 && <EmptyState icon={<UtensilsCrossed className="size-6" />} title={t('public_menu.empty')} />}
-        {visible.map((p) => (
-          <article key={p.id} className="flex gap-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
-            {p.hasImage && <img src={`/api/public/menu/${slug}/products/${p.id}/image`} alt="" loading="lazy" className="size-24 shrink-0 rounded-xl object-cover" />}
-            <div className="flex min-w-0 flex-1 flex-col">
-              <h2 className="font-semibold" dir="auto">
-                {p.name}
-              </h2>
-              {p.description && (
-                <p className="line-clamp-2 text-sm text-slate-500" dir="auto">
-                  {p.description}
-                </p>
-              )}
-              <div className="mt-auto flex items-center justify-between gap-2 pt-2">
-                {p.price !== null ? <span className="font-semibold">{money(p.price)}</span> : <span />}
-                {m.ordersEnabled && (
-                  <Button size="sm" icon={<Plus className="size-4" />} onClick={() => (p.options.length ? setPicking(p) : add(p, []))}>
-                    {t('public_menu.add')}
-                  </Button>
+          )}
+          {m.message && (
+            <p className="text-sm text-stone-300" dir="auto">
+              {m.message}
+            </p>
+          )}
+        </div>
+      )}
+
+      {sections.length > 1 && (
+        <nav className="sticky top-0 z-10 bg-[#1f1a16]/90 backdrop-blur" aria-label={t('public_menu.categories')}>
+          <div className="mx-auto flex max-w-5xl gap-2 overflow-x-auto px-4 py-3">
+            {sections.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => jump(c.id)}
+                className={clsx(
+                  'shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold tracking-wide',
+                  cat === c.id ? 'bg-[#efe7dc] text-stone-900' : 'text-stone-200 ring-1 ring-white/20 hover:bg-white/10',
                 )}
-              </div>
+              >
+                <span dir="auto">{c.name || t('public_menu.more')}</span>
+              </button>
+            ))}
+          </div>
+        </nav>
+      )}
+
+      <main className="mx-auto max-w-5xl space-y-10 px-3 py-6 sm:px-6">
+        {sections.length === 0 && <EmptyState icon={<UtensilsCrossed className="size-6" />} title={t('public_menu.empty')} />}
+        {sections.map((sec) => (
+          <section key={sec.id} id={`cat-${sec.id}`} className="scroll-mt-16">
+            {sections.length > 1 && (
+              <h2 className="mb-6 text-center text-xl font-bold tracking-[0.2em] text-stone-200 uppercase" dir="auto">
+                {sec.name || t('public_menu.more')}
+              </h2>
+            )}
+            <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-10">
+              {sec.items.map((p) => (
+                <MenuCard
+                  key={p.id}
+                  product={p}
+                  slug={slug!}
+                  money={money}
+                  canOrder={m.ordersEnabled}
+                  onAdd={() => (p.options.length ? setPicking(p) : add(p, []))}
+                />
+              ))}
             </div>
-          </article>
+          </section>
         ))}
       </main>
       {m.ordersEnabled && count > 0 && (
-        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white/95 p-4 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
+        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-[#1f1a16]/95 p-4 backdrop-blur">
           <div className="mx-auto max-w-3xl">
             <Button size="lg" className="w-full" icon={<ShoppingBag className="size-5" />} onClick={() => setCheckout(true)}>
               {t('public_menu.view_order', { count })} · {money(cartTotal)}
@@ -270,6 +286,47 @@ export default function PublicMenu() {
         </div>
       </Dialog>
     </div>
+  );
+}
+
+/** One dish: photo on a dark round plate over an arched card, like a printed restaurant menu. */
+function MenuCard({ product: p, slug, money, canOrder, onAdd }: { product: MenuProduct; slug: string; money: (n: number) => string; canOrder: boolean; onAdd: () => void }) {
+  const { t } = useTranslation();
+  return (
+    <article className="flex flex-col">
+      <div className="relative z-10 mx-auto aspect-square w-[88%] rounded-full bg-[#141110] p-[6%] shadow-[0_18px_40px_-12px_rgba(0,0,0,0.8)] ring-1 ring-white/5">
+        {p.hasImage ? (
+          <img src={`/api/public/menu/${slug}/products/${p.id}/image`} alt="" loading="lazy" className="size-full rounded-full object-cover" />
+        ) : (
+          <span aria-hidden className="flex size-full items-center justify-center rounded-full bg-gradient-to-br from-[#3a322b] to-[#211c18] text-stone-500">
+            <UtensilsCrossed className="size-1/3" />
+          </span>
+        )}
+        {p.topRank && (
+          <span className="absolute -top-1 -start-1 flex size-[30%] items-center justify-center rounded-full bg-[#efe7dc] text-[clamp(0.6rem,2.6vw,0.85rem)] font-extrabold text-stone-900 shadow-md">
+            {t('public_menu.top', { rank: p.topRank })}
+          </span>
+        )}
+      </div>
+      <div className="-mt-[46%] flex flex-1 flex-col items-center rounded-t-full rounded-b-sm bg-[#2a2420]/95 px-2 pt-[50%] pb-4 text-center shadow-lg sm:px-4">
+        <h3 className="mt-3 text-[13px] leading-tight font-extrabold tracking-wide uppercase sm:text-sm" dir="auto">
+          {p.name}
+        </h3>
+        {p.description && (
+          <p className="mt-1.5 line-clamp-3 text-[11px] leading-snug text-stone-300 sm:text-xs" dir="auto">
+            {p.description}
+          </p>
+        )}
+        <div className="mt-auto flex flex-col items-center gap-2 pt-3">
+          {p.price !== null && <span className="text-base font-light tracking-wide text-stone-100 sm:text-lg">{money(p.price)}</span>}
+          {canOrder && (
+            <button type="button" onClick={onAdd} className="inline-flex items-center gap-1 rounded-full bg-[#efe7dc] px-3 py-1 text-xs font-bold text-stone-900 hover:bg-white">
+              <Plus className="size-3.5" /> {t('public_menu.add')}
+            </button>
+          )}
+        </div>
+      </div>
+    </article>
   );
 }
 
