@@ -1566,5 +1566,12 @@
     "suggested": "ފުލް ސްކްރީނުން ނިކުމެވޭ",
     "status": "needs_review",
     "notes": "New: full screen button in the top bar and POS."
+  },
+  {
+    "key": "common.update_available",
+    "english": "A new version of OceanX is available.",
+    "suggested": "OceanX ގެ އައު ވަރޝަނެއް ލިބެން އެބައޮތް.",
+    "status": "needs_review",
+    "notes": "Bar shown when an update is published while the app is open."
   }
 ]

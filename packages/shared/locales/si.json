@@ -52,7 +52,8 @@
     "reload": "නැවත පූරණය කරන්න",
     "done": "අවසන්",
     "fullscreen": "පූර්ණ තිරය",
-    "exit_fullscreen": "පූර්ණ තිරයෙන් ඉවත් වන්න"
+    "exit_fullscreen": "පූර්ණ තිරයෙන් ඉවත් වන්න",
+    "update_available": "OceanX හි නව අනුවාදයක් ලබා ගත හැක."
   },
   "nav": {
     "account": "මගේ ගිණුම",

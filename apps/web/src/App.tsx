@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { RouteError } from './components/RouteError';
+import { UpdateNotice } from './components/UpdateNotice';
 import { createBrowserRouter, Link, Outlet, RouterProvider } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BusinessAuthProvider } from './auth/business';
@@ -199,5 +200,10 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <UpdateNotice />
+    </>
+  );
 }

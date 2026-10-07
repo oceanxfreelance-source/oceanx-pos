@@ -52,7 +52,8 @@
     "reload": "আবার লোড করুন",
     "done": "সম্পন্ন",
     "fullscreen": "পূর্ণ স্ক্রিন",
-    "exit_fullscreen": "পূর্ণ স্ক্রিন থেকে বের হন"
+    "exit_fullscreen": "পূর্ণ স্ক্রিন থেকে বের হন",
+    "update_available": "OceanX-এর নতুন সংস্করণ পাওয়া যাচ্ছে।"
   },
   "nav": {
     "account": "আমার অ্যাকাউন্ট",

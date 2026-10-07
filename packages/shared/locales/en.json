@@ -52,7 +52,8 @@
     "reload": "Reload",
     "done": "Done",
     "fullscreen": "Full screen",
-    "exit_fullscreen": "Exit full screen"
+    "exit_fullscreen": "Exit full screen",
+    "update_available": "A new version of OceanX is available."
   },
   "nav": {
     "account": "My account",

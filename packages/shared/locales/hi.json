@@ -52,7 +52,8 @@
     "reload": "फिर से लोड करें",
     "done": "हो गया",
     "fullscreen": "फ़ुल स्क्रीन",
-    "exit_fullscreen": "फ़ुल स्क्रीन से बाहर निकलें"
+    "exit_fullscreen": "फ़ुल स्क्रीन से बाहर निकलें",
+    "update_available": "OceanX का नया संस्करण उपलब्ध है।"
   },
   "nav": {
     "account": "मेरा खाता",
