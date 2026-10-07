@@ -195,7 +195,8 @@ export async function settingsRoutes(app: FastifyInstance) {
       active: b!.superadminViberCreditEnabled && b!.managerViberCreditEnabled,
       requestedAt: b!.viberCreditRequestedAt,
       countryCode: b!.viberCountryCode,
-      providerConfigured: !!app.deps.viber,
+      // log/memory providers only record messages; real delivery needs a configured Viber gateway.
+      providerConfigured: !!app.deps.viber && !['log', 'memory'].includes(app.deps.viber.name),
       recent,
     };
   };
