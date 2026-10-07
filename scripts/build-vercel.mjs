@@ -53,7 +53,8 @@ writeFileSync(
         { src: '^/assets/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
         { src: '^/api(/.*)?$', dest: '/api' },
         { handle: 'filesystem' },
-        { src: '^/(.*)$', dest: '/index.html' },
+        // The app shell must always be fresh so a new deploy is picked up on the next visit.
+        { src: '^/(.*)$', dest: '/index.html', headers: { 'cache-control': 'no-cache' } },
       ],
     },
     null,

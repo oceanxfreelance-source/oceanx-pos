@@ -48,7 +48,8 @@
     "loading": "Loading…",
     "notes": "Notes",
     "search": "Search",
-    "user": "User"
+    "user": "User",
+    "reload": "Reload"
   },
   "nav": {
     "account": "My account",
