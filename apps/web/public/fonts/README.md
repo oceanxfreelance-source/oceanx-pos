@@ -1,15 +1,12 @@
 # Fonts
 
-## Faruma (required for Dhivehi)
+## Faruma (Dhivehi)
 
-Dhivehi (`dv`) typography is configured to use **Faruma** and nothing else.
-The font file is **not** bundled with this repository.
+Dhivehi (`dv`) typography uses **Faruma** and nothing else. The files here were supplied by the
+business owner:
 
-Place the licensed Faruma font files here:
+    Faruma.ttf     original file (Faruma, Version 2.0 Official release)
+    Faruma.woff2   the same font repackaged as WOFF2 (smaller download); glyphs are unchanged
 
-    apps/web/public/fonts/Faruma.woff2   (preferred)
-    apps/web/public/fonts/Faruma.ttf     (fallback)
-
-They are loaded by `@font-face` in `src/index.css`. When Dhivehi is the active
-language and Faruma cannot be loaded, the app shows a visible warning instead of
-silently substituting another Thaana font.
+They are loaded by `@font-face` in `src/index.css` for Thaana characters only. If Faruma ever fails to
+load, the app shows a visible warning instead of substituting another Thaana font.

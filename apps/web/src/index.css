@@ -3,8 +3,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Faruma — the ONLY font used for Dhivehi. The files are not bundled
- * (see public/fonts/README.md). No other Thaana font is substituted.
+ * Faruma — the ONLY font used for Dhivehi (public/fonts, see README there).
+ * No other Thaana font is substituted.
  */
 @font-face {
   font-family: 'Faruma';
@@ -12,11 +12,14 @@
     url('/fonts/Faruma.woff2') format('woff2'),
     url('/fonts/Faruma.ttf') format('truetype');
   font-display: swap;
+  /* Faruma's glyphs are drawn small for their em box; scale only Thaana so it matches Latin text. */
+  size-adjust: 120%;
   unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2;
 }
 
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+  /* Faruma first: its unicode-range limits it to Thaana, so every Dhivehi character in any page or PDF uses Faruma. */
+  --font-sans: 'Faruma', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
 
   --color-brand-50: #eefbfd;
   --color-brand-100: #d3f3f8;

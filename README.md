@@ -9,7 +9,7 @@ defaults, terminology and suggestions.
 > language), inventory, purchases, suppliers, expenses, add-ons (karaoke, reservations, QR menu, online ordering,
 > loyalty, recipes and costing, transfers), reports, notifications and six languages.
 > See [`docs/PHASE-1-REPORT.md`](docs/PHASE-1-REPORT.md) and [`docs/PHASES-2-6-REPORT.md`](docs/PHASES-2-6-REPORT.md)
-> for details and the known limitations. The Faruma font file is still required to finalize Dhivehi typography.
+> for details and the known limitations.
 
 ## Stack
 
@@ -77,10 +77,9 @@ each). Language is stored **per user**, and document language is a separate busi
 `packages/shared/locales`. `npm run i18n:check` reports missing keys, placeholder mismatches and the Dhivehi
 review list. Non-English locales are code-split and loaded on demand.
 
-**Faruma font.** The repository does not contain Faruma, so it is **not** bundled and no other Thaana font is
-substituted. Put the licensed files at `apps/web/public/fonts/Faruma.woff2` (and/or `.ttf`). Until then, when
-Dhivehi is active the app detects that Faruma failed to load and shows a visible warning:
-*"Faruma font file is required to finalize Dhivehi typography."*
+**Faruma font.** Faruma is bundled at `apps/web/public/fonts/Faruma.woff2` (with the original `.ttf` as a
+fallback) and is the only font used for Thaana text. No other Thaana font is substituted: if Faruma ever fails
+to load, Dhivehi pages show a visible warning: *"Faruma font file is required to finalize Dhivehi typography."*
 
 Dhivehi wording that needs a native/business decision is tracked in
 [`docs/TRANSLATION-REVIEW.md`](docs/TRANSLATION-REVIEW.md) (source: `packages/shared/locales/review/dv.json`).
