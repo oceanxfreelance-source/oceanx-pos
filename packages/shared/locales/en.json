@@ -81,7 +81,8 @@
     "group_finance": "Finance",
     "more": "More",
     "open_pos": "Open POS",
-    "credit": "Credit & dues"
+    "credit": "Credit & dues",
+    "qr_menu": "QR Menu"
   },
   "business_types": {
     "restaurant": "Restaurant",
@@ -1735,7 +1736,9 @@
     "order_sent": "Order sent",
     "order_sent_body": "The staff have received your order.",
     "reference": "Reference",
-    "total_to_pay": "Total to pay: {{total}}"
+    "total_to_pay": "Total to pay: {{total}}",
+    "your_table": "Table {{table}}",
+    "staff_will_take": "Our staff will take your order"
   },
   "notifications": {
     "title": "Notifications",
@@ -1804,5 +1807,29 @@
     },
     "pos_will_send": "Viber “Total” message will be sent to {{number}}",
     "pos_no_number": "No Viber number on file — no message will be sent."
+  },
+  "qr": {
+    "title": "QR Menu",
+    "subtitle": "Customers scan the code at their table to see your menu. No printed menu books needed.",
+    "auto_update": "This QR code never changes. When you edit items, prices or photos, the menu updates automatically.",
+    "copy_link": "Copy link",
+    "copied": "Link copied",
+    "open_menu": "Open menu",
+    "settings": "Menu settings",
+    "customers_can_order": "Customers can order from the menu",
+    "mode_order": "Customers can place orders themselves from their phone.",
+    "mode_view_only": "Menu only. Customers browse the menu and your staff take the order.",
+    "message_placeholder": "e.g. Welcome! Call a waiter when you are ready to order.",
+    "menu_off": "The menu is switched off. Customers who scan will see that it is unavailable.",
+    "table_cards": "Table QR cards",
+    "table_cards_hint": "Print one card for each table. The card shows the table name, so staff know where the customer is sitting.",
+    "no_tables": "No tables yet. Add tables to print a card for each one, or print a general card.",
+    "download_cards": "Download {{count}} cards (PDF)",
+    "generic_card": "General card (no table)",
+    "example_link": "Example link",
+    "card_title": "Scan for menu",
+    "card_subtitle": "Point your phone camera at the code",
+    "card_table": "Table {{table}}",
+    "card_generic": "Our staff will be with you shortly"
   }
 }

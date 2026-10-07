@@ -1118,5 +1118,180 @@
     "suggested": "ހުޅުވާ",
     "status": "needs_review",
     "notes": "Matches common.enabled (ހުޅުވިފައި). Alternative: އެނޭބަލްކުރޭ."
+  },
+  {
+    "key": "nav.qr_menu",
+    "english": "QR Menu",
+    "suggested": "QR މެނޫ",
+    "status": "needs_review",
+    "notes": "Same as qr.title. Acronym QR kept in Latin letters per project rule; މެނޫ as in nav.menu."
+  },
+  {
+    "key": "public_menu.your_table",
+    "english": "Table {{table}}",
+    "suggested": "މޭޒު {{table}}",
+    "status": "needs_review",
+    "notes": "މޭޒު as in tables.title (singular). Alternative: {{table}} ވަނަ މޭޒު if table names are numbers only."
+  },
+  {
+    "key": "public_menu.staff_will_take",
+    "english": "Our staff will take your order",
+    "suggested": "އަޅުގަނޑުމެންގެ މުވައްޒަފަކު ތިބާގެ އޯޑަރު ނަގާނެ",
+    "status": "needs_review",
+    "notes": "މުވައްޒަފު as in public_menu.order_sent_body. Alternative more casual: ތިބާގެ އޯޑަރު މުވައްޒަފަކު ނަގާނެ."
+  },
+  {
+    "key": "qr.title",
+    "english": "QR Menu",
+    "suggested": "QR މެނޫ",
+    "status": "needs_review",
+    "notes": "Matches nav.qr_menu."
+  },
+  {
+    "key": "qr.subtitle",
+    "english": "Customers scan the code at their table to see your menu. No printed menu books needed.",
+    "suggested": "ކަސްޓަމަރުން އެމީހުންގެ މޭޒުމަތީގައިވާ ކޯޑު ސްކޭންކޮށް ތިބާގެ މެނޫ ބަލާނެ. ޕްރިންޓްކުރި މެނޫ ފޮތް ބޭނުމެއް ނުވޭ.",
+    "status": "needs_review",
+    "notes": "ސްކޭންކޮށް as in superadmin.security.step_scan. 'Menu books' rendered as މެނޫ ފޮތް; alternative: ޕްރިންޓްކުރި މެނޫ ކާޑު."
+  },
+  {
+    "key": "qr.auto_update",
+    "english": "This QR code never changes. When you edit items, prices or photos, the menu updates automatically.",
+    "suggested": "މި QR ކޯޑު ދުވަހަކުވެސް ބަދަލެއް ނުވާނެ. އައިޓަމް، އަގު ނުވަތަ ފޮޓޯ ބަދަލުކުރާއިރު މެނޫ އަމިއްލައަށް އަޕްޑޭޓްވާނެ.",
+    "status": "needs_review",
+    "notes": "'Updates automatically' = އަމިއްލައަށް އަޕްޑޭޓްވާނެ (loanword as in products.image_updated). Alternative: އޮޓޮމެޓިކުން އަޕްޑޭޓްވާނެ."
+  },
+  {
+    "key": "qr.copy_link",
+    "english": "Copy link",
+    "suggested": "ލިންކް ކޮޕީކުރޭ",
+    "status": "needs_review",
+    "notes": "Loanword ކޮޕީ is common in UI; native alternative ނަކަލުކުރޭ."
+  },
+  {
+    "key": "qr.copied",
+    "english": "Link copied",
+    "suggested": "ލިންކް ކޮޕީކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Short success toast. Alternative: ލިންކް ކޮޕީވެއްޖެ."
+  },
+  {
+    "key": "qr.open_menu",
+    "english": "Open menu",
+    "suggested": "މެނޫ ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "ހުޅުވާ as in nav.open_pos."
+  },
+  {
+    "key": "qr.settings",
+    "english": "Menu settings",
+    "suggested": "މެނޫގެ ސެޓިންގްސް",
+    "status": "needs_review",
+    "notes": "ސެޓިންގްސް as in nav.settings."
+  },
+  {
+    "key": "qr.customers_can_order",
+    "english": "Customers can order from the menu",
+    "suggested": "ކަސްޓަމަރުންނަށް މެނޫން އޯޑަރު ކުރެވޭ",
+    "status": "needs_review",
+    "notes": "Toggle label. Alternative: ކަސްޓަމަރުންނަށް މެނޫއިން އޯޑަރުކުރެވުން."
+  },
+  {
+    "key": "qr.mode_order",
+    "english": "Customers can place orders themselves from their phone.",
+    "suggested": "ކަސްޓަމަރުންނަށް އަމިއްލަ ފޯނުން އޯޑަރު ކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "'Their phone' rendered as އަމިއްލަ ފޯނު (own phone). Check that it reads naturally."
+  },
+  {
+    "key": "qr.mode_view_only",
+    "english": "Menu only. Customers browse the menu and your staff take the order.",
+    "suggested": "މެނޫ ބެލުން އެކަނި. ކަސްޓަމަރުން މެނޫ ބަލާނެ، އަދި އޯޑަރު ނަގާނީ ތިބާގެ މުވައްޒަފުން.",
+    "status": "needs_review",
+    "notes": "'Menu only' = މެނޫ ބެލުން އެކަނި (viewing menu only). Alternative: ހަމައެކަނި މެނޫ."
+  },
+  {
+    "key": "qr.message_placeholder",
+    "english": "e.g. Welcome! Call a waiter when you are ready to order.",
+    "suggested": "މިސާލަކަށް: މަރުޙަބާ! އޯޑަރު ކުރަން ތައްޔާރުވީމަ ވެއިޓަރަކަށް ގޮވާލައްވާ.",
+    "status": "needs_review",
+    "notes": "Placeholder example text. މަރުޙަބާ as in auth.invite_title; ވެއިޓަރު as in roles.system.waiter."
+  },
+  {
+    "key": "qr.menu_off",
+    "english": "The menu is switched off. Customers who scan will see that it is unavailable.",
+    "suggested": "މެނޫ ބަންދުކޮށްފައި. ސްކޭންކުރާ ކަސްޓަމަރުންނަށް ފެންނާނީ މެނޫ ނުލިބޭކަން.",
+    "status": "needs_review",
+    "notes": "'Switched off' = ބަންދުކޮށްފައި; alternative: ހުޅުވާފައެއް ނެތް (to mirror 'enable' = ހުޅުވާ). 'Unavailable' wording mirrors public_menu.not_found (މެނޫ ނުލިބޭ)."
+  },
+  {
+    "key": "qr.table_cards",
+    "english": "Table QR cards",
+    "suggested": "މޭޒުތަކުގެ QR ކާޑު",
+    "status": "needs_review",
+    "notes": "Plural implied without ތައް to stay short. Alternative: މޭޒުތަކުގެ QR ކާޑުތައް."
+  },
+  {
+    "key": "qr.table_cards_hint",
+    "english": "Print one card for each table. The card shows the table name, so staff know where the customer is sitting.",
+    "suggested": "ކޮންމެ މޭޒަކަށް ކާޑެއް ޕްރިންޓްކުރޭ. ކާޑުގައި މޭޒުގެ ނަން ހުންނާތީ، ކަސްޓަމަރު އިށީނދެގެން ތިބީ ކޮންތާކުކަން މުވައްޒަފުންނަށް އެނގޭނެ.",
+    "status": "needs_review",
+    "notes": "ޕްރިންޓްކުރޭ as in pos.print_receipt. 'Where the customer is sitting' = ކަސްޓަމަރު އިށީނދެގެން ތިބީ ކޮންތާކުކަން; please check naturalness."
+  },
+  {
+    "key": "qr.no_tables",
+    "english": "No tables yet. Add tables to print a card for each one, or print a general card.",
+    "suggested": "އަދި މޭޒެއް ނެތް. ކޮންމެ މޭޒަކަށް ކާޑެއް ޕްރިންޓްކުރުމަށް މޭޒުތައް އިތުރުކުރައްވާ، ނުވަތަ އާންމު ކާޑެއް ޕްރިންޓްކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "First sentence mirrors tables.empty_title. 'General card' = އާންމު ކާޑު (އާންމު as in addons.categories.general)."
+  },
+  {
+    "key": "qr.download_cards",
+    "english": "Download {{count}} cards (PDF)",
+    "suggested": "ކާޑު {{count}} ޑައުންލޯޑްކުރޭ (PDF)",
+    "status": "needs_review",
+    "notes": "Numeral after noun (ކާޑު {{count}}) is natural Dhivehi word order; alternative: {{count}} ކާޑު."
+  },
+  {
+    "key": "qr.generic_card",
+    "english": "General card (no table)",
+    "suggested": "އާންމު ކާޑު (މޭޒެއް ނެތް)",
+    "status": "needs_review",
+    "notes": "Alternative: މޭޒަކާ ގުޅިފައިނުވާ ކާޑު (card not linked to a table)."
+  },
+  {
+    "key": "qr.example_link",
+    "english": "Example link",
+    "suggested": "މިސާލު ލިންކް",
+    "status": "needs_review",
+    "notes": "Alternative: މިސާލަކަށް ލިންކް."
+  },
+  {
+    "key": "qr.card_title",
+    "english": "Scan for menu",
+    "suggested": "މެނޫ ބެލުމަށް ސްކޭންކުރައްވާ",
+    "status": "needs_review",
+    "notes": "Printed on the card for customers, so polite ކުރައްވާ form. Shorter alternative: މެނޫއަށް ސްކޭންކުރޭ."
+  },
+  {
+    "key": "qr.card_subtitle",
+    "english": "Point your phone camera at the code",
+    "suggested": "ފޯނުގެ ކެމެރާ ކޯޑާ ދިމާލަށް ހިފަހައްޓަވާ",
+    "status": "needs_review",
+    "notes": "Customer-facing, polite. Literally 'hold the phone camera towards the code'. Alternative: ފޯނުގެ ކެމެރާއިން ކޯޑު ސްކޭންކުރައްވާ."
+  },
+  {
+    "key": "qr.card_table",
+    "english": "Table {{table}}",
+    "suggested": "މޭޒު {{table}}",
+    "status": "needs_review",
+    "notes": "Same as public_menu.your_table."
+  },
+  {
+    "key": "qr.card_generic",
+    "english": "Our staff will be with you shortly",
+    "suggested": "އަޅުގަނޑުމެންގެ މުވައްޒަފަކު އަވަހަށް ތިބާގެ ގާތަށް އަންނާނެ",
+    "status": "needs_review",
+    "notes": "Customer-facing. 'Shortly' = އަވަހަށް; alternative: ވަގުތުން (right away), which may over-promise."
   }
 ]

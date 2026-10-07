@@ -22,6 +22,7 @@ import {
   MonitorSmartphone,
   PackagePlus,
   Puzzle,
+  QrCode,
   Receipt,
   ShoppingCart,
   Settings,
@@ -66,6 +67,7 @@ export function useBusinessNav(): NavGroup[] {
 
   const catalog: NavGroup['items'] = [];
   if (hasModule('products') && canAny('products.view', 'categories.view')) catalog.push({ to: '/products', label: session.business.profile.productsLabelKey, icon: UtensilsCrossed });
+  if (hasAddon('qr_menu') && can('qr_menu.manage')) catalog.push({ to: '/qr-menu', label: 'nav.qr_menu', icon: QrCode });
   if (hasModule('inventory') && can('inventory.view')) catalog.push({ to: '/inventory', label: 'nav.inventory', icon: Boxes });
   if ((hasModule('purchases') && can('purchases.view')) || (hasModule('suppliers') && can('suppliers.view'))) catalog.push({ to: '/purchases', label: 'nav.purchases', icon: PackagePlus });
 

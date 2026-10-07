@@ -43,6 +43,8 @@ const StatementPrint = lazy(() => import('./pages/print/StatementPrint'));
 const ReportPrint = lazy(() => import('./pages/print/ReportPrint'));
 const CreditDuesPrint = lazy(() => import('./pages/print/CreditDuesPrint'));
 const Credit = lazy(() => import('./pages/business/Credit'));
+const QrMenu = lazy(() => import('./pages/business/QrMenu'));
+const QrCardsPrint = lazy(() => import('./pages/print/QrCardsPrint'));
 const PublicMenu = lazy(() => import('./pages/public/PublicMenu'));
 
 // Super Admin pages (separate chunk + separate auth context)
@@ -146,6 +148,7 @@ const router = createBrowserRouter([
           { path: 'print/statement/:id', element: withSuspense(<StatementPrint />) },
           { path: 'print/report/:type', element: withSuspense(<ReportPrint />) },
           { path: 'print/credit-dues', element: withSuspense(<CreditDuesPrint />) },
+          { path: 'print/qr-cards', element: withSuspense(<QrCardsPrint />) },
           { path: 'print/:kind/:id', element: withSuspense(<PrintPage />) },
         ],
       },
@@ -157,6 +160,7 @@ const router = createBrowserRouter([
           { path: 'products', element: withSuspense(<Products />) },
           { path: 'customers', element: withSuspense(<Customers />) },
           { path: 'credit', element: withSuspense(<Credit />) },
+          { path: 'qr-menu', element: withSuspense(<QrMenu />) },
           { path: 'quotations', element: withSuspense(<DocList kind="quotation" />) },
           { path: 'quotations/new', element: withSuspense(<DocEditor key="qn" kind="quotation" />) },
           { path: 'quotations/:id', element: withSuspense(<DocDetail kind="quotation" />) },

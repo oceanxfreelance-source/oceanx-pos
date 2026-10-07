@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 137 · **confirmed**: 23
+Status: **needs_review**: 162 · **confirmed**: 23
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -68,6 +68,7 @@ review of the whole file is still recommended before launch.
 | `nav.activity` | Activity log | ހަރަކާތްތަކުގެ ލޮގް | needs_review | Alternative: އޮޑިޓް ލޮގް. |
 | `nav.open_pos` | Open POS | POS ހުޅުވާ | needs_review | Sidebar button; acronym kept in Latin per decision. |
 | `nav.outlets` | Outlets | އައުޓްލެޓްތައް | needs_review | Alternatives: ބްރާންޗުތައް, ފިހާރަތައް. ބްރާންޗު may be clearer for multi-branch restaurants. |
+| `nav.qr_menu` | QR Menu | QR މެނޫ | needs_review | Same as qr.title. Acronym QR kept in Latin letters per project rule; މެނޫ as in nav.menu. |
 | `notifications.empty` | You're all caught up. | އާ ނޮޓިފިކޭޝަނެއް ނެތް. | needs_review | Idiom 'You're all caught up' rendered literally as 'no new notifications'. |
 | `notify.credit_payment` | {{customer}} paid {{amount}} towards credit | {{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި | needs_review | '{{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި' — check word order and verb. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
@@ -108,6 +109,30 @@ review of the whole file is still recommended before launch.
 | `products.types.ingredient` | Ingredient | ތަކެތި (އިންގްރީޑިއަންޓް) | needs_review | ތަކެތި (އިންގްރީޑިއަންޓް). ތަކެތި alone is ambiguous (things/goods); alternative: ކާނާގެ ތަކެތި / އަސާސީ ތަކެތި. |
 | `products.unit` | Unit | ޔުނިޓް | needs_review | Loanword ޔުނިޓް; alternative: މިންވަރު. |
 | `public_menu.not_found_body` | This menu does not exist or is not published. | މި މެނޫ ނެތް ނުވަތަ ޝާއިޢުކޮށްފައެއް ނެތް. | needs_review | 'published' as ޝާއިޢުކޮށް; also settings.online.menu_enabled (މެނޫ ޝާއިޢުކުރޭ). Alternative: ޕަބްލިޝް. |
+| `public_menu.staff_will_take` | Our staff will take your order | އަޅުގަނޑުމެންގެ މުވައްޒަފަކު ތިބާގެ އޯޑަރު ނަގާނެ | needs_review | މުވައްޒަފު as in public_menu.order_sent_body. Alternative more casual: ތިބާގެ އޯޑަރު މުވައްޒަފަކު ނަގާނެ. |
+| `public_menu.your_table` | Table {{table}} | މޭޒު {{table}} | needs_review | މޭޒު as in tables.title (singular). Alternative: {{table}} ވަނަ މޭޒު if table names are numbers only. |
+| `qr.auto_update` | This QR code never changes. When you edit items, prices or photos, the menu updates automatically. | މި QR ކޯޑު ދުވަހަކުވެސް ބަދަލެއް ނުވާނެ. އައިޓަމް، އަގު ނުވަތަ ފޮޓޯ ބަދަލުކުރާއިރު މެނޫ އަމިއްލައަށް އަޕްޑޭޓްވާނެ. | needs_review | 'Updates automatically' = އަމިއްލައަށް އަޕްޑޭޓްވާނެ (loanword as in products.image_updated). Alternative: އޮޓޮމެޓިކުން އަޕްޑޭޓްވާނެ. |
+| `qr.card_generic` | Our staff will be with you shortly | އަޅުގަނޑުމެންގެ މުވައްޒަފަކު އަވަހަށް ތިބާގެ ގާތަށް އަންނާނެ | needs_review | Customer-facing. 'Shortly' = އަވަހަށް; alternative: ވަގުތުން (right away), which may over-promise. |
+| `qr.card_subtitle` | Point your phone camera at the code | ފޯނުގެ ކެމެރާ ކޯޑާ ދިމާލަށް ހިފަހައްޓަވާ | needs_review | Customer-facing, polite. Literally 'hold the phone camera towards the code'. Alternative: ފޯނުގެ ކެމެރާއިން ކޯޑު ސްކޭންކުރައްވާ. |
+| `qr.card_table` | Table {{table}} | މޭޒު {{table}} | needs_review | Same as public_menu.your_table. |
+| `qr.card_title` | Scan for menu | މެނޫ ބެލުމަށް ސްކޭންކުރައްވާ | needs_review | Printed on the card for customers, so polite ކުރައްވާ form. Shorter alternative: މެނޫއަށް ސްކޭންކުރޭ. |
+| `qr.copied` | Link copied | ލިންކް ކޮޕީކުރެވިއްޖެ | needs_review | Short success toast. Alternative: ލިންކް ކޮޕީވެއްޖެ. |
+| `qr.copy_link` | Copy link | ލިންކް ކޮޕީކުރޭ | needs_review | Loanword ކޮޕީ is common in UI; native alternative ނަކަލުކުރޭ. |
+| `qr.customers_can_order` | Customers can order from the menu | ކަސްޓަމަރުންނަށް މެނޫން އޯޑަރު ކުރެވޭ | needs_review | Toggle label. Alternative: ކަސްޓަމަރުންނަށް މެނޫއިން އޯޑަރުކުރެވުން. |
+| `qr.download_cards` | Download {{count}} cards (PDF) | ކާޑު {{count}} ޑައުންލޯޑްކުރޭ (PDF) | needs_review | Numeral after noun (ކާޑު {{count}}) is natural Dhivehi word order; alternative: {{count}} ކާޑު. |
+| `qr.example_link` | Example link | މިސާލު ލިންކް | needs_review | Alternative: މިސާލަކަށް ލިންކް. |
+| `qr.generic_card` | General card (no table) | އާންމު ކާޑު (މޭޒެއް ނެތް) | needs_review | Alternative: މޭޒަކާ ގުޅިފައިނުވާ ކާޑު (card not linked to a table). |
+| `qr.menu_off` | The menu is switched off. Customers who scan will see that it is unavailable. | މެނޫ ބަންދުކޮށްފައި. ސްކޭންކުރާ ކަސްޓަމަރުންނަށް ފެންނާނީ މެނޫ ނުލިބޭކަން. | needs_review | 'Switched off' = ބަންދުކޮށްފައި; alternative: ހުޅުވާފައެއް ނެތް (to mirror 'enable' = ހުޅުވާ). 'Unavailable' wording mirrors public_menu.not_found (މެނޫ ނުލިބޭ). |
+| `qr.message_placeholder` | e.g. Welcome! Call a waiter when you are ready to order. | މިސާލަކަށް: މަރުޙަބާ! އޯޑަރު ކުރަން ތައްޔާރުވީމަ ވެއިޓަރަކަށް ގޮވާލައްވާ. | needs_review | Placeholder example text. މަރުޙަބާ as in auth.invite_title; ވެއިޓަރު as in roles.system.waiter. |
+| `qr.mode_order` | Customers can place orders themselves from their phone. | ކަސްޓަމަރުންނަށް އަމިއްލަ ފޯނުން އޯޑަރު ކުރެވޭނެ. | needs_review | 'Their phone' rendered as އަމިއްލަ ފޯނު (own phone). Check that it reads naturally. |
+| `qr.mode_view_only` | Menu only. Customers browse the menu and your staff take the order. | މެނޫ ބެލުން އެކަނި. ކަސްޓަމަރުން މެނޫ ބަލާނެ، އަދި އޯޑަރު ނަގާނީ ތިބާގެ މުވައްޒަފުން. | needs_review | 'Menu only' = މެނޫ ބެލުން އެކަނި (viewing menu only). Alternative: ހަމައެކަނި މެނޫ. |
+| `qr.no_tables` | No tables yet. Add tables to print a card for each one, or print a general card. | އަދި މޭޒެއް ނެތް. ކޮންމެ މޭޒަކަށް ކާޑެއް ޕްރިންޓްކުރުމަށް މޭޒުތައް އިތުރުކުރައްވާ، ނުވަތަ އާންމު ކާޑެއް ޕްރިންޓްކުރައްވާ. | needs_review | First sentence mirrors tables.empty_title. 'General card' = އާންމު ކާޑު (އާންމު as in addons.categories.general). |
+| `qr.open_menu` | Open menu | މެނޫ ހުޅުވާ | needs_review | ހުޅުވާ as in nav.open_pos. |
+| `qr.settings` | Menu settings | މެނޫގެ ސެޓިންގްސް | needs_review | ސެޓިންގްސް as in nav.settings. |
+| `qr.subtitle` | Customers scan the code at their table to see your menu. No printed menu books needed. | ކަސްޓަމަރުން އެމީހުންގެ މޭޒުމަތީގައިވާ ކޯޑު ސްކޭންކޮށް ތިބާގެ މެނޫ ބަލާނެ. ޕްރިންޓްކުރި މެނޫ ފޮތް ބޭނުމެއް ނުވޭ. | needs_review | ސްކޭންކޮށް as in superadmin.security.step_scan. 'Menu books' rendered as މެނޫ ފޮތް; alternative: ޕްރިންޓްކުރި މެނޫ ކާޑު. |
+| `qr.table_cards` | Table QR cards | މޭޒުތަކުގެ QR ކާޑު | needs_review | Plural implied without ތައް to stay short. Alternative: މޭޒުތަކުގެ QR ކާޑުތައް. |
+| `qr.table_cards_hint` | Print one card for each table. The card shows the table name, so staff know where the customer is sitting. | ކޮންމެ މޭޒަކަށް ކާޑެއް ޕްރިންޓްކުރޭ. ކާޑުގައި މޭޒުގެ ނަން ހުންނާތީ، ކަސްޓަމަރު އިށީނދެގެން ތިބީ ކޮންތާކުކަން މުވައްޒަފުންނަށް އެނގޭނެ. | needs_review | ޕްރިންޓްކުރޭ as in pos.print_receipt. 'Where the customer is sitting' = ކަސްޓަމަރު އިށީނދެގެން ތިބީ ކޮންތާކުކަން; please check naturalness. |
+| `qr.title` | QR Menu | QR މެނޫ | needs_review | Matches nav.qr_menu. |
 | `quotations.convert` | Convert to invoice | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ | needs_review | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ follows existing perm.quotations_convert_to_invoice. |
 | `quotations.valid_until` | Valid until | ޞައްޙަ ތާރީޚު | needs_review | ޞައްޙަ ތާރީޚު (valid-until date), based on existing settings.validity_days. Alternative: ޞައްޙަ ވާނީ މި ތާރީޚާ ހަމައަށް. |
 | `reports.columns.gross` | Gross | ގްރޮސް | needs_review | Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން). |
