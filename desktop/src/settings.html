@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self'" />
+    <title>OceanX POS — Settings</title>
+    <style>
+      body { margin: 0; padding: 24px; font-family: 'Segoe UI', system-ui, sans-serif; background: #f8fafc; color: #0f172a; }
+      h1 { font-size: 20px; margin: 0 0 4px; }
+      .muted { color: #64748b; font-size: 13px; }
+      label { display: block; font-weight: 600; margin: 18px 0 6px; font-size: 14px; }
+      select, input[type=text] { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; background: #fff; }
+      .row { display: flex; gap: 8px; margin-top: 8px; }
+      button { border: 0; border-radius: 10px; padding: 10px 16px; font-size: 14px; cursor: pointer; }
+      .primary { background: #0e7490; color: #fff; }
+      .secondary { background: #e2e8f0; color: #0f172a; }
+      .check { display: flex; gap: 8px; align-items: center; margin-top: 18px; font-weight: 600; font-size: 14px; }
+      footer { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
+      #msg { font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <h1>Settings</h1>
+    <p class="muted">These settings are for this computer only.</p>
+
+    <label for="printer">Receipt printer</label>
+    <select id="printer"></select>
+    <p class="muted">With a printer chosen, receipts and bills print straight away without the print window. Choose “Ask every time” to see the normal print window.</p>
+    <div class="row"><button class="secondary" id="test">Print a test page</button></div>
+
+    <label class="check"><input type="checkbox" id="fullscreen" /> Open in full screen (counter / kiosk)</label>
+
+    <label for="server">Server address</label>
+    <input type="text" id="server" spellcheck="false" />
+    <p class="muted">Leave as it is unless the OceanX team tells you to change it. <a href="#" id="reset">Use default</a></p>
+
+    <footer>
+      <span id="msg" class="muted"></span>
+      <span>
+        <button class="secondary" id="cancel">Close</button>
+        <button class="primary" id="save">Save</button>
+      </span>
+    </footer>
+    <script src="settings.js"></script>
+  </body>
+</html>

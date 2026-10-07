@@ -1,3 +1,4 @@
+import { printPage } from '../../lib/desktop';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -55,7 +56,7 @@ export function PrintFrame({ ready, filename, landscape, width = '210mm', childr
         <Button variant="ghost" icon={<X className="size-4" />} onClick={() => window.close()}>
           {t('common.close')}
         </Button>
-        <Button variant="secondary" icon={<Printer className="size-4" />} onClick={() => window.print()} disabled={!ready}>
+        <Button variant="secondary" icon={<Printer className="size-4" />} onClick={printPage} disabled={!ready}>
           {t('print.print')}
         </Button>
         <Button icon={<Download className="size-4" />} onClick={() => void download()} loading={busy} disabled={!ready}>
