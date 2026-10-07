@@ -412,6 +412,7 @@ test.describe.serial('OceanX operations', () => {
 
     await page.goto('/qr-menu');
     await expect(page.getByRole('heading', { name: 'QR Menu' })).toBeVisible();
+    await page.getByRole('tab', { name: 'QR code & settings' }).click();
     await expect(page.getByRole('switch', { name: 'Publish menu' })).toHaveAttribute('aria-checked', 'true');
     await expect(page.getByText('Menu only. Customers browse the menu and your staff take the order.')).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/qr-menu.png`, fullPage: true });
@@ -431,18 +432,25 @@ test.describe.serial('OceanX operations', () => {
     await popup.screenshot({ path: `${SHOTS}/qr-cards.png`, fullPage: true });
 
     const slug = await page.evaluate(async () => (await (await fetch('/api/auth/session')).json()).business.slug as string);
-    // Manager adds the Dhivehi name while editing the item.
-    await page.goto('/products');
-    await page.getByRole('table').getByText('Grilled Reef Fish').click();
+    // Menu items tab: the manager adds the Dhivehi name and hides one dish from the customer menu.
+    await page.goto('/qr-menu');
+    await expect(page.getByText('No Dhivehi name yet').first()).toBeVisible();
+    await page.getByRole('button', { name: /^Grilled Reef Fish/ }).click();
     const dlg = page.getByRole('dialog');
     await dlg.getByLabel('Name in ދިވެހި').fill('ގްރިލްކުރި ފަރުމަސް');
     await dlg.getByRole('button', { name: 'Save' }).click();
-    await expect(page.getByText('Saved').first()).toBeVisible();
+    await expect(page.getByText('ގްރިލްކުރި ފަރުމަސް')).toBeVisible();
+    const tuna = page.getByRole('listitem').filter({ hasText: 'Tuna sashimi' });
+    await tuna.getByRole('switch').click();
+    await expect(tuna.getByRole('switch')).toHaveAttribute('aria-checked', 'false');
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: `${SHOTS}/qr-menu-items.png`, fullPage: true });
 
     const guest = await browser.newPage();
     await guest.goto(`/menu/${slug}?table=T1`);
     await expect(guest.getByText('Table T1')).toBeVisible();
     await expect(guest.getByText('Grilled Reef Fish')).toBeVisible();
+    await expect(guest.getByText('Tuna sashimi')).toHaveCount(0);
     await guest.screenshot({
       path: `${SHOTS}/qr-public-menu.png`,
       fullPage: true,

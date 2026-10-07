@@ -507,6 +507,21 @@ describe('add-on modules', () => {
     expect(menu.categories.find((c: { id: string }) => c.id === cat.id).translations.dv.name).toBe('ބުއިން');
     expect(menu.messageTranslations).toEqual({ dv: 'މަރުޙަބާ' });
     expect((await owner.post('/api/categories', { name: 'Bad', translations: { xx: { name: 'nope' } } })).statusCode).toBe(422);
+
+    // Menu items tab: order and visibility on the customer menu; other businesses cannot touch them.
+    const q2 = await product(owner, { name: 'Lemonade', categoryId: cat.id, sellingPrice: 20 });
+    const items = (await owner.get('/api/qr-menu/items')).json().items as { id: string; hasImage: boolean }[];
+    expect(items.map((x) => x.id)).toEqual(expect.arrayContaining([p.id, q2.id]));
+    expect((await owner.put('/api/qr-menu/order', { ids: [q2.id, p.id] })).statusCode).toBe(200);
+    let ids = (await anon.get(`/api/public/menu/${slug}`)).json().products.map((x: { id: string }) => x.id);
+    expect(ids.indexOf(q2.id)).toBeLessThan(ids.indexOf(p.id));
+    expect((await owner.patch(`/api/qr-menu/items/${q2.id}`, { showInMenu: false })).statusCode).toBe(200);
+    ids = (await anon.get(`/api/public/menu/${slug}`)).json().products.map((x: { id: string }) => x.id);
+    expect(ids).not.toContain(q2.id);
+    const other = (await setupBusiness(env, sa, 'Menu Thief')).owner;
+    expect((await other.patch(`/api/qr-menu/items/${p.id}`, { showInMenu: false })).statusCode).toBe(404);
+    await other.put('/api/qr-menu/order', { ids: [p.id] });
+    expect((await owner.get(`/api/products/${p.id}`)).json().menuSort).toBe(2);
   });
 });
 

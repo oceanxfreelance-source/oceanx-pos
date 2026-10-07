@@ -1834,7 +1834,20 @@
     "card_title": "මෙනුව බැලීමට ස්කෑන් කරන්න",
     "card_subtitle": "ඔබේ දුරකථන කැමරාව කේතය දෙසට යොමු කරන්න",
     "card_table": "මේසය {{table}}",
-    "card_generic": "අපේ කාර්ය මණ්ඩලය ඉක්මනින් ඔබ වෙත පැමිණේවි"
+    "card_generic": "අපේ කාර්ය මණ්ඩලය ඉක්මනින් ඔබ වෙත පැමිණේවි",
+    "tab_items": "මෙනු අයිතම",
+    "tab_settings": "QR කේතය සහ සැකසුම්",
+    "items_summary_one": "පාරිභෝගික මෙනුවේ ආහාර {{count}}",
+    "items_summary_other": "පාරිභෝගික මෙනුවේ ආහාර {{count}}",
+    "items_no_photo_one": "ඡායාරූප නැති {{count}}",
+    "items_no_photo_other": "ඡායාරූප නැති {{count}}",
+    "items_no_dv_one": "දිවෙහි නම නැති {{count}}",
+    "items_no_dv_other": "දිවෙහි නම නැති {{count}}",
+    "add_dish": "ආහාරයක් එක් කරන්න",
+    "items_empty_hint": "ඡායාරූපය සහ දිවෙහි නම සමඟ ඔබේ ආහාර එක් කරන්න. ඒවා වහාම QR මෙනුවේ පෙන්වයි.",
+    "no_dv_name": "තවම දිවෙහි නමක් නැත",
+    "move_up": "ඉහළට ගෙන යන්න",
+    "move_down": "පහළට ගෙන යන්න"
   },
   "menu_i18n": {
     "name_in": "{{language}} නම",

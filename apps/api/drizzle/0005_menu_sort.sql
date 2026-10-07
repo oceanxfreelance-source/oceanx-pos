@@ -1,0 +1,1 @@
+ALTER TABLE "products" ADD COLUMN "menu_sort" integer DEFAULT 0 NOT NULL;

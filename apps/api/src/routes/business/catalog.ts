@@ -252,6 +252,52 @@ export async function catalogRoutes(app: FastifyInstance) {
     return reply.send(await storage.read(p.imagePath));
   });
 
+  // ---------------------------------------------------------------- customer QR menu
+  // The QR menu uses the same items as the POS (prices stay in sync); these routes manage how they appear.
+  const menuEditor = requireAnyPermission('qr_menu.manage', 'products.edit');
+  app.get('/qr-menu/items', { preHandler: requireAnyPermission('qr_menu.manage', 'products.view') }, async (req) => {
+    const ctx = bizCtx(req);
+    const rows = await db
+      .select({
+        id: products.id,
+        name: products.name,
+        description: products.description,
+        translations: products.translations,
+        categoryId: products.categoryId,
+        categoryName: categories.name,
+        sellingPrice: products.sellingPrice,
+        imagePath: products.imagePath,
+        isActive: products.isActive,
+        showInMenu: products.showInMenu,
+        menuSort: products.menuSort,
+      })
+      .from(products)
+      .leftJoin(categories, eq(categories.id, products.categoryId))
+      .where(and(eq(products.businessId, ctx.businessId), isNull(products.deletedAt), sql`${products.type} <> 'ingredient'`))
+      .orderBy(asc(products.menuSort), asc(products.name));
+    return { items: rows.map(({ imagePath, ...r }) => ({ ...r, hasImage: !!imagePath })) };
+  });
+
+  app.patch('/qr-menu/items/:id', { preHandler: menuEditor }, async (req) => {
+    const ctx = bizCtx(req);
+    const id = idParam(req);
+    const body = parse(z.object({ showInMenu: z.boolean() }), req.body);
+    const [p] = await db.update(products).set({ showInMenu: body.showInMenu, updatedAt: new Date() }).where(own(products, ctx, id)).returning({ id: products.id });
+    if (!p) throw notFound();
+    await audit(db, { ...actor(ctx), action: 'product.menu_visibility', entityType: 'product', entityId: id, metadata: body, req });
+    return { ok: true };
+  });
+
+  app.put('/qr-menu/order', { preHandler: menuEditor }, async (req) => {
+    const ctx = bizCtx(req);
+    const body = parse(z.object({ ids: z.array(z.uuid()).min(1).max(2000) }), req.body);
+    await db.transaction(async (tx) => {
+      // Only this business's items are touched; unknown ids are ignored.
+      for (const [i, id] of body.ids.entries()) await tx.update(products).set({ menuSort: i + 1 }).where(own(products, ctx, id));
+    });
+    return { ok: true };
+  });
+
   // ---------------------------------------------------------------- recipes (add-on)
   app.put('/products/:id/recipe', { preHandler: requirePermission('recipes.manage') }, async (req) => {
     const ctx = bizCtx(req);

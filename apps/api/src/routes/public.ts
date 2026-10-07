@@ -56,7 +56,7 @@ export async function publicRoutes(app: FastifyInstance, opts: { authRateLimit: 
         })
         .from(products)
         .where(and(eq(products.businessId, bid), eq(products.isActive, true), eq(products.showInMenu, true), isNull(products.deletedAt), sql`${products.type} <> 'ingredient'`))
-        .orderBy(asc(products.name)),
+        .orderBy(asc(products.menuSort), asc(products.name)),
     ]);
     // "TOP 1/2/3" badges: best sellers of the last 30 days among items shown on the menu.
     const shown = new Set(prods.map((p) => p.id));

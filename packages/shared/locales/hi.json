@@ -1834,7 +1834,20 @@
     "card_title": "मेनू के लिए स्कैन करें",
     "card_subtitle": "अपने फ़ोन का कैमरा कोड की ओर करें",
     "card_table": "टेबल {{table}}",
-    "card_generic": "हमारा स्टाफ़ जल्द ही आपके पास आएगा"
+    "card_generic": "हमारा स्टाफ़ जल्द ही आपके पास आएगा",
+    "tab_items": "मेनू आइटम",
+    "tab_settings": "QR कोड और सेटिंग्स",
+    "items_summary_one": "ग्राहक मेनू में {{count}} व्यंजन",
+    "items_summary_other": "ग्राहक मेनू में {{count}} व्यंजन",
+    "items_no_photo_one": "{{count}} बिना फ़ोटो",
+    "items_no_photo_other": "{{count}} बिना फ़ोटो",
+    "items_no_dv_one": "{{count}} बिना धिवेही नाम",
+    "items_no_dv_other": "{{count}} बिना धिवेही नाम",
+    "add_dish": "व्यंजन जोड़ें",
+    "items_empty_hint": "फ़ोटो और धिवेही नाम के साथ अपने व्यंजन जोड़ें। वे तुरंत QR मेनू पर दिखेंगे।",
+    "no_dv_name": "अभी कोई धिवेही नाम नहीं",
+    "move_up": "ऊपर ले जाएँ",
+    "move_down": "नीचे ले जाएँ"
   },
   "menu_i18n": {
     "name_in": "{{language}} में नाम",

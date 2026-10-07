@@ -543,6 +543,8 @@ export const products = pgTable(
     showInPos: boolean('show_in_pos').notNull().default(true),
     showInMenu: boolean('show_in_menu').notNull().default(true),
     sendToKitchen: boolean('send_to_kitchen').notNull().default(true),
+    /** Position on the customer QR menu (lower first, then name). */
+    menuSort: integer('menu_sort').notNull().default(0),
     options: jsonb('options').$type<{ name: string; required: boolean; multiple: boolean; choices: { name: string; price: number }[] }[]>().notNull().default([]),
     imagePath: text('image_path'),
     createdAt: createdAt(),

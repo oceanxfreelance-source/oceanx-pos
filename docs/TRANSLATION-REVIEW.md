@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 49 · **confirmed**: 144
+Status: **needs_review**: 62 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -39,6 +39,19 @@ review of the whole file is still recommended before launch.
 | `public_menu.menu_title` | Menu | މެނޫ | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.more` | More | އިތުރު | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.top` | TOP {{rank}} | ޓޮޕް {{rank}} | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
+| `qr.add_dish` | Add dish | ކާނާއެއް އިތުރުކުރޭ | needs_review | New: QR Menu → Menu items tab. |
+| `qr.items_empty_hint` | Add your dishes with a photo and Dhivehi name. They appear on the QR menu right away. | ފޮޓޯއާއި ދިވެހި ނަމާއެކު ކާނާތައް އިތުރުކުރައްވާ. ކިއުއާރް މެނޫގައި ވަގުތުން ފެންނާނެއެވެ. | needs_review | New: QR Menu → Menu items tab. |
+| `qr.items_no_dv_one` | {{count}} without a Dhivehi name | ދިވެހި ނަން ނެތް {{count}} | needs_review | New: QR Menu → Menu items tab. |
+| `qr.items_no_dv_other` | {{count}} without a Dhivehi name | ދިވެހި ނަން ނެތް {{count}} | needs_review | New: QR Menu → Menu items tab. |
+| `qr.items_no_photo_one` | {{count}} without a photo | ފޮޓޯ ނެތް {{count}} | needs_review | New: QR Menu → Menu items tab. |
+| `qr.items_no_photo_other` | {{count}} without a photo | ފޮޓޯ ނެތް {{count}} | needs_review | New: QR Menu → Menu items tab. |
+| `qr.items_summary_one` | {{count}} dish on the customer menu | ކަސްޓަމަރުންގެ މެނޫގައި {{count}} ކާނާ | needs_review | New: QR Menu → Menu items tab. |
+| `qr.items_summary_other` | {{count}} dishes on the customer menu | ކަސްޓަމަރުންގެ މެނޫގައި {{count}} ކާނާ | needs_review | New: QR Menu → Menu items tab. |
+| `qr.move_down` | Move down | ތިރިއަށް | needs_review | New: QR Menu → Menu items tab. |
+| `qr.move_up` | Move up | މައްޗަށް | needs_review | New: QR Menu → Menu items tab. |
+| `qr.no_dv_name` | No Dhivehi name yet | އަދި ދިވެހި ނަމެއް ނެތް | needs_review | New: QR Menu → Menu items tab. |
+| `qr.tab_items` | Menu items | މެނޫގެ އައިޓަމްތައް | needs_review | New: QR Menu → Menu items tab. |
+| `qr.tab_settings` | QR code & settings | ކިއުއާރް ކޯޑާއި ސެޓިންގްސް | needs_review | New: QR Menu → Menu items tab. |
 | `quotations.convert` | Convert to invoice | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ | needs_review | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ follows existing perm.quotations_convert_to_invoice. |
 | `reports.columns.gross` | Gross | ގްރޮސް | needs_review | Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން). |
 | `reports.columns.margin` | Margin | މާޖިން | needs_review | Loanword މާޖިން. Alternative: ފައިދާގެ މިންވަރު. |

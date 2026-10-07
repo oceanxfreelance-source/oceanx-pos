@@ -1834,7 +1834,20 @@
     "card_title": "Scan for menu",
     "card_subtitle": "Point your phone camera at the code",
     "card_table": "Table {{table}}",
-    "card_generic": "Our staff will be with you shortly"
+    "card_generic": "Our staff will be with you shortly",
+    "tab_items": "Menu items",
+    "tab_settings": "QR code & settings",
+    "items_summary_one": "{{count}} dish on the customer menu",
+    "items_summary_other": "{{count}} dishes on the customer menu",
+    "items_no_photo_one": "{{count}} without a photo",
+    "items_no_photo_other": "{{count}} without a photo",
+    "items_no_dv_one": "{{count}} without a Dhivehi name",
+    "items_no_dv_other": "{{count}} without a Dhivehi name",
+    "add_dish": "Add dish",
+    "items_empty_hint": "Add your dishes with a photo and Dhivehi name. They appear on the QR menu right away.",
+    "no_dv_name": "No Dhivehi name yet",
+    "move_up": "Move up",
+    "move_down": "Move down"
   },
   "menu_i18n": {
     "name_in": "Name in {{language}}",

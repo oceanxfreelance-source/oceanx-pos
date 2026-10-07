@@ -11,14 +11,41 @@ import { useToastError } from '../../lib/useApiError';
 import { Alert, Card, CardHeader, Ltr, PageHeader, SkeletonRows } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Checkbox, Switch, Textarea } from '../../components/ui/Form';
+import { Tabs } from '../../components/ui/Tabs';
+import { QrMenuItems } from './QrMenuItems';
+import { useSearchParams } from 'react-router-dom';
 
 type Online = BusinessSettings['online'];
+
+/**
+ * QR menu: what customers see when they scan the table code. "Menu items" manages the dishes on the
+ * customer menu (same items as the POS, so prices stay in sync); "QR code & settings" is the code itself.
+ */
+export default function QrMenuPage() {
+  const { t } = useTranslation();
+  const [params, setParams] = useSearchParams();
+  const tab = params.get('tab') === 'settings' ? 'settings' : 'items';
+  return (
+    <div className="space-y-6">
+      <PageHeader title={t('qr.title')} description={t('qr.subtitle')} />
+      <Tabs
+        tabs={[
+          { value: 'items', label: t('qr.tab_items') },
+          { value: 'settings', label: t('qr.tab_settings') },
+        ]}
+        value={tab}
+        onChange={(v) => setParams(v === 'items' ? {} : { tab: v }, { replace: true })}
+      />
+      {tab === 'items' ? <QrMenuItems /> : <QrSettings />}
+    </div>
+  );
+}
 
 /**
  * QR menu: one printed code per table. The code holds only the menu address, so every change to items,
  * prices, photos or availability shows up immediately — nothing needs re-printing.
  */
-export default function QrMenuPage() {
+function QrSettings() {
   const { t } = useTranslation();
   const { can, hasAddon } = useBiz();
   const session = useBizSession();
@@ -70,7 +97,6 @@ export default function QrMenuPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title={t('qr.title')} description={t('qr.subtitle')} />
       <div className="grid gap-6 lg:grid-cols-[22rem_1fr]">
         <Card>
           <div className="flex flex-col items-center gap-4 text-center">

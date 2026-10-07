@@ -1834,7 +1834,20 @@
     "card_title": "मेनु हेर्न स्क्यान गर्नुहोस्",
     "card_subtitle": "फोनको क्यामेरा कोडतिर फर्काउनुहोस्",
     "card_table": "टेबल {{table}}",
-    "card_generic": "हाम्रा कर्मचारी छिट्टै तपाईंकहाँ आउनेछन्"
+    "card_generic": "हाम्रा कर्मचारी छिट्टै तपाईंकहाँ आउनेछन्",
+    "tab_items": "मेनु वस्तुहरू",
+    "tab_settings": "QR कोड र सेटिङहरू",
+    "items_summary_one": "ग्राहक मेनुमा {{count}} परिकार",
+    "items_summary_other": "ग्राहक मेनुमा {{count}} परिकार",
+    "items_no_photo_one": "{{count}} मा फोटो छैन",
+    "items_no_photo_other": "{{count}} मा फोटो छैन",
+    "items_no_dv_one": "{{count}} मा धिवेही नाम छैन",
+    "items_no_dv_other": "{{count}} मा धिवेही नाम छैन",
+    "add_dish": "परिकार थप्नुहोस्",
+    "items_empty_hint": "फोटो र धिवेही नामसहित आफ्ना परिकार थप्नुहोस्। तिनीहरू तुरुन्तै QR मेनुमा देखिन्छन्।",
+    "no_dv_name": "अझै धिवेही नाम छैन",
+    "move_up": "माथि सार्नुहोस्",
+    "move_down": "तल सार्नुहोस्"
   },
   "menu_i18n": {
     "name_in": "{{language}} मा नाम",

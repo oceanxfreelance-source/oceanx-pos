@@ -1834,7 +1834,20 @@
     "card_title": "মেনু দেখতে স্ক্যান করুন",
     "card_subtitle": "ফোনের ক্যামেরা কোডের দিকে ধরুন",
     "card_table": "টেবিল {{table}}",
-    "card_generic": "আমাদের কর্মীরা শিগগিরই আপনার কাছে আসবেন"
+    "card_generic": "আমাদের কর্মীরা শিগগিরই আপনার কাছে আসবেন",
+    "tab_items": "মেনু আইটেম",
+    "tab_settings": "QR কোড ও সেটিংস",
+    "items_summary_one": "গ্রাহক মেনুতে {{count}}টি খাবার",
+    "items_summary_other": "গ্রাহক মেনুতে {{count}}টি খাবার",
+    "items_no_photo_one": "{{count}}টিতে ছবি নেই",
+    "items_no_photo_other": "{{count}}টিতে ছবি নেই",
+    "items_no_dv_one": "{{count}}টিতে দিভেহি নাম নেই",
+    "items_no_dv_other": "{{count}}টিতে দিভেহি নাম নেই",
+    "add_dish": "খাবার যোগ করুন",
+    "items_empty_hint": "ছবি ও দিভেহি নামসহ আপনার খাবার যোগ করুন। এগুলো সঙ্গে সঙ্গে QR মেনুতে দেখা যাবে।",
+    "no_dv_name": "এখনও দিভেহি নাম নেই",
+    "move_up": "উপরে সরান",
+    "move_down": "নিচে সরান"
   },
   "menu_i18n": {
     "name_in": "{{language}}-এ নাম",

@@ -22,7 +22,7 @@ import { ItemAvatar } from '../../components/ItemAvatar';
 import { TranslationFields } from '../../components/TranslationFields';
 import { preparePhoto } from '../../lib/image';
 
-interface Category {
+export interface Category {
   id: string;
   name: string;
   description: string;
@@ -32,7 +32,7 @@ interface Category {
   productCount: number;
   translations: Translations;
 }
-interface Product {
+export interface Product {
   id: string;
   name: string;
   sku: string;
@@ -79,7 +79,7 @@ export default function ProductsPage() {
   );
 }
 
-function useCategories() {
+export function useCategories() {
   return useQuery({ queryKey: ['biz', 'categories'], queryFn: () => api.get<{ items: Category[] }>('/categories') });
 }
 
@@ -213,7 +213,7 @@ function ProductList() {
 
 type OptionDraft = { name: string; required: boolean; multiple: boolean; choices: { name: string; price: string }[] };
 
-function ProductDialog({ product, categories, onClose }: { product: Product | null; categories: Category[]; onClose: () => void }) {
+export function ProductDialog({ product, categories, onClose }: { product: Product | null; categories: Category[]; onClose: () => void }) {
   const { t } = useTranslation();
   const { can, hasAddon } = useBiz();
   const qc = useQueryClient();
@@ -268,6 +268,7 @@ function ProductDialog({ product, categories, onClose }: { product: Product | nu
       toast.success(t('common.saved'));
       void qc.invalidateQueries({ queryKey: ['biz', 'products'] });
       void qc.invalidateQueries({ queryKey: ['biz', 'pos'] });
+      void qc.invalidateQueries({ queryKey: ['biz', 'qr-menu-items'] });
       onClose();
     },
   });
