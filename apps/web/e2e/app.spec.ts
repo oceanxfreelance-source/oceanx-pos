@@ -49,7 +49,7 @@ test.describe.serial('OceanX phase 1', () => {
     await page.getByRole('menuitem', { name: 'ދިވެހި' }).click();
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     await expect(page.locator('html')).toHaveAttribute('lang', 'dv');
-    await expect(page.getByRole('link', { name: 'ޔޫޒަރުން' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'ބޭނުންކުރާ ފަރާތްތައް' })).toBeVisible();
     // Faruma is bundled: it loads, and no "font missing" warning is shown.
     expect(await page.evaluate(async () => (await document.fonts.load('16px Faruma', 'ދިވެހި')).some((f) => f.status === 'loaded'))).toBe(true);
     await expect(page.getByRole('alert').filter({ hasText: 'Faruma font file is required' })).toHaveCount(0);

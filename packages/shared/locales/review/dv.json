@@ -2,16 +2,16 @@
   {
     "key": "modules.invoices",
     "english": "Invoices",
-    "suggested": "އިންވޮއިސް",
-    "status": "needs_review",
-    "notes": "Loanword used in Maldivian business. Alternative: ބިލު (but ބިލު is commonly a café/restaurant bill, which would clash with receipts). Business decision needed."
+    "suggested": "އިންވޮއިސްތައް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "modules.quotations",
     "english": "Quotations",
-    "suggested": "ކޮޓޭޝަން",
-    "status": "needs_review",
-    "notes": "Loanword. Alternative: އަގު ހުށަހެޅުން. Which do your salespeople and customers actually use?"
+    "suggested": "ކޯޓޭޝަންތައް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "settings.tabs.receipt",
@@ -23,16 +23,16 @@
   {
     "key": "modules.sales",
     "english": "Sales",
-    "suggested": "ވިއްކުން",
-    "status": "needs_review",
-    "notes": "Alternative loanword: ސޭލްސް. ވިއްކުން reads naturally in reports; ސޭލްސް is common in POS UIs."
+    "suggested": "ވިއްކުންތައް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "modules.inventory",
     "english": "Inventory",
-    "suggested": "ސްޓޮކް",
-    "status": "needs_review",
-    "notes": "Alternatives: އިންވެންޓަރީ, ގުދަން (storeroom). Chose ސްޓޮކް as the everyday word in shops."
+    "suggested": "އިންވެންޓްރީ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "modules.purchases",
@@ -45,15 +45,15 @@
     "key": "nav.outlets",
     "english": "Outlets",
     "suggested": "އައުޓްލެޓްތައް",
-    "status": "needs_review",
-    "notes": "Alternatives: ބްރާންޗުތައް, ފިހާރަތައް. ބްރާންޗު may be clearer for multi-branch restaurants."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "roles.title",
     "english": "Roles & permissions",
     "suggested": "ރޯލްތަކާއި ހުއްދަތައް",
-    "status": "needs_review",
-    "notes": "ހުއްދަ for 'permission' is natural Dhivehi; some staff may expect the loanword ޕަމިޝަން."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "addons.names.credit",
@@ -79,44 +79,44 @@
   {
     "key": "roles.system.salesperson",
     "english": "Salesperson",
-    "suggested": "ސޭލްސް ޕާސަން",
-    "status": "needs_review",
-    "notes": "Alternative: ވިއްކާ މުވައްޒަފު."
+    "suggested": "ސޭލްސްޕާސަން",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "roles.system.business_admin",
     "english": "Business Admin",
     "suggested": "ބިޒްނަސް އެޑްމިން",
-    "status": "needs_review",
-    "notes": "Alternative: ވިޔަފާރީގެ އެޑްމިން."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "roles.system.kitchen_staff",
     "english": "Kitchen Staff",
-    "suggested": "ބަދިގޭގެ މުވައްޒަފު",
+    "suggested": "ބަދިގޭގެ ސްޓާފުން",
     "status": "confirmed",
-    "notes": ""
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "roles.system.cashier",
     "english": "Cashier",
-    "suggested": "ކެޝިއަރު",
+    "suggested": "ކޭޝިއަރު",
     "status": "confirmed",
-    "notes": ""
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "roles.system.waiter",
     "english": "Waiter",
     "suggested": "ވެއިޓަރު",
     "status": "confirmed",
-    "notes": ""
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "users.owner",
     "english": "Owner",
-    "suggested": "ވެރިފަރާތް",
+    "suggested": "ވެރިޔާ",
     "status": "confirmed",
-    "notes": ""
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "settings.service_charge_enabled",
@@ -128,23 +128,23 @@
   {
     "key": "dashboard.good_afternoon",
     "english": "Good afternoon",
-    "suggested": "މެންދުރު ފަހުގެ ސަލާމް",
-    "status": "needs_review",
-    "notes": "Time-of-day greetings are not idiomatic in Dhivehi. Option: always show އައްސަލާމު ޢަލައިކުމް."
+    "suggested": "މެންދުރުފަހުގެ ސަލާމް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "dashboard.good_morning",
     "english": "Good morning",
-    "suggested": "ހެނދުނުގެ ސަލާމް",
-    "status": "needs_review",
-    "notes": "See dashboard.good_afternoon."
+    "suggested": "ބާއްޖަވެރި ހެނދުނެއް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "dashboard.good_evening",
     "english": "Good evening",
     "suggested": "ހަވީރުގެ ސަލާމް",
-    "status": "needs_review",
-    "notes": "See dashboard.good_afternoon."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "superadmin.status.suspended",
@@ -156,30 +156,30 @@
   {
     "key": "status.pending_title",
     "english": "Awaiting approval",
-    "suggested": "އެޕްރޫވަލަށް އިންތިޒާރުކުރަނީ",
-    "status": "needs_review",
-    "notes": "Alternative with native vocabulary: ހުއްދައަށް އިންތިޒާރުކުރަނީ."
+    "suggested": "އެޕްރޫވަލްގެ އިންތިޒާރުގައި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "nav.activity",
     "english": "Activity log",
-    "suggested": "ހަރަކާތްތަކުގެ ލޮގް",
-    "status": "needs_review",
-    "notes": "Alternative: އޮޑިޓް ލޮގް."
+    "suggested": "ހަރަކާތްތަކުގެ ރެކޯޑް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "account.reduce_animations",
     "english": "Reduce animations",
-    "suggested": "އެނިމޭޝަން ކުޑަކުރޭ",
-    "status": "needs_review",
-    "notes": "Technical term; confirm users understand it."
+    "suggested": "އެނިމޭޝަންތައް މަދުކުރޭ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "account.theme_dark",
     "english": "Dark",
     "suggested": "އަނދިރި",
-    "status": "needs_review",
-    "notes": "Alternative loanword: ޑާކް މޯޑް."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "superadmin.security.two_factor",
@@ -198,30 +198,30 @@
   {
     "key": "common.showing_range",
     "english": "Showing {{from}}–{{to}} of {{total}}",
-    "suggested": "{{total}} އިން {{from}}–{{to}} ދައްކަނީ",
-    "status": "needs_review",
-    "notes": "Word order with numbers in RTL — please check it reads naturally."
+    "suggested": "ދައްކަނީ: {{total}} ގެ ތެރެއިން {{from}} އިން {{to}} އަށް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "common.reset",
     "english": "Reset",
-    "suggested": "ފުރަތަމަ ހާލަތަށް",
-    "status": "needs_review",
-    "notes": "Used on settings forms to discard unsaved edits. Alternative: ރީސެޓް."
+    "suggested": "އަލުން ފަށާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "validation.too_many",
     "english": "Select at most {{max}}.",
-    "suggested": "{{max}} އަށްވުރެ ގިނަ ނުހޮވާށެވެ.",
-    "status": "needs_review",
-    "notes": "Formal written ending; other messages use a polite conversational tone."
+    "suggested": "ގިނަވެގެން {{max}} ޚިޔާރުކުރައްވާ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "system.faruma_missing",
     "english": "The Faruma font is not installed, so Dhivehi text may not display correctly.",
-    "suggested": "ފަރުމާ ފޮންޓް އިންސްޓޯލްކޮށްފައި ނުވާތީ ދިވެހި ލިޔުން ރަނގަޅަށް ނުފެނިދާނެ.",
+    "suggested": "ފަރުމާ ފޮންޓް އިންސްޓޯލް ކުރެވިފައި ނެތުމުން، ދިވެހި ލިޔުންތައް ރަނގަޅަށް ނުފެނިދާނެއެވެ.",
     "status": "confirmed",
-    "notes": ""
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "time.minutes_ago",
@@ -234,134 +234,134 @@
     "key": "credit.credit",
     "english": "Credit",
     "suggested": "ކްރެޑިޓް",
-    "status": "needs_review",
-    "notes": "Ledger column. Loanword ކްރެޑިޓް chosen to pair with ޑެބިޓް; native alternative ލިބުނު (received). Note: elsewhere 'credit' as a sale/debt concept uses ދަރަނި, so the same English word maps to two Dhivehi words — confirm this split."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.debit",
     "english": "Debit",
     "suggested": "ޑެބިޓް",
-    "status": "needs_review",
-    "notes": "Ledger column loanword. Native alternative: ދަރަނި އިތުރުވި / ދައްކަންޖެހޭ. Confirm accountants' preferred term."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.limit",
     "english": "Credit limit",
     "suggested": "ކްރެޑިޓް ލިމިޓް",
-    "status": "needs_review",
-    "notes": "Matches existing perm.credit_manage (ކްރެޑިޓް ލިމިޓް). Alternative: ދަރަނީގެ ހަދު. Depends on the open credit-terminology decision in the existing review list."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.outstanding",
     "english": "Outstanding",
-    "suggested": "ބާކީ ދަރަނި",
-    "status": "needs_review",
-    "notes": "'Outstanding' rendered as ބާކީ ދަރަނި (remaining debt). Alternatives: ދައްކަން ބާކީ, އައުޓްސްޓޭންޑިންގ. Also used in reports.columns.outstanding, reports.summary.outstanding, dashboard.w.outstanding_due."
+    "suggested": "ނުދައްކާ ހުރި ޖުމްލަ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.balance",
     "english": "Balance",
     "suggested": "ބާކީ",
-    "status": "needs_review",
-    "notes": "Running ledger balance as ބާކީ. Same word is used for 'remaining' in POS; confirm no confusion."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.balance_due",
     "english": "Balance due",
-    "suggested": "ދައްކަންޖެހޭ ބާކީ",
-    "status": "needs_review",
-    "notes": "ދައްކަންޖެހޭ ބާކީ. Alternative: ދައްކަން ބާކީ އަދަދު."
+    "suggested": "ދައްކަންޖެހޭ ބާކީ ފައިސާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.available",
     "english": "Available credit",
-    "suggested": "ލިބެން ހުރި ކްރެޑިޓް",
-    "status": "needs_review",
-    "notes": "ލިބެން ހުރި ކްރެޑިޓް; alternative: ބޭނުންކުރެވޭ ކްރެޑިޓް."
+    "suggested": "ބާކީ ހުރި ކްރެޑިޓް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.days",
     "english": "Credit days",
-    "suggested": "ކްރެޑިޓް ދުވަސް",
-    "status": "needs_review",
-    "notes": "Literal 'credit days'. Alternative: ދަރަނި ދައްކަންޖެހޭ މުއްދަތު (ދުވަސް) — clearer but longer."
+    "suggested": "ކްރެޑިޓް މުއްދަތު (ދުވަސް)",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.statement",
     "english": "Statement",
     "suggested": "ސްޓޭޓްމަންޓް",
-    "status": "needs_review",
-    "notes": "Loanword ސްޓޭޓްމަންޓް, consistent with existing addons.descriptions.credit. Native alternative: ހިސާބު ބަޔާން."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.entry",
     "english": "Entry",
     "suggested": "އެންޓްރީ",
-    "status": "needs_review",
-    "notes": "Ledger entry loanword އެންޓްރީ. Alternative: ބަޔާން / ރެކޯޑު."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.fifo_hint",
     "english": "The payment is applied to the oldest unpaid credit sales first.",
-    "suggested": "ފައިސާ ކެނޑޭނީ ފުރަތަމަ އެންމެ ކުރީގެ ނުދައްކާ ދަރަނީގެ ވިއްކުންތަކުން.",
-    "status": "needs_review",
-    "notes": "FIFO allocation explanation; please check the phrasing ފައިސާ ކެނޑޭނީ (amount is deducted from) reads naturally."
+    "suggested": "ފައިސާ އެންމެ ފުރަތަމަ ކަނޑައެޅޭނީ ނުދައްކާ ހުރި އެންމެ ދުވަސްވީ ކްރެޑިޓް ވިއްކުންތަކަށެވެ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.kinds.credit_sale",
     "english": "Credit sale",
     "suggested": "ދަރަންޏަށް ވިއްކުން",
-    "status": "needs_review",
-    "notes": "ދަރަންޏަށް ވިއްކުން — follows existing perm.credit_create. Depends on the credit-terminology decision."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "payment_methods.credit",
     "english": "Credit (pay later)",
-    "suggested": "ދަރަންޏަށް (ފަހުން ދައްކާ)",
-    "status": "needs_review",
-    "notes": "ދަރަންޏަށް (ފަހުން ދައްކާ). Alternative: ކްރެޑިޓް (ފަހުން ދައްކާ)."
+    "suggested": "ކްރެޑިޓް (ފަހުން ފައިސާ ދައްކާގޮތަށް)",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "payments.kinds.credit_payment",
     "english": "Credit payment",
-    "suggested": "ދަރަނީގެ ފައިސާ",
-    "status": "needs_review",
-    "notes": "ދަރަނީގެ ފައިސާ, matches existing perm.credit_payment wording."
+    "suggested": "ކްރެޑިޓް ފައިސާ ދެއްކުން",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "pos.credit_to",
     "english": "{{amount}} on credit to {{name}}",
-    "suggested": "{{amount}} {{name}} ގެ ނަމުގައި ދަރަންޏަށް",
-    "status": "needs_review",
-    "notes": "Word order reversed for Dhivehi: '{{amount}} {{name}} ގެ ނަމުގައި ދަރަންޏަށް'. Check it reads naturally with real values."
+    "suggested": "{{amount}} ދަރަންޏަށް {{name}} އަށް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "notify.credit_payment",
     "english": "{{customer}} paid {{amount}} towards credit",
-    "suggested": "{{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި",
-    "status": "needs_review",
-    "notes": "'{{customer}} ދަރަންޏަށް {{amount}} ދައްކައިފި' — check word order and verb."
+    "suggested": "{{customer}} ވަނީ ދަރަންޏަށް {{amount}} ދައްކާފައި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "sales.void",
     "english": "Void",
-    "suggested": "ބާތިލުކުރޭ",
-    "status": "needs_review",
-    "notes": "ބާތިލުކުރޭ follows existing perm.sales_void / invoices_void. Note 'cancel' uses the loanword ކެންސަލް, so void vs cancel stay distinct; confirm."
+    "suggested": "ބާތިލު",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "status_labels.void",
     "english": "Void",
     "suggested": "ބާތިލު",
-    "status": "needs_review",
-    "notes": "ބާތިލު (void) vs ކެންސަލްކޮށްފައި (cancelled) — keep the two distinct."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "sales.void_hint",
     "english": "Stock is returned and payments are reversed. This cannot be undone.",
-    "suggested": "ސްޓޮކް އަނބުރާ އިތުރުވެ، ދެއްކި ފައިސާ އަނބުރާ ރިވާސްވާނެ. މިކަން އަނބުރާ ނުކުރެވޭނެ.",
-    "status": "needs_review",
-    "notes": "'payments are reversed' rendered with loanword ރިވާސްވާނެ. Alternative: ދެއްކި ފައިސާ އަނބުރާ ބާތިލުވާނެ."
+    "suggested": "ސްޓޮކް އަނބުރާ ޖަމާވާނެ އަދި ފައިސާ އަނބުރާ ރައްދުވާނެއެވެ. މިކަން އަނބުރާއެއް ނުގެނެވޭނެއެވެ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "invoices.issue",
@@ -373,9 +373,9 @@
   {
     "key": "status_labels.issued",
     "english": "Issued",
-    "suggested": "ނެރެފައި",
-    "status": "needs_review",
-    "notes": "ނެރެފައި — see invoices.issue."
+    "suggested": "ދޫކުރެވިފައި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "quotations.convert",
@@ -387,58 +387,58 @@
   {
     "key": "quotations.valid_until",
     "english": "Valid until",
-    "suggested": "ޞައްޙަ ތާރީޚު",
-    "status": "needs_review",
-    "notes": "ޞައްޙަ ތާރީޚު (valid-until date), based on existing settings.validity_days. Alternative: ޞައްޙަ ވާނީ މި ތާރީޚާ ހަމައަށް."
+    "suggested": "މުއްދަތު ހަމަވާ ތާރީޚް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "status_labels.rejected",
     "english": "Rejected",
-    "suggested": "ރިޖެކްޓްކޮށްފައި",
-    "status": "needs_review",
-    "notes": "Loanword ރިޖެކްޓް. Native alternative: ގަބޫލުނުކުރެވި / ރައްދުކުރެވި. Same choice used across quotations/online orders."
+    "suggested": "ރިޖެކްޓްކުރެވިފައި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "status_labels.overdue",
     "english": "Overdue",
-    "suggested": "މުއްދަތު ފަހަނައަޅާފައި",
-    "status": "needs_review",
-    "notes": "މުއްދަތު ފަހަނައަޅާފައި. Existing superadmin uses ފައިސާ ލަސްވެފައި for past_due; consider aligning."
+    "suggested": "މުއްދަތު ހަމަވެފައި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "status_labels.no_show",
     "english": "No-show",
-    "suggested": "ނާދޭ",
-    "status": "needs_review",
-    "notes": "ނާދޭ (did not come). Alternative loanword: ނޯ-ޝޯ."
+    "suggested": "ހާޒިރެއްނުވޭ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "status_labels.seated",
     "english": "Seated",
     "suggested": "އިށީނދެފައި",
-    "status": "needs_review",
-    "notes": "އިށީނދެފައި (seated); alternative: މޭޒަށް ވަޑައިގެންފި."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "status_labels.occupied",
     "english": "Occupied",
-    "suggested": "ބޭނުންކުރަމުން",
-    "status": "needs_review",
-    "notes": "Table status: ބޭނުންކުރަމުން; alternative: ހުސްނޫން."
+    "suggested": "ބޭނުންކުރެވެނީ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "status_labels.available",
     "english": "Available",
-    "suggested": "ހުސް",
-    "status": "needs_review",
-    "notes": "Table status: ހުސް (free). If also shown for products, ލިބެން ހުރި would fit better."
+    "suggested": "ލިބެންހުރި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "loyalty.points",
     "english": "Points",
-    "suggested": "ޕޮއިންޓް",
-    "status": "needs_review",
-    "notes": "ޕޮއިންޓް — loanword, consistent with existing addons.descriptions.loyalty."
+    "suggested": "ޕޮއިންޓްސް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "perm.loyalty_view",
@@ -450,9 +450,9 @@
   {
     "key": "pos.redeem_points",
     "english": "Redeem points (available: {{points}})",
-    "suggested": "ޕޮއިންޓް ބޭނުންކުރޭ (ލިބެން ހުރި: {{points}})",
-    "status": "needs_review",
-    "notes": "'Redeem' rendered as ބޭނުންކުރޭ (use). Alternative: ބަދަލުކޮށްލާ / ރިޑީމްކުރޭ."
+    "suggested": "ޕޮއިންޓް ބޭނުންކުރުން (ލިބެންހުރީ: {{points}})",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "inventory.adjust",
@@ -506,16 +506,16 @@
   {
     "key": "products.recipe_cost",
     "english": "Cost per portion",
-    "suggested": "ކޮންމެ ޕޯޝަނެއްގެ ޚަރަދު",
-    "status": "needs_review",
-    "notes": "ކޮންމެ ޕޯޝަނެއްގެ ޚަރަދު; 'portion' loanword ޕޯޝަން — alternative: ބައި / ޕްލޭޓް."
+    "suggested": "ޕޯޝަނަކަށް ޖެހޭ ޚަރަދު",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "products.cost_price",
     "english": "Cost price",
-    "suggested": "ކޮސްޓް އަގު",
-    "status": "needs_review",
-    "notes": "ކޮސްޓް އަގު (loanword). Alternative: ގަތް އަގު (purchase price)."
+    "suggested": "ގަތް އަގު",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "reports.columns.margin",
@@ -562,72 +562,72 @@
   {
     "key": "reports.types.credit",
     "english": "Credit & dues",
-    "suggested": "ދަރަނި އަދި ދައްކަންޖެހޭ ފައިސާ",
-    "status": "needs_review",
-    "notes": "Credit & dues: ދަރަނި އަދި ދައްކަންޖެހޭ ފައިސާ."
+    "suggested": "ކްރެޑިޓް އަދި ދައްކަންޖެހޭ ފައިސާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "documents.subtotal",
     "english": "Subtotal",
     "suggested": "ސަބްޓޯޓަލް",
-    "status": "needs_review",
-    "notes": "Loanword ސަބްޓޯޓަލް. Alternative: ޖުމްލަ (ޓެކްސް ނުލާ)."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.bill_to",
     "english": "Bill to",
-    "suggested": "ބިލު ފޮނުވާ ފަރާތް",
-    "status": "needs_review",
-    "notes": "'Bill to' → ބިލު ފޮނުވާ ފަރާތް; alternative: ބިލު ދޫކުރާ ފަރާތް / ކަސްޓަމަރު."
+    "suggested": "ބިލް ރައްދުވާ ފަރާތް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.prepared_for",
     "english": "Prepared for",
-    "suggested": "ތައްޔާރުކުރީ",
-    "status": "needs_review",
-    "notes": "Rendered as ތައްޔާރުކުރީ (prepared for — name follows). Alternative: މި ފަރާތަށް ތައްޔާރުކުރީ. Check layout with name."
+    "suggested": "ތައްޔާރުކުރެވުނީ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.change",
     "english": "Change",
-    "suggested": "އަނބުރާ ދިން ފައިސާ",
-    "status": "needs_review",
-    "notes": "Cash change as އަނބުރާ ދިން ފައިސާ; alternative: ބާކީ ފައިސާ (but ބާކީ is used for balance)."
+    "suggested": "އަނބުރާ ދޭންޖެހޭ ފައިސާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "pos.change_due",
     "english": "Change",
-    "suggested": "އަނބުރާ ދޭ ފައިސާ",
-    "status": "needs_review",
-    "notes": "See print.change."
+    "suggested": "އަނބުރާ ދޭންޖެހޭ ފައިސާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "karaoke.title",
     "english": "Karaoke",
-    "suggested": "ކަރައޮކޭ",
-    "status": "needs_review",
-    "notes": "ކަރައޮކޭ — transliteration, consistent with existing addons.names.karaoke."
+    "suggested": "ކަރައޯކޭ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "karaoke.deposit",
     "english": "Deposit (cash)",
-    "suggested": "ޑިޕޮޒިޓް (ނަގުދު)",
-    "status": "needs_review",
-    "notes": "Loanword ޑިޕޮޒިޓް, consistent with existing addons.descriptions.karaoke."
+    "suggested": "ޑިޕޮސިޓް (ނަގުދު ފައިސާ)",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "reservations.title",
     "english": "Reservations",
     "suggested": "ރިޒަވޭޝަންތައް",
-    "status": "needs_review",
-    "notes": "Loanword ރިޒަވޭޝަން, consistent with existing addons.names.reservations. Native alternative: މޭޒު ބުކްކުރުން."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "reservations.party_other",
     "english": "{{count}} guests",
     "suggested": "{{count}} މެހެމާނުން",
-    "status": "needs_review",
-    "notes": "Guests as މެހެމާނުން; singular form މެހެމާނަކު used for _one. Alternative: ގެސްޓުން."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "perm.qr_menu_manage",
@@ -639,16 +639,16 @@
   {
     "key": "nav.pos",
     "english": "POS",
-    "suggested": "POS",
+    "suggested": "ޕީއޯއެސް",
     "status": "confirmed",
-    "notes": "Business decision: acronyms (POS, QR, SKU, CSV) stay in Latin letters inside Dhivehi text, matching hardware labels and receipts."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "products.sku",
     "english": "SKU",
-    "suggested": "SKU",
-    "status": "needs_review",
-    "notes": "އެސްކޭޔޫ transliteration. Users may prefer Latin SKU or ކޯޑު."
+    "suggested": "އެސްކޭޔޫ (SKU)",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "reports.export_csv",
@@ -668,78 +668,78 @@
     "key": "products.item",
     "english": "Item",
     "suggested": "އައިޓަމް",
-    "status": "needs_review",
-    "notes": "'Item' as loanword އައިޓަމް across the file. Existing dv.json uses ޕްރޮޑަކްޓްސް for products and ތަކެތި for goods; alternatives: ބާވަތް, ތަކެތި. Confirm."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "products.types.ingredient",
     "english": "Ingredient",
-    "suggested": "ތަކެތި (އިންގްރީޑިއަންޓް)",
-    "status": "needs_review",
-    "notes": "ތަކެތި (އިންގްރީޑިއަންޓް). ތަކެތި alone is ambiguous (things/goods); alternative: ކާނާގެ ތަކެތި / އަސާސީ ތަކެތި."
+    "suggested": "ބޭނުންކުރާ ސާމާނު / ތަކެތި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "products.types.service",
     "english": "Service",
     "suggested": "ޚިދުމަތް",
     "status": "confirmed",
-    "notes": "ޚިދުމަތް is the standard word for service."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "products.unit",
     "english": "Unit",
     "suggested": "ޔުނިޓް",
-    "status": "needs_review",
-    "notes": "Loanword ޔުނިޓް; alternative: މިންވަރު."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "pos.order_types.dine_in",
     "english": "Dine-in",
-    "suggested": "ތިބެގެން ކެއުން",
-    "status": "needs_review",
-    "notes": "ތިބެގެން ކެއުން (eat in). Alternative loanword: ޑައިން-އިން. Also used in errors.table_required, tables.empty_body, onboarding.steps.tables_hint, settings.pos.require_table."
+    "suggested": "ތަނުގައި ކެއުން (ޑައިން-އިން)",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "pos.order_types.takeaway",
     "english": "Takeaway",
     "suggested": "ޓޭކްއަވޭ",
     "status": "confirmed",
-    "notes": "ޓޭކްއަވޭ — matches existing business_types.takeaway."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "pos.hold",
     "english": "Hold",
-    "suggested": "ހިފަހައްޓާ",
-    "status": "needs_review",
-    "notes": "'Hold' (park order) as ހިފަހައްޓާ. Alternative: ފަހުން ނިންމަން ބަހައްޓާ."
+    "suggested": "މަޑުޖައްސާލުން",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "pos.discount_short",
     "english": "Disc.",
-    "suggested": "ޑިސް.",
-    "status": "needs_review",
-    "notes": "Abbreviation ޑިސް. — Dhivehi rarely abbreviates; could use full ޑިސްކައުންޓް if space allows."
+    "suggested": "ޑިސްކައުންޓް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "kitchen.rush",
     "english": "Mark as rush",
-    "suggested": "އަވަސް އޯޑަރެއްގެ ގޮތުގައި ފާހަގަކުރޭ",
-    "status": "needs_review",
-    "notes": "'Mark as rush' — އަވަސް އޯޑަރެއްގެ ގޮތުގައި ފާހަގަކުރޭ; may be long for a button."
+    "suggested": "އަވަސްކުރަން ފާހަގަކުރުން",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "kitchen.actions.ready",
     "english": "Served",
-    "suggested": "ކަސްޓަމަރަށް ދީފި",
-    "status": "needs_review",
-    "notes": "'Served' → ކަސްޓަމަރަށް ދީފި. Alternative: ސާވްކުރެވިއްޖެ / ހިލަ ދީފި."
+    "suggested": "ސާރވްކުރެވިއްޖެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "dashboard.w.kitchen_pending",
     "english": "Kitchen tickets waiting",
-    "suggested": "އިންތިޒާރުކުރާ ބަދިގޭގެ ޓިކެޓް",
-    "status": "needs_review",
-    "notes": "'Kitchen tickets' as ބަދިގޭގެ ޓިކެޓް (loanword)."
+    "suggested": "ކައްކަން ފޮނުވިފައިވާ ޓިކެޓްތައް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "expenses.payee",
@@ -758,9 +758,9 @@
   {
     "key": "products.min_stock",
     "english": "Low-stock alert at",
-    "suggested": "ސްޓޮކް މަދުވާ އެލާޓް",
-    "status": "needs_review",
-    "notes": "'Low-stock alert at' → ސްޓޮކް މަދުވާ އެލާޓް (threshold field label). Confirm."
+    "suggested": "ސްޓޮކް މަދުވާކަމުގެ އިންޒާރު މި އަދަދަށް ދިޔުމުން:",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "settings.pos.allow_negative_stock",
@@ -779,9 +779,9 @@
   {
     "key": "public_menu.not_found_body",
     "english": "This menu does not exist or is not published.",
-    "suggested": "މި މެނޫ ނެތް ނުވަތަ ޝާއިޢުކޮށްފައެއް ނެތް.",
-    "status": "needs_review",
-    "notes": "'published' as ޝާއިޢުކޮށް; also settings.online.menu_enabled (މެނޫ ޝާއިޢުކުރޭ). Alternative: ޕަބްލިޝް."
+    "suggested": "މި މެނޫއެއް ނެތް ނުވަތަ އަދި ޝާއިއުކޮށްފައެއް ނުވޭ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "onboarding.title",
@@ -793,9 +793,9 @@
   {
     "key": "notifications.empty",
     "english": "You're all caught up.",
-    "suggested": "އާ ނޮޓިފިކޭޝަނެއް ނެތް.",
-    "status": "needs_review",
-    "notes": "Idiom 'You're all caught up' rendered literally as 'no new notifications'."
+    "suggested": "ހުރިހާ މަޢުލޫމާތެއް ވަނީ އަދާހަމަކުރެވިފައި.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "activity.actions.karaoke_no_show",
@@ -808,8 +808,8 @@
     "key": "customers.overview",
     "english": "Overview",
     "suggested": "ޚުލާޞާ",
-    "status": "needs_review",
-    "notes": "ޚުލާޞާ (summary); alternative: އާންމު މަޢުލޫމާތު."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "documents.server_totals_hint",
@@ -823,77 +823,77 @@
     "english": "Receipt",
     "suggested": "ރަސީދު",
     "status": "confirmed",
-    "notes": "ރަސީދު — confirmed in existing review list."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.invoice",
     "english": "Invoice",
     "suggested": "އިންވޮއިސް",
-    "status": "needs_review",
-    "notes": "އިންވޮއިސް — reused; still open in existing review (modules.invoices)."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.quotation",
     "english": "Quotation",
-    "suggested": "ކޮޓޭޝަން",
-    "status": "needs_review",
-    "notes": "ކޮޓޭޝަން — reused; still open in existing review (modules.quotations)."
+    "suggested": "ކޯޓޭޝަން",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "documents.service_charge",
     "english": "Service charge",
-    "suggested": "ސަރވިސް ޗާޖު",
+    "suggested": "ސާވިސް ޗާޖް",
     "status": "confirmed",
-    "notes": "ސަރވިސް ޗާޖު — confirmed in existing review list."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.cashier",
     "english": "Cashier",
-    "suggested": "ކެޝިއަރު",
+    "suggested": "ކޭޝިއަރު",
     "status": "confirmed",
-    "notes": "ކެޝިއަރު — confirmed in existing review list."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.thank_you",
     "english": "Thank you!",
     "suggested": "ޝުކުރިއްޔާ!",
     "status": "confirmed",
-    "notes": "ޝުކުރިއްޔާ — standard."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "payment_methods.cash",
     "english": "Cash",
-    "suggested": "ނަގުދު",
+    "suggested": "ނަގުދު ފައިސާ",
     "status": "confirmed",
-    "notes": "ނަގުދު — standard."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "payment_methods.card",
     "english": "Card",
     "suggested": "ކާޑު",
     "status": "confirmed",
-    "notes": "ކާޑު — standard."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "documents.tax",
     "english": "Tax",
     "suggested": "ޓެކްސް",
     "status": "confirmed",
-    "notes": "ޓެކްސް — standard, matches existing."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "documents.total",
     "english": "Total",
     "suggested": "ޖުމްލަ",
     "status": "confirmed",
-    "notes": "ޖުމްލަ — standard."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "tables.seats_other",
     "english": "{{count}} seats",
     "suggested": "{{count}} ގޮނޑި",
     "status": "confirmed",
-    "notes": "ގޮނޑި — standard (chair/seat)."
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "expenses.categories.rent",
@@ -919,100 +919,100 @@
   {
     "key": "palette.placeholder",
     "english": "Search or jump to…",
-    "suggested": "ހޯދާ ނުވަތަ ސީދާ ދާ…",
-    "status": "needs_review",
-    "notes": "UI phrase for the quick-search box; confirm natural wording."
+    "suggested": "ހޯއްދަވާ ނުވަތަ ދާންވީ ތަން ޚިޔާރުކުރައްވާ…",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "palette.actions",
     "english": "Quick actions",
-    "suggested": "އަވަސް ކަންތައްތައް",
-    "status": "needs_review",
-    "notes": "Shortcut buttons on the dashboard; confirm wording."
+    "suggested": "އަވަސް ފިޔަވަޅުތައް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "nav.open_pos",
     "english": "Open POS",
-    "suggested": "POS ހުޅުވާ",
-    "status": "needs_review",
-    "notes": "Sidebar button; acronym kept in Latin per decision."
+    "suggested": "ޕީއޯއެސް ހުޅުވާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "products.photo_hint",
     "english": "Shown on the POS and the QR menu. Any phone or camera photo works; it is resized automatically.",
-    "suggested": "POS އާއި QR މެނޫގައި ދައްކާނެ. ފޯނު ނުވަތަ ކެމެރާގެ ކޮންމެ ފޮޓޯއެއް ވެސް ބޭނުންކުރެވޭނެ؛ ސައިޒު އަމިއްލައަށް ހަމަޖެހޭނެ.",
-    "status": "needs_review",
-    "notes": "New help text under the product photo picker; confirm natural wording."
+    "suggested": "ޕީއޯއެސް (POS) އަދި ކިއުއާރް މެނޫއިން ފެންނާނެއެވެ. ކޮންމެ ފޯނަކުން ނުވަތަ ކެމެރާއަކުން ނަގާފައިވާ ފޮޓޯއެއްވެސް ބޭނުންކުރެވޭނެއެވެ؛ އޭގެ ސައިޒު އޮޓޮމެޓިކުން ހަމަޖެހޭނެއެވެ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.statement",
     "english": "Statement of account",
-    "suggested": "ހިސާބުގެ ސްޓޭޓްމަންޓް",
-    "status": "needs_review",
-    "notes": "Uses the loanword ސްޓޭޓްމަންޓް (as in credit.statement). Native alternative: ހިސާބު ބަޔާން. Confirm which reads better as a PDF title."
+    "suggested": "އެކައުންޓް ސްޓޭޓްމަންޓް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.opening_balance",
     "english": "Opening balance",
-    "suggested": "ފެށިގެންދާ ބާކީ",
-    "status": "needs_review",
-    "notes": "ބާކީ as in credit.balance. Alternatives: ފެށުނު ބާކީ, އޯޕަނިންގ ބެލެންސް (loanword used by some accountants)."
+    "suggested": "ފެށުނުއިރު ހުރި ބާކީ ފައިސާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.closing_balance",
     "english": "Closing balance",
-    "suggested": "ނިމިގެންދާ ބާކީ",
-    "status": "needs_review",
-    "notes": "Alternatives: ނިމުނު ބާކީ, ކްލޯޒިންގ ބެލެންސް. Keep parallel with print.opening_balance."
+    "suggested": "ނިމުނުއިރު ހުރި ބާކީ ފައިސާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.charges",
     "english": "Charges",
     "suggested": "ޗާޖުތައް",
-    "status": "needs_review",
-    "notes": "Loanword consistent with ސަރވިސް ޗާޖު. These are debits (credit sales/invoices) on the statement; alternative: ދަރަނި އިތުރުވުން or ޑެބިޓް (as in credit.debit)."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.days_overdue",
     "english": "Days overdue",
-    "suggested": "މުއްދަތު ފަހަނައެޅި ދުވަސް",
-    "status": "needs_review",
-    "notes": "Built on status_labels.overdue (މުއްދަތު ފަހަނައަޅާފައި), itself still needs_review. Alternative aligned with superadmin past_due: ލަސްވި ދުވަސް."
+    "suggested": "މުއްދަތު ހަމަވި ފަހުން ވީ ދުވަސް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.overdue_amount",
     "english": "Overdue",
-    "suggested": "މުއްދަތު ފަހަނައަޅާފައި",
-    "status": "needs_review",
-    "notes": "Same as status_labels.overdue; used as an amount column header, so ފައިސާ ލަސްވެފައި might fit better."
+    "suggested": "މުއްދަތު ހަމަވެފައި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.total_outstanding",
     "english": "Total outstanding",
-    "suggested": "ޖުމްލަ ބާކީ ދަރަނި",
-    "status": "needs_review",
-    "notes": "Follows credit.outstanding = ބާކީ ދަރަނި (needs_review there)."
+    "suggested": "ދައްކަންޖެހޭ ޖުމްލަ ފައިސާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.payments",
     "english": "Payments",
     "suggested": "ދެއްކި ފައިސާ",
-    "status": "needs_review",
-    "notes": "Alternative: ލިބުނު ފައިސާ (customer-facing vs business view — this PDF goes to the customer, so 'paid' wording chosen)."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.open_items",
     "english": "Unpaid items",
-    "suggested": "ނުދައްކާ އައިޓަމްތައް",
-    "status": "needs_review",
-    "notes": "'Items' here means unpaid sales/invoices, not menu items. Alternative: ނުދައްކާ ބިލުތައް / ނުދައްކާ މުޢާމަލާތް."
+    "suggested": "ފައިސާ ނުދައްކާ ހުރި އައިޓަމްތައް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "print.pdf_failed",
     "english": "Could not create the PDF. Try Print → Save as PDF instead.",
-    "suggested": "PDF ހެދޭނެ ނުވި. އޭގެ ބަދަލުގައި ޕްރިންޓް → PDF ގެ ގޮތުގައި ސޭވްކުރޭ ބޭނުންކޮށްލާ.",
-    "status": "needs_review",
-    "notes": "'Save as PDF' is a browser dialog label that will likely appear in English; consider keeping it in Latin ('Save as PDF')."
+    "suggested": "ޕީޑީއެފް ހެދޭގޮތެއް ނުވި. ޕްރިންޓް → \"ސޭވް އޭޒް ޕީޑީއެފް\" އަށް ފިއްތަވާލައްވާ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "reports.rows_count_other",
@@ -1024,51 +1024,51 @@
   {
     "key": "credit.all_time",
     "english": "All time",
-    "suggested": "ހުރިހާ މުއްދަތެއް",
-    "status": "needs_review",
-    "notes": "Date-range preset; alternative: ފެށުނީއްސުރެ."
+    "suggested": "ހުރިހާ ދުވަސްވަރެއް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.page_title",
     "english": "Credit & dues",
-    "suggested": "ދަރަނި އަދި ދައްކަންޖެހޭ ފައިސާ",
-    "status": "needs_review",
-    "notes": "Matches existing reports.types.credit. Alternative loanword: ކްރެޑިޓް އަދި ޑިއުސް. Depends on the pending ދަރަނި vs ކްރެޑިޓް decision (addons.names.credit)."
+    "suggested": "ކްރެޑިޓް އަދި ދައްކަންޖެހޭ ފައިސާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.total_due",
     "english": "Total due",
-    "suggested": "ދައްކަންޖެހޭ ޖުމްލަ",
-    "status": "needs_review",
-    "notes": "Alternative: ޖުމްލަ ދަރަނި / ޖުމްލަ ބާކީ. Confirm which reads best on a dashboard tile."
+    "suggested": "ޖުމްލަ ދައްކަންޖެހޭ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.dues_report",
     "english": "Customer dues report",
-    "suggested": "ކަސްޓަމަރުންގެ ދަރަނީގެ ރިޕޯޓް",
-    "status": "needs_review",
-    "notes": "Alternative: ކަސްޓަމަރުންގެ ބާކީ ރިޕޯޓް. Also printed on PDF given to staff/customers."
+    "suggested": "ކަސްޓަމަރުން ދައްކަންޖެހޭ ފައިސާގެ ރިޕޯޓް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.days_overdue_other",
     "english": "{{count}} days overdue",
-    "suggested": "މުއްދަތު ފަހަނައެޅިތާ {{count}} ދުވަސް",
-    "status": "needs_review",
-    "notes": "Reuses print.days_overdue phrasing; Dhivehi has no plural split so _one and _other are identical."
+    "suggested": "މުއްދަތު ހަމަވިތާ {{count}} ދުވަސް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.grand_total",
     "english": "Grand total",
-    "suggested": "މުޅި ޖުމްލަ",
-    "status": "needs_review",
-    "notes": "Distinguished from print.total (ޖުމްލަ). Alternative: ހުރިހާ ޖުމްލަ."
+    "suggested": "ޖުމްލަ އެކު",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "credit.as_of",
     "english": "As of",
-    "suggested": "މި ތާރީޚަށް",
-    "status": "needs_review",
-    "notes": "Shown next to a date; word order may need adjusting depending on layout (date follows label)."
+    "suggested": "މި ތާރީޚުގެ ނިޔަލަށް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "viber.status_on",
@@ -1122,176 +1122,176 @@
   {
     "key": "nav.qr_menu",
     "english": "QR Menu",
-    "suggested": "QR މެނޫ",
-    "status": "needs_review",
-    "notes": "Same as qr.title. Acronym QR kept in Latin letters per project rule; މެނޫ as in nav.menu."
+    "suggested": "ކިއުއާރް މެނޫ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "public_menu.your_table",
     "english": "Table {{table}}",
     "suggested": "މޭޒު {{table}}",
-    "status": "needs_review",
-    "notes": "މޭޒު as in tables.title (singular). Alternative: {{table}} ވަނަ މޭޒު if table names are numbers only."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "public_menu.staff_will_take",
     "english": "Our staff will take your order",
-    "suggested": "އަޅުގަނޑުމެންގެ މުވައްޒަފަކު ތިބާގެ އޯޑަރު ނަގާނެ",
-    "status": "needs_review",
-    "notes": "މުވައްޒަފު as in public_menu.order_sent_body. Alternative more casual: ތިބާގެ އޯޑަރު މުވައްޒަފަކު ނަގާނެ."
+    "suggested": "އަޅުގަނޑުމެންގެ ސްޓާފަކު ތިޔަބޭފުޅާގެ އޯޑަރު ނަގާނެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.title",
     "english": "QR Menu",
-    "suggested": "QR މެނޫ",
-    "status": "needs_review",
-    "notes": "Matches nav.qr_menu."
+    "suggested": "ކިއުއާރް މެނޫ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.subtitle",
     "english": "Customers scan the code at their table to see your menu. No printed menu books needed.",
-    "suggested": "ކަސްޓަމަރުން އެމީހުންގެ މޭޒުމަތީގައިވާ ކޯޑު ސްކޭންކޮށް ތިބާގެ މެނޫ ބަލާނެ. ޕްރިންޓްކުރި މެނޫ ފޮތް ބޭނުމެއް ނުވޭ.",
-    "status": "needs_review",
-    "notes": "ސްކޭންކޮށް as in superadmin.security.step_scan. 'Menu books' rendered as މެނޫ ފޮތް; alternative: ޕްރިންޓްކުރި މެނޫ ކާޑު."
+    "suggested": "މެނޫ ބެލުމަށްޓަކައި ކަސްޓަމަރުން މޭޒުމަތީގައިވާ ކޯޑު ސްކޭން ކުރާނެ. ޕްރިންޓްކޮށްފައިވާ މެނޫ ފޮތްތަކެއް ބޭނުމެއް ނުވާނެ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.auto_update",
     "english": "This QR code never changes. When you edit items, prices or photos, the menu updates automatically.",
-    "suggested": "މި QR ކޯޑު ދުވަހަކުވެސް ބަދަލެއް ނުވާނެ. އައިޓަމް، އަގު ނުވަތަ ފޮޓޯ ބަދަލުކުރާއިރު މެނޫ އަމިއްލައަށް އަޕްޑޭޓްވާނެ.",
-    "status": "needs_review",
-    "notes": "'Updates automatically' = އަމިއްލައަށް އަޕްޑޭޓްވާނެ (loanword as in products.image_updated). Alternative: އޮޓޮމެޓިކުން އަޕްޑޭޓްވާނެ."
+    "suggested": "މި ކިއުއާރް ކޯޑު ދުވަހަކުވެސް ބަދަލެއް ނުވާނެ. އައިޓަމް، އަގު ނުވަތަ ފޮޓޯ ބަދަލުކުރުމުން، މެނޫ އަމިއްލައަށް އަޕްޑޭޓް ވާނެ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.copy_link",
     "english": "Copy link",
-    "suggested": "ލިންކް ކޮޕީކުރޭ",
-    "status": "needs_review",
-    "notes": "Loanword ކޮޕީ is common in UI; native alternative ނަކަލުކުރޭ."
+    "suggested": "ލިންކު ކޮޕީކުރޭ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.copied",
     "english": "Link copied",
-    "suggested": "ލިންކް ކޮޕީކުރެވިއްޖެ",
-    "status": "needs_review",
-    "notes": "Short success toast. Alternative: ލިންކް ކޮޕީވެއްޖެ."
+    "suggested": "ލިންކު ކޮޕީކުރެވިއްޖެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.open_menu",
     "english": "Open menu",
     "suggested": "މެނޫ ހުޅުވާ",
-    "status": "needs_review",
-    "notes": "ހުޅުވާ as in nav.open_pos."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.settings",
     "english": "Menu settings",
-    "suggested": "މެނޫގެ ސެޓިންގްސް",
-    "status": "needs_review",
-    "notes": "ސެޓިންގްސް as in nav.settings."
+    "suggested": "މެނޫ ސެޓިންގްސް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.customers_can_order",
     "english": "Customers can order from the menu",
-    "suggested": "ކަސްޓަމަރުންނަށް މެނޫން އޯޑަރު ކުރެވޭ",
-    "status": "needs_review",
-    "notes": "Toggle label. Alternative: ކަސްޓަމަރުންނަށް މެނޫއިން އޯޑަރުކުރެވުން."
+    "suggested": "ކަސްޓަމަރުންނަށް މެނޫއިން އޯޑަރު ކުރެވޭނެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.mode_order",
     "english": "Customers can place orders themselves from their phone.",
-    "suggested": "ކަސްޓަމަރުންނަށް އަމިއްލަ ފޯނުން އޯޑަރު ކުރެވޭނެ.",
-    "status": "needs_review",
-    "notes": "'Their phone' rendered as އަމިއްލަ ފޯނު (own phone). Check that it reads naturally."
+    "suggested": "ކަސްޓަމަރުންނަށް އެބޭފުޅުންގެ ފޯނުން އަމިއްލައަށް އޯޑަރު ކުރެވޭނެ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.mode_view_only",
     "english": "Menu only. Customers browse the menu and your staff take the order.",
-    "suggested": "މެނޫ ބެލުން އެކަނި. ކަސްޓަމަރުން މެނޫ ބަލާނެ، އަދި އޯޑަރު ނަގާނީ ތިބާގެ މުވައްޒަފުން.",
-    "status": "needs_review",
-    "notes": "'Menu only' = މެނޫ ބެލުން އެކަނި (viewing menu only). Alternative: ހަމައެކަނި މެނޫ."
+    "suggested": "ހަމައެކަނި މެނޫ ބެލުމަށް. ކަސްޓަމަރުން މެނޫ ބަލާނީ، އަދި އޯޑަރު ނަގާނީ ސްޓާފުން.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.message_placeholder",
     "english": "e.g. Welcome! Call a waiter when you are ready to order.",
-    "suggested": "މިސާލަކަށް: މަރުޙަބާ! އޯޑަރު ކުރަން ތައްޔާރުވީމަ ވެއިޓަރަކަށް ގޮވާލައްވާ.",
-    "status": "needs_review",
-    "notes": "Placeholder example text. މަރުޙަބާ as in auth.invite_title; ވެއިޓަރު as in roles.system.waiter."
+    "suggested": "މިސާލަކަށް: މަރުޙަބާ! އޯޑަރު ދެއްވަން ތައްޔާރުވުމުން ވެއިޓަރަކަށް ގޮވާލައްވާ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.menu_off",
     "english": "The menu is switched off. Customers who scan will see that it is unavailable.",
-    "suggested": "މެނޫ ބަންދުކޮށްފައި. ސްކޭންކުރާ ކަސްޓަމަރުންނަށް ފެންނާނީ މެނޫ ނުލިބޭކަން.",
-    "status": "needs_review",
-    "notes": "'Switched off' = ބަންދުކޮށްފައި; alternative: ހުޅުވާފައެއް ނެތް (to mirror 'enable' = ހުޅުވާ). 'Unavailable' wording mirrors public_menu.not_found (މެނޫ ނުލިބޭ)."
+    "suggested": "މެނޫ ވަނީ ނިއްވާލެވިފައި. ސްކޭންކުރާ ކަސްޓަމަރުންނަށް ފެންނާނީ މެނޫ މިވަގުތު ލިބެން ނެތް ކަމަށެވެ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.table_cards",
     "english": "Table QR cards",
-    "suggested": "މޭޒުތަކުގެ QR ކާޑު",
-    "status": "needs_review",
-    "notes": "Plural implied without ތައް to stay short. Alternative: މޭޒުތަކުގެ QR ކާޑުތައް."
+    "suggested": "މޭޒުގެ ކިއުއާރް ކާޑުތައް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.table_cards_hint",
     "english": "Print one card for each table. The card shows the table name, so staff know where the customer is sitting.",
-    "suggested": "ކޮންމެ މޭޒަކަށް ކާޑެއް ޕްރިންޓްކުރޭ. ކާޑުގައި މޭޒުގެ ނަން ހުންނާތީ، ކަސްޓަމަރު އިށީނދެގެން ތިބީ ކޮންތާކުކަން މުވައްޒަފުންނަށް އެނގޭނެ.",
-    "status": "needs_review",
-    "notes": "ޕްރިންޓްކުރޭ as in pos.print_receipt. 'Where the customer is sitting' = ކަސްޓަމަރު އިށީނދެގެން ތިބީ ކޮންތާކުކަން; please check naturalness."
+    "suggested": "ކޮންމެ މޭޒަކަށް ކާޑެއް ޕްރިންޓް ކުރައްވާ. ކާޑުގައި މޭޒުގެ ނަން އިންނާނެތީ، ކަސްޓަމަރު އިން ތަން ސްޓާފުންނަށް އެނގޭނެ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.no_tables",
     "english": "No tables yet. Add tables to print a card for each one, or print a general card.",
-    "suggested": "އަދި މޭޒެއް ނެތް. ކޮންމެ މޭޒަކަށް ކާޑެއް ޕްރިންޓްކުރުމަށް މޭޒުތައް އިތުރުކުރައްވާ، ނުވަތަ އާންމު ކާޑެއް ޕްރިންޓްކުރައްވާ.",
-    "status": "needs_review",
-    "notes": "First sentence mirrors tables.empty_title. 'General card' = އާންމު ކާޑު (އާންމު as in addons.categories.general)."
+    "suggested": "އަދި އެއްވެސް މޭޒެއް ނެތް. ކޮންމެ މޭޒަކަށް ވަކިން ކާޑު ޕްރިންޓް ކުރުމަށްޓަކައި މޭޒު އިތުރުކުރައްވާ، ނުވަތަ އާންމު ކާޑެއް ޕްރިންޓް ކުރައްވާ.",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.download_cards",
     "english": "Download {{count}} cards (PDF)",
-    "suggested": "ކާޑު {{count}} ޑައުންލޯޑްކުރޭ (PDF)",
-    "status": "needs_review",
-    "notes": "Numeral after noun (ކާޑު {{count}}) is natural Dhivehi word order; alternative: {{count}} ކާޑު."
+    "suggested": "{{count}} ކާޑު ޑައުންލޯޑް ކުރައްވާ (ޕީޑީއެފް)",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.generic_card",
     "english": "General card (no table)",
-    "suggested": "އާންމު ކާޑު (މޭޒެއް ނެތް)",
-    "status": "needs_review",
-    "notes": "Alternative: މޭޒަކާ ގުޅިފައިނުވާ ކާޑު (card not linked to a table)."
+    "suggested": "އާންމު ކާޑު (މޭޒު ކަނޑަނާޅާ)",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.example_link",
     "english": "Example link",
-    "suggested": "މިސާލު ލިންކް",
-    "status": "needs_review",
-    "notes": "Alternative: މިސާލަކަށް ލިންކް."
+    "suggested": "މިސާލު ލިންކު",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.card_title",
     "english": "Scan for menu",
-    "suggested": "މެނޫ ބެލުމަށް ސްކޭންކުރައްވާ",
-    "status": "needs_review",
-    "notes": "Printed on the card for customers, so polite ކުރައްވާ form. Shorter alternative: މެނޫއަށް ސްކޭންކުރޭ."
+    "suggested": "މެނޫ ބެއްލެވުމަށް ސްކޭން ކުރައްވާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.card_subtitle",
     "english": "Point your phone camera at the code",
-    "suggested": "ފޯނުގެ ކެމެރާ ކޯޑާ ދިމާލަށް ހިފަހައްޓަވާ",
-    "status": "needs_review",
-    "notes": "Customer-facing, polite. Literally 'hold the phone camera towards the code'. Alternative: ފޯނުގެ ކެމެރާއިން ކޯޑު ސްކޭންކުރައްވާ."
+    "suggested": "ފޯނުގެ ކެމެރާ ކޯޑާ ދިމާލަށް އަޅުވާލައްވާ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.card_table",
     "english": "Table {{table}}",
     "suggested": "މޭޒު {{table}}",
-    "status": "needs_review",
-    "notes": "Same as public_menu.your_table."
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "qr.card_generic",
     "english": "Our staff will be with you shortly",
-    "suggested": "އަޅުގަނޑުމެންގެ މުވައްޒަފަކު އަވަހަށް ތިބާގެ ގާތަށް އަންނާނެ",
-    "status": "needs_review",
-    "notes": "Customer-facing. 'Shortly' = އަވަހަށް; alternative: ވަގުތުން (right away), which may over-promise."
+    "suggested": "އަޅުގަނޑުމެންގެ ސްޓާފަކު އިރުކޮޅަކުން ޚިދުމަތް ދޭނެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   }
 ]
