@@ -1552,5 +1552,19 @@
     "suggested": "އޯޑަރަކަށް އެވްރެޖް",
     "status": "needs_review",
     "notes": "Was \"Average\"; now says it is the average bill per order."
+  },
+  {
+    "key": "common.fullscreen",
+    "english": "Full screen",
+    "suggested": "ފުލް ސްކްރީން",
+    "status": "needs_review",
+    "notes": "New: full screen button in the top bar and POS."
+  },
+  {
+    "key": "common.exit_fullscreen",
+    "english": "Exit full screen",
+    "suggested": "ފުލް ސްކްރީނުން ނިކުމެވޭ",
+    "status": "needs_review",
+    "notes": "New: full screen button in the top bar and POS."
   }
 ]

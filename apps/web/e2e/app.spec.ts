@@ -95,6 +95,16 @@ test.describe.serial('OceanX phase 1', () => {
     expect(res.status()).toBe(403);
   });
 
+  test('full screen button in the top bar turns full screen on and off', async ({ page }) => {
+    await login(page, OWNER.email, OWNER.password);
+    const btn = page.getByRole('button', { name: 'Full screen' });
+    await btn.click();
+    await expect(page.getByRole('button', { name: 'Exit full screen' })).toHaveAttribute('aria-pressed', 'true');
+    expect(await page.evaluate(() => !!document.fullscreenElement)).toBe(true);
+    await page.getByRole('button', { name: 'Exit full screen' }).click();
+    await expect(page.getByRole('button', { name: 'Full screen' })).toBeVisible();
+  });
+
   test('signing out goes to the sign-in page and stays signed out', async ({ page }) => {
     await login(page, OWNER.email, OWNER.password);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();

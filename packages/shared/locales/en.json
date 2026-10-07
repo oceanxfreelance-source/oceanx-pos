@@ -50,7 +50,9 @@
     "search": "Search",
     "user": "User",
     "reload": "Reload",
-    "done": "Done"
+    "done": "Done",
+    "fullscreen": "Full screen",
+    "exit_fullscreen": "Exit full screen"
   },
   "nav": {
     "account": "My account",

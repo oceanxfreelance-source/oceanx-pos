@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { ArrowLeft, CheckCircle2, ClipboardList, HandCoins, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, X } from 'lucide-react';
 import { ItemAvatar, tintAt, tintFor } from '../../components/ItemAvatar';
 import { ThemeToggle } from '../../components/ThemeToggle';
+import { FullscreenButton } from '../../components/FullscreenButton';
 import { useThemeSwitch } from '../../layouts/BusinessLayout';
 import type { OptionGroup } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
@@ -375,6 +376,7 @@ export default function PosPage() {
           </p>
         </div>
         <div className="ms-auto flex items-center gap-2">
+          <FullscreenButton />
           <ThemeToggle value={theme.value} onChange={theme.set} />
           {editingOrderId && <Badge tone="amber">{t('pos.editing_order')}</Badge>}
           <Button variant="secondary" size="sm" icon={<ClipboardList className="size-4" />} onClick={() => setShowOrders(true)}>

@@ -42,6 +42,7 @@ import { Dropdown, DropdownItem } from '../components/Dropdown';
 import { NotificationBell } from '../components/NotificationBell';
 import { AppLoader } from '../components/AppLoader';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { FullscreenButton } from '../components/FullscreenButton';
 import { applyPreferences, type ThemeChoice } from '../lib/theme';
 import { SkeletonRows } from '../components/ui/Card';
 import { StatusScreen, ForcePasswordChange } from '../pages/business/StatusScreens';
@@ -238,6 +239,7 @@ function BusinessLayout() {
             <OutletSwitcher session={session} />
           </div>
           <NotificationBell />
+          <FullscreenButton />
           <ThemeToggle value={theme.value} onChange={theme.set} />
           <LanguageMenu current={session.user.language} languages={session.languages} onChange={(c) => setLang.mutate(c)} />
           <Dropdown

@@ -8,6 +8,7 @@ import { Dropdown, DropdownItem } from '../components/Dropdown';
 import { SkeletonRows } from '../components/ui/Card';
 import { LanguageMenu } from './BusinessLayout';
 import { DeviceThemeToggle } from '../components/DeviceThemeToggle';
+import { FullscreenButton } from '../components/FullscreenButton';
 
 const GROUPS: NavGroup[] = [
   { items: [{ to: '/superadmin/dashboard', label: 'superadmin.nav.dashboard', icon: Gauge }] },
@@ -57,6 +58,7 @@ function SuperAdminLayout() {
       groups={GROUPS.map((g) => ({ ...g, label: g.label ? t(g.label) : undefined }))}
       topbar={
         <>
+          <FullscreenButton />
           <DeviceThemeToggle />
           <LanguageMenu current={i18n.language} languages={LANGUAGES.map((l) => ({ code: l.code, nativeName: l.nativeName }))} onChange={setSuperAdminLanguage} />
           <Dropdown
