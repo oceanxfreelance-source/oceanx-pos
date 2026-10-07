@@ -3,6 +3,7 @@ import type { AppConfig } from './config';
 import type { DB } from './db/client';
 import type { Mailer } from './lib/mailer';
 import type { Storage } from './lib/storage';
+import type { ViberProvider } from './services/viber/provider';
 import type { BusinessAccess } from './services/access';
 
 export interface AppDeps {
@@ -10,6 +11,8 @@ export interface AppDeps {
   config: AppConfig;
   mailer: Mailer;
   storage: Storage;
+  /** Viber transport, or null when VIBER_PROVIDER=none. */
+  viber: ViberProvider | null;
   log: FastifyBaseLogger;
 }
 

@@ -12,6 +12,7 @@ import { Alert, Card, CardHeader, Ltr, PageHeader, SkeletonRows } from '../../co
 import { Button } from '../../components/ui/Button';
 import { Input, Select, Switch, Textarea } from '../../components/ui/Form';
 import { Tabs } from '../../components/ui/Tabs';
+import { ViberCreditSettings } from './ViberCreditSettings';
 
 interface SettingsResponse {
   profile: { name: string; businessType: string; email: string; phone: string; address: string; hasLogo: boolean } | null;
@@ -20,15 +21,17 @@ interface SettingsResponse {
   editable: string[];
 }
 
-type Tab = 'profile' | keyof BusinessSettings;
+type Tab = 'profile' | 'viber' | keyof BusinessSettings;
 
 export default function SettingsPage() {
   const { t } = useTranslation();
+  const { can } = useBiz();
   const q = useQuery({ queryKey: ['biz', 'settings'], queryFn: () => api.get<SettingsResponse>('/settings') });
   const [tab, setTab] = useState<Tab | null>(null);
   const tabs: { value: Tab; label: string }[] = [];
   if (q.data?.profile) tabs.push({ value: 'profile', label: t('settings.tabs.profile') });
   for (const s of ['regional', 'tax', 'receipt', 'invoice', 'quotation', 'pos', 'loyalty', 'online'] as const) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
+  if (can('settings.view')) tabs.push({ value: 'viber', label: t('viber.tab') });
   const active = tab ?? tabs[0]?.value ?? null;
 
   return (
@@ -42,7 +45,8 @@ export default function SettingsPage() {
         <div className="space-y-6">
           <Tabs tabs={tabs} value={active as Tab} onChange={setTab} />
           {active === 'profile' && q.data.profile && <ProfileSection profile={q.data.profile} editable={q.data.profileEditable} />}
-          {active && active !== 'profile' && q.data.sections[active] && (
+          {active === 'viber' && <ViberCreditSettings />}
+          {active && active !== 'profile' && active !== 'viber' && q.data.sections[active] && (
             <SectionForm key={active} section={active} initial={q.data.sections[active] as never} editable={q.data.editable.includes(active)} />
           )}
         </div>

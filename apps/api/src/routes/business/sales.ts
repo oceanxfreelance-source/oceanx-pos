@@ -10,6 +10,7 @@ import { idParam } from '../../lib/params';
 import { actor, own, requireOutlet } from '../../lib/tenant';
 import { parse } from '../../lib/validation';
 import { loadBusinessSettings } from '../../services/settings';
+import { sendCreditSaleMessage } from '../../services/viber/creditMessage';
 import { completeSale, createOrder, priceOrder, receiveCreditPayment, updateOpenOrder, voidSale } from '../../services/ops/sales';
 
 const salesQuery = paginationQuerySchema.extend({
@@ -23,6 +24,14 @@ const salesQuery = paginationQuerySchema.extend({
 const createOrderBody = posOrderSchema.extend({ payments: completeOrderSchema.shape.payments.optional() });
 
 export async function saleRoutes(app: FastifyInstance) {
+  /**
+   * Optional Viber "Total: …/-" message for Credit (Pay Later) sales. Runs after the transaction has
+   * committed and is not awaited: it can never block, slow down or fail the checkout.
+   */
+  const afterSaleCommitted = (sale: { id: string; status: string; balanceDue: number } | undefined) => {
+    if (!sale || sale.status !== 'completed' || sale.balanceDue <= 0) return;
+    setImmediate(() => void sendCreditSaleMessage(app.deps.db, app.deps.viber, sale.id, app.log));
+  };
   const { db } = app.deps;
 
   // ---------------------------------------------------------------- POS
@@ -48,6 +57,7 @@ export async function saleRoutes(app: FastifyInstance) {
     if (body.orderType === 'delivery') assertPermission(ctx, 'delivery.manage');
     const { payments: pays, ...order } = body;
     const sale = await createOrder(db, ctx, order, pays ?? null, req);
+    afterSaleCommitted(sale);
     reply.status(201);
     return sale;
   });
@@ -61,7 +71,9 @@ export async function saleRoutes(app: FastifyInstance) {
   app.post('/pos/orders/:id/pay', { preHandler: requirePermission('pos.access', 'sales.create') }, async (req) => {
     const ctx = bizCtx(req);
     const body = parse(completeOrderSchema, req.body);
-    return db.transaction((tx) => completeSale(tx, ctx, idParam(req), body.payments, req));
+    const sale = await db.transaction((tx) => completeSale(tx, ctx, idParam(req), body.payments, req));
+    afterSaleCommitted(sale);
+    return sale;
   });
 
   app.get('/pos/open-orders', { preHandler: requirePermission('pos.access') }, async (req) => {

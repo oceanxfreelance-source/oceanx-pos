@@ -23,6 +23,7 @@ interface Customer {
   id: string;
   name: string;
   phone: string;
+  viberPhone: string;
   email: string;
   company: string;
   address: string;
@@ -128,6 +129,7 @@ function CustomerDialog({ customer, onClose }: { customer: Customer | null; onCl
   const [form, setForm] = useState({
     name: customer?.name ?? '',
     phone: customer?.phone ?? '',
+    viberPhone: customer?.viberPhone ?? '',
     email: customer?.email ?? '',
     company: customer?.company ?? '',
     address: customer?.address ?? '',
@@ -174,6 +176,7 @@ function CustomerDialog({ customer, onClose }: { customer: Customer | null; onCl
           <Input label={t('common.name')} value={form.name} onChange={set('name')} error={fe('name')} required />
           <Input label={t('customers.company')} value={form.company} onChange={set('company')} error={fe('company')} />
           <Input label={t('common.phone')} type="tel" dir="ltr" value={form.phone} onChange={set('phone')} error={fe('phone')} />
+          <Input label={t('customers.viber_phone')} hint={t('customers.viber_phone_hint')} type="tel" dir="ltr" placeholder={form.phone || undefined} value={form.viberPhone} onChange={set('viberPhone')} error={fe('viberPhone')} />
           <Input label={t('common.email')} type="email" dir="ltr" value={form.email} onChange={set('email')} error={fe('email')} />
           <Input label={t('customers.tax_number')} dir="ltr" value={form.taxNumber} onChange={set('taxNumber')} error={fe('taxNumber')} />
           {creditEditable && (

@@ -70,6 +70,8 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
     pos: settings.pos,
     /** Tax config (not secret) lets editors show a live preview; the server recalculates on save. */
     tax: settings.tax,
+    /** Viber Credit messages are active only when both the platform and the manager enabled them. */
+    viberCredit: { available: ctx.access.business.superadminViberCreditEnabled, active: ctx.access.business.superadminViberCreditEnabled && ctx.access.business.managerViberCreditEnabled },
   };
 }
 

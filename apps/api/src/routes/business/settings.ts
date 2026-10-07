@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
-import { and, count, eq, ne } from 'drizzle-orm';
+import { and, count, desc, eq, isNull, ne } from 'drizzle-orm';
+import { z } from 'zod';
 import {
   businessProfileSchema,
   outletSchema,
@@ -8,13 +9,14 @@ import {
   settingsSectionSchemas,
   type SettingsSection,
 } from '@oceanx/shared';
-import { addons, businessAddons, businesses, outlets } from '../../db/schema';
+import { addons, businessAddons, businesses, messageLog, outlets } from '../../db/schema';
 import { assertPermission, bizCtx, requireAnyPermission, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
 import { idParam } from '../../lib/params';
 import { IMAGE_TYPES } from '../../lib/storage';
 import { parse } from '../../lib/validation';
+import { actor } from '../../lib/tenant';
 import { withinLimit } from '../../services/access';
 import { loadBusinessSettings, saveSettingsSection } from '../../services/settings';
 
@@ -174,5 +176,61 @@ export async function settingsRoutes(app: FastifyInstance) {
       .where(eq(addons.isActive, true))
       .orderBy(addons.name);
     return { items: rows.map((r) => ({ ...r, enabled: ctx.access.addons.has(r.code) })) };
+  });
+
+  // ================================================================ Viber Credit messaging (optional feature)
+  const viberStatus = async (businessId: string) => {
+    const [b] = await db.select().from(businesses).where(eq(businesses.id, businessId));
+    const recent = await db
+      .select({ id: messageLog.id, recipient: messageLog.recipient, body: messageLog.body, status: messageLog.status, error: messageLog.error, createdAt: messageLog.createdAt })
+      .from(messageLog)
+      .where(and(eq(messageLog.businessId, businessId), eq(messageLog.channel, 'viber')))
+      .orderBy(desc(messageLog.createdAt))
+      .limit(20);
+    return {
+      /** superadmin_viber_credit_enabled */
+      available: b!.superadminViberCreditEnabled,
+      /** manager_viber_credit_enabled */
+      enabled: b!.managerViberCreditEnabled,
+      active: b!.superadminViberCreditEnabled && b!.managerViberCreditEnabled,
+      requestedAt: b!.viberCreditRequestedAt,
+      countryCode: b!.viberCountryCode,
+      providerConfigured: !!app.deps.viber,
+      recent,
+    };
+  };
+
+  app.get('/viber-credit', { preHandler: requirePermission('settings.view') }, async (req) => viberStatus(bizCtx(req).businessId));
+
+  app.put('/viber-credit', { preHandler: requirePermission('settings.manage') }, async (req) => {
+    const ctx = bizCtx(req);
+    const body = parse(
+      z.object({
+        enabled: z.boolean(),
+        countryCode: z
+          .string()
+          .trim()
+          .regex(/^\d{0,4}$/)
+          .default(''),
+      }),
+      req.body,
+    );
+    const [b] = await db.select({ available: businesses.superadminViberCreditEnabled }).from(businesses).where(eq(businesses.id, ctx.businessId));
+    // The manager can only switch it on after the platform has enabled it for this business.
+    if (body.enabled && !b?.available) throw new AppError('feature_not_enabled', 'Viber Credit is not enabled for this business');
+    await db.update(businesses).set({ managerViberCreditEnabled: body.enabled, viberCountryCode: body.countryCode, updatedAt: new Date() }).where(eq(businesses.id, ctx.businessId));
+    await audit(db, { ...actor(ctx), action: body.enabled ? 'viber_credit.turned_on' : 'viber_credit.turned_off', entityType: 'business', entityId: ctx.businessId, req });
+    return viberStatus(ctx.businessId);
+  });
+
+  /** A business asks the platform to enable the feature (Super Admin sees the request on the business). */
+  app.post('/viber-credit/request', { preHandler: requirePermission('settings.manage') }, async (req) => {
+    const ctx = bizCtx(req);
+    await db
+      .update(businesses)
+      .set({ viberCreditRequestedAt: new Date() })
+      .where(and(eq(businesses.id, ctx.businessId), isNull(businesses.viberCreditRequestedAt)));
+    await audit(db, { ...actor(ctx), action: 'viber_credit.requested', entityType: 'business', entityId: ctx.businessId, req });
+    return viberStatus(ctx.businessId);
   });
 }

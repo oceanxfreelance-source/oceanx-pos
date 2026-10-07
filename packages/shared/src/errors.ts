@@ -31,6 +31,7 @@ export const ERROR_CODES = [
   'subscription_cancelled',
   'module_not_enabled',
   'addon_not_enabled',
+  'feature_not_enabled',
   'plan_limit_reached',
   'email_taken',
   'slug_taken',

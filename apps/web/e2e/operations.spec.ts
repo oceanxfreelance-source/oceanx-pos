@@ -238,4 +238,88 @@ test.describe.serial('OceanX operations', () => {
     expect(readFileSync((await rd.path())!).subarray(0, 5).toString()).toBe('%PDF-');
     await reportTab.screenshot({ path: `${SHOTS}/report-print.png`, fullPage: true });
   });
+
+  test('stock items, Credit page with dues PDF, and optional Viber credit messages', async ({ page, browser }) => {
+    await login(page);
+    // 1. Add something used but not sold.
+    await page.goto('/inventory');
+    await page.getByRole('button', { name: 'Add stock item' }).click();
+    const d = page.getByRole('dialog');
+    await d.getByLabel('Name').fill('Milk powder packet');
+    await d.getByLabel('Unit', { exact: true }).fill('pkt');
+    await d.getByLabel('Cost per unit').fill('25');
+    await d.getByLabel('Opening stock').fill('12');
+    await d.getByRole('button', { name: 'Save' }).click();
+    await page.getByLabel('Show').selectOption('supplies');
+    await expect(page.getByRole('table').getByText('Milk powder packet')).toBeVisible();
+    await expect(page.getByRole('table')).toContainText('12 pkt');
+    // Never offered for sale on the POS.
+    const cat = await (await page.request.get('/api/pos/catalog')).json();
+    expect(cat.products.some((p: { name: string }) => p.name === 'Milk powder packet')).toBe(false);
+
+    // 2. Viber: not available until the platform enables it; manager requests it.
+    await page.goto('/settings');
+    await page.getByRole('tab', { name: 'Viber' }).click();
+    await expect(page.getByText('Not enabled for your business')).toBeVisible();
+    await page.getByRole('button', { name: 'Request this feature' }).click();
+    await expect(page.getByText(/Requested on/)).toBeVisible();
+
+    const sa = await browser.newContext();
+    const sap = await sa.newPage();
+    await sap.goto('/superadmin/login');
+    await sap.getByLabel('Email').fill(SA_EMAIL);
+    await sap.getByLabel('Password').fill(SA_PASSWORD);
+    await sap.getByRole('button', { name: 'Sign in' }).click();
+    await sap.getByRole('link', { name: 'Restaurants' }).click();
+    await expect(sap.getByText('Viber requested').filter({ visible: true }).first()).toBeVisible();
+    await sap.getByText('Reef Kitchen').first().click();
+    await sap.getByRole('button', { name: 'Enable' }).click();
+    await expect(sap.getByText('Manager: OFF')).toBeVisible();
+    await sap.screenshot({ path: `${SHOTS}/sa-viber-feature.png`, fullPage: true });
+    await sa.close();
+
+    await page.reload();
+    await page.getByRole('tab', { name: 'Viber' }).click();
+    await expect(page.getByText('Viber notifications are disabled. Credit transactions will continue normally.')).toBeVisible();
+    await page.getByLabel('Country code').fill('960');
+    await page.getByRole('radio', { name: 'ON' }).click();
+    await expect(page.getByText('Viber notifications will be sent for Credit (Pay Later) transactions when the customer has a registered Viber number.')).toBeVisible();
+
+    // Register Aishath's Viber number, then a credit sale in the POS.
+    await page.goto('/customers');
+    await page.getByRole('table').getByText('Aishath Shifa').click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Edit' }).click();
+    await page.getByRole('dialog').getByLabel('Viber number').fill('7771234');
+    await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+
+    await page.goto('/pos');
+    await page.getByPlaceholder('Search name, phone or email…').fill('Aish');
+    await page.getByRole('button', { name: /Aishath Shifa/ }).click();
+    await page.getByRole('button', { name: /Grilled Reef Fish/ }).click();
+    await page.getByRole('button', { name: /^Pay/ }).click();
+    await page.getByRole('button', { name: 'Credit (pay later)' }).click();
+    await expect(page.getByText('Viber “Total” message will be sent to 7771234')).toBeVisible();
+    await page.getByRole('button', { name: 'Complete sale' }).click();
+    await expect(page.getByRole('dialog').getByText('Sale complete')).toBeVisible();
+
+    await page.goto('/settings');
+    await page.getByRole('tab', { name: 'Viber' }).click();
+    await expect(page.getByText('Total: 120/-').last()).toBeVisible();
+    await expect(page.getByText('+9607771234')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/viber-settings.png`, fullPage: true });
+
+    // 3. Credit page: who owes, total due, dues PDF.
+    await page.goto('/credit');
+    await expect(page.getByRole('table').getByText('Aishath Shifa')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/credit-page.png`, fullPage: true });
+    const popupPromise = page.waitForEvent('popup');
+    await page.getByRole('button', { name: 'Dues report PDF' }).click();
+    const popup = await popupPromise;
+    const download = await popup.waitForEvent('download', { timeout: 30000 });
+    const { readFileSync } = await import('node:fs');
+    expect(readFileSync((await download.path())!).subarray(0, 5).toString()).toBe('%PDF-');
+    await expect(popup.locator('article')).toContainText('Customer dues report');
+    await expect(popup.locator('article')).toContainText('Grand total');
+    await popup.screenshot({ path: `${SHOTS}/credit-dues-print.png`, fullPage: true });
+  });
 });

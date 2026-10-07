@@ -1027,5 +1027,96 @@
     "suggested": "ހުރިހާ މުއްދަތެއް",
     "status": "needs_review",
     "notes": "Date-range preset; alternative: ފެށުނީއްސުރެ."
+  },
+  {
+    "key": "credit.page_title",
+    "english": "Credit & dues",
+    "suggested": "ދަރަނި އަދި ދައްކަންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Matches existing reports.types.credit. Alternative loanword: ކްރެޑިޓް އަދި ޑިއުސް. Depends on the pending ދަރަނި vs ކްރެޑިޓް decision (addons.names.credit)."
+  },
+  {
+    "key": "credit.total_due",
+    "english": "Total due",
+    "suggested": "ދައްކަންޖެހޭ ޖުމްލަ",
+    "status": "needs_review",
+    "notes": "Alternative: ޖުމްލަ ދަރަނި / ޖުމްލަ ބާކީ. Confirm which reads best on a dashboard tile."
+  },
+  {
+    "key": "credit.dues_report",
+    "english": "Customer dues report",
+    "suggested": "ކަސްޓަމަރުންގެ ދަރަނީގެ ރިޕޯޓް",
+    "status": "needs_review",
+    "notes": "Alternative: ކަސްޓަމަރުންގެ ބާކީ ރިޕޯޓް. Also printed on PDF given to staff/customers."
+  },
+  {
+    "key": "credit.days_overdue_other",
+    "english": "{{count}} days overdue",
+    "suggested": "މުއްދަތު ފަހަނައެޅިތާ {{count}} ދުވަސް",
+    "status": "needs_review",
+    "notes": "Reuses print.days_overdue phrasing; Dhivehi has no plural split so _one and _other are identical."
+  },
+  {
+    "key": "credit.grand_total",
+    "english": "Grand total",
+    "suggested": "މުޅި ޖުމްލަ",
+    "status": "needs_review",
+    "notes": "Distinguished from print.total (ޖުމްލަ). Alternative: ހުރިހާ ޖުމްލަ."
+  },
+  {
+    "key": "credit.as_of",
+    "english": "As of",
+    "suggested": "މި ތާރީޚަށް",
+    "status": "needs_review",
+    "notes": "Shown next to a date; word order may need adjusting depending on layout (date follows label)."
+  },
+  {
+    "key": "viber.status_on",
+    "english": "Viber notifications will be sent for Credit (Pay Later) transactions when the customer has a registered Viber number.",
+    "suggested": "ކަސްޓަމަރުގެ Viber ނަންބަރު ރަޖިސްޓަރީކޮށްފައިވާނަމަ، ދަރަންޏަށް (ފަހުން ދައްކާ) ކުރާ މުޢާމަލާތްތަކަށް Viber ނޯޓިފިކޭޝަން ފޮނުވޭނެ.",
+    "status": "needs_review",
+    "notes": "Loanword ނޯޓިފިކޭޝަން used; alternative: އެންގުން / ހަބަރު. Confirm preferred term."
+  },
+  {
+    "key": "viber.status_off",
+    "english": "Viber notifications are disabled. Credit transactions will continue normally.",
+    "suggested": "Viber ނޯޓިފިކޭޝަން ބަންދުކޮށްފައި. ދަރަނީގެ މުޢާމަލާތްތައް އާދައިގެ ގޮތުގައި ކުރިއަށް ދާނެ.",
+    "status": "needs_review",
+    "notes": "ބަންދު matches common.disabled. Same notification-term question as status_on."
+  },
+  {
+    "key": "viber.on",
+    "english": "ON",
+    "suggested": "ON",
+    "status": "needs_review",
+    "notes": "Kept in Latin; alternative ހުޅުވާ is longer for a switch label."
+  },
+  {
+    "key": "inventory.add_supply",
+    "english": "Add stock item",
+    "suggested": "ސްޓޮކް އައިޓަމެއް އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Loanwords ސްޓޮކް/އައިޓަމް follow existing inventory strings. Alternative: ސްޓޮކަށް ތަކެއްޗެއް އިތުރުކުރޭ."
+  },
+  {
+    "key": "inventory.add_supply_hint",
+    "english": "For things you use but don't sell, like a milk powder packet, cups or syrup. Tracked in stock, hidden from the POS.",
+    "suggested": "ބޭނުންކުރާ ނަމަވެސް ނުވިއްކާ ތަކެތި، މިސާލަކަށް މިލްކް ޕައުޑަރު ޕެކެޓެއް، ކަޕު ނުވަތަ ސިރަޕް. ސްޓޮކުގައި ބަލަހައްޓާނެ، POSގައި ނުފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "Milk powder and cups rendered as loanwords (މިލްކް ޕައުޑަރު, ކަޕު); confirm local café usage (e.g. ކިރުގަނޑު)."
+  },
+  {
+    "key": "inventory.kinds.supplies",
+    "english": "Ingredients & supplies",
+    "suggested": "ތަކެތި އަދި ސަޕްލައިސް",
+    "status": "needs_review",
+    "notes": "ތަކެތި for ingredients matches products.add_ingredient; ސަޕްލައިސް is a loanword."
+  },
+  {
+    "key": "superadmin.business.enable",
+    "english": "Enable",
+    "suggested": "ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "Matches common.enabled (ހުޅުވިފައި). Alternative: އެނޭބަލްކުރޭ."
   }
 ]

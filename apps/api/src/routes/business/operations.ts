@@ -345,7 +345,7 @@ export async function operationsRoutes(app: FastifyInstance) {
   app.get('/inventory', { preHandler: requirePermission('inventory.view') }, async (req) => {
     const ctx = bizCtx(req);
     const outletId = requireOutlet(ctx);
-    const q = parse(paginationQuerySchema.extend({ low: z.enum(['true']).optional() }), req.query);
+    const q = parse(paginationQuerySchema.extend({ low: z.enum(['true']).optional(), kind: z.enum(['selling', 'supplies']).optional() }), req.query);
     const stockExpr = sql<string>`COALESCE((SELECT quantity FROM stock_levels s WHERE s.product_id = "products"."id" AND s.outlet_id = ${outletId}), 0)`;
     const where = and(
       eq(products.businessId, ctx.businessId),
@@ -353,6 +353,7 @@ export async function operationsRoutes(app: FastifyInstance) {
       eq(products.trackStock, true),
       q.q ? or(ilike(products.name, `%${q.q}%`), ilike(products.sku, `%${q.q}%`)) : undefined,
       q.low ? sql`${stockExpr} <= ${products.minStock}` : undefined,
+      q.kind === 'supplies' ? eq(products.type, 'ingredient') : q.kind === 'selling' ? sql`${products.type} <> 'ingredient'` : undefined,
     );
     const [items, [total], [value]] = await Promise.all([
       db

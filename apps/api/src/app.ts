@@ -7,6 +7,7 @@ import type { DB } from './db/client';
 import { AppError } from './lib/errors';
 import { createMailer, type Mailer } from './lib/mailer';
 import { DbBackend, FileBackend, Storage } from './lib/storage';
+import { createViberProvider } from './services/viber/provider';
 import type { AppDeps } from './types';
 import { businessRoutes } from './routes/business';
 import { superAdminRoutes } from './routes/superadmin';
@@ -49,6 +50,7 @@ export async function buildApp(opts: BuildOptions): Promise<FastifyInstance> {
     db: opts.db,
     config,
     mailer: opts.mailer ?? createMailer(config, app.log),
+    viber: createViberProvider(config, app.log),
     storage: new Storage(config.STORAGE_DRIVER === 'db' ? new DbBackend(opts.db) : new FileBackend(config.STORAGE_DIR)),
     log: app.log,
   };

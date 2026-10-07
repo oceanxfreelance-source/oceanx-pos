@@ -181,6 +181,12 @@ export const businesses = pgTable(
     suspendedAt: ts('suspended_at'),
     createdBySuperAdminId: uuid('created_by_super_admin_id').references(() => superAdmins.id, { onDelete: 'set null' }),
     onboardingCompletedAt: ts('onboarding_completed_at'),
+    /** Viber credit messaging (optional feature). Sends only when BOTH flags are true. */
+    superadminViberCreditEnabled: boolean('superadmin_viber_credit_enabled').notNull().default(false),
+    managerViberCreditEnabled: boolean('manager_viber_credit_enabled').notNull().default(false),
+    viberCreditRequestedAt: ts('viber_credit_requested_at'),
+    /** Country calling code added to local numbers (e.g. 960 for the Maldives). */
+    viberCountryCode: text('viber_country_code').notNull().default(''),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
     deletedAt: ts('deleted_at'),
@@ -625,6 +631,8 @@ export const customers = pgTable(
     creditLimit: money('credit_limit'),
     creditDays: integer('credit_days'),
     loyaltyPoints: integer('loyalty_points').notNull().default(0),
+    /** Registered Viber number for credit messages (falls back to `phone` when empty). */
+    viberPhone: text('viber_phone').notNull().default(''),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
     deletedAt: ts('deleted_at'),
@@ -1146,3 +1154,26 @@ export const storedFiles = pgTable('stored_files', {
   size: integer('size').notNull(),
   createdAt: createdAt(),
 });
+
+// ---------------------------------------------------------------- outbound messages (Viber credit notifications)
+/** Every Viber credit message attempt, for audit and troubleshooting. Body is exactly what was sent. */
+export const messageLog = pgTable(
+  'message_log',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    saleId: uuid('sale_id'),
+    customerId: uuid('customer_id'),
+    channel: text('channel').notNull(), // viber
+    recipient: text('recipient').notNull(),
+    body: text('body').notNull(),
+    status: text('status').notNull(), // queued | sent | failed
+    providerMessageId: text('provider_message_id'),
+    error: text('error'),
+    createdAt: createdAt(),
+    sentAt: ts('sent_at'),
+  },
+  (t) => [index('message_log_business_idx').on(t.businessId, t.createdAt), uniqueIndex('message_log_sale_channel_uq').on(t.saleId, t.channel)],
+);

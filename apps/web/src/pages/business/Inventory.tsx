@@ -59,7 +59,9 @@ function Levels() {
   const money = useMoney();
   const [low, setLow] = useState(false);
   const [adjusting, setAdjusting] = useState<Level | null>(null);
-  const { query, page, setPage, search, setSearch, pageSize } = useList<Level>('inventory', '/inventory', { low: low ? 'true' : undefined });
+  const [kind, setKind] = useState<'' | 'selling' | 'supplies'>('');
+  const [adding, setAdding] = useState(false);
+  const { query, page, setPage, search, setSearch, pageSize } = useList<Level>('inventory', '/inventory', { low: low ? 'true' : undefined, kind: kind || undefined });
   const columns: Column<Level>[] = [
     {
       key: 'n',
@@ -94,9 +96,21 @@ function Levels() {
       )}
       <Card padded={false}>
         <ListToolbar search={search} onSearch={setSearch} placeholder={t('products.search')}>
+          <Select label={t('inventory.show')} value={kind} onChange={(e) => setKind(e.target.value as typeof kind)}>
+            <option value="">{t('common.all')}</option>
+            <option value="selling">{t('inventory.kinds.selling')}</option>
+            <option value="supplies">{t('inventory.kinds.supplies')}</option>
+          </Select>
           <div className="flex items-end">
             <Checkbox checked={low} onChange={setLow} label={t('inventory.low_only')} />
           </div>
+          {can('products.create') && can('inventory.adjust') && (
+            <div className="flex items-end">
+              <Button className="w-full" icon={<Plus className="size-4" />} onClick={() => setAdding(true)}>
+                {t('inventory.add_supply')}
+              </Button>
+            </div>
+          )}
         </ListToolbar>
         {query.isLoading ? (
           <SkeletonRows />
@@ -110,6 +124,7 @@ function Levels() {
         )}
       </Card>
       {adjusting && <AdjustDialog level={adjusting} onClose={() => setAdjusting(null)} />}
+      {adding && <AddSupplyDialog onClose={() => setAdding(false)} />}
     </>
   );
 }
@@ -317,5 +332,87 @@ function Transfers() {
         </div>
       </Dialog>
     </Card>
+  );
+}
+
+/**
+ * Add something you use but don't sell (milk powder packet, cups, syrup…): created as an ingredient /
+ * supply item that is tracked in stock, hidden from the POS and the QR menu. It can be bought through
+ * Purchases and consumed automatically through recipes.
+ */
+function AddSupplyDialog({ onClose }: { onClose: () => void }) {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const errMsg = useErrorMessage();
+  const cats = useQuery({ queryKey: ['biz', 'categories'], queryFn: () => api.get<{ items: { id: string; name: string }[] }>('/categories') });
+  const [form, setForm] = useState({ name: '', unit: 'pkt', costPrice: '', openingStock: '', minStock: '', categoryId: '', sku: '' });
+  const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const save = useMutation({
+    mutationFn: async () => {
+      const p = await api.post<{ id: string }>('/products', {
+        name: form.name,
+        sku: form.sku,
+        type: 'ingredient',
+        unit: form.unit || 'pcs',
+        categoryId: form.categoryId || null,
+        costPrice: parseAmount(form.costPrice),
+        sellingPrice: 0,
+        trackStock: true,
+        minStock: parseAmount(form.minStock),
+        showInPos: false,
+        showInMenu: false,
+        sendToKitchen: false,
+        isActive: true,
+      });
+      const qty = parseAmount(form.openingStock);
+      if (qty > 0) await api.post('/inventory/adjust', { productId: p.id, mode: 'add', quantity: qty, reason: t('inventory.opening_stock') });
+      return p;
+    },
+    onSuccess: () => {
+      toast.success(t('inventory.supply_added'));
+      void qc.invalidateQueries({ queryKey: ['biz', 'inventory'] });
+      void qc.invalidateQueries({ queryKey: ['biz', 'products'] });
+      onClose();
+    },
+  });
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      title={t('inventory.add_supply')}
+      description={t('inventory.add_supply_hint')}
+      footer={
+        <Button onClick={() => save.mutate()} loading={save.isPending} disabled={!form.name.trim()}>
+          {t('common.save')}
+        </Button>
+      }
+    >
+      <div className="space-y-4">
+        {save.error && <Alert tone="red">{errMsg(save.error)}</Alert>}
+        <Input label={t('common.name')} placeholder={t('inventory.supply_placeholder')} value={form.name} onChange={set('name')} autoFocus />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Input label={t('products.unit')} value={form.unit} onChange={set('unit')} list="supply-units" />
+            <datalist id="supply-units">
+              {['pkt', 'pcs', 'kg', 'g', 'L', 'ml', 'box', 'bottle', 'can', 'bag', 'tray'].map((u) => (
+                <option key={u} value={u} />
+              ))}
+            </datalist>
+          </div>
+          <Input type="number" min={0} step="0.01" label={t('inventory.cost_per_unit')} value={form.costPrice} onChange={set('costPrice')} />
+          <Input type="number" min={0} step="0.001" label={t('inventory.opening_stock')} value={form.openingStock} onChange={set('openingStock')} />
+          <Input type="number" min={0} step="0.001" label={t('products.min_stock')} hint={t('inventory.min_stock_hint')} value={form.minStock} onChange={set('minStock')} />
+          <Select label={t('categories.category')} value={form.categoryId} onChange={set('categoryId')}>
+            <option value="">—</option>
+            {cats.data?.items.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+          <Input label={t('products.sku')} dir="ltr" value={form.sku} onChange={set('sku')} />
+        </div>
+      </div>
+    </Dialog>
   );
 }

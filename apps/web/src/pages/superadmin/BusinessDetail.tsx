@@ -15,7 +15,7 @@ import { ConfirmDialog, Dialog } from '../../components/ui/Dialog';
 import { STATUS_TONE, SUB_TONE, type Plan } from './Businesses';
 
 interface Detail {
-  business: { id: string; name: string; slug: string; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null };
+  business: { id: string; name: string; slug: string; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
   subscription: { status: string; effectiveStatus: string; currentPeriodEnd: string; startsAt: string; plan: Plan } | null;
   addons: { code: string; name: string; isActive: boolean; status: string | null; grantedAt: string | null; revokedAt: string | null; expiresAt: string | null }[];
   userCount: number;
@@ -54,6 +54,14 @@ export default function BusinessDetailPage() {
     onSuccess: (_d, v) => {
       toast.success(v.grant ? t('superadmin.business.addon_granted') : t('superadmin.business.addon_revoked'));
       refresh();
+    },
+    onError: toastErr,
+  });
+  const viber = useMutation({
+    mutationFn: (enabled: boolean) => saApi.post(`/businesses/${id}/features/viber-credit`, { enabled }),
+    onSuccess: () => {
+      toast.success(t('common.saved'));
+      void qc.invalidateQueries({ queryKey: ['sa', 'business', id] });
     },
     onError: toastErr,
   });
@@ -205,6 +213,26 @@ export default function BusinessDetailPage() {
           </ul>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader title={t('superadmin.business.features')} description={t('superadmin.business.features_hint')} />
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl p-4 ring-1 ring-slate-200 dark:ring-slate-800">
+          <div className="min-w-0 space-y-1">
+            <p className="font-medium">{t('viber.title')}</p>
+            <p className="text-sm text-slate-500">{t('superadmin.business.viber_hint')}</p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Badge tone={b.superadminViberCreditEnabled ? 'green' : 'gray'} dot>
+                {b.superadminViberCreditEnabled ? t('superadmin.business.feature_enabled') : t('superadmin.business.feature_disabled')}
+              </Badge>
+              {b.superadminViberCreditEnabled && <Badge tone={b.managerViberCreditEnabled ? 'green' : 'amber'}>{b.managerViberCreditEnabled ? t('superadmin.business.manager_on') : t('superadmin.business.manager_off')}</Badge>}
+              {b.viberCreditRequestedAt && !b.superadminViberCreditEnabled && <Badge tone="violet">{t('superadmin.business.requested_on', { date: f.date(b.viberCreditRequestedAt) })}</Badge>}
+            </div>
+          </div>
+          <Button variant={b.superadminViberCreditEnabled ? 'secondary' : 'primary'} onClick={() => viber.mutate(!b.superadminViberCreditEnabled)} loading={viber.isPending}>
+            {b.superadminViberCreditEnabled ? t('superadmin.business.disable') : t('superadmin.business.enable')}
+          </Button>
+        </div>
+      </Card>
 
       <Card>
         <CardHeader title={t('superadmin.business.history')} description={t('superadmin.business.history_hint')} />

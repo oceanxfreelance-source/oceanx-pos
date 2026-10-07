@@ -24,6 +24,7 @@ interface Row {
   createdAt: string;
   planName: string | null;
   effectiveSubscriptionStatus: string | null;
+  viberCreditRequested?: boolean;
   currentPeriodEnd: string | null;
   userCount: number;
 }
@@ -83,9 +84,12 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
       key: 'status',
       header: t('common.status'),
       cell: (b) => (
-        <Badge tone={STATUS_TONE[b.status]} dot>
-          {t(`superadmin.status.${b.status}`)}
-        </Badge>
+        <span className="flex flex-wrap items-center justify-end gap-1.5 md:justify-start">
+          <Badge tone={STATUS_TONE[b.status]} dot>
+            {t(`superadmin.status.${b.status}`)}
+          </Badge>
+          {b.viberCreditRequested && <Badge tone="violet">{t('superadmin.business.viber_requested')}</Badge>}
+        </span>
       ),
     },
     {

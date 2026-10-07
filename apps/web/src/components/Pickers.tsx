@@ -123,6 +123,7 @@ export interface CustomerLite {
   outstanding?: number;
   creditLimit?: number | null;
   loyaltyPoints?: number;
+  viberPhone?: string;
 }
 
 export function CustomerPicker(props: { label?: string; value: string | null; valueLabel?: string; onChange: (id: string | null, c: CustomerLite | null) => void; error?: string }) {

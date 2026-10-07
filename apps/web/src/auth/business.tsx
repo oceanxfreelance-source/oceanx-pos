@@ -39,6 +39,7 @@ export interface BusinessSession {
   languages: { code: string; nativeName: string; direction: string; isDefault: boolean }[];
   regional: { currencySymbol: string; currencyDecimals: number; dateFormat: string; timeFormat: string };
   tax: import('@oceanx/shared').BusinessSettings['tax'];
+  viberCredit: { available: boolean; active: boolean };
   pos: { defaultOrderType: 'dine_in' | 'takeaway' | 'delivery'; allowNegativeStock: boolean; sendToKitchen: boolean; requireTableForDineIn: boolean; maxDiscountPercent: number };
 }
 

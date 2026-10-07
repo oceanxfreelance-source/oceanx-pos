@@ -18,6 +18,7 @@ const DEFAULT_STATUS: Partial<Record<ErrorCode, number>> = {
   business_deactivated: 403,
   module_not_enabled: 403,
   addon_not_enabled: 403,
+  feature_not_enabled: 403,
   cannot_modify_self: 403,
   cannot_modify_owner: 403,
   privilege_escalation: 403,

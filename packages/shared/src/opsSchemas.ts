@@ -72,6 +72,8 @@ export const productSchema = z.object({
 export const customerSchema = z.object({
   name: req(120),
   phone,
+  /** Registered Viber number for Credit (Pay Later) messages; empty = use phone. */
+  viberPhone: phone,
   email,
   company: text(120),
   address: text(500),

@@ -11,6 +11,7 @@ import {
   Contact,
   FileSpreadsheet,
   FileText,
+  HandCoins,
   Globe,
   History,
   Languages,
@@ -70,6 +71,7 @@ export function useBusinessNav(): NavGroup[] {
 
   const sales: NavGroup['items'] = [];
   if (hasModule('customers') && can('customers.view')) sales.push({ to: '/customers', label: 'nav.customers', icon: Contact });
+  if (hasAddon('credit') && can('credit.view')) sales.push({ to: '/credit', label: 'nav.credit', icon: HandCoins });
   if (hasModule('quotations') && can('quotations.view')) sales.push({ to: '/quotations', label: 'nav.quotations', icon: FileText });
   if (hasModule('invoices') && can('invoices.view')) sales.push({ to: '/invoices', label: 'nav.invoices', icon: FileSpreadsheet });
 

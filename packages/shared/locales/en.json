@@ -80,7 +80,8 @@
     "group_customers": "Customers & documents",
     "group_finance": "Finance",
     "more": "More",
-    "open_pos": "Open POS"
+    "open_pos": "Open POS",
+    "credit": "Credit & dues"
   },
   "business_types": {
     "restaurant": "Restaurant",
@@ -535,7 +536,12 @@
       "sale_updated": "Order updated",
       "sale_voided": "Sale voided",
       "supplier_created": "Supplier created",
-      "table_created": "Table created"
+      "table_created": "Table created",
+      "viber_credit_turned_on": "Viber credit messages turned on",
+      "viber_credit_turned_off": "Viber credit messages turned off",
+      "viber_credit_requested": "Viber credit messages requested",
+      "superadmin_viber_credit_enabled": "Viber credit enabled by platform",
+      "superadmin_viber_credit_disabled": "Viber credit disabled by platform"
     },
     "actor": "By",
     "empty": "No activity found",
@@ -738,7 +744,18 @@
       "suspend_body": "All users will be signed out immediately.",
       "suspend_title": "Suspend business",
       "suspension_reason": "Reason",
-      "users_outlets": "Users / outlets"
+      "users_outlets": "Users / outlets",
+      "features": "Features",
+      "features_hint": "Optional features that must be enabled per business.",
+      "viber_hint": "Lets this business send “Total: …/-” on Viber for Credit (Pay Later) sales. The business manager still turns it on or off.",
+      "feature_enabled": "Enabled",
+      "feature_disabled": "Disabled",
+      "manager_on": "Manager: ON",
+      "manager_off": "Manager: OFF",
+      "requested_on": "Requested {{date}}",
+      "enable": "Enable",
+      "disable": "Disable",
+      "viber_requested": "Viber requested"
     },
     "businesses": {
       "business": "Business",
@@ -982,7 +999,8 @@
     "outlet_mismatch": "That belongs to a different outlet.",
     "sku_taken": "That SKU is already used by another product.",
     "category_name_taken": "A category with that name already exists.",
-    "table_name_taken": "A table with that name already exists."
+    "table_name_taken": "A table with that name already exists.",
+    "feature_not_enabled": "This feature has not been enabled for your business yet."
   },
   "validation": {
     "default_language_required": "The default language must stay enabled.",
@@ -1101,7 +1119,25 @@
     "last_month": "Last month",
     "last_90_days": "Last 90 days",
     "all_time": "All time",
-    "statement_pdf": "Statement PDF"
+    "statement_pdf": "Statement PDF",
+    "page_title": "Credit & dues",
+    "page_subtitle": "Customers who buy on credit, what they owe and how long it has been due.",
+    "total_due": "Total due",
+    "customers_with_due": "Customers owing",
+    "credit_customers": "Credit customers",
+    "only_with_due": "Only customers who owe",
+    "last_payment": "Last payment",
+    "days_overdue_one": "{{count}} day overdue",
+    "days_overdue_other": "{{count}} days overdue",
+    "dues_pdf": "Dues report PDF",
+    "dues_report": "Customer dues report",
+    "as_of": "As of",
+    "oldest_due": "Oldest due date",
+    "grand_total": "Grand total",
+    "customers_count_one": "{{count}} customer",
+    "customers_count_other": "{{count}} customers",
+    "nobody_owes": "Nobody owes you anything",
+    "nobody_owes_body": "Customers with credit sales or unpaid invoices appear here."
   },
   "loyalty": {
     "title": "Loyalty",
@@ -1141,7 +1177,7 @@
     "type": "Type",
     "types": {
       "item": "Menu item",
-      "ingredient": "Ingredient",
+      "ingredient": "Ingredient / supply",
       "service": "Service"
     },
     "unit": "Unit",
@@ -1195,7 +1231,9 @@
     "total_spent": "Total spent",
     "sales_count_one": "{{count}} sale",
     "sales_count_other": "{{count}} sales",
-    "last_purchase": "Last purchase"
+    "last_purchase": "Last purchase",
+    "viber_phone": "Viber number",
+    "viber_phone_hint": "Used for Credit (Pay Later) messages. Leave empty to use the phone number."
   },
   "pos": {
     "search": "Search items…",
@@ -1449,7 +1487,19 @@
     "transfer_done": "Stock transferred",
     "no_transfers": "No transfers yet.",
     "from_outlet": "From outlet",
-    "to_outlet": "To outlet"
+    "to_outlet": "To outlet",
+    "show": "Show",
+    "kinds": {
+      "selling": "Items for sale",
+      "supplies": "Ingredients & supplies"
+    },
+    "add_supply": "Add stock item",
+    "add_supply_hint": "For things you use but don't sell, like a milk powder packet, cups or syrup. Tracked in stock, hidden from the POS.",
+    "supply_placeholder": "e.g. Milk powder packet",
+    "cost_per_unit": "Cost per unit",
+    "opening_stock": "Opening stock",
+    "min_stock_hint": "You get a low-stock alert at this level.",
+    "supply_added": "Stock item added"
   },
   "purchases": {
     "page_title": "Purchases & suppliers",
@@ -1727,5 +1777,32 @@
     "pages": "Go to",
     "actions": "Quick actions",
     "account": "Account"
+  },
+  "viber": {
+    "tab": "Viber",
+    "title": "Viber Credit Notifications",
+    "subtitle": "Send the total to the customer on Viber when a sale is put on Credit (Pay Later).",
+    "on": "ON",
+    "off": "OFF",
+    "message_preview": "The customer receives only this message:",
+    "message_rule": "Only for Credit (Pay Later) sales, to the customer's registered Viber number. No names, items, balances or receipt numbers are sent.",
+    "status_on": "Viber notifications will be sent for Credit (Pay Later) transactions when the customer has a registered Viber number.",
+    "status_off": "Viber notifications are disabled. Credit transactions will continue normally.",
+    "not_available_title": "Not enabled for your business",
+    "not_available_body": "Viber Credit Notifications must be enabled by the platform administrator before you can use them.",
+    "request": "Request this feature",
+    "requested": "Request sent to the platform administrator",
+    "request_sent": "Requested on {{date}} — waiting for the platform administrator.",
+    "no_provider": "Viber delivery is not connected on this platform yet, so messages are only recorded. Contact the platform administrator.",
+    "country_code": "Country code",
+    "country_code_hint": "Added to local numbers, e.g. 960 for the Maldives.",
+    "recent": "Recent messages",
+    "status": {
+      "queued": "Sending",
+      "sent": "Sent",
+      "failed": "Failed"
+    },
+    "pos_will_send": "Viber “Total” message will be sent to {{number}}",
+    "pos_no_number": "No Viber number on file — no message will be sent."
   }
 }

@@ -29,6 +29,11 @@ const envSchema = z.object({
   STORAGE_DIR: z.string().default('./storage'),
   /** fs = STORAGE_DIR on disk; db = PostgreSQL stored_files table (serverless hosts without a persistent disk). */
   STORAGE_DRIVER: z.enum(['fs', 'db']).default('fs'),
+  /** Viber credit messages transport (see services/viber/provider.ts). Credentials only via environment. */
+  VIBER_PROVIDER: z.enum(['none', 'log', 'memory', 'infobip', 'webhook']).default('log'),
+  VIBER_API_URL: z.string().url().optional(),
+  VIBER_API_KEY: z.string().optional(),
+  VIBER_SENDER: z.string().optional(),
 });
 
 export type AppConfig = z.infer<typeof envSchema> & { encryptionKey: Buffer };

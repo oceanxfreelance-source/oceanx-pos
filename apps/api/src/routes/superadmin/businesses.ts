@@ -85,6 +85,7 @@ export async function businessAdminRoutes(app: FastifyInstance) {
         planName: plans.name,
         subscriptionStatus: subscriptions.status,
         currentPeriodEnd: subscriptions.currentPeriodEnd,
+        viberCreditRequested: sql<boolean>`(${businesses.viberCreditRequestedAt} IS NOT NULL AND NOT ${businesses.superadminViberCreditEnabled})`,
       })
       .from(businesses)
       .leftJoin(subscriptions, eq(subscriptions.businessId, businesses.id))
@@ -322,6 +323,37 @@ export async function businessAdminRoutes(app: FastifyInstance) {
       return { currentPeriodEnd, status };
     });
     return { ok: true, ...updated };
+  });
+
+  /**
+   * Feature: Viber Credit messaging (superadmin_viber_credit_enabled). Enabling only makes the feature
+   * available — the business manager still decides whether to turn it on. Disabling stops all messages.
+   */
+  app.post('/businesses/:id/features/viber-credit', async (req) => {
+    const ctx = saCtx(req);
+    const id = idParam(req);
+    const { enabled } = parse(z.object({ enabled: z.boolean() }), req.body);
+    const b = await db.transaction(async (tx) => {
+      await loadBusiness(tx, id);
+      const [u] = await tx.update(businesses).set({ superadminViberCreditEnabled: enabled, updatedAt: new Date() }).where(eq(businesses.id, id)).returning();
+      await audit(tx, {
+        actorType: 'super_admin',
+        actorId: ctx.admin.id,
+        actorName: ctx.admin.name,
+        businessId: id,
+        action: enabled ? 'superadmin.viber_credit_enabled' : 'superadmin.viber_credit_disabled',
+        entityType: 'business',
+        entityId: id,
+        req,
+      });
+      return u!;
+    });
+    return {
+      superadminEnabled: b.superadminViberCreditEnabled,
+      managerEnabled: b.managerViberCreditEnabled,
+      requestedAt: b.viberCreditRequestedAt,
+      active: b.superadminViberCreditEnabled && b.managerViberCreditEnabled,
+    };
   });
 
   app.post<{ Params: { id: string; code: string } }>('/businesses/:id/addons/:code/grant', async (req) => {

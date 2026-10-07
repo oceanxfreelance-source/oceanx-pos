@@ -242,6 +242,93 @@ export async function customerRoutes(app: FastifyInstance) {
     };
   });
 
+  /**
+   * Credit overview: every credit customer (has a credit limit or anything due) with what they owe,
+   * how much is overdue and for how long, plus grand totals. Powers the Credit screen and its PDF.
+   */
+  app.get('/credit/overview', { preHandler: requirePermission('credit.view') }, async (req) => {
+    const ctx = bizCtx(req);
+    const tz = ctx.access.business.timezone;
+    const today = businessToday(tz);
+    const q = parse(z.object({ q: z.string().trim().max(100).optional(), onlyDue: z.enum(['true', 'false']).optional() }), req.query);
+    const rows = await db.execute<{
+      id: string;
+      name: string;
+      phone: string;
+      viber_phone: string;
+      credit_limit: string | null;
+      credit_days: number | null;
+      sales_due: string;
+      invoice_due: string;
+      overdue: string;
+      oldest: string | null;
+      last_payment: string | null;
+    }>(sql`
+      WITH open_items AS (
+        SELECT s.customer_id, s.balance_due AS due,
+               ((s.completed_at AT TIME ZONE ${tz})::date + COALESCE(c.credit_days, 0)) AS due_date, 'sale' AS src
+          FROM sales s JOIN customers c ON c.id = s.customer_id
+         WHERE s.business_id = ${ctx.businessId} AND s.status = 'completed' AND s.balance_due > 0
+        UNION ALL
+        SELECT i.customer_id, i.balance_due, i.due_date::date, 'invoice'
+          FROM invoices i
+         WHERE i.business_id = ${ctx.businessId} AND i.status IN ('issued','partially_paid') AND i.balance_due > 0
+      ), agg AS (
+        SELECT customer_id,
+               COALESCE(SUM(due) FILTER (WHERE src = 'sale'), 0)::bigint AS sales_due,
+               COALESCE(SUM(due) FILTER (WHERE src = 'invoice'), 0)::bigint AS invoice_due,
+               COALESCE(SUM(due) FILTER (WHERE due_date < ${today}::date), 0)::bigint AS overdue,
+               MIN(due_date) AS oldest
+          FROM open_items GROUP BY customer_id
+      )
+      SELECT c.id, c.name, c.phone, c.viber_phone, c.credit_limit, c.credit_days,
+             COALESCE(a.sales_due, 0) AS sales_due, COALESCE(a.invoice_due, 0) AS invoice_due, COALESCE(a.overdue, 0) AS overdue,
+             a.oldest::text AS oldest,
+             (SELECT MAX(p.paid_at) FROM payments p WHERE p.customer_id = c.id AND p.business_id = ${ctx.businessId}
+                AND p.voided_at IS NULL AND p.kind IN ('credit_payment','invoice'))::text AS last_payment
+        FROM customers c LEFT JOIN agg a ON a.customer_id = c.id
+       WHERE c.business_id = ${ctx.businessId} AND c.deleted_at IS NULL
+         AND (a.customer_id IS NOT NULL ${q.onlyDue === 'true' ? sql`` : sql`OR c.credit_limit IS NOT NULL`})
+         ${q.q ? sql`AND (c.name ILIKE ${'%' + q.q + '%'} OR c.phone ILIKE ${'%' + q.q + '%'})` : sql``}
+       ORDER BY (COALESCE(a.sales_due, 0) + COALESCE(a.invoice_due, 0)) DESC, c.name ASC
+       LIMIT 2000`);
+    const customersOut = rows.rows.map((r) => {
+      const due = Number(r.sales_due) + Number(r.invoice_due);
+      const limit = r.credit_limit === null ? null : Number(r.credit_limit);
+      return {
+        id: r.id,
+        name: r.name,
+        phone: r.phone,
+        viberPhone: r.viber_phone,
+        creditLimit: limit,
+        creditDays: r.credit_days,
+        salesDue: Number(r.sales_due),
+        invoiceDue: Number(r.invoice_due),
+        due,
+        overdue: Number(r.overdue),
+        availableCredit: limit === null ? null : Math.max(0, limit - due),
+        oldestDueDate: r.oldest,
+        daysOverdue: r.oldest && r.oldest < today ? Math.round((Date.parse(`${today}T12:00:00Z`) - Date.parse(`${r.oldest}T12:00:00Z`)) / 86_400_000) : 0,
+        lastPaymentAt: r.last_payment,
+      };
+    });
+    const b = ctx.access.business;
+    const settings = await loadBusinessSettings(db, ctx.businessId);
+    return {
+      totals: {
+        due: customersOut.reduce((a, c) => a + c.due, 0),
+        overdue: customersOut.reduce((a, c) => a + c.overdue, 0),
+        customersWithDue: customersOut.filter((c) => c.due > 0).length,
+        creditCustomers: customersOut.length,
+      },
+      customers: customersOut,
+      business: { name: b.name, address: b.address, phone: b.phone, email: b.email, hasLogo: !!b.logoPath },
+      settings: { regional: settings.regional },
+      asOf: today,
+      generatedAt: new Date().toISOString(),
+    };
+  });
+
   // ---------------------------------------------------------------- loyalty (add-on)
   app.get('/customers/:id/loyalty', { preHandler: requirePermission('loyalty.view') }, async (req) => {
     const ctx = bizCtx(req);

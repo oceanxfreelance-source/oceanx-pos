@@ -647,6 +647,7 @@ function PaymentDialog({ total, customer, onClose, submit }: { total: number; cu
   const remaining = Math.max(0, total - tendered);
   const change = Math.max(0, tendered - total);
   const creditAllowed = hasAddon('credit') && can('credit.create');
+  const viberActive = !!useBizSession().viberCredit?.active;
   const methods: Method[] = ['cash', 'card', 'bank_transfer', 'other', ...(creditAllowed ? (['credit'] as Method[]) : [])];
   const quick = [total, Math.ceil(total / 10000) * 10000, Math.ceil(total / 50000) * 50000, Math.ceil(total / 100000) * 100000].filter((v, i, a) => a.indexOf(v) === i).slice(0, 4);
 
@@ -705,6 +706,11 @@ function PaymentDialog({ total, customer, onClose, submit }: { total: number; cu
                 <p className="text-sm text-slate-600 dark:text-slate-300">
                   <User className="me-1 inline size-4" />
                   {t('pos.credit_to', { name: customer.name, amount: money(remaining) })}
+                  {viberActive && (
+                    <span className="mt-1 block text-xs text-violet-700 dark:text-violet-300">
+                      {customer.viberPhone || customer.phone ? t('viber.pos_will_send', { number: customer.viberPhone || customer.phone }) : t('viber.pos_no_number')}
+                    </span>
+                  )}
                 </p>
               ) : (
                 <Alert tone="amber">{t('errors.customer_required')}</Alert>

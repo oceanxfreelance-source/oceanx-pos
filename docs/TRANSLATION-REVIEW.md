@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 124 · **confirmed**: 23
+Status: **needs_review**: 137 · **confirmed**: 23
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -18,18 +18,24 @@ review of the whole file is still recommended before launch.
 | `common.reset` | Reset | ފުރަތަމަ ހާލަތަށް | needs_review | Used on settings forms to discard unsaved edits. Alternative: ރީސެޓް. |
 | `common.showing_range` | Showing {{from}}–{{to}} of {{total}} | {{total}} އިން {{from}}–{{to}} ދައްކަނީ | needs_review | Word order with numbers in RTL — please check it reads naturally. |
 | `credit.all_time` | All time | ހުރިހާ މުއްދަތެއް | needs_review | Date-range preset; alternative: ފެށުނީއްސުރެ. |
+| `credit.as_of` | As of | މި ތާރީޚަށް | needs_review | Shown next to a date; word order may need adjusting depending on layout (date follows label). |
 | `credit.available` | Available credit | ލިބެން ހުރި ކްރެޑިޓް | needs_review | ލިބެން ހުރި ކްރެޑިޓް; alternative: ބޭނުންކުރެވޭ ކްރެޑިޓް. |
 | `credit.balance` | Balance | ބާކީ | needs_review | Running ledger balance as ބާކީ. Same word is used for 'remaining' in POS; confirm no confusion. |
 | `credit.balance_due` | Balance due | ދައްކަންޖެހޭ ބާކީ | needs_review | ދައްކަންޖެހޭ ބާކީ. Alternative: ދައްކަން ބާކީ އަދަދު. |
 | `credit.credit` | Credit | ކްރެޑިޓް | needs_review | Ledger column. Loanword ކްރެޑިޓް chosen to pair with ޑެބިޓް; native alternative ލިބުނު (received). Note: elsewhere 'credit' as a sale/debt concept uses ދަރަނި, so the same English word maps to two Dhivehi words — confirm this split. |
 | `credit.days` | Credit days | ކްރެޑިޓް ދުވަސް | needs_review | Literal 'credit days'. Alternative: ދަރަނި ދައްކަންޖެހޭ މުއްދަތު (ދުވަސް) — clearer but longer. |
+| `credit.days_overdue_other` | {{count}} days overdue | މުއްދަތު ފަހަނައެޅިތާ {{count}} ދުވަސް | needs_review | Reuses print.days_overdue phrasing; Dhivehi has no plural split so _one and _other are identical. |
 | `credit.debit` | Debit | ޑެބިޓް | needs_review | Ledger column loanword. Native alternative: ދަރަނި އިތުރުވި / ދައްކަންޖެހޭ. Confirm accountants' preferred term. |
+| `credit.dues_report` | Customer dues report | ކަސްޓަމަރުންގެ ދަރަނީގެ ރިޕޯޓް | needs_review | Alternative: ކަސްޓަމަރުންގެ ބާކީ ރިޕޯޓް. Also printed on PDF given to staff/customers. |
 | `credit.entry` | Entry | އެންޓްރީ | needs_review | Ledger entry loanword އެންޓްރީ. Alternative: ބަޔާން / ރެކޯޑު. |
 | `credit.fifo_hint` | The payment is applied to the oldest unpaid credit sales first. | ފައިސާ ކެނޑޭނީ ފުރަތަމަ އެންމެ ކުރީގެ ނުދައްކާ ދަރަނީގެ ވިއްކުންތަކުން. | needs_review | FIFO allocation explanation; please check the phrasing ފައިސާ ކެނޑޭނީ (amount is deducted from) reads naturally. |
+| `credit.grand_total` | Grand total | މުޅި ޖުމްލަ | needs_review | Distinguished from print.total (ޖުމްލަ). Alternative: ހުރިހާ ޖުމްލަ. |
 | `credit.kinds.credit_sale` | Credit sale | ދަރަންޏަށް ވިއްކުން | needs_review | ދަރަންޏަށް ވިއްކުން — follows existing perm.credit_create. Depends on the credit-terminology decision. |
 | `credit.limit` | Credit limit | ކްރެޑިޓް ލިމިޓް | needs_review | Matches existing perm.credit_manage (ކްރެޑިޓް ލިމިޓް). Alternative: ދަރަނީގެ ހަދު. Depends on the open credit-terminology decision in the existing review list. |
 | `credit.outstanding` | Outstanding | ބާކީ ދަރަނި | needs_review | 'Outstanding' rendered as ބާކީ ދަރަނި (remaining debt). Alternatives: ދައްކަން ބާކީ, އައުޓްސްޓޭންޑިންގ. Also used in reports.columns.outstanding, reports.summary.outstanding, dashboard.w.outstanding_due. |
+| `credit.page_title` | Credit & dues | ދަރަނި އަދި ދައްކަންޖެހޭ ފައިސާ | needs_review | Matches existing reports.types.credit. Alternative loanword: ކްރެޑިޓް އަދި ޑިއުސް. Depends on the pending ދަރަނި vs ކްރެޑިޓް decision (addons.names.credit). |
 | `credit.statement` | Statement | ސްޓޭޓްމަންޓް | needs_review | Loanword ސްޓޭޓްމަންޓް, consistent with existing addons.descriptions.credit. Native alternative: ހިސާބު ބަޔާން. |
+| `credit.total_due` | Total due | ދައްކަންޖެހޭ ޖުމްލަ | needs_review | Alternative: ޖުމްލަ ދަރަނި / ޖުމްލަ ބާކީ. Confirm which reads best on a dashboard tile. |
 | `customers.overview` | Overview | ޚުލާޞާ | needs_review | ޚުލާޞާ (summary); alternative: އާންމު މަޢުލޫމާތު. |
 | `dashboard.good_afternoon` | Good afternoon | މެންދުރު ފަހުގެ ސަލާމް | needs_review | Time-of-day greetings are not idiomatic in Dhivehi. Option: always show އައްސަލާމު ޢަލައިކުމް. |
 | `dashboard.good_evening` | Good evening | ހަވީރުގެ ސަލާމް | needs_review | See dashboard.good_afternoon. |
@@ -39,7 +45,10 @@ review of the whole file is still recommended before launch.
 | `documents.subtotal` | Subtotal | ސަބްޓޯޓަލް | needs_review | Loanword ސަބްޓޯޓަލް. Alternative: ޖުމްލަ (ޓެކްސް ނުލާ). |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |
 | `expenses.payee` | Paid to | ފައިސާ ދިން ފަރާތް | needs_review | Paid to: ފައިސާ ދިން ފަރާތް. |
+| `inventory.add_supply` | Add stock item | ސްޓޮކް އައިޓަމެއް އިތުރުކުރޭ | needs_review | Loanwords ސްޓޮކް/އައިޓަމް follow existing inventory strings. Alternative: ސްޓޮކަށް ތަކެއްޗެއް އިތުރުކުރޭ. |
+| `inventory.add_supply_hint` | For things you use but don't sell, like a milk powder packet, cups or syrup. Tracked in stock, hidden from the POS. | ބޭނުންކުރާ ނަމަވެސް ނުވިއްކާ ތަކެތި، މިސާލަކަށް މިލްކް ޕައުޑަރު ޕެކެޓެއް، ކަޕު ނުވަތަ ސިރަޕް. ސްޓޮކުގައި ބަލަހައްޓާނެ، POSގައި ނުފެންނާނެ. | needs_review | Milk powder and cups rendered as loanwords (މިލްކް ޕައުޑަރު, ކަޕު); confirm local café usage (e.g. ކިރުގަނޑު). |
 | `inventory.adjust` | Adjust stock | ސްޓޮކް އެޑްޖަސްޓްކުރޭ | needs_review | Loanword ސްޓޮކް އެޑްޖަސްޓްކުރޭ follows existing perm.inventory_adjust. Native alternative: ސްޓޮކް ރަނގަޅުކުރޭ. |
+| `inventory.kinds.supplies` | Ingredients & supplies | ތަކެތި އަދި ސަޕްލައިސް | needs_review | ތަކެތި for ingredients matches products.add_ingredient; ސަޕްލައިސް is a loanword. |
 | `inventory.modes.set` | Set counted quantity | ގުނި އަދަދު ސެޓްކުރޭ | needs_review | 'Set counted quantity' — ގުނި އަދަދު ސެޓްކުރޭ; confirm. |
 | `inventory.modes.wastage` | Record wastage | ގެއްލުނު / ހަލާކުވި ތަކެތި ރެކޯޑުކުރޭ | needs_review | Wastage rendered as ގެއްލުނު / ހަލާކުވި ތަކެތި (lost/spoiled). Alternative loanword: ވޭސްޓޭޖް. Also inventory.types.wastage. |
 | `inventory.transfer` | Transfer | ޓްރާންސްފަރ | needs_review | Loanword ޓްރާންސްފަރ, from existing addons.descriptions.advanced_inventory. Native alternative: ބަދަލުކުރުން. |
@@ -130,11 +139,15 @@ review of the whole file is still recommended before launch.
 | `status_labels.seated` | Seated | އިށީނދެފައި | needs_review | އިށީނދެފައި (seated); alternative: މޭޒަށް ވަޑައިގެންފި. |
 | `status_labels.void` | Void | ބާތިލު | needs_review | ބާތިލު (void) vs ކެންސަލްކޮށްފައި (cancelled) — keep the two distinct. |
 | `status.pending_title` | Awaiting approval | އެޕްރޫވަލަށް އިންތިޒާރުކުރަނީ | needs_review | Alternative with native vocabulary: ހުއްދައަށް އިންތިޒާރުކުރަނީ. |
+| `superadmin.business.enable` | Enable | ހުޅުވާ | needs_review | Matches common.enabled (ހުޅުވިފައި). Alternative: އެނޭބަލްކުރޭ. |
 | `superadmin.dashboard.mrr` | Monthly recurring revenue | މަހުން މަހަށް ލިބޭ އާމްދަނީ | needs_review | Financial term; confirm wording. |
 | `superadmin.security.two_factor` | Two-factor authentication | ދެ ފިޔަވަޅުގެ ވެރިފިކޭޝަން | needs_review | Literal; '2FA' loanword may be clearer to admins. |
 | `superadmin.status.suspended` | Suspended | ހުއްޓާލާފައި | needs_review | Alternative: ސަސްޕެންޑްކޮށްފައި. |
 | `time.minutes_ago` | {{count}} minutes ago | {{count}} މިނެޓު ކުރިން | needs_review | Relative time phrasing used in lists (e.g. last sign-in). Confirm natural word order. |
 | `validation.too_many` | Select at most {{max}}. | {{max}} އަށްވުރެ ގިނަ ނުހޮވާށެވެ. | needs_review | Formal written ending; other messages use a polite conversational tone. |
+| `viber.on` | ON | ON | needs_review | Kept in Latin; alternative ހުޅުވާ is longer for a switch label. |
+| `viber.status_off` | Viber notifications are disabled. Credit transactions will continue normally. | Viber ނޯޓިފިކޭޝަން ބަންދުކޮށްފައި. ދަރަނީގެ މުޢާމަލާތްތައް އާދައިގެ ގޮތުގައި ކުރިއަށް ދާނެ. | needs_review | ބަންދު matches common.disabled. Same notification-term question as status_on. |
+| `viber.status_on` | Viber notifications will be sent for Credit (Pay Later) transactions when the customer has a registered Viber number. | ކަސްޓަމަރުގެ Viber ނަންބަރު ރަޖިސްޓަރީކޮށްފައިވާނަމަ، ދަރަންޏަށް (ފަހުން ދައްކާ) ކުރާ މުޢާމަލާތްތަކަށް Viber ނޯޓިފިކޭޝަން ފޮނުވޭނެ. | needs_review | Loanword ނޯޓިފިކޭޝަން used; alternative: އެންގުން / ހަބަރު. Confirm preferred term. |
 | `documents.service_charge` | Service charge | ސަރވިސް ޗާޖު | confirmed | ސަރވިސް ޗާޖު — confirmed in existing review list. |
 | `documents.tax` | Tax | ޓެކްސް | confirmed | ޓެކްސް — standard, matches existing. |
 | `documents.total` | Total | ޖުމްލަ | confirmed | ޖުމްލަ — standard. |
