@@ -1,0 +1,52 @@
+name: Desktop app (Windows installer)
+
+# Builds OceanX POS Setup.exe on a real Windows machine and publishes it as a GitHub release
+# ("desktop-v<version>") so the team can download it and install it at restaurants.
+on:
+  push:
+    paths:
+      - 'desktop/**'
+      - '.github/workflows/desktop-windows.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - run: npm ci
+      - run: npm run build:win
+      - name: Version
+        id: v
+        shell: bash
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OceanX-POS-Setup-${{ steps.v.outputs.version }}
+          path: desktop/dist/OceanX-POS-Setup-*.exe
+          retention-days: 30
+      - name: Publish release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="desktop-v${{ steps.v.outputs.version }}"
+          file=$(ls dist/OceanX-POS-Setup-*.exe)
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "$file" --clobber
+          else
+            gh release create "$tag" "$file" --target "$GITHUB_SHA" --prerelease \
+              --title "OceanX POS for Windows ${{ steps.v.outputs.version }}" \
+              --notes "Windows installer for restaurant PCs. Copy OceanX-POS-Setup-${{ steps.v.outputs.version }}.exe to the PC and double-click it. See desktop/README.md."
+          fi
