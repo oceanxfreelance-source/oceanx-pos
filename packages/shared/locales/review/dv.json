@@ -1293,5 +1293,40 @@
     "suggested": "އަޅުގަނޑުމެންގެ ސްޓާފަކު އިރުކޮޅަކުން ޚިދުމަތް ދޭނެ",
     "status": "confirmed",
     "notes": "Translated by the business owner (native speaker)."
+  },
+  {
+    "key": "menu_i18n.name_in",
+    "english": "Name in {{language}}",
+    "suggested": "{{language}} ބަހުން ނަން",
+    "status": "needs_review",
+    "notes": "New: labels for item names in other languages."
+  },
+  {
+    "key": "menu_i18n.description_in",
+    "english": "Description in {{language}}",
+    "suggested": "{{language}} ބަހުން ތަފްޞީލު",
+    "status": "needs_review",
+    "notes": "New: labels for item names in other languages."
+  },
+  {
+    "key": "menu_i18n.message_in",
+    "english": "Welcome message in {{language}}",
+    "suggested": "{{language}} ބަހުން މަރުޙަބާ މެސެޖު",
+    "status": "needs_review",
+    "notes": "New: labels for item names in other languages."
+  },
+  {
+    "key": "menu_i18n.more_languages",
+    "english": "More languages",
+    "suggested": "އިތުރު ބަސްތައް",
+    "status": "needs_review",
+    "notes": "New: labels for item names in other languages."
+  },
+  {
+    "key": "menu_i18n.hint",
+    "english": "Shown on the QR menu when a customer picks this language. Leave empty to show the main name.",
+    "suggested": "ކަސްޓަމަރަކު މި ބަސް ޚިޔާރުކުރުމުން ކިއުއާރް މެނޫގައި ފެންނާނީ މިއެވެ. ހުސްކޮށް ބަހައްޓައިފިނަމަ މައި ނަން ފެންނާނެއެވެ.",
+    "status": "needs_review",
+    "notes": "New: labels for item names in other languages."
   }
 ]

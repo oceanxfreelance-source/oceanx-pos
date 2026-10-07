@@ -1832,5 +1832,12 @@
     "card_subtitle": "Point your phone camera at the code",
     "card_table": "Table {{table}}",
     "card_generic": "Our staff will be with you shortly"
+  },
+  "menu_i18n": {
+    "name_in": "Name in {{language}}",
+    "description_in": "Description in {{language}}",
+    "message_in": "Welcome message in {{language}}",
+    "more_languages": "More languages",
+    "hint": "Shown on the QR menu when a customer picks this language. Leave empty to show the main name."
   }
 }

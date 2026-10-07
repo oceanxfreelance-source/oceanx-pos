@@ -485,6 +485,29 @@ describe('add-on modules', () => {
     // Staff then takes payment through the normal POS flow.
     expect((await owner.post(`/api/pos/orders/${queue[0].id}/pay`, { payments: [{ method: 'cash', amount: 60 }] })).json().status).toBe('completed');
   });
+  it('QR menu shows item, category and welcome-message names in the customer language; edits without them keep them', async () => {
+    const slug = (await owner.get('/api/auth/session')).json().business.slug;
+    const anon = new Client(env.app);
+    await grant('qr_menu');
+    const cat = (await owner.post('/api/categories', { name: 'Drinks', translations: { dv: { name: 'ބުއިން' }, hi: { name: '' } } })).json();
+    expect(cat.translations).toEqual({ dv: { name: 'ބުއިން', description: '' } });
+    const p = await product(owner, { name: 'Iced tea', categoryId: cat.id, sellingPrice: 30, translations: { dv: { name: 'ފިނި ސައި', description: 'ލުމޯ އާއެކު' } } });
+    // An older client that sends no translations must not erase them.
+    const full = (await owner.get(`/api/products/${p.id}`)).json();
+    const { translations: _omit, recipe: _r, stock: _s, ...rest } = full;
+    await owner.put(`/api/products/${p.id}`, { ...rest, categoryId: cat.id, costPrice: 0, sellingPrice: 35, options: [], sku: '' });
+    await owner.patch(`/api/categories/${cat.id}`, { sortOrder: 2 });
+    const online = (await owner.get('/api/settings')).json().sections.online;
+    expect(online.messageTranslations).toEqual({});
+    await owner.patch('/api/settings/online', { ...online, message: 'Welcome', messageTranslations: { dv: 'މަރުޙަބާ' } });
+    const menu = (await anon.get(`/api/public/menu/${slug}`)).json();
+    const item = menu.products.find((x: { id: string }) => x.id === p.id);
+    expect(item.translations.dv).toEqual({ name: 'ފިނި ސައި', description: 'ލުމޯ އާއެކު' });
+    expect(item.price).toBe(3500);
+    expect(menu.categories.find((c: { id: string }) => c.id === cat.id).translations.dv.name).toBe('ބުއިން');
+    expect(menu.messageTranslations).toEqual({ dv: 'މަރުޙަބާ' });
+    expect((await owner.post('/api/categories', { name: 'Bad', translations: { xx: { name: 'nope' } } })).statusCode).toBe(422);
+  });
 });
 
 describe('tenant isolation for operational data', () => {

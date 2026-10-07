@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { and, asc, count, eq, ilike, inArray, isNull, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
-import { categorySchema, paginationQuerySchema, productSchema, recipeSchema, toMinor } from '@oceanx/shared';
+import { categorySchema, paginationQuerySchema, productSchema, recipeSchema, toMinor, type Translations } from '@oceanx/shared';
 import { categories, products, recipeItems, stockLevels } from '../../db/schema';
 import { assertPermission, bizCtx, requireAnyPermission, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
@@ -18,6 +18,11 @@ const productListQuery = paginationQuerySchema.extend({
   type: z.enum(['item', 'ingredient', 'service']).optional(),
   active: z.enum(['true', 'false']).optional(),
 });
+
+/** Drop empty languages so the menu falls back to the base name. */
+function cleanTranslations(t: Translations): Translations {
+  return Object.fromEntries(Object.entries(t).filter(([, v]) => v && (v.name || v.description)));
+}
 
 /** Convert validated product input (major units) to DB values (minor units). */
 function productValues(body: z.output<typeof productSchema>) {
@@ -38,6 +43,7 @@ function productValues(body: z.output<typeof productSchema>) {
     showInMenu: body.showInMenu,
     sendToKitchen: body.sendToKitchen,
     options: body.options.map((g) => ({ ...g, choices: g.choices.map((c) => ({ name: c.name, price: toMinor(c.price) })) })),
+    ...(body.translations ? { translations: cleanTranslations(body.translations) } : {}),
   };
 }
 
@@ -68,7 +74,7 @@ export async function catalogRoutes(app: FastifyInstance) {
     const body = parse(categorySchema, req.body);
     const [c] = await db
       .insert(categories)
-      .values({ ...body, businessId: ctx.businessId })
+      .values({ ...body, translations: cleanTranslations(body.translations ?? {}), businessId: ctx.businessId })
       .returning();
     await audit(db, { ...actor(ctx), action: 'category.created', entityType: 'category', entityId: c!.id, req });
     reply.status(201);
@@ -81,7 +87,7 @@ export async function catalogRoutes(app: FastifyInstance) {
     const body = parse(categorySchema.partial(), req.body);
     const [c] = await db
       .update(categories)
-      .set({ ...body, updatedAt: new Date() })
+      .set({ ...body, ...(body.translations ? { translations: cleanTranslations(body.translations) } : {}), updatedAt: new Date() })
       .where(own(categories, ctx, id))
       .returning();
     if (!c) throw notFound();

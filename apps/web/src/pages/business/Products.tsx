@@ -1,3 +1,4 @@
+import type { Translations } from '@oceanx/shared';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { ProductPicker } from '../../components/Pickers';
 import { ItemAvatar } from '../../components/ItemAvatar';
+import { TranslationFields } from '../../components/TranslationFields';
 import { preparePhoto } from '../../lib/image';
 
 interface Category {
@@ -28,6 +30,7 @@ interface Category {
   isActive: boolean;
   kitchenStation: string;
   productCount: number;
+  translations: Translations;
 }
 interface Product {
   id: string;
@@ -50,6 +53,7 @@ interface Product {
   options: { name: string; required: boolean; multiple: boolean; choices: { name: string; price: number }[] }[];
   imagePath: string | null;
   stock: number | null;
+  translations: Translations;
 }
 
 export default function ProductsPage() {
@@ -232,6 +236,7 @@ function ProductDialog({ product, categories, onClose }: { product: Product | nu
     showInPos: product?.showInPos ?? true,
     showInMenu: product?.showInMenu ?? true,
     sendToKitchen: product?.sendToKitchen ?? true,
+    translations: product?.translations ?? ({} as Translations),
   });
   const [options, setOptions] = useState<OptionDraft[]>(product?.options.map((g) => ({ ...g, choices: g.choices.map((c) => ({ name: c.name, price: (c.price / 100).toString() })) })) ?? []);
   const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -375,6 +380,7 @@ function ProductDialog({ product, categories, onClose }: { product: Product | nu
               <Input type="number" step="0.01" min={0} max={100} label={t('products.tax_rate')} placeholder={t('products.tax_default')} value={form.taxRate} onChange={set('taxRate')} hint={t('products.tax_hint')} />
             </div>
             <Textarea label={t('common.description')} value={form.description} onChange={set('description')} />
+            <TranslationFields value={form.translations} onChange={(v) => setForm((f) => ({ ...f, translations: v }))} withDescription />
             <div className="grid gap-4 rounded-xl bg-slate-50 p-4 sm:grid-cols-2 dark:bg-slate-800/40">
               <Switch checked={form.trackStock} onChange={(v) => setForm({ ...form, trackStock: v })} label={t('products.track_stock')} description={t('products.track_stock_hint')} />
               {form.trackStock && <Input type="number" min={0} step="0.001" label={t('products.min_stock')} value={form.minStock} onChange={set('minStock')} />}
@@ -493,10 +499,14 @@ function CategoryList() {
   const toastErr = useToastError();
   const cats = useCategories();
   const [editing, setEditing] = useState<Category | 'new' | null>(null);
-  const [form, setForm] = useState({ name: '', description: '', sortOrder: '0', isActive: true, kitchenStation: '' });
+  const [form, setForm] = useState({ name: '', description: '', sortOrder: '0', isActive: true, kitchenStation: '', translations: {} as Translations });
   const open = (c: Category | 'new') => {
     setEditing(c);
-    setForm(c === 'new' ? { name: '', description: '', sortOrder: '0', isActive: true, kitchenStation: '' } : { name: c.name, description: c.description, sortOrder: String(c.sortOrder), isActive: c.isActive, kitchenStation: c.kitchenStation });
+    setForm(
+      c === 'new'
+        ? { name: '', description: '', sortOrder: '0', isActive: true, kitchenStation: '', translations: {} }
+        : { name: c.name, description: c.description, sortOrder: String(c.sortOrder), isActive: c.isActive, kitchenStation: c.kitchenStation, translations: c.translations ?? {} },
+    );
   };
   const save = useMutation({
     mutationFn: () => {
@@ -568,6 +578,7 @@ function CategoryList() {
       >
         <div className="space-y-4">
           <Input label={t('common.name')} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          <TranslationFields value={form.translations} onChange={(v) => setForm({ ...form, translations: v })} />
           <Input type="number" label={t('categories.sort_order')} value={form.sortOrder} onChange={(e) => setForm({ ...form, sortOrder: e.target.value })} />
           {hasAddon('advanced_kitchen') && <Input label={t('categories.station')} hint={t('categories.station_hint')} value={form.kitchenStation} onChange={(e) => setForm({ ...form, kitchenStation: e.target.value })} />}
           <Switch checked={form.isActive} onChange={(v) => setForm({ ...form, isActive: v })} label={t('common.active')} />

@@ -39,7 +39,7 @@ export async function publicRoutes(app: FastifyInstance, opts: { authRateLimit: 
     const bid = access.business.id;
     const [cats, prods] = await Promise.all([
       db
-        .select({ id: categories.id, name: categories.name, description: categories.description })
+        .select({ id: categories.id, name: categories.name, description: categories.description, translations: categories.translations })
         .from(categories)
         .where(and(eq(categories.businessId, bid), eq(categories.isActive, true)))
         .orderBy(asc(categories.sortOrder), asc(categories.name)),
@@ -48,6 +48,7 @@ export async function publicRoutes(app: FastifyInstance, opts: { authRateLimit: 
           id: products.id,
           name: products.name,
           description: products.description,
+          translations: products.translations,
           categoryId: products.categoryId,
           price: products.sellingPrice,
           options: products.options,
@@ -62,6 +63,7 @@ export async function publicRoutes(app: FastifyInstance, opts: { authRateLimit: 
       business: { name: b.name, businessType: b.businessType, address: b.address, phone: b.phone, currency: b.currency, hasLogo: !!b.logoPath },
       currencySymbol: settings.regional.currencySymbol,
       message: settings.online.message,
+      messageTranslations: settings.online.messageTranslations ?? {},
       showPrices: settings.online.showPrices,
       ordersEnabled: settings.online.ordersEnabled && access.addons.has('online_ordering'),
       deliveryEnabled: access.addons.has('delivery'),

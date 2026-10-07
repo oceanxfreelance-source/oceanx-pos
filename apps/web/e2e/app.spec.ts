@@ -76,7 +76,7 @@ test.describe.serial('OceanX phase 1', () => {
     await page.goto('/users');
     await page.getByRole('button', { name: 'Add user' }).first().click();
     const dialog = page.getByRole('dialog');
-    await dialog.getByLabel('Name').fill('Ahmed Cashier');
+    await dialog.getByLabel(/^Name\s*\*?$/).fill('Ahmed Cashier');
     await dialog.getByLabel('Email').fill('cashier@lagoon.test');
     await dialog.getByLabel('Initial password').fill('Cashier-Pass-1');
     await dialog.getByLabel('Cashier').check();

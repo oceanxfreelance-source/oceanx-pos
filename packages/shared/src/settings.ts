@@ -91,6 +91,8 @@ export const settingsSectionSchemas = {
     ordersEnabled: z.boolean(),
     showPrices: z.boolean(),
     message: shortText(500),
+    /** The welcome message in other languages (customer's chosen menu language). */
+    messageTranslations: z.partialRecord(z.enum(LANGUAGE_CODES), shortText(500)).default({}),
   }),
 } as const;
 
@@ -160,7 +162,7 @@ export function defaultBusinessSettings(opts: { currency?: string; timezone?: st
     },
     pos: { defaultOrderType: 'dine_in', allowNegativeStock: true, sendToKitchen: true, requireTableForDineIn: false, maxDiscountPercent: 100 },
     loyalty: { pointsPerUnit: 1, pointValue: 1, minRedeemPoints: 100 },
-    online: { menuEnabled: true, ordersEnabled: false, showPrices: true, message: '' },
+    online: { menuEnabled: true, ordersEnabled: false, showPrices: true, message: '', messageTranslations: {} },
   };
 }
 

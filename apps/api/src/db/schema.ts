@@ -1,4 +1,5 @@
 import { sql } from 'drizzle-orm';
+import type { Translations } from '@oceanx/shared';
 import {
   customType,
   bigint,
@@ -508,6 +509,7 @@ export const categories = pgTable(
       .notNull()
       .references(() => businesses.id, { onDelete: 'cascade' }),
     name: text('name').notNull(),
+    translations: jsonb('translations').$type<Translations>().notNull().default({}),
     description: text('description').notNull().default(''),
     sortOrder: integer('sort_order').notNull().default(0),
     isActive: boolean('is_active').notNull().default(true),
@@ -527,6 +529,7 @@ export const products = pgTable(
       .references(() => businesses.id, { onDelete: 'cascade' }),
     categoryId: uuid('category_id'),
     name: text('name').notNull(),
+    translations: jsonb('translations').$type<Translations>().notNull().default({}),
     sku: text('sku').notNull().default(''),
     description: text('description').notNull().default(''),
     unit: text('unit').notNull().default('pcs'),

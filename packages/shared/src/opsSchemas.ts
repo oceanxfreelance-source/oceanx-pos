@@ -36,12 +36,20 @@ export const optionGroupSchema = z.object({
     .max(30),
 });
 
+/** Menu names/descriptions in other languages, shown to customers who switch language. Missing → base name. */
+export const translationsSchema = z.partialRecord(
+  z.enum(LANGUAGE_CODES),
+  z.object({ name: z.string().trim().max(120).optional().default(''), description: z.string().trim().max(1000).optional().default('') }),
+);
+export type Translations = z.output<typeof translationsSchema>;
+
 export const categorySchema = z.object({
   name: req(80),
   description: text(300),
   sortOrder: z.number().int().min(0).max(10_000).default(0),
   isActive: z.boolean().default(true),
   kitchenStation: text(40),
+  translations: translationsSchema.optional(),
 });
 
 export const productSchema = z.object({
@@ -67,6 +75,8 @@ export const productSchema = z.object({
   showInMenu: z.boolean().default(true),
   sendToKitchen: z.boolean().default(true),
   options: z.array(optionGroupSchema).max(10).default([]),
+  // Optional so older clients that omit it never wipe stored translations.
+  translations: translationsSchema.optional(),
 });
 
 export const customerSchema = z.object({

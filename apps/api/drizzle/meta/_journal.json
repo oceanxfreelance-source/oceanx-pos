@@ -29,6 +29,13 @@
       "when": 1791339875930,
       "tag": "0003_viber_credit",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791363362415,
+      "tag": "0004_menu_translations",
+      "breakpoints": true
     }
   ]
 }
