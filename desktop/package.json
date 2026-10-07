@@ -1,7 +1,7 @@
 {
   "name": "oceanx-pos-desktop",
   "productName": "OceanX POS",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "OceanX POS for restaurants and caf\u00e9s \u2014 Windows desktop app",
   "author": "OceanX",
   "private": true,

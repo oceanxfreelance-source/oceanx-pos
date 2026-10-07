@@ -61,6 +61,19 @@ function createMain() {
     webPreferences: webPrefs(),
   });
   guard(main);
+  // Hidden shortcuts (not in any menu): Ctrl+Shift+A opens the Super Admin sign-in for the OceanX team;
+  // Ctrl+Shift+R goes back to the restaurant sign-in. Both pages still need their own password.
+  main.webContents.on('before-input-event', (e, input) => {
+    if (input.type !== 'keyDown' || !input.control || !input.shift || input.alt) return;
+    const key = input.key.toLowerCase();
+    if (key === 'a') {
+      e.preventDefault();
+      void main.loadURL(`${config.load().serverUrl}/superadmin/login`);
+    } else if (key === 'r') {
+      e.preventDefault();
+      loadApp();
+    }
+  });
   main.once('ready-to-show', () => {
     main.maximize();
     main.show();

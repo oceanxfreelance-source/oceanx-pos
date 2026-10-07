@@ -19,6 +19,9 @@ The PC needs internet. Without it the app shows "No internet connection" and rec
 
 Shortcuts: F5 reload · F11 full screen · Ctrl + / Ctrl − text size · Alt+Home back to the start page.
 
+OceanX team only (not shown in any menu): **Ctrl+Shift+A** opens the Super Admin sign-in inside the app;
+**Ctrl+Shift+R** goes back to the restaurant sign-in. The Super Admin page still needs its own password and 2FA.
+
 ## Building the installer (developers)
 
 ```
