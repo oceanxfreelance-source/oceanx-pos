@@ -49,7 +49,8 @@
     "notes": "Notes",
     "search": "Search",
     "user": "User",
-    "reload": "Reload"
+    "reload": "Reload",
+    "done": "Done"
   },
   "nav": {
     "account": "My account",
@@ -1105,7 +1106,7 @@
     "receive_payment": "Receive payment",
     "record_payment": "Record payment",
     "payment_recorded": "Payment recorded",
-    "fifo_hint": "The payment is applied to the oldest unpaid credit sales first.",
+    "fifo_hint": "The payment is applied to the oldest unpaid bills first (credit sales and invoices).",
     "statement": "Statement",
     "statement_empty": "No credit activity yet.",
     "entry": "Entry",
@@ -1139,7 +1140,20 @@
     "customers_count_one": "{{count}} customer",
     "customers_count_other": "{{count}} customers",
     "nobody_owes": "Nobody owes you anything",
-    "nobody_owes_body": "Customers with credit sales or unpaid invoices appear here."
+    "nobody_owes_body": "Customers with credit sales or unpaid invoices appear here.",
+    "print_receipt": "Print receipt",
+    "paid_now": "Paid now",
+    "still_due": "Still due",
+    "fully_paid": "Fully paid",
+    "total_due_now": "Total due now",
+    "amount_paid": "Amount paid",
+    "more_than_due": "More than the amount due",
+    "pay_full": "Full amount",
+    "pay_half": "Half",
+    "remaining_after": "Remaining after this payment",
+    "due_label": "Due",
+    "payment_receipt": "Payment receipt",
+    "paid_towards": "Paid towards"
   },
   "loyalty": {
     "title": "Loyalty",

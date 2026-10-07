@@ -155,6 +155,7 @@ export default function CreditPage() {
       {paying && (
         <CreditPaymentDialog
           customerId={paying.id}
+          customerName={paying.name}
           outstanding={paying.due}
           onClose={() => {
             setPaying(null);

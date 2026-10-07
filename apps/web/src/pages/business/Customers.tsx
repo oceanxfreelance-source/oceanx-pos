@@ -275,7 +275,7 @@ function CustomerProfile({ id, onClose, onEdit }: { id: string; onClose: () => v
           {tab === 'loyalty' && <Loyalty id={id} />}
         </div>
       )}
-      {paying && p && <CreditPaymentDialog customerId={id} outstanding={p.outstanding} onClose={() => setPaying(false)} />}
+      {paying && p && <CreditPaymentDialog customerId={id} customerName={p.customer.name} outstanding={p.outstanding} onClose={() => setPaying(false)} />}
       <ConfirmDialog open={deleting} onClose={() => setDeleting(false)} onConfirm={() => del.mutate()} loading={del.isPending} danger title={t('customers.delete_title')} message={t('customers.delete_body')} confirmLabel={t('common.delete')} />
     </Dialog>
   );
@@ -487,37 +487,105 @@ function Loyalty({ id }: { id: string }) {
   );
 }
 
-export function CreditPaymentDialog({ customerId, outstanding, onClose }: { customerId: string; outstanding: number; onClose: () => void }) {
+export function CreditPaymentDialog({
+  customerId,
+  customerName,
+  outstanding,
+  onClose,
+  onPaid,
+}: {
+  customerId: string;
+  customerName?: string;
+  outstanding: number;
+  onClose: () => void;
+  onPaid?: (remainingDue: number) => void;
+}) {
   const { t } = useTranslation();
   const money = useMoney();
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
-  const [form, setForm] = useState({ method: 'cash', amount: (outstanding / 100).toFixed(2), reference: '', notes: '' });
+  // Cashier types what the customer hands over: full, half or any part of the due.
+  const [form, setForm] = useState({ method: 'cash', amount: '', reference: '', notes: '' });
+  const [done, setDone] = useState<{ groupId: string; applied: number; remainingDue: number } | null>(null);
+  const amountMinor = Math.round(parseAmount(form.amount) * 100);
+  const after = outstanding - amountMinor;
+  const tooMuch = amountMinor > outstanding;
   const pay = useMutation({
-    mutationFn: () => api.post<{ allocated: unknown[] }>(`/customers/${customerId}/credit-payments`, { ...form, amount: parseAmount(form.amount) }),
-    onSuccess: () => {
+    mutationFn: () => api.post<{ groupId: string; applied: number; remainingDue: number }>(`/customers/${customerId}/credit-payments`, { ...form, amount: parseAmount(form.amount) }),
+    onSuccess: (r) => {
       toast.success(t('credit.payment_recorded'));
       void qc.invalidateQueries({ queryKey: ['biz', 'customer', customerId] });
       void qc.invalidateQueries({ queryKey: ['biz', 'customers'] });
-      onClose();
+      void qc.invalidateQueries({ queryKey: ['biz', 'credit'] });
+      onPaid?.(r.remainingDue);
+      setDone(r);
     },
   });
+  const set = (minor: number) => setForm((f) => ({ ...f, amount: (minor / 100).toFixed(2) }));
+  if (done)
+    return (
+      <Dialog
+        open
+        onClose={onClose}
+        size="sm"
+        title={t('credit.payment_recorded')}
+        footer={
+          <>
+            <Button variant="secondary" icon={<Printer className="size-4" />} onClick={() => window.open(`/print/due-payment/${done.groupId}`, '_blank', 'noopener')}>
+              {t('credit.print_receipt')}
+            </Button>
+            <Button onClick={onClose}>{t('common.done')}</Button>
+          </>
+        }
+      >
+        <dl className="space-y-3 text-center">
+          <div>
+            <dt className="text-sm text-slate-500">{t('credit.paid_now')}</dt>
+            <dd className="text-2xl font-bold text-emerald-600 tabular-nums">{money(done.applied)}</dd>
+          </div>
+          <div>
+            <dt className="text-sm text-slate-500">{t('credit.still_due')}</dt>
+            <dd className={`text-xl font-semibold tabular-nums ${done.remainingDue > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
+              {done.remainingDue > 0 ? money(done.remainingDue) : t('credit.fully_paid')}
+            </dd>
+          </div>
+        </dl>
+      </Dialog>
+    );
   return (
     <Dialog
       open
       onClose={onClose}
       size="sm"
       title={t('credit.receive_payment')}
-      description={`${t('credit.outstanding')}: ${money(outstanding)}`}
+      description={customerName}
       footer={
-        <Button onClick={() => pay.mutate()} loading={pay.isPending} disabled={parseAmount(form.amount) <= 0}>
+        <Button onClick={() => pay.mutate()} loading={pay.isPending} disabled={amountMinor <= 0 || tooMuch}>
           {t('credit.record_payment')}
         </Button>
       }
     >
       <div className="space-y-4">
         {pay.error && <Alert tone="red">{errMsg(pay.error)}</Alert>}
-        <p className="text-sm text-slate-500">{t('credit.fifo_hint')}</p>
+        <div className="rounded-xl bg-slate-50 p-3 text-center dark:bg-slate-800/50">
+          <p className="text-sm text-slate-500">{t('credit.total_due_now')}</p>
+          <p className="text-2xl font-bold tabular-nums">{money(outstanding)}</p>
+        </div>
+        <Input label={t('credit.amount_paid')} type="number" inputMode="decimal" min={0} step="0.01" autoFocus value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} error={tooMuch ? t('credit.more_than_due') : undefined} />
+        <div className="flex flex-wrap gap-2">
+          <Button size="sm" variant="secondary" onClick={() => set(outstanding)}>
+            {t('credit.pay_full')}
+          </Button>
+          <Button size="sm" variant="secondary" onClick={() => set(Math.round(outstanding / 2))}>
+            {t('credit.pay_half')}
+          </Button>
+        </div>
+        {amountMinor > 0 && !tooMuch && (
+          <p className="flex justify-between rounded-xl bg-amber-50 px-3 py-2 text-sm dark:bg-amber-950/40">
+            <span>{t('credit.remaining_after')}</span>
+            <span className="font-semibold tabular-nums">{after > 0 ? money(after) : t('credit.fully_paid')}</span>
+          </p>
+        )}
         <Select label={t('payments.method')} value={form.method} onChange={(e) => setForm({ ...form, method: e.target.value })}>
           {['cash', 'card', 'bank_transfer', 'other'].map((m) => (
             <option key={m} value={m}>
@@ -525,8 +593,8 @@ export function CreditPaymentDialog({ customerId, outstanding, onClose }: { cust
             </option>
           ))}
         </Select>
-        <Input label={t('payments.amount')} type="number" min={0} step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} />
         <Input label={t('payments.reference')} value={form.reference} onChange={(e) => setForm({ ...form, reference: e.target.value })} />
+        <p className="text-xs text-slate-500">{t('credit.fifo_hint')}</p>
       </div>
     </Dialog>
   );

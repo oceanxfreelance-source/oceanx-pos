@@ -1,9 +1,10 @@
+import { randomUUID } from 'node:crypto';
 import type { FastifyRequest } from 'fastify';
 import { and, asc, eq, inArray, isNull, sql } from 'drizzle-orm';
 import type { z } from 'zod';
 import { calculateTotals, resolveOptions, toMinor, type completeOrderSchema, type posOrderSchema } from '@oceanx/shared';
 import type { Executor } from '../../db/client';
-import { categories, customers, diningTables, kitchenOrders, loyaltyTransactions, payments, products, saleItems, sales } from '../../db/schema';
+import { categories, customers, diningTables, invoices, kitchenOrders, loyaltyTransactions, payments, products, saleItems, sales } from '../../db/schema';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
 import { actor, businessToday, requireOutlet } from '../../lib/tenant';
@@ -435,6 +436,10 @@ export async function voidSale(db: Executor, ctx: BusinessContext, saleId: strin
 }
 
 /** Receive a credit payment from a customer; applied to the oldest credit sales first (FIFO). */
+/**
+ * A customer pays some or all of what they owe. The amount is applied to their unpaid credit sales and
+ * invoices, oldest first, so a half or any partial amount is fine. All rows share a group id for the receipt.
+ */
 export async function receiveCreditPayment(
   db: Executor,
   ctx: BusinessContext,
@@ -445,36 +450,50 @@ export async function receiveCreditPayment(
   return dbTx(db, async (tx) => {
     const customer = await lockCustomer(tx, ctx.businessId, customerId);
     if (!customer) throw notFound();
-    const open = await tx
-      .select({ id: sales.id, balanceDue: sales.balanceDue, outletId: sales.outletId })
+    const openSales = await tx
+      .select({ id: sales.id, number: sales.number, balanceDue: sales.balanceDue, outletId: sales.outletId, at: sales.completedAt })
       .from(sales)
       .where(and(eq(sales.businessId, ctx.businessId), eq(sales.customerId, customerId), eq(sales.status, 'completed'), sql`${sales.balanceDue} > 0`))
-      .orderBy(asc(sales.completedAt))
       .for('update');
-    const due = open.reduce((a, s) => a + s.balanceDue, 0);
-    let remaining = toMinor(input.amount);
-    if (remaining > due) throw new AppError('payment_exceeds_balance', 'Payment exceeds the outstanding credit balance', { details: { due } });
-    for (const s of open) {
+    const openInvoices = await tx
+      .select({ id: invoices.id, number: invoices.number, balanceDue: invoices.balanceDue, total: invoices.total, paidAmount: invoices.paidAmount, invoiceDate: invoices.invoiceDate })
+      .from(invoices)
+      .where(and(eq(invoices.businessId, ctx.businessId), eq(invoices.customerId, customerId), inArray(invoices.status, ['issued', 'partially_paid']), sql`${invoices.balanceDue} > 0`))
+      .for('update');
+    type Item = { kind: 'sale' | 'invoice'; id: string; number: string; due: number; at: number; outletId?: string | null; total?: number; paid?: number };
+    const items: Item[] = [
+      ...openSales.map((x) => ({ kind: 'sale' as const, id: x.id, number: x.number ?? '', due: x.balanceDue, at: x.at?.getTime() ?? 0, outletId: x.outletId })),
+      ...openInvoices.map((x) => ({ kind: 'invoice' as const, id: x.id, number: x.number, due: x.balanceDue, at: new Date(`${x.invoiceDate}T00:00:00Z`).getTime(), total: x.total, paid: x.paidAmount })),
+    ].sort((a, b) => a.at - b.at);
+    const due = items.reduce((a, x) => a + x.due, 0);
+    const amount = toMinor(input.amount);
+    if (amount > due) throw new AppError('payment_exceeds_balance', 'Payment exceeds the outstanding balance', { details: { due } });
+    const groupId = randomUUID();
+    const balanceAfter = due - amount;
+    const allocations: { kind: Item['kind']; id: string; number: string; amount: number; remaining: number }[] = [];
+    let remaining = amount;
+    for (const it of items) {
       if (remaining <= 0) break;
-      const applied = Math.min(remaining, s.balanceDue);
+      const applied = Math.min(remaining, it.due);
       remaining -= applied;
-      await tx.update(sales).set({ balanceDue: s.balanceDue - applied, updatedAt: new Date() }).where(eq(sales.id, s.id));
-      await tx.insert(payments).values({
-        businessId: ctx.businessId,
-        outletId: s.outletId,
-        customerId,
-        saleId: s.id,
-        kind: 'credit_payment',
-        method: input.method,
-        amount: applied,
-        reference: input.reference,
-        notes: input.notes,
-        receivedBy: ctx.user.id,
-      });
+      const common = { businessId: ctx.businessId, customerId, method: input.method, amount: applied, reference: input.reference, notes: input.notes, receivedBy: ctx.user.id, groupId, balanceAfter };
+      if (it.kind === 'sale') {
+        await tx.update(sales).set({ balanceDue: it.due - applied, updatedAt: new Date() }).where(eq(sales.id, it.id));
+        await tx.insert(payments).values({ ...common, outletId: it.outletId, saleId: it.id, kind: 'credit_payment' });
+      } else {
+        const paid = it.paid! + applied;
+        const balance = it.total! - paid;
+        await tx
+          .update(invoices)
+          .set({ paidAmount: paid, balanceDue: balance, status: balance === 0 ? 'paid' : 'partially_paid', updatedBy: ctx.user.id, updatedAt: new Date() })
+          .where(eq(invoices.id, it.id));
+        await tx.insert(payments).values({ ...common, outletId: ctx.outletId, invoiceId: it.id, kind: 'invoice' });
+      }
+      allocations.push({ kind: it.kind, id: it.id, number: it.number, amount: applied, remaining: it.due - applied });
     }
-    await audit(tx, { ...actor(ctx), action: 'credit.payment_received', entityType: 'customer', entityId: customerId, metadata: { amount: toMinor(input.amount) }, req });
-    await notifyPermission(tx, ctx.businessId, 'credit.view', 'notify.credit_payment', { customer: customer.name, amount: toMinor(input.amount) }, `/customers/${customerId}`);
-    return { applied: toMinor(input.amount), remainingDue: due - toMinor(input.amount) };
+    await audit(tx, { ...actor(ctx), action: 'credit.payment_received', entityType: 'customer', entityId: customerId, metadata: { amount, balanceAfter, groupId }, req });
+    await notifyPermission(tx, ctx.businessId, 'credit.view', 'notify.credit_payment', { customer: customer.name, amount }, `/customers/${customerId}`);
+    return { groupId, applied: amount, remainingDue: balanceAfter, allocations };
   });
 }
 

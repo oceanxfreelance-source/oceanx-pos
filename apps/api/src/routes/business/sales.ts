@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { and, asc, count, desc, eq, gte, ilike, inArray, isNull, lte, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { completeOrderSchema, kitchenStatusSchema, paginationQuerySchema, posOrderSchema, recordPaymentSchema, tableSchema, voidSchema } from '@oceanx/shared';
-import { customers, diningTables, kitchenOrders, payments, saleItems, sales, users } from '../../db/schema';
+import { businesses, customers, diningTables, invoices, kitchenOrders, payments, saleItems, sales, users } from '../../db/schema';
 import { assertPermission, bizCtx, requireAnyPermission, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
@@ -194,6 +194,40 @@ export async function saleRoutes(app: FastifyInstance) {
     const ctx = bizCtx(req);
     const body = parse(recordPaymentSchema, req.body);
     return receiveCreditPayment(db, ctx, idParam(req), body, req);
+  });
+
+  /** Receipt for one due payment (possibly spread over several bills). */
+  app.get<{ Params: { groupId: string } }>('/credit-payments/:groupId', { preHandler: requireAnyPermission('credit.view', 'credit.payment') }, async (req) => {
+    const ctx = bizCtx(req);
+    const groupId = z.uuid().safeParse(req.params.groupId);
+    if (!groupId.success) throw notFound();
+    const rows = await db
+      .select({ p: payments, saleNumber: sales.number, invoiceNumber: invoices.number, receivedByName: users.name })
+      .from(payments)
+      .leftJoin(sales, eq(sales.id, payments.saleId))
+      .leftJoin(invoices, eq(invoices.id, payments.invoiceId))
+      .leftJoin(users, eq(users.id, payments.receivedBy))
+      .where(and(eq(payments.businessId, ctx.businessId), eq(payments.groupId, groupId.data), isNull(payments.voidedAt)))
+      .orderBy(asc(payments.createdAt));
+    const first = rows[0]?.p;
+    if (!first?.customerId) throw notFound();
+    const [c] = await db.select({ name: customers.name, phone: customers.phone }).from(customers).where(own(customers, ctx, first.customerId));
+    const [b] = await db.select().from(businesses).where(eq(businesses.id, ctx.businessId));
+    const settings = await loadBusinessSettings(db, ctx.businessId);
+    return {
+      id: groupId.data,
+      customer: c ?? { name: '', phone: '' },
+      paidAt: first.paidAt,
+      method: first.method,
+      reference: first.reference,
+      amount: rows.reduce((a, r) => a + r.p.amount, 0),
+      balanceAfter: first.balanceAfter ?? 0,
+      receivedByName: rows[0]!.receivedByName ?? '',
+      lines: rows.map((r) => ({ kind: r.p.invoiceId ? 'invoice' : 'sale', number: r.invoiceNumber ?? r.saleNumber ?? '', amount: r.p.amount })),
+      business: { name: b!.name, address: b!.address, phone: b!.phone, email: b!.email, hasLogo: !!b!.logoPath },
+      settings: { regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber } },
+      documentLanguage: settings.regional.documentLanguage,
+    };
   });
 
   // ---------------------------------------------------------------- tables

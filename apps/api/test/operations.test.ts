@@ -177,6 +177,35 @@ describe('POS sales', () => {
 });
 
 describe('credit / customer due', () => {
+  it('a part payment (e.g. half) pays credit sales and invoices oldest first and has a receipt', async () => {
+    await grant('credit');
+    const p = await product(owner, { sellingPrice: 100 });
+    const c = await customer(owner);
+    const inv = (await owner.post('/api/invoices', { customerId: c.id, invoiceDate: '2026-01-05', dueDate: '2026-02-05', items: [{ name: 'Catering', quantity: 1, unitPrice: 300 }] })).json();
+    await owner.post(`/api/invoices/${inv.id}/issue`);
+    const sale = (await owner.post('/api/pos/orders', { customerId: c.id, items: [{ productId: p.id, quantity: 1 }], payments: [{ method: 'credit', amount: 100 }] })).json();
+    expect((await owner.get(`/api/customers/${c.id}`)).json().outstanding).toBe(40000);
+    // Over the total is refused; the full total (sales + invoice) is accepted conceptually, here half is paid.
+    expect((await owner.post(`/api/customers/${c.id}/credit-payments`, { method: 'cash', amount: 400.01 })).json().error.code).toBe('payment_exceeds_balance');
+    const half = (await owner.post(`/api/customers/${c.id}/credit-payments`, { method: 'cash', amount: 200, reference: 'R-1' })).json();
+    expect(half.remainingDue).toBe(20000);
+    // The invoice is older (January), so it is paid first.
+    expect(half.allocations).toEqual([expect.objectContaining({ kind: 'invoice', id: inv.id, amount: 20000, remaining: 10000 })]);
+    const invAfter = (await owner.get(`/api/invoices/${inv.id}`)).json();
+    expect((invAfter.invoice ?? invAfter).balanceDue).toBe(10000); // status shows overdue (past due date) or partially paid
+    // Next payment finishes the invoice and part of the sale.
+    const more = (await owner.post(`/api/customers/${c.id}/credit-payments`, { method: 'card', amount: 150 })).json();
+    expect(more.allocations.map((a: { kind: string; amount: number }) => [a.kind, a.amount])).toEqual([['invoice', 10000], ['sale', 5000]]);
+    expect(more.remainingDue).toBe(5000);
+    expect((await owner.get(`/api/customers/${c.id}`)).json().outstanding).toBe(5000);
+    const receipt = (await owner.get(`/api/credit-payments/${more.groupId}`)).json();
+    expect(receipt).toMatchObject({ amount: 15000, balanceAfter: 5000, method: 'card', customer: { name: 'Ali' } });
+    expect(receipt.lines).toEqual([{ kind: 'invoice', number: inv.number ?? expect.any(String), amount: 10000 }, { kind: 'sale', number: sale.number, amount: 5000 }]);
+    // Another business cannot read the receipt.
+    const other = (await setupBusiness(env, sa, 'Receipt Peek')).owner;
+    expect([403, 404]).toContain((await other.get(`/api/credit-payments/${more.groupId}`)).statusCode);
+  });
+
   it('requires the add-on, a customer and respects the credit limit; balances are shared and paid FIFO', async () => {
     const p = await product(owner, { sellingPrice: 100 });
     const c = await customer(owner);

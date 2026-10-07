@@ -916,9 +916,14 @@ export const payments = pgTable(
     receivedBy: uuid('received_by'),
     paidAt: ts('paid_at').notNull().defaultNow(),
     voidedAt: ts('voided_at'),
+    /** One customer due payment spread over several bills shares a group (for its receipt). */
+    groupId: uuid('group_id'),
+    /** Customer's total remaining due right after that payment. */
+    balanceAfter: money('balance_after'),
     createdAt: createdAt(),
   },
   (t) => [
+    index('payments_group_idx').on(t.groupId),
     index('payments_business_paid_idx').on(t.businessId, t.paidAt),
     index('payments_sale_idx').on(t.saleId),
     index('payments_invoice_idx').on(t.invoiceId),

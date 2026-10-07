@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { ArrowLeft, CheckCircle2, ClipboardList, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, X } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ClipboardList, HandCoins, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, X } from 'lucide-react';
 import { ItemAvatar, tintAt, tintFor } from '../../components/ItemAvatar';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { useThemeSwitch } from '../../layouts/BusinessLayout';
@@ -18,6 +18,7 @@ import { Dialog } from '../../components/ui/Dialog';
 import { Input, Select, Textarea } from '../../components/ui/Form';
 import { Alert, Badge } from '../../components/ui/Card';
 import { CustomerPicker, type CustomerLite } from '../../components/Pickers';
+import { CreditPaymentDialog } from './Customers';
 import { FarumaWarning } from '../../components/FarumaWarning';
 
 interface PosProduct {
@@ -93,6 +94,7 @@ export default function PosPage() {
   const [orderType, setOrderType] = useState<'dine_in' | 'takeaway' | 'delivery'>(session.pos.defaultOrderType === 'delivery' && !hasAddon('delivery') ? 'takeaway' : session.pos.defaultOrderType);
   const [tableId, setTableId] = useState<string | null>(null);
   const [customer, setCustomer] = useState<CustomerLite | null>(null);
+  const [payingDue, setPayingDue] = useState(false);
   const [discount, setDiscount] = useState('');
   const [note, setNote] = useState('');
   const [redeemPoints, setRedeemPoints] = useState('');
@@ -240,6 +242,25 @@ export default function PosPage() {
           </Select>
         )}
         <CustomerPicker value={customer?.id ?? null} valueLabel={customer?.name} onChange={(_id, c) => setCustomer(c)} />
+        {customer && hasAddon('credit') && can('credit.payment') && (customer.outstanding ?? 0) > 0 && (
+          <div className="flex items-center justify-between gap-2 rounded-xl bg-amber-50 px-3 py-2 text-sm dark:bg-amber-950/40">
+            <span>
+              {t('credit.due_label')}: <span className="font-semibold tabular-nums">{money(customer.outstanding ?? 0)}</span>
+            </span>
+            <Button size="sm" variant="secondary" icon={<HandCoins className="size-4" />} onClick={() => setPayingDue(true)}>
+              {t('credit.receive_payment')}
+            </Button>
+          </div>
+        )}
+        {payingDue && customer && (
+          <CreditPaymentDialog
+            customerId={customer.id}
+            customerName={customer.name}
+            outstanding={customer.outstanding ?? 0}
+            onPaid={(remaining) => setCustomer((c) => (c ? { ...c, outstanding: remaining } : c))}
+            onClose={() => setPayingDue(false)}
+          />
+        )}
         {customer && hasAddon('loyalty') && (customer.loyaltyPoints ?? 0) > 0 && (
           <Input type="number" inputMode="numeric" label={t('pos.redeem_points', { points: customer.loyaltyPoints })} value={redeemPoints} onChange={(e) => setRedeemPoints(e.target.value)} />
         )}

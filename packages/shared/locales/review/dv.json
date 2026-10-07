@@ -1440,5 +1440,110 @@
     "suggested": "ތިރިއަށް",
     "status": "needs_review",
     "notes": "New: QR Menu → Menu items tab."
+  },
+  {
+    "key": "credit.print_receipt",
+    "english": "Print receipt",
+    "suggested": "ރަސީދު ޕްރިންޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.paid_now",
+    "english": "Paid now",
+    "suggested": "މިހާރު ދެއްކި",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.still_due",
+    "english": "Still due",
+    "suggested": "އަދިވެސް ދައްކަންޖެހޭ",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.fully_paid",
+    "english": "Fully paid",
+    "suggested": "ފުރިހަމައަށް ދައްކާފައި",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.total_due_now",
+    "english": "Total due now",
+    "suggested": "މިހާރު ދައްކަންޖެހޭ ޖުމްލަ",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.amount_paid",
+    "english": "Amount paid",
+    "suggested": "ދެއްކި އަދަދު",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.more_than_due",
+    "english": "More than the amount due",
+    "suggested": "ދައްކަންޖެހޭ އަދަދަށްވުރެ ގިނަ",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.pay_full",
+    "english": "Full amount",
+    "suggested": "ފުރިހަމަ އަދަދު",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.pay_half",
+    "english": "Half",
+    "suggested": "ބައި",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.remaining_after",
+    "english": "Remaining after this payment",
+    "suggested": "މި ފައިސާ ދެއްކުމަށްފަހު ބާކީ",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.due_label",
+    "english": "Due",
+    "suggested": "ދައްކަންޖެހޭ",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.payment_receipt",
+    "english": "Payment receipt",
+    "suggested": "ފައިސާ ލިބުނު ރަސީދު",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "credit.paid_towards",
+    "english": "Paid towards",
+    "suggested": "ދެއްކީ މިއަށް",
+    "status": "needs_review",
+    "notes": "New: part payments of dues and payment receipt."
+  },
+  {
+    "key": "common.done",
+    "english": "Done",
+    "suggested": "ނިމިއްޖެ",
+    "status": "needs_review",
+    "notes": "Button that closes a finished step."
+  },
+  {
+    "key": "credit.fifo_hint",
+    "english": "The payment is applied to the oldest unpaid bills first (credit sales and invoices).",
+    "suggested": "ފައިސާ އެންމެ ފުރަތަމަ ކަނޑައެޅޭނީ ނުދައްކާ ހުރި އެންމެ ދުވަސްވީ ކްރެޑިޓް ވިއްކުންތަކަށެވެ.",
+    "status": "needs_review",
+    "notes": "English changed: payments now also pay invoices, not only credit sales. Please update the Dhivehi."
   }
 ]

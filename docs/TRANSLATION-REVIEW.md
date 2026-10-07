@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 62 · **confirmed**: 144
+Status: **needs_review**: 77 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -13,6 +13,21 @@ review of the whole file is still recommended before launch.
 | --- | --- | --- | --- | --- |
 | `activity.actions.karaoke_no_show` | Karaoke booking no-show | ކަރައޮކޭ ބުކިންގ – ނާދޭ | needs_review | Uses dash '–' between noun and status; see status_labels.no_show. |
 | `addons.names.credit` | Credit / Customer Due | ކްރެޑިޓް / ކަސްޓަމަރުގެ ދަރަނި | needs_review | Business terminology decision: ދަރަނި (debt) vs ކްރެޑިޓް. Spec requires 'Credit Sale / Customer Due / Outstanding Balance / Credit Payment' wording — please confirm Dhivehi equivalents before Phase 4. |
+| `common.done` | Done | ނިމިއްޖެ | needs_review | Button that closes a finished step. |
+| `credit.amount_paid` | Amount paid | ދެއްކި އަދަދު | needs_review | New: part payments of dues and payment receipt. |
+| `credit.due_label` | Due | ދައްކަންޖެހޭ | needs_review | New: part payments of dues and payment receipt. |
+| `credit.fifo_hint` | The payment is applied to the oldest unpaid bills first (credit sales and invoices). | ފައިސާ އެންމެ ފުރަތަމަ ކަނޑައެޅޭނީ ނުދައްކާ ހުރި އެންމެ ދުވަސްވީ ކްރެޑިޓް ވިއްކުންތަކަށެވެ. | needs_review | English changed: payments now also pay invoices, not only credit sales. Please update the Dhivehi. |
+| `credit.fully_paid` | Fully paid | ފުރިހަމައަށް ދައްކާފައި | needs_review | New: part payments of dues and payment receipt. |
+| `credit.more_than_due` | More than the amount due | ދައްކަންޖެހޭ އަދަދަށްވުރެ ގިނަ | needs_review | New: part payments of dues and payment receipt. |
+| `credit.paid_now` | Paid now | މިހާރު ދެއްކި | needs_review | New: part payments of dues and payment receipt. |
+| `credit.paid_towards` | Paid towards | ދެއްކީ މިއަށް | needs_review | New: part payments of dues and payment receipt. |
+| `credit.pay_full` | Full amount | ފުރިހަމަ އަދަދު | needs_review | New: part payments of dues and payment receipt. |
+| `credit.pay_half` | Half | ބައި | needs_review | New: part payments of dues and payment receipt. |
+| `credit.payment_receipt` | Payment receipt | ފައިސާ ލިބުނު ރަސީދު | needs_review | New: part payments of dues and payment receipt. |
+| `credit.print_receipt` | Print receipt | ރަސީދު ޕްރިންޓްކުރޭ | needs_review | New: part payments of dues and payment receipt. |
+| `credit.remaining_after` | Remaining after this payment | މި ފައިސާ ދެއްކުމަށްފަހު ބާކީ | needs_review | New: part payments of dues and payment receipt. |
+| `credit.still_due` | Still due | އަދިވެސް ދައްކަންޖެހޭ | needs_review | New: part payments of dues and payment receipt. |
+| `credit.total_due_now` | Total due now | މިހާރު ދައްކަންޖެހޭ ޖުމްލަ | needs_review | New: part payments of dues and payment receipt. |
 | `documents.server_totals_hint` | Totals are recalculated by the server when you save. | ސޭވްކުރާއިރު ޖުމްލަތައް ސާވަރުން އަލުން ހިސާބުކުރާނެ. | needs_review | Technical note mentioning the server (ސާވަރު, as in existing settings.hints.tax). |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |
 | `expenses.payee` | Paid to | ފައިސާ ދިން ފަރާތް | needs_review | Paid to: ފައިސާ ދިން ފަރާތް. |

@@ -43,6 +43,13 @@
       "when": 1791367535163,
       "tag": "0005_menu_sort",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791370279231,
+      "tag": "0006_payment_groups",
+      "breakpoints": true
     }
   ]
 }

@@ -46,6 +46,7 @@ const CreditDuesPrint = lazy(() => import('./pages/print/CreditDuesPrint'));
 const Credit = lazy(() => import('./pages/business/Credit'));
 const QrMenu = lazy(() => import('./pages/business/QrMenu'));
 const QrCardsPrint = lazy(() => import('./pages/print/QrCardsPrint'));
+const DuePaymentPrint = lazy(() => import('./pages/print/DuePaymentPrint'));
 const PublicMenu = lazy(() => import('./pages/public/PublicMenu'));
 
 // Super Admin pages (separate chunk + separate auth context)
@@ -153,6 +154,7 @@ const router = createBrowserRouter([
           { path: 'print/report/:type', element: withSuspense(<ReportPrint />) },
           { path: 'print/credit-dues', element: withSuspense(<CreditDuesPrint />) },
           { path: 'print/qr-cards', element: withSuspense(<QrCardsPrint />) },
+          { path: 'print/due-payment/:id', element: withSuspense(<DuePaymentPrint />) },
           { path: 'print/:kind/:id', element: withSuspense(<PrintPage />) },
         ],
       },

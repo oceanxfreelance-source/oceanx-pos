@@ -365,6 +365,30 @@ test.describe.serial('OceanX operations', () => {
       path: `${SHOTS}/credit-dues-print.png`,
       fullPage: true,
     });
+
+    // 4. The customer pays half of the due at the POS; the cashier records it and prints a receipt.
+    await page.goto('/pos');
+    await page.getByPlaceholder('Search name, phone or email…').fill('Aish');
+    await page.getByRole('button', { name: /Aishath Shifa/ }).click();
+    await page.getByRole('button', { name: 'Receive payment' }).click();
+    const payDlg = page.getByRole('dialog');
+    await payDlg.getByRole('button', { name: 'Half' }).click();
+    await expect(payDlg.getByText('Remaining after this payment')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/due-part-payment.png` });
+    await payDlg.getByRole('button', { name: 'Record payment' }).click();
+    await expect(payDlg.getByText('Paid now')).toBeVisible();
+    await expect(payDlg.getByText('Still due')).toBeVisible();
+    const receiptPromise = page.waitForEvent('popup');
+    await payDlg.getByRole('button', { name: 'Print receipt' }).click();
+    const receipt = await receiptPromise;
+    await expect(receipt.locator('article')).toContainText('Aishath Shifa');
+    // Printed in the business's document language (Dhivehi for this restaurant).
+    await expect(receipt.locator('article')).toHaveAttribute('lang', 'dv');
+    await expect(receipt.locator('article')).toContainText('ދެއްކި އަދަދު');
+    await receipt.screenshot({ path: `${SHOTS}/due-payment-receipt.png`, fullPage: true });
+    await payDlg.getByRole('button', { name: 'Done' }).click();
+    // The POS now shows the smaller remaining due.
+    await expect(page.getByText(/^Due:/)).toBeVisible();
   });
 
   test('QR menu: table cards PDF and the customer menu shows the table', async ({ page, browser }) => {
