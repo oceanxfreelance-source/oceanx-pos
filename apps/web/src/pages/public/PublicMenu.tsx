@@ -294,11 +294,11 @@ function MenuCard({ product: p, slug, money, canOrder, onAdd }: { product: MenuP
   const { t } = useTranslation();
   return (
     <article className="flex flex-col">
-      <div className="relative z-10 mx-auto aspect-square w-[88%] rounded-full bg-[#141110] p-[6%] shadow-[0_18px_40px_-12px_rgba(0,0,0,0.8)] ring-1 ring-white/5">
+      <div className="relative z-10 mx-auto aspect-square w-[88%] rounded-full bg-[#141110] shadow-[0_18px_40px_-12px_rgba(0,0,0,0.8)] ring-1 ring-white/5">
         {p.hasImage ? (
-          <img src={`/api/public/menu/${slug}/products/${p.id}/image`} alt="" loading="lazy" className="size-full rounded-full object-cover" />
+          <img src={`/api/public/menu/${slug}/products/${p.id}/image`} alt="" loading="lazy" className="absolute top-[6%] left-[6%] size-[88%] rounded-full object-cover" />
         ) : (
-          <span aria-hidden className="flex size-full items-center justify-center rounded-full bg-gradient-to-br from-[#3a322b] to-[#211c18] text-stone-500">
+          <span aria-hidden className="absolute top-[6%] left-[6%] flex size-[88%] items-center justify-center rounded-full bg-gradient-to-br from-[#3a322b] to-[#211c18] text-stone-500">
             <UtensilsCrossed className="size-1/3" />
           </span>
         )}
