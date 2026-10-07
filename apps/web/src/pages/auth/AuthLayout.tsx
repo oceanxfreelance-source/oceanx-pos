@@ -3,13 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { Logo } from '../../components/Logo';
 import { FarumaWarning } from '../../components/FarumaWarning';
 import { DeviceThemeToggle } from '../../components/DeviceThemeToggle';
+import { FullscreenButton } from '../../components/FullscreenButton';
 
 export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' }) {
   const { t } = useTranslation();
   return (
     <div className="relative min-h-dvh">
       <FarumaWarning />
-      <div className="absolute end-4 top-4 z-10">
+      <div className="absolute end-4 top-4 z-10 flex items-center gap-1">
+        <FullscreenButton />
         <DeviceThemeToggle />
       </div>
       <div className="grid min-h-dvh lg:grid-cols-2">

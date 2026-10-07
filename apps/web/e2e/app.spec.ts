@@ -96,6 +96,11 @@ test.describe.serial('OceanX phase 1', () => {
   });
 
   test('full screen button in the top bar turns full screen on and off', async ({ page }) => {
+    // Also on the sign-in pages (business and Super Admin), before anyone signs in.
+    await page.goto('/login');
+    await expect(page.getByRole('button', { name: 'Full screen' })).toBeVisible();
+    await page.goto('/superadmin/login');
+    await expect(page.getByRole('button', { name: 'Full screen' })).toBeVisible();
     await login(page, OWNER.email, OWNER.password);
     const btn = page.getByRole('button', { name: 'Full screen' });
     await btn.click();
