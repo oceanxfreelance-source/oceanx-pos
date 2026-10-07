@@ -1545,5 +1545,12 @@
     "suggested": "ފައިސާ އެންމެ ފުރަތަމަ ކަނޑައެޅޭނީ ނުދައްކާ ހުރި އެންމެ ދުވަސްވީ ކްރެޑިޓް ވިއްކުންތަކަށެވެ.",
     "status": "needs_review",
     "notes": "English changed: payments now also pay invoices, not only credit sales. Please update the Dhivehi."
+  },
+  {
+    "key": "reports.columns.average",
+    "english": "Average per order",
+    "suggested": "އޯޑަރަކަށް އެވްރެޖް",
+    "status": "needs_review",
+    "notes": "Was \"Average\"; now says it is the average bill per order."
   }
 ]

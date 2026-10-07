@@ -3,11 +3,11 @@
  * longer exist. Reload once to pick up the new version instead of showing an error. The timestamp guard
  * stops a reload loop if the files are genuinely unreachable (e.g. offline).
  */
-const KEY = "ox_chunk_reload";
+const KEY = 'ox_chunk_reload';
 
 export const isStaleChunkError = (err: unknown) =>
   /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|Unable to preload CSS/i.test(
-    err instanceof Error ? err.message : String(err ?? ""),
+    err instanceof Error ? err.message : String(err ?? ''),
   );
 
 /** Returns true when a reload was started. */
@@ -24,7 +24,9 @@ export function reloadForNewVersion(): boolean {
 }
 
 export function installStaleChunkReload() {
-  window.addEventListener("vite:preloadError", (event) => {
-    if (reloadForNewVersion()) event.preventDefault();
+  // Not preventDefault(): the failed import must still reject, otherwise a lazy page renders with an
+  // undefined module and crashes while the reload is starting. The route error page handles the rest.
+  window.addEventListener('vite:preloadError', () => {
+    reloadForNewVersion();
   });
 }

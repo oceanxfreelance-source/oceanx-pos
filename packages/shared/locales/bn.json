@@ -1638,7 +1638,7 @@
       "service_charge": "সার্ভিস চার্জ",
       "tax": "ট্যাক্স",
       "total": "মোট",
-      "average": "গড়",
+      "average": "প্রতি অর্ডারে গড়",
       "product": "আইটেম",
       "quantity": "পরিমাণ",
       "revenue": "আয়",

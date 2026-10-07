@@ -95,6 +95,19 @@ test.describe.serial('OceanX phase 1', () => {
     expect(res.status()).toBe(403);
   });
 
+  test('signing out goes to the sign-in page and stays signed out', async ({ page }) => {
+    await login(page, OWNER.email, OWNER.password);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await page.locator('header').getByRole('button').filter({ hasText: /\w/ }).last().click();
+    await page.getByRole('menuitem', { name: 'Sign out' }).click();
+    await expect(page).toHaveURL(/\/login$/);
+    await expect(page.getByLabel('Password')).toBeVisible();
+    // The old session is gone on the server too: reloading or going back does not sign in again.
+    await page.goto('/');
+    await expect(page).toHaveURL(/\/login$/);
+    expect((await page.request.get('/api/auth/session')).status()).toBe(401);
+  });
+
   test('business users cannot reach the Super Admin console', async ({ page }) => {
     await login(page, OWNER.email, OWNER.password);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();

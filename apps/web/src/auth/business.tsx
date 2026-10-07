@@ -104,8 +104,10 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
           await api.post('/auth/logout');
         } finally {
           setCsrfToken('business', null);
-          qc.removeQueries({ queryKey: ['biz'] });
           qc.setQueryData(BIZ_SESSION_KEY, null);
+          qc.clear();
+          // A fresh page load guarantees no screen keeps showing the previous user (shared counter PCs).
+          window.location.replace('/login');
         }
       },
     };

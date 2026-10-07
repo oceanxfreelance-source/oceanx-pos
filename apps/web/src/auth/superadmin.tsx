@@ -81,8 +81,9 @@ export function SuperAdminAuthProvider({ children }: { children: ReactNode }) {
           await saApi.post('/auth/logout');
         } finally {
           setCsrfToken('superadmin', null);
-          qc.removeQueries({ queryKey: ['sa'] });
           qc.setQueryData(SA_SESSION_KEY, null);
+          qc.clear();
+          window.location.replace('/superadmin/login');
         }
       },
     }),

@@ -60,6 +60,21 @@ export function useReportCell(type: string) {
 /** Columns whose totals are meaningful (money columns except unit prices / averages / limits). */
 export const totalColumns = (cols: string[]) => cols.filter((c) => MONEY_COLS.has(c) && !['unit_cost', 'price', 'average', 'credit_limit'].includes(c));
 
+/**
+ * Value for the "Total" row of a report column, or null to leave it blank: money columns and order counts
+ * are summed; "average" (per order) is the overall average, total ÷ all orders — not the sum of daily averages.
+ */
+export function reportTotal(col: string, cols: string[], rows: Record<string, unknown>[]): number | null {
+  const sum = (c: string) => rows.reduce((a, r) => a + Number(r[c] ?? 0), 0);
+  if (totalColumns(cols).includes(col)) return sum(col);
+  if (col === 'orders' || col === 'count') return sum(col);
+  if (col === 'average' && cols.includes('total') && cols.includes('orders')) {
+    const orders = sum('orders');
+    return orders > 0 ? Math.round(sum('total') / orders) : 0;
+  }
+  return null;
+}
+
 export default function ReportsPage() {
   const { t } = useTranslation();
   const { can, hasAddon } = useBiz();
@@ -180,11 +195,14 @@ export default function ReportsPage() {
                     {totals.length > 0 && rows.length > 1 && (
                       <tfoot className="border-t-2 border-slate-200 font-semibold dark:border-slate-700">
                         <tr>
-                          {cols.map((c, idx) => (
-                            <td key={c} className={`px-4 py-3 whitespace-nowrap ${totals.includes(c) ? 'text-end tabular-nums' : ''}`}>
-                              {totals.includes(c) ? money(rows.reduce((a, r) => a + Number(r[c] ?? 0), 0)) : idx === 0 ? t('reports.total_row') : ''}
-                            </td>
-                          ))}
+                          {cols.map((c, idx) => {
+                            const v = reportTotal(c, cols, rows);
+                            return (
+                              <td key={c} className={`px-4 py-3 whitespace-nowrap ${v !== null ? 'text-end tabular-nums' : ''}`}>
+                                {v !== null ? cell(c, v) : idx === 0 ? t('reports.total_row') : ''}
+                              </td>
+                            );
+                          })}
                         </tr>
                       </tfoot>
                     )}

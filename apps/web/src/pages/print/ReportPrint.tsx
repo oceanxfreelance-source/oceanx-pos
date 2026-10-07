@@ -9,7 +9,7 @@ import { useMoney } from '../../lib/money';
 import { pdfName } from '../../lib/pdf';
 import { useErrorMessage } from '../../lib/useApiError';
 import { Alert, SkeletonRows } from '../../components/ui/Card';
-import { MONEY_COLS, totalColumns, useReportCell } from '../business/Reports';
+import { MONEY_COLS, reportTotal, totalColumns, useReportCell } from '../business/Reports';
 import { PrintFrame } from './PrintFrame';
 
 /** Detailed report as a printable page / PDF, in the manager's language, with the business header. */
@@ -104,11 +104,14 @@ export default function ReportPrint() {
                   ))}
                   {totals.length > 0 && rows.length > 1 && (
                     <tr className="border-t-2 border-slate-300 font-bold">
-                      {cols.map((c, idx) => (
-                        <td key={c} className={`px-2 py-2 ${totals.includes(c) ? 'text-end tabular-nums' : ''}`}>
-                          {totals.includes(c) ? money(rows.reduce((a, r) => a + Number(r[c] ?? 0), 0)) : idx === 0 ? t('reports.total_row') : ''}
-                        </td>
-                      ))}
+                      {cols.map((c, idx) => {
+                        const v = reportTotal(c, cols, rows);
+                        return (
+                          <td key={c} className={`px-2 py-2 ${v !== null ? 'text-end tabular-nums' : ''}`}>
+                            {v !== null ? cell(c, v) : idx === 0 ? t('reports.total_row') : ''}
+                          </td>
+                        );
+                      })}
                     </tr>
                   )}
                 </tbody>
