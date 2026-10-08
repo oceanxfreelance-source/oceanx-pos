@@ -1187,3 +1187,131 @@ export const messageLog = pgTable(
   },
   (t) => [index('message_log_business_idx').on(t.businessId, t.createdAt), uniqueIndex('message_log_sale_channel_uq').on(t.saleId, t.channel)],
 );
+
+// ================================================================ add-on requests (business → Super Admin)
+/** A business asking the platform to enable an add-on. Removed when the add-on is granted. */
+export const addonRequests = pgTable(
+  'addon_requests',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    addonId: uuid('addon_id')
+      .notNull()
+      .references(() => addons.id, { onDelete: 'cascade' }),
+    requestedBy: uuid('requested_by'),
+    note: text('note').notNull().default(''),
+    createdAt: createdAt(),
+  },
+  (t) => [unique('addon_requests_uq').on(t.businessId, t.addonId)],
+);
+
+// ================================================================ staff, payroll (add-on) and duty rota (add-on)
+/** People who work at the business (they do not need a login). Shared by payroll and the duty rota. */
+export const staffMembers = pgTable(
+  'staff_members',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    position: text('position').notNull().default(''),
+    phone: text('phone').notNull().default(''),
+    basicSalary: money('basic_salary').notNull().default(0),
+    isActive: boolean('is_active').notNull().default(true),
+    notes: text('notes').notNull().default(''),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [unique('staff_members_business_id_uq').on(t.businessId, t.id), index('staff_members_business_idx').on(t.businessId)],
+);
+
+/** One salary sheet per business per month (period YYYY-MM). Finalized sheets are locked. */
+export const payrollRuns = pgTable(
+  'payroll_runs',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    period: text('period').notNull(),
+    status: text('status').notNull().default('draft'), // draft | finalized
+    notes: text('notes').notNull().default(''),
+    totalNet: money('total_net').notNull().default(0),
+    expenseId: uuid('expense_id'),
+    createdBy: uuid('created_by'),
+    finalizedAt: ts('finalized_at'),
+    finalizedBy: uuid('finalized_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [unique('payroll_runs_business_id_uq').on(t.businessId, t.id), unique('payroll_runs_business_period_uq').on(t.businessId, t.period)],
+);
+
+export const payrollLines = pgTable(
+  'payroll_lines',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    runId: uuid('run_id').notNull(),
+    staffId: uuid('staff_id'),
+    name: text('name').notNull(),
+    position: text('position').notNull().default(''),
+    basic: money('basic').notNull().default(0),
+    allowances: money('allowances').notNull().default(0),
+    overtime: money('overtime').notNull().default(0),
+    deductions: money('deductions').notNull().default(0),
+    advance: money('advance').notNull().default(0),
+    net: money('net').notNull().default(0),
+    notes: text('notes').notNull().default(''),
+    sortOrder: integer('sort_order').notNull().default(0),
+  },
+  (t) => [
+    index('payroll_lines_run_idx').on(t.runId),
+    tenantFk('payroll_lines_run_fk', t, t.runId, payrollRuns).onDelete('cascade'),
+    tenantFk('payroll_lines_staff_fk', t, t.staffId, staffMembers).onDelete('set null'),
+  ],
+);
+
+/** Shift templates for the duty rota (e.g. Morning 08:00–16:00). */
+export const rotaShifts = pgTable(
+  'rota_shifts',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    startTime: text('start_time').notNull(),
+    endTime: text('end_time').notNull(),
+    color: text('color').notNull().default('sky'),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [unique('rota_shifts_business_id_uq').on(t.businessId, t.id)],
+);
+
+/** One cell of the duty rota: what a staff member does on a date (a shift, day off or leave). */
+export const rotaEntries = pgTable(
+  'rota_entries',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    staffId: uuid('staff_id').notNull(),
+    date: text('date').notNull(),
+    kind: text('kind').notNull(), // shift | off | leave
+    shiftId: uuid('shift_id'),
+    note: text('note').notNull().default(''),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    uniqueIndex('rota_entries_staff_date_uq').on(t.businessId, t.staffId, t.date),
+    index('rota_entries_business_date_idx').on(t.businessId, t.date),
+    tenantFk('rota_entries_staff_fk', t, t.staffId, staffMembers).onDelete('cascade'),
+    tenantFk('rota_entries_shift_fk', t, t.shiftId, rotaShifts).onDelete('cascade'),
+  ],
+);

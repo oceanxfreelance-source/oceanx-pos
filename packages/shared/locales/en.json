@@ -87,7 +87,10 @@
     "more": "More",
     "open_pos": "Open POS",
     "credit": "Credit & dues",
-    "qr_menu": "QR Menu"
+    "qr_menu": "QR Menu",
+    "group_staff": "Staff",
+    "payroll": "Salary sheets",
+    "rota": "Duty rota"
   },
   "business_types": {
     "restaurant": "Restaurant",
@@ -373,7 +376,11 @@
     "recipes_manage": "Manage recipes",
     "costing_view": "View ingredient costing",
     "transfers_manage": "Transfer stock between outlets",
-    "stations_manage": "Manage kitchen stations"
+    "stations_manage": "Manage kitchen stations",
+    "payroll_view": "View salary sheets and salaries",
+    "payroll_manage": "Make and finalize salary sheets",
+    "rota_view": "View the duty rota",
+    "rota_manage": "Edit the duty rota and shifts"
   },
   "outlets": {
     "code": "Code",
@@ -397,7 +404,8 @@
       "hospitality": "Hospitality",
       "marketing": "Marketing",
       "operations": "Operations",
-      "sales": "Sales"
+      "sales": "Sales",
+      "staff": "Staff"
     },
     "descriptions": {
       "credit": "Credit sales, customer due, credit limits and statements.",
@@ -414,7 +422,9 @@
       "advanced_inventory": "Batches, transfers and stock counts.",
       "recipes": "Recipes linking menu items to ingredients.",
       "ingredient_costing": "Food cost and margin analysis.",
-      "advanced_kitchen": "Kitchen stations, routing and preparation times."
+      "advanced_kitchen": "Kitchen stations, routing and preparation times.",
+      "payroll": "Staff list and monthly salary sheets with allowances, overtime, deductions and advances.",
+      "staff_rota": "Weekly duty rota: shifts, days off and leave for every staff member."
     },
     "enabled": "Enabled for your business",
     "expires": "Expires {{date}}",
@@ -433,14 +443,21 @@
       "advanced_inventory": "Advanced Inventory",
       "recipes": "Recipe Management",
       "ingredient_costing": "Ingredient Costing",
-      "advanced_kitchen": "Advanced Kitchen"
+      "advanced_kitchen": "Advanced Kitchen",
+      "payroll": "Payroll (Salary Sheet)",
+      "staff_rota": "Duty Rota"
     },
     "none_enabled": "No add-ons enabled yet",
     "none_enabled_body": "Add-ons extend your business with extra features such as credit sales or multiple outlets.",
     "request_hint": "Contact the platform team to enable an add-on for your business.",
     "since": "Since {{date}}",
     "subtitle": "Extra features for your business. The platform enables them; you configure and run them.",
-    "title": "Add-ons"
+    "title": "Add-ons",
+    "request": "Request",
+    "request_sent": "Request sent. The platform team will switch it on.",
+    "request_cancelled": "Request cancelled",
+    "requested_on": "Requested {{date}}",
+    "cancel_request": "Cancel request"
   },
   "activity": {
     "actions": {
@@ -761,7 +778,9 @@
       "requested_on": "Requested {{date}}",
       "enable": "Enable",
       "disable": "Disable",
-      "viber_requested": "Viber requested"
+      "viber_requested": "Viber requested",
+      "addon_requests_one": "{{count}} add-on requested",
+      "addon_requests_other": "{{count}} add-ons requested"
     },
     "businesses": {
       "business": "Business",
@@ -1006,7 +1025,8 @@
     "sku_taken": "That SKU is already used by another product.",
     "category_name_taken": "A category with that name already exists.",
     "table_name_taken": "A table with that name already exists.",
-    "feature_not_enabled": "This feature has not been enabled for your business yet."
+    "feature_not_enabled": "This feature has not been enabled for your business yet.",
+    "payroll_period_exists": "A salary sheet for this month already exists."
   },
   "validation": {
     "default_language_required": "The default language must stay enabled.",
@@ -1872,5 +1892,101 @@
     "message_in": "Welcome message in {{language}}",
     "more_languages": "More languages",
     "hint": "Shown on the QR menu when a customer picks this language. Leave empty to show the main name."
+  },
+  "staff": {
+    "payroll_title": "Salary sheets",
+    "payroll_subtitle": "Monthly salaries for your staff: basic pay, allowances, overtime, deductions and advances.",
+    "rota_title": "Duty rota",
+    "rota_subtitle": "Who works which shift each day of the week.",
+    "tab_sheets": "Salary sheets",
+    "tab_staff": "Staff",
+    "tab_rota": "Rota",
+    "tab_shifts": "Shifts",
+    "staff_hint": "Everyone who works here. Staff do not need a login.",
+    "add_staff": "Add staff",
+    "edit_staff": "Edit staff",
+    "no_staff": "No staff yet",
+    "no_staff_hint": "Add the people who work here to make salary sheets and the duty rota.",
+    "position": "Position",
+    "position_placeholder": "e.g. Chef, Waiter, Cashier",
+    "basic_salary": "Basic salary (monthly)",
+    "basic_salary_hint": "Used as the starting amount on each new salary sheet.",
+    "active_hint": "Inactive staff are left off new salary sheets and the rota.",
+    "remove_title": "Remove staff member?",
+    "remove_body": "{{name}} will be removed from the staff list. Past salary sheets keep their records.",
+    "sheets_hint": "One salary sheet per month. Finalize it when the salaries are paid.",
+    "new_sheet": "New salary sheet",
+    "create_sheet": "Create sheet",
+    "month": "Month",
+    "new_sheet_hint": "The sheet starts with every active staff member and their basic salary. You can change the amounts before finalizing.",
+    "no_sheets": "No salary sheets yet",
+    "no_sheets_hint": "Create the first sheet for this month.",
+    "staff_count_one": "{{count}} staff member",
+    "staff_count_other": "{{count}} staff members",
+    "status_draft": "Draft",
+    "status_finalized": "Finalized",
+    "sheet_title": "Salary sheet — {{month}}",
+    "salary_sheet": "Salary sheet",
+    "staff_member": "Staff member",
+    "col_basic": "Basic",
+    "col_allowances": "Allowances",
+    "col_overtime": "Overtime",
+    "col_deductions": "Deductions",
+    "col_advance": "Advance",
+    "col_net": "Net pay",
+    "net_formula": "Net pay = basic + allowances + overtime − deductions − advance.",
+    "sheet_empty": "No staff on this sheet. Use “Add missing staff”.",
+    "sheet_notes": "Notes for this month",
+    "add_missing_staff": "Add missing staff",
+    "remove_from_sheet": "Remove from this sheet",
+    "unsaved": "You have unsaved changes.",
+    "finalize": "Finalize",
+    "finalize_body": "Finalizing locks the sheet. You can reopen it later if something needs correcting.",
+    "total_net_pay": "Total net pay",
+    "add_to_expenses": "Add to expenses as “Salaries”",
+    "add_to_expenses_hint": "Records the total net pay as one expense for this month.",
+    "finalized_toast": "Salary sheet finalized",
+    "finalized_hint": "This sheet is finalized and locked.",
+    "finalized_with_expense": "This sheet is finalized and locked. The total was added to expenses as Salaries.",
+    "reopen": "Reopen",
+    "reopen_body": "The sheet becomes editable again.",
+    "reopen_with_expense": "The sheet becomes editable again and the Salaries expense added for it is removed, so it is not counted twice.",
+    "delete_sheet": "Delete sheet",
+    "delete_sheet_body": "This draft salary sheet will be deleted.",
+    "signature": "Signature",
+    "prepared_by": "Prepared by",
+    "approved_by": "Approved by",
+    "prev_week": "Previous week",
+    "next_week": "Next week",
+    "this_week": "This week",
+    "copy_last_week": "Copy last week",
+    "copy_last_week_body": "This week will be replaced with a copy of last week’s rota.",
+    "copied_one": "Copied {{count}} entry from last week",
+    "copied_other": "Copied {{count}} entries from last week",
+    "day_off": "Off",
+    "leave": "Leave",
+    "rota_no_staff_hint": "Add staff in the Staff tab, then set their shifts here.",
+    "no_shifts_hint": "Add shifts (e.g. Morning, Evening) in the Shifts tab to assign them here.",
+    "shifts_hint": "Shift names and times used in the rota.",
+    "add_shift": "Add shift",
+    "edit_shift": "Edit shift",
+    "no_shifts": "No shifts yet",
+    "no_shifts_presets": "Start with a common shift, or add your own.",
+    "remove_shift": "Delete shift?",
+    "remove_shift_body": "“{{name}}” will be deleted and removed from every day it is used in the rota.",
+    "start_time": "Starts",
+    "end_time": "Ends",
+    "colour": "Colour",
+    "preset_morning": "Morning",
+    "preset_evening": "Evening",
+    "preset_split": "Lunch",
+    "colours": {
+      "sky": "Blue",
+      "amber": "Yellow",
+      "violet": "Purple",
+      "emerald": "Green",
+      "rose": "Red",
+      "slate": "Grey"
+    }
   }
 }

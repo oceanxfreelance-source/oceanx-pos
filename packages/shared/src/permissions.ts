@@ -127,6 +127,11 @@ export const PERMISSIONS = [
   p('costing.view', 'addons', 'ingredient_costing'),
   p('transfers.manage', 'addons', 'advanced_inventory'),
   p('stations.manage', 'addons', 'advanced_kitchen'),
+  // Staff: payroll (salary sheets) and duty rota are separate add-ons; staff records are shared by both.
+  p('payroll.view', 'addons', 'payroll'),
+  p('payroll.manage', 'addons', 'payroll'),
+  p('rota.view', 'addons', 'staff_rota'),
+  p('rota.manage', 'addons', 'staff_rota'),
 ] as const satisfies readonly PermissionDef[];
 
 export type PermissionKey = (typeof PERMISSIONS)[number]['key'];

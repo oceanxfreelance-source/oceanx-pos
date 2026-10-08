@@ -50,6 +50,13 @@
       "when": 1791370279231,
       "tag": "0006_payment_groups",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791429539609,
+      "tag": "0007_staff_payroll_rota",
+      "breakpoints": true
     }
   ]
 }

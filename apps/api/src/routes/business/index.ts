@@ -11,6 +11,7 @@ import { documentRoutes } from './documents';
 import { operationsRoutes } from './operations';
 import { addonModuleRoutes } from './addonModules';
 import { reportRoutes } from './reports';
+import { staffRoutes } from './staff';
 import { IMAGE_TYPES } from '../../lib/storage';
 
 /**
@@ -35,5 +36,6 @@ export async function businessRoutes(app: FastifyInstance, opts: { authRateLimit
     await secured.register(operationsRoutes);
     await secured.register(addonModuleRoutes);
     await secured.register(reportRoutes);
+    await secured.register(staffRoutes);
   });
 }

@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 81 · **confirmed**: 144
+Status: **needs_review**: 193 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -12,7 +12,17 @@ review of the whole file is still recommended before launch.
 | Translation key | English | Suggested Dhivehi | Status | Notes |
 | --- | --- | --- | --- | --- |
 | `activity.actions.karaoke_no_show` | Karaoke booking no-show | ކަރައޮކޭ ބުކިންގ – ނާދޭ | needs_review | Uses dash '–' between noun and status; see status_labels.no_show. |
+| `addons.cancel_request` | Cancel request | އެދުން ކެންސަލްކުރޭ | needs_review | Plain translation using existing app terms. |
+| `addons.categories.staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
+| `addons.descriptions.payroll` | Staff list and monthly salary sheets with allowances, overtime, deductions and advances. | ސްޓާފުންގެ ލިސްޓާއި، އެލަވަންސް، އޯވަޓައިމް، ކެނޑުންތަކާއި އެޑްވާންސްއާއެކު މަހުން މަހަށް މުސާރަ ޝީޓް. | needs_review | Allowances = އެލަވަންސް, deductions = ކެނޑުންތައް, advances = އެޑްވާންސް. Check these match the owner's payslip vocabulary. |
+| `addons.descriptions.staff_rota` | Weekly duty rota: shifts, days off and leave for every staff member. | ހަފްތާގެ ޑިއުޓީ ރޯސްޓަރު: ކޮންމެ ސްޓާފަކުގެ ޝިފްޓު، އޯފް ދުވަސްތަކާއި ޗުއްޓީ. | needs_review | "Days off" = އޯފް ދުވަސްތައް; "leave" = ޗުއްޓީ. |
 | `addons.names.credit` | Credit / Customer Due | ކްރެޑިޓް / ކަސްޓަމަރުގެ ދަރަނި | needs_review | Business terminology decision: ދަރަނި (debt) vs ކްރެޑިޓް. Spec requires 'Credit Sale / Customer Due / Outstanding Balance / Credit Payment' wording — please confirm Dhivehi equivalents before Phase 4. |
+| `addons.names.payroll` | Payroll (Salary Sheet) | ޕޭރޯލް (މުސާރަ ޝީޓް) | needs_review | "Payroll" kept as loanword ޕޭރޯލް. |
+| `addons.names.staff_rota` | Duty Rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | Plain translation using existing app terms. |
+| `addons.request` | Request | އެދޭ | needs_review | Verb "request" = އެދޭ (as in viber.request). |
+| `addons.request_cancelled` | Request cancelled | އެދުން ކެންސަލްކުރެވިއްޖެ | needs_review | Plain translation using existing app terms. |
+| `addons.request_sent` | Request sent. The platform team will switch it on. | އެދުން ފޮނުވިއްޖެ. ޕްލެޓްފޯމް ޓީމުން މި ހުޅުވައިދޭނެ. | needs_review | Platform team = ޕްލެޓްފޯމް ޓީމު (as in addons.request_hint). |
+| `addons.requested_on` | Requested {{date}} | {{date}} ގައި އެދިފައި | needs_review | Plain translation using existing app terms. |
 | `common.done` | Done | ނިމިއްޖެ | needs_review | Button that closes a finished step. |
 | `common.exit_fullscreen` | Exit full screen | ފުލް ސްކްރީނުން ނިކުމެވޭ | needs_review | New: full screen button in the top bar and POS. |
 | `common.fullscreen` | Full screen | ފުލް ސްކްރީން | needs_review | New: full screen button in the top bar and POS. |
@@ -32,6 +42,7 @@ review of the whole file is still recommended before launch.
 | `credit.still_due` | Still due | އަދިވެސް ދައްކަންޖެހޭ | needs_review | New: part payments of dues and payment receipt. |
 | `credit.total_due_now` | Total due now | މިހާރު ދައްކަންޖެހޭ ޖުމްލަ | needs_review | New: part payments of dues and payment receipt. |
 | `documents.server_totals_hint` | Totals are recalculated by the server when you save. | ސޭވްކުރާއިރު ޖުމްލަތައް ސާވަރުން އަލުން ހިސާބުކުރާނެ. | needs_review | Technical note mentioning the server (ސާވަރު, as in existing settings.hints.tax). |
+| `errors.payroll_period_exists` | A salary sheet for this month already exists. | މި މަހުގެ މުސާރަ ޝީޓެއް ކުރިން ހަދާފައި އެބައޮތް. | needs_review | Plain translation using existing app terms. |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |
 | `expenses.payee` | Paid to | ފައިސާ ދިން ފަރާތް | needs_review | Paid to: ފައިސާ ދިން ފަރާތް. |
 | `inventory.add_supply` | Add stock item | ސްޓޮކް އައިޓަމެއް އިތުރުކުރޭ | needs_review | Loanwords ސްޓޮކް/އައިޓަމް follow existing inventory strings. Alternative: ސްޓޮކަށް ތަކެއްޗެއް އިތުރުކުރޭ. |
@@ -50,10 +61,17 @@ review of the whole file is still recommended before launch.
 | `menu_i18n.more_languages` | More languages | އިތުރު ބަސްތައް | needs_review | New: labels for item names in other languages. |
 | `menu_i18n.name_in` | Name in {{language}} | {{language}} ބަހުން ނަން | needs_review | New: labels for item names in other languages. |
 | `modules.purchases` | Purchases | ގަތުން | needs_review | Alternative loanword: ޕާޗޭސް. |
+| `nav.group_staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
+| `nav.payroll` | Salary sheets | މުސާރަ ޝީޓްތައް | needs_review | "Salary sheet" = މުސާރަ ޝީޓް (މުސާރަ from expenses.categories.salaries). Alternative: މުސާރަ ލިސްޓު. |
+| `nav.rota` | Duty rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | "Rota" rendered as ޑިއުޓީ ރޯސްޓަރު (loanword). Alternatives: ޑިއުޓީ ލިސްޓު, ޑިއުޓީ ޝެޑިއުލް. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.loyalty_view` | View loyalty points | ލޮޔަލްޓީ ޕޮއިންޓް ބަލާ | needs_review | ލޮޔަލްޓީ ޕޮއިންޓް — consistent with existing addons.names.loyalty. Native alternative not common. |
+| `perm.payroll_manage` | Make and finalize salary sheets | މުސާރަ ޝީޓް ހަދައި ފައިނަލްކުރޭ | needs_review | "Finalize" rendered as loanword ފައިނަލްކުރޭ. Alternative: ނިންމާ / ކަށަވަރުކުރޭ. |
+| `perm.payroll_view` | View salary sheets and salaries | މުސާރަ ޝީޓްތަކާއި މުސާރަ ބަލާ | needs_review | Plain translation using existing app terms. |
+| `perm.rota_manage` | Edit the duty rota and shifts | ޑިއުޓީ ރޯސްޓަރާއި ޝިފްޓުތައް ބަދަލުކުރޭ | needs_review | "Shift" = ޝިފްޓު (loanword). |
+| `perm.rota_view` | View the duty rota | ޑިއުޓީ ރޯސްޓަރު ބަލާ | needs_review | Plain translation using existing app terms. |
 | `public_menu.menu_title` | Menu | މެނޫ | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.more` | More | އިތުރު | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.top` | TOP {{rank}} | ޓޮޕް {{rank}} | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
@@ -84,6 +102,100 @@ review of the whole file is still recommended before launch.
 | `settings.hints.pos` | How the point of sale behaves. | ޕޮއިންޓް އޮފް ސޭލް ހިނގާނެ ގޮތް. | needs_review | 'Point of sale' transliterated ޕޮއިންޓް އޮފް ސޭލް. Alternative: ވިއްކާ ސިސްޓަމް. |
 | `settings.loyalty.points_per_unit` | Points per 1 currency unit spent | ޚަރަދުކުރާ ކޮންމެ 1 ފައިސާ ޔުނިޓަކަށް ލިބޭ ޕޮއިންޓް | needs_review | Long phrasing; check clarity. |
 | `settings.pos.allow_negative_stock` | Allow selling when out of stock | ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ | needs_review | Check phrasing: ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ. |
+| `staff.active_hint` | Inactive staff are left off new salary sheets and the rota. | އިންއެކްޓިވް ސްޓާފުން އާ މުސާރަ ޝީޓްތަކާއި ރޯސްޓަރުގައި ނުހިމެނޭނެ. | needs_review | Inactive = އިންއެކްޓިވް as in users.account_active_hint; common.inactive uses ހަރަކާތްތެރި ނޫން. |
+| `staff.add_missing_staff` | Add missing staff | ނެތް ސްޓާފުން އިތުރުކުރޭ | needs_review | "Missing" = not yet on the sheet; ނެތް ސްޓާފުން may read as "absent staff". Alternative: ހިމެނިފައިނުވާ ސްޓާފުން. |
+| `staff.add_shift` | Add shift | ޝިފްޓު އިތުރުކުރޭ | needs_review | Plain translation using existing app terms. |
+| `staff.add_staff` | Add staff | ސްޓާފު އިތުރުކުރޭ | needs_review | Plain translation using existing app terms. |
+| `staff.add_to_expenses` | Add to expenses as “Salaries” | “މުސާރަ” ގެ ގޮތުގައި ޚަރަދުތަކަށް އިތުރުކުރޭ | needs_review | Plain translation using existing app terms. |
+| `staff.add_to_expenses_hint` | Records the total net pay as one expense for this month. | ޖުމްލަ ނެޓް މުސާރަ، މި މަހުގެ އެއް ޚަރަދެއްގެ ގޮތުގައި ރެކޯޑުކުރާނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.approved_by` | Approved by | އެޕްރޫވްކުރީ | needs_review | Alternative: ހުއްދަދިނީ. |
+| `staff.basic_salary` | Basic salary (monthly) | ބޭސިކް މުސާރަ (މަހަކަށް) | needs_review | "Basic" = ބޭސިކް (loanword common on payslips). Alternative: އަސާސީ މުސާރަ. |
+| `staff.basic_salary_hint` | Used as the starting amount on each new salary sheet. | ކޮންމެ އާ މުސާރަ ޝީޓެއްގައި ފުރަތަމަ ލިޔެވޭނީ މި އަދަދު. | needs_review | Plain translation using existing app terms. |
+| `staff.col_advance` | Advance | އެޑްވާންސް | needs_review | Plain translation using existing app terms. |
+| `staff.col_allowances` | Allowances | އެލަވަންސް | needs_review | Plain translation using existing app terms. |
+| `staff.col_basic` | Basic | ބޭސިކް | needs_review | Alternative: އަސާސީ. |
+| `staff.col_deductions` | Deductions | ކެނޑުން | needs_review | ކެނޑުން = deductions. Alternative: އުނިކުރުންތައް. |
+| `staff.col_net` | Net pay | ނެޓް މުސާރަ | needs_review | Net pay = ނެޓް މުސާރަ (cf. reports.summary.netProfit ނެޓް ފައިދާ). Alternative: ލިބޭ މުސާރަ. |
+| `staff.col_overtime` | Overtime | އޯވަޓައިމް | needs_review | Plain translation using existing app terms. |
+| `staff.colour` | Colour | ކުލަ | needs_review | Plain translation using existing app terms. |
+| `staff.colours.amber` | Yellow | ރީނދޫ | needs_review | Yellow = ރީނދޫ. |
+| `staff.colours.emerald` | Green | ފެހި | needs_review | Plain translation using existing app terms. |
+| `staff.colours.rose` | Red | ރަތް | needs_review | Plain translation using existing app terms. |
+| `staff.colours.sky` | Blue | ނޫ | needs_review | Plain translation using existing app terms. |
+| `staff.colours.slate` | Grey | އަޅި | needs_review | Grey = އަޅި(ކުލަ). Alternative: ގްރޭ. |
+| `staff.colours.violet` | Purple | ދަނބު | needs_review | Purple = ދަނބު(ކުލަ). Alternative: ވައިލެޓް / ޕާޕަލް. |
+| `staff.copied_one` | Copied {{count}} entry from last week | ވޭތުވެދިޔަ ހަފްތާއިން {{count}} އެންޓްރީ ކޮޕީކުރެވިއްޖެ | needs_review | Entry = އެންޓްރީ (loanword). No plural inflection. |
+| `staff.copied_other` | Copied {{count}} entries from last week | ވޭތުވެދިޔަ ހަފްތާއިން {{count}} އެންޓްރީ ކޮޕީކުރެވިއްޖެ | needs_review | Same as _one. |
+| `staff.copy_last_week` | Copy last week | ވޭތުވެދިޔަ ހަފްތާ ކޮޕީކުރޭ | needs_review | Plain translation using existing app terms. |
+| `staff.copy_last_week_body` | This week will be replaced with a copy of last week’s rota. | މި ހަފްތާގެ ބަދަލުގައި ވޭތުވެދިޔަ ހަފްތާގެ ރޯސްޓަރުގެ ކޮޕީއެއް ލެވޭނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.create_sheet` | Create sheet | ޝީޓް ހަދާ | needs_review | Plain translation using existing app terms. |
+| `staff.day_off` | Off | އޯފް | needs_review | "Off" = day off, written as loanword އޯފް (common in workplaces). Alternative: ބަންދު / ބަންދު ދުވަސް. |
+| `staff.delete_sheet` | Delete sheet | ޝީޓް ޑިލީޓްކުރޭ | needs_review | Delete = ޑިލީޓް as in common.delete (perm.* uses ފޮހެލާ). |
+| `staff.delete_sheet_body` | This draft salary sheet will be deleted. | މި ޑްރާފްޓް މުސާރަ ޝީޓް ޑިލީޓްކުރެވޭނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.edit_shift` | Edit shift | ޝިފްޓު ބަދަލުކުރޭ | needs_review | Plain translation using existing app terms. |
+| `staff.edit_staff` | Edit staff | ސްޓާފު ބަދަލުކުރޭ | needs_review | Plain translation using existing app terms. |
+| `staff.end_time` | Ends | ނިމޭ ގަޑި | needs_review | Literal "end time". |
+| `staff.finalize` | Finalize | ފައިނަލްކުރޭ | needs_review | Plain translation using existing app terms. |
+| `staff.finalize_body` | Finalizing locks the sheet. You can reopen it later if something needs correcting. | ފައިނަލްކުރުމުން ޝީޓް ލޮކްވާނެ. އިސްލާހުކުރަން ޖެހިއްޖެނަމަ ފަހުން އަލުން ހުޅުވިދާނެ. | needs_review | Lock = ލޮކް (loanword). |
+| `staff.finalized_hint` | This sheet is finalized and locked. | މި ޝީޓް ފައިނަލްކޮށް ލޮކްކޮށްފައި. | needs_review | Plain translation using existing app terms. |
+| `staff.finalized_toast` | Salary sheet finalized | މުސާރަ ޝީޓް ފައިނަލްކުރެވިއްޖެ | needs_review | Plain translation using existing app terms. |
+| `staff.finalized_with_expense` | This sheet is finalized and locked. The total was added to expenses as Salaries. | މި ޝީޓް ފައިނަލްކޮށް ލޮކްކޮށްފައި. ޖުމްލަ އަދަދު މުސާރައިގެ ގޮތުގައި ޚަރަދުތަކަށް އިތުރުކުރެވިފައި. | needs_review | Plain translation using existing app terms. |
+| `staff.leave` | Leave | ޗުއްޓީ | needs_review | ޗުއްޓީ = leave (holiday/sick). |
+| `staff.month` | Month | މަސް | needs_review | Plain translation using existing app terms. |
+| `staff.net_formula` | Net pay = basic + allowances + overtime − deductions − advance. | ނެޓް މުސާރަ = ބޭސިކް + އެލަވަންސް + އޯވަޓައިމް − ކެނޑުން − އެޑްވާންސް. | needs_review | Plain translation using existing app terms. |
+| `staff.new_sheet` | New salary sheet | އާ މުސާރަ ޝީޓެއް | needs_review | Plain translation using existing app terms. |
+| `staff.new_sheet_hint` | The sheet starts with every active staff member and their basic salary. You can change the amounts before finalizing. | ޝީޓް ފެށޭނީ ހުރިހާ އެކްޓިވް ސްޓާފުންނާއި އެމީހުންގެ ބޭސިކް މުސާރައާއެކު. ފައިނަލްކުރުމުގެ ކުރިން އަދަދުތައް ބަދަލުކުރެވޭނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.next_week` | Next week | އަންނަ ހަފްތާ | needs_review | Plain translation using existing app terms. |
+| `staff.no_sheets` | No salary sheets yet | އަދި މުސާރަ ޝީޓެއް ނެތް | needs_review | Plain translation using existing app terms. |
+| `staff.no_sheets_hint` | Create the first sheet for this month. | މި މަހުގެ ފުރަތަމަ ޝީޓް ހަދާ. | needs_review | Plain translation using existing app terms. |
+| `staff.no_shifts` | No shifts yet | އަދި ޝިފްޓެއް ނެތް | needs_review | Plain translation using existing app terms. |
+| `staff.no_shifts_hint` | Add shifts (e.g. Morning, Evening) in the Shifts tab to assign them here. | މިތާނގައި ޝިފްޓު ދިނުމަށް، ޝިފްޓުތައް ޓެބުގައި ޝިފްޓުތައް (މިސާލަކަށް: ހެނދުނު، ހަވީރު) އިތުރުކުރޭ. | needs_review | Tab name must match staff.tab_shifts; examples match preset_morning/evening. |
+| `staff.no_shifts_presets` | Start with a common shift, or add your own. | އާންމު ޝިފްޓަކުން ފަށާ، ނުވަތަ އަމިއްލަ ޝިފްޓެއް އިތުރުކުރޭ. | needs_review | Plain translation using existing app terms. |
+| `staff.no_staff` | No staff yet | އަދި ސްޓާފުން ނެތް | needs_review | Plain translation using existing app terms. |
+| `staff.no_staff_hint` | Add the people who work here to make salary sheets and the duty rota. | މުސާރަ ޝީޓާއި ޑިއުޓީ ރޯސްޓަރު ހެދުމަށް، މިތާ މަސައްކަތްކުރާ މީހުން އިތުރުކުރޭ. | needs_review | Plain translation using existing app terms. |
+| `staff.payroll_subtitle` | Monthly salaries for your staff: basic pay, allowances, overtime, deductions and advances. | ސްޓާފުންގެ މަހު މުސާރަ: ބޭސިކް މުސާރަ، އެލަވަންސް، އޯވަޓައިމް، ކެނޑުންތަކާއި އެޑްވާންސް. | needs_review | Plain translation using existing app terms. |
+| `staff.payroll_title` | Salary sheets | މުސާރަ ޝީޓްތައް | needs_review | Plain translation using existing app terms. |
+| `staff.position` | Position | މަޤާމު | needs_review | މަޤާމު = job position/post. |
+| `staff.position_placeholder` | e.g. Chef, Waiter, Cashier | މިސާލަކަށް: ޝެފް، ވެއިޓަރު، ކޭޝިއަރު | needs_review | Plain translation using existing app terms. |
+| `staff.prepared_by` | Prepared by | ތައްޔާރުކުރީ | needs_review | Print label; "prepared by" = ތައްޔާރުކުރީ. |
+| `staff.preset_evening` | Evening | ހަވީރު | needs_review | Plain translation using existing app terms. |
+| `staff.preset_morning` | Morning | ހެނދުނު | needs_review | Plain translation using existing app terms. |
+| `staff.preset_split` | Lunch | މެންދުރު | needs_review | English label is "Lunch"; rendered as މެންދުރު (midday). |
+| `staff.prev_week` | Previous week | ކުރީ ހަފްތާ | needs_review | Alternative: ފާއިތުވި ހަފްތާ. |
+| `staff.remove_body` | {{name}} will be removed from the staff list. Past salary sheets keep their records. | {{name}} ސްޓާފުންގެ ލިސްޓުން ނަގާލެވޭނެ. ކުރީގެ މުސާރަ ޝީޓްތަކުގެ ރެކޯޑުތައް ބާކީ ހުންނާނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.remove_from_sheet` | Remove from this sheet | މި ޝީޓުން ނަގާލާ | needs_review | Plain translation using existing app terms. |
+| `staff.remove_shift` | Delete shift? | ޝިފްޓު ޑިލީޓްކުރަންތަ؟ | needs_review | Plain translation using existing app terms. |
+| `staff.remove_shift_body` | “{{name}}” will be deleted and removed from every day it is used in the rota. | “{{name}}” ޑިލީޓްކުރެވި، ރޯސްޓަރުގައި ބޭނުންކޮށްފައިވާ ހުރިހާ ދުވަހަކުން ނަގާލެވޭނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.remove_title` | Remove staff member? | ސްޓާފު ނަގާލަންތަ؟ | needs_review | Plain translation using existing app terms. |
+| `staff.reopen` | Reopen | އަލުން ހުޅުވާ | needs_review | Plain translation using existing app terms. |
+| `staff.reopen_body` | The sheet becomes editable again. | ޝީޓް އަލުން ބަދަލުކުރެވޭނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.reopen_with_expense` | The sheet becomes editable again and the Salaries expense added for it is removed, so it is not counted twice. | ޝީޓް އަލުން ބަދަލުކުރެވޭނެ، އަދި މީގެ ސަބަބުން އިތުރުކުރި މުސާރައިގެ ޚަރަދު ފޮހެލެވޭނެ، ދެފަހަރު ނުގުނޭތޯ. | needs_review | Check flow of the final clause (ދެފަހަރު ނުގުނޭތޯ = so it is not counted twice). |
+| `staff.rota_no_staff_hint` | Add staff in the Staff tab, then set their shifts here. | ސްޓާފުން ޓެބުގައި ސްޓާފުން އިތުރުކޮށް، ދެން މިތާނގައި އެމީހުންގެ ޝިފްޓުތައް ކަނޑައަޅާ. | needs_review | Tab names must match staff.tab_staff. |
+| `staff.rota_subtitle` | Who works which shift each day of the week. | ހަފްތާގެ ކޮންމެ ދުވަހަކު ކޮން ޝިފްޓެއްގައި ކާކު މަސައްކަތްކުރާނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.rota_title` | Duty rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | Plain translation using existing app terms. |
+| `staff.salary_sheet` | Salary sheet | މުސާރަ ޝީޓް | needs_review | Plain translation using existing app terms. |
+| `staff.sheet_empty` | No staff on this sheet. Use “Add missing staff”. | މި ޝީޓުގައި ސްޓާފުން ނެތް. “ނެތް ސްޓާފުން އިތުރުކުރޭ” ބޭނުންކުރޭ. | needs_review | Quoted button label must match staff.add_missing_staff. |
+| `staff.sheet_notes` | Notes for this month | މި މަހުގެ ނޯޓްސް | needs_review | Plain translation using existing app terms. |
+| `staff.sheet_title` | Salary sheet — {{month}} | މުސާރަ ޝީޓް — {{month}} | needs_review | Plain translation using existing app terms. |
+| `staff.sheets_hint` | One salary sheet per month. Finalize it when the salaries are paid. | ކޮންމެ މަހަކަށް އެއް މުސާރަ ޝީޓް. މުސާރަ ދީފައި ނިމުމުން ފައިނަލްކުރޭ. | needs_review | Plain translation using existing app terms. |
+| `staff.shifts_hint` | Shift names and times used in the rota. | ރޯސްޓަރުގައި ބޭނުންކުރާ ޝިފްޓުތަކުގެ ނަމާއި ގަޑިތައް. | needs_review | Plain translation using existing app terms. |
+| `staff.signature` | Signature | ސޮއި | needs_review | Plain translation using existing app terms. |
+| `staff.staff_count_one` | {{count}} staff member | {{count}} ސްޓާފު | needs_review | Singular ސްޓާފު vs plural ސްޓާފުން. |
+| `staff.staff_count_other` | {{count}} staff members | {{count}} ސްޓާފުން | needs_review | Plain translation using existing app terms. |
+| `staff.staff_hint` | Everyone who works here. Staff do not need a login. | މިތާ މަސައްކަތްކުރާ ހުރިހާ މީހުން. ސްޓާފުންނަށް ލޮގިނެއް ނުބޭނުންވޭ. | needs_review | Plain translation using existing app terms. |
+| `staff.staff_member` | Staff member | ސްޓާފު | needs_review | Alternative: މުވައްޒަފު (used in reports.*). |
+| `staff.start_time` | Starts | ފަށާ ގަޑި | needs_review | Literal "start time". |
+| `staff.status_draft` | Draft | ޑްރާފްޓް | needs_review | Plain translation using existing app terms. |
+| `staff.status_finalized` | Finalized | ފައިނަލްކޮށްފައި | needs_review | Alternative: ނިންމާފައި. |
+| `staff.tab_rota` | Rota | ރޯސްޓަރު | needs_review | Plain translation using existing app terms. |
+| `staff.tab_sheets` | Salary sheets | މުސާރަ ޝީޓްތައް | needs_review | Plain translation using existing app terms. |
+| `staff.tab_shifts` | Shifts | ޝިފްޓުތައް | needs_review | Plain translation using existing app terms. |
+| `staff.tab_staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
+| `staff.this_week` | This week | މި ހަފްތާ | needs_review | Plain translation using existing app terms. |
+| `staff.total_net_pay` | Total net pay | ޖުމްލަ ނެޓް މުސާރަ | needs_review | Plain translation using existing app terms. |
+| `staff.unsaved` | You have unsaved changes. | ރައްކާނުކުރާ ބަދަލުތައް އެބަހުރި. | needs_review | Literal: "there are unsaved changes". |
+| `superadmin.business.addon_requests_one` | {{count}} add-on requested | {{count}} އެޑް-އޮނަށް އެދިފައި | needs_review | Dhivehi does not inflect after numbers; _one/_other identical. "Add-on" = އެޑް-އޮން as in superadmin.business.*. |
+| `superadmin.business.addon_requests_other` | {{count}} add-ons requested | {{count}} އެޑް-އޮނަށް އެދިފައި | needs_review | Same as _one. |
 | `superadmin.business.enable` | Enable | ހުޅުވާ | needs_review | Matches common.enabled (ހުޅުވިފައި). Alternative: އެނޭބަލްކުރޭ. |
 | `superadmin.dashboard.mrr` | Monthly recurring revenue | މަހުން މަހަށް ލިބޭ އާމްދަނީ | needs_review | Financial term; confirm wording. |
 | `superadmin.security.two_factor` | Two-factor authentication | ދެ ފިޔަވަޅުގެ ވެރިފިކޭޝަން | needs_review | Literal; '2FA' loanword may be clearer to admins. |

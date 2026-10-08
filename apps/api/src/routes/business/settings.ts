@@ -9,7 +9,7 @@ import {
   settingsSectionSchemas,
   type SettingsSection,
 } from '@oceanx/shared';
-import { addons, businessAddons, businesses, messageLog, outlets } from '../../db/schema';
+import { addonRequests, addons, businessAddons, businesses, messageLog, outlets } from '../../db/schema';
 import { assertPermission, bizCtx, requireAnyPermission, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
@@ -170,12 +170,34 @@ export async function settingsRoutes(app: FastifyInstance) {
         grantStatus: businessAddons.status,
         grantedAt: businessAddons.grantedAt,
         expiresAt: businessAddons.expiresAt,
+        requestedAt: addonRequests.createdAt,
       })
       .from(addons)
       .leftJoin(businessAddons, and(eq(businessAddons.addonId, addons.id), eq(businessAddons.businessId, ctx.businessId)))
+      .leftJoin(addonRequests, and(eq(addonRequests.addonId, addons.id), eq(addonRequests.businessId, ctx.businessId)))
       .where(eq(addons.isActive, true))
       .orderBy(addons.name);
     return { items: rows.map((r) => ({ ...r, enabled: ctx.access.addons.has(r.code) })) };
+  });
+
+  /** Ask the platform (Super Admin) to enable an add-on for this business. */
+  app.post<{ Params: { code: string } }>('/addons/:code/request', { preHandler: requirePermission('addons.view') }, async (req) => {
+    const ctx = bizCtx(req);
+    const body = parse(z.object({ note: z.string().trim().max(500).optional().default('') }), req.body ?? {});
+    const [addon] = await db.select().from(addons).where(and(eq(addons.code, req.params.code), eq(addons.isActive, true)));
+    if (!addon) throw notFound();
+    if (ctx.access.addons.has(addon.code)) return { ok: true, enabled: true };
+    await db.insert(addonRequests).values({ businessId: ctx.businessId, addonId: addon.id, requestedBy: ctx.user.id, note: body.note }).onConflictDoNothing();
+    await audit(db, { ...actor(ctx), action: 'addon.requested', entityType: 'addon', entityId: addon.code, req });
+    return { ok: true, enabled: false };
+  });
+
+  app.delete<{ Params: { code: string } }>('/addons/:code/request', { preHandler: requirePermission('addons.view') }, async (req) => {
+    const ctx = bizCtx(req);
+    const [addon] = await db.select({ id: addons.id }).from(addons).where(eq(addons.code, req.params.code));
+    if (!addon) throw notFound();
+    await db.delete(addonRequests).where(and(eq(addonRequests.businessId, ctx.businessId), eq(addonRequests.addonId, addon.id)));
+    return { ok: true };
   });
 
   // ================================================================ Viber Credit messaging (optional feature)

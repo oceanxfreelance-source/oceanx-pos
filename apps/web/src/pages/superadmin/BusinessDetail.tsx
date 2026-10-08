@@ -17,7 +17,7 @@ import { STATUS_TONE, SUB_TONE, type Plan } from './Businesses';
 interface Detail {
   business: { id: string; name: string; slug: string; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
   subscription: { status: string; effectiveStatus: string; currentPeriodEnd: string; startsAt: string; plan: Plan } | null;
-  addons: { code: string; name: string; isActive: boolean; status: string | null; grantedAt: string | null; revokedAt: string | null; expiresAt: string | null }[];
+  addons: { code: string; name: string; isActive: boolean; status: string | null; grantedAt: string | null; revokedAt: string | null; expiresAt: string | null; requestedAt: string | null; requestNote: string | null }[];
   userCount: number;
   outletCount: number;
   owner: { id: string; name: string; email: string; lastLoginAt: string | null; hasPassword: boolean } | null;
@@ -193,10 +193,18 @@ export default function BusinessDetailPage() {
               return (
                 <li key={a.code} className="flex items-center justify-between gap-3 py-2.5">
                   <div className="min-w-0">
-                    <p className="text-sm font-medium">{addonLabel(t, a.code, a.name)}</p>
+                    <p className="flex flex-wrap items-center gap-2 text-sm font-medium">
+                      {addonLabel(t, a.code, a.name)}
+                      {!active && a.requestedAt && <Badge tone="violet">{t('superadmin.business.requested_on', { date: f.date(a.requestedAt) })}</Badge>}
+                    </p>
                     <p className="text-xs text-slate-500">
                       {active ? t('addons.since', { date: f.date(a.grantedAt) }) : a.revokedAt ? t('superadmin.business.revoked_on', { date: f.date(a.revokedAt) }) : t('superadmin.business.not_granted')}
                     </p>
+                    {!active && a.requestNote && (
+                      <p className="mt-0.5 text-xs text-slate-600 dark:text-slate-300" dir="auto">
+                        “{a.requestNote}”
+                      </p>
+                    )}
                   </div>
                   <Button
                     size="sm"

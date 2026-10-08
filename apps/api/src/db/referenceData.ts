@@ -1,5 +1,5 @@
 import { notInArray, sql } from 'drizzle-orm';
-import { ADDONS, LANGUAGES, PERMISSIONS, PLAN_MODULES, type AddonKey } from '@oceanx/shared';
+import { ADDONS, LANGUAGES, PERMISSIONS, PLAN_MODULES, SYSTEM_ROLE_TEMPLATES, type AddonKey } from '@oceanx/shared';
 import type { Executor } from './client';
 import { addons, permissions, platformLanguages, plans } from './schema';
 
@@ -19,6 +19,8 @@ const ADDON_INFO: Record<AddonKey, { name: string; category: string; description
   recipes: { name: 'Recipe Management', category: 'operations', description: 'Recipes linking menu items to ingredients.' },
   ingredient_costing: { name: 'Ingredient Costing', category: 'operations', description: 'Food cost and margin analysis.' },
   advanced_kitchen: { name: 'Advanced Kitchen', category: 'operations', description: 'Kitchen stations, routing and prep times.' },
+  payroll: { name: 'Payroll (Salary Sheet)', category: 'staff', description: 'Staff list and monthly salary sheets with allowances, overtime, deductions and advances.' },
+  staff_rota: { name: 'Duty Rota', category: 'staff', description: 'Weekly duty rota: shifts, days off and leave for every staff member.' },
 };
 
 const ALL = [...PLAN_MODULES];
@@ -63,6 +65,7 @@ const DEFAULT_PLANS = [
  */
 export async function syncReferenceData(db: Executor): Promise<void> {
   const keys = PERMISSIONS.map((p) => p.key);
+  const before = new Set((await db.select({ key: permissions.key }).from(permissions)).map((r) => r.key));
   for (const p of PERMISSIONS) {
     await db
       .insert(permissions)
@@ -97,6 +100,22 @@ export async function syncReferenceData(db: Executor): Promise<void> {
     INSERT INTO role_permissions (role_id, permission_key)
     SELECT r.id, p.key FROM roles r CROSS JOIN permissions p WHERE r.system_key = 'business_admin'
     ON CONFLICT DO NOTHING`);
+  // Permissions introduced by this release go to existing system roles whose template includes them
+  // (e.g. a new Manager feature). Only new keys: later edits a business makes to its roles are kept.
+  if (before.size > 0) {
+    for (const [roleKey, perms] of Object.entries(SYSTEM_ROLE_TEMPLATES)) {
+      const added = perms.filter((k) => !before.has(k));
+      if (roleKey === 'business_admin' || added.length === 0) continue;
+      await db.execute(sql`
+        INSERT INTO role_permissions (role_id, permission_key)
+        SELECT r.id, p.key FROM roles r JOIN permissions p ON p.key IN (${sql.join(
+          added.map((k) => sql`${k}`),
+          sql`, `,
+        )})
+        WHERE r.system_key = ${roleKey}
+        ON CONFLICT DO NOTHING`);
+    }
+  }
 }
 
 /** Add-ons listed in the catalog but without a shipped implementation yet; created inactive (cannot be granted). */

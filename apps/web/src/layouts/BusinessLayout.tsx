@@ -2,9 +2,11 @@ import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
 import {
+  Banknote,
   BarChart3,
   Boxes,
   CalendarClock,
+  CalendarDays,
   Check,
   ChefHat,
   ChevronDown,
@@ -82,6 +84,10 @@ export function useBusinessNav(): NavGroup[] {
   if (hasModule('expenses') && can('expenses.view')) finance.push({ to: '/expenses', label: 'nav.expenses', icon: Wallet });
   if (hasModule('reports') && can('reports.view')) finance.push({ to: '/reports', label: 'nav.reports', icon: BarChart3 });
 
+  const staff: NavGroup['items'] = [];
+  if (hasAddon('payroll') && can('payroll.view')) staff.push({ to: '/payroll', label: 'nav.payroll', icon: Banknote });
+  if (hasAddon('staff_rota') && can('rota.view')) staff.push({ to: '/rota', label: 'nav.rota', icon: CalendarDays });
+
   const management: NavGroup['items'] = [];
   if (can('users.view')) management.push({ to: '/users', label: 'nav.users', icon: Users });
   if (can('roles.view')) management.push({ to: '/roles', label: 'nav.roles', icon: ShieldCheck });
@@ -94,6 +100,7 @@ export function useBusinessNav(): NavGroup[] {
     { label: 'nav.group_catalog', items: catalog },
     { label: 'nav.group_customers', items: sales },
     { label: 'nav.group_finance', items: finance },
+    { label: 'nav.group_staff', items: staff },
     { label: 'nav.group_management', items: management },
   ].filter((g) => g.items.length > 0);
 }

@@ -48,6 +48,8 @@ export const ADDONS = [
   'recipes',
   'ingredient_costing',
   'advanced_kitchen',
+  'payroll',
+  'staff_rota',
 ] as const;
 
 export type AddonKey = (typeof ADDONS)[number];

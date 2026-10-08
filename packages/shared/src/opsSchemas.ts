@@ -274,3 +274,55 @@ export const reportQuerySchema = z.object({
   outletId: id.optional(),
   format: z.enum(['json', 'csv']).default('json'),
 });
+
+// ---------------------------------------------------------------- staff, payroll, duty rota (add-ons)
+const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
+
+export const staffSchema = z.object({
+  name: req(120),
+  position: text(80),
+  phone,
+  /** Monthly basic salary in major units; only stored when the user may manage payroll. */
+  basicSalary: money.optional(),
+  isActive: z.boolean().default(true),
+  notes: text(500),
+});
+
+export const payrollPeriodSchema = z.object({ period: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/) });
+
+/** Editable amounts of one salary-sheet line (major units). Net is always calculated by the server. */
+export const payrollLineSchema = z.object({
+  id,
+  basic: money.default(0),
+  allowances: money.default(0),
+  overtime: money.default(0),
+  deductions: money.default(0),
+  advance: money.default(0),
+  notes: text(200),
+});
+export const payrollUpdateSchema = z.object({ lines: z.array(payrollLineSchema).max(500), notes: text(1000) });
+export const payrollFinalizeSchema = z.object({
+  addToExpenses: z.boolean().default(false),
+  paymentMethod: z.enum(['cash', 'card', 'bank_transfer', 'other']).default('bank_transfer'),
+});
+
+export const ROTA_KINDS = ['shift', 'off', 'leave'] as const;
+export const SHIFT_COLORS = ['sky', 'amber', 'violet', 'emerald', 'rose', 'slate'] as const;
+export const rotaShiftSchema = z.object({
+  name: req(40),
+  startTime: time,
+  endTime: time,
+  color: z.enum(SHIFT_COLORS).default('sky'),
+  sortOrder: z.number().int().min(0).max(1000).default(0),
+});
+export const rotaEntrySchema = z
+  .object({
+    staffId: id,
+    date: isoDate,
+    /** 'none' clears the cell. */
+    kind: z.enum([...ROTA_KINDS, 'none']),
+    shiftId: id.nullable().default(null),
+    note: text(120),
+  })
+  .refine((v) => v.kind !== 'shift' || !!v.shiftId, { path: ['shiftId'], message: 'required' });
+export const rotaCopySchema = z.object({ from: isoDate, to: isoDate });

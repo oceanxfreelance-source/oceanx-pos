@@ -11,7 +11,7 @@ import {
   updateBusinessSchema,
 } from '@oceanx/shared';
 import type { Executor } from '../../db/client';
-import { activityLogs, addons, businessAddons, businesses, outlets, plans, subscriptions, users, userSessions } from '../../db/schema';
+import { activityLogs, addonRequests, addons, businessAddons, businesses, outlets, plans, subscriptions, users, userSessions } from '../../db/schema';
 import { saCtx } from '../../guards/superadmin';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
@@ -86,6 +86,7 @@ export async function businessAdminRoutes(app: FastifyInstance) {
         subscriptionStatus: subscriptions.status,
         currentPeriodEnd: subscriptions.currentPeriodEnd,
         viberCreditRequested: sql<boolean>`(${businesses.viberCreditRequestedAt} IS NOT NULL AND NOT ${businesses.superadminViberCreditEnabled})`,
+        addonRequests: sql<number>`(SELECT count(*)::int FROM addon_requests ar WHERE ar.business_id = ${businesses.id})`,
       })
       .from(businesses)
       .leftJoin(subscriptions, eq(subscriptions.businessId, businesses.id))
@@ -168,9 +169,12 @@ export async function businessAdminRoutes(app: FastifyInstance) {
           grantedAt: businessAddons.grantedAt,
           revokedAt: businessAddons.revokedAt,
           expiresAt: businessAddons.expiresAt,
+          requestedAt: addonRequests.createdAt,
+          requestNote: addonRequests.note,
         })
         .from(addons)
         .leftJoin(businessAddons, and(eq(businessAddons.addonId, addons.id), eq(businessAddons.businessId, id)))
+        .leftJoin(addonRequests, and(eq(addonRequests.addonId, addons.id), eq(addonRequests.businessId, id)))
         .orderBy(addons.name),
       db
         .select({ n: count() })
@@ -377,6 +381,7 @@ export async function businessAdminRoutes(app: FastifyInstance) {
         .insert(businessAddons)
         .values({ businessId: id, addonId: addon.id, ...values })
         .onConflictDoUpdate({ target: [businessAddons.businessId, businessAddons.addonId], set: values });
+      await tx.delete(addonRequests).where(and(eq(addonRequests.businessId, id), eq(addonRequests.addonId, addon.id)));
       await audit(tx, {
         actorType: 'super_admin',
         actorId: ctx.admin.id,

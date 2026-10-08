@@ -1573,5 +1573,789 @@
     "suggested": "OceanX ގެ އައު ވަރޝަނެއް ލިބެން އެބައޮތް.",
     "status": "needs_review",
     "notes": "Bar shown when an update is published while the app is open."
+  },
+  {
+    "key": "nav.group_staff",
+    "english": "Staff",
+    "suggested": "ސްޓާފުން",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "nav.payroll",
+    "english": "Salary sheets",
+    "suggested": "މުސާރަ ޝީޓްތައް",
+    "status": "needs_review",
+    "notes": "\"Salary sheet\" = މުސާރަ ޝީޓް (މުސާރަ from expenses.categories.salaries). Alternative: މުސާރަ ލިސްޓު."
+  },
+  {
+    "key": "nav.rota",
+    "english": "Duty rota",
+    "suggested": "ޑިއުޓީ ރޯސްޓަރު",
+    "status": "needs_review",
+    "notes": "\"Rota\" rendered as ޑިއުޓީ ރޯސްޓަރު (loanword). Alternatives: ޑިއުޓީ ލިސްޓު, ޑިއުޓީ ޝެޑިއުލް."
+  },
+  {
+    "key": "perm.payroll_view",
+    "english": "View salary sheets and salaries",
+    "suggested": "މުސާރަ ޝީޓްތަކާއި މުސާރަ ބަލާ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "perm.payroll_manage",
+    "english": "Make and finalize salary sheets",
+    "suggested": "މުސާރަ ޝީޓް ހަދައި ފައިނަލްކުރޭ",
+    "status": "needs_review",
+    "notes": "\"Finalize\" rendered as loanword ފައިނަލްކުރޭ. Alternative: ނިންމާ / ކަށަވަރުކުރޭ."
+  },
+  {
+    "key": "perm.rota_view",
+    "english": "View the duty rota",
+    "suggested": "ޑިއުޓީ ރޯސްޓަރު ބަލާ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "perm.rota_manage",
+    "english": "Edit the duty rota and shifts",
+    "suggested": "ޑިއުޓީ ރޯސްޓަރާއި ޝިފްޓުތައް ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "\"Shift\" = ޝިފްޓު (loanword)."
+  },
+  {
+    "key": "addons.categories.staff",
+    "english": "Staff",
+    "suggested": "ސްޓާފުން",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "addons.descriptions.payroll",
+    "english": "Staff list and monthly salary sheets with allowances, overtime, deductions and advances.",
+    "suggested": "ސްޓާފުންގެ ލިސްޓާއި، އެލަވަންސް، އޯވަޓައިމް، ކެނޑުންތަކާއި އެޑްވާންސްއާއެކު މަހުން މަހަށް މުސާރަ ޝީޓް.",
+    "status": "needs_review",
+    "notes": "Allowances = އެލަވަންސް, deductions = ކެނޑުންތައް, advances = އެޑްވާންސް. Check these match the owner's payslip vocabulary."
+  },
+  {
+    "key": "addons.descriptions.staff_rota",
+    "english": "Weekly duty rota: shifts, days off and leave for every staff member.",
+    "suggested": "ހަފްތާގެ ޑިއުޓީ ރޯސްޓަރު: ކޮންމެ ސްޓާފަކުގެ ޝިފްޓު، އޯފް ދުވަސްތަކާއި ޗުއްޓީ.",
+    "status": "needs_review",
+    "notes": "\"Days off\" = އޯފް ދުވަސްތައް; \"leave\" = ޗުއްޓީ."
+  },
+  {
+    "key": "addons.names.payroll",
+    "english": "Payroll (Salary Sheet)",
+    "suggested": "ޕޭރޯލް (މުސާރަ ޝީޓް)",
+    "status": "needs_review",
+    "notes": "\"Payroll\" kept as loanword ޕޭރޯލް."
+  },
+  {
+    "key": "addons.names.staff_rota",
+    "english": "Duty Rota",
+    "suggested": "ޑިއުޓީ ރޯސްޓަރު",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "addons.request",
+    "english": "Request",
+    "suggested": "އެދޭ",
+    "status": "needs_review",
+    "notes": "Verb \"request\" = އެދޭ (as in viber.request)."
+  },
+  {
+    "key": "addons.request_sent",
+    "english": "Request sent. The platform team will switch it on.",
+    "suggested": "އެދުން ފޮނުވިއްޖެ. ޕްލެޓްފޯމް ޓީމުން މި ހުޅުވައިދޭނެ.",
+    "status": "needs_review",
+    "notes": "Platform team = ޕްލެޓްފޯމް ޓީމު (as in addons.request_hint)."
+  },
+  {
+    "key": "addons.request_cancelled",
+    "english": "Request cancelled",
+    "suggested": "އެދުން ކެންސަލްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "addons.requested_on",
+    "english": "Requested {{date}}",
+    "suggested": "{{date}} ގައި އެދިފައި",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "addons.cancel_request",
+    "english": "Cancel request",
+    "suggested": "އެދުން ކެންސަލްކުރޭ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "superadmin.business.addon_requests_one",
+    "english": "{{count}} add-on requested",
+    "suggested": "{{count}} އެޑް-އޮނަށް އެދިފައި",
+    "status": "needs_review",
+    "notes": "Dhivehi does not inflect after numbers; _one/_other identical. \"Add-on\" = އެޑް-އޮން as in superadmin.business.*."
+  },
+  {
+    "key": "superadmin.business.addon_requests_other",
+    "english": "{{count}} add-ons requested",
+    "suggested": "{{count}} އެޑް-އޮނަށް އެދިފައި",
+    "status": "needs_review",
+    "notes": "Same as _one."
+  },
+  {
+    "key": "errors.payroll_period_exists",
+    "english": "A salary sheet for this month already exists.",
+    "suggested": "މި މަހުގެ މުސާރަ ޝީޓެއް ކުރިން ހަދާފައި އެބައޮތް.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.payroll_title",
+    "english": "Salary sheets",
+    "suggested": "މުސާރަ ޝީޓްތައް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.payroll_subtitle",
+    "english": "Monthly salaries for your staff: basic pay, allowances, overtime, deductions and advances.",
+    "suggested": "ސްޓާފުންގެ މަހު މުސާރަ: ބޭސިކް މުސާރަ، އެލަވަންސް، އޯވަޓައިމް، ކެނޑުންތަކާއި އެޑްވާންސް.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.rota_title",
+    "english": "Duty rota",
+    "suggested": "ޑިއުޓީ ރޯސްޓަރު",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.rota_subtitle",
+    "english": "Who works which shift each day of the week.",
+    "suggested": "ހަފްތާގެ ކޮންމެ ދުވަހަކު ކޮން ޝިފްޓެއްގައި ކާކު މަސައްކަތްކުރާނެ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.tab_sheets",
+    "english": "Salary sheets",
+    "suggested": "މުސާރަ ޝީޓްތައް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.tab_staff",
+    "english": "Staff",
+    "suggested": "ސްޓާފުން",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.tab_rota",
+    "english": "Rota",
+    "suggested": "ރޯސްޓަރު",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.tab_shifts",
+    "english": "Shifts",
+    "suggested": "ޝިފްޓުތައް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.staff_hint",
+    "english": "Everyone who works here. Staff do not need a login.",
+    "suggested": "މިތާ މަސައްކަތްކުރާ ހުރިހާ މީހުން. ސްޓާފުންނަށް ލޮގިނެއް ނުބޭނުންވޭ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.add_staff",
+    "english": "Add staff",
+    "suggested": "ސްޓާފު އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.edit_staff",
+    "english": "Edit staff",
+    "suggested": "ސްޓާފު ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.no_staff",
+    "english": "No staff yet",
+    "suggested": "އަދި ސްޓާފުން ނެތް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.no_staff_hint",
+    "english": "Add the people who work here to make salary sheets and the duty rota.",
+    "suggested": "މުސާރަ ޝީޓާއި ޑިއުޓީ ރޯސްޓަރު ހެދުމަށް، މިތާ މަސައްކަތްކުރާ މީހުން އިތުރުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.position",
+    "english": "Position",
+    "suggested": "މަޤާމު",
+    "status": "needs_review",
+    "notes": "މަޤާމު = job position/post."
+  },
+  {
+    "key": "staff.position_placeholder",
+    "english": "e.g. Chef, Waiter, Cashier",
+    "suggested": "މިސާލަކަށް: ޝެފް، ވެއިޓަރު، ކޭޝިއަރު",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.basic_salary",
+    "english": "Basic salary (monthly)",
+    "suggested": "ބޭސިކް މުސާރަ (މަހަކަށް)",
+    "status": "needs_review",
+    "notes": "\"Basic\" = ބޭސިކް (loanword common on payslips). Alternative: އަސާސީ މުސާރަ."
+  },
+  {
+    "key": "staff.basic_salary_hint",
+    "english": "Used as the starting amount on each new salary sheet.",
+    "suggested": "ކޮންމެ އާ މުސާރަ ޝީޓެއްގައި ފުރަތަމަ ލިޔެވޭނީ މި އަދަދު.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.active_hint",
+    "english": "Inactive staff are left off new salary sheets and the rota.",
+    "suggested": "އިންއެކްޓިވް ސްޓާފުން އާ މުސާރަ ޝީޓްތަކާއި ރޯސްޓަރުގައި ނުހިމެނޭނެ.",
+    "status": "needs_review",
+    "notes": "Inactive = އިންއެކްޓިވް as in users.account_active_hint; common.inactive uses ހަރަކާތްތެރި ނޫން."
+  },
+  {
+    "key": "staff.remove_title",
+    "english": "Remove staff member?",
+    "suggested": "ސްޓާފު ނަގާލަންތަ؟",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.remove_body",
+    "english": "{{name}} will be removed from the staff list. Past salary sheets keep their records.",
+    "suggested": "{{name}} ސްޓާފުންގެ ލިސްޓުން ނަގާލެވޭނެ. ކުރީގެ މުސާރަ ޝީޓްތަކުގެ ރެކޯޑުތައް ބާކީ ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.sheets_hint",
+    "english": "One salary sheet per month. Finalize it when the salaries are paid.",
+    "suggested": "ކޮންމެ މަހަކަށް އެއް މުސާރަ ޝީޓް. މުސާރަ ދީފައި ނިމުމުން ފައިނަލްކުރޭ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.new_sheet",
+    "english": "New salary sheet",
+    "suggested": "އާ މުސާރަ ޝީޓެއް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.create_sheet",
+    "english": "Create sheet",
+    "suggested": "ޝީޓް ހަދާ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.month",
+    "english": "Month",
+    "suggested": "މަސް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.new_sheet_hint",
+    "english": "The sheet starts with every active staff member and their basic salary. You can change the amounts before finalizing.",
+    "suggested": "ޝީޓް ފެށޭނީ ހުރިހާ އެކްޓިވް ސްޓާފުންނާއި އެމީހުންގެ ބޭސިކް މުސާރައާއެކު. ފައިނަލްކުރުމުގެ ކުރިން އަދަދުތައް ބަދަލުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.no_sheets",
+    "english": "No salary sheets yet",
+    "suggested": "އަދި މުސާރަ ޝީޓެއް ނެތް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.no_sheets_hint",
+    "english": "Create the first sheet for this month.",
+    "suggested": "މި މަހުގެ ފުރަތަމަ ޝީޓް ހަދާ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.staff_count_one",
+    "english": "{{count}} staff member",
+    "suggested": "{{count}} ސްޓާފު",
+    "status": "needs_review",
+    "notes": "Singular ސްޓާފު vs plural ސްޓާފުން."
+  },
+  {
+    "key": "staff.staff_count_other",
+    "english": "{{count}} staff members",
+    "suggested": "{{count}} ސްޓާފުން",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.status_draft",
+    "english": "Draft",
+    "suggested": "ޑްރާފްޓް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.status_finalized",
+    "english": "Finalized",
+    "suggested": "ފައިނަލްކޮށްފައި",
+    "status": "needs_review",
+    "notes": "Alternative: ނިންމާފައި."
+  },
+  {
+    "key": "staff.sheet_title",
+    "english": "Salary sheet — {{month}}",
+    "suggested": "މުސާރަ ޝީޓް — {{month}}",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.salary_sheet",
+    "english": "Salary sheet",
+    "suggested": "މުސާރަ ޝީޓް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.staff_member",
+    "english": "Staff member",
+    "suggested": "ސްޓާފު",
+    "status": "needs_review",
+    "notes": "Alternative: މުވައްޒަފު (used in reports.*)."
+  },
+  {
+    "key": "staff.col_basic",
+    "english": "Basic",
+    "suggested": "ބޭސިކް",
+    "status": "needs_review",
+    "notes": "Alternative: އަސާސީ."
+  },
+  {
+    "key": "staff.col_allowances",
+    "english": "Allowances",
+    "suggested": "އެލަވަންސް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.col_overtime",
+    "english": "Overtime",
+    "suggested": "އޯވަޓައިމް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.col_deductions",
+    "english": "Deductions",
+    "suggested": "ކެނޑުން",
+    "status": "needs_review",
+    "notes": "ކެނޑުން = deductions. Alternative: އުނިކުރުންތައް."
+  },
+  {
+    "key": "staff.col_advance",
+    "english": "Advance",
+    "suggested": "އެޑްވާންސް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.col_net",
+    "english": "Net pay",
+    "suggested": "ނެޓް މުސާރަ",
+    "status": "needs_review",
+    "notes": "Net pay = ނެޓް މުސާރަ (cf. reports.summary.netProfit ނެޓް ފައިދާ). Alternative: ލިބޭ މުސާރަ."
+  },
+  {
+    "key": "staff.net_formula",
+    "english": "Net pay = basic + allowances + overtime − deductions − advance.",
+    "suggested": "ނެޓް މުސާރަ = ބޭސިކް + އެލަވަންސް + އޯވަޓައިމް − ކެނޑުން − އެޑްވާންސް.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.sheet_empty",
+    "english": "No staff on this sheet. Use “Add missing staff”.",
+    "suggested": "މި ޝީޓުގައި ސްޓާފުން ނެތް. “ނެތް ސްޓާފުން އިތުރުކުރޭ” ބޭނުންކުރޭ.",
+    "status": "needs_review",
+    "notes": "Quoted button label must match staff.add_missing_staff."
+  },
+  {
+    "key": "staff.sheet_notes",
+    "english": "Notes for this month",
+    "suggested": "މި މަހުގެ ނޯޓްސް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.add_missing_staff",
+    "english": "Add missing staff",
+    "suggested": "ނެތް ސްޓާފުން އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "\"Missing\" = not yet on the sheet; ނެތް ސްޓާފުން may read as \"absent staff\". Alternative: ހިމެނިފައިނުވާ ސްޓާފުން."
+  },
+  {
+    "key": "staff.remove_from_sheet",
+    "english": "Remove from this sheet",
+    "suggested": "މި ޝީޓުން ނަގާލާ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.unsaved",
+    "english": "You have unsaved changes.",
+    "suggested": "ރައްކާނުކުރާ ބަދަލުތައް އެބަހުރި.",
+    "status": "needs_review",
+    "notes": "Literal: \"there are unsaved changes\"."
+  },
+  {
+    "key": "staff.finalize",
+    "english": "Finalize",
+    "suggested": "ފައިނަލްކުރޭ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.finalize_body",
+    "english": "Finalizing locks the sheet. You can reopen it later if something needs correcting.",
+    "suggested": "ފައިނަލްކުރުމުން ޝީޓް ލޮކްވާނެ. އިސްލާހުކުރަން ޖެހިއްޖެނަމަ ފަހުން އަލުން ހުޅުވިދާނެ.",
+    "status": "needs_review",
+    "notes": "Lock = ލޮކް (loanword)."
+  },
+  {
+    "key": "staff.total_net_pay",
+    "english": "Total net pay",
+    "suggested": "ޖުމްލަ ނެޓް މުސާރަ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.add_to_expenses",
+    "english": "Add to expenses as “Salaries”",
+    "suggested": "“މުސާރަ” ގެ ގޮތުގައި ޚަރަދުތަކަށް އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.add_to_expenses_hint",
+    "english": "Records the total net pay as one expense for this month.",
+    "suggested": "ޖުމްލަ ނެޓް މުސާރަ، މި މަހުގެ އެއް ޚަރަދެއްގެ ގޮތުގައި ރެކޯޑުކުރާނެ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.finalized_toast",
+    "english": "Salary sheet finalized",
+    "suggested": "މުސާރަ ޝީޓް ފައިނަލްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.finalized_hint",
+    "english": "This sheet is finalized and locked.",
+    "suggested": "މި ޝީޓް ފައިނަލްކޮށް ލޮކްކޮށްފައި.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.finalized_with_expense",
+    "english": "This sheet is finalized and locked. The total was added to expenses as Salaries.",
+    "suggested": "މި ޝީޓް ފައިނަލްކޮށް ލޮކްކޮށްފައި. ޖުމްލަ އަދަދު މުސާރައިގެ ގޮތުގައި ޚަރަދުތަކަށް އިތުރުކުރެވިފައި.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.reopen",
+    "english": "Reopen",
+    "suggested": "އަލުން ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.reopen_body",
+    "english": "The sheet becomes editable again.",
+    "suggested": "ޝީޓް އަލުން ބަދަލުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.reopen_with_expense",
+    "english": "The sheet becomes editable again and the Salaries expense added for it is removed, so it is not counted twice.",
+    "suggested": "ޝީޓް އަލުން ބަދަލުކުރެވޭނެ، އަދި މީގެ ސަބަބުން އިތުރުކުރި މުސާރައިގެ ޚަރަދު ފޮހެލެވޭނެ، ދެފަހަރު ނުގުނޭތޯ.",
+    "status": "needs_review",
+    "notes": "Check flow of the final clause (ދެފަހަރު ނުގުނޭތޯ = so it is not counted twice)."
+  },
+  {
+    "key": "staff.delete_sheet",
+    "english": "Delete sheet",
+    "suggested": "ޝީޓް ޑިލީޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "Delete = ޑިލީޓް as in common.delete (perm.* uses ފޮހެލާ)."
+  },
+  {
+    "key": "staff.delete_sheet_body",
+    "english": "This draft salary sheet will be deleted.",
+    "suggested": "މި ޑްރާފްޓް މުސާރަ ޝީޓް ޑިލީޓްކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.signature",
+    "english": "Signature",
+    "suggested": "ސޮއި",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.prepared_by",
+    "english": "Prepared by",
+    "suggested": "ތައްޔާރުކުރީ",
+    "status": "needs_review",
+    "notes": "Print label; \"prepared by\" = ތައްޔާރުކުރީ."
+  },
+  {
+    "key": "staff.approved_by",
+    "english": "Approved by",
+    "suggested": "އެޕްރޫވްކުރީ",
+    "status": "needs_review",
+    "notes": "Alternative: ހުއްދަދިނީ."
+  },
+  {
+    "key": "staff.prev_week",
+    "english": "Previous week",
+    "suggested": "ކުރީ ހަފްތާ",
+    "status": "needs_review",
+    "notes": "Alternative: ފާއިތުވި ހަފްތާ."
+  },
+  {
+    "key": "staff.next_week",
+    "english": "Next week",
+    "suggested": "އަންނަ ހަފްތާ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.this_week",
+    "english": "This week",
+    "suggested": "މި ހަފްތާ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.copy_last_week",
+    "english": "Copy last week",
+    "suggested": "ވޭތުވެދިޔަ ހަފްތާ ކޮޕީކުރޭ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.copy_last_week_body",
+    "english": "This week will be replaced with a copy of last week’s rota.",
+    "suggested": "މި ހަފްތާގެ ބަދަލުގައި ވޭތުވެދިޔަ ހަފްތާގެ ރޯސްޓަރުގެ ކޮޕީއެއް ލެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.copied_one",
+    "english": "Copied {{count}} entry from last week",
+    "suggested": "ވޭތުވެދިޔަ ހަފްތާއިން {{count}} އެންޓްރީ ކޮޕީކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Entry = އެންޓްރީ (loanword). No plural inflection."
+  },
+  {
+    "key": "staff.copied_other",
+    "english": "Copied {{count}} entries from last week",
+    "suggested": "ވޭތުވެދިޔަ ހަފްތާއިން {{count}} އެންޓްރީ ކޮޕީކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Same as _one."
+  },
+  {
+    "key": "staff.day_off",
+    "english": "Off",
+    "suggested": "އޯފް",
+    "status": "needs_review",
+    "notes": "\"Off\" = day off, written as loanword އޯފް (common in workplaces). Alternative: ބަންދު / ބަންދު ދުވަސް."
+  },
+  {
+    "key": "staff.leave",
+    "english": "Leave",
+    "suggested": "ޗުއްޓީ",
+    "status": "needs_review",
+    "notes": "ޗުއްޓީ = leave (holiday/sick)."
+  },
+  {
+    "key": "staff.rota_no_staff_hint",
+    "english": "Add staff in the Staff tab, then set their shifts here.",
+    "suggested": "ސްޓާފުން ޓެބުގައި ސްޓާފުން އިތުރުކޮށް، ދެން މިތާނގައި އެމީހުންގެ ޝިފްޓުތައް ކަނޑައަޅާ.",
+    "status": "needs_review",
+    "notes": "Tab names must match staff.tab_staff."
+  },
+  {
+    "key": "staff.no_shifts_hint",
+    "english": "Add shifts (e.g. Morning, Evening) in the Shifts tab to assign them here.",
+    "suggested": "މިތާނގައި ޝިފްޓު ދިނުމަށް، ޝިފްޓުތައް ޓެބުގައި ޝިފްޓުތައް (މިސާލަކަށް: ހެނދުނު، ހަވީރު) އިތުރުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Tab name must match staff.tab_shifts; examples match preset_morning/evening."
+  },
+  {
+    "key": "staff.shifts_hint",
+    "english": "Shift names and times used in the rota.",
+    "suggested": "ރޯސްޓަރުގައި ބޭނުންކުރާ ޝިފްޓުތަކުގެ ނަމާއި ގަޑިތައް.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.add_shift",
+    "english": "Add shift",
+    "suggested": "ޝިފްޓު އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.edit_shift",
+    "english": "Edit shift",
+    "suggested": "ޝިފްޓު ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.no_shifts",
+    "english": "No shifts yet",
+    "suggested": "އަދި ޝިފްޓެއް ނެތް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.no_shifts_presets",
+    "english": "Start with a common shift, or add your own.",
+    "suggested": "އާންމު ޝިފްޓަކުން ފަށާ، ނުވަތަ އަމިއްލަ ޝިފްޓެއް އިތުރުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.remove_shift",
+    "english": "Delete shift?",
+    "suggested": "ޝިފްޓު ޑިލީޓްކުރަންތަ؟",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.remove_shift_body",
+    "english": "“{{name}}” will be deleted and removed from every day it is used in the rota.",
+    "suggested": "“{{name}}” ޑިލީޓްކުރެވި، ރޯސްޓަރުގައި ބޭނުންކޮށްފައިވާ ހުރިހާ ދުވަހަކުން ނަގާލެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.start_time",
+    "english": "Starts",
+    "suggested": "ފަށާ ގަޑި",
+    "status": "needs_review",
+    "notes": "Literal \"start time\"."
+  },
+  {
+    "key": "staff.end_time",
+    "english": "Ends",
+    "suggested": "ނިމޭ ގަޑި",
+    "status": "needs_review",
+    "notes": "Literal \"end time\"."
+  },
+  {
+    "key": "staff.colour",
+    "english": "Colour",
+    "suggested": "ކުލަ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.preset_morning",
+    "english": "Morning",
+    "suggested": "ހެނދުނު",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.preset_evening",
+    "english": "Evening",
+    "suggested": "ހަވީރު",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.preset_split",
+    "english": "Lunch",
+    "suggested": "މެންދުރު",
+    "status": "needs_review",
+    "notes": "English label is \"Lunch\"; rendered as މެންދުރު (midday)."
+  },
+  {
+    "key": "staff.colours.sky",
+    "english": "Blue",
+    "suggested": "ނޫ",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.colours.amber",
+    "english": "Yellow",
+    "suggested": "ރީނދޫ",
+    "status": "needs_review",
+    "notes": "Yellow = ރީނދޫ."
+  },
+  {
+    "key": "staff.colours.violet",
+    "english": "Purple",
+    "suggested": "ދަނބު",
+    "status": "needs_review",
+    "notes": "Purple = ދަނބު(ކުލަ). Alternative: ވައިލެޓް / ޕާޕަލް."
+  },
+  {
+    "key": "staff.colours.emerald",
+    "english": "Green",
+    "suggested": "ފެހި",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.colours.rose",
+    "english": "Red",
+    "suggested": "ރަތް",
+    "status": "needs_review",
+    "notes": "Plain translation using existing app terms."
+  },
+  {
+    "key": "staff.colours.slate",
+    "english": "Grey",
+    "suggested": "އަޅި",
+    "status": "needs_review",
+    "notes": "Grey = އަޅި(ކުލަ). Alternative: ގްރޭ."
   }
 ]

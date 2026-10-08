@@ -25,6 +25,7 @@ interface Row {
   planName: string | null;
   effectiveSubscriptionStatus: string | null;
   viberCreditRequested?: boolean;
+  addonRequests?: number;
   currentPeriodEnd: string | null;
   userCount: number;
 }
@@ -89,6 +90,7 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
             {t(`superadmin.status.${b.status}`)}
           </Badge>
           {b.viberCreditRequested && <Badge tone="violet">{t('superadmin.business.viber_requested')}</Badge>}
+          {(b.addonRequests ?? 0) > 0 && <Badge tone="violet">{t('superadmin.business.addon_requests', { count: b.addonRequests })}</Badge>}
         </span>
       ),
     },

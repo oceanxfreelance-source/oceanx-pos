@@ -487,4 +487,111 @@ test.describe.serial('OceanX operations', () => {
     await expect(guest.getByText('Grilled Reef Fish')).toHaveCount(0);
     await guest.screenshot({ path: `${SHOTS}/qr-public-menu-dv.png`, fullPage: true });
   });
+  test('payroll and duty rota: requested add-ons, salary sheet with PDF, weekly rota with PDF', async ({ page, browser }) => {
+    await login(page);
+    // The restaurant asks for the add-on from its Add-ons page.
+    await page.goto('/addons');
+    const card = page
+      .locator('div')
+      .filter({ has: page.getByRole('heading', { name: 'Payroll (Salary Sheet)' }) })
+      .filter({ has: page.getByRole('button', { name: 'Request' }) })
+      .last();
+    await card.getByRole('button', { name: 'Request' }).click();
+    await expect(page.getByText('Request sent. The platform team will switch it on.')).toBeVisible();
+    await expect(page.getByText(/^Requested /).first()).toBeVisible();
+
+    // Super Admin sees the request and switches both add-ons on.
+    const sa = await browser.newContext();
+    const sap = await sa.newPage();
+    await sap.goto('/superadmin/login');
+    await sap.getByLabel('Email').fill(SA_EMAIL);
+    await sap.getByLabel('Password').fill(SA_PASSWORD);
+    await sap.getByRole('button', { name: 'Sign in' }).click();
+    await expect(sap.getByRole('heading', { name: 'Platform dashboard' })).toBeVisible();
+    await sap.goto('/superadmin/businesses');
+    await expect(sap.getByText('1 add-on requested').filter({ visible: true }).first()).toBeVisible();
+    const csrf = await sap.evaluate(async () => (await (await fetch('/api/superadmin/auth/session')).json()).csrfToken as string);
+    const biz = await sap.evaluate(async () => (await (await fetch('/api/superadmin/businesses?q=Reef')).json()).items[0].id as string);
+    for (const code of ['payroll', 'staff_rota']) {
+      const status = await sap.evaluate(
+        async ([id, token, c]) => (await fetch(`/api/superadmin/businesses/${id}/addons/${c}/grant`, { method: 'POST', headers: { 'x-csrf-token': token!, 'content-type': 'application/json' }, body: '{}' })).status,
+        [biz, csrf, code],
+      );
+      expect(status).toBe(200);
+    }
+    await sa.close();
+
+    // Staff list.
+    await page.goto('/payroll?tab=staff');
+    for (const [name, position, pay] of [
+      ['Ali Hassan', 'Chef', '8000'],
+      ['Sara Ahmed', 'Cashier', '6000'],
+    ] as const) {
+      await page.getByRole('button', { name: 'Add staff' }).click();
+      const d = page.getByRole('dialog');
+      await d.getByLabel(/^Name\s*\*?$/).fill(name);
+      await d.getByLabel('Position').fill(position);
+      await d.getByLabel('Basic salary (monthly)').fill(pay);
+      await d.getByRole('button', { name: 'Save' }).click();
+      await expect(page.getByText(name)).toBeVisible();
+    }
+
+    // Salary sheet for a month: starts from basic pay; overtime and advance change net pay.
+    await page.getByRole('tab', { name: 'Salary sheets' }).click();
+    await page.getByRole('button', { name: 'New salary sheet' }).click();
+    await page.getByRole('dialog').getByLabel('Month').fill('2026-09');
+    await page.getByRole('dialog').getByRole('button', { name: 'Create sheet' }).click();
+    await expect(page.getByRole('heading', { name: /Salary sheet — September 2026/ })).toBeVisible();
+    await page.getByLabel('Ali Hassan Overtime').fill('500');
+    await page.getByLabel('Ali Hassan Advance').fill('1000');
+    await page.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByText('Changes saved').first()).toBeVisible();
+    // 8000 + 500 − 1000 = 7500 for Ali; total 7500 + 6000.
+    await expect(page.locator('tfoot')).toContainText('13,500.00');
+    await page.screenshot({ path: `${SHOTS}/payroll-sheet.png`, fullPage: true });
+    await page.getByRole('button', { name: 'Finalize' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Finalize' }).click();
+    await expect(page.getByText('This sheet is finalized and locked. The total was added to expenses as Salaries.')).toBeVisible();
+    await expect(page.getByLabel('Ali Hassan Overtime')).toHaveCount(0);
+    const popupPromise = page.waitForEvent('popup');
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    const popup = await popupPromise;
+    const download = await popup.waitForEvent('download', { timeout: 30000 });
+    const { readFileSync } = await import('node:fs');
+    expect(readFileSync((await download.path())!).subarray(0, 5).toString()).toBe('%PDF-');
+    await expect(popup.locator('article')).toContainText('Salary sheet');
+    await expect(popup.locator('article')).toContainText('Signature');
+    await popup.screenshot({ path: `${SHOTS}/payroll-print.png`, fullPage: true });
+
+    // Duty rota: shifts, then a week.
+    await page.goto('/rota?tab=shifts');
+    await page.getByRole('button', { name: /Morning \(08:00–16:00\)/ }).click();
+    // Then a custom shift of our own.
+    await page.getByRole('button', { name: 'Add shift' }).click();
+    const sd = page.getByRole('dialog');
+    await sd.getByLabel(/^Name\s*\*?$/).fill('Evening');
+    await sd.getByLabel('Starts').fill('16:00');
+    await sd.getByLabel('Ends').fill('23:30');
+    await sd.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByText('16:00 – 23:30')).toBeVisible();
+    await page.getByRole('tab', { name: 'Rota' }).click();
+    const firstDay = page.locator('thead th').nth(1);
+    await expect(firstDay).toBeVisible();
+    const aliMonday = page.getByRole('combobox').first();
+    await aliMonday.selectOption({ label: 'Morning (08:00–16:00)' });
+    await page.getByRole('combobox').nth(7).selectOption({ label: 'Off' });
+    await page.getByRole('combobox').nth(8).selectOption({ label: 'Leave' });
+    await page.reload();
+    await expect(page.getByRole('combobox').first()).toHaveValue(/[0-9a-f-]{36}/);
+    await expect(page.getByRole('combobox').nth(7)).toHaveValue('off');
+    await page.screenshot({ path: `${SHOTS}/rota-week.png`, fullPage: true });
+    const rotaPopupP = page.waitForEvent('popup');
+    await page.getByRole('button', { name: 'Download PDF' }).click();
+    const rotaPopup = await rotaPopupP;
+    const rotaPdf = await rotaPopup.waitForEvent('download', { timeout: 30000 });
+    expect(readFileSync((await rotaPdf.path())!).subarray(0, 5).toString()).toBe('%PDF-');
+    await expect(rotaPopup.locator('article')).toContainText('Ali Hassan');
+    await expect(rotaPopup.locator('article')).toContainText('Morning');
+    await rotaPopup.screenshot({ path: `${SHOTS}/rota-print.png`, fullPage: true });
+  });
 });

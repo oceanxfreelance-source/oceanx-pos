@@ -63,6 +63,7 @@ export const ERROR_CODES = [
   'sku_taken',
   'category_name_taken',
   'table_name_taken',
+  'payroll_period_exists',
   'internal_error',
 ] as const;
 
