@@ -380,7 +380,8 @@
     "payroll_view": "View salary sheets and salaries",
     "payroll_manage": "Make and finalize salary sheets",
     "rota_view": "View the duty rota",
-    "rota_manage": "Edit the duty rota and shifts"
+    "rota_manage": "Edit the duty rota and shifts",
+    "branding_manage": "Manage the company stamp and document signatures"
   },
   "outlets": {
     "code": "Code",
@@ -608,7 +609,8 @@
       "tax": "Tax and service charge are applied by the server to every sale and document.",
       "pos": "How the point of sale behaves.",
       "loyalty": "How customers earn and redeem points.",
-      "online": "Your public menu and online ordering."
+      "online": "Your public menu and online ordering.",
+      "branding": "Your company stamp and whether documents show the stamp and signatures."
     },
     "logo": "Logo",
     "logo_hint": "PNG, JPG or WebP, up to 1 MB.",
@@ -642,7 +644,8 @@
       "tax": "Tax & service charge",
       "pos": "POS",
       "loyalty": "Loyalty",
-      "online": "QR menu & online orders"
+      "online": "QR menu & online orders",
+      "branding": "Stamp & signature"
     },
     "tax_enabled": "Charge tax",
     "tax_enabled_hint": "For example GST or TGST.",
@@ -1482,7 +1485,9 @@
     "days_overdue": "Days overdue",
     "total_outstanding": "Total outstanding",
     "overdue_amount": "Overdue",
-    "statement_note": "Please contact us if anything in this statement looks incorrect."
+    "statement_note": "Please contact us if anything in this statement looks incorrect.",
+    "authorized_signature": "Authorized signature",
+    "received_by": "Received by"
   },
   "inventory": {
     "title": "Inventory",
@@ -1988,5 +1993,25 @@
       "rose": "Red",
       "slate": "Grey"
     }
+  },
+  "branding": {
+    "my_signature": "My signature",
+    "my_signature_hint": "Printed on quotations, invoices, statements, payment receipts and salary sheets you prepare.",
+    "draw": "Draw",
+    "upload": "Upload photo",
+    "pad_label": "Signature pad",
+    "pad_hint": "Sign inside the box with your mouse, pen or finger.",
+    "save_signature": "Save signature",
+    "clear": "Clear",
+    "remove": "Remove",
+    "choose_photo": "Choose a photo or scan",
+    "replace_photo": "Replace with a new photo",
+    "photo_hint": "Use dark ink on white paper. The white paper is removed automatically.",
+    "company_stamp": "Company stamp",
+    "company_stamp_hint": "Printed on quotations, invoices, statements, payment receipts and salary sheets.",
+    "show_stamp": "Show the company stamp on documents",
+    "show_stamp_hint": "Turn off to print documents without the stamp.",
+    "show_signature": "Show signatures on documents",
+    "show_signature_hint": "The signature of the person who prepared the document."
   }
 }

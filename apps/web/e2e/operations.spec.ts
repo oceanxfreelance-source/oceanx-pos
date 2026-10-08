@@ -594,4 +594,67 @@ test.describe.serial('OceanX operations', () => {
     await expect(rotaPopup.locator('article')).toContainText('Morning');
     await rotaPopup.screenshot({ path: `${SHOTS}/rota-print.png`, fullPage: true });
   });
+  test('signature and company stamp appear on invoices and salary sheets', async ({ page }) => {
+    await login(page);
+    // Draw a signature on the pad.
+    await page.goto('/account');
+    const pad = page.getByLabel('Signature pad');
+    await pad.scrollIntoViewIfNeeded();
+    const box = (await pad.boundingBox())!;
+    await page.mouse.move(box.x + 30, box.y + box.height * 0.6);
+    await page.mouse.down();
+    for (let i = 1; i <= 20; i++) await page.mouse.move(box.x + 30 + i * 18, box.y + box.height * (0.6 - Math.sin(i / 3) * 0.3));
+    await page.mouse.up();
+    await page.getByRole('button', { name: 'Save signature' }).click();
+    await expect(page.getByText('Changes saved').first()).toBeVisible();
+    await expect(page.locator('img[src*="/signature"]')).toBeVisible();
+
+    // Upload a stamp photo (dark ink on white paper).
+    const stampPng = await page.evaluate(() => {
+      const c = document.createElement('canvas');
+      c.width = 300;
+      c.height = 300;
+      const g = c.getContext('2d')!;
+      g.fillStyle = '#fff';
+      g.fillRect(0, 0, 300, 300);
+      g.strokeStyle = '#1d3a8a';
+      g.lineWidth = 10;
+      g.beginPath();
+      g.arc(150, 150, 120, 0, Math.PI * 2);
+      g.stroke();
+      g.fillStyle = '#1d3a8a';
+      g.font = 'bold 36px sans-serif';
+      g.fillText('REEF', 105, 165);
+      return c.toDataURL('image/png').split(',')[1]!;
+    });
+    await page.goto('/settings');
+    await page.getByRole('tab', { name: 'Stamp & signature' }).click();
+    await page.locator('input[type=file]').setInputFiles({ name: 'stamp.png', mimeType: 'image/png', buffer: Buffer.from(stampPng, 'base64') });
+    await expect(page.locator('img[src*="/api/settings/stamp"]')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/stamp-settings.png`, fullPage: true });
+
+    // A new invoice prepared by this user prints with the stamp and the signature.
+    const inv = await page.evaluate(async () => {
+      const token = (await (await fetch('/api/auth/session')).json()).csrfToken as string;
+      const h = { 'x-csrf-token': token, 'content-type': 'application/json' };
+      const c = (await (await fetch('/api/customers?q=Aishath')).json()).items[0].id as string;
+      const r = await fetch('/api/invoices', { method: 'POST', headers: h, body: JSON.stringify({ customerId: c, invoiceDate: '2026-10-08', dueDate: '2026-10-31', items: [{ name: 'Catering', quantity: 1, unitPrice: 500 }] }) });
+      return (await r.json()).id as string;
+    });
+    await page.goto(`/print/invoice/${inv}`);
+    const stamp = page.locator('article img[src="/api/settings/stamp"]');
+    const sign = page.locator('article img[src*="/signature"]');
+    await expect(stamp).toBeVisible();
+    await expect(sign).toBeVisible();
+    expect(await stamp.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    expect(await sign.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    await page.screenshot({ path: `${SHOTS}/invoice-stamp-signature.png`, fullPage: true });
+
+    // Salary sheet print shows them too.
+    const runId = await page.evaluate(async () => (await (await fetch('/api/payroll')).json()).items[0].id as string);
+    await page.goto(`/print/payroll/${runId}`);
+    await expect(page.locator('article img[src="/api/settings/stamp"]')).toBeVisible();
+    await expect(page.locator('article img[src*="/signature"]')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/payroll-stamp-signature.png`, fullPage: true });
+  });
 });

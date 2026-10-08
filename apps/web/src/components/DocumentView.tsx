@@ -1,6 +1,7 @@
 import type { TFunction } from 'i18next';
 import { languageDir } from '@oceanx/shared';
 import { localeFor } from '../lib/format';
+import { SignatureBlock, type DocBranding } from './SignatureBlock';
 
 /**
  * Printable invoice / quotation / receipt. Rendered with a translation function fixed to the
@@ -48,6 +49,8 @@ export interface DocData {
   notes?: string;
   terms?: string;
   footer?: string;
+  /** Company stamp and preparer's signature (quotations and invoices). */
+  branding?: DocBranding | null;
   paperWidth?: '58mm' | '80mm' | 'a4';
 }
 
@@ -222,6 +225,7 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
           )}
         </section>
       )}
+      <SignatureBlock branding={doc.branding} t={t} />
       {doc.footer && (
         <footer className="mt-10 border-t border-slate-200 pt-4 text-center text-xs whitespace-pre-line text-slate-500" dir="auto">
           {doc.footer}

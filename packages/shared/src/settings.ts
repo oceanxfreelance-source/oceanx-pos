@@ -94,6 +94,11 @@ export const settingsSectionSchemas = {
     /** The welcome message in other languages (customer's chosen menu language). */
     messageTranslations: z.partialRecord(z.enum(LANGUAGE_CODES), shortText(500)).default({}),
   }),
+  /** Company stamp and signatures on printed documents (quotations, invoices, statements, receipts, salary sheets). */
+  branding: z.object({
+    showStamp: z.boolean(),
+    showSignature: z.boolean(),
+  }),
 } as const;
 
 export type SettingsSection = keyof typeof settingsSectionSchemas;
@@ -113,6 +118,7 @@ export const SETTINGS_SECTION_PERMISSIONS: Record<SettingsSection, { view: strin
   pos: { view: 'settings.view', manage: 'settings.manage' },
   loyalty: { view: 'loyalty.view', manage: 'loyalty.manage' },
   online: { view: 'qr_menu.manage', manage: 'qr_menu.manage' },
+  branding: { view: 'branding.manage', manage: 'branding.manage' },
 };
 
 export function defaultBusinessSettings(opts: { currency?: string; timezone?: string } = {}): BusinessSettings {
@@ -163,6 +169,7 @@ export function defaultBusinessSettings(opts: { currency?: string; timezone?: st
     pos: { defaultOrderType: 'dine_in', allowNegativeStock: true, sendToKitchen: true, requireTableForDineIn: false, maxDiscountPercent: 100 },
     loyalty: { pointsPerUnit: 1, pointValue: 1, minRedeemPoints: 100 },
     online: { menuEnabled: true, ordersEnabled: false, showPrices: true, message: '', messageTranslations: {} },
+    branding: { showStamp: true, showSignature: true },
   };
 }
 

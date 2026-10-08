@@ -2357,5 +2357,166 @@
     "suggested": "އަޅި",
     "status": "needs_review",
     "notes": "Grey = އަޅި(ކުލަ). Alternative: ގްރޭ."
+  },
+  {
+    "key": "branding.my_signature",
+    "english": "My signature",
+    "suggested": "އަޅުގަނޑުގެ ސޮއި",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.my_signature_hint",
+    "english": "Printed on quotations, invoices, statements, payment receipts and salary sheets you prepare.",
+    "suggested": "ތިޔަބޭފުޅާ ތައްޔާރުކުރައްވާ ކޯޓޭޝަން، އިންވޮއިސް، ސްޓޭޓްމަންޓް، ފައިސާ ލިބުނު ރަސީދު އަދި މުސާރަ ޝީޓުގައި ޕްރިންޓްވާނެއެވެ.",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.draw",
+    "english": "Draw",
+    "suggested": "ކުރަހާ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.upload",
+    "english": "Upload photo",
+    "suggested": "ފޮޓޯ އަޕްލޯޑްކުރޭ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.pad_label",
+    "english": "Signature pad",
+    "suggested": "ސޮއި ކުރާ ތަން",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.pad_hint",
+    "english": "Sign inside the box with your mouse, pen or finger.",
+    "suggested": "މައުސް، ގަލަން ނުވަތަ އިނގިލިން ބޮކްސް ތެރޭގައި ސޮއި ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.save_signature",
+    "english": "Save signature",
+    "suggested": "ސޮއި ރައްކާކުރޭ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.clear",
+    "english": "Clear",
+    "suggested": "ފޮހެލާ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.remove",
+    "english": "Remove",
+    "suggested": "ނައްތާލާ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.choose_photo",
+    "english": "Choose a photo or scan",
+    "suggested": "ފޮޓޯއެއް ނުވަތަ ސްކޭނެއް ޚިޔާރުކުރައްވާ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.replace_photo",
+    "english": "Replace with a new photo",
+    "suggested": "އައު ފޮޓޯއަކާ ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.photo_hint",
+    "english": "Use dark ink on white paper. The white paper is removed automatically.",
+    "suggested": "ހުދު ކަރުދާހުގައި ކަޅު ތެލިން ހަދާފައިވާ ފޮޓޯއެއް ބޭނުންކުރައްވާ. ހުދު ކަރުދާސް އަމިއްލައަށް ނައްތާލެވޭނެއެވެ.",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.company_stamp",
+    "english": "Company stamp",
+    "suggested": "ކުންފުނީގެ ތައްގަނޑު",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.company_stamp_hint",
+    "english": "Printed on quotations, invoices, statements, payment receipts and salary sheets.",
+    "suggested": "ކޯޓޭޝަން، އިންވޮއިސް، ސްޓޭޓްމަންޓް، ފައިސާ ލިބުނު ރަސީދު އަދި މުސާރަ ޝީޓުގައި ޕްރިންޓްވާނެއެވެ.",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.show_stamp",
+    "english": "Show the company stamp on documents",
+    "suggested": "ލިޔެކިޔުންތަކުގައި ކުންފުނީގެ ތައްގަނޑު ޖަހާ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.show_stamp_hint",
+    "english": "Turn off to print documents without the stamp.",
+    "suggested": "ތައްގަނޑު ނުޖަހާ ލިޔެކިޔުން ޕްރިންޓްކުރުމަށް ނިއްވާލައްވާ.",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.show_signature",
+    "english": "Show signatures on documents",
+    "suggested": "ލިޔެކިޔުންތަކުގައި ސޮއި ދައްކާ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "branding.show_signature_hint",
+    "english": "The signature of the person who prepared the document.",
+    "suggested": "ލިޔުން ތައްޔާރުކުރި މީހާގެ ސޮއި.",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "print.authorized_signature",
+    "english": "Authorized signature",
+    "suggested": "ހުއްދަދީފައިވާ ފަރާތުގެ ސޮއި",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "print.received_by",
+    "english": "Received by",
+    "suggested": "ބަލައިގަތީ",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "settings.tabs.branding",
+    "english": "Stamp & signature",
+    "suggested": "ތައްގަނޑާއި ސޮއި",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "settings.hints.branding",
+    "english": "Your company stamp and whether documents show the stamp and signatures.",
+    "suggested": "ކުންފުނީގެ ތައްގަނޑާއި، ލިޔެކިޔުންތަކުގައި ތައްގަނޑާއި ސޮއި ދައްކާނެ ގޮތް.",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "perm.branding_manage",
+    "english": "Manage the company stamp and document signatures",
+    "suggested": "ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން",
+    "status": "needs_review",
+    "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
   }
 ]

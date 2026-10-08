@@ -23,6 +23,7 @@ import { notifyPermission } from '../../services/notifications';
 import { allocateDocumentNumber } from '../../services/sequences';
 import { loadBusinessSettings } from '../../services/settings';
 import type { BusinessContext } from '../../types';
+import { documentBranding } from '../../services/branding';
 
 type DocItemsInput = z.output<typeof quotationSchema>['items'];
 
@@ -164,6 +165,7 @@ export async function documentRoutes(app: FastifyInstance) {
       customer: row.customer,
       items,
       invoice: inv ?? null,
+      branding: await documentBranding(db, ctx, row.q.createdBy),
       ...(await documentContext(db, ctx, 'quotation', row.q.language)),
     };
   });
@@ -442,6 +444,7 @@ export async function documentRoutes(app: FastifyInstance) {
       items,
       payments: pays.map((p) => ({ ...p.p, receivedByName: p.receivedByName })),
       quotation: quote[0] ?? null,
+      branding: await documentBranding(db, ctx, row.i.createdBy),
       ...(await documentContext(db, ctx, 'invoice', row.i.language)),
     };
   });

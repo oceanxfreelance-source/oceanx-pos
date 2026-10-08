@@ -9,6 +9,7 @@ import { localeFor } from '../../lib/format';
 import { pdfName } from '../../lib/pdf';
 import { useErrorMessage } from '../../lib/useApiError';
 import { Alert, SkeletonRows } from '../../components/ui/Card';
+import { SignatureBlock, type DocBranding } from '../../components/SignatureBlock';
 import { PrintFrame } from './PrintFrame';
 
 interface Statement {
@@ -25,6 +26,7 @@ interface Statement {
   settings: { regional: { currency: string; currencySymbol: string; currencyDecimals: number }; tax: { taxName: string; taxNumber: string } };
   documentLanguage: string;
   generatedAt: string;
+  branding?: DocBranding | null;
 }
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -251,6 +253,7 @@ function StatementDoc({ s, t }: { s: Statement; t: TFunction }) {
           </dl>
         </div>
       </section>
+      <SignatureBlock branding={s.branding} t={t} />
       <p className="border-t border-slate-200 pt-4 text-center text-xs text-slate-500" data-pdf-block>
         {t('print.statement_note')}
       </p>

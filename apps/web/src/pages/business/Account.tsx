@@ -8,6 +8,7 @@ import { Card, CardHeader, Ltr, PageHeader } from '../../components/ui/Card';
 import { Select, Switch } from '../../components/ui/Form';
 import { ChangePasswordForm } from '../../components/ChangePasswordForm';
 import { roleLabel } from '../../lib/labels';
+import { InkSetup } from '../../components/SignatureSetup';
 
 export default function AccountPage() {
   const { t } = useTranslation();
@@ -71,6 +72,10 @@ export default function AccountPage() {
             description={t('account.reduce_animations_hint')}
           />
         </div>
+      </Card>
+      <Card>
+        <CardHeader title={t('branding.my_signature')} description={t('branding.my_signature_hint')} />
+        <InkSetup current={s.user.hasSignature ? `/api/users/${s.user.id}/signature` : null} uploadPath="/me/signature" allowDraw onChanged={() => void refresh()} previewClass="max-h-20 max-w-64 object-contain" />
       </Card>
       <Card>
         <CardHeader title={t('auth.change_password')} description={t('account.password_hint')} />

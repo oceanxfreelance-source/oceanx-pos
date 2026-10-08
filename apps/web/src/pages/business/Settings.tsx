@@ -12,6 +12,7 @@ import { Alert, Card, CardHeader, Ltr, PageHeader, SkeletonRows } from '../../co
 import { Button } from '../../components/ui/Button';
 import { Input, Select, Switch, Textarea } from '../../components/ui/Form';
 import { Tabs } from '../../components/ui/Tabs';
+import { InkSetup } from '../../components/SignatureSetup';
 import { ViberCreditSettings } from './ViberCreditSettings';
 
 interface SettingsResponse {
@@ -30,7 +31,7 @@ export default function SettingsPage() {
   const [tab, setTab] = useState<Tab | null>(null);
   const tabs: { value: Tab; label: string }[] = [];
   if (q.data?.profile) tabs.push({ value: 'profile', label: t('settings.tabs.profile') });
-  for (const s of ['regional', 'tax', 'receipt', 'invoice', 'quotation', 'pos', 'loyalty', 'online'] as const) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
+  for (const s of ['regional', 'tax', 'receipt', 'invoice', 'quotation', 'branding', 'pos', 'loyalty', 'online'] as const) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
   if (can('settings.view')) tabs.push({ value: 'viber', label: t('viber.tab') });
   const active = tab ?? tabs[0]?.value ?? null;
 
@@ -256,6 +257,15 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
         <Input type="number" min={0} step="1" label={t('settings.loyalty.min_redeem')} value={x.minRedeemPoints} onChange={(e) => set({ minRedeemPoints: Math.floor(Number(e.target.value)) } as never)} error={fieldErr('minRedeemPoints')} />
       </div>
     );
+  } else if (section === 'branding') {
+    const x = value as BusinessSettings['branding'];
+    body = (
+      <div className="space-y-5">
+        <StampSetup />
+        <Switch checked={x.showStamp} onChange={(c) => set({ showStamp: c } as never)} label={t('branding.show_stamp')} description={t('branding.show_stamp_hint')} />
+        <Switch checked={x.showSignature} onChange={(c) => set({ showSignature: c } as never)} label={t('branding.show_signature')} description={t('branding.show_signature_hint')} />
+      </div>
+    );
   } else if (section === 'online') {
     const x = value as BusinessSettings['online'];
     body = (
@@ -405,6 +415,20 @@ function MenuLink() {
           </a>
         )}
       </div>
+    </div>
+  );
+}
+
+/** Company stamp (owner or manager): upload a photo or scan; paper becomes transparent. */
+function StampSetup() {
+  const { t } = useTranslation();
+  const session = useBizSession();
+  const { refresh } = useBiz();
+  return (
+    <div className="space-y-2">
+      <p className="text-sm font-medium">{t('branding.company_stamp')}</p>
+      <p className="text-xs text-slate-500">{t('branding.company_stamp_hint')}</p>
+      <InkSetup current={session.business.hasStamp ? '/api/settings/stamp' : null} uploadPath="/settings/stamp" allowDraw={false} onChanged={() => void refresh()} previewClass="size-32 object-contain" />
     </div>
   );
 }

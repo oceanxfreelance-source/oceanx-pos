@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 193 · **confirmed**: 144
+Status: **needs_review**: 216 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -23,6 +23,24 @@ review of the whole file is still recommended before launch.
 | `addons.request_cancelled` | Request cancelled | އެދުން ކެންސަލްކުރެވިއްޖެ | needs_review | Plain translation using existing app terms. |
 | `addons.request_sent` | Request sent. The platform team will switch it on. | އެދުން ފޮނުވިއްޖެ. ޕްލެޓްފޯމް ޓީމުން މި ހުޅުވައިދޭނެ. | needs_review | Platform team = ޕްލެޓްފޯމް ޓީމު (as in addons.request_hint). |
 | `addons.requested_on` | Requested {{date}} | {{date}} ގައި އެދިފައި | needs_review | Plain translation using existing app terms. |
+| `branding.choose_photo` | Choose a photo or scan | ފޮޓޯއެއް ނުވަތަ ސްކޭނެއް ޚިޔާރުކުރައްވާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.clear` | Clear | ފޮހެލާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.company_stamp` | Company stamp | ކުންފުނީގެ ތައްގަނޑު | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.company_stamp_hint` | Printed on quotations, invoices, statements, payment receipts and salary sheets. | ކޯޓޭޝަން، އިންވޮއިސް، ސްޓޭޓްމަންޓް، ފައިސާ ލިބުނު ރަސީދު އަދި މުސާރަ ޝީޓުގައި ޕްރިންޓްވާނެއެވެ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.draw` | Draw | ކުރަހާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.my_signature` | My signature | އަޅުގަނޑުގެ ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.my_signature_hint` | Printed on quotations, invoices, statements, payment receipts and salary sheets you prepare. | ތިޔަބޭފުޅާ ތައްޔާރުކުރައްވާ ކޯޓޭޝަން، އިންވޮއިސް، ސްޓޭޓްމަންޓް، ފައިސާ ލިބުނު ރަސީދު އަދި މުސާރަ ޝީޓުގައި ޕްރިންޓްވާނެއެވެ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.pad_hint` | Sign inside the box with your mouse, pen or finger. | މައުސް، ގަލަން ނުވަތަ އިނގިލިން ބޮކްސް ތެރޭގައި ސޮއި ކުރައްވާ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.pad_label` | Signature pad | ސޮއި ކުރާ ތަން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.photo_hint` | Use dark ink on white paper. The white paper is removed automatically. | ހުދު ކަރުދާހުގައި ކަޅު ތެލިން ހަދާފައިވާ ފޮޓޯއެއް ބޭނުންކުރައްވާ. ހުދު ކަރުދާސް އަމިއްލައަށް ނައްތާލެވޭނެއެވެ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.remove` | Remove | ނައްތާލާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.replace_photo` | Replace with a new photo | އައު ފޮޓޯއަކާ ބަދަލުކުރޭ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.save_signature` | Save signature | ސޮއި ރައްކާކުރޭ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.show_signature` | Show signatures on documents | ލިޔެކިޔުންތަކުގައި ސޮއި ދައްކާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.show_signature_hint` | The signature of the person who prepared the document. | ލިޔުން ތައްޔާރުކުރި މީހާގެ ސޮއި. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.show_stamp` | Show the company stamp on documents | ލިޔެކިޔުންތަކުގައި ކުންފުނީގެ ތައްގަނޑު ޖަހާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.show_stamp_hint` | Turn off to print documents without the stamp. | ތައްގަނޑު ނުޖަހާ ލިޔެކިޔުން ޕްރިންޓްކުރުމަށް ނިއްވާލައްވާ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.upload` | Upload photo | ފޮޓޯ އަޕްލޯޑްކުރޭ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `common.done` | Done | ނިމިއްޖެ | needs_review | Button that closes a finished step. |
 | `common.exit_fullscreen` | Exit full screen | ފުލް ސްކްރީނުން ނިކުމެވޭ | needs_review | New: full screen button in the top bar and POS. |
 | `common.fullscreen` | Full screen | ފުލް ސްކްރީން | needs_review | New: full screen button in the top bar and POS. |
@@ -65,6 +83,7 @@ review of the whole file is still recommended before launch.
 | `nav.payroll` | Salary sheets | މުސާރަ ޝީޓްތައް | needs_review | "Salary sheet" = މުސާރަ ޝީޓް (މުސާރަ from expenses.categories.salaries). Alternative: މުސާރަ ލިސްޓު. |
 | `nav.rota` | Duty rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | "Rota" rendered as ޑިއުޓީ ރޯސްޓަރު (loanword). Alternatives: ޑިއުޓީ ލިސްޓު, ޑިއުޓީ ޝެޑިއުލް. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
+| `perm.branding_manage` | Manage the company stamp and document signatures | ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.loyalty_view` | View loyalty points | ލޮޔަލްޓީ ޕޮއިންޓް ބަލާ | needs_review | ލޮޔަލްޓީ ޕޮއިންޓް — consistent with existing addons.names.loyalty. Native alternative not common. |
@@ -72,6 +91,8 @@ review of the whole file is still recommended before launch.
 | `perm.payroll_view` | View salary sheets and salaries | މުސާރަ ޝީޓްތަކާއި މުސާރަ ބަލާ | needs_review | Plain translation using existing app terms. |
 | `perm.rota_manage` | Edit the duty rota and shifts | ޑިއުޓީ ރޯސްޓަރާއި ޝިފްޓުތައް ބަދަލުކުރޭ | needs_review | "Shift" = ޝިފްޓު (loanword). |
 | `perm.rota_view` | View the duty rota | ޑިއުޓީ ރޯސްޓަރު ބަލާ | needs_review | Plain translation using existing app terms. |
+| `print.authorized_signature` | Authorized signature | ހުއްދަދީފައިވާ ފަރާތުގެ ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `print.received_by` | Received by | ބަލައިގަތީ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `public_menu.menu_title` | Menu | މެނޫ | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.more` | More | އިތުރު | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.top` | TOP {{rank}} | ޓޮޕް {{rank}} | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
@@ -99,9 +120,11 @@ review of the whole file is still recommended before launch.
 | `reports.summary.netProfit` | Net profit | ނެޓް ފައިދާ | needs_review | ނެޓް ފައިދާ. Alternative: ޞާފު ފައިދާ. |
 | `reports.types.costing` | Recipe costing | ރެސިޕީގެ ޚަރަދު | needs_review | Recipe costing as ރެސިޕީގެ ޚަރަދު. Existing addons.names.ingredient_costing uses ތަކެތީގެ ޚަރަދު ހިސާބުކުރުން. Note: report columns use loanword ކޮސްޓް for cost of goods while ޚަރަދު is reserved for expenses — confirm this split. |
 | `reports.types.profit` | Profit & loss | ފައިދާއާއި ގެއްލުން | needs_review | Profit & loss: ފައިދާއާއި ގެއްލުން — standard phrase, but please confirm. |
+| `settings.hints.branding` | Your company stamp and whether documents show the stamp and signatures. | ކުންފުނީގެ ތައްގަނޑާއި، ލިޔެކިޔުންތަކުގައި ތައްގަނޑާއި ސޮއި ދައްކާނެ ގޮތް. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `settings.hints.pos` | How the point of sale behaves. | ޕޮއިންޓް އޮފް ސޭލް ހިނގާނެ ގޮތް. | needs_review | 'Point of sale' transliterated ޕޮއިންޓް އޮފް ސޭލް. Alternative: ވިއްކާ ސިސްޓަމް. |
 | `settings.loyalty.points_per_unit` | Points per 1 currency unit spent | ޚަރަދުކުރާ ކޮންމެ 1 ފައިސާ ޔުނިޓަކަށް ލިބޭ ޕޮއިންޓް | needs_review | Long phrasing; check clarity. |
 | `settings.pos.allow_negative_stock` | Allow selling when out of stock | ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ | needs_review | Check phrasing: ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ. |
+| `settings.tabs.branding` | Stamp & signature | ތައްގަނޑާއި ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `staff.active_hint` | Inactive staff are left off new salary sheets and the rota. | އިންއެކްޓިވް ސްޓާފުން އާ މުސާރަ ޝީޓްތަކާއި ރޯސްޓަރުގައި ނުހިމެނޭނެ. | needs_review | Inactive = އިންއެކްޓިވް as in users.account_active_hint; common.inactive uses ހަރަކާތްތެރި ނޫން. |
 | `staff.add_missing_staff` | Add missing staff | ނެތް ސްޓާފުން އިތުރުކުރޭ | needs_review | "Missing" = not yet on the sheet; ނެތް ސްޓާފުން may read as "absent staff". Alternative: ހިމެނިފައިނުވާ ސްޓާފުން. |
 | `staff.add_shift` | Add shift | ޝިފްޓު އިތުރުކުރޭ | needs_review | Plain translation using existing app terms. |

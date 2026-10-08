@@ -13,6 +13,7 @@ import { Button, IconButton } from '../../components/ui/Button';
 import { ConfirmDialog, Dialog } from '../../components/ui/Dialog';
 import { Select, Switch, Textarea } from '../../components/ui/Form';
 import { periodLabel } from './Payroll';
+import type { DocBranding } from '../../components/SignatureBlock';
 
 export interface PayrollLine {
   id: string;
@@ -37,6 +38,7 @@ export interface PayrollRun {
   finalizedAt: string | null;
   lines: PayrollLine[];
   totals: { basic: number; allowances: number; overtime: number; deductions: number; advance: number; net: number };
+  branding?: DocBranding | null;
 }
 
 const AMOUNTS = ['basic', 'allowances', 'overtime', 'deductions', 'advance'] as const;

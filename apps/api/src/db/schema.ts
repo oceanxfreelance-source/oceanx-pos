@@ -175,6 +175,8 @@ export const businesses = pgTable(
     phone: text('phone').notNull().default(''),
     address: text('address').notNull().default(''),
     logoPath: text('logo_path'),
+    /** Company stamp printed on documents. */
+    stampPath: text('stamp_path'),
     currency: text('currency').notNull().default('MVR'),
     timezone: text('timezone').notNull().default('Indian/Maldives'),
     suspensionReason: text('suspension_reason'),
@@ -295,6 +297,8 @@ export const users = pgTable(
     phone: text('phone').notNull().default(''),
     passwordHash: text('password_hash'),
     language: text('language').notNull().default('en'),
+    /** The user's own signature image, printed on documents they prepare. */
+    signaturePath: text('signature_path'),
     preferences: jsonb('preferences').$type<{ reduceAnimations?: boolean; theme?: string }>().notNull().default({}),
     isOwner: boolean('is_owner').notNull().default(false),
     isActive: boolean('is_active').notNull().default(true),

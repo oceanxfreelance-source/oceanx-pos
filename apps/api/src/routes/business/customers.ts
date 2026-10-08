@@ -11,6 +11,7 @@ import { actor, businessToday, own } from '../../lib/tenant';
 import { loadBusinessSettings } from '../../services/settings';
 import { parse } from '../../lib/validation';
 import { lockCustomer, outstandingFor } from '../../services/ops/customers';
+import { documentBranding } from '../../services/branding';
 
 const statementQuery = z.object({ from: z.iso.date().optional(), to: z.iso.date().optional() });
 const addDays = (iso: string, n: number) => {
@@ -239,6 +240,8 @@ export async function customerRoutes(app: FastifyInstance) {
       settings: { regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber } },
       documentLanguage: settings.regional.documentLanguage,
       generatedAt: new Date().toISOString(),
+      // The person generating the statement signs it.
+      branding: await documentBranding(db, ctx, ctx.user.id),
     };
   });
 

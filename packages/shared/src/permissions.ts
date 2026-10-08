@@ -96,6 +96,7 @@ export const PERMISSIONS = [
 
   p('settings.view', 'settings'),
   p('settings.manage', 'settings'),
+  p('branding.manage', 'settings'),
 
   p('addons.view', 'addons'),
   p('addons.configure', 'addons'),

@@ -36,10 +36,11 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
   const languages = await enabledLanguages(req);
   const settings = await loadBusinessSettings(db, ctx.businessId);
   const b = ctx.access.business;
+  const [me] = await db.select({ signaturePath: users.signaturePath }).from(users).where(eq(users.id, ctx.user.id));
   return {
     csrfToken: ctx.csrfToken,
     state: ctx.access.state,
-    user: ctx.user,
+    user: { ...ctx.user, hasSignature: !!me?.signaturePath },
     business: {
       id: b.id,
       name: b.name,
@@ -49,6 +50,7 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
       currency: b.currency,
       timezone: b.timezone,
       hasLogo: !!b.logoPath,
+      hasStamp: !!b.stampPath,
       onboardingCompleted: !!b.onboardingCompletedAt,
       profile: BUSINESS_TYPE_PROFILES[b.businessType],
       suspensionReason: b.status === 'suspended' ? b.suspensionReason : null,

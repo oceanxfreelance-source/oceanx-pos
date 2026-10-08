@@ -15,6 +15,7 @@ export interface BusinessSession {
     isOwner: boolean;
     mustChangePassword: boolean;
     preferences: { reduceAnimations?: boolean; theme?: string };
+    hasSignature: boolean;
   };
   business: {
     id: string;
@@ -25,6 +26,7 @@ export interface BusinessSession {
     currency: string;
     timezone: string;
     hasLogo: boolean;
+    hasStamp: boolean;
     onboardingCompleted: boolean;
     profile: { productsLabelKey: string; dashboardWidgets: string[]; tableService: boolean; kitchen: boolean };
     suspensionReason: string | null;

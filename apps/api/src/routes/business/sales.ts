@@ -12,6 +12,7 @@ import { parse } from '../../lib/validation';
 import { loadBusinessSettings } from '../../services/settings';
 import { sendCreditSaleMessage } from '../../services/viber/creditMessage';
 import { completeSale, createOrder, priceOrder, receiveCreditPayment, updateOpenOrder, voidSale } from '../../services/ops/sales';
+import { documentBranding } from '../../services/branding';
 
 const salesQuery = paginationQuerySchema.extend({
   status: z.enum(['open', 'completed', 'void']).optional(),
@@ -224,6 +225,7 @@ export async function saleRoutes(app: FastifyInstance) {
       balanceAfter: first.balanceAfter ?? 0,
       receivedByName: rows[0]!.receivedByName ?? '',
       lines: rows.map((r) => ({ kind: r.p.invoiceId ? 'invoice' : 'sale', number: r.invoiceNumber ?? r.saleNumber ?? '', amount: r.p.amount })),
+      branding: await documentBranding(db, ctx, first.receivedBy),
       business: { name: b!.name, address: b!.address, phone: b!.phone, email: b!.email, hasLogo: !!b!.logoPath },
       settings: { regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber } },
       documentLanguage: settings.regional.documentLanguage,

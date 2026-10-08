@@ -9,6 +9,7 @@ import { localeFor } from '../../lib/format';
 import { pdfName } from '../../lib/pdf';
 import { useErrorMessage } from '../../lib/useApiError';
 import { Alert, SkeletonRows } from '../../components/ui/Card';
+import { SignatureBlock, type DocBranding } from '../../components/SignatureBlock';
 import { PrintFrame } from './PrintFrame';
 
 interface DuePayment {
@@ -24,6 +25,7 @@ interface DuePayment {
   business: { name: string; address: string; phone: string; email: string; hasLogo: boolean };
   settings: { regional: { currency: string; currencySymbol: string; currencyDecimals: number }; tax: { taxName: string; taxNumber: string } };
   documentLanguage: string;
+  branding?: DocBranding | null;
 }
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -130,6 +132,7 @@ function Receipt({ d, t }: { d: DuePayment; t: TFunction }) {
           <span>{d.balanceAfter > 0 ? m(d.balanceAfter) : t('credit.fully_paid')}</span>
         </p>
       </div>
+      <SignatureBlock branding={d.branding} t={t} label={t('print.received_by')} />
       <p className="pt-2 text-center text-slate-600">{t('print.thank_you')}</p>
     </article>
   );

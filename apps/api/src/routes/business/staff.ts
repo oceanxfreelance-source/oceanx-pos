@@ -18,6 +18,7 @@ import { AppError, notFound } from '../../lib/errors';
 import { idParam } from '../../lib/params';
 import { actor, own, requireOutlet } from '../../lib/tenant';
 import { parse } from '../../lib/validation';
+import { documentBranding } from '../../services/branding';
 
 const isoDate = z.iso.date();
 const addDays = (iso: string, n: number) => {
@@ -115,7 +116,7 @@ export async function staffRoutes(app: FastifyInstance) {
       }),
       { basic: 0, allowances: 0, overtime: 0, deductions: 0, advance: 0, net: 0 },
     );
-    return { ...run, lines, totals };
+    return { ...run, lines, totals, branding: await documentBranding(db, ctx, run.finalizedBy ?? run.createdBy) };
   };
   const assertDraft = (run: { status: string }) => {
     if (run.status !== 'draft') throw new AppError('document_locked', 'This salary sheet is finalized');
