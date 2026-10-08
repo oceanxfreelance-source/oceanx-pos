@@ -228,6 +228,43 @@ export const subscriptions = pgTable(
   ],
 );
 
+/**
+ * Subscription payments from a business to the platform: a bank-transfer slip uploaded by the owner
+ * (pending until the OceanX team approves it) or a payment recorded directly by the team (e.g. cash).
+ * Approving extends the subscription by `months`.
+ */
+export const billingPayments = pgTable(
+  'billing_payments',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    planId: uuid('plan_id')
+      .notNull()
+      .references(() => plans.id),
+    months: integer('months').notNull(),
+    /** Minor units of `currency`. */
+    amount: bigint('amount', { mode: 'number' }).notNull(),
+    currency: text('currency').notNull(),
+    method: text('method').notNull(),
+    reference: text('reference').notNull().default(''),
+    slipPath: text('slip_path'),
+    status: text('status').notNull().default('pending'),
+    receiptNumber: text('receipt_number'),
+    submittedByUser: uuid('submitted_by_user').references(() => users.id, { onDelete: 'set null' }),
+    recordedByAdmin: uuid('recorded_by_admin').references(() => superAdmins.id, { onDelete: 'set null' }),
+    reviewedBy: uuid('reviewed_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    reviewedAt: ts('reviewed_at'),
+    reviewNote: text('review_note').notNull().default(''),
+    periodStart: ts('period_start'),
+    periodEnd: ts('period_end'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('billing_payments_business_idx').on(t.businessId, t.createdAt), index('billing_payments_status_idx').on(t.status), uniqueIndex('billing_payments_receipt_uq').on(t.receiptNumber)],
+);
+
 export const businessAddons = pgTable(
   'business_addons',
   {

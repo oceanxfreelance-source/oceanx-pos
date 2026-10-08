@@ -12,7 +12,7 @@ import { actionLabel } from '../../lib/labels';
 import { useFieldErrors, useToastError } from '../../lib/useApiError';
 import { Alert, Badge, Card, CardHeader, EmptyState, Ltr, PageHeader, SkeletonRows } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { Input, Select, Switch } from '../../components/ui/Form';
+import { Input, Select, Switch, Textarea } from '../../components/ui/Form';
 import { Dialog } from '../../components/ui/Dialog';
 import { Tabs } from '../../components/ui/Tabs';
 import { DataTable, Pagination, type Column } from '../../components/ui/Table';
@@ -331,6 +331,9 @@ interface PlatformSettings {
   registrationMode: 'open' | 'approval' | 'closed';
   defaultPlanCode: string;
   defaultCurrency: string;
+  billingBankDetails: string;
+  billingNote: string;
+  billingReminderDays: number;
 }
 
 export function PlatformSettingsPage() {
@@ -378,6 +381,39 @@ export function PlatformSettingsPage() {
             ))}
           </Select>
           <Input label={t('superadmin.settings.default_currency')} value={form.defaultCurrency} maxLength={3} dir="ltr" onChange={(e) => setForm({ ...form, defaultCurrency: e.target.value.toUpperCase() })} error={fieldErr('defaultCurrency')} />
+        </div>
+        <h3 className="mt-8 mb-3 text-sm font-semibold">{t('superadmin.settings.billing_section')}</h3>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Textarea
+            className="sm:col-span-2"
+            rows={4}
+            label={t('superadmin.settings.bank_details')}
+            hint={t('superadmin.settings.bank_details_hint')}
+            value={form.billingBankDetails}
+            maxLength={1000}
+            onChange={(e) => setForm({ ...form, billingBankDetails: e.target.value })}
+            error={fieldErr('billingBankDetails')}
+          />
+          <Textarea
+            className="sm:col-span-2"
+            rows={2}
+            label={t('superadmin.settings.billing_note')}
+            hint={t('superadmin.settings.billing_note_hint')}
+            value={form.billingNote}
+            maxLength={500}
+            onChange={(e) => setForm({ ...form, billingNote: e.target.value })}
+            error={fieldErr('billingNote')}
+          />
+          <Input
+            type="number"
+            min={0}
+            max={60}
+            label={t('superadmin.settings.reminder_days')}
+            hint={t('superadmin.settings.reminder_days_hint')}
+            value={String(form.billingReminderDays)}
+            onChange={(e) => setForm({ ...form, billingReminderDays: Number(e.target.value) })}
+            error={fieldErr('billingReminderDays')}
+          />
         </div>
         <div className="mt-6 flex justify-end">
           <Button onClick={() => save.mutate()} loading={save.isPending}>

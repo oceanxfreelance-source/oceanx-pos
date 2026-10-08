@@ -220,8 +220,29 @@ export const platformSettingsSchema = z
     registrationMode: z.enum(['open', 'approval', 'closed']),
     defaultPlanCode: z.string().trim().max(40),
     defaultCurrency: z.string().trim().length(3).toUpperCase(),
+    /** Shown to businesses on the payment screen: bank name, account name and number(s). */
+    billingBankDetails: z.string().trim().max(1000),
+    billingNote: z.string().trim().max(500),
+    /** Days before the end of a trial/paid period that the owner starts seeing the "pay now" banner. */
+    billingReminderDays: z.coerce.number().int().min(0).max(60),
   })
   .partial();
+
+export const BILLING_PERIODS = [1, 3, 6, 12] as const;
+export const BILLING_METHODS = ['bank_transfer', 'cash', 'card', 'other'] as const;
+/** Owner: "I've paid" — plan, number of months and the transfer reference (the slip is uploaded next). */
+export const billingSubmitSchema = z.object({
+  planId: z.uuid(),
+  months: z.coerce.number().refine((m) => (BILLING_PERIODS as readonly number[]).includes(m), 'Invalid period'),
+  reference: z.string().trim().max(80).default(''),
+});
+/** Super Admin: payment taken directly (cash, card…) — approved straight away. */
+export const billingRecordSchema = billingSubmitSchema.extend({
+  method: z.enum(BILLING_METHODS),
+  amount: z.number().gt(0).max(100_000_000).optional(),
+});
+export const billingReviewSchema = z.object({ note: z.string().trim().max(300).default('') });
+export const billingRejectSchema = z.object({ note: z.string().trim().min(3).max(300) });
 
 export const languageUpdateSchema = z.object({ isEnabled: z.boolean().optional(), isDefault: z.boolean().optional() });
 

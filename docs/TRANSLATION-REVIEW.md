@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 229 · **confirmed**: 144
+Status: **needs_review**: 316 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -23,6 +23,58 @@ review of the whole file is still recommended before launch.
 | `addons.request_cancelled` | Request cancelled | އެދުން ކެންސަލްކުރެވިއްޖެ | needs_review | Plain translation using existing app terms. |
 | `addons.request_sent` | Request sent. The platform team will switch it on. | އެދުން ފޮނުވިއްޖެ. ޕްލެޓްފޯމް ޓީމުން މި ހުޅުވައިދޭނެ. | needs_review | Platform team = ޕްލެޓްފޯމް ޓީމު (as in addons.request_hint). |
 | `addons.requested_on` | Requested {{date}} | {{date}} ގައި އެދިފައި | needs_review | Plain translation using existing app terms. |
+| `billing.amount` | Amount | އަދަދު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.amount_to_pay` | Amount to pay | ދައްކަންޖެހޭ އަދަދު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.ask_owner` | Please ask the business owner or a manager to pay for the plan. | ޕްލޭނަށް ފައިސާ ދެއްކުމަށް ވިޔަފާރީގެ ވެރިފަރާތަށް ނުވަތަ މެނޭޖަރަކަށް އެދިވަޑައިގަންނަވާ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.bank_details` | Pay by bank transfer to | ބޭންކް ޓްރާންސްފަރ ކުރާނީ މި އެކައުންޓަށް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.bank_details_missing` | Bank details will be shared by the OceanX team. Please contact them. | ބޭންކް މަޢުލޫމާތު OceanX ޓީމުން ދެއްވާނެ. އެ ޓީމާ ގުޅުއްވާ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.banner_paid_one` | Your {{plan}} plan ends in {{count}} day. | ތިޔަ {{plan}} ޕްލޭން ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.banner_paid_other` | Your {{plan}} plan ends in {{count}} days. | ތިޔަ {{plan}} ޕްލޭން ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.banner_pending` | Your payment slip is being reviewed by the OceanX team. | ތިޔަ ފައިސާ ދެއްކި ސްލިޕް OceanX ޓީމުން ޗެކްކުރަމުން. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.banner_trial_one` | Your free trial ends in {{count}} day. | ތިޔަ ހިލޭ ޓްރަޔަލް ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.banner_trial_other` | Your free trial ends in {{count}} days. | ތިޔަ ހިލޭ ޓްރަޔަލް ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.blocked_body` | Your {{plan}} period ended on {{date}}. Pay for a plan below to keep using OceanX — your data is safe. | ތިޔަ {{plan}} މުއްދަތު {{date}} ގައި ނިމިއްޖެ. OceanX ކުރިއަށް ބޭނުންކުރުމަށް ތިރީގައިވާ ޕްލޭނެއްގެ ފައިސާ ދައްކަވާ — ތިޔަ ޑޭޓާ ރައްކާތެރިކަމާއެކު ހުންނާނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.choose_plan` | Choose a plan | ޕްލޭނެއް ހޮވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.current_plan` | Current plan | މިހާރުގެ ޕްލޭން | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.ended_on` | Ended on {{date}} | {{date}} ގައި ނިމުނު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.ends_on_one` | Ends on {{date}} ({{count}} day left) | {{date}} ގައި ނިމޭނެ ({{count}} ދުވަސް ބާކީ) | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.ends_on_other` | Ends on {{date}} ({{count}} days left) | {{date}} ގައި ނިމޭނެ ({{count}} ދުވަސް ބާކީ) | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.file_too_big` | The file is larger than 5 MB. | ފައިލް 5 MB އަށް ވުރެ ބޮޑު. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.history` | Payments | ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.month` | month | މަސް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.months_one` | {{count}} month | {{count}} މަސް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.months_other` | {{count}} months | {{count}} މަސް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.no_payments` | No payments yet. | އަދި އެއްވެސް ފައިސާއެއް ދައްކާފައެއް ނުވޭ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.no_plans` | No plans are available right now. Please contact the OceanX team. | މިވަގުތު އެއްވެސް ޕްލޭނެއް ނެތް. OceanX ޓީމާ ގުޅުއްވާ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.pay_hint` | Pay by bank transfer and upload the slip. Our team checks it and activates your plan. | ބޭންކް ޓްރާންސްފަރ އިން ފައިސާ ދައްކަވާފައި ސްލިޕް އަޕްލޯޑް ކުރައްވާ. އަހަރެމެންގެ ޓީމުން އެ ޗެކްކޮށް ތިޔަ ޕްލޭން އެކްޓިވް ކޮށްދޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.pay_now` | Pay now | މިހާރު ފައިސާ ދައްކަވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.pay_title` | Pay for your plan | ޕްލޭނަށް ފައިސާ ދައްކަވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.period` | How many months | ކިތައް މަހަށް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.plan` | Plan | ޕްލޭން | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.receipt` | Receipt | ރަސީދު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.reference` | Transfer reference (optional) | ޓްރާންސްފަރ ރެފަރެންސް (ބޭނުންނަމަ) | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.reference_hint` | The reference or transaction number from your bank app. | ތިޔަ ބޭންކް އެޕުން ލިބޭ ރެފަރެންސް ނުވަތަ ޓްރާންޒެކްޝަން ނަންބަރު. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.rejected_retry` | Please check and upload the slip again. | ޗެކްކޮށްލައްވާފައި ސްލިޕް އަލުން އަޕްލޯޑް ކުރައްވާ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.rejected_title` | Your last payment was not accepted | ފަހުން ދެއްކި ފައިސާ ޤަބޫލެއް ނުކުރެވުނު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.send_slip` | Send slip for review | ސްލިޕް ޗެކްކުރުމަށް ފޮނުވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.slip_sent` | Slip sent. Our team will check it shortly. | ސްލިޕް ފޮނުވައިފި. އަހަރެމެންގެ ޓީމުން އަވަހަށް އެ ޗެކްކުރާނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.status` | Status | ސްޓޭޓަސް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.status_approved` | Approved | ޤަބޫލުކުރެވިއްޖެ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.status_pending` | Under review | ޗެކްކުރަމުން | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.status_rejected` | Rejected | ރުއްދުކުރެވިއްޖެ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.sub_active` | Active | އެކްޓިވް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.sub_cancelled` | Cancelled | ކެންސަލް ކުރެވިއްޖެ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.sub_expired` | Ended | ނިމިއްޖެ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.sub_past_due` | Payment due | ފައިސާ ދައްކަންޖެހޭ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.sub_trialing` | Free trial | ހިލޭ ޓްރަޔަލް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.subtitle` | Your OceanX plan, payments and receipts. | ތިޔަ OceanX ޕްލޭން، ފައިސާ ދެއްކުންތަކާއި ރަސީދުތައް. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.title` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.trial_over_title` | Your free trial has ended | ތިޔަ ހިލޭ ޓްރަޔަލް ނިމިއްޖެ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.under_review` | Payment under review | ފައިސާ ދެއްކުން ޗެކްކުރަމުން | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.under_review_body` | We received your slip on {{date}}. Your plan is activated as soon as our team confirms the payment. | ތިޔަ ސްލިޕް {{date}} ގައި ލިބިއްޖެ. ފައިސާ ލިބުނުކަން އަހަރެމެންގެ ޓީމުން ކަށަވަރުކުރުމާއެކު ތިޔަ ޕްލޭން އެކްޓިވް ކުރެވޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.upload_slip` | Upload the transfer slip | ޓްރާންސްފަރ ސްލިޕް އަޕްލޯޑް ކުރައްވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.upload_slip_hint` | Photo or PDF of the slip (JPG, PNG or PDF, up to 5 MB). | ސްލިޕްގެ ފޮޓޯ ނުވަތަ PDF (JPG، PNG ނުވަތަ PDF، 5 MB އަށް ވުރެ ބޮޑު ނުވާ). | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.view_slip` | View slip | ސްލިޕް ބައްލަވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `branding.choose_photo` | Choose a photo or scan | ފޮޓޯއެއް ނުވަތަ ސްކޭނެއް ޚިޔާރުކުރައްވާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.clear` | Clear | ފޮހެލާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.company_stamp` | Company stamp | ކުންފުނީގެ ތައްގަނޑު | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
@@ -83,6 +135,7 @@ review of the whole file is still recommended before launch.
 | `menu_i18n.more_languages` | More languages | އިތުރު ބަސްތައް | needs_review | New: labels for item names in other languages. |
 | `menu_i18n.name_in` | Name in {{language}} | {{language}} ބަހުން ނަން | needs_review | New: labels for item names in other languages. |
 | `modules.purchases` | Purchases | ގަތުން | needs_review | Alternative loanword: ޕާޗޭސް. |
+| `nav.billing` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `nav.group_staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
 | `nav.payroll` | Salary sheets | މުސާރަ ޝީޓްތައް | needs_review | "Salary sheet" = މުސާރަ ޝީޓް (މުސާރަ from expenses.categories.salaries). Alternative: މުސާރަ ލިސްޓު. |
 | `nav.rota` | Duty rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | "Rota" rendered as ޑިއުޓީ ރޯސްޓަރު (loanword). Alternatives: ޑިއުޓީ ލިސްޓު, ޑިއުޓީ ޝެޑިއުލް. |
@@ -234,7 +287,41 @@ review of the whole file is still recommended before launch.
 | `superadmin.business.addon_requests_other` | {{count}} add-ons requested | {{count}} އެޑް-އޮނަށް އެދިފައި | needs_review | Same as _one. |
 | `superadmin.business.enable` | Enable | ހުޅުވާ | needs_review | Matches common.enabled (ހުޅުވިފައި). Alternative: އެނޭބަލްކުރޭ. |
 | `superadmin.dashboard.mrr` | Monthly recurring revenue | މަހުން މަހަށް ލިބޭ އާމްދަނީ | needs_review | Financial term; confirm wording. |
+| `superadmin.nav.payments` | Payments | ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.approve` | Approve | ޤަބޫލުކުރޭ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.approve_body_one` | Confirm that {{amount}} from {{name}} is in the bank. Their plan is activated for {{count}} month. | {{name}} ގެ ފަރާތުން {{amount}} ބޭންކަށް ލިބިފައިވާކަން ކަށަވަރުކުރޭ. އެ ފަރާތުގެ ޕްލޭން {{count}} މަހަށް އެކްޓިވް ކުރެވޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.approve_body_other` | Confirm that {{amount}} from {{name}} is in the bank. Their plan is activated for {{count}} months. | {{name}} ގެ ފަރާތުން {{amount}} ބޭންކަށް ލިބިފައިވާކަން ކަށަވަރުކުރޭ. އެ ފަރާތުގެ ޕްލޭން {{count}} މަހަށް އެކްޓިވް ކުރެވޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.approve_title` | Approve this payment? | މި ފައިސާ ދެއްކުން ޤަބޫލުކުރަންތަ؟ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.approved_toast` | Payment approved — the business is active. | ފައިސާ ދެއްކުން ޤަބޫލުކުރެވިއްޖެ — ވިޔަފާރި އެކްޓިވް ކުރެވިއްޖެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.business` | Business | ވިޔަފާރި | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.count_month` | Payments this month | މި މަހުގެ ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.method` | Method | ފައިސާ ދެއްކި ގޮތް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.method_bank_transfer` | Bank transfer | ބޭންކް ޓްރާންސްފަރ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.method_card` | Card | ކާޑު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.method_cash` | Cash | ކޭޝް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.method_other` | Other | އެހެނިހެން | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.none` | No payments here. | މިތާ އެއްވެސް ފައިސާ ދެއްކުމެއް ނެތް. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.received_month` | Received this month | މި މަހު ލިބުނު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.record` | Record payment | ފައިސާ ދެއްކުން ރެކޯޑްކުރޭ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.record_hint` | For payments taken by the team (cash, card). The plan is extended straight away. | ޓީމުން ނަގާ ފައިސާއަށް (ކޭޝް، ކާޑު). ޕްލޭން އެވަގުތުން ދިގުކުރެވޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.recorded_toast` | Payment recorded and plan extended. | ފައިސާ ދެއްކުން ރެކޯޑްކޮށް ޕްލޭން ދިގުކުރެވިއްޖެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.reject` | Reject | ރުއްދުކުރޭ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.reject_reason` | Reason | ސަބަބު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.reject_reason_hint` | The business owner sees this, e.g. "Amount not received" or "Slip is not readable". | މި ސަބަބު ވިޔަފާރީގެ ވެރިފަރާތަށް ފެންނާނެ، މިސާލަކަށް "ފައިސާ ލިބިފައެއް ނުވޭ" ނުވަތަ "ސްލިޕް ކިޔައިގަނެވޭކަށް ނެތް". | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.reject_title` | Reject this payment | މި ފައިސާ ދެއްކުން ރުއްދުކުރޭ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.rejected_toast` | Payment rejected. The owner can upload a new slip. | ފައިސާ ދެއްކުން ރުއްދުކުރެވިއްޖެ. ވެރިފަރާތަށް އައު ސްލިޕެއް އަޕްލޯޑް ކުރެވޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.subtitle` | Transfer slips from businesses and payments taken by the team. | ވިޔަފާރިތަކުން ފޮނުވާ ޓްރާންސްފަރ ސްލިޕްތަކާއި ޓީމުން ނަގާ ފައިސާ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.title` | Payments | ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.until` | Until {{date}} | {{date}} އަށް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.waiting` | Waiting for review | ޗެކްކުރަން ހުރި | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.security.two_factor` | Two-factor authentication | ދެ ފިޔަވަޅުގެ ވެރިފިކޭޝަން | needs_review | Literal; '2FA' loanword may be clearer to admins. |
+| `superadmin.settings.bank_details` | Bank details for payments | ފައިސާ ދެއްކުމަށް ބޭންކް މަޢުލޫމާތު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.settings.bank_details_hint` | Shown to businesses on the payment screen: bank, account name and account number(s). | ފައިސާ ދައްކާ ސްކްރީނުގައި ވިޔަފާރިތަކަށް ފެންނާނެ: ބޭންކް، އެކައުންޓުގެ ނަމާއި އެކައުންޓް ނަންބަރު(ތައް). | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.settings.billing_note` | Payment note | ފައިސާ ދެއްކުމާ ބެހޭ ނޯޓް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.settings.billing_note_hint` | Optional, e.g. "Use your business name as the reference". | ބޭނުންނަމަ، މިސާލަކަށް "ރެފަރެންސްގައި ތިޔަ ވިޔަފާރީގެ ނަން ލިޔުއްވާ". | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.settings.billing_section` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.settings.reminder_days` | Remind before the end (days) | ނިމުމުގެ ކުރިން ހަނދާންކޮށްދޭނީ (ދުވަސް) | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.settings.reminder_days_hint` | Owners see a "Pay now" banner this many days before their trial or plan ends. | ޓްރަޔަލް ނުވަތަ ޕްލޭން ނިމުމުގެ މިހާ ދުވަސް ކުރިން ވެރިފަރާތްތަކަށް "މިހާރު ފައިސާ ދައްކަވާ" ބެނަރެއް ފެންނާނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.status.suspended` | Suspended | ހުއްޓާލާފައި | needs_review | Alternative: ސަސްޕެންޑްކޮށްފައި. |
 | `time.minutes_ago` | {{count}} minutes ago | {{count}} މިނެޓު ކުރިން | needs_review | Relative time phrasing used in lists (e.g. last sign-in). Confirm natural word order. |
 | `viber.on` | ON | ON | needs_review | Kept in Latin; alternative ހުޅުވާ is longer for a switch label. |

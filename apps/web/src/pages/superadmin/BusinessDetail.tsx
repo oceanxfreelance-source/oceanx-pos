@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { ArrowLeft, Ban, CalendarPlus, CheckCircle2, Mail, Power, RefreshCcw } from 'lucide-react';
+import { ArrowLeft, Banknote, Ban, CalendarPlus, CheckCircle2, Mail, Power, RefreshCcw } from 'lucide-react';
 import { saApi } from '../../lib/api';
 import { useFormat } from '../../lib/format';
 import { actionLabel, addonLabel } from '../../lib/labels';
@@ -13,6 +13,7 @@ import { Button } from '../../components/ui/Button';
 import { Input, Select, Textarea } from '../../components/ui/Form';
 import { ConfirmDialog, Dialog } from '../../components/ui/Dialog';
 import { STATUS_TONE, SUB_TONE, type Plan } from './Businesses';
+import { PaymentsTable, RecordPaymentDialog, usePayments } from './Payments';
 
 interface Detail {
   business: { id: string; name: string; slug: string; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
@@ -35,6 +36,8 @@ export default function BusinessDetailPage() {
   const [suspending, setSuspending] = useState(false);
   const [changingPlan, setChangingPlan] = useState(false);
   const [extending, setExtending] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const payments = usePayments({ businessId: id });
   const refresh = () => {
     void qc.invalidateQueries({ queryKey: ['sa', 'business', id] });
     void qc.invalidateQueries({ queryKey: ['sa', 'businesses'] });
@@ -135,6 +138,9 @@ export default function BusinessDetailPage() {
                 </Button>
                 <Button size="sm" variant="secondary" icon={<CalendarPlus className="size-4" />} onClick={() => setExtending(true)} disabled={!sub}>
                   {t('superadmin.business.extend')}
+                </Button>
+                <Button size="sm" icon={<Banknote className="size-4" />} onClick={() => setRecording(true)}>
+                  {t('superadmin.payments.record')}
                 </Button>
               </>
             }
@@ -269,6 +275,13 @@ export default function BusinessDetailPage() {
       {suspending && <SuspendDialog loading={action.isPending} onClose={() => setSuspending(false)} onConfirm={(reason) => action.mutate({ verb: 'suspend', body: { reason } })} />}
       {changingPlan && <ChangePlanDialog businessId={b.id} currentPlanId={sub?.plan.id} onClose={() => setChangingPlan(false)} onDone={refresh} />}
       {extending && <ExtendDialog businessId={b.id} onClose={() => setExtending(false)} onDone={refresh} />}
+      {recording && <RecordPaymentDialog businessId={b.id} currentPlanId={sub?.plan.id} onClose={() => setRecording(false)} />}
+      <Card padded={false}>
+        <div className="p-5 pb-0">
+          <CardHeader title={t('superadmin.payments.title')} />
+        </div>
+        {payments.data ? <PaymentsTable items={payments.data.items} showBusiness={false} /> : <SkeletonRows rows={3} />}
+      </Card>
     </div>
   );
 }

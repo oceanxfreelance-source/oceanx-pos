@@ -64,6 +64,7 @@ function client(domain: Domain, prefix: string) {
     patch: <T>(p: string, body: unknown = {}) => request<T>(domain, 'PATCH', prefix + p, body),
     delete: <T>(p: string) => request<T>(domain, 'DELETE', prefix + p),
     upload: <T>(p: string, file: Blob) => request<T>(domain, 'PUT', prefix + p, undefined, { raw: file }),
+    postFile: <T>(p: string, file: Blob) => request<T>(domain, 'POST', prefix + p, undefined, { raw: file }),
   };
 }
 

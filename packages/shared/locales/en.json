@@ -90,7 +90,8 @@
     "qr_menu": "QR Menu",
     "group_staff": "Staff",
     "payroll": "Salary sheets",
-    "rota": "Duty rota"
+    "rota": "Duty rota",
+    "billing": "Billing"
   },
   "business_types": {
     "restaurant": "Restaurant",
@@ -858,7 +859,8 @@
       "security": "Security",
       "settings": "Settings",
       "subscriptions": "Subscriptions",
-      "users": "Users"
+      "users": "Users",
+      "payments": "Payments"
     },
     "plans": {
       "active": "Active",
@@ -927,7 +929,14 @@
       "registration_open_hint": "Owners can register and start immediately.",
       "subtitle": "Platform-wide configuration.",
       "support_email": "Support email",
-      "title": "Platform settings"
+      "title": "Platform settings",
+      "billing_section": "Billing",
+      "bank_details": "Bank details for payments",
+      "bank_details_hint": "Shown to businesses on the payment screen: bank, account name and account number(s).",
+      "billing_note": "Payment note",
+      "billing_note_hint": "Optional, e.g. \"Use your business name as the reference\".",
+      "reminder_days": "Remind before the end (days)",
+      "reminder_days_hint": "Owners see a \"Pay now\" banner this many days before their trial or plan ends."
     },
     "status": {
       "active": "Active",
@@ -961,7 +970,35 @@
       "subtitle": "Platform administrators and a read-only directory of business users.",
       "title": "Users"
     },
-    "verify": "Verify"
+    "verify": "Verify",
+    "payments": {
+      "title": "Payments",
+      "subtitle": "Transfer slips from businesses and payments taken by the team.",
+      "waiting": "Waiting for review",
+      "received_month": "Received this month",
+      "count_month": "Payments this month",
+      "business": "Business",
+      "method": "Method",
+      "method_bank_transfer": "Bank transfer",
+      "method_cash": "Cash",
+      "method_card": "Card",
+      "method_other": "Other",
+      "until": "Until {{date}}",
+      "none": "No payments here.",
+      "approve": "Approve",
+      "reject": "Reject",
+      "approve_title": "Approve this payment?",
+      "approve_body_one": "Confirm that {{amount}} from {{name}} is in the bank. Their plan is activated for {{count}} month.",
+      "approve_body_other": "Confirm that {{amount}} from {{name}} is in the bank. Their plan is activated for {{count}} months.",
+      "approved_toast": "Payment approved — the business is active.",
+      "reject_title": "Reject this payment",
+      "reject_reason": "Reason",
+      "reject_reason_hint": "The business owner sees this, e.g. \"Amount not received\" or \"Slip is not readable\".",
+      "rejected_toast": "Payment rejected. The owner can upload a new slip.",
+      "record": "Record payment",
+      "record_hint": "For payments taken by the team (cash, card). The plan is extended straight away.",
+      "recorded_toast": "Payment recorded and plan extended."
+    }
   },
   "system": {
     "faruma_missing": "The Faruma font is not installed, so Dhivehi text may not display correctly."
@@ -2026,5 +2063,59 @@
     "show_signature_hint": "The signature of the person who prepared the document.",
     "make_stamp": "Create stamp from business name",
     "make_stamp_hint": "No stamp image? Create a round stamp with your business name. It is printed on quotations and invoices, and you can replace it with your own any time."
+  },
+  "billing": {
+    "title": "Billing",
+    "subtitle": "Your OceanX plan, payments and receipts.",
+    "current_plan": "Current plan",
+    "pay_title": "Pay for your plan",
+    "pay_hint": "Pay by bank transfer and upload the slip. Our team checks it and activates your plan.",
+    "trial_over_title": "Your free trial has ended",
+    "blocked_body": "Your {{plan}} period ended on {{date}}. Pay for a plan below to keep using OceanX — your data is safe.",
+    "choose_plan": "Choose a plan",
+    "month": "month",
+    "months_one": "{{count}} month",
+    "months_other": "{{count}} months",
+    "period": "How many months",
+    "amount_to_pay": "Amount to pay",
+    "amount": "Amount",
+    "bank_details": "Pay by bank transfer to",
+    "bank_details_missing": "Bank details will be shared by the OceanX team. Please contact them.",
+    "reference": "Transfer reference (optional)",
+    "reference_hint": "The reference or transaction number from your bank app.",
+    "upload_slip": "Upload the transfer slip",
+    "upload_slip_hint": "Photo or PDF of the slip (JPG, PNG or PDF, up to 5 MB).",
+    "file_too_big": "The file is larger than 5 MB.",
+    "send_slip": "Send slip for review",
+    "slip_sent": "Slip sent. Our team will check it shortly.",
+    "under_review": "Payment under review",
+    "under_review_body": "We received your slip on {{date}}. Your plan is activated as soon as our team confirms the payment.",
+    "view_slip": "View slip",
+    "rejected_title": "Your last payment was not accepted",
+    "rejected_retry": "Please check and upload the slip again.",
+    "ask_owner": "Please ask the business owner or a manager to pay for the plan.",
+    "no_plans": "No plans are available right now. Please contact the OceanX team.",
+    "ends_on_one": "Ends on {{date}} ({{count}} day left)",
+    "ends_on_other": "Ends on {{date}} ({{count}} days left)",
+    "ended_on": "Ended on {{date}}",
+    "history": "Payments",
+    "no_payments": "No payments yet.",
+    "plan": "Plan",
+    "status": "Status",
+    "receipt": "Receipt",
+    "status_pending": "Under review",
+    "status_approved": "Approved",
+    "status_rejected": "Rejected",
+    "sub_trialing": "Free trial",
+    "sub_active": "Active",
+    "sub_past_due": "Payment due",
+    "sub_expired": "Ended",
+    "sub_cancelled": "Cancelled",
+    "pay_now": "Pay now",
+    "banner_trial_one": "Your free trial ends in {{count}} day.",
+    "banner_trial_other": "Your free trial ends in {{count}} days.",
+    "banner_paid_one": "Your {{plan}} plan ends in {{count}} day.",
+    "banner_paid_other": "Your {{plan}} plan ends in {{count}} days.",
+    "banner_pending": "Your payment slip is being reviewed by the OceanX team."
   }
 }

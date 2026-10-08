@@ -11,6 +11,9 @@ export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   registrationMode: 'approval',
   defaultPlanCode: 'trial',
   defaultCurrency: 'MVR',
+  billingBankDetails: '',
+  billingNote: '',
+  billingReminderDays: 7,
 };
 
 export async function getPlatformSettings(db: Executor): Promise<PlatformSettings> {

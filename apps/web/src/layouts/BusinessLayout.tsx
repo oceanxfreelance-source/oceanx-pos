@@ -34,6 +34,7 @@ import {
   Users,
   UtensilsCrossed,
   Wallet,
+  CreditCard,
 } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { useBiz, useBizSession, type BusinessSession } from '../auth/business';
@@ -48,6 +49,7 @@ import { FullscreenButton } from '../components/FullscreenButton';
 import { applyPreferences, type ThemeChoice } from '../lib/theme';
 import { SkeletonRows } from '../components/ui/Card';
 import { StatusScreen, ForcePasswordChange } from '../pages/business/StatusScreens';
+import { BillingBanner } from '../pages/business/Billing';
 
 const SETTINGS_VIEW_PERMS = [...new Set(Object.values(SETTINGS_SECTION_PERMISSIONS).flatMap((p) => [p.view, p.manage]))];
 
@@ -94,6 +96,7 @@ export function useBusinessNav(): NavGroup[] {
   if (can('outlets.view')) management.push({ to: '/outlets', label: 'nav.outlets', icon: Store });
   if (can('addons.view')) management.push({ to: '/addons', label: 'nav.addons', icon: Puzzle });
   if (can('audit.view')) management.push({ to: '/activity', label: 'nav.activity', icon: History });
+  if (session.user.isOwner || can('settings.manage')) management.push({ to: '/billing', label: 'nav.billing', icon: CreditCard });
   if (canAny(...SETTINGS_VIEW_PERMS)) management.push({ to: '/settings', label: 'nav.settings', icon: Settings });
   return [
     { items: operations },
@@ -298,6 +301,7 @@ function BusinessLayout() {
         </>
       }
     >
+      <BillingBanner />
       <Outlet />
     </Shell>
   );

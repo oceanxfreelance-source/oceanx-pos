@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Building2, Coffee, CreditCard, Gauge, History, Languages, Layers, LogOut, Puzzle, Settings, ShieldCheck, UserCog, UtensilsCrossed } from 'lucide-react';
+import { Banknote, Building2, Coffee, CreditCard, Gauge, History, Languages, Layers, LogOut, Puzzle, Settings, ShieldCheck, UserCog, UtensilsCrossed } from 'lucide-react';
 import { LANGUAGES } from '@oceanx/shared';
 import { setSuperAdminLanguage, useSuperAdmin } from '../auth/superadmin';
 import { Shell, type NavGroup } from './Shell';
@@ -19,6 +19,7 @@ const GROUPS: NavGroup[] = [
       { to: '/superadmin/restaurants', label: 'superadmin.nav.restaurants', icon: UtensilsCrossed },
       { to: '/superadmin/cafes', label: 'superadmin.nav.cafes', icon: Coffee },
       { to: '/superadmin/subscriptions', label: 'superadmin.nav.subscriptions', icon: CreditCard },
+      { to: '/superadmin/payments', label: 'superadmin.nav.payments', icon: Banknote },
     ],
   },
   {

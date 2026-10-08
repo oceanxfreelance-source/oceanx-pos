@@ -2609,5 +2609,614 @@
     "suggested": "ގިނައިން ގަތުމުގައި: ފުރަތަމަ ސްޓޮކު ހުރިހާ އެއްޗަކަށް ދެއްކި އަދަދު. އެއްޗަކަށް ވާ އަގު ހިސާބުކުރެވޭނެ.",
     "status": "needs_review",
     "notes": "New: enter total paid for bulk stock purchases."
+  },
+  {
+    "key": "billing.title",
+    "english": "Billing",
+    "suggested": "ބިލިންގ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.subtitle",
+    "english": "Your OceanX plan, payments and receipts.",
+    "suggested": "ތިޔަ OceanX ޕްލޭން، ފައިސާ ދެއްކުންތަކާއި ރަސީދުތައް.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.current_plan",
+    "english": "Current plan",
+    "suggested": "މިހާރުގެ ޕްލޭން",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.pay_title",
+    "english": "Pay for your plan",
+    "suggested": "ޕްލޭނަށް ފައިސާ ދައްކަވާ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.pay_hint",
+    "english": "Pay by bank transfer and upload the slip. Our team checks it and activates your plan.",
+    "suggested": "ބޭންކް ޓްރާންސްފަރ އިން ފައިސާ ދައްކަވާފައި ސްލިޕް އަޕްލޯޑް ކުރައްވާ. އަހަރެމެންގެ ޓީމުން އެ ޗެކްކޮށް ތިޔަ ޕްލޭން އެކްޓިވް ކޮށްދޭނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.trial_over_title",
+    "english": "Your free trial has ended",
+    "suggested": "ތިޔަ ހިލޭ ޓްރަޔަލް ނިމިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.blocked_body",
+    "english": "Your {{plan}} period ended on {{date}}. Pay for a plan below to keep using OceanX — your data is safe.",
+    "suggested": "ތިޔަ {{plan}} މުއްދަތު {{date}} ގައި ނިމިއްޖެ. OceanX ކުރިއަށް ބޭނުންކުރުމަށް ތިރީގައިވާ ޕްލޭނެއްގެ ފައިސާ ދައްކަވާ — ތިޔަ ޑޭޓާ ރައްކާތެރިކަމާއެކު ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.choose_plan",
+    "english": "Choose a plan",
+    "suggested": "ޕްލޭނެއް ހޮވާ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.month",
+    "english": "month",
+    "suggested": "މަސް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.months_one",
+    "english": "{{count}} month",
+    "suggested": "{{count}} މަސް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.months_other",
+    "english": "{{count}} months",
+    "suggested": "{{count}} މަސް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.period",
+    "english": "How many months",
+    "suggested": "ކިތައް މަހަށް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.amount_to_pay",
+    "english": "Amount to pay",
+    "suggested": "ދައްކަންޖެހޭ އަދަދު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.amount",
+    "english": "Amount",
+    "suggested": "އަދަދު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.bank_details",
+    "english": "Pay by bank transfer to",
+    "suggested": "ބޭންކް ޓްރާންސްފަރ ކުރާނީ މި އެކައުންޓަށް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.bank_details_missing",
+    "english": "Bank details will be shared by the OceanX team. Please contact them.",
+    "suggested": "ބޭންކް މަޢުލޫމާތު OceanX ޓީމުން ދެއްވާނެ. އެ ޓީމާ ގުޅުއްވާ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.reference",
+    "english": "Transfer reference (optional)",
+    "suggested": "ޓްރާންސްފަރ ރެފަރެންސް (ބޭނުންނަމަ)",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.reference_hint",
+    "english": "The reference or transaction number from your bank app.",
+    "suggested": "ތިޔަ ބޭންކް އެޕުން ލިބޭ ރެފަރެންސް ނުވަތަ ޓްރާންޒެކްޝަން ނަންބަރު.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.upload_slip",
+    "english": "Upload the transfer slip",
+    "suggested": "ޓްރާންސްފަރ ސްލިޕް އަޕްލޯޑް ކުރައްވާ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.upload_slip_hint",
+    "english": "Photo or PDF of the slip (JPG, PNG or PDF, up to 5 MB).",
+    "suggested": "ސްލިޕްގެ ފޮޓޯ ނުވަތަ PDF (JPG، PNG ނުވަތަ PDF، 5 MB އަށް ވުރެ ބޮޑު ނުވާ).",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.file_too_big",
+    "english": "The file is larger than 5 MB.",
+    "suggested": "ފައިލް 5 MB އަށް ވުރެ ބޮޑު.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.send_slip",
+    "english": "Send slip for review",
+    "suggested": "ސްލިޕް ޗެކްކުރުމަށް ފޮނުވާ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.slip_sent",
+    "english": "Slip sent. Our team will check it shortly.",
+    "suggested": "ސްލިޕް ފޮނުވައިފި. އަހަރެމެންގެ ޓީމުން އަވަހަށް އެ ޗެކްކުރާނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.under_review",
+    "english": "Payment under review",
+    "suggested": "ފައިސާ ދެއްކުން ޗެކްކުރަމުން",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.under_review_body",
+    "english": "We received your slip on {{date}}. Your plan is activated as soon as our team confirms the payment.",
+    "suggested": "ތިޔަ ސްލިޕް {{date}} ގައި ލިބިއްޖެ. ފައިސާ ލިބުނުކަން އަހަރެމެންގެ ޓީމުން ކަށަވަރުކުރުމާއެކު ތިޔަ ޕްލޭން އެކްޓިވް ކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.view_slip",
+    "english": "View slip",
+    "suggested": "ސްލިޕް ބައްލަވާ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.rejected_title",
+    "english": "Your last payment was not accepted",
+    "suggested": "ފަހުން ދެއްކި ފައިސާ ޤަބޫލެއް ނުކުރެވުނު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.rejected_retry",
+    "english": "Please check and upload the slip again.",
+    "suggested": "ޗެކްކޮށްލައްވާފައި ސްލިޕް އަލުން އަޕްލޯޑް ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.ask_owner",
+    "english": "Please ask the business owner or a manager to pay for the plan.",
+    "suggested": "ޕްލޭނަށް ފައިސާ ދެއްކުމަށް ވިޔަފާރީގެ ވެރިފަރާތަށް ނުވަތަ މެނޭޖަރަކަށް އެދިވަޑައިގަންނަވާ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.no_plans",
+    "english": "No plans are available right now. Please contact the OceanX team.",
+    "suggested": "މިވަގުތު އެއްވެސް ޕްލޭނެއް ނެތް. OceanX ޓީމާ ގުޅުއްވާ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.ends_on_one",
+    "english": "Ends on {{date}} ({{count}} day left)",
+    "suggested": "{{date}} ގައި ނިމޭނެ ({{count}} ދުވަސް ބާކީ)",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.ends_on_other",
+    "english": "Ends on {{date}} ({{count}} days left)",
+    "suggested": "{{date}} ގައި ނިމޭނެ ({{count}} ދުވަސް ބާކީ)",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.ended_on",
+    "english": "Ended on {{date}}",
+    "suggested": "{{date}} ގައި ނިމުނު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.history",
+    "english": "Payments",
+    "suggested": "ފައިސާ ދެއްކުންތައް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.no_payments",
+    "english": "No payments yet.",
+    "suggested": "އަދި އެއްވެސް ފައިސާއެއް ދައްކާފައެއް ނުވޭ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.plan",
+    "english": "Plan",
+    "suggested": "ޕްލޭން",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.status",
+    "english": "Status",
+    "suggested": "ސްޓޭޓަސް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.receipt",
+    "english": "Receipt",
+    "suggested": "ރަސީދު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.status_pending",
+    "english": "Under review",
+    "suggested": "ޗެކްކުރަމުން",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.status_approved",
+    "english": "Approved",
+    "suggested": "ޤަބޫލުކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.status_rejected",
+    "english": "Rejected",
+    "suggested": "ރުއްދުކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.sub_trialing",
+    "english": "Free trial",
+    "suggested": "ހިލޭ ޓްރަޔަލް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.sub_active",
+    "english": "Active",
+    "suggested": "އެކްޓިވް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.sub_past_due",
+    "english": "Payment due",
+    "suggested": "ފައިސާ ދައްކަންޖެހޭ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.sub_expired",
+    "english": "Ended",
+    "suggested": "ނިމިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.sub_cancelled",
+    "english": "Cancelled",
+    "suggested": "ކެންސަލް ކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.pay_now",
+    "english": "Pay now",
+    "suggested": "މިހާރު ފައިސާ ދައްކަވާ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.banner_trial_one",
+    "english": "Your free trial ends in {{count}} day.",
+    "suggested": "ތިޔަ ހިލޭ ޓްރަޔަލް ނިމެން {{count}} ދުވަސް ބާކީ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.banner_trial_other",
+    "english": "Your free trial ends in {{count}} days.",
+    "suggested": "ތިޔަ ހިލޭ ޓްރަޔަލް ނިމެން {{count}} ދުވަސް ބާކީ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.banner_paid_one",
+    "english": "Your {{plan}} plan ends in {{count}} day.",
+    "suggested": "ތިޔަ {{plan}} ޕްލޭން ނިމެން {{count}} ދުވަސް ބާކީ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.banner_paid_other",
+    "english": "Your {{plan}} plan ends in {{count}} days.",
+    "suggested": "ތިޔަ {{plan}} ޕްލޭން ނިމެން {{count}} ދުވަސް ބާކީ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "billing.banner_pending",
+    "english": "Your payment slip is being reviewed by the OceanX team.",
+    "suggested": "ތިޔަ ފައިސާ ދެއްކި ސްލިޕް OceanX ޓީމުން ޗެކްކުރަމުން.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "nav.billing",
+    "english": "Billing",
+    "suggested": "ބިލިންގ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.nav.payments",
+    "english": "Payments",
+    "suggested": "ފައިސާ ދެއްކުންތައް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.title",
+    "english": "Payments",
+    "suggested": "ފައިސާ ދެއްކުންތައް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.subtitle",
+    "english": "Transfer slips from businesses and payments taken by the team.",
+    "suggested": "ވިޔަފާރިތަކުން ފޮނުވާ ޓްރާންސްފަރ ސްލިޕްތަކާއި ޓީމުން ނަގާ ފައިސާ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.waiting",
+    "english": "Waiting for review",
+    "suggested": "ޗެކްކުރަން ހުރި",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.received_month",
+    "english": "Received this month",
+    "suggested": "މި މަހު ލިބުނު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.count_month",
+    "english": "Payments this month",
+    "suggested": "މި މަހުގެ ފައިސާ ދެއްކުންތައް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.business",
+    "english": "Business",
+    "suggested": "ވިޔަފާރި",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.method",
+    "english": "Method",
+    "suggested": "ފައިސާ ދެއްކި ގޮތް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.method_bank_transfer",
+    "english": "Bank transfer",
+    "suggested": "ބޭންކް ޓްރާންސްފަރ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.method_cash",
+    "english": "Cash",
+    "suggested": "ކޭޝް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.method_card",
+    "english": "Card",
+    "suggested": "ކާޑު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.method_other",
+    "english": "Other",
+    "suggested": "އެހެނިހެން",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.until",
+    "english": "Until {{date}}",
+    "suggested": "{{date}} އަށް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.none",
+    "english": "No payments here.",
+    "suggested": "މިތާ އެއްވެސް ފައިސާ ދެއްކުމެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.approve",
+    "english": "Approve",
+    "suggested": "ޤަބޫލުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.reject",
+    "english": "Reject",
+    "suggested": "ރުއްދުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.approve_title",
+    "english": "Approve this payment?",
+    "suggested": "މި ފައިސާ ދެއްކުން ޤަބޫލުކުރަންތަ؟",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.approve_body_one",
+    "english": "Confirm that {{amount}} from {{name}} is in the bank. Their plan is activated for {{count}} month.",
+    "suggested": "{{name}} ގެ ފަރާތުން {{amount}} ބޭންކަށް ލިބިފައިވާކަން ކަށަވަރުކުރޭ. އެ ފަރާތުގެ ޕްލޭން {{count}} މަހަށް އެކްޓިވް ކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.approve_body_other",
+    "english": "Confirm that {{amount}} from {{name}} is in the bank. Their plan is activated for {{count}} months.",
+    "suggested": "{{name}} ގެ ފަރާތުން {{amount}} ބޭންކަށް ލިބިފައިވާކަން ކަށަވަރުކުރޭ. އެ ފަރާތުގެ ޕްލޭން {{count}} މަހަށް އެކްޓިވް ކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.approved_toast",
+    "english": "Payment approved — the business is active.",
+    "suggested": "ފައިސާ ދެއްކުން ޤަބޫލުކުރެވިއްޖެ — ވިޔަފާރި އެކްޓިވް ކުރެވިއްޖެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.reject_title",
+    "english": "Reject this payment",
+    "suggested": "މި ފައިސާ ދެއްކުން ރުއްދުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.reject_reason",
+    "english": "Reason",
+    "suggested": "ސަބަބު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.reject_reason_hint",
+    "english": "The business owner sees this, e.g. \"Amount not received\" or \"Slip is not readable\".",
+    "suggested": "މި ސަބަބު ވިޔަފާރީގެ ވެރިފަރާތަށް ފެންނާނެ، މިސާލަކަށް \"ފައިސާ ލިބިފައެއް ނުވޭ\" ނުވަތަ \"ސްލިޕް ކިޔައިގަނެވޭކަށް ނެތް\".",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.rejected_toast",
+    "english": "Payment rejected. The owner can upload a new slip.",
+    "suggested": "ފައިސާ ދެއްކުން ރުއްދުކުރެވިއްޖެ. ވެރިފަރާތަށް އައު ސްލިޕެއް އަޕްލޯޑް ކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.record",
+    "english": "Record payment",
+    "suggested": "ފައިސާ ދެއްކުން ރެކޯޑްކުރޭ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.record_hint",
+    "english": "For payments taken by the team (cash, card). The plan is extended straight away.",
+    "suggested": "ޓީމުން ނަގާ ފައިސާއަށް (ކޭޝް، ކާޑު). ޕްލޭން އެވަގުތުން ދިގުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.payments.recorded_toast",
+    "english": "Payment recorded and plan extended.",
+    "suggested": "ފައިސާ ދެއްކުން ރެކޯޑްކޮށް ޕްލޭން ދިގުކުރެވިއްޖެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.settings.billing_section",
+    "english": "Billing",
+    "suggested": "ބިލިންގ",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.settings.bank_details",
+    "english": "Bank details for payments",
+    "suggested": "ފައިސާ ދެއްކުމަށް ބޭންކް މަޢުލޫމާތު",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.settings.bank_details_hint",
+    "english": "Shown to businesses on the payment screen: bank, account name and account number(s).",
+    "suggested": "ފައިސާ ދައްކާ ސްކްރީނުގައި ވިޔަފާރިތަކަށް ފެންނާނެ: ބޭންކް، އެކައުންޓުގެ ނަމާއި އެކައުންޓް ނަންބަރު(ތައް).",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.settings.billing_note",
+    "english": "Payment note",
+    "suggested": "ފައިސާ ދެއްކުމާ ބެހޭ ނޯޓް",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.settings.billing_note_hint",
+    "english": "Optional, e.g. \"Use your business name as the reference\".",
+    "suggested": "ބޭނުންނަމަ، މިސާލަކަށް \"ރެފަރެންސްގައި ތިޔަ ވިޔަފާރީގެ ނަން ލިޔުއްވާ\".",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.settings.reminder_days",
+    "english": "Remind before the end (days)",
+    "suggested": "ނިމުމުގެ ކުރިން ހަނދާންކޮށްދޭނީ (ދުވަސް)",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "superadmin.settings.reminder_days_hint",
+    "english": "Owners see a \"Pay now\" banner this many days before their trial or plan ends.",
+    "suggested": "ޓްރަޔަލް ނުވަތަ ޕްލޭން ނިމުމުގެ މިހާ ދުވަސް ކުރިން ވެރިފަރާތްތަކަށް \"މިހާރު ފައިސާ ދައްކަވާ\" ބެނަރެއް ފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "New: subscription billing (bank transfer slip upload and review)."
   }
 ]

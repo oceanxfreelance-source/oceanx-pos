@@ -1,7 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
+import { execSync } from 'node:child_process';
 import { SA_EMAIL, SA_PASSWORD } from './global-setup';
 
 const SHOTS = 'e2e/screenshots';
+const E2E_DB = process.env.E2E_DATABASE_URL ?? 'postgres://oceanx:oceanx_dev@localhost:5432/oceanx_e2e';
 const OWNER = { email: 'owner@reef.test', password: 'Reef-Kitchen-123' };
 
 async function login(page: Page) {
@@ -712,5 +714,68 @@ test.describe.serial('OceanX operations', () => {
     await expect(slip.locator('img[src*="/signature"]')).toBeVisible();
     expect(await slip.evaluate((el) => el.getBoundingClientRect().width)).toBeGreaterThan(700);
     await page.screenshot({ path: `${SHOTS}/payslip.png`, fullPage: true });
+  });
+
+  test('billing: plan ends → owner pays by bank transfer slip → team rejects, then approves → business active', async ({ page, browser }) => {
+    // The OceanX team sets the bank details shown to businesses.
+    const sa = await browser.newContext();
+    const sap = await sa.newPage();
+    await sap.goto('/superadmin/login');
+    await sap.getByLabel('Email').fill(SA_EMAIL);
+    await sap.getByLabel('Password').fill(SA_PASSWORD);
+    await sap.getByRole('button', { name: 'Sign in' }).click();
+    await expect(sap).toHaveURL(/superadmin\/dashboard/);
+    await sap.goto('/superadmin/settings');
+    await sap.getByLabel('Bank details for payments').fill('Bank of Maldives\nOceanX Pvt Ltd\nMVR 7730000012345');
+    await sap.getByRole('button', { name: 'Save changes' }).click();
+    await expect(sap.getByText('Saved').first()).toBeVisible();
+
+    // Reef Kitchen's plan ends: the owner is stopped by the payment screen.
+    execSync(`psql "${E2E_DB}" -c "UPDATE subscriptions SET current_period_end = now() - interval '1 day' FROM businesses b WHERE b.id = subscriptions.business_id AND b.name = 'Reef Kitchen'"`);
+    await login(page).catch(() => {});
+    await page.goto('/');
+    await expect(page.getByText('Choose a plan')).toBeVisible();
+    await expect(page.getByText('MVR 7730000012345')).toBeVisible();
+    await page.getByRole('button', { name: /^Pro/ }).click();
+    await page.getByRole('button', { name: '3 months' }).click();
+    await expect(page.getByText('USD 177.00')).toBeVisible();
+    await page.getByLabel('Transfer reference (optional)').fill('BML-998877');
+    await page.locator('input[type=file]').setInputFiles('e2e/fixtures/dish.jpg');
+    await page.screenshot({ path: `${SHOTS}/billing-pay-screen.png`, fullPage: true });
+    await page.getByRole('button', { name: 'Send slip for review' }).click();
+    await expect(page.getByText('Payment under review')).toBeVisible();
+
+    // The team opens Payments, sees the slip and rejects it with a reason.
+    await sap.goto('/superadmin/payments');
+    const row = sap.getByRole('row', { name: /Reef Kitchen/ });
+    await expect(row).toContainText('USD 177.00');
+    await expect(row).toContainText('BML-998877');
+    await expect(row.getByRole('link', { name: 'View slip' })).toHaveAttribute('href', /\/api\/superadmin\/billing\/payments\/.+\/slip/);
+    await sap.screenshot({ path: `${SHOTS}/billing-sa-pending.png`, fullPage: true });
+    await row.getByRole('button', { name: 'Reject' }).click();
+    await sap.getByLabel('Reason').fill('Amount not received yet');
+    await sap.getByRole('dialog').getByRole('button', { name: 'Reject' }).click();
+    await expect(sap.getByText('Payment rejected')).toBeVisible();
+
+    // The owner sees why and sends the slip again; this time the team approves.
+    await page.reload();
+    await expect(page.getByText('Amount not received yet')).toBeVisible();
+    await expect(page.getByText('USD 177.00')).toBeVisible(); // same plan and months as before
+    await page.locator('input[type=file]').setInputFiles('e2e/fixtures/dish.jpg');
+    await page.getByRole('button', { name: 'Send slip for review' }).click();
+    await expect(page.getByText('Payment under review')).toBeVisible();
+    await sap.reload();
+    await sap.getByRole('row', { name: /Reef Kitchen/ }).getByRole('button', { name: 'Approve' }).click();
+    await sap.getByRole('dialog').getByRole('button', { name: /Confirm|Approve/ }).click();
+    await expect(sap.getByText('Payment approved')).toBeVisible();
+
+    // Back in business: the dashboard opens and Billing shows the receipt.
+    await page.reload();
+    await expect(page.getByText('Choose a plan')).toHaveCount(0);
+    await page.goto('/billing');
+    await expect(page.getByText(/OXR-\d{4}-\d{5}/)).toBeVisible();
+    await expect(page.getByText('Approved').first()).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/billing-page.png`, fullPage: true });
+    await sa.close();
   });
 });

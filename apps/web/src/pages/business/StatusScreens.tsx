@@ -9,15 +9,16 @@ import { Logo } from '../../components/Logo';
 import { FarumaWarning } from '../../components/FarumaWarning';
 import { ChangePasswordForm } from '../../components/ChangePasswordForm';
 import { useFormat } from '../../lib/format';
+import { PayPanel, useBilling } from './Billing';
 
-function Frame({ icon, title, body, children }: { icon: React.ReactNode; title: string; body: React.ReactNode; children?: React.ReactNode }) {
+function Frame({ icon, title, body, children, wide }: { icon: React.ReactNode; title: string; body: React.ReactNode; children?: React.ReactNode; wide?: boolean }) {
   const { t } = useTranslation();
   const { logout } = useBiz();
   const navigate = useNavigate();
   return (
     <div className="min-h-dvh">
       <FarumaWarning />
-      <div className="mx-auto flex min-h-dvh max-w-lg flex-col justify-center px-5 py-10">
+      <div className={`mx-auto flex min-h-dvh flex-col justify-center px-5 py-10 ${wide ? 'max-w-2xl' : 'max-w-lg'}`}>
         <div className="mb-6 flex items-center gap-2">
           <Logo />
           <span className="font-semibold">{t('app.name')}</span>
@@ -68,12 +69,16 @@ export function StatusScreen() {
         />
       );
     default:
+      // Trial or paid period over: pay right here (choose plan, bank transfer, upload the slip).
       return (
         <Frame
+          wide
           icon={<CalendarX2 className="size-6" />}
-          title={t('status.expired_title')}
-          body={t('status.expired_body', { plan: s.subscription?.planName ?? '—', date: f.date(s.subscription?.currentPeriodEnd) })}
-        />
+          title={s.subscription?.planCode === 'trial' ? t('billing.trial_over_title') : t('status.expired_title')}
+          body={t('billing.blocked_body', { plan: s.subscription?.planName ?? '—', date: f.date(s.subscription?.currentPeriodEnd) })}
+        >
+          <ExpiredPay />
+        </Frame>
       );
   }
 }
@@ -86,4 +91,9 @@ export function ForcePasswordChange() {
       <ChangePasswordForm minLength={8} submit={(b) => api.post('/auth/change-password', b)} onDone={() => refresh()} />
     </Frame>
   );
+}
+
+function ExpiredPay() {
+  const q = useBilling();
+  return q.data ? <PayPanel info={q.data} /> : null;
 }
