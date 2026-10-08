@@ -48,7 +48,7 @@ export default function DuePaymentPrint() {
   }, [lang]);
   const d = q.data;
   return (
-    <PrintFrame ready={!!d && !!t} filename={pdfName('payment', d?.customer.name, d?.paidAt.slice(0, 10))} width="120mm">
+    <PrintFrame ready={!!d && !!t} filename={pdfName('payment', d?.customer.name, d?.paidAt.slice(0, 10))} width="210mm">
       {q.error ? (
         <div className="p-6">
           <Alert tone="red">{errMsg(q.error)}</Alert>
@@ -69,7 +69,7 @@ function Receipt({ d, t }: { d: DuePayment; t: TFunction }) {
   const m = (minor: number) => `⁦${d.settings.regional.currencySymbol || d.settings.regional.currency} ${nf.format(minor / 100)}⁩`;
   const row = 'flex justify-between gap-4 py-1';
   return (
-    <article lang={lang} dir={languageDir(lang)} className="space-y-4 p-6 text-[13px] text-slate-900" data-pdf-block>
+    <article lang={lang} dir={languageDir(lang)} className="mx-auto max-w-[150mm] space-y-4 px-6 py-10 text-[13px] text-slate-900" data-pdf-block>
       <header className="space-y-1 text-center">
         {d.business.hasLogo && <img src="/api/settings/logo" alt="" className="mx-auto mb-1 max-h-12 object-contain" />}
         <p className="text-base font-bold" dir="auto">

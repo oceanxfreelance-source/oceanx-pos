@@ -45,7 +45,8 @@ function toDoc(kind: Kind, d: any, t: TFunction): DocData {
       payments: d.payments.filter((p: any) => !p.voidedAt && p.kind === 'sale').map((p: any) => ({ method: p.method, amount: p.amount })),
       header: d.settings.receipt.header,
       footer: d.settings.receipt.footer,
-      paperWidth: d.settings.receipt.paperWidth,
+      // Every printed document is A4 (receipts included).
+      paperWidth: 'a4' as const,
     };
   }
   const doc = kind === 'invoice' ? d.invoice : d.quotation;
@@ -101,7 +102,7 @@ export default function PrintPage() {
 
   const number = q.data?.sale?.number ?? q.data?.invoice?.number ?? q.data?.quotation?.number ?? kind;
   return (
-    <PrintFrame ready={!!q.data && !!docT} filename={pdfName(number, q.data?.customer?.name)} width={kind === 'receipt' && q.data?.settings?.receipt?.paperWidth !== 'a4' ? '120mm' : '210mm'}>
+    <PrintFrame ready={!!q.data && !!docT} filename={pdfName(number, q.data?.customer?.name)} width="210mm">
       {q.error ? (
         <div className="p-6">
           <Alert tone="red">{errMsg(q.error)}</Alert>

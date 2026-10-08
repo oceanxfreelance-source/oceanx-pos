@@ -13,13 +13,13 @@ export function SignatureBlock({ branding, t, label }: { branding?: DocBranding 
   if (!branding || (!branding.stamp && !branding.signer?.hasSignature)) return null;
   const s = branding.signer;
   return (
-    <div className="flex justify-end pt-6" data-pdf-block>
-      <div className="relative flex w-72 flex-col items-center text-center">
-        {branding.stamp && <img src="/api/settings/stamp" alt="" className="pointer-events-none absolute -top-6 -start-24 h-28 w-28 rotate-[-8deg] object-contain opacity-85" />}
-        <div className="flex h-20 w-full items-end justify-center">
-          {s?.hasSignature && <img src={`/api/users/${s.id}/signature`} alt="" className="relative max-h-20 max-w-56 object-contain" />}
+    <div className="flex justify-end pt-4" data-pdf-block>
+      <div className="relative flex w-48 flex-col items-center text-center">
+        {branding.stamp && <img src="/api/settings/stamp" alt="" className="pointer-events-none absolute -top-4 -start-16 h-20 w-20 rotate-[-8deg] object-contain opacity-85" />}
+        <div className="flex h-12 w-full items-end justify-center">
+          {s?.hasSignature && <img src={`/api/users/${s.id}/signature`} alt="" className="relative max-h-12 max-w-36 object-contain" />}
         </div>
-        <div className="w-full border-t border-slate-500 pt-1.5 text-xs">
+        <div className="w-full border-t border-slate-500 pt-1 text-[11px]">
           <p className="font-semibold text-slate-800" dir="auto">
             {s?.hasSignature ? s.name : ''}
           </p>

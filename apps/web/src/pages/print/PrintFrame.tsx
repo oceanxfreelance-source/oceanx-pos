@@ -52,6 +52,8 @@ export function PrintFrame({ ready, filename, landscape, width = '210mm', childr
 
   return (
     <div className="min-h-screen bg-slate-100 py-6 text-slate-900 print:bg-white print:py-0">
+      {/* Every printed document is A4; wide sheets (rota, salary sheet, wide reports) turn it sideways. */}
+      {landscape && <style>{'@page { size: A4 landscape; }'}</style>}
       <div className="mx-auto mb-4 flex flex-wrap justify-end gap-2 px-4 print:hidden" style={{ maxWidth: width }}>
         <Button variant="ghost" icon={<X className="size-4" />} onClick={() => window.close()}>
           {t('common.close')}

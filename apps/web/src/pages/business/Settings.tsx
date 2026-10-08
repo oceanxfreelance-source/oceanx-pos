@@ -284,11 +284,6 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
         {section === 'receipt' && (
           <div className="grid gap-4 sm:grid-cols-2">
             <Switch checked={!!v.showLogo} onChange={(c) => set({ showLogo: c } as never)} label={t('settings.show_logo')} />
-            <Select label={t('settings.paper_width')} value={String(v.paperWidth)} onChange={(e) => set({ paperWidth: e.target.value } as never)}>
-              <option value="58mm">58 mm</option>
-              <option value="80mm">80 mm</option>
-              <option value="a4">A4</option>
-            </Select>
             <Textarea className="sm:col-span-2" label={t('settings.receipt_header')} value={doc.header ?? ''} onChange={(e) => set({ header: e.target.value } as never)} />
           </div>
         )}

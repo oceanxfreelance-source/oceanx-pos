@@ -146,7 +146,7 @@ export function defaultBusinessSettings(opts: { currency?: string; timezone?: st
       showLogo: true,
       header: '',
       footer: '',
-      paperWidth: '80mm',
+      paperWidth: 'a4',
       language: null,
       numbering: { prefix: 'RCP', startNumber: 1, padding: 6, format: '{PREFIX}-{YYYY}-{SEQ}', reset: 'yearly' },
     },

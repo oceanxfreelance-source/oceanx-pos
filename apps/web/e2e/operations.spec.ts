@@ -132,6 +132,9 @@ test.describe.serial('OceanX operations', () => {
     const doc = page.locator('article');
     await expect(doc).toHaveAttribute('dir', 'rtl');
     await expect(doc).toHaveAttribute('lang', 'dv');
+    // Receipts print on A4 like every other document, not on a narrow thermal strip.
+    await expect(doc).not.toHaveClass(/doc-receipt/);
+    expect(await doc.evaluate((el) => el.getBoundingClientRect().width)).toBeGreaterThan(700);
     // The UI around the document stays English.
     await expect(page.getByRole('button', { name: 'Print' })).toBeVisible();
   });
@@ -648,6 +651,9 @@ test.describe.serial('OceanX operations', () => {
     await expect(sign).toBeVisible();
     expect(await stamp.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
     expect(await sign.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    // Kept small on the page: the signature stays under ~1.3 cm tall and the stamp under ~2.2 cm.
+    expect((await sign.boundingBox())!.height).toBeLessThanOrEqual(48);
+    expect(await stamp.evaluate((i: HTMLImageElement) => i.offsetHeight)).toBeLessThanOrEqual(80);
     await page.screenshot({ path: `${SHOTS}/invoice-stamp-signature.png`, fullPage: true });
 
     // Salary sheet print shows them too.

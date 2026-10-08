@@ -112,8 +112,8 @@ export default function PayrollPrint() {
           )}
           <footer className="grid grid-cols-2 items-end gap-16 pt-6 text-xs text-slate-600" data-pdf-block>
             <div>
-              <div className="flex h-20 items-end">
-                {run.branding?.signer?.hasSignature && <img src={`/api/users/${run.branding.signer.id}/signature`} alt="" className="max-h-20 max-w-56 object-contain" />}
+              <div className="flex h-12 items-end">
+                {run.branding?.signer?.hasSignature && <img src={`/api/users/${run.branding.signer.id}/signature`} alt="" className="max-h-12 max-w-36 object-contain" />}
               </div>
               <div className="border-t border-slate-400 pt-2">
                 {t('staff.prepared_by')}
@@ -125,8 +125,8 @@ export default function PayrollPrint() {
               </div>
             </div>
             <div className="relative">
-              {run.branding?.stamp && <img src="/api/settings/stamp" alt="" className="absolute -top-24 end-6 h-28 w-28 rotate-[-8deg] object-contain opacity-85" />}
-              <div className="h-20" />
+              {run.branding?.stamp && <img src="/api/settings/stamp" alt="" className="absolute -top-16 end-6 h-20 w-20 rotate-[-8deg] object-contain opacity-85" />}
+              <div className="h-12" />
               <div className="border-t border-slate-400 pt-2">{t('staff.approved_by')}</div>
             </div>
           </footer>
