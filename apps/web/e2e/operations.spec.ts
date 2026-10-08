@@ -656,6 +656,38 @@ test.describe.serial('OceanX operations', () => {
     expect(await stamp.evaluate((i: HTMLImageElement) => i.offsetHeight)).toBeLessThanOrEqual(80);
     await page.screenshot({ path: `${SHOTS}/invoice-stamp-signature.png`, fullPage: true });
 
+    // A fully paid invoice gets a big PAID stamp; a part-paid one does not.
+    const ids = await page.evaluate(async (invId) => {
+      const token = (await (await fetch('/api/auth/session')).json()).csrfToken as string;
+      const h = { 'x-csrf-token': token, 'content-type': 'application/json' };
+      const post = (u: string, b: unknown = {}) => fetch(u, { method: 'POST', headers: h, body: JSON.stringify(b) });
+      await post(`/api/invoices/${invId}/issue`);
+      const due = (await (await fetch(`/api/invoices/${invId}`)).json()).invoice.balanceDue as number;
+      await post(`/api/invoices/${invId}/payments`, { method: 'card', amount: 100, reference: '', notes: '' });
+      const partial = invId;
+      const c = (await (await fetch('/api/customers?q=Aishath')).json()).items[0].id as string;
+      const inv2 = (await (await post('/api/invoices', { customerId: c, invoiceDate: '2026-10-08', dueDate: '2026-10-31', items: [{ name: 'Snacks', quantity: 1, unitPrice: 50 }] })).json()).id as string;
+      await post(`/api/invoices/${inv2}/issue`);
+      const due2 = (await (await fetch(`/api/invoices/${inv2}`)).json()).invoice.balanceDue as number;
+      await post(`/api/invoices/${inv2}/payments`, { method: 'cash', amount: due2 / 100, reference: '', notes: '' });
+      const q = (await (await post('/api/quotations', { customerId: c, quotationDate: '2026-10-08', validUntil: '2026-10-31', items: [{ name: 'Party platter', quantity: 1, unitPrice: 300 }] })).json()).id as string;
+      await post(`/api/quotations/${q}/reject`);
+      return { partial, paid: inv2, rejected: q, due };
+    }, inv);
+    await page.goto(`/print/invoice/${ids.partial}`);
+    await expect(page.locator('article')).toBeVisible();
+    await expect(page.locator('img[data-stamp]')).toHaveCount(0);
+    await page.goto(`/print/invoice/${ids.paid}`);
+    const paidStamp = page.locator('article img[data-stamp="paid"]');
+    await expect(paidStamp).toBeVisible();
+    expect(await paidStamp.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0 && i.getBoundingClientRect().width > 300)).toBe(true);
+    await page.screenshot({ path: `${SHOTS}/invoice-paid-stamp.png`, fullPage: true });
+    await page.goto(`/print/quotation/${ids.rejected}`);
+    const rejStamp = page.locator('article img[data-stamp="rejected"]');
+    await expect(rejStamp).toBeVisible();
+    expect(await rejStamp.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    await page.screenshot({ path: `${SHOTS}/quotation-rejected-stamp.png`, fullPage: true });
+
     // Salary sheet print shows them too.
     const runId = await page.evaluate(async () => (await (await fetch('/api/payroll')).json()).items[0].id as string);
     await page.goto(`/print/payroll/${runId}`);

@@ -54,6 +54,20 @@ export interface DocData {
   paperWidth?: '58mm' | '80mm' | 'a4';
 }
 
+/** Big "PAID" stamp across a paid invoice, "REJECTED" across a rejected quotation (printed and in the PDF). */
+function StatusStamp({ doc }: { doc: DocData }) {
+  const stamp = doc.kind === 'invoice' && doc.status === 'paid' ? 'paid' : doc.kind === 'quotation' && doc.status === 'rejected' ? 'rejected' : null;
+  if (!stamp) return null;
+  return (
+    <img
+      src={`/stamps/${stamp}.png`}
+      alt={stamp === 'paid' ? 'PAID' : 'REJECTED'}
+      data-stamp={stamp}
+      className="pointer-events-none absolute start-1/2 top-40 z-10 w-[120mm] max-w-[80%] -translate-x-1/2 opacity-80 select-none rtl:translate-x-1/2"
+    />
+  );
+}
+
 const pad = (n: number) => String(n).padStart(2, '0');
 const iso = (d: string) => {
   const x = /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(`${d}T12:00:00`) : new Date(d);
@@ -118,7 +132,8 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
   }
 
   return (
-    <article lang={doc.language} dir={dir} className="doc-a4 mx-auto max-w-[210mm] bg-white p-10 text-[13px] text-slate-900">
+    <article lang={doc.language} dir={dir} className="doc-a4 relative mx-auto max-w-[210mm] bg-white p-10 text-[13px] text-slate-900">
+      <StatusStamp doc={doc} />
       <header className="flex items-start justify-between gap-6 border-b border-slate-200 pb-6">
         <div className="space-y-1">
           {doc.business.hasLogo && <img src="/api/settings/logo" alt="" className="mb-2 max-h-16 object-contain" />}
