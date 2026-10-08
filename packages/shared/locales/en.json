@@ -2019,6 +2019,8 @@
     "show_stamp": "Show the company stamp on documents",
     "show_stamp_hint": "Turn off to print documents without the stamp.",
     "show_signature": "Show signatures on documents",
-    "show_signature_hint": "The signature of the person who prepared the document."
+    "show_signature_hint": "The signature of the person who prepared the document.",
+    "make_stamp": "Create stamp from business name",
+    "make_stamp_hint": "No stamp image? Create a round stamp with your business name. It is printed on quotations and invoices, and you can replace it with your own any time."
   }
 }

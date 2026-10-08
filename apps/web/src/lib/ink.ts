@@ -57,3 +57,67 @@ export async function inkToPng(source: Blob | HTMLCanvasElement, maxSide = 900):
   out.getContext('2d')!.drawImage(c, x0, y0, out.width, out.height, 0, 0, out.width, out.height);
   return new Promise((resolve, reject) => out.toBlob((b) => (b ? resolve(b) : reject(new Error('png'))), 'image/png'));
 }
+
+/**
+ * A round company stamp drawn from the business name, for businesses that have no stamp image to upload:
+ * the name runs around the top of a double ring, with the initials in the middle. Returns a transparent PNG.
+ */
+export async function makeStamp(name: string, subtitle = ''): Promise<Blob> {
+  const S = 600;
+  const c = document.createElement('canvas');
+  c.width = S;
+  c.height = S;
+  const g = c.getContext('2d')!;
+  const ink = '#1e3a8a';
+  const mid = S / 2;
+  g.strokeStyle = ink;
+  g.fillStyle = ink;
+  g.lineWidth = 14;
+  g.beginPath();
+  g.arc(mid, mid, mid - 12, 0, Math.PI * 2);
+  g.stroke();
+  g.lineWidth = 5;
+  g.beginPath();
+  g.arc(mid, mid, mid - 105, 0, Math.PI * 2);
+  g.stroke();
+
+  // Text along an arc, one character at a time, centred on `centre` (radians; -π/2 is the top).
+  const font = '700 50px Inter, "Segoe UI", Arial, sans-serif';
+  const arcText = (text: string, radius: number, centre: number, inward: boolean) => {
+    g.font = font;
+    const chars = [...text];
+    const widths = chars.map((ch) => g.measureText(ch).width + 4);
+    const total = widths.reduce((a, b) => a + b, 0);
+    const maxArc = Math.PI * 1.15;
+    const scale = Math.min(1, (maxArc * radius) / total);
+    if (scale < 1) g.font = `700 ${Math.floor(50 * scale)}px Inter, "Segoe UI", Arial, sans-serif`;
+    let angle = centre - ((inward ? -1 : 1) * (total * scale)) / radius / 2;
+    chars.forEach((ch, i) => {
+      const w = widths[i]! * scale;
+      const a = angle + ((inward ? -1 : 1) * w) / radius / 2;
+      g.save();
+      g.translate(mid + radius * Math.cos(a), mid + radius * Math.sin(a));
+      g.rotate(a + (inward ? -Math.PI / 2 : Math.PI / 2));
+      g.textAlign = 'center';
+      g.textBaseline = 'middle';
+      g.fillText(ch, 0, 0);
+      g.restore();
+      angle += ((inward ? -1 : 1) * w) / radius;
+    });
+  };
+  const clean = name.trim().toUpperCase();
+  arcText(clean, mid - 58, -Math.PI / 2, false);
+  arcText(subtitle ? `★ ${subtitle.trim().toUpperCase()} ★` : '★ ★ ★', mid - 58, Math.PI / 2, true);
+
+  const initials = clean
+    .split(/\s+/)
+    .filter((w) => /\p{L}/u.test(w))
+    .slice(0, 3)
+    .map((w) => [...w][0])
+    .join('');
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  g.font = `800 ${initials.length > 2 ? 110 : 140}px Inter, "Segoe UI", Arial, sans-serif`;
+  g.fillText(initials || '★', mid, mid + 6);
+  return new Promise((resolve, reject) => c.toBlob((b) => (b ? resolve(b) : reject(new Error('stamp'))), 'image/png'));
+}

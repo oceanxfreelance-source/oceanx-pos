@@ -8,8 +8,10 @@ interface OceanxDesktop {
 
 export const desktop = (window as unknown as { oceanxDesktop?: OceanxDesktop }).oceanxDesktop ?? null;
 
-/** In the desktop app: straight to the receipt printer chosen in its Settings. In a browser: the print dialog. */
+/**
+ * Every printed document is A4, so printing always opens the normal print dialog (the page asks for A4),
+ * also in the desktop app — its silent print goes to the narrow receipt printer chosen in its Settings.
+ */
 export function printPage() {
-  if (desktop) void desktop.print();
-  else window.print();
+  window.print();
 }

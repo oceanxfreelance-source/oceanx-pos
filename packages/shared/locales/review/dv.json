@@ -2567,5 +2567,19 @@
     "suggested": "{{name}} ގެ މުސާރަ ސްލިޕް PDF ޑައުންލޯޑްކުރޭ",
     "status": "needs_review",
     "notes": "New: individual payslips. ސްލިޕް = slip."
+  },
+  {
+    "key": "branding.make_stamp",
+    "english": "Create stamp from business name",
+    "suggested": "ވިޔަފާރީގެ ނަމުން ތައްގަނޑެއް ހަދާ",
+    "status": "needs_review",
+    "notes": "New: auto-made company stamp. ތައްގަނޑު = stamp."
+  },
+  {
+    "key": "branding.make_stamp_hint",
+    "english": "No stamp image? Create a round stamp with your business name. It is printed on quotations and invoices, and you can replace it with your own any time.",
+    "suggested": "ތައްގަނޑުގެ ފޮޓޯއެއް ނެތްތޯ؟ ވިޔަފާރީގެ ނަން ލިޔެފައިވާ ވަށް ތައްގަނޑެއް ހަދާލައްވާ. އެ ތައްގަނޑު ކޯޓޭޝަނާއި އިންވޮއިސްތަކުގައި ޖެހޭނެ، އަދި ކޮންމެ ވަގުތެއްގައި ވެސް އަމިއްލަ ތައްގަނޑަކުން ބަދަލުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: auto-made company stamp. ތައްގަނޑު = stamp."
   }
 ]

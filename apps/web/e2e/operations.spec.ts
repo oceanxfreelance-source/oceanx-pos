@@ -632,6 +632,11 @@ test.describe.serial('OceanX operations', () => {
     });
     await page.goto('/settings');
     await page.getByRole('tab', { name: 'Stamp & signature' }).click();
+    // No stamp image yet: one click makes a round stamp from the business name.
+    await page.getByRole('button', { name: 'Create stamp from business name' }).click();
+    await expect(page.locator('img[src*="/api/settings/stamp"]')).toBeVisible();
+    expect(await page.locator('img[src*="/api/settings/stamp"]').evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth >= 500)).toBe(true);
+    await page.screenshot({ path: `${SHOTS}/stamp-generated.png`, fullPage: true });
     await page.locator('input[type=file]').setInputFiles({ name: 'stamp.png', mimeType: 'image/png', buffer: Buffer.from(stampPng, 'base64') });
     await expect(page.locator('img[src*="/api/settings/stamp"]')).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/stamp-settings.png`, fullPage: true });

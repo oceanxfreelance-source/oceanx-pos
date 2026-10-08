@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 223 · **confirmed**: 144
+Status: **needs_review**: 225 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -28,6 +28,8 @@ review of the whole file is still recommended before launch.
 | `branding.company_stamp` | Company stamp | ކުންފުނީގެ ތައްގަނޑު | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.company_stamp_hint` | Printed on quotations, invoices, statements, payment receipts and salary sheets. | ކޯޓޭޝަން، އިންވޮއިސް، ސްޓޭޓްމަންޓް، ފައިސާ ލިބުނު ރަސީދު އަދި މުސާރަ ޝީޓުގައި ޕްރިންޓްވާނެއެވެ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.draw` | Draw | ކުރަހާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.make_stamp` | Create stamp from business name | ވިޔަފާރީގެ ނަމުން ތައްގަނޑެއް ހަދާ | needs_review | New: auto-made company stamp. ތައްގަނޑު = stamp. |
+| `branding.make_stamp_hint` | No stamp image? Create a round stamp with your business name. It is printed on quotations and invoices, and you can replace it with your own any time. | ތައްގަނޑުގެ ފޮޓޯއެއް ނެތްތޯ؟ ވިޔަފާރީގެ ނަން ލިޔެފައިވާ ވަށް ތައްގަނޑެއް ހަދާލައްވާ. އެ ތައްގަނޑު ކޯޓޭޝަނާއި އިންވޮއިސްތަކުގައި ޖެހޭނެ، އަދި ކޮންމެ ވަގުތެއްގައި ވެސް އަމިއްލަ ތައްގަނޑަކުން ބަދަލުކުރެވޭނެ. | needs_review | New: auto-made company stamp. ތައްގަނޑު = stamp. |
 | `branding.my_signature` | My signature | އަޅުގަނޑުގެ ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.my_signature_hint` | Printed on quotations, invoices, statements, payment receipts and salary sheets you prepare. | ތިޔަބޭފުޅާ ތައްޔާރުކުރައްވާ ކޯޓޭޝަން، އިންވޮއިސް، ސްޓޭޓްމަންޓް، ފައިސާ ލިބުނު ރަސީދު އަދި މުސާރަ ޝީޓުގައި ޕްރިންޓްވާނެއެވެ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.pad_hint` | Sign inside the box with your mouse, pen or finger. | މައުސް، ގަލަން ނުވަތަ އިނގިލިން ބޮކްސް ތެރޭގައި ސޮއި ކުރައްވާ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import QRCode from 'qrcode';
-import { ImageUp, Lock } from 'lucide-react';
+import { ImageUp, Lock, Stamp } from 'lucide-react';
 import { BUSINESS_TYPES, formatDocumentNumber, LANGUAGES, type BusinessSettings, type NumberingSettings } from '@oceanx/shared';
 import { api } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
@@ -13,6 +13,7 @@ import { Button } from '../../components/ui/Button';
 import { Input, Select, Switch, Textarea } from '../../components/ui/Form';
 import { Tabs } from '../../components/ui/Tabs';
 import { InkSetup } from '../../components/SignatureSetup';
+import { makeStamp } from '../../lib/ink';
 import { ViberCreditSettings } from './ViberCreditSettings';
 
 interface SettingsResponse {
@@ -419,11 +420,29 @@ function StampSetup() {
   const { t } = useTranslation();
   const session = useBizSession();
   const { refresh } = useBiz();
+  const toastErr = useToastError();
+  // No stamp image to upload: draw a round stamp with the business name and save it like an uploaded one.
+  const make = useMutation({
+    mutationFn: async () => api.upload('/settings/stamp', await makeStamp(session.business.name)),
+    onSuccess: () => {
+      toast.success(t('common.saved'));
+      void refresh();
+    },
+    onError: toastErr,
+  });
   return (
     <div className="space-y-2">
       <p className="text-sm font-medium">{t('branding.company_stamp')}</p>
       <p className="text-xs text-slate-500">{t('branding.company_stamp_hint')}</p>
       <InkSetup current={session.business.hasStamp ? '/api/settings/stamp' : null} uploadPath="/settings/stamp" allowDraw={false} onChanged={() => void refresh()} previewClass="size-32 object-contain" />
+      {!session.business.hasStamp && (
+        <div className="flex flex-wrap items-center gap-3 rounded-xl bg-slate-50 p-3 dark:bg-slate-800/50">
+          <p className="min-w-0 flex-1 text-xs text-slate-600 dark:text-slate-300">{t('branding.make_stamp_hint')}</p>
+          <Button variant="secondary" size="sm" icon={<Stamp className="size-4" />} loading={make.isPending} onClick={() => make.mutate()}>
+            {t('branding.make_stamp')}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
