@@ -65,7 +65,15 @@ export function StatCard({ label, value, hint, icon, tone = 'blue' }: { label: R
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="text-xs font-medium text-slate-500 sm:text-sm dark:text-slate-400">{label}</p>
-          <p className="mt-1.5 truncate text-xl font-semibold tracking-tight text-slate-900 tabular-nums sm:mt-2 sm:text-2xl dark:text-white">{value}</p>
+          {/* Large amounts get a smaller size instead of being cut off with "…". */}
+          <p
+            className={clsx(
+              'mt-1.5 font-semibold tracking-tight [overflow-wrap:anywhere] text-slate-900 tabular-nums sm:mt-2 dark:text-white',
+              typeof value === 'string' && value.length > 11 ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl',
+            )}
+          >
+            {value}
+          </p>
           {hint && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{hint}</p>}
         </div>
         {icon && <div className={clsx('hidden rounded-xl p-2.5 ring-1 ring-inset min-[400px]:block', badgeTones[tone])}>{icon}</div>}
