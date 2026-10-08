@@ -1,9 +1,18 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import clsx from 'clsx';
 
 export function Dropdown({ trigger, children, align = 'end' }: { trigger: (open: boolean) => ReactNode; children: (close: () => void) => ReactNode; align?: 'start' | 'end' }) {
   const [open, setOpen] = useState(false);
+  const [side, setSide] = useState(align);
   const ref = useRef<HTMLDivElement>(null);
+  const menu = useRef<HTMLDivElement>(null);
+  // Keep the menu on screen: e.g. in right-to-left languages an "end" menu near the left edge would open off-screen.
+  useLayoutEffect(() => {
+    if (!open) return setSide(align);
+    const r = menu.current?.getBoundingClientRect();
+    if (!r) return;
+    if (r.left < 8 || r.right > window.innerWidth - 8) setSide((s) => (s === 'end' ? 'start' : 'end'));
+  }, [open, align]);
   useEffect(() => {
     if (!open) return;
     const onDoc = (e: MouseEvent) => !ref.current?.contains(e.target as Node) && setOpen(false);
@@ -22,8 +31,9 @@ export function Dropdown({ trigger, children, align = 'end' }: { trigger: (open:
         <div
           className={clsx(
             'animate-pop-in absolute z-40 mt-2 min-w-56 rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800',
-            align === 'end' ? 'end-0' : 'start-0',
+            side === 'end' ? 'end-0' : 'start-0',
           )}
+          ref={menu}
           role="menu"
         >
           {children(() => setOpen(false))}
