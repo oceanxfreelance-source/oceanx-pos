@@ -1992,7 +1992,14 @@
       "emerald": "කොළ",
       "rose": "රතු",
       "slate": "අළු"
-    }
+    },
+    "payslip": "වැටුප් පත්‍රය",
+    "earnings": "ඉපැයීම්",
+    "gross_pay": "දළ වැටුප",
+    "total_deductions": "මුළු අඩු කිරීම්",
+    "employee_signature": "සේවකයාගේ අත්සන",
+    "print_payslip": "{{name}} ගේ වැටුප් පත්‍රය මුද්‍රණය කරන්න",
+    "download_payslip": "{{name}} ගේ වැටුප් පත්‍රය PDF ලෙස බාගන්න"
   },
   "branding": {
     "my_signature": "මගේ අත්සන",

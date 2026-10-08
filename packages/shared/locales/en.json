@@ -1992,7 +1992,14 @@
       "emerald": "Green",
       "rose": "Red",
       "slate": "Grey"
-    }
+    },
+    "payslip": "Payslip",
+    "earnings": "Earnings",
+    "gross_pay": "Gross pay",
+    "total_deductions": "Total deductions",
+    "employee_signature": "Employee signature",
+    "print_payslip": "Print payslip for {{name}}",
+    "download_payslip": "Download payslip PDF for {{name}}"
   },
   "branding": {
     "my_signature": "My signature",

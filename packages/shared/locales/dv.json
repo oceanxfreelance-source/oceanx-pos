@@ -1992,7 +1992,14 @@
       "emerald": "ފެހި",
       "rose": "ރަތް",
       "slate": "އަޅި"
-    }
+    },
+    "payslip": "މުސާރަ ސްލިޕް",
+    "earnings": "ލިބޭ ފައިސާ",
+    "gross_pay": "ޖުމްލަ މުސާރަ",
+    "total_deductions": "ޖުމްލަ ކެނޑުން",
+    "employee_signature": "މުވައްޒަފުގެ ސޮއި",
+    "print_payslip": "{{name}} ގެ މުސާރަ ސްލިޕް ޕްރިންޓްކުރޭ",
+    "download_payslip": "{{name}} ގެ މުސާރަ ސްލިޕް PDF ޑައުންލޯޑްކުރޭ"
   },
   "branding": {
     "my_signature": "އަޅުގަނޑުގެ ސޮއި",

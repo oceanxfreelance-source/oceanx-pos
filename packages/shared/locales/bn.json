@@ -1992,7 +1992,14 @@
       "emerald": "সবুজ",
       "rose": "লাল",
       "slate": "ধূসর"
-    }
+    },
+    "payslip": "বেতন স্লিপ",
+    "earnings": "আয়",
+    "gross_pay": "মোট বেতন",
+    "total_deductions": "মোট কর্তন",
+    "employee_signature": "কর্মীর স্বাক্ষর",
+    "print_payslip": "{{name}}-এর বেতন স্লিপ প্রিন্ট করুন",
+    "download_payslip": "{{name}}-এর বেতন স্লিপ PDF ডাউনলোড করুন"
   },
   "branding": {
     "my_signature": "আমার স্বাক্ষর",

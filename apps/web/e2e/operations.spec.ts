@@ -662,5 +662,16 @@ test.describe.serial('OceanX operations', () => {
     await expect(page.locator('article img[src="/api/settings/stamp"]')).toBeVisible();
     await expect(page.locator('article img[src*="/signature"]')).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/payroll-stamp-signature.png`, fullPage: true });
+
+    // Each person gets their own A4 payslip to print or send as a PDF.
+    const line = await page.evaluate(async (rid) => (await (await fetch(`/api/payroll/${rid}`)).json()).lines[0] as { id: string; name: string }, runId);
+    await page.goto(`/print/payroll/${runId}/slip/${line.id}`);
+    const slip = page.locator('article');
+    await expect(slip).toContainText('Payslip');
+    await expect(slip).toContainText(line.name);
+    await expect(slip).toContainText('Employee signature');
+    await expect(slip.locator('img[src*="/signature"]')).toBeVisible();
+    expect(await slip.evaluate((el) => el.getBoundingClientRect().width)).toBeGreaterThan(700);
+    await page.screenshot({ path: `${SHOTS}/payslip.png`, fullPage: true });
   });
 });

@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { ArrowLeft, Download, Lock, Printer, RotateCcw, Save, Trash2, UserPlus, X } from 'lucide-react';
+import { ArrowLeft, Download, FileText, Lock, Printer, RotateCcw, Save, Trash2, UserPlus, X } from 'lucide-react';
 import { api } from '../../lib/api';
 import { useBiz } from '../../auth/business';
 import { parseAmount, useMoney } from '../../lib/money';
@@ -128,6 +128,7 @@ export default function PayrollSheetPage() {
     onError: toastErr,
   });
   const print = (download: boolean) => window.open(`/print/payroll/${id}${download ? '?download=1' : ''}`, '_blank', 'noopener');
+  const payslip = (lineId: string, download: boolean) => window.open(`/print/payroll/${id}/slip/${lineId}${download ? '?download=1' : ''}`, '_blank', 'noopener');
 
   if (q.error)
     return (
@@ -189,7 +190,7 @@ export default function PayrollSheetPage() {
                 ))}
                 <th className={`${cell} text-end font-medium whitespace-nowrap`}>{t('staff.col_net')}</th>
                 <th className={`${cell} text-start font-medium`}>{t('common.notes')}</th>
-                {editable && <th className={cell} />}
+                <th className={cell} />
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -242,13 +243,21 @@ export default function PayrollSheetPage() {
                         </span>
                       )}
                     </td>
-                    {editable && (
-                      <td className={cell}>
-                        <IconButton label={t('staff.remove_from_sheet')} onClick={() => removeLine.mutate(l.id)} className="hover:text-rose-600" disabled={dirty}>
-                          <X className="size-4" />
+                    <td className={`${cell} pe-4`}>
+                      <div className="flex items-center justify-end gap-0.5">
+                        <IconButton label={t('staff.print_payslip', { name: l.name })} onClick={() => payslip(l.id, false)} disabled={dirty}>
+                          <FileText className="size-4" />
                         </IconButton>
-                      </td>
-                    )}
+                        <IconButton label={t('staff.download_payslip', { name: l.name })} onClick={() => payslip(l.id, true)} disabled={dirty}>
+                          <Download className="size-4" />
+                        </IconButton>
+                        {editable && (
+                          <IconButton label={t('staff.remove_from_sheet')} onClick={() => removeLine.mutate(l.id)} className="hover:text-rose-600" disabled={dirty}>
+                            <X className="size-4" />
+                          </IconButton>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 );
               })}
@@ -269,7 +278,7 @@ export default function PayrollSheetPage() {
                   </td>
                 ))}
                 <td className={`${cell} text-end text-base tabular-nums`}>{money(totals.net)}</td>
-                <td colSpan={editable ? 2 : 1} />
+                <td colSpan={2} />
               </tr>
             </tfoot>
           </table>

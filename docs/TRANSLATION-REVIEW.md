@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 216 · **confirmed**: 144
+Status: **needs_review**: 223 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -155,14 +155,18 @@ review of the whole file is still recommended before launch.
 | `staff.day_off` | Off | އޯފް | needs_review | "Off" = day off, written as loanword އޯފް (common in workplaces). Alternative: ބަންދު / ބަންދު ދުވަސް. |
 | `staff.delete_sheet` | Delete sheet | ޝީޓް ޑިލީޓްކުރޭ | needs_review | Delete = ޑިލީޓް as in common.delete (perm.* uses ފޮހެލާ). |
 | `staff.delete_sheet_body` | This draft salary sheet will be deleted. | މި ޑްރާފްޓް މުސާރަ ޝީޓް ޑިލީޓްކުރެވޭނެ. | needs_review | Plain translation using existing app terms. |
+| `staff.download_payslip` | Download payslip PDF for {{name}} | {{name}} ގެ މުސާރަ ސްލިޕް PDF ޑައުންލޯޑްކުރޭ | needs_review | New: individual payslips. ސްލިޕް = slip. |
+| `staff.earnings` | Earnings | ލިބޭ ފައިސާ | needs_review | New: individual payslips. ސްލިޕް = slip. |
 | `staff.edit_shift` | Edit shift | ޝިފްޓު ބަދަލުކުރޭ | needs_review | Plain translation using existing app terms. |
 | `staff.edit_staff` | Edit staff | ސްޓާފު ބަދަލުކުރޭ | needs_review | Plain translation using existing app terms. |
+| `staff.employee_signature` | Employee signature | މުވައްޒަފުގެ ސޮއި | needs_review | New: individual payslips. ސްލިޕް = slip. |
 | `staff.end_time` | Ends | ނިމޭ ގަޑި | needs_review | Literal "end time". |
 | `staff.finalize` | Finalize | ފައިނަލްކުރޭ | needs_review | Plain translation using existing app terms. |
 | `staff.finalize_body` | Finalizing locks the sheet. You can reopen it later if something needs correcting. | ފައިނަލްކުރުމުން ޝީޓް ލޮކްވާނެ. އިސްލާހުކުރަން ޖެހިއްޖެނަމަ ފަހުން އަލުން ހުޅުވިދާނެ. | needs_review | Lock = ލޮކް (loanword). |
 | `staff.finalized_hint` | This sheet is finalized and locked. | މި ޝީޓް ފައިނަލްކޮށް ލޮކްކޮށްފައި. | needs_review | Plain translation using existing app terms. |
 | `staff.finalized_toast` | Salary sheet finalized | މުސާރަ ޝީޓް ފައިނަލްކުރެވިއްޖެ | needs_review | Plain translation using existing app terms. |
 | `staff.finalized_with_expense` | This sheet is finalized and locked. The total was added to expenses as Salaries. | މި ޝީޓް ފައިނަލްކޮށް ލޮކްކޮށްފައި. ޖުމްލަ އަދަދު މުސާރައިގެ ގޮތުގައި ޚަރަދުތަކަށް އިތުރުކުރެވިފައި. | needs_review | Plain translation using existing app terms. |
+| `staff.gross_pay` | Gross pay | ޖުމްލަ މުސާރަ | needs_review | New: individual payslips. ސްލިޕް = slip. |
 | `staff.leave` | Leave | ޗުއްޓީ | needs_review | ޗުއްޓީ = leave (holiday/sick). |
 | `staff.month` | Month | މަސް | needs_review | Plain translation using existing app terms. |
 | `staff.net_formula` | Net pay = basic + allowances + overtime − deductions − advance. | ނެޓް މުސާރަ = ބޭސިކް + އެލަވަންސް + އޯވަޓައިމް − ކެނޑުން − އެޑްވާންސް. | needs_review | Plain translation using existing app terms. |
@@ -178,6 +182,7 @@ review of the whole file is still recommended before launch.
 | `staff.no_staff_hint` | Add the people who work here to make salary sheets and the duty rota. | މުސާރަ ޝީޓާއި ޑިއުޓީ ރޯސްޓަރު ހެދުމަށް، މިތާ މަސައްކަތްކުރާ މީހުން އިތުރުކުރޭ. | needs_review | Plain translation using existing app terms. |
 | `staff.payroll_subtitle` | Monthly salaries for your staff: basic pay, allowances, overtime, deductions and advances. | ސްޓާފުންގެ މަހު މުސާރަ: ބޭސިކް މުސާރަ، އެލަވަންސް، އޯވަޓައިމް، ކެނޑުންތަކާއި އެޑްވާންސް. | needs_review | Plain translation using existing app terms. |
 | `staff.payroll_title` | Salary sheets | މުސާރަ ޝީޓްތައް | needs_review | Plain translation using existing app terms. |
+| `staff.payslip` | Payslip | މުސާރަ ސްލިޕް | needs_review | New: individual payslips. ސްލިޕް = slip. |
 | `staff.position` | Position | މަޤާމު | needs_review | މަޤާމު = job position/post. |
 | `staff.position_placeholder` | e.g. Chef, Waiter, Cashier | މިސާލަކަށް: ޝެފް، ވެއިޓަރު، ކޭޝިއަރު | needs_review | Plain translation using existing app terms. |
 | `staff.prepared_by` | Prepared by | ތައްޔާރުކުރީ | needs_review | Print label; "prepared by" = ތައްޔާރުކުރީ. |
@@ -185,6 +190,7 @@ review of the whole file is still recommended before launch.
 | `staff.preset_morning` | Morning | ހެނދުނު | needs_review | Plain translation using existing app terms. |
 | `staff.preset_split` | Lunch | މެންދުރު | needs_review | English label is "Lunch"; rendered as މެންދުރު (midday). |
 | `staff.prev_week` | Previous week | ކުރީ ހަފްތާ | needs_review | Alternative: ފާއިތުވި ހަފްތާ. |
+| `staff.print_payslip` | Print payslip for {{name}} | {{name}} ގެ މުސާރަ ސްލިޕް ޕްރިންޓްކުރޭ | needs_review | New: individual payslips. ސްލިޕް = slip. |
 | `staff.remove_body` | {{name}} will be removed from the staff list. Past salary sheets keep their records. | {{name}} ސްޓާފުންގެ ލިސްޓުން ނަގާލެވޭނެ. ކުރީގެ މުސާރަ ޝީޓްތަކުގެ ރެކޯޑުތައް ބާކީ ހުންނާނެ. | needs_review | Plain translation using existing app terms. |
 | `staff.remove_from_sheet` | Remove from this sheet | މި ޝީޓުން ނަގާލާ | needs_review | Plain translation using existing app terms. |
 | `staff.remove_shift` | Delete shift? | ޝިފްޓު ޑިލީޓްކުރަންތަ؟ | needs_review | Plain translation using existing app terms. |
@@ -215,6 +221,7 @@ review of the whole file is still recommended before launch.
 | `staff.tab_shifts` | Shifts | ޝިފްޓުތައް | needs_review | Plain translation using existing app terms. |
 | `staff.tab_staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
 | `staff.this_week` | This week | މި ހަފްތާ | needs_review | Plain translation using existing app terms. |
+| `staff.total_deductions` | Total deductions | ޖުމްލަ ކެނޑުން | needs_review | New: individual payslips. ސްލިޕް = slip. |
 | `staff.total_net_pay` | Total net pay | ޖުމްލަ ނެޓް މުސާރަ | needs_review | Plain translation using existing app terms. |
 | `staff.unsaved` | You have unsaved changes. | ރައްކާނުކުރާ ބަދަލުތައް އެބަހުރި. | needs_review | Literal: "there are unsaved changes". |
 | `superadmin.business.addon_requests_one` | {{count}} add-on requested | {{count}} އެޑް-އޮނަށް އެދިފައި | needs_review | Dhivehi does not inflect after numbers; _one/_other identical. "Add-on" = އެޑް-އޮން as in superadmin.business.*. |

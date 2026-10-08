@@ -2518,5 +2518,54 @@
     "suggested": "ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން",
     "status": "needs_review",
     "notes": "New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature."
+  },
+  {
+    "key": "staff.payslip",
+    "english": "Payslip",
+    "suggested": "މުސާރަ ސްލިޕް",
+    "status": "needs_review",
+    "notes": "New: individual payslips. ސްލިޕް = slip."
+  },
+  {
+    "key": "staff.earnings",
+    "english": "Earnings",
+    "suggested": "ލިބޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "New: individual payslips. ސްލިޕް = slip."
+  },
+  {
+    "key": "staff.gross_pay",
+    "english": "Gross pay",
+    "suggested": "ޖުމްލަ މުސާރަ",
+    "status": "needs_review",
+    "notes": "New: individual payslips. ސްލިޕް = slip."
+  },
+  {
+    "key": "staff.total_deductions",
+    "english": "Total deductions",
+    "suggested": "ޖުމްލަ ކެނޑުން",
+    "status": "needs_review",
+    "notes": "New: individual payslips. ސްލިޕް = slip."
+  },
+  {
+    "key": "staff.employee_signature",
+    "english": "Employee signature",
+    "suggested": "މުވައްޒަފުގެ ސޮއި",
+    "status": "needs_review",
+    "notes": "New: individual payslips. ސްލިޕް = slip."
+  },
+  {
+    "key": "staff.print_payslip",
+    "english": "Print payslip for {{name}}",
+    "suggested": "{{name}} ގެ މުސާރަ ސްލިޕް ޕްރިންޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "New: individual payslips. ސްލިޕް = slip."
+  },
+  {
+    "key": "staff.download_payslip",
+    "english": "Download payslip PDF for {{name}}",
+    "suggested": "{{name}} ގެ މުސާރަ ސްލިޕް PDF ޑައުންލޯޑްކުރޭ",
+    "status": "needs_review",
+    "notes": "New: individual payslips. ސްލިޕް = slip."
   }
 ]

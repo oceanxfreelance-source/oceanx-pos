@@ -1992,7 +1992,14 @@
       "emerald": "हरा",
       "rose": "लाल",
       "slate": "स्लेटी"
-    }
+    },
+    "payslip": "वेतन पर्ची",
+    "earnings": "आय",
+    "gross_pay": "सकल वेतन",
+    "total_deductions": "कुल कटौती",
+    "employee_signature": "कर्मचारी के हस्ताक्षर",
+    "print_payslip": "{{name}} की वेतन पर्ची प्रिंट करें",
+    "download_payslip": "{{name}} की वेतन पर्ची PDF डाउनलोड करें"
   },
   "branding": {
     "my_signature": "मेरे हस्ताक्षर",
