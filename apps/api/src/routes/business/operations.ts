@@ -141,8 +141,10 @@ export async function operationsRoutes(app: FastifyInstance) {
       .where(and(eq(products.businessId, ctx.businessId), inArray(products.id, ids), isNull(products.deletedAt)));
     if (prods.length !== ids.length) throw new AppError('validation_failed', 'Unknown product', { fields: { items: { code: 'invalid_option' } } });
     const rows = body.items.map((i) => {
-      const unitCost = toMinor(i.unitCost);
-      return { productId: i.productId, nameSnapshot: prods.find((p) => p.id === i.productId)!.name, quantity: i.quantity, unitCost, total: Math.round(unitCost * i.quantity) };
+      // Bulk buys: the total paid for the line is kept exactly and the unit cost is derived from it.
+      const total = i.lineTotal !== undefined ? toMinor(i.lineTotal) : Math.round(toMinor(i.unitCost ?? 0) * i.quantity);
+      const unitCost = i.lineTotal !== undefined ? Math.round(total / i.quantity) : toMinor(i.unitCost ?? 0);
+      return { productId: i.productId, nameSnapshot: prods.find((p) => p.id === i.productId)!.name, quantity: i.quantity, unitCost, total };
     });
     return { rows, total: rows.reduce((a, r) => a + r.total, 0) };
   }
@@ -202,7 +204,7 @@ export async function operationsRoutes(app: FastifyInstance) {
           .from(stockLevels)
           .where(and(eq(stockLevels.businessId, ctx.businessId), eq(stockLevels.productId, it.productId)));
         const onHand = Math.max(0, Number(lvl?.q ?? 0));
-        const newCost = onHand + it.quantity > 0 ? Math.round((onHand * (prod?.costPrice ?? 0) + it.quantity * it.unitCost) / (onHand + it.quantity)) : it.unitCost;
+        const newCost = onHand + it.quantity > 0 ? Math.round((onHand * (prod?.costPrice ?? 0) + it.total) / (onHand + it.quantity)) : it.unitCost;
         await tx.update(products).set({ costPrice: newCost, updatedAt: new Date() }).where(eq(products.id, it.productId));
         await moveStock(tx, {
           businessId: ctx.businessId,

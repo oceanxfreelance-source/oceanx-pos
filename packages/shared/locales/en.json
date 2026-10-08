@@ -1543,7 +1543,9 @@
     "cost_per_unit": "Cost per unit",
     "opening_stock": "Opening stock",
     "min_stock_hint": "You get a low-stock alert at this level.",
-    "supply_added": "Stock item added"
+    "supply_added": "Stock item added",
+    "total_paid": "Total paid",
+    "total_paid_hint": "For a bulk buy: what you paid for the whole opening stock. The cost per unit is worked out."
   },
   "purchases": {
     "page_title": "Purchases & suppliers",
@@ -1564,7 +1566,9 @@
     "confirm_receive_title": "Receive this purchase?",
     "confirm_receive_body": "Stock is added at this outlet and item costs are updated. This cannot be undone.",
     "confirm_cancel_title": "Cancel this purchase?",
-    "confirm_cancel_body": "The purchase is cancelled and no stock is added."
+    "confirm_cancel_body": "The purchase is cancelled and no stock is added.",
+    "line_total": "Total paid",
+    "line_total_hint": "Bought in bulk? Enter the total you paid for the line and the unit cost is worked out for you."
   },
   "suppliers": {
     "title": "Suppliers",

@@ -177,7 +177,12 @@ export const purchaseSchema = z.object({
   reference: text(60),
   notes: text(1000),
   items: z
-    .array(z.object({ productId: id, quantity: qty, unitCost: money }))
+    .array(
+      // Either the cost per unit, or the total paid for the whole line (bulk buys) — the server works out the other.
+      z
+        .object({ productId: id, quantity: qty, unitCost: money.optional(), lineTotal: money.optional() })
+        .refine((i) => i.unitCost !== undefined || i.lineTotal !== undefined, { message: 'Unit cost or line total required', path: ['unitCost'] }),
+    )
     .min(1)
     .max(300),
 });

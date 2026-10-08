@@ -345,8 +345,19 @@ function AddSupplyDialog({ onClose }: { onClose: () => void }) {
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
   const cats = useQuery({ queryKey: ['biz', 'categories'], queryFn: () => api.get<{ items: { id: string; name: string }[] }>('/categories') });
-  const [form, setForm] = useState({ name: '', unit: 'pkt', costPrice: '', openingStock: '', minStock: '', categoryId: '', sku: '' });
+  const [form, setForm] = useState({ name: '', unit: 'pkt', costPrice: '', openingStock: '', totalPaid: '', minStock: '', categoryId: '', sku: '' });
   const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  // Bulk buys: enter what was paid for the whole lot and the cost per unit is worked out (and the other way round).
+  const round2 = (v: number) => String(Math.round(v * 100) / 100);
+  const setCost = (field: 'costPrice' | 'openingStock' | 'totalPaid') => (e: { target: { value: string } }) =>
+    setForm((f) => {
+      const n = { ...f, [field]: e.target.value };
+      const q = parseAmount(n.openingStock);
+      if (field === 'totalPaid' || (field === 'openingStock' && f.totalPaid !== '' && f.costPrice === '')) {
+        if (q > 0 && n.totalPaid !== '') n.costPrice = round2(parseAmount(n.totalPaid) / q);
+      } else if (n.costPrice !== '' && q > 0) n.totalPaid = round2(parseAmount(n.costPrice) * q);
+      return n;
+    });
   const save = useMutation({
     mutationFn: async () => {
       const p = await api.post<{ id: string }>('/products', {
@@ -399,8 +410,9 @@ function AddSupplyDialog({ onClose }: { onClose: () => void }) {
               ))}
             </datalist>
           </div>
-          <Input type="number" min={0} step="0.01" label={t('inventory.cost_per_unit')} value={form.costPrice} onChange={set('costPrice')} />
-          <Input type="number" min={0} step="0.001" label={t('inventory.opening_stock')} value={form.openingStock} onChange={set('openingStock')} />
+          <Input type="number" min={0} step="0.001" label={t('inventory.opening_stock')} value={form.openingStock} onChange={setCost('openingStock')} />
+          <Input type="number" min={0} step="0.01" label={t('inventory.cost_per_unit')} value={form.costPrice} onChange={setCost('costPrice')} />
+          <Input type="number" min={0} step="0.01" label={t('inventory.total_paid')} hint={t('inventory.total_paid_hint')} value={form.totalPaid} onChange={setCost('totalPaid')} />
           <Input type="number" min={0} step="0.001" label={t('products.min_stock')} hint={t('inventory.min_stock_hint')} value={form.minStock} onChange={set('minStock')} />
           <Select label={t('categories.category')} value={form.categoryId} onChange={set('categoryId')}>
             <option value="">—</option>

@@ -140,7 +140,25 @@ function PurchaseForm({
   const editable = !p || p.status === 'draft';
   const [supplier, setSupplier] = useState<{ id: string; name: string } | null>(data ? data.supplier : null);
   const [form, setForm] = useState({ purchaseDate: p?.purchaseDate ?? new Date().toISOString().slice(0, 10), reference: p?.reference ?? '', notes: p?.notes ?? '' });
-  const [items, setItems] = useState(data?.items.map((i) => ({ productId: i.productId, name: i.nameSnapshot, quantity: String(i.quantity), unitCost: String(i.unitCost / 100) })) ?? []);
+  // Each line can be entered by unit cost or by the total paid for it (bulk buys); the other is filled in.
+  type Line = { productId: string; name: string; quantity: string; unitCost: string; lineTotal: string; by: 'unit' | 'total' };
+  const [items, setItems] = useState<Line[]>(
+    data?.items.map((i) => ({ productId: i.productId, name: i.nameSnapshot, quantity: String(i.quantity), unitCost: String(i.unitCost / 100), lineTotal: String(i.total / 100), by: 'total' as const })) ?? [],
+  );
+  const fmt2 = (v: number) => (Number.isFinite(v) ? String(Math.round(v * 100) / 100) : '');
+  const editLine = (idx: number, field: 'quantity' | 'unitCost' | 'lineTotal', value: string) =>
+    setItems(
+      items.map((x, j) => {
+        if (j !== idx) return x;
+        const l = { ...x, [field]: value };
+        if (field === 'unitCost') l.by = 'unit';
+        if (field === 'lineTotal') l.by = 'total';
+        const q = parseAmount(l.quantity);
+        if (l.by === 'unit') l.lineTotal = l.unitCost === '' ? '' : fmt2(parseAmount(l.unitCost) * q);
+        else l.unitCost = l.lineTotal === '' || q <= 0 ? '' : fmt2(parseAmount(l.lineTotal) / q);
+        return l;
+      }),
+    );
   const [confirm, setConfirm] = useState<'receive' | 'cancel' | null>(null);
   const [payAmount, setPayAmount] = useState('');
   const [payMethod, setPayMethod] = useState('cash');
@@ -151,7 +169,7 @@ function PurchaseForm({
   };
   const save = useMutation({
     mutationFn: () => {
-      const body = { supplierId: supplier?.id, ...form, items: items.map((i) => ({ productId: i.productId, quantity: parseAmount(i.quantity), unitCost: parseAmount(i.unitCost) })) };
+      const body = { supplierId: supplier?.id, ...form, items: items.map((i) => ({ productId: i.productId, quantity: parseAmount(i.quantity), ...(i.by === 'total' ? { lineTotal: parseAmount(i.lineTotal) } : { unitCost: parseAmount(i.unitCost) }) })) };
       return p ? api.put(`/purchases/${p.id}`, body) : api.post('/purchases', body);
     },
     onSuccess: () => {
@@ -182,7 +200,7 @@ function PurchaseForm({
     onError: toastErr,
   });
   const fe = useFieldErrors(save.error);
-  const total = items.reduce((a, i) => a + Math.round(parseAmount(i.unitCost) * 100 * parseAmount(i.quantity)), 0);
+  const total = items.reduce((a, i) => a + (i.by === 'total' ? Math.round(parseAmount(i.lineTotal) * 100) : Math.round(parseAmount(i.unitCost) * 100 * parseAmount(i.quantity))), 0);
   return (
     <Dialog
       open
@@ -223,12 +241,13 @@ function PurchaseForm({
         </div>
         <div className="space-y-2">
           {items.map((i, idx) => (
-            <div key={i.productId} className="grid grid-cols-[1fr_6rem_7rem_auto] items-end gap-2">
+            <div key={i.productId} className="grid grid-cols-[1fr_5.5rem_6.5rem_7.5rem_auto] items-end gap-2">
               <span className="truncate py-2.5 text-sm font-medium" dir="auto">
                 {i.name}
               </span>
-              <Input type="number" min={0} step="0.001" label={idx === 0 ? t('documents.quantity') : undefined} aria-label={t('documents.quantity')} value={i.quantity} disabled={!editable} onChange={(e) => setItems(items.map((x, j) => (j === idx ? { ...x, quantity: e.target.value } : x)))} />
-              <Input type="number" min={0} step="0.01" label={idx === 0 ? t('purchases.unit_cost') : undefined} aria-label={t('purchases.unit_cost')} value={i.unitCost} disabled={!editable} onChange={(e) => setItems(items.map((x, j) => (j === idx ? { ...x, unitCost: e.target.value } : x)))} />
+              <Input type="number" min={0} step="0.001" label={idx === 0 ? t('documents.quantity') : undefined} aria-label={t('documents.quantity')} value={i.quantity} disabled={!editable} onChange={(e) => editLine(idx, 'quantity', e.target.value)} />
+              <Input type="number" min={0} step="0.01" label={idx === 0 ? t('purchases.unit_cost') : undefined} aria-label={t('purchases.unit_cost')} value={i.unitCost} disabled={!editable} onChange={(e) => editLine(idx, 'unitCost', e.target.value)} />
+              <Input type="number" min={0} step="0.01" label={idx === 0 ? t('purchases.line_total') : undefined} aria-label={t('purchases.line_total')} value={i.lineTotal} disabled={!editable} onChange={(e) => editLine(idx, 'lineTotal', e.target.value)} />
               {editable ? (
                 <IconButton label={t('common.delete')} onClick={() => setItems(items.filter((_, j) => j !== idx))}>
                   <Trash2 className="size-4" />
@@ -238,7 +257,8 @@ function PurchaseForm({
               )}
             </div>
           ))}
-          {editable && <ProductPicker value={null} placeholder={t('documents.add_product')} onChange={(_id, pr) => pr && !items.some((i) => i.productId === pr.id) && setItems([...items, { productId: pr.id, name: pr.name, quantity: '1', unitCost: String(pr.costPrice / 100) }])} />}
+          {editable && <ProductPicker value={null} placeholder={t('documents.add_product')} onChange={(_id, pr) => pr && !items.some((i) => i.productId === pr.id) && setItems([...items, { productId: pr.id, name: pr.name, quantity: '1', unitCost: String(pr.costPrice / 100), lineTotal: String(pr.costPrice / 100), by: 'unit' }])} />}
+          {editable && items.length > 0 && <p className="text-xs text-slate-500">{t('purchases.line_total_hint')}</p>}
           {fe('items') && <p className="text-sm text-rose-600">{fe('items')}</p>}
         </div>
         <Textarea label={t('common.notes')} value={form.notes} disabled={!editable} onChange={(e) => setForm({ ...form, notes: e.target.value })} />

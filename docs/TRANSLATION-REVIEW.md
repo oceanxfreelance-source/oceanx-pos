@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 225 · **confirmed**: 144
+Status: **needs_review**: 229 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -71,6 +71,8 @@ review of the whole file is still recommended before launch.
 | `inventory.kinds.supplies` | Ingredients & supplies | ތަކެތި އަދި ސަޕްލައިސް | needs_review | ތަކެތި for ingredients matches products.add_ingredient; ސަޕްލައިސް is a loanword. |
 | `inventory.modes.set` | Set counted quantity | ގުނި އަދަދު ސެޓްކުރޭ | needs_review | 'Set counted quantity' — ގުނި އަދަދު ސެޓްކުރޭ; confirm. |
 | `inventory.modes.wastage` | Record wastage | ގެއްލުނު / ހަލާކުވި ތަކެތި ރެކޯޑުކުރޭ | needs_review | Wastage rendered as ގެއްލުނު / ހަލާކުވި ތަކެތި (lost/spoiled). Alternative loanword: ވޭސްޓޭޖް. Also inventory.types.wastage. |
+| `inventory.total_paid` | Total paid | ޖުމްލަ ދެއްކި | needs_review | New: enter total paid for bulk stock purchases. |
+| `inventory.total_paid_hint` | For a bulk buy: what you paid for the whole opening stock. The cost per unit is worked out. | ގިނައިން ގަތުމުގައި: ފުރަތަމަ ސްޓޮކު ހުރިހާ އެއްޗަކަށް ދެއްކި އަދަދު. އެއްޗަކަށް ވާ އަގު ހިސާބުކުރެވޭނެ. | needs_review | New: enter total paid for bulk stock purchases. |
 | `inventory.transfer` | Transfer | ޓްރާންސްފަރ | needs_review | Loanword ޓްރާންސްފަރ, from existing addons.descriptions.advanced_inventory. Native alternative: ބަދަލުކުރުން. |
 | `inventory.types.transfer_in` | Transfer in | ޓްރާންސްފަރ (ލިބުނު) | needs_review | Rendered with parenthetical (ލިބުނު); alternative: ވަދެފައިވާ ޓްރާންސްފަރ. |
 | `inventory.types.wastage` | Wastage | ގެއްލުނު / ހަލާކުވި | needs_review | See inventory.modes.wastage. |
@@ -98,6 +100,8 @@ review of the whole file is still recommended before launch.
 | `public_menu.menu_title` | Menu | މެނޫ | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.more` | More | އިތުރު | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.top` | TOP {{rank}} | ޓޮޕް {{rank}} | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
+| `purchases.line_total` | Total paid | ޖުމްލަ ދެއްކި | needs_review | New: enter total paid for bulk stock purchases. |
+| `purchases.line_total_hint` | Bought in bulk? Enter the total you paid for the line and the unit cost is worked out for you. | ގިނައިން ގަތީތޯ؟ އެ ލައިނަށް ދެއްކި ޖުމްލަ އަދަދު ލިޔުއްވާ، އެއްޗަކަށް ވާ އަގު އަމިއްލައަށް ހިސާބުކުރެވޭނެ. | needs_review | New: enter total paid for bulk stock purchases. |
 | `qr.add_dish` | Add dish | ކާނާއެއް އިތުރުކުރޭ | needs_review | New: QR Menu → Menu items tab. |
 | `qr.items_empty_hint` | Add your dishes with a photo and Dhivehi name. They appear on the QR menu right away. | ފޮޓޯއާއި ދިވެހި ނަމާއެކު ކާނާތައް އިތުރުކުރައްވާ. ކިއުއާރް މެނޫގައި ވަގުތުން ފެންނާނެއެވެ. | needs_review | New: QR Menu → Menu items tab. |
 | `qr.items_no_dv_one` | {{count}} without a Dhivehi name | ދިވެހި ނަން ނެތް {{count}} | needs_review | New: QR Menu → Menu items tab. |

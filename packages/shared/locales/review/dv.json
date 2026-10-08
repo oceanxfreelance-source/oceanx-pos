@@ -2581,5 +2581,33 @@
     "suggested": "ތައްގަނޑުގެ ފޮޓޯއެއް ނެތްތޯ؟ ވިޔަފާރީގެ ނަން ލިޔެފައިވާ ވަށް ތައްގަނޑެއް ހަދާލައްވާ. އެ ތައްގަނޑު ކޯޓޭޝަނާއި އިންވޮއިސްތަކުގައި ޖެހޭނެ، އަދި ކޮންމެ ވަގުތެއްގައި ވެސް އަމިއްލަ ތައްގަނޑަކުން ބަދަލުކުރެވޭނެ.",
     "status": "needs_review",
     "notes": "New: auto-made company stamp. ތައްގަނޑު = stamp."
+  },
+  {
+    "key": "purchases.line_total",
+    "english": "Total paid",
+    "suggested": "ޖުމްލަ ދެއްކި",
+    "status": "needs_review",
+    "notes": "New: enter total paid for bulk stock purchases."
+  },
+  {
+    "key": "purchases.line_total_hint",
+    "english": "Bought in bulk? Enter the total you paid for the line and the unit cost is worked out for you.",
+    "suggested": "ގިނައިން ގަތީތޯ؟ އެ ލައިނަށް ދެއްކި ޖުމްލަ އަދަދު ލިޔުއްވާ، އެއްޗަކަށް ވާ އަގު އަމިއްލައަށް ހިސާބުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: enter total paid for bulk stock purchases."
+  },
+  {
+    "key": "inventory.total_paid",
+    "english": "Total paid",
+    "suggested": "ޖުމްލަ ދެއްކި",
+    "status": "needs_review",
+    "notes": "New: enter total paid for bulk stock purchases."
+  },
+  {
+    "key": "inventory.total_paid_hint",
+    "english": "For a bulk buy: what you paid for the whole opening stock. The cost per unit is worked out.",
+    "suggested": "ގިނައިން ގަތުމުގައި: ފުރަތަމަ ސްޓޮކު ހުރިހާ އެއްޗަކަށް ދެއްކި އަދަދު. އެއްޗަކަށް ވާ އަގު ހިސާބުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: enter total paid for bulk stock purchases."
   }
 ]

@@ -376,6 +376,19 @@ describe('purchasing, inventory, expenses', () => {
     expect(supplier.purchases).toHaveLength(1);
   });
 
+  it('bulk buy: the total paid for a line is kept exactly and the unit cost is derived', async () => {
+    const p = await product(owner, { name: 'Rice', type: 'ingredient', trackStock: true, costPrice: 0, unit: 'kg' });
+    const sup = (await owner.post('/api/suppliers', { name: 'Wholesale Co' })).json();
+    const po = (await owner.post('/api/purchases', { supplierId: sup.id, purchaseDate: '2026-10-01', items: [{ productId: p.id, quantity: 3, lineTotal: 100 }] })).json();
+    expect(po.total).toBe(10000); // exactly MVR 100.00, not 3 × 33.33
+    const detail = (await owner.get(`/api/purchases/${po.id}`)).json();
+    expect(detail.items[0]).toMatchObject({ quantity: 3, unitCost: 3333, total: 10000 });
+    await owner.post(`/api/purchases/${po.id}/receive`);
+    expect((await owner.get(`/api/products/${p.id}`)).json().costPrice).toBe(3333);
+    const bad = await owner.post('/api/purchases', { supplierId: sup.id, purchaseDate: '2026-10-01', items: [{ productId: p.id, quantity: 3 }] });
+    expect(bad.json().error.code).toBe('validation_failed');
+  });
+
   it('records wastage and stock counts', async () => {
     const p = await product(owner, { trackStock: true });
     await owner.post('/api/inventory/adjust', { productId: p.id, mode: 'add', quantity: 10, reason: '' });

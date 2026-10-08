@@ -281,8 +281,10 @@ test.describe.serial('OceanX operations', () => {
     const d = page.getByRole('dialog');
     await d.getByLabel(/^Name\s*\*?$/).fill('Milk powder packet');
     await d.getByLabel('Unit', { exact: true }).fill('pkt');
-    await d.getByLabel('Cost per unit').fill('25');
+    // Bought in bulk: 12 packets for MVR 300 in total — the cost per packet is worked out.
     await d.getByLabel('Opening stock').fill('12');
+    await d.getByLabel(/^Total paid/).fill('300');
+    await expect(d.getByLabel('Cost per unit')).toHaveValue('25');
     await d.getByRole('button', { name: 'Save' }).click();
     await page.getByLabel('Show').selectOption('supplies');
     await expect(page.getByRole('table').getByText('Milk powder packet')).toBeVisible();
