@@ -145,6 +145,8 @@ export interface ProductLite {
   unit: string;
   sellingPrice: number;
   costPrice: number;
+  /** Shops: pieces per case. */
+  packSize?: number;
   taxRate: number | null;
   type: string;
 }

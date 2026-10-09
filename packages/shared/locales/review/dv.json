@@ -3757,5 +3757,117 @@
     "suggested": "ބާކޯޑް، އަގު، އަދި ސްޓޯރާއި ރެކުގެ ސްޓޮކް.",
     "status": "needs_review",
     "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "inventory.case_count_one",
+    "english": "{{count}} case",
+    "suggested": "{{count}} ކޭސް",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.case_count_other",
+    "english": "{{count}} cases",
+    "suggested": "{{count}} ކޭސް",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.cases",
+    "english": "Cases",
+    "suggested": "ކޭސް",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.cases_of",
+    "english": "Cases of {{n}}",
+    "suggested": "{{n}} ގެ ކޭސް",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.per_case",
+    "english": "Cost per case",
+    "suggested": "ކޭހަކަށް ޚަރަދު",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.per_case_hint",
+    "english": "{{n}} {{unit}} per case",
+    "suggested": "ކޭހެއްގައި {{n}} {{unit}}",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.loose_pieces",
+    "english": "Loose {{unit}}",
+    "suggested": "ލޫސް {{unit}}",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.cases_to_open",
+    "english": "Cases to open",
+    "suggested": "ހުޅުވާ ކޭސް",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.refilled_cases",
+    "english": "Rack refilled: {{shop}} on rack, {{store}} left in store",
+    "suggested": "ރެކު ފުރިއްޖެ: ރެކުގައި {{shop}}، ސްޓޯރުގައި {{store}} ބާކީ",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.refill_result",
+    "english": "After this: {{rack}} on rack, {{store}} in store",
+    "suggested": "މީގެ ފަހުން: ރެކުގައި {{rack}}، ސްޓޯރުގައި {{store}}",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.pack_size",
+    "english": "Pieces per case",
+    "suggested": "ކޭހެއްގައި ހުންނަ އަދަދު",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.pack_size_hint",
+    "english": "Store stock is counted in cases. Use 1 if it comes loose.",
+    "suggested": "ސްޓޯރުގެ ސްޓޮކް ގުނަނީ ކޭހުން. ލޫހަށް އަންނަ ނަމަ 1 ޖައްސަވާ.",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.store_alert_cases",
+    "english": "Store alert level (cases)",
+    "suggested": "ސްޓޯރުގެ އެލާޓް (ކޭސް)",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "inventory.store_alert_pcs",
+    "english": "Store alert level (pieces)",
+    "suggested": "ސްޓޯރުގެ އެލާޓް (އަދަދު)",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "reports.columns.cases",
+    "english": "Cases",
+    "suggested": "ކޭސް",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "reports.columns.per_case",
+    "english": "Per case",
+    "suggested": "ކޭހަކަށް",
+    "status": "needs_review",
+    "notes": "New: shop store stock in cases."
   }
 ]

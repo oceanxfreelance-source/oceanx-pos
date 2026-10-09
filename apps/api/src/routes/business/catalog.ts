@@ -41,6 +41,7 @@ function productValues(body: z.output<typeof productSchema>, retail = false) {
     trackStock: body.trackStock,
     minStock: body.minStock,
     minStoreStock: body.minStoreStock,
+    packSize: body.packSize,
     isActive: body.isActive,
     showInPos: body.showInPos,
     showInMenu: body.showInMenu,

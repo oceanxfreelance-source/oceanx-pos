@@ -1637,7 +1637,21 @@
     "rack_alert": "র‍্যাক সতর্কতা স্তর",
     "rack_alert_hint": "র‍্যাকে এতগুলো বা কম থাকলে সতর্কতা (যেমন 5)।",
     "store_alert": "স্টোর সতর্কতা স্তর",
-    "store_alert_hint": "স্টোর এত কম হলে সরবরাহকারীর কাছে আবার অর্ডারের সময়।"
+    "store_alert_hint": "স্টোর এত কম হলে সরবরাহকারীর কাছে আবার অর্ডারের সময়।",
+    "case_count_one": "{{count}} কেস",
+    "case_count_other": "{{count}} কেস",
+    "cases": "কেস",
+    "cases_of": "{{n}}টির কেস",
+    "per_case": "প্রতি কেসের খরচ",
+    "per_case_hint": "প্রতি কেসে {{n}} {{unit}}",
+    "loose_pieces": "খোলা {{unit}}",
+    "cases_to_open": "খোলার কেস",
+    "refilled_cases": "র‍্যাক ভরা হয়েছে: র‍্যাকে {{shop}}, স্টোরে {{store}} বাকি",
+    "refill_result": "এরপর: র‍্যাকে {{rack}}, স্টোরে {{store}}",
+    "pack_size": "প্রতি কেসে পিস",
+    "pack_size_hint": "স্টোরের স্টক কেসে গোনা হয়। খোলা এলে 1 দিন।",
+    "store_alert_cases": "স্টোর সতর্কতা স্তর (কেস)",
+    "store_alert_pcs": "স্টোর সতর্কতা স্তর (পিস)"
   },
   "purchases": {
     "page_title": "ক্রয় ও সরবরাহকারী",
@@ -1797,7 +1811,9 @@
       "on_rack": "র‍্যাকে",
       "in_store": "স্টোরে",
       "rack_alert_at": "র‍্যাক সতর্কতা",
-      "store_alert_at": "স্টোর সতর্কতা"
+      "store_alert_at": "স্টোর সতর্কতা",
+      "cases": "কেস",
+      "per_case": "প্রতি কেস"
     },
     "sources": {
       "pos": "POS",

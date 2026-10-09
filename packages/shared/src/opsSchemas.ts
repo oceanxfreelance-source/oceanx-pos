@@ -72,6 +72,8 @@ export const productSchema = z.object({
   minStock: z.number().min(0).max(1_000_000).default(0),
   /** Shops: stock-room alert level (minStock is the rack alert). */
   minStoreStock: z.number().min(0).max(1_000_000).default(0),
+  /** Shops: pieces per case (store stock is kept in cases). */
+  packSize: z.number().gt(0).max(100_000).default(1),
   isActive: z.boolean().default(true),
   showInPos: z.boolean().default(true),
   showInMenu: z.boolean().default(true),

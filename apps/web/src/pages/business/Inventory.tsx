@@ -17,6 +17,7 @@ import { DataTable, Pagination, type Column } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { ProductPicker } from '../../components/Pickers';
+import { CaseQtyInput, caseTotal, fmtCases } from '../../components/CaseQty';
 
 interface Level {
   id: string;
@@ -31,6 +32,8 @@ interface Level {
   quantity: number;
   /** Shops: in the stock room. */
   storeQuantity: number;
+  /** Shops: pieces per case; store stock is shown in cases. */
+  packSize: number;
   low: boolean;
   storeLow: boolean;
 }
@@ -109,8 +112,8 @@ function Levels() {
       header: t('inventory.in_store'),
       cell: (l) => (
         <div>
-          {qtyBadge(l.storeQuantity, l.storeLow && l.minStoreStock > 0, l.unit)}
-          {l.minStoreStock > 0 && <p className="mt-0.5 text-[11px] text-slate-500">{t('inventory.alert_at', { n: l.minStoreStock })}</p>}
+          <Badge tone={l.storeQuantity <= 0 ? 'red' : l.storeLow && l.minStoreStock > 0 ? 'amber' : 'green'}>{fmtCases(t, l.storeQuantity, l.packSize, l.unit)}</Badge>
+          {l.minStoreStock > 0 && <p className="mt-0.5 text-[11px] text-slate-500">{t('inventory.alert_at', { n: fmtCases(t, l.minStoreStock, l.packSize, l.unit) })}</p>}
         </div>
       ),
     },
@@ -217,8 +220,12 @@ function AdjustDialog({ level, retail, onClose }: { level: Level; retail: boolea
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
   const [form, setForm] = useState({ mode: 'add', quantity: '', reason: '', location: retail ? 'store' : 'shop' });
+  const [cases, setCases] = useState('');
+  // Shops count the store in cases (+ loose pieces); the rack and everything else in pieces.
+  const inCases = retail && form.location === 'store' && level.packSize > 1;
+  const qty = inCases ? caseTotal(cases, form.quantity, level.packSize) : parseAmount(form.quantity);
   const m = useMutation({
-    mutationFn: () => api.post<{ balance: number }>('/inventory/adjust', { productId: level.id, mode: form.mode, quantity: parseAmount(form.quantity), reason: form.reason, location: form.location }),
+    mutationFn: () => api.post<{ balance: number }>('/inventory/adjust', { productId: level.id, mode: form.mode, quantity: qty, reason: form.reason, location: form.location }),
     onSuccess: (r) => {
       toast.success(t('inventory.adjusted', { balance: r.balance, unit: level.unit }));
       void qc.invalidateQueries({ queryKey: ['biz', 'inventory'] });
@@ -237,7 +244,7 @@ function AdjustDialog({ level, retail, onClose }: { level: Level; retail: boolea
           {level.name} —{' '}
           {retail ? (
             <>
-              {t('inventory.on_rack')}: <Ltr>{`${level.quantity} ${level.unit}`}</Ltr> · {t('inventory.in_store')}: <Ltr>{`${level.storeQuantity} ${level.unit}`}</Ltr>
+              {t('inventory.on_rack')}: <Ltr>{`${level.quantity} ${level.unit}`}</Ltr> · {t('inventory.in_store')}: <Ltr>{fmtCases(t, level.storeQuantity, level.packSize, level.unit)}</Ltr>
             </>
           ) : (
             <>
@@ -247,7 +254,7 @@ function AdjustDialog({ level, retail, onClose }: { level: Level; retail: boolea
         </span>
       }
       footer={
-        <Button onClick={() => m.mutate()} loading={m.isPending} disabled={form.quantity === ''}>
+        <Button onClick={() => m.mutate()} loading={m.isPending} disabled={inCases ? !(qty > 0) && form.mode !== 'set' : form.quantity === ''}>
           {t('common.save')}
         </Button>
       }
@@ -267,25 +274,31 @@ function AdjustDialog({ level, retail, onClose }: { level: Level; retail: boolea
             </option>
           ))}
         </Select>
-        <Input type="number" min={0} step="0.001" label={t('documents.quantity')} value={form.quantity} onChange={(e) => setForm({ ...form, quantity: e.target.value })} />
+        {inCases ? (
+          <CaseQtyInput packSize={level.packSize} unit={level.unit} cases={cases} pieces={form.quantity} onChange={(c, p) => (setCases(c), setForm({ ...form, quantity: p }))} />
+        ) : (
+          <Input type="number" min={0} step="0.001" label={t('documents.quantity')} value={form.quantity} onChange={(e) => setForm({ ...form, quantity: e.target.value })} />
+        )}
         <Textarea label={t('inventory.reason')} value={form.reason} onChange={(e) => setForm({ ...form, reason: e.target.value })} />
       </div>
     </Dialog>
   );
 }
 
-/** Shops: take goods from the stock room and put them on the rack. */
+/** Shops: open cases from the store and put the pieces on the rack. */
 function RefillDialog({ level, onClose }: { level: Level; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
-  // Suggest enough to bring the rack back to twice its alert level, limited by what the store has.
-  const suggested = Math.max(0, Math.min(level.storeQuantity, Math.max(level.minStock * 2 - level.quantity, 1)));
-  const [qty, setQty] = useState(String(suggested));
+  const ps = level.packSize > 1 ? level.packSize : 1;
+  // Suggest one case (or enough pieces to reach twice the alert level), limited by what the store has.
+  const [cases, setCases] = useState(ps > 1 ? (level.storeQuantity >= ps ? '1' : '0') : '');
+  const [pieces, setPieces] = useState(ps > 1 ? (level.storeQuantity >= ps ? '' : String(level.storeQuantity)) : String(Math.max(0, Math.min(level.storeQuantity, Math.max(level.minStock * 2 - level.quantity, 1)))));
+  const qty = ps > 1 ? caseTotal(cases, pieces, ps) : parseAmount(pieces);
   const m = useMutation({
-    mutationFn: () => api.post<{ shop: number; store: number }>('/inventory/refill', { productId: level.id, quantity: parseAmount(qty), note: '' }),
+    mutationFn: () => api.post<{ shop: number; store: number }>('/inventory/refill', { productId: level.id, quantity: qty, note: '' }),
     onSuccess: (r) => {
-      toast.success(t('inventory.refilled', { shop: r.shop, store: r.store, unit: level.unit }));
+      toast.success(t('inventory.refilled_cases', { shop: `${r.shop} ${level.unit}`, store: fmtCases(t, r.store, ps, level.unit) }));
       void qc.invalidateQueries({ queryKey: ['biz', 'inventory'] });
       void qc.invalidateQueries({ queryKey: ['biz', 'inventory-history'] });
       onClose();
@@ -299,18 +312,25 @@ function RefillDialog({ level, onClose }: { level: Level; onClose: () => void })
       title={t('inventory.refill_title')}
       description={
         <span dir="auto">
-          {level.name} — {t('inventory.on_rack')}: <Ltr>{`${level.quantity} ${level.unit}`}</Ltr> · {t('inventory.in_store')}: <Ltr>{`${level.storeQuantity} ${level.unit}`}</Ltr>
+          {level.name} — {t('inventory.on_rack')}: <Ltr>{`${level.quantity} ${level.unit}`}</Ltr> · {t('inventory.in_store')}: <Ltr>{fmtCases(t, level.storeQuantity, ps, level.unit)}</Ltr>
         </span>
       }
       footer={
-        <Button onClick={() => m.mutate()} loading={m.isPending} disabled={!(parseAmount(qty) > 0) || parseAmount(qty) > level.storeQuantity}>
+        <Button onClick={() => m.mutate()} loading={m.isPending} disabled={!(qty > 0) || qty > level.storeQuantity}>
           {t('inventory.refill')}
         </Button>
       }
     >
       <div className="space-y-4">
         {m.error && <Alert tone="red">{errMsg(m.error)}</Alert>}
-        <Input type="number" min={0} max={level.storeQuantity} step="0.001" label={t('inventory.refill_qty')} hint={t('inventory.refill_hint')} value={qty} onChange={(e) => setQty(e.target.value)} autoFocus />
+        {ps > 1 ? (
+          <CaseQtyInput packSize={ps} unit={level.unit} cases={cases} pieces={pieces} casesLabel={t('inventory.cases_to_open')} onChange={(c, p) => (setCases(c), setPieces(p))} />
+        ) : (
+          <Input type="number" min={0} max={level.storeQuantity} step="0.001" label={t('inventory.refill_qty')} value={pieces} onChange={(e) => setPieces(e.target.value)} autoFocus />
+        )}
+        <p className="rounded-xl bg-slate-50 px-4 py-3 text-sm dark:bg-slate-800/50">
+          {t('inventory.refill_result', { rack: `${level.quantity + qty} ${level.unit}`, store: fmtCases(t, Math.max(0, level.storeQuantity - qty), ps, level.unit) })}
+        </p>
       </div>
     </Dialog>
   );
@@ -322,7 +342,8 @@ function AddShopProductDialog({ onClose }: { onClose: () => void }) {
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
   const cats = useQuery({ queryKey: ['biz', 'categories'], queryFn: () => api.get<{ items: { id: string; name: string }[] }>('/categories') });
-  const [form, setForm] = useState({ name: '', sku: '', unit: 'pcs', costPrice: '', sellingPrice: '', store: '', rack: '', minStock: '5', minStoreStock: '', categoryId: '' });
+  const [form, setForm] = useState({ name: '', sku: '', unit: 'pcs', costPrice: '', sellingPrice: '', packSize: '1', storeCases: '', store: '', rack: '', minStock: '5', minStoreStock: '', categoryId: '' });
+  const ps = Math.max(1, parseAmount(form.packSize) || 1);
   const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
   const save = useMutation({
     mutationFn: async () => {
@@ -336,13 +357,15 @@ function AddShopProductDialog({ onClose }: { onClose: () => void }) {
         sellingPrice: parseAmount(form.sellingPrice),
         trackStock: true,
         minStock: parseAmount(form.minStock),
-        minStoreStock: parseAmount(form.minStoreStock),
+        // The store alert is entered in cases.
+        minStoreStock: parseAmount(form.minStoreStock) * ps,
+        packSize: ps,
         showInPos: true,
         showInMenu: false,
         sendToKitchen: false,
         isActive: true,
       });
-      const store = parseAmount(form.store);
+      const store = caseTotal(form.storeCases, form.store, ps);
       const rack = parseAmount(form.rack);
       if (store > 0) await api.post('/inventory/adjust', { productId: p.id, mode: 'add', quantity: store, reason: t('inventory.opening_stock'), location: 'store' });
       if (rack > 0) await api.post('/inventory/adjust', { productId: p.id, mode: 'add', quantity: rack, reason: t('inventory.opening_stock'), location: 'shop' });
@@ -387,10 +410,26 @@ function AddShopProductDialog({ onClose }: { onClose: () => void }) {
           </Select>
         </div>
         <div className="grid gap-4 rounded-xl bg-slate-50 p-4 sm:grid-cols-2 dark:bg-slate-800/40">
-          <Input type="number" min={0} step="0.001" label={t('inventory.opening_store')} value={form.store} onChange={set('store')} />
+          <Input type="number" min={1} step="1" label={t('inventory.pack_size')} hint={t('inventory.pack_size_hint')} value={form.packSize} onChange={set('packSize')} />
+          <div className="sm:col-span-2">
+            <p className="mb-1.5 text-sm font-medium">{t('inventory.opening_store')}</p>
+            {ps > 1 ? (
+              <CaseQtyInput packSize={ps} unit={form.unit || 'pcs'} cases={form.storeCases} pieces={form.store} onChange={(c, p) => setForm((f) => ({ ...f, storeCases: c, store: p }))} />
+            ) : (
+              <Input type="number" min={0} step="0.001" aria-label={t('inventory.opening_store')} value={form.store} onChange={set('store')} />
+            )}
+          </div>
           <Input type="number" min={0} step="0.001" label={t('inventory.opening_rack')} value={form.rack} onChange={set('rack')} />
           <Input type="number" min={0} step="0.001" label={t('inventory.rack_alert')} hint={t('inventory.rack_alert_hint')} value={form.minStock} onChange={set('minStock')} />
-          <Input type="number" min={0} step="0.001" label={t('inventory.store_alert')} hint={t('inventory.store_alert_hint')} value={form.minStoreStock} onChange={set('minStoreStock')} />
+          <Input
+            type="number"
+            min={0}
+            step="1"
+            label={ps > 1 ? t('inventory.store_alert_cases') : t('inventory.store_alert')}
+            hint={t('inventory.store_alert_hint')}
+            value={form.minStoreStock}
+            onChange={set('minStoreStock')}
+          />
         </div>
       </div>
     </Dialog>

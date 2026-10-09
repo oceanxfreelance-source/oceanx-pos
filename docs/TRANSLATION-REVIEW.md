@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 393 · **confirmed**: 144
+Status: **needs_review**: 409 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -131,9 +131,15 @@ review of the whole file is still recommended before launch.
 | `inventory.alert_at` | Alert at {{n}} | {{n}} ގައި އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.barcode` | Barcode / SKU | ބާކޯޑް / އެސްކޭޔޫ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.barcode_hint` | Scan the product barcode into this box. | މި ބޮކްސަށް ތަކެއްޗުގެ ބާކޯޑް ސްކޭން ކުރައްވާ. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.case_count_one` | {{count}} case | {{count}} ކޭސް | needs_review | New: shop store stock in cases. |
+| `inventory.case_count_other` | {{count}} cases | {{count}} ކޭސް | needs_review | New: shop store stock in cases. |
+| `inventory.cases` | Cases | ކޭސް | needs_review | New: shop store stock in cases. |
+| `inventory.cases_of` | Cases of {{n}} | {{n}} ގެ ކޭސް | needs_review | New: shop store stock in cases. |
+| `inventory.cases_to_open` | Cases to open | ހުޅުވާ ކޭސް | needs_review | New: shop store stock in cases. |
 | `inventory.in_store` | In store | ސްޓޯރުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.kinds.supplies` | Ingredients & supplies | ތަކެތި އަދި ސަޕްލައިސް | needs_review | ތަކެތި for ingredients matches products.add_ingredient; ސަޕްލައިސް is a loanword. |
 | `inventory.location` | Where | ހުރި ތަން | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.loose_pieces` | Loose {{unit}} | ލޫސް {{unit}} | needs_review | New: shop store stock in cases. |
 | `inventory.low_in_store` | Low in store | ސްޓޯރުގައި މަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.low_on_rack` | Low on rack | ރެކުގައި މަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.modes.set` | Set counted quantity | ގުނި އަދަދު ސެޓްކުރޭ | needs_review | 'Set counted quantity' — ގުނި އަދަދު ސެޓްކުރޭ; confirm. |
@@ -141,15 +147,23 @@ review of the whole file is still recommended before launch.
 | `inventory.on_rack` | On rack | ރެކުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.opening_rack` | Stock on rack now | މިހާރު ރެކުގައި ހުރި ސްޓޮކް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.opening_store` | Stock in store now | މިހާރު ސްޓޯރުގައި ހުރި ސްޓޮކް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.pack_size` | Pieces per case | ކޭހެއްގައި ހުންނަ އަދަދު | needs_review | New: shop store stock in cases. |
+| `inventory.pack_size_hint` | Store stock is counted in cases. Use 1 if it comes loose. | ސްޓޯރުގެ ސްޓޮކް ގުނަނީ ކޭހުން. ލޫހަށް އަންނަ ނަމަ 1 ޖައްސަވާ. | needs_review | New: shop store stock in cases. |
+| `inventory.per_case` | Cost per case | ކޭހަކަށް ޚަރަދު | needs_review | New: shop store stock in cases. |
+| `inventory.per_case_hint` | {{n}} {{unit}} per case | ކޭހެއްގައި {{n}} {{unit}} | needs_review | New: shop store stock in cases. |
 | `inventory.rack_alert` | Rack alert level | ރެކުގެ އެލާޓް ލެވެލް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.rack_alert_hint` | Alert when this many or fewer are left on the rack (e.g. 5). | ރެކުގައި މިހާ އަދަދަކަށް ނުވަތަ މަދުވުމުން އެލާޓް (މިސާލު 5). | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.refill` | Refill rack | ރެކު ފުރާ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.refill_hint` | Moves goods from the store to the rack. The store goes down by the same amount. | ސްޓޯރުން ތަކެތި ރެކަށް ބަދަލުކުރޭ. ސްޓޯރުން އެހައި އަދަދެއް މަދުވާނެ. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.refill_qty` | Quantity to put on the rack | ރެކަށް ލާ އަދަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.refill_result` | After this: {{rack}} on rack, {{store}} in store | މީގެ ފަހުން: ރެކުގައި {{rack}}، ސްޓޯރުގައި {{store}} | needs_review | New: shop store stock in cases. |
 | `inventory.refill_title` | Refill the rack from the store | ސްޓޯރުން ރެކު ފުރުން | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.refilled` | Rack refilled: {{shop}} {{unit}} on rack, {{store}} {{unit}} left in store | ރެކު ފުރިއްޖެ: ރެކުގައި {{shop}} {{unit}}، ސްޓޯރުގައި {{store}} {{unit}} ބާކީ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.refilled_cases` | Rack refilled: {{shop}} on rack, {{store}} left in store | ރެކު ފުރިއްޖެ: ރެކުގައި {{shop}}، ސްޓޯރުގައި {{store}} ބާކީ | needs_review | New: shop store stock in cases. |
 | `inventory.store_alert` | Store alert level | ސްޓޯރުގެ އެލާޓް ލެވެލް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.store_alert_cases` | Store alert level (cases) | ސްޓޯރުގެ އެލާޓް (ކޭސް) | needs_review | New: shop store stock in cases. |
 | `inventory.store_alert_hint` | Time to reorder from the supplier when the store gets this low. | ސްޓޯރުގައި މިހާ މަދުވުމުން ސަޕްލަޔަރުން އަލުން ގަންނަ ވަގުތު. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.store_alert_pcs` | Store alert level (pieces) | ސްޓޯރުގެ އެލާޓް (އަދަދު) | needs_review | New: shop store stock in cases. |
 | `inventory.total_paid` | Total paid | ޖުމްލަ ދެއްކި | needs_review | New: enter total paid for bulk stock purchases. |
 | `inventory.total_paid_hint` | For a bulk buy: what you paid for the whole opening stock. The cost per unit is worked out. | ގިނައިން ގަތުމުގައި: ފުރަތަމަ ސްޓޮކު ހުރިހާ އެއްޗަކަށް ދެއްކި އަދަދު. އެއްޗަކަށް ވާ އަގު ހިސާބުކުރެވޭނެ. | needs_review | New: enter total paid for bulk stock purchases. |
 | `inventory.transfer` | Transfer | ޓްރާންސްފަރ | needs_review | Loanword ޓްރާންސްފަރ, from existing addons.descriptions.advanced_inventory. Native alternative: ބަދަލުކުރުން. |
@@ -208,10 +222,12 @@ review of the whole file is still recommended before launch.
 | `qr.tab_settings` | QR code & settings | ކިއުއާރް ކޯޑާއި ސެޓިންގްސް | needs_review | New: QR Menu → Menu items tab. |
 | `quotations.convert` | Convert to invoice | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ | needs_review | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ follows existing perm.quotations_convert_to_invoice. |
 | `reports.columns.average` | Average per order | އޯޑަރަކަށް އެވްރެޖް | needs_review | Was "Average"; now says it is the average bill per order. |
+| `reports.columns.cases` | Cases | ކޭސް | needs_review | New: shop store stock in cases. |
 | `reports.columns.gross` | Gross | ގްރޮސް | needs_review | Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން). |
 | `reports.columns.in_store` | In store | ސްޓޯރުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `reports.columns.margin` | Margin | މާޖިން | needs_review | Loanword މާޖިން. Alternative: ފައިދާގެ މިންވަރު. |
 | `reports.columns.on_rack` | On rack | ރެކުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.columns.per_case` | Per case | ކޭހަކަށް | needs_review | New: shop store stock in cases. |
 | `reports.columns.rack_alert_at` | Rack alert at | ރެކު އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `reports.columns.store_alert_at` | Store alert at | ސްޓޯރު އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `reports.export_csv` | Export CSV | CSV އެކްސްޕޯޓްކުރޭ | needs_review | ސީއެސްވީ transliteration. |

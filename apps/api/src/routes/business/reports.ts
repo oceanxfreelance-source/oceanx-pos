@@ -194,7 +194,8 @@ export async function reportRoutes(app: FastifyInstance) {
       // Shops: everything in the stock room, items at/below their store alert level first.
       case 'store-stock': {
         rows = await run(sql`
-          SELECT p.name AS product, p.sku, o.name AS outlet, COALESCE(st.store_quantity,0)::float AS in_store, p.min_store_stock::float AS store_alert_at,
+          SELECT p.name AS product, p.sku, o.name AS outlet, round(COALESCE(st.store_quantity,0) / NULLIF(p.pack_size,0), 2)::float AS cases,
+                 p.pack_size::float AS per_case, COALESCE(st.store_quantity,0)::float AS in_store, p.min_store_stock::float AS store_alert_at,
                  COALESCE(st.quantity,0)::float AS on_rack, p.cost_price AS unit_cost, round(GREATEST(COALESCE(st.store_quantity,0),0) * p.cost_price)::bigint AS value
           FROM products p CROSS JOIN outlets o
           LEFT JOIN stock_levels st ON st.product_id = p.id AND st.outlet_id = o.id

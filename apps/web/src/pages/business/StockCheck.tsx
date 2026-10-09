@@ -4,6 +4,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { PackageSearch, ScanBarcode, Store } from 'lucide-react';
 import { api } from '../../lib/api';
+import { fmtCases } from '../../components/CaseQty';
 import { useMoney } from '../../lib/money';
 import { Badge, Card, EmptyState, Ltr, PageHeader, SkeletonRows } from '../../components/ui/Card';
 
@@ -17,6 +18,7 @@ interface StockItem {
   hasImage: boolean;
   exact: boolean;
   trackStock: boolean;
+  packSize: number;
   /** On the rack (sellable now). */
   quantity: number;
   status: Availability;
@@ -133,7 +135,7 @@ export default function StockCheckPage() {
                     {t('inventory.in_store')} · {t(`stock_check.status_${it.storeStatus}`)}
                   </span>
                   <span className="text-base font-bold tabular-nums">
-                    <Ltr>{`${it.storeQuantity} ${it.unit}`}</Ltr>
+                    <Ltr>{fmtCases(t, it.storeQuantity, it.packSize, it.unit)}</Ltr>
                   </span>
                 </div>
               )}
@@ -154,7 +156,7 @@ export default function StockCheckPage() {
                             {t('inventory.on_rack')} <Ltr>{`${o.quantity}`}</Ltr>
                           </Badge>
                           <Badge tone={TONE[o.storeStatus]}>
-                            {t('inventory.in_store')} <Ltr>{`${o.storeQuantity}`}</Ltr>
+                            {t('inventory.in_store')} <Ltr>{fmtCases(t, o.storeQuantity, it.packSize, it.unit)}</Ltr>
                           </Badge>
                         </span>
                       </li>

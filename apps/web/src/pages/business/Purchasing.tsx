@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { PackagePlus, Plus, Trash2, Truck } from 'lucide-react';
 import { api, ApiError } from '../../lib/api';
-import { useBiz } from '../../auth/business';
+import { useBiz, useBizSession } from '../../auth/business';
 import { useFormat } from '../../lib/format';
 import { parseAmount, useMoney } from '../../lib/money';
 import { useList } from '../../lib/useList';
@@ -137,13 +137,16 @@ function PurchaseForm({
   const errMsg = useErrorMessage();
   const toastErr = useToastError();
   const p = data?.purchase;
+  const retail = !!useBizSession().business.profile.retail;
   const editable = !p || p.status === 'draft';
   const [supplier, setSupplier] = useState<{ id: string; name: string } | null>(data ? data.supplier : null);
   const [form, setForm] = useState({ purchaseDate: p?.purchaseDate ?? new Date().toISOString().slice(0, 10), reference: p?.reference ?? '', notes: p?.notes ?? '' });
   // Each line can be entered by unit cost or by the total paid for it (bulk buys); the other is filled in.
-  type Line = { productId: string; name: string; quantity: string; unitCost: string; lineTotal: string; by: 'unit' | 'total' };
+  // Shops buy in cases: for products with more than one piece per case, quantity and unit cost are per case here
+  // and converted to pieces when saved (the line total stays exactly what was paid).
+  type Line = { productId: string; name: string; quantity: string; unitCost: string; lineTotal: string; by: 'unit' | 'total'; packSize: number };
   const [items, setItems] = useState<Line[]>(
-    data?.items.map((i) => ({ productId: i.productId, name: i.nameSnapshot, quantity: String(i.quantity), unitCost: String(i.unitCost / 100), lineTotal: String(i.total / 100), by: 'total' as const })) ?? [],
+    data?.items.map((i) => ({ productId: i.productId, name: i.nameSnapshot, quantity: String(i.quantity), unitCost: String(i.unitCost / 100), lineTotal: String(i.total / 100), by: 'total' as const, packSize: 1 })) ?? [],
   );
   const fmt2 = (v: number) => (Number.isFinite(v) ? String(Math.round(v * 100) / 100) : '');
   const editLine = (idx: number, field: 'quantity' | 'unitCost' | 'lineTotal', value: string) =>
@@ -169,7 +172,12 @@ function PurchaseForm({
   };
   const save = useMutation({
     mutationFn: () => {
-      const body = { supplierId: supplier?.id, ...form, items: items.map((i) => ({ productId: i.productId, quantity: parseAmount(i.quantity), ...(i.by === 'total' ? { lineTotal: parseAmount(i.lineTotal) } : { unitCost: parseAmount(i.unitCost) }) })) };
+      const body = { supplierId: supplier?.id, ...form, items: items.map((i) =>
+          i.packSize > 1
+            ? { productId: i.productId, quantity: parseAmount(i.quantity) * i.packSize, lineTotal: i.by === 'total' ? parseAmount(i.lineTotal) : Math.round(parseAmount(i.unitCost) * parseAmount(i.quantity) * 100) / 100 }
+            : { productId: i.productId, quantity: parseAmount(i.quantity), ...(i.by === 'total' ? { lineTotal: parseAmount(i.lineTotal) } : { unitCost: parseAmount(i.unitCost) }) },
+        ),
+      };
       return p ? api.put(`/purchases/${p.id}`, body) : api.post('/purchases', body);
     },
     onSuccess: () => {
@@ -245,8 +253,8 @@ function PurchaseForm({
               <span className="truncate py-2.5 text-sm font-medium" dir="auto">
                 {i.name}
               </span>
-              <Input type="number" min={0} step="0.001" label={idx === 0 ? t('documents.quantity') : undefined} aria-label={t('documents.quantity')} value={i.quantity} disabled={!editable} onChange={(e) => editLine(idx, 'quantity', e.target.value)} />
-              <Input type="number" min={0} step="0.01" label={idx === 0 ? t('purchases.unit_cost') : undefined} aria-label={t('purchases.unit_cost')} value={i.unitCost} disabled={!editable} onChange={(e) => editLine(idx, 'unitCost', e.target.value)} />
+              <Input type="number" min={0} step="0.001" label={idx === 0 ? t('documents.quantity') : undefined} aria-label={t('documents.quantity')} hint={i.packSize > 1 ? t('inventory.cases_of', { n: i.packSize }) : undefined} value={i.quantity} disabled={!editable} onChange={(e) => editLine(idx, 'quantity', e.target.value)} />
+              <Input type="number" min={0} step="0.01" label={idx === 0 ? t('purchases.unit_cost') : undefined} aria-label={t('purchases.unit_cost')} hint={i.packSize > 1 ? t('inventory.per_case') : undefined} value={i.unitCost} disabled={!editable} onChange={(e) => editLine(idx, 'unitCost', e.target.value)} />
               <Input type="number" min={0} step="0.01" label={idx === 0 ? t('purchases.line_total') : undefined} aria-label={t('purchases.line_total')} value={i.lineTotal} disabled={!editable} onChange={(e) => editLine(idx, 'lineTotal', e.target.value)} />
               {editable ? (
                 <IconButton label={t('common.delete')} onClick={() => setItems(items.filter((_, j) => j !== idx))}>
@@ -257,7 +265,12 @@ function PurchaseForm({
               )}
             </div>
           ))}
-          {editable && <ProductPicker value={null} placeholder={t('documents.add_product')} onChange={(_id, pr) => pr && !items.some((i) => i.productId === pr.id) && setItems([...items, { productId: pr.id, name: pr.name, quantity: '1', unitCost: String(pr.costPrice / 100), lineTotal: String(pr.costPrice / 100), by: 'unit' }])} />}
+          {editable && <ProductPicker value={null} placeholder={t('documents.add_product')} onChange={(_id, pr) => {
+                if (!pr || items.some((i) => i.productId === pr.id)) return;
+                const ps = retail && (pr.packSize ?? 1) > 1 ? (pr.packSize ?? 1) : 1;
+                const perUnit = String((pr.costPrice * ps) / 100);
+                setItems([...items, { productId: pr.id, name: pr.name, quantity: '1', unitCost: perUnit, lineTotal: perUnit, by: 'unit', packSize: ps }]);
+              }} />}
           {editable && items.length > 0 && <p className="text-xs text-slate-500">{t('purchases.line_total_hint')}</p>}
           {fe('items') && <p className="text-sm text-rose-600">{fe('items')}</p>}
         </div>

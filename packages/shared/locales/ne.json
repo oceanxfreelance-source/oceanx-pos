@@ -1637,7 +1637,21 @@
     "rack_alert": "र्‍याक अलर्ट स्तर",
     "rack_alert_hint": "र्‍याकमा यति वा कम बाँकी हुँदा अलर्ट (जस्तै 5)।",
     "store_alert": "स्टोर अलर्ट स्तर",
-    "store_alert_hint": "स्टोर यति कम हुँदा आपूर्तिकर्ताबाट फेरि मगाउने समय।"
+    "store_alert_hint": "स्टोर यति कम हुँदा आपूर्तिकर्ताबाट फेरि मगाउने समय।",
+    "case_count_one": "{{count}} केस",
+    "case_count_other": "{{count}} केस",
+    "cases": "केस",
+    "cases_of": "{{n}} वटाको केस",
+    "per_case": "प्रति केस लागत",
+    "per_case_hint": "प्रति केस {{n}} {{unit}}",
+    "loose_pieces": "खुला {{unit}}",
+    "cases_to_open": "खोल्ने केस",
+    "refilled_cases": "र्‍याक भरियो: र्‍याकमा {{shop}}, स्टोरमा {{store}} बाँकी",
+    "refill_result": "यसपछि: र्‍याकमा {{rack}}, स्टोरमा {{store}}",
+    "pack_size": "प्रति केस पिस",
+    "pack_size_hint": "स्टोरको स्टक केसमा गनिन्छ। खुला आउँछ भने 1 राख्नुहोस्।",
+    "store_alert_cases": "स्टोर अलर्ट स्तर (केस)",
+    "store_alert_pcs": "स्टोर अलर्ट स्तर (पिस)"
   },
   "purchases": {
     "page_title": "खरिद र आपूर्तिकर्ता",
@@ -1797,7 +1811,9 @@
       "on_rack": "र्‍याकमा",
       "in_store": "स्टोरमा",
       "rack_alert_at": "र्‍याक अलर्ट",
-      "store_alert_at": "स्टोर अलर्ट"
+      "store_alert_at": "स्टोर अलर्ट",
+      "cases": "केस",
+      "per_case": "प्रति केस"
     },
     "sources": {
       "pos": "POS",

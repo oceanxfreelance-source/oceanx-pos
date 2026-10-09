@@ -138,4 +138,27 @@ describe('retail shops', () => {
     await cafe.owner.post('/api/inventory/adjust', { productId: milk.id, mode: 'add', quantity: 4, reason: '', location: 'store' });
     expect((await cafe.owner.get('/api/inventory')).json().items[0]).toMatchObject({ quantity: 4, storeQuantity: 0 });
   });
+
+  it('store stock in cases: pieces per case, deliveries in cases, the rack refilled by opening cases', async () => {
+    const shop = await setupBusiness(env, sa, 'Case Mart', { type: 'retail_shop' });
+    const owner = shop.owner;
+    const cola = (await owner.post('/api/products', { name: 'Cola 330ml', sku: '500100', sellingPrice: 10, costPrice: 6, trackStock: true, minStock: 6, minStoreStock: 24, packSize: 24, unit: 'pcs' })).json();
+    expect(cola.packSize).toBe(24);
+
+    // 2 cases at 120 a case arrive as 48 pieces in the store, costing 5 a piece.
+    const sup = (await owner.post('/api/suppliers', { name: 'Drinks Co' })).json();
+    const po = (await owner.post('/api/purchases', { supplierId: sup.id, purchaseDate: '2026-10-01', items: [{ productId: cola.id, quantity: 48, lineTotal: 240 }] })).json();
+    await owner.post(`/api/purchases/${po.id}/receive`);
+    let inv = (await owner.get('/api/inventory')).json().items.find((i: { id: string }) => i.id === cola.id);
+    expect(inv).toMatchObject({ packSize: 24, quantity: 0, storeQuantity: 48, storeLow: false });
+
+    // Opening one case puts 24 on the rack.
+    expect((await owner.post('/api/inventory/refill', { productId: cola.id, quantity: 24 })).json()).toEqual({ shop: 24, store: 24 });
+    inv = (await owner.get('/api/inventory')).json().items.find((i: { id: string }) => i.id === cola.id);
+    expect(inv).toMatchObject({ quantity: 24, storeQuantity: 24, storeLow: true });
+
+    const store = (await owner.get('/api/reports/store-stock?from=2026-10-01&to=2026-10-09')).json();
+    expect(store.rows[0]).toMatchObject({ product: 'Cola 330ml', in_store: 24, cases: 1, per_case: 24 });
+    expect((await owner.get('/api/stock-check?q=500100')).json().items[0]).toMatchObject({ packSize: 24, storeQuantity: 24 });
+  });
 });

@@ -1637,7 +1637,21 @@
     "rack_alert": "रैक अलर्ट स्तर",
     "rack_alert_hint": "जब रैक पर इतने या कम बचें तो अलर्ट (जैसे 5)।",
     "store_alert": "स्टोर अलर्ट स्तर",
-    "store_alert_hint": "जब स्टोर इतना कम हो जाए, सप्लायर से फिर से मँगाने का समय।"
+    "store_alert_hint": "जब स्टोर इतना कम हो जाए, सप्लायर से फिर से मँगाने का समय।",
+    "case_count_one": "{{count}} केस",
+    "case_count_other": "{{count}} केस",
+    "cases": "केस",
+    "cases_of": "{{n}} वाले केस",
+    "per_case": "प्रति केस लागत",
+    "per_case_hint": "प्रति केस {{n}} {{unit}}",
+    "loose_pieces": "खुले {{unit}}",
+    "cases_to_open": "खोलने वाले केस",
+    "refilled_cases": "रैक भरा गया: रैक पर {{shop}}, स्टोर में {{store}} बचा",
+    "refill_result": "इसके बाद: रैक पर {{rack}}, स्टोर में {{store}}",
+    "pack_size": "प्रति केस पीस",
+    "pack_size_hint": "स्टोर स्टॉक केस में गिना जाता है। खुला आता हो तो 1 रखें।",
+    "store_alert_cases": "स्टोर अलर्ट स्तर (केस)",
+    "store_alert_pcs": "स्टोर अलर्ट स्तर (पीस)"
   },
   "purchases": {
     "page_title": "ख़रीद और आपूर्तिकर्ता",
@@ -1797,7 +1811,9 @@
       "on_rack": "रैक पर",
       "in_store": "स्टोर में",
       "rack_alert_at": "रैक अलर्ट",
-      "store_alert_at": "स्टोर अलर्ट"
+      "store_alert_at": "स्टोर अलर्ट",
+      "cases": "केस",
+      "per_case": "प्रति केस"
     },
     "sources": {
       "pos": "POS",

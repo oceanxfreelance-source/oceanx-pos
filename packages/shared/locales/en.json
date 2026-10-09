@@ -1637,7 +1637,21 @@
     "rack_alert": "Rack alert level",
     "rack_alert_hint": "Alert when this many or fewer are left on the rack (e.g. 5).",
     "store_alert": "Store alert level",
-    "store_alert_hint": "Time to reorder from the supplier when the store gets this low."
+    "store_alert_hint": "Time to reorder from the supplier when the store gets this low.",
+    "case_count_one": "{{count}} case",
+    "case_count_other": "{{count}} cases",
+    "cases": "Cases",
+    "cases_of": "Cases of {{n}}",
+    "per_case": "Cost per case",
+    "per_case_hint": "{{n}} {{unit}} per case",
+    "loose_pieces": "Loose {{unit}}",
+    "cases_to_open": "Cases to open",
+    "refilled_cases": "Rack refilled: {{shop}} on rack, {{store}} left in store",
+    "refill_result": "After this: {{rack}} on rack, {{store}} in store",
+    "pack_size": "Pieces per case",
+    "pack_size_hint": "Store stock is counted in cases. Use 1 if it comes loose.",
+    "store_alert_cases": "Store alert level (cases)",
+    "store_alert_pcs": "Store alert level (pieces)"
   },
   "purchases": {
     "page_title": "Purchases & suppliers",
@@ -1797,7 +1811,9 @@
       "on_rack": "On rack",
       "in_store": "In store",
       "rack_alert_at": "Rack alert at",
-      "store_alert_at": "Store alert at"
+      "store_alert_at": "Store alert at",
+      "cases": "Cases",
+      "per_case": "Per case"
     },
     "sources": {
       "pos": "POS",

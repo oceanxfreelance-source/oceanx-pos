@@ -364,7 +364,7 @@ export async function operationsRoutes(app: FastifyInstance) {
     );
     const [items, [total], [value]] = await Promise.all([
       db
-        .select({ id: products.id, name: products.name, sku: products.sku, unit: products.unit, type: products.type, minStock: products.minStock, minStoreStock: products.minStoreStock, costPrice: products.costPrice, quantity: stockExpr, storeQuantity: storeExpr })
+        .select({ id: products.id, name: products.name, sku: products.sku, unit: products.unit, type: products.type, minStock: products.minStock, minStoreStock: products.minStoreStock, packSize: products.packSize, costPrice: products.costPrice, quantity: stockExpr, storeQuantity: storeExpr })
         .from(products)
         .where(where)
         .orderBy(asc(products.name))

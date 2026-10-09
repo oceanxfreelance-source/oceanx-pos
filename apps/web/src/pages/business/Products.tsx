@@ -47,6 +47,7 @@ export interface Product {
   trackStock: boolean;
   minStock: number;
   minStoreStock?: number;
+  packSize?: number;
   isActive: boolean;
   showInPos: boolean;
   showInMenu: boolean;
@@ -239,6 +240,7 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
     trackStock: product?.trackStock ?? false,
     minStock: String(product?.minStock ?? 0),
     minStoreStock: String(product?.minStoreStock ?? 0),
+    packSize: String(product?.packSize ?? 1),
     isActive: product?.isActive ?? true,
     showInPos: product?.showInPos ?? true,
     showInMenu: product?.showInMenu ?? true,
@@ -257,6 +259,7 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
         taxRate: form.taxRate === '' ? null : parseAmount(form.taxRate),
         minStock: parseAmount(form.minStock),
         minStoreStock: parseAmount(form.minStoreStock),
+        packSize: Math.max(1, parseAmount(form.packSize) || 1),
         options: options.map((g) => ({ ...g, choices: g.choices.filter((c) => c.name.trim()).map((c) => ({ name: c.name, price: parseAmount(c.price) })) })).filter((g) => g.name.trim() && g.choices.length),
       };
       const saved = product ? await api.put<Product>(`/products/${product.id}`, body) : await api.post<Product>('/products', body);
@@ -398,8 +401,9 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
                 <Input type="number" min={0} step="0.001" label={retail ? t('inventory.rack_alert') : t('products.min_stock')} value={form.minStock} onChange={set('minStock')} />
               )}
               {form.trackStock && retail && (
-                <Input type="number" min={0} step="0.001" label={t('inventory.store_alert')} value={form.minStoreStock} onChange={set('minStoreStock')} />
+                <Input type="number" min={0} step="0.001" label={t('inventory.store_alert_pcs')} value={form.minStoreStock} onChange={set('minStoreStock')} />
               )}
+              {retail && <Input type="number" min={1} step="1" label={t('inventory.pack_size')} hint={t('inventory.pack_size_hint')} value={form.packSize} onChange={set('packSize')} />}
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <Checkbox checked={form.isActive} onChange={(v) => setForm({ ...form, isActive: v })} label={t('common.active')} />

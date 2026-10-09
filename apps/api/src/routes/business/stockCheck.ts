@@ -32,6 +32,7 @@ export async function stockCheckRoutes(app: FastifyInstance) {
         trackStock: products.trackStock,
         minStock: products.minStock,
         minStoreStock: products.minStoreStock,
+        packSize: products.packSize,
         hasImage: sql<boolean>`${products.imagePath} IS NOT NULL`,
         exact: sql<boolean>`lower(${products.sku}) = lower(${q})`,
       })
@@ -77,6 +78,7 @@ export async function stockCheckRoutes(app: FastifyInstance) {
           exact: r.exact,
           trackStock: r.trackStock,
           minStock: min,
+          packSize: Number(r.packSize),
           quantity: here?.quantity ?? 0,
           status: here?.status ?? status(r.trackStock, 0, min),
           storeQuantity: here?.storeQuantity ?? 0,

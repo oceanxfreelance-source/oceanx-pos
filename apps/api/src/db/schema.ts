@@ -584,6 +584,8 @@ export const products = pgTable(
     minStock: qty('min_stock').notNull().default(0),
     /** Shops: alert when the stock room falls to this level (minStock is the rack alert). */
     minStoreStock: qty('min_store_stock').notNull().default(0),
+    /** Shops: pieces in one case / pack as it sits in the store (1 = sold and stored singly). */
+    packSize: qty('pack_size').notNull().default(1),
     isActive: boolean('is_active').notNull().default(true),
     showInPos: boolean('show_in_pos').notNull().default(true),
     showInMenu: boolean('show_in_menu').notNull().default(true),

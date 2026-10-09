@@ -868,7 +868,7 @@ test.describe.serial('OceanX operations', () => {
     await page.getByRole('button', { name: 'Sign in' }).click();
     await expect(page).toHaveURL(/\/$/);
 
-    // A new product: 24 in the store, 6 on the rack, alert when 5 or fewer on the rack.
+    // A new product that comes 12 to a case: 2 cases in the store, 6 on the rack, alert when 15 or fewer on the rack.
     await page.goto('/inventory');
     await page.getByRole('button', { name: 'Add product' }).click();
     const d = page.getByRole('dialog');
@@ -876,23 +876,24 @@ test.describe.serial('OceanX operations', () => {
     await d.getByLabel('Barcode / SKU').fill('8901234567899');
     await d.getByLabel(/^Selling price/).fill('89');
     await d.getByLabel(/^Cost price/).fill('60');
-    await d.getByLabel('Stock in store now').fill('24');
+    await d.getByLabel('Pieces per case').fill('12');
+    await d.getByLabel('Cases', { exact: true }).fill('2');
     await d.getByLabel('Stock on rack now').fill('6');
-    await d.getByLabel('Rack alert level').fill('5');
-    await d.getByLabel('Store alert level').fill('10');
+    await d.getByLabel('Rack alert level').fill('15');
+    await d.getByLabel('Store alert level (cases)').fill('1');
     await d.getByRole('button', { name: 'Save' }).click();
     const row = page.getByRole('row', { name: /Sunflower Oil 2L/ });
     await expect(row).toContainText('6 pcs');
-    await expect(row).toContainText('24 pcs');
+    await expect(row).toContainText('2 cases');
 
-    // Refill the rack from the store.
+    // Refill the rack by opening a case from the store.
     await row.getByRole('button', { name: 'Refill rack' }).click();
-    await page.getByLabel('Quantity to put on the rack').fill('4');
+    await page.getByLabel('Cases to open').fill('1');
     await page.getByRole('dialog').getByRole('button', { name: 'Refill rack' }).click();
-    await expect(page.getByText(/Rack refilled: 10 pcs on rack, 20 pcs left in store/)).toBeVisible();
+    await expect(page.getByText(/Rack refilled: 18 pcs on rack, 1 case left in store/)).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/shop-inventory.png`, fullPage: true });
 
-    // Sell 6 at the POS: 4 left on the rack, which is below the alert level.
+    // Sell 6 at the POS: 12 left on the rack, which is below the alert level.
     await page.goto('/pos');
     const search = page.getByPlaceholder('Scan barcode or search…');
     await search.fill('8901234567899');
@@ -905,14 +906,15 @@ test.describe.serial('OceanX operations', () => {
     await page.goto('/reports');
     await page.getByLabel('Report').selectOption('rack-low');
     const r = page.getByRole('row', { name: /Sunflower Oil 2L/ });
-    await expect(r).toContainText('4');
-    await expect(r).toContainText('20');
+    await expect(r).toContainText('12');
     await page.screenshot({ path: `${SHOTS}/shop-rack-low-report.png`, fullPage: true });
 
     await page.goto('/stock-check');
     await page.getByLabel('Scan barcode or type product name…').fill('8901234567899');
     await page.keyboard.press('Enter');
-    await expect(page.getByText('Low stock')).toBeVisible();
+    await expect(page.getByText('Low stock', { exact: true })).toBeVisible();
+    await expect(page.getByText('In store · Low stock')).toBeVisible();
+    await expect(page.getByText('1 case', { exact: true })).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/shop-stock-check.png`, fullPage: true });
   });
 });
