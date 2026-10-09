@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
@@ -237,6 +238,7 @@ function BusinessLayout() {
   return (
     <Shell
       brand={<span dir="auto">{session.business.name}</span>}
+      brandMark={<BusinessMark key={session.business.logoVersion ?? 'none'} name={session.business.name} logoVersion={session.business.hasLogo ? (session.business.logoVersion ?? '1') : null} />}
       brandSub={t(`business_types.${session.business.businessType}`)}
       // POS is reached through the prominent "Open POS" button, so it is not repeated in the list.
       groups={groups.map((g) => ({ ...g, label: g.label ? t(g.label) : undefined, items: pos ? g.items.filter((i) => i.to !== '/pos') : g.items }))}
@@ -310,3 +312,25 @@ function BusinessLayout() {
     </Shell>
   );
 }
+
+/** The business's own logo beside its name; until one is uploaded, the first letter of the name. */
+function BusinessMark({ name, logoVersion }: { name: string; logoVersion: string | null }) {
+  const [failed, setFailed] = useState(false);
+  if (logoVersion && !failed) {
+    return (
+      <img
+        src={`/api/settings/logo?v=${encodeURIComponent(logoVersion)}`}
+        alt=""
+        onError={() => setFailed(true)}
+        className="size-9 shrink-0 rounded-lg bg-white object-contain p-0.5 ring-1 ring-slate-200 dark:ring-slate-700"
+      />
+    );
+  }
+  const letter = [...name.trim()][0]?.toUpperCase() ?? '?';
+  return (
+    <span aria-hidden className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-700 text-base font-semibold text-white" dir="auto">
+      {letter}
+    </span>
+  );
+}
+

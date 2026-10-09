@@ -822,6 +822,21 @@ test.describe.serial('OceanX operations', () => {
     await expect(page.getByText('Basmati Rice 5kg').last()).toBeVisible();
     await expect(page.getByRole('button', { name: /^Pay/ }).last()).toContainText('45');
     await page.screenshot({ path: `${SHOTS}/retail-pos.png`, fullPage: true });
+
+    // The sidebar shows the shop's own brand, never the OceanX icon: its first letter until a logo is uploaded...
+    await page.goto('/');
+    const side = page.locator('aside').first();
+    await expect(side.getByText('C', { exact: true })).toBeVisible();
+    await expect(side.locator('img[src^="/brand/"]')).toHaveCount(0);
+    // ...then the logo itself.
+    const status = await page.evaluate(async () => {
+      const token = (await (await fetch('/api/auth/session')).json()).csrfToken as string;
+      const png = Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='), (c) => c.charCodeAt(0));
+      return (await fetch('/api/settings/logo', { method: 'PUT', headers: { 'x-csrf-token': token, 'content-type': 'image/png' }, body: png })).status;
+    });
+    expect(status).toBe(200);
+    await page.reload();
+    await expect(side.locator('img[src^="/api/settings/logo"]')).toBeVisible();
   });
 
   test('Super Admin creates a shop and gives the owner a first password; the owner must change it', async ({ page, browser }) => {

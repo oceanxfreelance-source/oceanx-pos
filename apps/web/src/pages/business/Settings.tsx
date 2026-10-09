@@ -89,6 +89,7 @@ function ProfileSection({ profile, editable }: { profile: NonNullable<SettingsRe
       toast.success(t('settings.logo_updated'));
       setForm((f) => ({ ...f, hasLogo: true }));
       setLogoVersion(Date.now());
+      void refresh();
     },
     onError: toastErr,
   });

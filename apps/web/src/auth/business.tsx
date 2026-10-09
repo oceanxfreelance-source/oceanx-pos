@@ -27,6 +27,7 @@ export interface BusinessSession {
     currency: string;
     timezone: string;
     hasLogo: boolean;
+    logoVersion?: string | null;
     hasStamp: boolean;
     onboardingCompleted: boolean;
     profile: { productsLabelKey: string; dashboardWidgets: string[]; tableService: boolean; kitchen: boolean; retail?: boolean };

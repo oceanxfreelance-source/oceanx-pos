@@ -23,6 +23,7 @@ const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigat
 export function Shell({
   brand,
   brandSub,
+  brandMark,
   groups,
   topbar,
   footer,
@@ -33,6 +34,8 @@ export function Shell({
 }: {
   brand: ReactNode;
   brandSub?: ReactNode;
+  /** Shown beside the name; defaults to the OceanX icon (Super Admin). */
+  brandMark?: ReactNode;
   groups: NavGroup[];
   topbar?: ReactNode;
   footer?: ReactNode;
@@ -101,7 +104,7 @@ export function Shell({
 
   const brandBlock = (
     <div className="flex h-16 items-center gap-3 px-5">
-      <Logo />
+      {brandMark ?? <Logo />}
       <div className="min-w-0">
         <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">{brand}</p>
         {brandSub && <p className="truncate text-xs text-slate-500">{brandSub}</p>}

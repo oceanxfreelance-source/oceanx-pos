@@ -50,6 +50,8 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
       currency: b.currency,
       timezone: b.timezone,
       hasLogo: !!b.logoPath,
+      /** Changes whenever a new logo is uploaded, so cached copies are replaced. */
+      logoVersion: b.logoPath ? (b.logoPath.split('/').pop() ?? '') : null,
       hasStamp: !!b.stampPath,
       onboardingCompleted: !!b.onboardingCompletedAt,
       profile: BUSINESS_TYPE_PROFILES[b.businessType],
