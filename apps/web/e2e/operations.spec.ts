@@ -917,4 +917,73 @@ test.describe.serial('OceanX operations', () => {
     await expect(page.getByText('1 case', { exact: true })).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/shop-stock-check.png`, fullPage: true });
   });
+
+  test('shop till: the rack limits what can be sold; a new pay-later customer buys on credit and pays back at the till', async ({ page, browser }) => {
+    // The platform team switches on Credit (pay later) for Corner Mart.
+    const sa = await browser.newContext();
+    const sap = await sa.newPage();
+    await sap.goto('/superadmin/login');
+    await sap.getByLabel('Email').fill(SA_EMAIL);
+    await sap.getByLabel('Password').fill(SA_PASSWORD);
+    await sap.getByRole('button', { name: 'Sign in' }).click();
+    await expect(sap.getByRole('heading', { name: 'Platform dashboard' })).toBeVisible();
+    const csrf = await sap.evaluate(async () => (await (await fetch('/api/superadmin/auth/session')).json()).csrfToken as string);
+    const biz = await sap.evaluate(async () => (await (await fetch('/api/superadmin/businesses?q=Corner')).json()).items[0].id as string);
+    const status = await sap.evaluate(
+      async ([id, token]) => (await fetch(`/api/superadmin/businesses/${id}/addons/credit/grant`, { method: 'POST', headers: { 'x-csrf-token': token!, 'content-type': 'application/json' }, body: '{}' })).status,
+      [biz, csrf],
+    );
+    expect(status).toBe(200);
+    await sa.close();
+
+    await page.goto('/login');
+    await page.getByLabel('Email').fill('owner@cornermart.test');
+    await page.getByLabel('Password').fill('Corner-Mart-123');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page).toHaveURL(/\/$/);
+    await page.goto('/pos');
+    const search = page.getByPlaceholder('Scan barcode or search…');
+
+    // Only 3 Coconut Oil on the rack: the 4th can't be added.
+    for (let i = 0; i < 4; i++) {
+      await search.fill('8901234567891');
+      await search.press('Enter');
+    }
+    await expect(page.getByText('Only 3 Coconut Oil 1L left on the rack.')).toBeVisible();
+    await page.getByRole('button', { name: 'Delete' }).first().click();
+
+    // A new customer with a pay-later account, made right at the till.
+    await page.getByRole('button', { name: 'New customer' }).click();
+    const d = page.getByRole('dialog');
+    await d.getByLabel(/^Name/).fill('Aminath Rasheed');
+    await d.getByLabel('Phone').fill('7654321');
+    await d.getByLabel('Allow pay later (credit)').click();
+    await d.getByLabel('Credit limit').fill('100');
+    await d.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByText(/Available credit\W*Rf 100\.00/)).toBeVisible();
+
+    // Two bags of rice (90) on credit.
+    await search.fill('8901234567892');
+    await search.press('Enter');
+    await search.fill('8901234567892');
+    await search.press('Enter');
+    await page.getByRole('button', { name: /^Pay/ }).last().click();
+    await page.getByRole('button', { name: 'Credit (pay later)' }).click();
+    await page.getByRole('button', { name: 'Complete sale' }).click();
+    await expect(page.getByRole('dialog').getByText('Sale complete')).toBeVisible();
+    await page.keyboard.press('Escape');
+
+    // She comes back and pays 40 at the till.
+    await page.getByPlaceholder('Search name, phone or email…').fill('Aminath');
+    await page.getByRole('button', { name: /Aminath Rasheed/ }).click();
+    await expect(page.getByText(/Rf 90\.00/).first()).toBeVisible();
+    await page.getByRole('button', { name: 'Receive payment' }).click();
+    await page.getByLabel('Amount paid').fill('40');
+    await page.getByRole('button', { name: 'Record payment' }).click();
+    await expect(page.getByText('Payment recorded').first()).toBeVisible();
+    await page.getByRole('button', { name: 'Done' }).click();
+    await expect(page.getByText(/Available credit\W*Rf 50\.00/)).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/shop-pos-credit.png`, fullPage: true });
+  });
 });
+

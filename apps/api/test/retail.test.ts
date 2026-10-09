@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { Client, createSuperAdmin, createTestEnv, loginSuperAdmin, resetDb, setupBusiness, type TestEnv } from './helpers';
+import { Client, createStaff, createSuperAdmin, createTestEnv, loginSuperAdmin, resetDb, setupBusiness, type TestEnv } from './helpers';
 
 let env: TestEnv;
 let sa: Client;
@@ -115,6 +115,12 @@ describe('retail shops', () => {
     const notes = (await owner.get('/api/notifications')).json().items;
     expect(notes.some((n: { messageKey?: string; key?: string; params?: { store?: number } }) => JSON.stringify(n).includes('low_on_rack') && JSON.stringify(n).includes('32'))).toBe(true);
 
+    // The rack can't go below zero: selling 6 when 5 are on the rack is refused, nothing is taken.
+    const over = await owner.post('/api/pos/orders', { orderType: 'takeaway', items: [{ productId: oil.id, quantity: 6 }], payments: [{ method: 'cash', amount: 1000 }] });
+    expect(over.statusCode).toBe(409);
+    expect(over.json().error).toMatchObject({ code: 'insufficient_stock', details: { productId: oil.id, available: 5 } });
+    expect((await owner.get('/api/inventory')).json().items.find((i: { id: string }) => i.id === oil.id)).toMatchObject({ quantity: 5, storeQuantity: 32 });
+
     // Counting the store sets the stock-room figure only.
     await owner.post('/api/inventory/adjust', { productId: oil.id, mode: 'set', quantity: 9, reason: 'count', location: 'store' });
     inv = (await owner.get('/api/inventory')).json().items.find((i: { id: string }) => i.id === oil.id);
@@ -137,6 +143,9 @@ describe('retail shops', () => {
     expect((await cafe.owner.get(`/api/reports/rack-low?${range}`)).statusCode).toBe(404);
     await cafe.owner.post('/api/inventory/adjust', { productId: milk.id, mode: 'add', quantity: 4, reason: '', location: 'store' });
     expect((await cafe.owner.get('/api/inventory')).json().items[0]).toMatchObject({ quantity: 4, storeQuantity: 0 });
+    // A cafe keeps its "allow selling below zero" setting.
+    const latte = (await cafe.owner.post('/api/products', { name: 'Latte', trackStock: true, sellingPrice: 40 })).json();
+    expect((await cafe.owner.post('/api/pos/orders', { orderType: 'takeaway', items: [{ productId: latte.id, quantity: 2 }], payments: [{ method: 'cash', amount: 100 }] })).statusCode).toBe(201);
   });
 
   it('store stock in cases: pieces per case, deliveries in cases, the rack refilled by opening cases', async () => {
@@ -160,5 +169,38 @@ describe('retail shops', () => {
     const store = (await owner.get('/api/reports/store-stock?from=2026-10-01&to=2026-10-09')).json();
     expect(store.rows[0]).toMatchObject({ product: 'Cola 330ml', in_store: 24, cases: 1, per_case: 24 });
     expect((await owner.get('/api/stock-check?q=500100')).json().items[0]).toMatchObject({ packSize: 24, storeQuantity: 24 });
+  });
+
+  it('credit at the counter: a shop cashier opens a pay-later account, sells on credit and takes repayments from the POS', async () => {
+    const shop = await setupBusiness(env, sa, 'Credit Mart', { type: 'retail_shop' });
+    await sa.post(`/api/superadmin/businesses/${shop.businessId}/addons/credit/grant`);
+    const cashier = (await createStaff(env, shop.owner, 'till@creditmart.test', 'cashier')).client;
+    const rice = (await shop.owner.post('/api/products', { name: 'Rice 1kg', sellingPrice: 20 })).json();
+
+    // A new customer with a 100 limit, opened by the cashier.
+    const c = (await cashier.post('/api/customers', { name: 'Aminath', phone: '7771234', creditLimit: 100 })).json();
+    expect(c.creditLimit).toBe(10000);
+    // ...but changing an existing limit is the owner's job.
+    await cashier.put(`/api/customers/${c.id}`, { name: 'Aminath', phone: '7771234', creditLimit: 1000 });
+    expect((await shop.owner.get(`/api/customers/${c.id}`)).json().customer.creditLimit).toBe(10000);
+
+    // Buy now, pay later: 3 x 20 on credit, then more up to the limit, but not over it.
+    const sell = (qty: number, payments: { method: string; amount: number }[]) =>
+      cashier.post('/api/pos/orders', { orderType: 'takeaway', customerId: c.id, items: [{ productId: rice.id, quantity: qty }], payments });
+    expect((await sell(3, [{ method: 'credit', amount: 60 }])).statusCode).toBe(201);
+    expect((await sell(2, [{ method: 'credit', amount: 40 }])).statusCode).toBe(201);
+    expect((await sell(1, [{ method: 'credit', amount: 20 }])).json().error.code).toBe('credit_limit_exceeded');
+
+    // The customer pays 50 back at the till; now there is room for more.
+    expect((await cashier.post(`/api/customers/${c.id}/credit-payments`, { method: 'cash', amount: 50 })).statusCode).toBeLessThan(300);
+    const found = (await cashier.get('/api/customers?search=Aminath')).json().items[0];
+    expect(found).toMatchObject({ outstanding: 5000, creditLimit: 10000 });
+    expect((await sell(1, [{ method: 'credit', amount: 20 }])).statusCode).toBe(201);
+
+    // A cafe cashier still can't set limits.
+    const cafe = await setupBusiness(env, sa, 'Credit Cafe', { type: 'cafe' });
+    await sa.post(`/api/superadmin/businesses/${cafe.businessId}/addons/credit/grant`);
+    const cafeCashier = (await createStaff(env, cafe.owner, 'till@creditcafe.test', 'cashier')).client;
+    expect((await cafeCashier.post('/api/customers', { name: 'Ali', creditLimit: 100 })).json().creditLimit).toBeNull();
   });
 });

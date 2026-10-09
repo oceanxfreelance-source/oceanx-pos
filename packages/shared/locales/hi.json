@@ -1393,7 +1393,12 @@
     "add_to_cart": "जोड़ें",
     "view_cart_one": "ऑर्डर देखें ({{count}} आइटम)",
     "view_cart_other": "ऑर्डर देखें ({{count}} आइटम)",
-    "search_retail": "बारकोड स्कैन करें या खोजें…"
+    "search_retail": "बारकोड स्कैन करें या खोजें…",
+    "out_on_rack": "{{name}} रैक पर खत्म हो गया है।",
+    "only_left_on_rack_one": "रैक पर केवल {{count}} {{name}} बचा है।",
+    "only_left_on_rack_other": "रैक पर केवल {{count}} {{name}} बचे हैं।",
+    "open_credit": "बाद में भुगतान की अनुमति (उधार)",
+    "open_credit_hint": "उधार खाता खोलता है ताकि ग्राहक अभी खरीदे और बाद में भुगतान करे।"
   },
   "kitchen": {
     "title": "किचन डिस्प्ले",

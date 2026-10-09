@@ -3869,5 +3869,40 @@
     "suggested": "ކޭހަކަށް",
     "status": "needs_review",
     "notes": "New: shop store stock in cases."
+  },
+  {
+    "key": "pos.out_on_rack",
+    "english": "{{name}} is out of stock on the rack.",
+    "suggested": "{{name}} ރެކުގައި ނެތް.",
+    "status": "needs_review",
+    "notes": "New: shops cannot sell more than is on the rack."
+  },
+  {
+    "key": "pos.only_left_on_rack_one",
+    "english": "Only {{count}} {{name}} left on the rack.",
+    "suggested": "ރެކުގައި {{name}} ހުރީ {{count}} އެކަނި.",
+    "status": "needs_review",
+    "notes": "New: shops cannot sell more than is on the rack."
+  },
+  {
+    "key": "pos.only_left_on_rack_other",
+    "english": "Only {{count}} {{name}} left on the rack.",
+    "suggested": "ރެކުގައި {{name}} ހުރީ {{count}} އެކަނި.",
+    "status": "needs_review",
+    "notes": "New: shops cannot sell more than is on the rack."
+  },
+  {
+    "key": "pos.open_credit",
+    "english": "Allow pay later (credit)",
+    "suggested": "ފަހުން ފައިސާ ދެއްކުމުގެ ހުއްދަ (ކްރެޑިޓް)",
+    "status": "needs_review",
+    "notes": "New: open a pay-later account from the POS."
+  },
+  {
+    "key": "pos.open_credit_hint",
+    "english": "Opens a credit account so this customer can buy now and pay later.",
+    "suggested": "މި ކަސްޓަމަރަށް މިހާރު ގަނެ ފަހުން ފައިސާ ދެއްކޭނެ ގޮތަށް ކްރެޑިޓް އެކައުންޓެއް ހުޅުވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: open a pay-later account from the POS."
   }
 ]

@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { FileDown, Plus, Printer, Users } from 'lucide-react';
 import { api, ApiError, qs } from '../../lib/api';
-import { useBiz } from '../../auth/business';
+import { useBiz, useBizSession } from '../../auth/business';
 import { useFormat } from '../../lib/format';
 import { parseAmount, useMoney } from '../../lib/money';
 import { useList } from '../../lib/useList';
@@ -124,6 +124,7 @@ export default function CustomersPage() {
 function CustomerDialog({ customer, onClose }: { customer: Customer | null; onClose: () => void }) {
   const { t } = useTranslation();
   const { can, hasAddon } = useBiz();
+  const retail = !!useBizSession().business.profile.retail;
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
   const [form, setForm] = useState({
@@ -152,7 +153,8 @@ function CustomerDialog({ customer, onClose }: { customer: Customer | null; onCl
     },
   });
   const fe = useFieldErrors(save.error);
-  const creditEditable = hasAddon('credit') && can('credit.manage');
+  // Shops: the counter can open a pay-later account for a new customer; changing a limit later is for credit managers.
+  const creditEditable = hasAddon('credit') && (can('credit.manage') || (!customer && retail && can('credit.create')));
   return (
     <Dialog
       open

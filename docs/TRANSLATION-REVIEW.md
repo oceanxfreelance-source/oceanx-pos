@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 409 · **confirmed**: 144
+Status: **needs_review**: 414 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -198,7 +198,12 @@ review of the whole file is still recommended before launch.
 | `perm.payroll_view` | View salary sheets and salaries | މުސާރަ ޝީޓްތަކާއި މުސާރަ ބަލާ | needs_review | Plain translation using existing app terms. |
 | `perm.rota_manage` | Edit the duty rota and shifts | ޑިއުޓީ ރޯސްޓަރާއި ޝިފްޓުތައް ބަދަލުކުރޭ | needs_review | "Shift" = ޝިފްޓު (loanword). |
 | `perm.rota_view` | View the duty rota | ޑިއުޓީ ރޯސްޓަރު ބަލާ | needs_review | Plain translation using existing app terms. |
+| `pos.only_left_on_rack_one` | Only {{count}} {{name}} left on the rack. | ރެކުގައި {{name}} ހުރީ {{count}} އެކަނި. | needs_review | New: shops cannot sell more than is on the rack. |
+| `pos.only_left_on_rack_other` | Only {{count}} {{name}} left on the rack. | ރެކުގައި {{name}} ހުރީ {{count}} އެކަނި. | needs_review | New: shops cannot sell more than is on the rack. |
+| `pos.open_credit` | Allow pay later (credit) | ފަހުން ފައިސާ ދެއްކުމުގެ ހުއްދަ (ކްރެޑިޓް) | needs_review | New: open a pay-later account from the POS. |
+| `pos.open_credit_hint` | Opens a credit account so this customer can buy now and pay later. | މި ކަސްޓަމަރަށް މިހާރު ގަނެ ފަހުން ފައިސާ ދެއްކޭނެ ގޮތަށް ކްރެޑިޓް އެކައުންޓެއް ހުޅުވޭނެ. | needs_review | New: open a pay-later account from the POS. |
 | `pos.order_types.in_store` | In store | ފިހާރައިން | needs_review | New: retail shops (stock check, barcode). |
+| `pos.out_on_rack` | {{name}} is out of stock on the rack. | {{name}} ރެކުގައި ނެތް. | needs_review | New: shops cannot sell more than is on the rack. |
 | `pos.search_retail` | Scan barcode or search… | ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ހޯއްދަވާ… | needs_review | New: retail shops (stock check, barcode). |
 | `print.authorized_signature` | Authorized signature | ހުއްދަދީފައިވާ ފަރާތުގެ ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `print.received_by` | Received by | ބަލައިގަތީ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |

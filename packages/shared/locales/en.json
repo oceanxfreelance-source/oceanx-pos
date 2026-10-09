@@ -1393,7 +1393,12 @@
     "add_to_cart": "Add",
     "view_cart_one": "View order ({{count}} item)",
     "view_cart_other": "View order ({{count}} items)",
-    "search_retail": "Scan barcode or search…"
+    "search_retail": "Scan barcode or search…",
+    "out_on_rack": "{{name}} is out of stock on the rack.",
+    "only_left_on_rack_one": "Only {{count}} {{name}} left on the rack.",
+    "only_left_on_rack_other": "Only {{count}} {{name}} left on the rack.",
+    "open_credit": "Allow pay later (credit)",
+    "open_credit_hint": "Opens a credit account so this customer can buy now and pay later."
   },
   "kitchen": {
     "title": "Kitchen display",

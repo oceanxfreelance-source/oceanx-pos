@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { ArrowLeft, CheckCircle2, ClipboardList, HandCoins, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, X } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ClipboardList, HandCoins, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, UserPlus, X } from 'lucide-react';
 import { ItemAvatar, tintAt, tintFor } from '../../components/ItemAvatar';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { FullscreenButton } from '../../components/FullscreenButton';
@@ -13,10 +13,10 @@ import type { OptionGroup } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
 import { parseAmount, useMoney } from '../../lib/money';
-import { useErrorMessage } from '../../lib/useApiError';
+import { useErrorMessage, useFieldErrors } from '../../lib/useApiError';
 import { Button } from '../../components/ui/Button';
 import { Dialog } from '../../components/ui/Dialog';
-import { Input, Select, Textarea } from '../../components/ui/Form';
+import { Input, Select, Switch, Textarea } from '../../components/ui/Form';
 import { Alert, Badge } from '../../components/ui/Card';
 import { CustomerPicker, type CustomerLite } from '../../components/Pickers';
 import { CreditPaymentDialog } from './Customers';
@@ -100,6 +100,7 @@ export default function PosPage() {
   const [tableId, setTableId] = useState<string | null>(null);
   const [customer, setCustomer] = useState<CustomerLite | null>(null);
   const [payingDue, setPayingDue] = useState(false);
+  const [newCustomer, setNewCustomer] = useState(false);
   const [discount, setDiscount] = useState('');
   const [note, setNote] = useState('');
   const [redeemPoints, setRedeemPoints] = useState('');
@@ -164,7 +165,22 @@ export default function PosPage() {
     setTimeout(() => searchRef.current?.focus(), 0);
   };
 
+  // Shops sell only what is on the rack.
+  const rackLeft = (productId: string): number | null => {
+    if (!retail) return null;
+    const p = catalog.data?.products.find((x) => x.id === productId);
+    return p && p.trackStock && p.stock !== null ? p.stock : null;
+  };
+  const rackLimit = (productId: string, want: number, name: string): boolean => {
+    const left = rackLeft(productId);
+    if (left === null) return true;
+    const inCart = cart.filter((l) => l.productId === productId).reduce((a, l) => a + l.quantity, 0);
+    if (want + inCart <= left) return true;
+    toast.error(left <= 0 ? t('pos.out_on_rack', { name }) : t('pos.only_left_on_rack', { name, count: left }));
+    return false;
+  };
   const add = (p: PosProduct, options: { group: string; choice: string }[] = []) => {
+    if (!rackLimit(p.id, 1, p.name)) return;
     setCart((c) => {
       const same = c.find((l) => l.productId === p.id && JSON.stringify(l.options) === JSON.stringify(options) && !l.note);
       if (same) return c.map((l) => (l === same ? { ...l, quantity: l.quantity + 1 } : l));
@@ -172,7 +188,12 @@ export default function PosPage() {
     });
   };
   const onProduct = (p: PosProduct) => (p.options.length ? setOptionsFor(p) : add(p));
-  const setQty = (key: string, q: number) => setCart((c) => (q <= 0 ? c.filter((l) => l.key !== key) : c.map((l) => (l.key === key ? { ...l, quantity: Math.round(q * 1000) / 1000 } : l))));
+  const setQty = (key: string, q: number) => {
+    const line = cart.find((l) => l.key === key);
+    if (line && q > line.quantity && !rackLimit(line.productId, q - line.quantity, line.name)) return;
+    applyQty(key, q);
+  };
+  const applyQty = (key: string, q: number) => setCart((c) => (q <= 0 ? c.filter((l) => l.key !== key) : c.map((l) => (l.key === key ? { ...l, quantity: Math.round(q * 1000) / 1000 } : l))));
 
   const refreshAfterSale = () => {
     void qc.invalidateQueries({ queryKey: ['biz', 'pos'] });
@@ -249,15 +270,40 @@ export default function PosPage() {
               ))}
           </Select>
         )}
-        <CustomerPicker value={customer?.id ?? null} valueLabel={customer?.name} onChange={(_id, c) => setCustomer(c)} />
-        {customer && hasAddon('credit') && can('credit.payment') && (customer.outstanding ?? 0) > 0 && (
+        <div className="flex items-end gap-2">
+          <div className="min-w-0 flex-1">
+            <CustomerPicker value={customer?.id ?? null} valueLabel={customer?.name} onChange={(_id, c) => setCustomer(c)} />
+          </div>
+          {can('customers.create') && (
+            <Button variant="secondary" icon={<UserPlus className="size-4" />} onClick={() => setNewCustomer(true)} aria-label={t('customers.create')} title={t('customers.create')} />
+          )}
+        </div>
+        {newCustomer && (
+          <NewCustomerDialog
+            onClose={() => setNewCustomer(false)}
+            onCreated={(c) => {
+              setCustomer(c);
+              setNewCustomer(false);
+            }}
+          />
+        )}
+        {customer && hasAddon('credit') && ((customer.outstanding ?? 0) > 0 || (customer.creditLimit ?? null) !== null) && (
           <div className="flex items-center justify-between gap-2 rounded-xl bg-amber-50 px-3 py-2 text-sm dark:bg-amber-950/40">
-            <span>
-              {t('credit.due_label')}: <span className="font-semibold tabular-nums">{money(customer.outstanding ?? 0)}</span>
+            <span className="min-w-0">
+              <span className="block">
+                {t('credit.due_label')}: <span className="font-semibold tabular-nums">{money(customer.outstanding ?? 0)}</span>
+              </span>
+              {customer.creditLimit !== null && customer.creditLimit !== undefined && (
+                <span className="block text-xs text-slate-600 dark:text-slate-300">
+                  {t('credit.limit')} {money(customer.creditLimit)} · {t('credit.available')} <span className="font-semibold tabular-nums">{money(Math.max(0, customer.creditLimit - (customer.outstanding ?? 0)))}</span>
+                </span>
+              )}
             </span>
-            <Button size="sm" variant="secondary" icon={<HandCoins className="size-4" />} onClick={() => setPayingDue(true)}>
-              {t('credit.receive_payment')}
-            </Button>
+            {can('credit.payment') && (customer.outstanding ?? 0) > 0 && (
+              <Button size="sm" variant="secondary" icon={<HandCoins className="size-4" />} onClick={() => setPayingDue(true)}>
+                {t('credit.receive_payment')}
+              </Button>
+            )}
           </div>
         )}
         {payingDue && customer && (
@@ -470,7 +516,7 @@ export default function PosPage() {
                           <span className="rounded-lg bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-900 tabular-nums dark:bg-slate-800 dark:text-white">{money(p.sellingPrice)}</span>
                           <span className="flex items-center gap-1">
                             {p.options.length > 0 && <SlidersHorizontal className="size-3.5 text-slate-400" aria-label={t('products.options')} />}
-                            {p.trackStock && p.stock !== null && <Badge tone={out ? 'red' : p.stock < 5 ? 'amber' : 'gray'}>{p.stock}</Badge>}
+                            {p.trackStock && p.stock !== null && <Badge tone={out ? 'red' : p.stock < 5 ? 'amber' : 'gray'}>{retail && out ? t('stock_check.status_out') : p.stock}</Badge>}
                           </span>
                         </span>
                       </span>
@@ -670,6 +716,7 @@ function PaymentDialog({ total, customer, onClose, submit }: { total: number; cu
   const money = useMoney();
   const { can, hasAddon } = useBiz();
   const errMsg = useErrorMessage();
+  const qc = useQueryClient();
   const [payments, setPayments] = useState<{ method: Method; amount: string; reference: string }[]>([{ method: 'cash', amount: (total / 100).toFixed(2), reference: '' }]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -687,6 +734,14 @@ function PaymentDialog({ total, customer, onClose, submit }: { total: number; cu
     try {
       await submit(payments.filter((p) => p.method === 'credit' || parseAmount(p.amount) > 0).map((p) => ({ method: p.method, amount: p.method === 'credit' ? Math.max(0.01, remaining / 100) : parseAmount(p.amount), reference: p.reference })));
     } catch (e) {
+      if (e instanceof ApiError && e.code === 'insufficient_stock') {
+        // Someone else sold the last ones: say which item and how many are left, and refresh the counts.
+        const name = qc.getQueryData<{ products: PosProduct[] }>(['biz', 'pos', 'catalog'])?.products.find((p) => p.id === e.details.productId)?.name;
+        const left = Math.max(0, Number(e.details.available ?? 0));
+        setError(name ? (left > 0 ? t('pos.only_left_on_rack', { name, count: left }) : t('pos.out_on_rack', { name })) : errMsg(e));
+        void qc.invalidateQueries({ queryKey: ['biz', 'pos', 'catalog'] });
+        return;
+      }
       setError(e instanceof ApiError && e.code === 'credit_limit_exceeded' ? t('pos.credit_limit_exceeded', { available: money(Number(e.details.limit ?? 0) - Number(e.details.outstanding ?? 0)) }) : errMsg(e));
     } finally {
       setBusy(false);
@@ -777,6 +832,62 @@ function PaymentDialog({ total, customer, onClose, submit }: { total: number; cu
             <dd className="text-lg font-bold text-emerald-600 tabular-nums">{money(change)}</dd>
           </div>
         </dl>
+      </div>
+    </Dialog>
+  );
+}
+
+/** Add a customer without leaving the till. Shops can open a pay-later account with a limit here. */
+function NewCustomerDialog({ onClose, onCreated }: { onClose: () => void; onCreated: (c: CustomerLite) => void }) {
+  const { t } = useTranslation();
+  const { can, hasAddon } = useBiz();
+  const retail = !!useBizSession().business.profile.retail;
+  const errMsg = useErrorMessage();
+  const qc = useQueryClient();
+  const canCredit = hasAddon('credit') && (can('credit.manage') || (retail && can('credit.create')));
+  const [form, setForm] = useState({ name: '', phone: '', credit: false, creditLimit: '' });
+  const save = useMutation({
+    mutationFn: () =>
+      api.post<CustomerLite & { creditLimit: number | null }>('/customers', {
+        name: form.name.trim(),
+        phone: form.phone.trim(),
+        creditLimit: canCredit && form.credit && form.creditLimit.trim() !== '' ? parseAmount(form.creditLimit) : null,
+      }),
+    onSuccess: (c) => {
+      toast.success(t('common.saved'));
+      void qc.invalidateQueries({ queryKey: ['biz', 'customers'] });
+      onCreated({ ...c, outstanding: 0 });
+    },
+  });
+  const fe = useFieldErrors(save.error);
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      title={t('customers.create')}
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>
+            {t('common.cancel')}
+          </Button>
+          <Button onClick={() => save.mutate()} loading={save.isPending} disabled={!form.name.trim()}>
+            {t('common.save')}
+          </Button>
+        </>
+      }
+    >
+      <div className="space-y-4">
+        {save.error && !(save.error instanceof ApiError && save.error.code === 'validation_failed') && <Alert tone="red">{errMsg(save.error)}</Alert>}
+        <Input label={t('common.name')} value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} error={fe('name')} required autoFocus />
+        <Input label={t('common.phone')} type="tel" dir="ltr" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} error={fe('phone')} />
+        {canCredit && (
+          <>
+            <Switch checked={form.credit} onChange={(v) => setForm((f) => ({ ...f, credit: v }))} label={t('pos.open_credit')} description={t('pos.open_credit_hint')} />
+            {form.credit && (
+              <Input label={t('credit.limit')} type="number" min={0} step="0.01" hint={t('credit.limit_hint')} value={form.creditLimit} onChange={(e) => setForm((f) => ({ ...f, creditLimit: e.target.value }))} error={fe('creditLimit')} />
+            )}
+          </>
+        )}
       </div>
     </Dialog>
   );

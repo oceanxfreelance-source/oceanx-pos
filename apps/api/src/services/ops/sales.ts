@@ -376,7 +376,8 @@ export async function completeSale(tx: Executor, ctx: BusinessContext, saleId: s
     userId: ctx.user.id,
     lines: items.filter((i) => i.productId).map((i) => ({ productId: i.productId!, quantity: Number(i.quantity) })),
     useRecipes: ctx.access.addons.has('recipes'),
-    allowNegative: settings.pos.allowNegativeStock,
+    // A shop can't sell what isn't on the rack.
+    allowNegative: settings.pos.allowNegativeStock && !isRetailType(ctx.access.business.businessType),
   });
   await notifyLowStock(tx, ctx.businessId, low, isRetailType(ctx.access.business.businessType) ? { outletId: sale.outletId } : undefined);
   await audit(tx, { ...actor(ctx), action: 'sale.completed', entityType: 'sale', entityId: sale.id, metadata: { number, total: sale.total, credit }, req });

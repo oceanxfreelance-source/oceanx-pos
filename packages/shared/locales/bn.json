@@ -1393,7 +1393,12 @@
     "add_to_cart": "যোগ করুন",
     "view_cart_one": "অর্ডার দেখুন ({{count}}টি আইটেম)",
     "view_cart_other": "অর্ডার দেখুন ({{count}}টি আইটেম)",
-    "search_retail": "বারকোড স্ক্যান করুন বা খুঁজুন…"
+    "search_retail": "বারকোড স্ক্যান করুন বা খুঁজুন…",
+    "out_on_rack": "{{name}} র‍্যাকে শেষ হয়ে গেছে।",
+    "only_left_on_rack_one": "র‍্যাকে মাত্র {{count}}টি {{name}} বাকি।",
+    "only_left_on_rack_other": "র‍্যাকে মাত্র {{count}}টি {{name}} বাকি।",
+    "open_credit": "পরে পরিশোধের অনুমতি (বাকি)",
+    "open_credit_hint": "বাকির খাতা খোলে, যাতে গ্রাহক এখন কিনে পরে টাকা দিতে পারেন।"
   },
   "kitchen": {
     "title": "কিচেন ডিসপ্লে",

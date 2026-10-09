@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { and, asc, count, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
-import { customerSchema, loyaltyAdjustSchema, paginationQuerySchema, toMinor } from '@oceanx/shared';
+import { customerSchema, isRetailType, loyaltyAdjustSchema, paginationQuerySchema, toMinor } from '@oceanx/shared';
 import { customers, invoices, loyaltyTransactions, payments, quotations, sales } from '../../db/schema';
 import { bizCtx, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
@@ -61,7 +61,10 @@ export async function customerRoutes(app: FastifyInstance) {
   app.post('/customers', { preHandler: requirePermission('customers.create') }, async (req, reply) => {
     const ctx = bizCtx(req);
     const body = parse(customerSchema, req.body);
-    if ((body.creditLimit !== null || body.creditDays !== null) && !ctx.permissions.has('credit.manage')) {
+    // Shops: the person at the counter may open a pay-later account (with its limit) for a new customer.
+    // Changing an existing customer's limit stays with credit managers.
+    const opensCredit = isRetailType(ctx.access.business.businessType) && ctx.access.addons.has('credit') && ctx.permissions.has('credit.create');
+    if ((body.creditLimit !== null || body.creditDays !== null) && !ctx.permissions.has('credit.manage') && !opensCredit) {
       body.creditLimit = null;
       body.creditDays = null;
     }
