@@ -796,7 +796,7 @@
       "business_email": "Business email",
       "create": "New business",
       "create_hint": "The business is created ready to use, with default roles, settings and a main outlet.",
-      "created": "Business created and owner invited",
+      "created": "Business created",
       "empty_body": "Businesses appear here when you create them or when owners register.",
       "empty_title": "No businesses found",
       "invite_note": "An invitation to set a password will be emailed to",
@@ -805,7 +805,7 @@
       "plan": "Plan",
       "search": "Search name, email or slug",
       "subscription": "Subscription",
-      "subtitle": "All restaurants, cafés and other food businesses on the platform.",
+      "subtitle": "All businesses on the platform: restaurants, cafés and shops.",
       "title": "Businesses",
       "users": "Users"
     },
@@ -1006,6 +1006,21 @@
       "record": "Record payment",
       "record_hint": "For payments taken by the team (cash, card). The plan is extended straight away.",
       "recorded_toast": "Payment recorded and plan extended."
+    },
+    "credentials": {
+      "title": "Sign-in details to give the owner",
+      "login_link": "Sign-in link",
+      "change_note": "The owner must choose their own password at the first sign-in.",
+      "copied": "Copied — paste it into a message to the owner.",
+      "copy_failed": "Could not copy. Please select and copy the details.",
+      "copy": "Copy details",
+      "open_business": "Open business",
+      "first_password": "First password",
+      "first_password_hint": "Give this to the owner. They change it when they first sign in.",
+      "generate": "Generate",
+      "set_password": "Set owner password",
+      "set_password_hint": "For an owner who forgot their password. They are signed out and must change it at the next sign-in.",
+      "new_password": "New password"
     }
   },
   "system": {

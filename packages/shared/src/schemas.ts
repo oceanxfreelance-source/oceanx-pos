@@ -189,8 +189,13 @@ export const createBusinessSchema = z.object({
     name,
     email: emailSchema,
     language: z.enum(LANGUAGE_CODES).default('en'),
+    /** First password given to the owner by the OceanX team (changed at first sign-in). Without it an invite email is sent. */
+    password: businessPasswordSchema.optional(),
   }),
 });
+
+/** Super Admin sets a new temporary owner password (the owner must change it at next sign-in). */
+export const setOwnerPasswordSchema = z.object({ password: businessPasswordSchema });
 
 export const updateBusinessSchema = z
   .object({

@@ -3365,5 +3365,110 @@
     "suggested": "ތަކެތިއާއި ސްޓޮކް",
     "status": "needs_review",
     "notes": "New: retail shops menu section."
+  },
+  {
+    "key": "superadmin.credentials.title",
+    "english": "Sign-in details to give the owner",
+    "suggested": "ވެރިފަރާތަށް ދޭންވީ ލޮގިން މަޢުލޫމާތު",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.login_link",
+    "english": "Sign-in link",
+    "suggested": "ލޮގިން ލިންކް",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.change_note",
+    "english": "The owner must choose their own password at the first sign-in.",
+    "suggested": "ފުރަތަމަ ފަހަރު ލޮގިން ކުރާއިރު ވެރިފަރާތުން އަމިއްލަ ޕާސްވޯޑެއް ހަދަން ޖެހޭނެ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.copied",
+    "english": "Copied — paste it into a message to the owner.",
+    "suggested": "ކޮޕީ ކުރެވިއްޖެ — ވެރިފަރާތަށް ފޮނުވާ މެސެޖަކަށް ޕޭސްޓް ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.copy_failed",
+    "english": "Could not copy. Please select and copy the details.",
+    "suggested": "ކޮޕީ ނުކުރެވުނު. މަޢުލޫމާތު ސިލެކްޓްކޮށް ކޮޕީ ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.copy",
+    "english": "Copy details",
+    "suggested": "މަޢުލޫމާތު ކޮޕީ ކުރޭ",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.open_business",
+    "english": "Open business",
+    "suggested": "ވިޔަފާރި ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.first_password",
+    "english": "First password",
+    "suggested": "ފުރަތަމަ ޕާސްވޯޑް",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.first_password_hint",
+    "english": "Give this to the owner. They change it when they first sign in.",
+    "suggested": "މިއީ ވެރިފަރާތަށް ދޭނެ ޕާސްވޯޑް. ފުރަތަމަ ލޮގިން ކުރާއިރު ބަދަލުކުރަން ޖެހޭނެ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.generate",
+    "english": "Generate",
+    "suggested": "އަލަށް ހަދާ",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.set_password",
+    "english": "Set owner password",
+    "suggested": "ވެރިފަރާތުގެ ޕާސްވޯޑް ހަދާ",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.set_password_hint",
+    "english": "For an owner who forgot their password. They are signed out and must change it at the next sign-in.",
+    "suggested": "ޕާސްވޯޑް ހަނދާން ނެތިފައިވާ ވެރިފަރާތަކަށް. އެފަރާތް ލޮގްއައުޓް ވެ، ދެން ލޮގިން ކުރާއިރު ބަދަލުކުރަން ޖެހޭނެ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.credentials.new_password",
+    "english": "New password",
+    "suggested": "އައު ޕާސްވޯޑް",
+    "status": "needs_review",
+    "notes": "New: Super Admin gives owners their first password."
+  },
+  {
+    "key": "superadmin.businesses.created",
+    "english": "Business created",
+    "suggested": "ވިޔަފާރި ހެދިއްޖެ",
+    "status": "needs_review",
+    "notes": "Updated: platform now includes shops."
+  },
+  {
+    "key": "superadmin.businesses.subtitle",
+    "english": "All businesses on the platform: restaurants, cafés and shops.",
+    "suggested": "ޕްލެޓްފޯމްގައިވާ ހުރިހާ ވިޔަފާރިތައް: ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަތައް.",
+    "status": "needs_review",
+    "notes": "Updated: platform now includes shops."
   }
 ]

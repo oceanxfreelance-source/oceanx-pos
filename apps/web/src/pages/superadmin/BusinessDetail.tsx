@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { ArrowLeft, Banknote, Ban, CalendarPlus, CheckCircle2, Mail, Power, RefreshCcw } from 'lucide-react';
+import { ArrowLeft, Banknote, KeyRound, Ban, CalendarPlus, CheckCircle2, Mail, Power, RefreshCcw } from 'lucide-react';
 import { saApi } from '../../lib/api';
 import { useFormat } from '../../lib/format';
 import { actionLabel, addonLabel } from '../../lib/labels';
@@ -14,6 +14,7 @@ import { Input, Select, Textarea } from '../../components/ui/Form';
 import { ConfirmDialog, Dialog } from '../../components/ui/Dialog';
 import { STATUS_TONE, SUB_TONE, type Plan } from './Businesses';
 import { PaymentsTable, RecordPaymentDialog, usePayments } from './Payments';
+import { OwnerCredentials, generatePassword } from '../../components/OwnerCredentials';
 
 interface Detail {
   business: { id: string; name: string; slug: string; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
@@ -37,6 +38,7 @@ export default function BusinessDetailPage() {
   const [changingPlan, setChangingPlan] = useState(false);
   const [extending, setExtending] = useState(false);
   const [recording, setRecording] = useState(false);
+  const [settingPassword, setSettingPassword] = useState(false);
   const payments = usePayments({ businessId: id });
   const refresh = () => {
     void qc.invalidateQueries({ queryKey: ['sa', 'business', id] });
@@ -169,9 +171,14 @@ export default function BusinessDetailPage() {
                   ? t('superadmin.business.last_login', { when: q.data.owner.lastLoginAt ? f.relative(q.data.owner.lastLoginAt) : t('users.never') })
                   : t('superadmin.business.invite_pending')}
               </p>
-              <Button size="sm" variant="secondary" icon={<Mail className="size-4" />} loading={invite.isPending} onClick={() => invite.mutate()}>
-                {q.data.owner.hasPassword ? t('superadmin.business.send_reset') : t('superadmin.business.resend_invite')}
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button size="sm" icon={<KeyRound className="size-4" />} onClick={() => setSettingPassword(true)}>
+                  {t('superadmin.credentials.set_password')}
+                </Button>
+                <Button size="sm" variant="ghost" icon={<Mail className="size-4" />} loading={invite.isPending} onClick={() => invite.mutate()}>
+                  {q.data.owner.hasPassword ? t('superadmin.business.send_reset') : t('superadmin.business.resend_invite')}
+                </Button>
+              </div>
             </div>
           ) : (
             <p className="text-sm text-slate-500">—</p>
@@ -275,6 +282,7 @@ export default function BusinessDetailPage() {
       {suspending && <SuspendDialog loading={action.isPending} onClose={() => setSuspending(false)} onConfirm={(reason) => action.mutate({ verb: 'suspend', body: { reason } })} />}
       {changingPlan && <ChangePlanDialog businessId={b.id} currentPlanId={sub?.plan.id} onClose={() => setChangingPlan(false)} onDone={refresh} />}
       {extending && <ExtendDialog businessId={b.id} onClose={() => setExtending(false)} onDone={refresh} />}
+      {settingPassword && <OwnerPasswordDialog businessId={b.id} onClose={() => setSettingPassword(false)} onDone={refresh} />}
       {recording && <RecordPaymentDialog businessId={b.id} currentPlanId={sub?.plan.id} onClose={() => setRecording(false)} />}
       <Card padded={false}>
         <div className="p-5 pb-0">
@@ -415,6 +423,56 @@ function ExtendDialog({ businessId, onClose, onDone }: { businessId: string; onC
           ))}
         </div>
       </div>
+    </Dialog>
+  );
+}
+
+/** The owner forgot their password: set a temporary one to give them (they must change it at sign-in). */
+function OwnerPasswordDialog({ businessId, onClose, onDone }: { businessId: string; onClose: () => void; onDone: () => void }) {
+  const { t } = useTranslation();
+  const toastErr = useToastError();
+  const [password, setPassword] = useState(generatePassword);
+  const [done, setDone] = useState<{ email: string } | null>(null);
+  const m = useMutation({
+    mutationFn: () => saApi.post<{ ok: true; email: string }>(`/businesses/${businessId}/owner/password`, { password }),
+    onSuccess: (r) => {
+      setDone({ email: r.email });
+      onDone();
+    },
+    onError: toastErr,
+  });
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      size="sm"
+      title={t('superadmin.credentials.set_password')}
+      description={done ? undefined : t('superadmin.credentials.set_password_hint')}
+      footer={
+        done ? (
+          <Button onClick={onClose}>{t('common.close')}</Button>
+        ) : (
+          <>
+            <Button variant="secondary" onClick={onClose}>
+              {t('common.cancel')}
+            </Button>
+            <Button onClick={() => m.mutate()} loading={m.isPending} disabled={password.length < 8}>
+              {t('superadmin.credentials.set_password')}
+            </Button>
+          </>
+        )
+      }
+    >
+      {done ? (
+        <OwnerCredentials email={done.email} password={password} />
+      ) : (
+        <div className="flex items-end gap-2">
+          <Input className="flex-1" label={t('superadmin.credentials.new_password')} value={password} dir="ltr" onChange={(e) => setPassword(e.target.value)} />
+          <Button variant="secondary" icon={<RefreshCcw className="size-4" />} onClick={() => setPassword(generatePassword())}>
+            {t('superadmin.credentials.generate')}
+          </Button>
+        </div>
+      )}
     </Dialog>
   );
 }

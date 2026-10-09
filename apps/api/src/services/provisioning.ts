@@ -62,7 +62,7 @@ export interface ProvisionInput {
   /** Overrides plan.trial_days. 0 = start as paid/active for 30 days. */
   trialDays?: number;
   createdBySuperAdminId?: string | null;
-  owner: { name: string; email: string; language: LanguageCode; passwordHash: string | null; phone?: string };
+  owner: { name: string; email: string; language: LanguageCode; passwordHash: string | null; phone?: string; mustChangePassword?: boolean };
 }
 
 /**
@@ -136,6 +136,7 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
       passwordChangedAt: input.owner.passwordHash ? now : null,
       language: input.owner.language,
       isOwner: true,
+      mustChangePassword: input.owner.mustChangePassword ?? false,
       defaultOutletId: outlet?.id ?? null,
     })
     .returning();

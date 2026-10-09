@@ -43,6 +43,39 @@ describe('super admin business management', () => {
     expect(login.json().business.profile.productsLabelKey).toBe('nav.menu');
   });
 
+  it('the team gives the owner a first password; the owner must change it; the team can reset it later', async () => {
+    const mailsBefore = env.mailer.outbox.length;
+    const res = await sa.post('/api/superadmin/businesses', {
+      name: 'Corner Mart',
+      businessType: 'supermarket',
+      planId: await planId(sa, 'basic'),
+      owner: { name: 'Ibrahim', email: 'ibrahim@cornermart.test', password: 'First-Pass-2026' },
+    });
+    expect(res.statusCode).toBe(201);
+    expect(res.json()).toMatchObject({ ownerInviteSent: false, ownerEmail: 'ibrahim@cornermart.test' });
+    expect(env.mailer.outbox.filter((m) => m.to === 'ibrahim@cornermart.test')).toHaveLength(0); // no invite email needed
+    expect(env.mailer.outbox.length).toBe(mailsBefore);
+    const id = res.json().id as string;
+
+    const owner = new Client(env.app);
+    const login = await owner.post('/api/auth/login', { email: 'ibrahim@cornermart.test', password: 'First-Pass-2026' });
+    expect(login.statusCode).toBe(200);
+    expect(login.json().user.mustChangePassword).toBe(true);
+    expect((await owner.get('/api/dashboard')).json().error.code).toBe('password_change_required');
+    expect((await owner.post('/api/auth/change-password', { currentPassword: 'First-Pass-2026', newPassword: 'My-Own-Pass-77' })).statusCode).toBe(200);
+    expect((await owner.get('/api/dashboard')).statusCode).toBe(200);
+
+    // Forgotten: the team sets a temporary password; the old session ends and it must be changed again.
+    expect((await sa.post(`/api/superadmin/businesses/${id}/owner/password`, { password: 'short' })).statusCode).toBe(422);
+    expect((await sa.post(`/api/superadmin/businesses/${id}/owner/password`, { password: 'Temp-Pass-2026' })).json()).toEqual({ ok: true, email: 'ibrahim@cornermart.test' });
+    expect((await owner.get('/api/auth/session')).statusCode).toBe(401);
+    const again = new Client(env.app);
+    expect((await again.post('/api/auth/login', { email: 'ibrahim@cornermart.test', password: 'My-Own-Pass-77' })).statusCode).toBe(401);
+    expect((await again.post('/api/auth/login', { email: 'ibrahim@cornermart.test', password: 'Temp-Pass-2026' })).json().user.mustChangePassword).toBe(true);
+    // Business users cannot call it.
+    expect((await again.post(`/api/superadmin/businesses/${id}/owner/password`, { password: 'Hijack-Pass-1' })).statusCode).toBe(401);
+  });
+
   it('suspend revokes sessions and blocks login; activate restores', async () => {
     const { owner, ownerEmail, businessId } = await setupBusiness(env, sa, 'Suspend Me');
     const bad = await sa.post(`/api/superadmin/businesses/${businessId}/suspend`, { reason: '' });

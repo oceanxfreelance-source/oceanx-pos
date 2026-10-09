@@ -7,6 +7,7 @@ import {
   createBusinessSchema,
   extendSubscriptionSchema,
   paginationQuerySchema,
+  setOwnerPasswordSchema,
   suspendBusinessSchema,
   updateBusinessSchema,
   RETAIL_TYPES,
@@ -21,6 +22,7 @@ import { parse } from '../../lib/validation';
 import { effectiveSubscriptionStatus } from '../../services/access';
 import { provisionBusiness } from '../../services/provisioning';
 import { issueUserToken } from '../../services/tokens';
+import { hashPassword } from '../../lib/password';
 
 const listQuerySchema = paginationQuerySchema.extend({
   /** A business type, or 'retail' for every shop type. */
@@ -129,13 +131,15 @@ export async function businessAdminRoutes(app: FastifyInstance) {
     const ctx = saCtx(req);
     const body = parse(createBusinessSchema, req.body);
     const result = await db.transaction(async (tx) => {
+      // With a first password from the team, the owner signs in with it and must change it; otherwise an invite email.
+      const { password, ...owner } = body.owner;
       const res = await provisionBusiness(tx, {
         ...body,
         status: 'active',
         createdBySuperAdminId: ctx.admin.id,
-        owner: { ...body.owner, passwordHash: null },
+        owner: { ...owner, passwordHash: password ? await hashPassword(password) : null, mustChangePassword: !!password },
       });
-      await sendOwnerInvite(req, tx, res.owner, res.business.name);
+      if (!password) await sendOwnerInvite(req, tx, res.owner, res.business.name);
       await audit(tx, {
         actorType: 'super_admin',
         actorId: ctx.admin.id,
@@ -150,7 +154,7 @@ export async function businessAdminRoutes(app: FastifyInstance) {
       return res;
     });
     reply.status(201);
-    return { id: result.business.id, ownerInviteSent: true };
+    return { id: result.business.id, ownerInviteSent: !body.owner.password, ownerEmail: result.owner.email };
   });
 
   app.get('/businesses/:id', async (req) => {
@@ -423,6 +427,28 @@ export async function businessAdminRoutes(app: FastifyInstance) {
       });
     });
     return { ok: true };
+  });
+
+  // Forgotten password: the team sets a temporary one to give the owner; old sessions end and it must be changed at sign-in.
+  app.post('/businesses/:id/owner/password', async (req) => {
+    const ctx = saCtx(req);
+    const id = idParam(req);
+    const { password } = parse(setOwnerPasswordSchema, req.body);
+    await loadBusiness(db, id);
+    const [owner] = await db
+      .select({ id: users.id, email: users.email })
+      .from(users)
+      .where(and(eq(users.businessId, id), eq(users.isOwner, true), isNull(users.deletedAt)));
+    if (!owner) throw notFound();
+    await db.transaction(async (tx) => {
+      await tx
+        .update(users)
+        .set({ passwordHash: await hashPassword(password), passwordChangedAt: new Date(), mustChangePassword: true, failedLoginCount: 0, lockedUntil: null, updatedAt: new Date() })
+        .where(eq(users.id, owner.id));
+      await tx.update(userSessions).set({ revokedAt: new Date() }).where(and(eq(userSessions.userId, owner.id), isNull(userSessions.revokedAt)));
+      await audit(tx, { actorType: 'super_admin', actorId: ctx.admin.id, actorName: ctx.admin.name, businessId: id, action: 'superadmin.owner_password_set', entityType: 'user', entityId: owner.id, req });
+    });
+    return { ok: true, email: owner.email };
   });
 
   app.post('/businesses/:id/owner/resend-invite', async (req) => {

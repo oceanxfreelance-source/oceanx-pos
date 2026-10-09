@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Building2, Plus, Search } from 'lucide-react';
+import { Building2, Plus, RefreshCcw, Search } from 'lucide-react';
 import { BUSINESS_TYPES, LANGUAGES } from '@oceanx/shared';
 import { qs, saApi, ApiError, type Paginated } from '../../lib/api';
 import { useFormat } from '../../lib/format';
@@ -13,6 +13,7 @@ import { Button } from '../../components/ui/Button';
 import { Input, Select, Textarea } from '../../components/ui/Form';
 import { Dialog } from '../../components/ui/Dialog';
 import { DataTable, Pagination, type Column } from '../../components/ui/Table';
+import { OwnerCredentials, generatePassword } from '../../components/OwnerCredentials';
 
 interface Row {
   id: string;
@@ -194,7 +195,9 @@ function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; d
     ownerName: '',
     ownerEmail: '',
     ownerLanguage: 'en',
+    ownerPassword: generatePassword(),
   });
+  const [created, setCreated] = useState<{ id: string; email: string; password: string } | null>(null);
   useEffect(() => {
     if (!form.planId && plans.data?.items.length) {
       const trial = plans.data.items.find((p) => p.code === 'trial' && p.isActive) ?? plans.data.items.find((p) => p.isActive);
@@ -213,12 +216,13 @@ function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; d
         currency: form.currency,
         timezone: form.timezone,
         planId: form.planId,
-        owner: { name: form.ownerName, email: form.ownerEmail, language: form.ownerLanguage },
+        owner: { name: form.ownerName, email: form.ownerEmail, language: form.ownerLanguage, password: form.ownerPassword },
       }),
     onSuccess: (r) => {
       toast.success(t('superadmin.businesses.created'));
       void qc.invalidateQueries({ queryKey: ['sa', 'businesses'] });
-      navigate(`/superadmin/businesses/${r.id}`);
+      // Show the sign-in details to hand over before leaving the dialog.
+      setCreated({ id: r.id, email: form.ownerEmail.trim().toLowerCase(), password: form.ownerPassword });
     },
   });
   const fieldErr = useFieldErrors(m.error);
@@ -230,16 +234,23 @@ function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; d
       title={t('superadmin.businesses.create')}
       description={t('superadmin.businesses.create_hint')}
       footer={
-        <>
-          <Button variant="secondary" onClick={onClose}>
-            {t('common.cancel')}
-          </Button>
-          <Button onClick={() => m.mutate()} loading={m.isPending} disabled={!form.name || !form.ownerEmail || !form.planId}>
-            {t('superadmin.businesses.create')}
-          </Button>
-        </>
+        created ? (
+          <Button onClick={() => navigate(`/superadmin/businesses/${created.id}`)}>{t('superadmin.credentials.open_business')}</Button>
+        ) : (
+          <>
+            <Button variant="secondary" onClick={onClose}>
+              {t('common.cancel')}
+            </Button>
+            <Button onClick={() => m.mutate()} loading={m.isPending} disabled={!form.name || !form.ownerEmail || !form.planId || form.ownerPassword.length < 8}>
+              {t('superadmin.businesses.create')}
+            </Button>
+          </>
+        )
       }
     >
+      {created ? (
+        <OwnerCredentials email={created.email} password={created.password} />
+      ) : (
       <div className="space-y-5">
         {m.error && !(m.error instanceof ApiError && m.error.code === 'validation_failed') && <Alert tone="red">{errMsg(m.error)}</Alert>}
         <div className="grid gap-4 sm:grid-cols-2">
@@ -280,11 +291,23 @@ function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; d
               ))}
             </Select>
           </div>
-          <p className="mt-3 text-xs text-slate-500">
-            {t('superadmin.businesses.invite_note')} <Ltr>{form.ownerEmail || '—'}</Ltr>
-          </p>
+          <div className="mt-4 flex items-end gap-2">
+            <Input
+              className="flex-1"
+              label={t('superadmin.credentials.first_password')}
+              hint={t('superadmin.credentials.first_password_hint')}
+              value={form.ownerPassword}
+              dir="ltr"
+              onChange={set('ownerPassword')}
+              error={fieldErr('owner.password')}
+            />
+            <Button variant="secondary" icon={<RefreshCcw className="size-4" />} onClick={() => setForm((f) => ({ ...f, ownerPassword: generatePassword() }))}>
+              {t('superadmin.credentials.generate')}
+            </Button>
+          </div>
         </div>
       </div>
+      )}
     </Dialog>
   );
 }

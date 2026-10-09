@@ -823,4 +823,41 @@ test.describe.serial('OceanX operations', () => {
     await expect(page.getByRole('button', { name: /^Pay/ }).last()).toContainText('45');
     await page.screenshot({ path: `${SHOTS}/retail-pos.png`, fullPage: true });
   });
+
+  test('Super Admin creates a shop and gives the owner a first password; the owner must change it', async ({ page, browser }) => {
+    const sa = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
+    const sap = await sa.newPage();
+    await sap.goto('/superadmin/login');
+    await sap.getByLabel('Email').fill(SA_EMAIL);
+    await sap.getByLabel('Password').fill(SA_PASSWORD);
+    await sap.getByRole('button', { name: 'Sign in' }).click();
+    await expect(sap).toHaveURL(/superadmin\/dashboard/);
+    await sap.goto('/superadmin/retail');
+    await sap.getByRole('button', { name: 'New business' }).click();
+    const d = sap.getByRole('dialog');
+    await d.getByLabel(/^Business name/).fill('Island Mart');
+    await expect(d.getByLabel('Business type')).toHaveValue('retail_shop');
+    await d.getByLabel(/^Name/).fill('Aminath Shiuna');
+    await d.getByLabel(/^Email/).last().fill('owner@islandmart.test');
+    await d.getByLabel('First password').fill('Island-First-2026');
+    await d.getByRole('button', { name: 'New business' }).click();
+    await expect(d.getByText('Sign-in details to give the owner')).toBeVisible();
+    await expect(d.getByText('Island-First-2026')).toBeVisible();
+    await sap.screenshot({ path: `${SHOTS}/sa-owner-credentials.png`, fullPage: true });
+    await d.getByRole('button', { name: 'Copy details' }).click();
+    expect(await sap.evaluate(() => navigator.clipboard.readText())).toContain('owner@islandmart.test');
+
+    // The owner signs in with it and has to choose their own password first.
+    await page.goto('/login');
+    await page.getByLabel('Email').fill('owner@islandmart.test');
+    await page.getByLabel('Password').fill('Island-First-2026');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page.getByText('Set a new password')).toBeVisible();
+    await page.getByLabel('Current password').fill('Island-First-2026');
+    await page.getByLabel('New password').fill('Shiuna-Own-Pass-1');
+    await page.getByLabel('Confirm password').fill('Shiuna-Own-Pass-1');
+    await page.getByRole('button', { name: 'Change password' }).click();
+    await expect(page.getByRole('link', { name: 'Stock check' })).toBeVisible();
+    await sa.close();
+  });
 });

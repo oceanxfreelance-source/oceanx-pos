@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 337 · **confirmed**: 144
+Status: **needs_review**: 352 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -304,6 +304,21 @@ review of the whole file is still recommended before launch.
 | `superadmin.business.addon_requests_one` | {{count}} add-on requested | {{count}} އެޑް-އޮނަށް އެދިފައި | needs_review | Dhivehi does not inflect after numbers; _one/_other identical. "Add-on" = އެޑް-އޮން as in superadmin.business.*. |
 | `superadmin.business.addon_requests_other` | {{count}} add-ons requested | {{count}} އެޑް-އޮނަށް އެދިފައި | needs_review | Same as _one. |
 | `superadmin.business.enable` | Enable | ހުޅުވާ | needs_review | Matches common.enabled (ހުޅުވިފައި). Alternative: އެނޭބަލްކުރޭ. |
+| `superadmin.businesses.created` | Business created | ވިޔަފާރި ހެދިއްޖެ | needs_review | Updated: platform now includes shops. |
+| `superadmin.businesses.subtitle` | All businesses on the platform: restaurants, cafés and shops. | ޕްލެޓްފޯމްގައިވާ ހުރިހާ ވިޔަފާރިތައް: ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަތައް. | needs_review | Updated: platform now includes shops. |
+| `superadmin.credentials.change_note` | The owner must choose their own password at the first sign-in. | ފުރަތަމަ ފަހަރު ލޮގިން ކުރާއިރު ވެރިފަރާތުން އަމިއްލަ ޕާސްވޯޑެއް ހަދަން ޖެހޭނެ. | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.copied` | Copied — paste it into a message to the owner. | ކޮޕީ ކުރެވިއްޖެ — ވެރިފަރާތަށް ފޮނުވާ މެސެޖަކަށް ޕޭސްޓް ކުރައްވާ. | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.copy` | Copy details | މަޢުލޫމާތު ކޮޕީ ކުރޭ | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.copy_failed` | Could not copy. Please select and copy the details. | ކޮޕީ ނުކުރެވުނު. މަޢުލޫމާތު ސިލެކްޓްކޮށް ކޮޕީ ކުރައްވާ. | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.first_password` | First password | ފުރަތަމަ ޕާސްވޯޑް | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.first_password_hint` | Give this to the owner. They change it when they first sign in. | މިއީ ވެރިފަރާތަށް ދޭނެ ޕާސްވޯޑް. ފުރަތަމަ ލޮގިން ކުރާއިރު ބަދަލުކުރަން ޖެހޭނެ. | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.generate` | Generate | އަލަށް ހަދާ | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.login_link` | Sign-in link | ލޮގިން ލިންކް | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.new_password` | New password | އައު ޕާސްވޯޑް | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.open_business` | Open business | ވިޔަފާރި ހުޅުވާ | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.set_password` | Set owner password | ވެރިފަރާތުގެ ޕާސްވޯޑް ހަދާ | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.set_password_hint` | For an owner who forgot their password. They are signed out and must change it at the next sign-in. | ޕާސްވޯޑް ހަނދާން ނެތިފައިވާ ވެރިފަރާތަކަށް. އެފަރާތް ލޮގްއައުޓް ވެ، ދެން ލޮގިން ކުރާއިރު ބަދަލުކުރަން ޖެހޭނެ. | needs_review | New: Super Admin gives owners their first password. |
+| `superadmin.credentials.title` | Sign-in details to give the owner | ވެރިފަރާތަށް ދޭންވީ ލޮގިން މަޢުލޫމާތު | needs_review | New: Super Admin gives owners their first password. |
 | `superadmin.dashboard.mrr` | Monthly recurring revenue | މަހުން މަހަށް ލިބޭ އާމްދަނީ | needs_review | Financial term; confirm wording. |
 | `superadmin.dashboard.retail` | Retail shops | ފިހާރަތައް | needs_review | New: retail shops (stock check, barcode). |
 | `superadmin.dashboard.retail_hint` | Shops and supermarkets | ފިހާރަތަކާއި ސުޕަރމާކެޓްތައް | needs_review | New: retail shops (stock check, barcode). |
