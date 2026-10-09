@@ -78,6 +78,13 @@
       "when": 1791539380731,
       "tag": "0010_retail_types",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1791541959925,
+      "tag": "0011_shop_store_stock",
+      "breakpoints": true
     }
   ]
 }

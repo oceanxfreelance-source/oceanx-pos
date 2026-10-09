@@ -70,6 +70,8 @@ export const productSchema = z.object({
   taxRate: z.number().min(0).max(100).nullable().default(null),
   trackStock: z.boolean().default(false),
   minStock: z.number().min(0).max(1_000_000).default(0),
+  /** Shops: stock-room alert level (minStock is the rack alert). */
+  minStoreStock: z.number().min(0).max(1_000_000).default(0),
   isActive: z.boolean().default(true),
   showInPos: z.boolean().default(true),
   showInMenu: z.boolean().default(true),
@@ -203,7 +205,11 @@ export const stockAdjustSchema = z.object({
   mode: z.enum(['add', 'remove', 'set', 'wastage']),
   quantity: z.number().min(0).max(1_000_000),
   reason: text(300),
+  /** Shops only: the rack (shop floor, default) or the stock room. */
+  location: z.enum(['shop', 'store']).default('shop'),
 });
+/** Shops: move goods from the stock room to the rack. */
+export const rackRefillSchema = z.object({ productId: id, quantity: z.number().gt(0).max(1_000_000), note: text(300) });
 
 export const transferSchema = z.object({
   fromOutletId: id,

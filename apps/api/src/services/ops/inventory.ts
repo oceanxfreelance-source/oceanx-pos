@@ -17,6 +17,8 @@ export interface StockMove {
   note?: string;
   userId?: string | null;
   allowNegative?: boolean;
+  /** Shops: 'shop' = on the rack (default, what the POS sells from), 'store' = stock room. */
+  location?: 'shop' | 'store';
 }
 
 /**
@@ -28,16 +30,17 @@ export async function moveStock(tx: Executor, m: StockMove): Promise<number> {
     INSERT INTO stock_levels (business_id, outlet_id, product_id, quantity)
     VALUES (${m.businessId}, ${m.outletId}, ${m.productId}, 0)
     ON CONFLICT (outlet_id, product_id) DO NOTHING`);
-  const locked = await tx.execute<{ quantity: string }>(sql`
-    SELECT quantity FROM stock_levels WHERE outlet_id = ${m.outletId} AND product_id = ${m.productId} AND business_id = ${m.businessId} FOR UPDATE`);
-  const current = Number(locked.rows[0]?.quantity ?? 0);
+  const store = m.location === 'store';
+  const locked = await tx.execute<{ quantity: string; store_quantity: string }>(sql`
+    SELECT quantity, store_quantity FROM stock_levels WHERE outlet_id = ${m.outletId} AND product_id = ${m.productId} AND business_id = ${m.businessId} FOR UPDATE`);
+  const current = Number((store ? locked.rows[0]?.store_quantity : locked.rows[0]?.quantity) ?? 0);
   const next = round3(current + m.delta);
   if (next < 0 && !m.allowNegative) {
-    throw new AppError('insufficient_stock', 'Not enough stock', { details: { productId: m.productId, available: current, requested: -m.delta } });
+    throw new AppError('insufficient_stock', 'Not enough stock', { details: { productId: m.productId, available: current, requested: -m.delta, location: m.location ?? 'shop' } });
   }
   await tx
     .update(stockLevels)
-    .set({ quantity: next, updatedAt: new Date() })
+    .set(store ? { storeQuantity: next, updatedAt: new Date() } : { quantity: next, updatedAt: new Date() })
     .where(and(eq(stockLevels.outletId, m.outletId), eq(stockLevels.productId, m.productId)));
   await tx.insert(inventoryTransactions).values({
     businessId: m.businessId,
@@ -46,6 +49,7 @@ export async function moveStock(tx: Executor, m: StockMove): Promise<number> {
     type: m.type,
     quantity: round3(m.delta),
     balanceAfter: next,
+    location: store ? 'store' : 'shop',
     unitCost: m.unitCost ?? 0,
     referenceType: m.referenceType ?? null,
     referenceId: m.referenceId ?? null,
@@ -117,15 +121,28 @@ export async function consumeForSale(
   return low;
 }
 
-export async function notifyLowStock(tx: Executor, businessId: string, low: { productId: string; balance: number }[]) {
+export async function notifyLowStock(tx: Executor, businessId: string, low: { productId: string; balance: number }[], shop?: { outletId: string }) {
   if (!low.length) return;
   const rows = await tx
     .select({ id: products.id, name: products.name })
     .from(products)
     .where(and(eq(products.businessId, businessId), inArray(products.id, low.map((l) => l.productId))));
+  // Shops: "low on the rack", with how much is waiting in the store to refill it.
+  const store = shop ? await storeStockOf(tx, businessId, shop.outletId, rows.map((r) => r.id)) : null;
   for (const r of rows) {
-    await notifyPermission(tx, businessId, 'inventory.view', 'notify.low_stock', { product: r.name, quantity: low.find((l) => l.productId === r.id)!.balance }, '/inventory');
+    const quantity = low.find((l) => l.productId === r.id)!.balance;
+    if (store) await notifyPermission(tx, businessId, 'inventory.view', 'notify.low_on_rack', { product: r.name, quantity, store: store.get(r.id) ?? 0 }, '/inventory');
+    else await notifyPermission(tx, businessId, 'inventory.view', 'notify.low_stock', { product: r.name, quantity }, '/inventory');
   }
+}
+
+export async function storeStockOf(tx: Executor, businessId: string, outletId: string, productIds: string[]): Promise<Map<string, number>> {
+  if (!productIds.length) return new Map();
+  const rows = await tx
+    .select({ productId: stockLevels.productId, quantity: stockLevels.storeQuantity })
+    .from(stockLevels)
+    .where(and(eq(stockLevels.businessId, businessId), eq(stockLevels.outletId, outletId), inArray(stockLevels.productId, productIds)));
+  return new Map(rows.map((r) => [r.productId, Number(r.quantity)]));
 }
 
 export async function stockOf(tx: Executor, businessId: string, outletId: string, productIds: string[]): Promise<Map<string, number>> {

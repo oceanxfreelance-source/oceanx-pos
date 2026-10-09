@@ -22,6 +22,7 @@ import { actor, own, requireOutlet, round3 } from '../../lib/tenant';
 import { parse } from '../../lib/validation';
 import { allocateDocumentNumber } from '../../services/sequences';
 import { moveStock, notifyLowStock, outletBelongs } from '../../services/ops/inventory';
+import { isRetailType, rackRefillSchema } from '@oceanx/shared';
 
 const PURCHASE_NUMBERING = { prefix: 'PO', startNumber: 1, padding: 5, format: '{PREFIX}-{YYYY}-{SEQ}', reset: 'yearly' as const };
 
@@ -216,6 +217,8 @@ export async function operationsRoutes(app: FastifyInstance) {
           referenceId: id,
           unitCost: it.unitCost,
           userId: ctx.user.id,
+          // Shops receive deliveries into the stock room; the rack is refilled from there.
+          location: isRetailType(ctx.access.business.businessType) ? 'store' : 'shop',
         });
       }
       const [u] = await tx.update(purchases).set({ status: 'received', receivedAt: new Date(), updatedAt: new Date() }).where(eq(purchases.id, id)).returning();
@@ -347,19 +350,21 @@ export async function operationsRoutes(app: FastifyInstance) {
   app.get('/inventory', { preHandler: requirePermission('inventory.view') }, async (req) => {
     const ctx = bizCtx(req);
     const outletId = requireOutlet(ctx);
-    const q = parse(paginationQuerySchema.extend({ low: z.enum(['true']).optional(), kind: z.enum(['selling', 'supplies']).optional() }), req.query);
+    // low=true: low on the rack (or the only stock figure); low=store: shops' stock room at or below its alert level.
+    const q = parse(paginationQuerySchema.extend({ low: z.enum(['true', 'store']).optional(), kind: z.enum(['selling', 'supplies']).optional() }), req.query);
     const stockExpr = sql<string>`COALESCE((SELECT quantity FROM stock_levels s WHERE s.product_id = "products"."id" AND s.outlet_id = ${outletId}), 0)`;
+    const storeExpr = sql<string>`COALESCE((SELECT store_quantity FROM stock_levels s WHERE s.product_id = "products"."id" AND s.outlet_id = ${outletId}), 0)`;
     const where = and(
       eq(products.businessId, ctx.businessId),
       isNull(products.deletedAt),
       eq(products.trackStock, true),
       q.q ? or(ilike(products.name, `%${q.q}%`), ilike(products.sku, `%${q.q}%`)) : undefined,
-      q.low ? sql`${stockExpr} <= ${products.minStock}` : undefined,
+      q.low === 'true' ? sql`${stockExpr} <= ${products.minStock}` : q.low === 'store' ? sql`${storeExpr} <= ${products.minStoreStock}` : undefined,
       q.kind === 'supplies' ? eq(products.type, 'ingredient') : q.kind === 'selling' ? sql`${products.type} <> 'ingredient'` : undefined,
     );
     const [items, [total], [value]] = await Promise.all([
       db
-        .select({ id: products.id, name: products.name, sku: products.sku, unit: products.unit, type: products.type, minStock: products.minStock, costPrice: products.costPrice, quantity: stockExpr })
+        .select({ id: products.id, name: products.name, sku: products.sku, unit: products.unit, type: products.type, minStock: products.minStock, minStoreStock: products.minStoreStock, costPrice: products.costPrice, quantity: stockExpr, storeQuantity: storeExpr })
         .from(products)
         .where(where)
         .orderBy(asc(products.name))
@@ -367,12 +372,18 @@ export async function operationsRoutes(app: FastifyInstance) {
         .offset((q.page - 1) * q.pageSize),
       db.select({ n: count() }).from(products).where(where),
       db
-        .select({ v: sql<string>`COALESCE(SUM(GREATEST(s.quantity,0) * p.cost_price),0)` })
+        .select({ v: sql<string>`COALESCE(SUM((GREATEST(s.quantity,0) + GREATEST(s.store_quantity,0)) * p.cost_price),0)` })
         .from(sql`stock_levels s JOIN products p ON p.id = s.product_id`)
         .where(sql`s.business_id = ${ctx.businessId} AND s.outlet_id = ${outletId}`),
     ]);
     return {
-      items: items.map((i) => ({ ...i, quantity: Number(i.quantity), low: Number(i.quantity) <= i.minStock })),
+      items: items.map((i) => ({
+        ...i,
+        quantity: Number(i.quantity),
+        storeQuantity: Number(i.storeQuantity),
+        low: Number(i.quantity) <= i.minStock,
+        storeLow: Number(i.storeQuantity) <= i.minStoreStock,
+      })),
       page: q.page,
       pageSize: q.pageSize,
       total: Number(total?.n ?? 0),
@@ -386,12 +397,14 @@ export async function operationsRoutes(app: FastifyInstance) {
     const body = parse(stockAdjustSchema, req.body);
     const [p] = await db.select({ id: products.id }).from(products).where(own(products, ctx, body.productId));
     if (!p) throw notFound();
+    // Only shops keep a separate stock room; everyone else adjusts the one stock figure.
+    const location = isRetailType(ctx.access.business.businessType) ? body.location : 'shop';
     const balance = await db.transaction(async (tx) => {
       let delta = body.quantity;
       if (body.mode === 'remove' || body.mode === 'wastage') delta = -body.quantity;
       if (body.mode === 'set') {
         const [lvl] = await tx
-          .select({ q: stockLevels.quantity })
+          .select({ q: location === 'store' ? stockLevels.storeQuantity : stockLevels.quantity })
           .from(stockLevels)
           .where(and(eq(stockLevels.outletId, outletId), eq(stockLevels.productId, body.productId)))
           .for('update');
@@ -406,13 +419,32 @@ export async function operationsRoutes(app: FastifyInstance) {
         note: body.reason,
         userId: ctx.user.id,
         allowNegative: false,
+        location,
       });
-      await audit(tx, { ...actor(ctx), action: 'inventory.adjusted', entityType: 'product', entityId: body.productId, metadata: { mode: body.mode, delta, balance: b }, req });
+      await audit(tx, { ...actor(ctx), action: 'inventory.adjusted', entityType: 'product', entityId: body.productId, metadata: { mode: body.mode, delta, balance: b, location }, req });
       const [prod] = await tx.select({ minStock: products.minStock }).from(products).where(eq(products.id, body.productId));
-      if (prod && prod.minStock > 0 && b <= prod.minStock) await notifyLowStock(tx, ctx.businessId, [{ productId: body.productId, balance: b }]);
+      if (location === 'shop' && prod && prod.minStock > 0 && b <= prod.minStock)
+        await notifyLowStock(tx, ctx.businessId, [{ productId: body.productId, balance: b }], isRetailType(ctx.access.business.businessType) ? { outletId } : undefined);
       return b;
     });
-    return { balance };
+    return { balance, location };
+  });
+
+  // Shops: take goods from the stock room and put them on the rack.
+  app.post('/inventory/refill', { preHandler: requirePermission('inventory.adjust') }, async (req) => {
+    const ctx = bizCtx(req);
+    if (!isRetailType(ctx.access.business.businessType)) throw notFound();
+    const outletId = requireOutlet(ctx);
+    const body = parse(rackRefillSchema, req.body);
+    const [p] = await db.select({ id: products.id }).from(products).where(own(products, ctx, body.productId));
+    if (!p) throw notFound();
+    return db.transaction(async (tx) => {
+      const common = { businessId: ctx.businessId, outletId, productId: body.productId, type: 'refill', note: body.note, userId: ctx.user.id, allowNegative: false };
+      const store = await moveStock(tx, { ...common, delta: -body.quantity, location: 'store' });
+      const shop = await moveStock(tx, { ...common, delta: body.quantity, location: 'shop' });
+      await audit(tx, { ...actor(ctx), action: 'inventory.refilled', entityType: 'product', entityId: body.productId, metadata: { quantity: body.quantity, shop, store }, req });
+      return { shop, store };
+    });
   });
 
   app.get('/inventory/history', { preHandler: requirePermission('inventory.view') }, async (req) => {
@@ -470,8 +502,10 @@ export async function operationsRoutes(app: FastifyInstance) {
         })
         .returning();
       for (const i of [...body.items].sort((a, b) => a.productId.localeCompare(b.productId))) {
-        await moveStock(tx, { businessId: ctx.businessId, outletId: body.fromOutletId, productId: i.productId, delta: -i.quantity, type: 'transfer_out', referenceType: 'transfer', referenceId: t!.id, userId: ctx.user.id });
-        await moveStock(tx, { businessId: ctx.businessId, outletId: body.toOutletId, productId: i.productId, delta: i.quantity, type: 'transfer_in', referenceType: 'transfer', referenceId: t!.id, userId: ctx.user.id });
+        // Shops move goods between stock rooms; other businesses move their one stock figure.
+        const location = isRetailType(ctx.access.business.businessType) ? ('store' as const) : ('shop' as const);
+        await moveStock(tx, { businessId: ctx.businessId, outletId: body.fromOutletId, productId: i.productId, delta: -i.quantity, type: 'transfer_out', referenceType: 'transfer', referenceId: t!.id, userId: ctx.user.id, location });
+        await moveStock(tx, { businessId: ctx.businessId, outletId: body.toOutletId, productId: i.productId, delta: i.quantity, type: 'transfer_in', referenceType: 'transfer', referenceId: t!.id, userId: ctx.user.id, location });
       }
       await audit(tx, { ...actor(ctx), action: 'inventory.transferred', entityType: 'transfer', entityId: t!.id, req });
       return t!;

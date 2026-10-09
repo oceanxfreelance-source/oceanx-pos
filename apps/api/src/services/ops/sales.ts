@@ -1,3 +1,4 @@
+import { isRetailType } from '@oceanx/shared';
 import { randomUUID } from 'node:crypto';
 import type { FastifyRequest } from 'fastify';
 import { and, asc, eq, inArray, isNull, sql } from 'drizzle-orm';
@@ -377,7 +378,7 @@ export async function completeSale(tx: Executor, ctx: BusinessContext, saleId: s
     useRecipes: ctx.access.addons.has('recipes'),
     allowNegative: settings.pos.allowNegativeStock,
   });
-  await notifyLowStock(tx, ctx.businessId, low);
+  await notifyLowStock(tx, ctx.businessId, low, isRetailType(ctx.access.business.businessType) ? { outletId: sale.outletId } : undefined);
   await audit(tx, { ...actor(ctx), action: 'sale.completed', entityType: 'sale', entityId: sale.id, metadata: { number, total: sale.total, credit }, req });
   return done!;
 }

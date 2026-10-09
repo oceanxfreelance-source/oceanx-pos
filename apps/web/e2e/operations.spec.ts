@@ -860,4 +860,59 @@ test.describe.serial('OceanX operations', () => {
     await expect(page.getByRole('link', { name: 'Stock check' })).toBeVisible();
     await sa.close();
   });
+
+  test('shop stock: store and rack, refill the rack, low-on-rack alert and report', async ({ page }) => {
+    await page.goto('/login');
+    await page.getByLabel('Email').fill('owner@cornermart.test');
+    await page.getByLabel('Password').fill('Corner-Mart-123');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page).toHaveURL(/\/$/);
+
+    // A new product: 24 in the store, 6 on the rack, alert when 5 or fewer on the rack.
+    await page.goto('/inventory');
+    await page.getByRole('button', { name: 'Add product' }).click();
+    const d = page.getByRole('dialog');
+    await d.getByLabel(/^Name/).fill('Sunflower Oil 2L');
+    await d.getByLabel('Barcode / SKU').fill('8901234567899');
+    await d.getByLabel(/^Selling price/).fill('89');
+    await d.getByLabel(/^Cost price/).fill('60');
+    await d.getByLabel('Stock in store now').fill('24');
+    await d.getByLabel('Stock on rack now').fill('6');
+    await d.getByLabel('Rack alert level').fill('5');
+    await d.getByLabel('Store alert level').fill('10');
+    await d.getByRole('button', { name: 'Save' }).click();
+    const row = page.getByRole('row', { name: /Sunflower Oil 2L/ });
+    await expect(row).toContainText('6 pcs');
+    await expect(row).toContainText('24 pcs');
+
+    // Refill the rack from the store.
+    await row.getByRole('button', { name: 'Refill rack' }).click();
+    await page.getByLabel('Quantity to put on the rack').fill('4');
+    await page.getByRole('dialog').getByRole('button', { name: 'Refill rack' }).click();
+    await expect(page.getByText(/Rack refilled: 10 pcs on rack, 20 pcs left in store/)).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/shop-inventory.png`, fullPage: true });
+
+    // Sell 6 at the POS: 4 left on the rack, which is below the alert level.
+    await page.goto('/pos');
+    const search = page.getByPlaceholder('Scan barcode or search…');
+    await search.fill('8901234567899');
+    await search.press('Enter');
+    await page.getByLabel('Quantity').first().fill('6');
+    await page.getByRole('button', { name: /^Pay/ }).last().click();
+    await page.getByRole('button', { name: 'Complete sale' }).click();
+    await expect(page.getByText('Sale complete')).toBeVisible();
+
+    await page.goto('/reports');
+    await page.getByLabel('Report').selectOption('rack-low');
+    const r = page.getByRole('row', { name: /Sunflower Oil 2L/ });
+    await expect(r).toContainText('4');
+    await expect(r).toContainText('20');
+    await page.screenshot({ path: `${SHOTS}/shop-rack-low-report.png`, fullPage: true });
+
+    await page.goto('/stock-check');
+    await page.getByLabel('Scan barcode or type product name…').fill('8901234567899');
+    await page.keyboard.press('Enter');
+    await expect(page.getByText('Low stock')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/shop-stock-check.png`, fullPage: true });
+  });
 });

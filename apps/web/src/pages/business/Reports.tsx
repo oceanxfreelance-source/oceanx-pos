@@ -12,7 +12,7 @@ import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Form';
 
 /** Report types and the extra permission (and add-on) each one needs, mirroring the API. */
-export const REPORTS: { type: string; perm?: string; addon?: string }[] = [
+export const REPORTS: { type: string; perm?: string; addon?: string; retail?: boolean }[] = [
   { type: 'sales-summary' },
   { type: 'products' },
   { type: 'categories' },
@@ -20,6 +20,8 @@ export const REPORTS: { type: string; perm?: string; addon?: string }[] = [
   { type: 'profit' },
   { type: 'expenses', perm: 'expenses.view' },
   { type: 'inventory', perm: 'inventory.view' },
+  { type: 'rack-low', perm: 'inventory.view', retail: true },
+  { type: 'store-stock', perm: 'inventory.view', retail: true },
   { type: 'customers' },
   { type: 'quotations', perm: 'quotations.view' },
   { type: 'invoices', perm: 'invoices.view' },
@@ -82,7 +84,7 @@ export default function ReportsPage() {
   const money = useMoney();
   const f = useFormat();
   const errMsg = useErrorMessage();
-  const available = REPORTS.filter((r) => (!r.perm || can(r.perm)) && (!r.addon || hasAddon(r.addon)));
+  const available = REPORTS.filter((r) => (!r.perm || can(r.perm)) && (!r.addon || hasAddon(r.addon)) && (!r.retail || !!session.business.profile.retail));
   const [type, setType] = useState(available[0]?.type ?? 'sales-summary');
   const [from, setFrom] = useState(daysAgo(29));
   const [to, setTo] = useState(iso(new Date()));

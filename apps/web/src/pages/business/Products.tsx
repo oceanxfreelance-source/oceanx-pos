@@ -46,6 +46,7 @@ export interface Product {
   taxRate: number | null;
   trackStock: boolean;
   minStock: number;
+  minStoreStock?: number;
   isActive: boolean;
   showInPos: boolean;
   showInMenu: boolean;
@@ -216,6 +217,7 @@ type OptionDraft = { name: string; required: boolean; multiple: boolean; choices
 export function ProductDialog({ product, categories, onClose }: { product: Product | null; categories: Category[]; onClose: () => void }) {
   const { t } = useTranslation();
   const { can, hasAddon } = useBiz();
+  const retail = !!useBizSession().business.profile.retail;
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
   const toastErr = useToastError();
@@ -232,10 +234,11 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
     taxRate: product?.taxRate === null || product?.taxRate === undefined ? '' : String(product.taxRate),
     trackStock: product?.trackStock ?? false,
     minStock: String(product?.minStock ?? 0),
+    minStoreStock: String(product?.minStoreStock ?? 0),
     isActive: product?.isActive ?? true,
     showInPos: product?.showInPos ?? true,
     showInMenu: product?.showInMenu ?? true,
-    sendToKitchen: product?.sendToKitchen ?? true,
+    sendToKitchen: product?.sendToKitchen ?? !retail,
     translations: product?.translations ?? ({} as Translations),
   });
   const [options, setOptions] = useState<OptionDraft[]>(product?.options.map((g) => ({ ...g, choices: g.choices.map((c) => ({ name: c.name, price: (c.price / 100).toString() })) })) ?? []);
@@ -249,6 +252,7 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
         sellingPrice: parseAmount(form.sellingPrice),
         taxRate: form.taxRate === '' ? null : parseAmount(form.taxRate),
         minStock: parseAmount(form.minStock),
+        minStoreStock: parseAmount(form.minStoreStock),
         options: options.map((g) => ({ ...g, choices: g.choices.filter((c) => c.name.trim()).map((c) => ({ name: c.name, price: parseAmount(c.price) })) })).filter((g) => g.name.trim() && g.choices.length),
       };
       const saved = product ? await api.put<Product>(`/products/${product.id}`, body) : await api.post<Product>('/products', body);
@@ -359,7 +363,7 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               <Input className="sm:col-span-2" label={t('common.name')} value={form.name} onChange={set('name')} error={fieldErr('name')} required />
-              <Input label={t('products.sku')} value={form.sku} dir="ltr" onChange={set('sku')} error={fieldErr('sku')} />
+              <Input label={retail ? t('inventory.barcode') : t('products.sku')} value={form.sku} dir="ltr" onChange={set('sku')} error={fieldErr('sku')} />
               <Select label={t('categories.category')} value={form.categoryId} onChange={set('categoryId')}>
                 <option value="">—</option>
                 {categories.map((c) => (
@@ -384,12 +388,17 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
             <TranslationFields value={form.translations} onChange={(v) => setForm((f) => ({ ...f, translations: v }))} withDescription />
             <div className="grid gap-4 rounded-xl bg-slate-50 p-4 sm:grid-cols-2 dark:bg-slate-800/40">
               <Switch checked={form.trackStock} onChange={(v) => setForm({ ...form, trackStock: v })} label={t('products.track_stock')} description={t('products.track_stock_hint')} />
-              {form.trackStock && <Input type="number" min={0} step="0.001" label={t('products.min_stock')} value={form.minStock} onChange={set('minStock')} />}
+              {form.trackStock && (
+                <Input type="number" min={0} step="0.001" label={retail ? t('inventory.rack_alert') : t('products.min_stock')} value={form.minStock} onChange={set('minStock')} />
+              )}
+              {form.trackStock && retail && (
+                <Input type="number" min={0} step="0.001" label={t('inventory.store_alert')} value={form.minStoreStock} onChange={set('minStoreStock')} />
+              )}
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <Checkbox checked={form.isActive} onChange={(v) => setForm({ ...form, isActive: v })} label={t('common.active')} />
               <Checkbox checked={form.showInPos} onChange={(v) => setForm({ ...form, showInPos: v })} label={t('products.show_in_pos')} />
-              <Checkbox checked={form.sendToKitchen} onChange={(v) => setForm({ ...form, sendToKitchen: v })} label={t('products.send_to_kitchen')} />
+              {!retail && <Checkbox checked={form.sendToKitchen} onChange={(v) => setForm({ ...form, sendToKitchen: v })} label={t('products.send_to_kitchen')} />}
               {hasAddon('qr_menu') && <Checkbox checked={form.showInMenu} onChange={(v) => setForm({ ...form, showInMenu: v })} label={t('products.show_in_menu')} />}
             </div>
           </div>

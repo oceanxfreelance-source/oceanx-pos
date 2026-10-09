@@ -38,6 +38,7 @@ function productValues(body: z.output<typeof productSchema>) {
     taxRate: body.taxRate,
     trackStock: body.trackStock,
     minStock: body.minStock,
+    minStoreStock: body.minStoreStock,
     isActive: body.isActive,
     showInPos: body.showInPos,
     showInMenu: body.showInMenu,

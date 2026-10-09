@@ -1585,7 +1585,8 @@
       "wastage": "Wastage",
       "count": "Stock count",
       "transfer_in": "Transfer in",
-      "transfer_out": "Transfer out"
+      "transfer_out": "Transfer out",
+      "refill": "Rack refill"
     },
     "no_history": "No stock movements yet.",
     "new_transfer": "New transfer",
@@ -1607,7 +1608,28 @@
     "min_stock_hint": "You get a low-stock alert at this level.",
     "supply_added": "Stock item added",
     "total_paid": "Total paid",
-    "total_paid_hint": "For a bulk buy: what you paid for the whole opening stock. The cost per unit is worked out."
+    "total_paid_hint": "For a bulk buy: what you paid for the whole opening stock. The cost per unit is worked out.",
+    "on_rack": "On rack",
+    "in_store": "In store",
+    "low_on_rack": "Low on rack",
+    "low_in_store": "Low in store",
+    "alert_at": "Alert at {{n}}",
+    "refill": "Refill rack",
+    "refill_title": "Refill the rack from the store",
+    "refill_qty": "Quantity to put on the rack",
+    "refill_hint": "Moves goods from the store to the rack. The store goes down by the same amount.",
+    "refilled": "Rack refilled: {{shop}} {{unit}} on rack, {{store}} {{unit}} left in store",
+    "location": "Where",
+    "add_shop_product": "Add product",
+    "add_shop_product_hint": "A product for sale, with its stock in the store and on the rack.",
+    "barcode": "Barcode / SKU",
+    "barcode_hint": "Scan the product barcode into this box.",
+    "opening_store": "Stock in store now",
+    "opening_rack": "Stock on rack now",
+    "rack_alert": "Rack alert level",
+    "rack_alert_hint": "Alert when this many or fewer are left on the rack (e.g. 5).",
+    "store_alert": "Store alert level",
+    "store_alert_hint": "Time to reorder from the supplier when the store gets this low."
   },
   "purchases": {
     "page_title": "Purchases & suppliers",
@@ -1706,7 +1728,9 @@
       "credit": "Credit & dues",
       "staff": "Staff performance",
       "outlets": "Outlets",
-      "costing": "Recipe costing"
+      "costing": "Recipe costing",
+      "rack-low": "Low on rack",
+      "store-stock": "Store stock"
     },
     "descriptions": {
       "sales-summary": "Orders, discounts, tax and totals per day.",
@@ -1761,7 +1785,11 @@
       "staff": "Staff",
       "source": "Source",
       "price": "Price",
-      "recipe_cost": "Recipe cost"
+      "recipe_cost": "Recipe cost",
+      "on_rack": "On rack",
+      "in_store": "In store",
+      "rack_alert_at": "Rack alert at",
+      "store_alert_at": "Store alert at"
     },
     "sources": {
       "pos": "POS",
@@ -1863,7 +1891,8 @@
     "invoice_created": "Invoice {{number}} was created",
     "quotation_created": "Quotation {{number}} was created",
     "online_order": "New online order from {{name}}",
-    "credit_payment": "{{customer}} paid {{amount}} towards credit"
+    "credit_payment": "{{customer}} paid {{amount}} towards credit",
+    "low_on_rack": "Low on rack: {{product}} ({{quantity}} left on rack, {{store}} in store)"
   },
   "onboarding": {
     "title": "Get set up",

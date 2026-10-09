@@ -31,6 +31,7 @@ export async function stockCheckRoutes(app: FastifyInstance) {
         sellingPrice: products.sellingPrice,
         trackStock: products.trackStock,
         minStock: products.minStock,
+        minStoreStock: products.minStoreStock,
         hasImage: sql<boolean>`${products.imagePath} IS NOT NULL`,
         exact: sql<boolean>`lower(${products.sku}) = lower(${q})`,
       })
@@ -47,7 +48,7 @@ export async function stockCheckRoutes(app: FastifyInstance) {
     const ids = rows.map((r) => r.id);
     const levels = ids.length
       ? await db
-          .select({ productId: stockLevels.productId, outletId: stockLevels.outletId, quantity: stockLevels.quantity })
+          .select({ productId: stockLevels.productId, outletId: stockLevels.outletId, quantity: stockLevels.quantity, storeQuantity: stockLevels.storeQuantity })
           .from(stockLevels)
           .where(and(eq(stockLevels.businessId, ctx.businessId), inArray(stockLevels.productId, ids)))
       : [];
@@ -57,9 +58,13 @@ export async function stockCheckRoutes(app: FastifyInstance) {
       currentOutletId: ctx.outletId,
       items: rows.map((r) => {
         const min = Number(r.minStock);
+        const minStore = Number(r.minStoreStock);
+        // quantity = on the rack (sellable now); storeQuantity = in the stock room.
         const byOutlet = outletRows.map((o) => {
-          const qty = Number(levels.find((l) => l.productId === r.id && l.outletId === o.id)?.quantity ?? 0);
-          return { outletId: o.id, outletName: o.name, quantity: qty, status: status(r.trackStock, qty, min) };
+          const lvl = levels.find((l) => l.productId === r.id && l.outletId === o.id);
+          const qty = Number(lvl?.quantity ?? 0);
+          const store = Number(lvl?.storeQuantity ?? 0);
+          return { outletId: o.id, outletName: o.name, quantity: qty, storeQuantity: store, status: status(r.trackStock, qty, min), storeStatus: status(r.trackStock, store, minStore) };
         });
         const here = byOutlet.find((o) => o.outletId === ctx.outletId);
         return {
@@ -74,6 +79,8 @@ export async function stockCheckRoutes(app: FastifyInstance) {
           minStock: min,
           quantity: here?.quantity ?? 0,
           status: here?.status ?? status(r.trackStock, 0, min),
+          storeQuantity: here?.storeQuantity ?? 0,
+          storeStatus: here?.storeStatus ?? status(r.trackStock, 0, minStore),
           outlets: byOutlet,
         };
       }),

@@ -25,9 +25,14 @@ interface Level {
   unit: string;
   type: string;
   minStock: number;
+  minStoreStock: number;
   costPrice: number;
+  /** On the rack (shops) / the one stock figure (restaurants). */
   quantity: number;
+  /** Shops: in the stock room. */
+  storeQuantity: number;
   low: boolean;
+  storeLow: boolean;
 }
 
 type Tab = 'levels' | 'history' | 'transfers';
@@ -56,12 +61,79 @@ export default function InventoryPage() {
 function Levels() {
   const { t } = useTranslation();
   const { can } = useBiz();
+  const session = useBizSession();
+  const retail = !!session.business.profile.retail;
   const money = useMoney();
   const [low, setLow] = useState(false);
+  // Shops: '' all, 'true' low on the rack, 'store' low in the stock room.
+  const [shopLow, setShopLow] = useState<'' | 'true' | 'store'>('');
   const [adjusting, setAdjusting] = useState<Level | null>(null);
+  const [refilling, setRefilling] = useState<Level | null>(null);
   const [kind, setKind] = useState<'' | 'selling' | 'supplies'>('');
   const [adding, setAdding] = useState(false);
-  const { query, page, setPage, search, setSearch, pageSize } = useList<Level>('inventory', '/inventory', { low: low ? 'true' : undefined, kind: kind || undefined });
+  const { query, page, setPage, search, setSearch, pageSize } = useList<Level>('inventory', '/inventory', {
+    low: retail ? shopLow || undefined : low ? 'true' : undefined,
+    kind: retail ? undefined : kind || undefined,
+  });
+  const qtyBadge = (q: number, isLow: boolean, unit: string) => <Badge tone={q <= 0 ? 'red' : isLow ? 'amber' : 'green'}>{`${q} ${unit}`}</Badge>;
+  const shopColumns: Column<Level>[] = [
+    {
+      key: 'n',
+      header: t('common.name'),
+      cell: (l) => (
+        <div>
+          <p className="font-medium" dir="auto">
+            {l.name}
+          </p>
+          {l.sku && (
+            <p className="text-xs text-slate-500">
+              <Ltr>{l.sku}</Ltr>
+            </p>
+          )}
+        </div>
+      ),
+    },
+    { key: 'val', header: t('inventory.value'), hideOnMobile: true, cell: (l) => money(Math.round((Math.max(0, l.quantity) + Math.max(0, l.storeQuantity)) * l.costPrice)) },
+    {
+      key: 'rack',
+      header: t('inventory.on_rack'),
+      cell: (l) => (
+        <div>
+          {qtyBadge(l.quantity, l.low, l.unit)}
+          {l.minStock > 0 && <p className="mt-0.5 text-[11px] text-slate-500">{t('inventory.alert_at', { n: l.minStock })}</p>}
+        </div>
+      ),
+    },
+    {
+      key: 'store',
+      header: t('inventory.in_store'),
+      cell: (l) => (
+        <div>
+          {qtyBadge(l.storeQuantity, l.storeLow && l.minStoreStock > 0, l.unit)}
+          {l.minStoreStock > 0 && <p className="mt-0.5 text-[11px] text-slate-500">{t('inventory.alert_at', { n: l.minStoreStock })}</p>}
+        </div>
+      ),
+    },
+    {
+      key: 'act',
+      header: '',
+      className: 'text-end',
+      cell: (l) =>
+        can('inventory.adjust') && (
+          <Button
+            size="sm"
+            variant={l.low && l.storeQuantity > 0 ? 'primary' : 'secondary'}
+            disabled={l.storeQuantity <= 0}
+            onClick={(e) => {
+              e.stopPropagation();
+              setRefilling(l);
+            }}
+          >
+            {t('inventory.refill')}
+          </Button>
+        ),
+    },
+  ];
   const columns: Column<Level>[] = [
     {
       key: 'n',
@@ -96,18 +168,28 @@ function Levels() {
       )}
       <Card padded={false}>
         <ListToolbar search={search} onSearch={setSearch} placeholder={t('products.search')}>
-          <Select label={t('inventory.show')} value={kind} onChange={(e) => setKind(e.target.value as typeof kind)}>
-            <option value="">{t('common.all')}</option>
-            <option value="selling">{t('inventory.kinds.selling')}</option>
-            <option value="supplies">{t('inventory.kinds.supplies')}</option>
-          </Select>
-          <div className="flex items-end">
-            <Checkbox checked={low} onChange={setLow} label={t('inventory.low_only')} />
-          </div>
+          {retail ? (
+            <Select label={t('inventory.show')} value={shopLow} onChange={(e) => setShopLow(e.target.value as typeof shopLow)}>
+              <option value="">{t('common.all')}</option>
+              <option value="true">{t('inventory.low_on_rack')}</option>
+              <option value="store">{t('inventory.low_in_store')}</option>
+            </Select>
+          ) : (
+            <>
+              <Select label={t('inventory.show')} value={kind} onChange={(e) => setKind(e.target.value as typeof kind)}>
+                <option value="">{t('common.all')}</option>
+                <option value="selling">{t('inventory.kinds.selling')}</option>
+                <option value="supplies">{t('inventory.kinds.supplies')}</option>
+              </Select>
+              <div className="flex items-end">
+                <Checkbox checked={low} onChange={setLow} label={t('inventory.low_only')} />
+              </div>
+            </>
+          )}
           {can('products.create') && can('inventory.adjust') && (
             <div className="flex items-end">
               <Button className="w-full" icon={<Plus className="size-4" />} onClick={() => setAdding(true)}>
-                {t('inventory.add_supply')}
+                {retail ? t('inventory.add_shop_product') : t('inventory.add_supply')}
               </Button>
             </div>
           )}
@@ -118,24 +200,25 @@ function Levels() {
           <EmptyState icon={<Boxes className="size-6" />} title={t('inventory.empty_title')} description={t('inventory.empty_body')} />
         ) : (
           <>
-            <DataTable columns={columns} rows={query.data.items} rowKey={(l) => l.id} onRowClick={can('inventory.adjust') ? setAdjusting : undefined} />
+            <DataTable columns={retail ? shopColumns : columns} rows={query.data.items} rowKey={(l) => l.id} onRowClick={can('inventory.adjust') ? setAdjusting : undefined} />
             <Pagination page={page} pageSize={pageSize} total={query.data.total} onPage={setPage} />
           </>
         )}
       </Card>
-      {adjusting && <AdjustDialog level={adjusting} onClose={() => setAdjusting(null)} />}
-      {adding && <AddSupplyDialog onClose={() => setAdding(false)} />}
+      {adjusting && <AdjustDialog level={adjusting} retail={retail} onClose={() => setAdjusting(null)} />}
+      {refilling && <RefillDialog level={refilling} onClose={() => setRefilling(null)} />}
+      {adding && (retail ? <AddShopProductDialog onClose={() => setAdding(false)} /> : <AddSupplyDialog onClose={() => setAdding(false)} />)}
     </>
   );
 }
 
-function AdjustDialog({ level, onClose }: { level: Level; onClose: () => void }) {
+function AdjustDialog({ level, retail, onClose }: { level: Level; retail: boolean; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
-  const [form, setForm] = useState({ mode: 'add', quantity: '', reason: '' });
+  const [form, setForm] = useState({ mode: 'add', quantity: '', reason: '', location: retail ? 'store' : 'shop' });
   const m = useMutation({
-    mutationFn: () => api.post<{ balance: number }>('/inventory/adjust', { productId: level.id, mode: form.mode, quantity: parseAmount(form.quantity), reason: form.reason }),
+    mutationFn: () => api.post<{ balance: number }>('/inventory/adjust', { productId: level.id, mode: form.mode, quantity: parseAmount(form.quantity), reason: form.reason, location: form.location }),
     onSuccess: (r) => {
       toast.success(t('inventory.adjusted', { balance: r.balance, unit: level.unit }));
       void qc.invalidateQueries({ queryKey: ['biz', 'inventory'] });
@@ -151,7 +234,16 @@ function AdjustDialog({ level, onClose }: { level: Level; onClose: () => void })
       title={t('inventory.adjust')}
       description={
         <span dir="auto">
-          {level.name} — {t('inventory.current')}: <Ltr>{`${level.quantity} ${level.unit}`}</Ltr>
+          {level.name} —{' '}
+          {retail ? (
+            <>
+              {t('inventory.on_rack')}: <Ltr>{`${level.quantity} ${level.unit}`}</Ltr> · {t('inventory.in_store')}: <Ltr>{`${level.storeQuantity} ${level.unit}`}</Ltr>
+            </>
+          ) : (
+            <>
+              {t('inventory.current')}: <Ltr>{`${level.quantity} ${level.unit}`}</Ltr>
+            </>
+          )}
         </span>
       }
       footer={
@@ -162,6 +254,12 @@ function AdjustDialog({ level, onClose }: { level: Level; onClose: () => void })
     >
       <div className="space-y-4">
         {m.error && <Alert tone="red">{errMsg(m.error)}</Alert>}
+        {retail && (
+          <Select label={t('inventory.location')} value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })}>
+            <option value="store">{t('inventory.in_store')}</option>
+            <option value="shop">{t('inventory.on_rack')}</option>
+          </Select>
+        )}
         <Select label={t('inventory.mode')} value={form.mode} onChange={(e) => setForm({ ...form, mode: e.target.value })}>
           {['add', 'remove', 'set', 'wastage'].map((x) => (
             <option key={x} value={x}>
@@ -176,8 +274,132 @@ function AdjustDialog({ level, onClose }: { level: Level; onClose: () => void })
   );
 }
 
+/** Shops: take goods from the stock room and put them on the rack. */
+function RefillDialog({ level, onClose }: { level: Level; onClose: () => void }) {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const errMsg = useErrorMessage();
+  // Suggest enough to bring the rack back to twice its alert level, limited by what the store has.
+  const suggested = Math.max(0, Math.min(level.storeQuantity, Math.max(level.minStock * 2 - level.quantity, 1)));
+  const [qty, setQty] = useState(String(suggested));
+  const m = useMutation({
+    mutationFn: () => api.post<{ shop: number; store: number }>('/inventory/refill', { productId: level.id, quantity: parseAmount(qty), note: '' }),
+    onSuccess: (r) => {
+      toast.success(t('inventory.refilled', { shop: r.shop, store: r.store, unit: level.unit }));
+      void qc.invalidateQueries({ queryKey: ['biz', 'inventory'] });
+      void qc.invalidateQueries({ queryKey: ['biz', 'inventory-history'] });
+      onClose();
+    },
+  });
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      size="sm"
+      title={t('inventory.refill_title')}
+      description={
+        <span dir="auto">
+          {level.name} — {t('inventory.on_rack')}: <Ltr>{`${level.quantity} ${level.unit}`}</Ltr> · {t('inventory.in_store')}: <Ltr>{`${level.storeQuantity} ${level.unit}`}</Ltr>
+        </span>
+      }
+      footer={
+        <Button onClick={() => m.mutate()} loading={m.isPending} disabled={!(parseAmount(qty) > 0) || parseAmount(qty) > level.storeQuantity}>
+          {t('inventory.refill')}
+        </Button>
+      }
+    >
+      <div className="space-y-4">
+        {m.error && <Alert tone="red">{errMsg(m.error)}</Alert>}
+        <Input type="number" min={0} max={level.storeQuantity} step="0.001" label={t('inventory.refill_qty')} hint={t('inventory.refill_hint')} value={qty} onChange={(e) => setQty(e.target.value)} autoFocus />
+      </div>
+    </Dialog>
+  );
+}
+
+/** Shops: a product for sale, with its barcode, prices, opening stock in the store and on the rack, and both alert levels. */
+function AddShopProductDialog({ onClose }: { onClose: () => void }) {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const errMsg = useErrorMessage();
+  const cats = useQuery({ queryKey: ['biz', 'categories'], queryFn: () => api.get<{ items: { id: string; name: string }[] }>('/categories') });
+  const [form, setForm] = useState({ name: '', sku: '', unit: 'pcs', costPrice: '', sellingPrice: '', store: '', rack: '', minStock: '5', minStoreStock: '', categoryId: '' });
+  const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const save = useMutation({
+    mutationFn: async () => {
+      const p = await api.post<{ id: string }>('/products', {
+        name: form.name,
+        sku: form.sku,
+        type: 'item',
+        unit: form.unit || 'pcs',
+        categoryId: form.categoryId || null,
+        costPrice: parseAmount(form.costPrice),
+        sellingPrice: parseAmount(form.sellingPrice),
+        trackStock: true,
+        minStock: parseAmount(form.minStock),
+        minStoreStock: parseAmount(form.minStoreStock),
+        showInPos: true,
+        showInMenu: false,
+        sendToKitchen: false,
+        isActive: true,
+      });
+      const store = parseAmount(form.store);
+      const rack = parseAmount(form.rack);
+      if (store > 0) await api.post('/inventory/adjust', { productId: p.id, mode: 'add', quantity: store, reason: t('inventory.opening_stock'), location: 'store' });
+      if (rack > 0) await api.post('/inventory/adjust', { productId: p.id, mode: 'add', quantity: rack, reason: t('inventory.opening_stock'), location: 'shop' });
+      return p;
+    },
+    onSuccess: () => {
+      toast.success(t('common.saved'));
+      void qc.invalidateQueries({ queryKey: ['biz', 'inventory'] });
+      void qc.invalidateQueries({ queryKey: ['biz', 'products'] });
+      void qc.invalidateQueries({ queryKey: ['biz', 'pos'] });
+      onClose();
+    },
+  });
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      size="lg"
+      title={t('inventory.add_shop_product')}
+      description={t('inventory.add_shop_product_hint')}
+      footer={
+        <Button onClick={() => save.mutate()} loading={save.isPending} disabled={!form.name.trim() || form.sellingPrice === ''}>
+          {t('common.save')}
+        </Button>
+      }
+    >
+      <div className="space-y-4">
+        {save.error && <Alert tone="red">{errMsg(save.error)}</Alert>}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Input label={t('common.name')} value={form.name} onChange={set('name')} autoFocus required />
+          <Input label={t('inventory.barcode')} dir="ltr" value={form.sku} onChange={set('sku')} hint={t('inventory.barcode_hint')} />
+          <Input type="number" min={0} step="0.01" label={t('products.selling_price')} value={form.sellingPrice} onChange={set('sellingPrice')} required />
+          <Input type="number" min={0} step="0.01" label={t('products.cost_price')} value={form.costPrice} onChange={set('costPrice')} />
+          <Input label={t('products.unit')} value={form.unit} onChange={set('unit')} />
+          <Select label={t('categories.category')} value={form.categoryId} onChange={set('categoryId')}>
+            <option value="">—</option>
+            {cats.data?.items.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div className="grid gap-4 rounded-xl bg-slate-50 p-4 sm:grid-cols-2 dark:bg-slate-800/40">
+          <Input type="number" min={0} step="0.001" label={t('inventory.opening_store')} value={form.store} onChange={set('store')} />
+          <Input type="number" min={0} step="0.001" label={t('inventory.opening_rack')} value={form.rack} onChange={set('rack')} />
+          <Input type="number" min={0} step="0.001" label={t('inventory.rack_alert')} hint={t('inventory.rack_alert_hint')} value={form.minStock} onChange={set('minStock')} />
+          <Input type="number" min={0} step="0.001" label={t('inventory.store_alert')} hint={t('inventory.store_alert_hint')} value={form.minStoreStock} onChange={set('minStoreStock')} />
+        </div>
+      </div>
+    </Dialog>
+  );
+}
+
 interface Txn {
   id: string;
+  location?: 'shop' | 'store';
   type: string;
   quantity: number;
   balanceAfter: number;
@@ -194,11 +416,22 @@ function History() {
   const { t } = useTranslation();
   const f = useFormat();
   const [type, setType] = useState('');
+  const retail = !!useBizSession().business.profile.retail;
   const { query, page, setPage, pageSize } = useList<Txn>('inventory-history', '/inventory/history', { type });
   const columns: Column<Txn>[] = [
     { key: 'd', header: t('common.date'), cell: (x) => f.dateTime(x.createdAt) },
     { key: 'p', header: t('products.item'), cell: (x) => <span dir="auto">{x.productName}</span> },
-    { key: 't', header: t('inventory.movement'), cell: (x) => <Badge>{t(`inventory.types.${x.type}`)}</Badge> },
+    {
+      key: 't',
+      header: t('inventory.movement'),
+      cell: (x) => (
+        <span className="inline-flex flex-wrap items-center gap-1">
+          <Badge>{t(`inventory.types.${x.type}`)}</Badge>
+          {/* Shops: which place the movement touched. */}
+          {retail && <Badge tone={x.location === 'store' ? 'violet' : 'blue'}>{x.location === 'store' ? t('inventory.in_store') : t('inventory.on_rack')}</Badge>}
+        </span>
+      ),
+    },
     { key: 'o', header: t('outlets.outlet'), hideOnMobile: true, cell: (x) => <span dir="auto">{x.outletName}</span> },
     { key: 'u', header: t('common.user'), hideOnMobile: true, cell: (x) => <span dir="auto">{x.userName ?? '—'}</span> },
     { key: 'n', header: t('inventory.reason'), hideOnMobile: true, cell: (x) => <span dir="auto">{x.note || '—'}</span> },
@@ -221,7 +454,7 @@ function History() {
       <ListToolbar>
         <Select label={t('inventory.movement')} value={type} onChange={(e) => setType(e.target.value)}>
           <option value="">{t('common.all')}</option>
-          {['sale', 'sale_void', 'recipe', 'purchase', 'adjustment', 'wastage', 'count', 'transfer_in', 'transfer_out'].map((x) => (
+          {['sale', 'sale_void', ...(retail ? ['refill'] : ['recipe']), 'purchase', 'adjustment', 'wastage', 'count', 'transfer_in', 'transfer_out'].map((x) => (
             <option key={x} value={x}>
               {t(`inventory.types.${x}`)}
             </option>

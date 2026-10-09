@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 352 · **confirmed**: 144
+Status: **needs_review**: 381 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -119,15 +119,37 @@ review of the whole file is still recommended before launch.
 | `errors.payroll_period_exists` | A salary sheet for this month already exists. | މި މަހުގެ މުސާރަ ޝީޓެއް ކުރިން ހަދާފައި އެބައޮތް. | needs_review | Plain translation using existing app terms. |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |
 | `expenses.payee` | Paid to | ފައިސާ ދިން ފަރާތް | needs_review | Paid to: ފައިސާ ދިން ފަރާތް. |
+| `inventory.add_shop_product` | Add product | ތަކެތި އިތުރުކުރޭ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.add_shop_product_hint` | A product for sale, with its stock in the store and on the rack. | ވިއްކާ ތަކެތި، ސްޓޯރާއި ރެކުގައި ހުރި ސްޓޮކާއެކު. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.add_supply` | Add stock item | ސްޓޮކް އައިޓަމެއް އިތުރުކުރޭ | needs_review | Loanwords ސްޓޮކް/އައިޓަމް follow existing inventory strings. Alternative: ސްޓޮކަށް ތަކެއްޗެއް އިތުރުކުރޭ. |
 | `inventory.add_supply_hint` | For things you use but don't sell, like a milk powder packet, cups or syrup. Tracked in stock, hidden from the POS. | ބޭނުންކުރާ ނަމަވެސް ނުވިއްކާ ތަކެތި، މިސާލަކަށް މިލްކް ޕައުޑަރު ޕެކެޓެއް، ކަޕު ނުވަތަ ސިރަޕް. ސްޓޮކުގައި ބަލަހައްޓާނެ، POSގައި ނުފެންނާނެ. | needs_review | Milk powder and cups rendered as loanwords (މިލްކް ޕައުޑަރު, ކަޕު); confirm local café usage (e.g. ކިރުގަނޑު). |
 | `inventory.adjust` | Adjust stock | ސްޓޮކް އެޑްޖަސްޓްކުރޭ | needs_review | Loanword ސްޓޮކް އެޑްޖަސްޓްކުރޭ follows existing perm.inventory_adjust. Native alternative: ސްޓޮކް ރަނގަޅުކުރޭ. |
+| `inventory.alert_at` | Alert at {{n}} | {{n}} ގައި އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.barcode` | Barcode / SKU | ބާކޯޑް / އެސްކޭޔޫ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.barcode_hint` | Scan the product barcode into this box. | މި ބޮކްސަށް ތަކެއްޗުގެ ބާކޯޑް ސްކޭން ކުރައްވާ. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.in_store` | In store | ސްޓޯރުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.kinds.supplies` | Ingredients & supplies | ތަކެތި އަދި ސަޕްލައިސް | needs_review | ތަކެތި for ingredients matches products.add_ingredient; ސަޕްލައިސް is a loanword. |
+| `inventory.location` | Where | ހުރި ތަން | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.low_in_store` | Low in store | ސްޓޯރުގައި މަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.low_on_rack` | Low on rack | ރެކުގައި މަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.modes.set` | Set counted quantity | ގުނި އަދަދު ސެޓްކުރޭ | needs_review | 'Set counted quantity' — ގުނި އަދަދު ސެޓްކުރޭ; confirm. |
 | `inventory.modes.wastage` | Record wastage | ގެއްލުނު / ހަލާކުވި ތަކެތި ރެކޯޑުކުރޭ | needs_review | Wastage rendered as ގެއްލުނު / ހަލާކުވި ތަކެތި (lost/spoiled). Alternative loanword: ވޭސްޓޭޖް. Also inventory.types.wastage. |
+| `inventory.on_rack` | On rack | ރެކުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.opening_rack` | Stock on rack now | މިހާރު ރެކުގައި ހުރި ސްޓޮކް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.opening_store` | Stock in store now | މިހާރު ސްޓޯރުގައި ހުރި ސްޓޮކް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.rack_alert` | Rack alert level | ރެކުގެ އެލާޓް ލެވެލް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.rack_alert_hint` | Alert when this many or fewer are left on the rack (e.g. 5). | ރެކުގައި މިހާ އަދަދަކަށް ނުވަތަ މަދުވުމުން އެލާޓް (މިސާލު 5). | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.refill` | Refill rack | ރެކު ފުރާ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.refill_hint` | Moves goods from the store to the rack. The store goes down by the same amount. | ސްޓޯރުން ތަކެތި ރެކަށް ބަދަލުކުރޭ. ސްޓޯރުން އެހައި އަދަދެއް މަދުވާނެ. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.refill_qty` | Quantity to put on the rack | ރެކަށް ލާ އަދަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.refill_title` | Refill the rack from the store | ސްޓޯރުން ރެކު ފުރުން | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.refilled` | Rack refilled: {{shop}} {{unit}} on rack, {{store}} {{unit}} left in store | ރެކު ފުރިއްޖެ: ރެކުގައި {{shop}} {{unit}}، ސްޓޯރުގައި {{store}} {{unit}} ބާކީ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.store_alert` | Store alert level | ސްޓޯރުގެ އެލާޓް ލެވެލް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `inventory.store_alert_hint` | Time to reorder from the supplier when the store gets this low. | ސްޓޯރުގައި މިހާ މަދުވުމުން ސަޕްލަޔަރުން އަލުން ގަންނަ ވަގުތު. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.total_paid` | Total paid | ޖުމްލަ ދެއްކި | needs_review | New: enter total paid for bulk stock purchases. |
 | `inventory.total_paid_hint` | For a bulk buy: what you paid for the whole opening stock. The cost per unit is worked out. | ގިނައިން ގަތުމުގައި: ފުރަތަމަ ސްޓޮކު ހުރިހާ އެއްޗަކަށް ދެއްކި އަދަދު. އެއްޗަކަށް ވާ އަގު ހިސާބުކުރެވޭނެ. | needs_review | New: enter total paid for bulk stock purchases. |
 | `inventory.transfer` | Transfer | ޓްރާންސްފަރ | needs_review | Loanword ޓްރާންސްފަރ, from existing addons.descriptions.advanced_inventory. Native alternative: ބަދަލުކުރުން. |
+| `inventory.types.refill` | Rack refill | ރެކު ފުރުން | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.types.transfer_in` | Transfer in | ޓްރާންސްފަރ (ލިބުނު) | needs_review | Rendered with parenthetical (ލިބުނު); alternative: ވަދެފައިވާ ޓްރާންސްފަރ. |
 | `inventory.types.wastage` | Wastage | ގެއްލުނު / ހަލާކުވި | needs_review | See inventory.modes.wastage. |
 | `invoices.issue` | Issue invoice | އިންވޮއިސް ނެރޭ | needs_review | 'Issue invoice' as އިންވޮއިސް ނެރޭ (lit. 'release/publish'). Alternatives: އިންވޮއިސް ފައިނަލްކުރޭ, އިޝޫކުރޭ. Also status_labels.issued (ނެރެފައި), documents.actions_done.issue, activity.actions.invoice_issued, documents.confirm.issue_title. |
@@ -144,6 +166,7 @@ review of the whole file is still recommended before launch.
 | `nav.products` | Products | ތަކެތި | needs_review | New: retail shops (stock check, barcode). |
 | `nav.rota` | Duty rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | "Rota" rendered as ޑިއުޓީ ރޯސްޓަރު (loanword). Alternatives: ޑިއުޓީ ލިސްޓު, ޑިއުޓީ ޝެޑިއުލް. |
 | `nav.stock_check` | Stock check | ސްޓޮކް ބެލުން | needs_review | New: retail shops (stock check, barcode). |
+| `notify.low_on_rack` | Low on rack: {{product}} ({{quantity}} left on rack, {{store}} in store) | ރެކުގައި މަދު: {{product}} (ރެކުގައި {{quantity}} ބާކީ، ސްޓޯރުގައި {{store}}) | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
 | `perm.branding_manage` | Manage the company stamp and document signatures | ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
@@ -178,7 +201,11 @@ review of the whole file is still recommended before launch.
 | `quotations.convert` | Convert to invoice | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ | needs_review | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ follows existing perm.quotations_convert_to_invoice. |
 | `reports.columns.average` | Average per order | އޯޑަރަކަށް އެވްރެޖް | needs_review | Was "Average"; now says it is the average bill per order. |
 | `reports.columns.gross` | Gross | ގްރޮސް | needs_review | Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން). |
+| `reports.columns.in_store` | In store | ސްޓޯރުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `reports.columns.margin` | Margin | މާޖިން | needs_review | Loanword މާޖިން. Alternative: ފައިދާގެ މިންވަރު. |
+| `reports.columns.on_rack` | On rack | ރެކުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.columns.rack_alert_at` | Rack alert at | ރެކު އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.columns.store_alert_at` | Store alert at | ސްޓޯރު އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `reports.export_csv` | Export CSV | CSV އެކްސްޕޯޓްކުރޭ | needs_review | ސީއެސްވީ transliteration. |
 | `reports.rows_count_other` | {{count}} rows | {{count}} ރޯ | needs_review | Loanword ރޯ (row). Dhivehi has no plural inflection after numerals; alternative: {{count}} ލައިން. |
 | `reports.summary.cogs` | Cost of goods | ވިއްކި ތަކެތީގެ ކޮސްޓް | needs_review | Cost of goods: ވިއްކި ތަކެތީގެ ކޮސްޓް. Confirm with accountant. |
@@ -186,6 +213,8 @@ review of the whole file is still recommended before launch.
 | `reports.summary.netProfit` | Net profit | ނެޓް ފައިދާ | needs_review | ނެޓް ފައިދާ. Alternative: ޞާފު ފައިދާ. |
 | `reports.types.costing` | Recipe costing | ރެސިޕީގެ ޚަރަދު | needs_review | Recipe costing as ރެސިޕީގެ ޚަރަދު. Existing addons.names.ingredient_costing uses ތަކެތީގެ ޚަރަދު ހިސާބުކުރުން. Note: report columns use loanword ކޮސްޓް for cost of goods while ޚަރަދު is reserved for expenses — confirm this split. |
 | `reports.types.profit` | Profit & loss | ފައިދާއާއި ގެއްލުން | needs_review | Profit & loss: ފައިދާއާއި ގެއްލުން — standard phrase, but please confirm. |
+| `reports.types.rack-low` | Low on rack | ރެކުގައި މަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.types.store-stock` | Store stock | ސްޓޯރު ސްޓޮކް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `settings.hints.branding` | Your company stamp and whether documents show the stamp and signatures. | ކުންފުނީގެ ތައްގަނޑާއި، ލިޔެކިޔުންތަކުގައި ތައްގަނޑާއި ސޮއި ދައްކާނެ ގޮތް. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `settings.hints.pos` | How the point of sale behaves. | ޕޮއިންޓް އޮފް ސޭލް ހިނގާނެ ގޮތް. | needs_review | 'Point of sale' transliterated ޕޮއިންޓް އޮފް ސޭލް. Alternative: ވިއްކާ ސިސްޓަމް. |
 | `settings.loyalty.points_per_unit` | Points per 1 currency unit spent | ޚަރަދުކުރާ ކޮންމެ 1 ފައިސާ ޔުނިޓަކަށް ލިބޭ ޕޮއިންޓް | needs_review | Long phrasing; check clarity. |

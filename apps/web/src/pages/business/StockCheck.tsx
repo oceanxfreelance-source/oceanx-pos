@@ -17,9 +17,13 @@ interface StockItem {
   hasImage: boolean;
   exact: boolean;
   trackStock: boolean;
+  /** On the rack (sellable now). */
   quantity: number;
   status: Availability;
-  outlets: { outletId: string; outletName: string; quantity: number; status: Availability }[];
+  /** In the stock room. */
+  storeQuantity: number;
+  storeStatus: Availability;
+  outlets: { outletId: string; outletName: string; quantity: number; status: Availability; storeQuantity: number; storeStatus: Availability }[];
 }
 
 const TONE = { in_stock: 'green', low: 'amber', out: 'red', untracked: 'gray' } as const;
@@ -113,13 +117,26 @@ export default function StockCheckPage() {
                 </div>
               </div>
               <div className={clsx('mt-4 flex items-center justify-between rounded-xl px-4 py-3 ring-1', BIG[it.status])}>
-                <span className="text-base font-bold">{t(`stock_check.status_${it.status}`)}</span>
+                <span>
+                  <span className="block text-xs font-medium opacity-80">{t('inventory.on_rack')}</span>
+                  <span className="text-base font-bold">{t(`stock_check.status_${it.status}`)}</span>
+                </span>
                 {it.trackStock && (
                   <span className="text-xl font-bold tabular-nums">
                     <Ltr>{`${it.quantity} ${it.unit}`}</Ltr>
                   </span>
                 )}
               </div>
+              {it.trackStock && (
+                <div className={clsx('mt-2 flex items-center justify-between rounded-xl px-4 py-2 ring-1', BIG[it.storeStatus])}>
+                  <span className="text-sm font-semibold">
+                    {t('inventory.in_store')} · {t(`stock_check.status_${it.storeStatus}`)}
+                  </span>
+                  <span className="text-base font-bold tabular-nums">
+                    <Ltr>{`${it.storeQuantity} ${it.unit}`}</Ltr>
+                  </span>
+                </div>
+              )}
               {multi && it.trackStock && (
                 <ul className="mt-3 space-y-1.5 text-sm">
                   {it.outlets
@@ -132,9 +149,14 @@ export default function StockCheckPage() {
                             {o.outletName}
                           </span>
                         </span>
-                        <Badge tone={TONE[o.status]}>
-                          <Ltr>{`${o.quantity} ${it.unit}`}</Ltr>
-                        </Badge>
+                        <span className="flex gap-1">
+                          <Badge tone={TONE[o.status]}>
+                            {t('inventory.on_rack')} <Ltr>{`${o.quantity}`}</Ltr>
+                          </Badge>
+                          <Badge tone={TONE[o.storeStatus]}>
+                            {t('inventory.in_store')} <Ltr>{`${o.storeQuantity}`}</Ltr>
+                          </Badge>
+                        </span>
                       </li>
                     ))}
                 </ul>

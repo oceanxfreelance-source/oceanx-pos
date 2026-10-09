@@ -46,7 +46,7 @@ export function SalesWidgets() {
     if (w === 'low_stock' && d.lowStock !== undefined)
       stats.push(
         <Link key={w} to="/inventory">
-          <StatCard label={t('dashboard.w.low_stock')} value={<Ltr>{d.lowStock}</Ltr>} icon={<AlertTriangle className="size-5" />} tone={d.lowStock > 0 ? 'red' : 'green'} />
+          <StatCard label={session.business.profile.retail ? t('inventory.low_on_rack') : t('dashboard.w.low_stock')} value={<Ltr>{d.lowStock}</Ltr>} icon={<AlertTriangle className="size-5" />} tone={d.lowStock > 0 ? 'red' : 'green'} />
         </Link>,
       );
     if ((w === 'top_products' && d.topProducts) || (w === 'top_drinks' && d.topDrinks?.length)) {

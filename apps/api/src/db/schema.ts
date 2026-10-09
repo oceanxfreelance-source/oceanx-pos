@@ -582,6 +582,8 @@ export const products = pgTable(
     taxRate: numeric('tax_rate', { precision: 6, scale: 3, mode: 'number' }),
     trackStock: boolean('track_stock').notNull().default(false),
     minStock: qty('min_stock').notNull().default(0),
+    /** Shops: alert when the stock room falls to this level (minStock is the rack alert). */
+    minStoreStock: qty('min_store_stock').notNull().default(0),
     isActive: boolean('is_active').notNull().default(true),
     showInPos: boolean('show_in_pos').notNull().default(true),
     showInMenu: boolean('show_in_menu').notNull().default(true),
@@ -611,7 +613,10 @@ export const stockLevels = pgTable(
     businessId: uuid('business_id').notNull(),
     outletId: uuid('outlet_id').notNull(),
     productId: uuid('product_id').notNull(),
+    /** On the shop floor / rack (what the POS sells from). */
     quantity: qty('quantity').notNull().default(0),
+    /** Shops: in the stock room / store behind the shop (purchases arrive here; refills move it to the rack). */
+    storeQuantity: qty('store_quantity').notNull().default(0),
     updatedAt: updatedAt(),
   },
   (t) => [
@@ -632,6 +637,8 @@ export const inventoryTransactions = pgTable(
     type: text('type').notNull(), // sale | sale_void | purchase | adjustment | wastage | count | transfer_in | transfer_out | recipe
     quantity: qty('quantity').notNull(), // signed change
     balanceAfter: qty('balance_after').notNull(),
+    /** shop (rack) | store (stock room) */
+    location: text('location').notNull().default('shop'),
     unitCost: money('unit_cost').notNull().default(0),
     referenceType: text('reference_type'),
     referenceId: text('reference_id'),

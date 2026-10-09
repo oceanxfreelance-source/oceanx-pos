@@ -79,4 +79,51 @@ describe('retail shops', () => {
     const other = await setupBusiness(env, sa, 'Other Mart', { type: 'retail_shop' });
     expect((await other.owner.get('/api/stock-check?q=coconut')).json().items).toHaveLength(0);
   });
+
+  it('shop stock: deliveries go to the store, the rack is refilled from it, sales take from the rack, alerts and reports', async () => {
+    const shop = await setupBusiness(env, sa, 'Rack Mart', { type: 'retail_shop' });
+    const owner = shop.owner;
+    const oil = (await owner.post('/api/products', { name: 'Coconut Oil 1L', sku: '890100', sellingPrice: 45, costPrice: 30, trackStock: true, minStock: 5, minStoreStock: 10, unit: 'pcs' })).json();
+
+    // A delivery is received into the stock room, not onto the rack.
+    const sup = (await owner.post('/api/suppliers', { name: 'Wholesale Co' })).json();
+    const po = (await owner.post('/api/purchases', { supplierId: sup.id, purchaseDate: '2026-10-01', items: [{ productId: oil.id, quantity: 40, unitCost: 30 }] })).json();
+    await owner.post(`/api/purchases/${po.id}/receive`);
+    let inv = (await owner.get('/api/inventory')).json().items.find((i: { id: string }) => i.id === oil.id);
+    expect(inv).toMatchObject({ quantity: 0, storeQuantity: 40, low: true, storeLow: false });
+
+    // Refill the rack with 8 from the store; can't take more than the store has.
+    expect((await owner.post('/api/inventory/refill', { productId: oil.id, quantity: 8 })).json()).toEqual({ shop: 8, store: 32 });
+    expect((await owner.post('/api/inventory/refill', { productId: oil.id, quantity: 100 })).json().error.code).toBe('insufficient_stock');
+
+    // Selling 3 takes them off the rack: 5 left → "low on rack" alert with the store quantity.
+    await owner.post('/api/pos/orders', { orderType: 'takeaway', items: [{ productId: oil.id, quantity: 3 }], payments: [{ method: 'cash', amount: 1000 }] });
+    inv = (await owner.get('/api/inventory')).json().items.find((i: { id: string }) => i.id === oil.id);
+    expect(inv).toMatchObject({ quantity: 5, storeQuantity: 32, low: true });
+    const notes = (await owner.get('/api/notifications')).json().items;
+    expect(notes.some((n: { messageKey?: string; key?: string; params?: { store?: number } }) => JSON.stringify(n).includes('low_on_rack') && JSON.stringify(n).includes('32'))).toBe(true);
+
+    // Counting the store sets the stock-room figure only.
+    await owner.post('/api/inventory/adjust', { productId: oil.id, mode: 'set', quantity: 9, reason: 'count', location: 'store' });
+    inv = (await owner.get('/api/inventory')).json().items.find((i: { id: string }) => i.id === oil.id);
+    expect(inv).toMatchObject({ quantity: 5, storeQuantity: 9, storeLow: true });
+    expect((await owner.get('/api/inventory?low=store')).json().items.map((i: { id: string }) => i.id)).toEqual([oil.id]);
+
+    // Reports: low on rack (with what's in the store), and store stock.
+    const range = 'from=2026-10-01&to=2026-10-09';
+    const rack = (await owner.get(`/api/reports/rack-low?${range}`)).json().rows;
+    expect(rack).toEqual([expect.objectContaining({ product: 'Coconut Oil 1L', on_rack: 5, rack_alert_at: 5, in_store: 9 })]);
+    const store = (await owner.get(`/api/reports/store-stock?${range}`)).json();
+    expect(store.rows[0]).toMatchObject({ product: 'Coconut Oil 1L', in_store: 9, store_alert_at: 10, on_rack: 5 });
+    expect(store.summary.stockValue).toBe(9 * 3000);
+    expect((await owner.get('/api/stock-check?q=890100')).json().items[0]).toMatchObject({ quantity: 5, storeQuantity: 9, status: 'low', storeStatus: 'low' });
+
+    // Restaurants keep one stock figure: no refill, no shop reports, deliveries go straight to stock.
+    const cafe = await setupBusiness(env, sa, 'Bean Cafe', { type: 'cafe' });
+    const milk = (await cafe.owner.post('/api/products', { name: 'Milk', trackStock: true, sellingPrice: 0, type: 'ingredient' })).json();
+    expect((await cafe.owner.post('/api/inventory/refill', { productId: milk.id, quantity: 1 })).statusCode).toBe(404);
+    expect((await cafe.owner.get(`/api/reports/rack-low?${range}`)).statusCode).toBe(404);
+    await cafe.owner.post('/api/inventory/adjust', { productId: milk.id, mode: 'add', quantity: 4, reason: '', location: 'store' });
+    expect((await cafe.owner.get('/api/inventory')).json().items[0]).toMatchObject({ quantity: 4, storeQuantity: 0 });
+  });
 });

@@ -1,3 +1,4 @@
+import { isRetailType } from '@oceanx/shared';
 import type { FastifyInstance, FastifyReply } from 'fastify';
 import { and, count, desc, eq, sql, type SQL } from 'drizzle-orm';
 import { reportQuerySchema } from '@oceanx/shared';
@@ -23,7 +24,11 @@ export const REPORT_TYPES = [
   'staff',
   'outlets',
   'costing',
+  'rack-low',
+  'store-stock',
 ] as const;
+/** Shop-only reports (rack vs stock room). */
+const RETAIL_REPORTS: ReadonlyArray<string> = ['rack-low', 'store-stock'];
 type ReportType = (typeof REPORT_TYPES)[number];
 
 const REPORT_PERMISSION_EXTRA: Partial<Record<ReportType, string>> = {
@@ -31,6 +36,8 @@ const REPORT_PERMISSION_EXTRA: Partial<Record<ReportType, string>> = {
   invoices: 'invoices.view',
   credit: 'credit.view',
   inventory: 'inventory.view',
+  'rack-low': 'inventory.view',
+  'store-stock': 'inventory.view',
   expenses: 'expenses.view',
   costing: 'costing.view',
 };
@@ -73,6 +80,7 @@ export async function reportRoutes(app: FastifyInstance) {
     const ctx = bizCtx(req);
     const type = req.params.type as ReportType;
     if (!REPORT_TYPES.includes(type)) throw notFound();
+    if (RETAIL_REPORTS.includes(type) && !isRetailType(ctx.access.business.businessType)) throw notFound();
     const extra = REPORT_PERMISSION_EXTRA[type];
     if (extra) assertPermission(ctx, extra);
     const q = parse(reportQuerySchema, req.query);
@@ -157,11 +165,41 @@ export async function reportRoutes(app: FastifyInstance) {
         break;
       }
       case 'inventory': {
-        rows = await run(sql`
+        rows = isRetailType(ctx.access.business.businessType)
+          ? await run(sql`
+          SELECT p.name AS product, p.sku, o.name AS outlet, st.quantity::float AS on_rack, st.store_quantity::float AS in_store, p.cost_price AS unit_cost,
+                 round((GREATEST(st.quantity,0) + GREATEST(st.store_quantity,0)) * p.cost_price)::bigint AS value
+          FROM stock_levels st JOIN products p ON p.id = st.product_id JOIN outlets o ON o.id = st.outlet_id
+          WHERE st.business_id = ${bid} AND p.deleted_at IS NULL AND ${inList(sql`st.outlet_id`, oids)} ORDER BY p.name LIMIT 2000`)
+          : await run(sql`
           SELECT p.name AS product, p.sku, o.name AS outlet, st.quantity::float AS quantity, p.min_stock::float AS min_stock, p.cost_price AS unit_cost,
                  round(GREATEST(st.quantity,0) * p.cost_price)::bigint AS value
           FROM stock_levels st JOIN products p ON p.id = st.product_id JOIN outlets o ON o.id = st.outlet_id
           WHERE st.business_id = ${bid} AND p.deleted_at IS NULL AND ${inList(sql`st.outlet_id`, oids)} ORDER BY p.name LIMIT 2000`);
+        summary = { stockValue: rows.reduce((a, r) => a + Number(r.value), 0) };
+        break;
+      }
+      // Shops: products at or below their rack alert level, and what the stock room has to refill them.
+      case 'rack-low': {
+        rows = await run(sql`
+          SELECT p.name AS product, p.sku, o.name AS outlet, COALESCE(st.quantity,0)::float AS on_rack, p.min_stock::float AS rack_alert_at,
+                 COALESCE(st.store_quantity,0)::float AS in_store
+          FROM products p CROSS JOIN outlets o
+          LEFT JOIN stock_levels st ON st.product_id = p.id AND st.outlet_id = o.id
+          WHERE p.business_id = ${bid} AND o.business_id = ${bid} AND p.deleted_at IS NULL AND p.is_active AND p.track_stock AND p.min_stock > 0
+            AND ${inList(sql`o.id`, oids)} AND COALESCE(st.quantity,0) <= p.min_stock
+          ORDER BY COALESCE(st.quantity,0) ASC, p.name LIMIT 2000`);
+        break;
+      }
+      // Shops: everything in the stock room, items at/below their store alert level first.
+      case 'store-stock': {
+        rows = await run(sql`
+          SELECT p.name AS product, p.sku, o.name AS outlet, COALESCE(st.store_quantity,0)::float AS in_store, p.min_store_stock::float AS store_alert_at,
+                 COALESCE(st.quantity,0)::float AS on_rack, p.cost_price AS unit_cost, round(GREATEST(COALESCE(st.store_quantity,0),0) * p.cost_price)::bigint AS value
+          FROM products p CROSS JOIN outlets o
+          LEFT JOIN stock_levels st ON st.product_id = p.id AND st.outlet_id = o.id
+          WHERE p.business_id = ${bid} AND o.business_id = ${bid} AND p.deleted_at IS NULL AND p.is_active AND p.track_stock AND ${inList(sql`o.id`, oids)}
+          ORDER BY (COALESCE(st.store_quantity,0) <= p.min_store_stock) DESC, p.name LIMIT 2000`);
         summary = { stockValue: rows.reduce((a, r) => a + Number(r.value), 0) };
         break;
       }

@@ -3470,5 +3470,208 @@
     "suggested": "ޕްލެޓްފޯމްގައިވާ ހުރިހާ ވިޔަފާރިތައް: ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަތައް.",
     "status": "needs_review",
     "notes": "Updated: platform now includes shops."
+  },
+  {
+    "key": "inventory.on_rack",
+    "english": "On rack",
+    "suggested": "ރެކުގައި",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.in_store",
+    "english": "In store",
+    "suggested": "ސްޓޯރުގައި",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.low_on_rack",
+    "english": "Low on rack",
+    "suggested": "ރެކުގައި މަދު",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.low_in_store",
+    "english": "Low in store",
+    "suggested": "ސްޓޯރުގައި މަދު",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.alert_at",
+    "english": "Alert at {{n}}",
+    "suggested": "{{n}} ގައި އެލާޓް",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.refill",
+    "english": "Refill rack",
+    "suggested": "ރެކު ފުރާ",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.refill_title",
+    "english": "Refill the rack from the store",
+    "suggested": "ސްޓޯރުން ރެކު ފުރުން",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.refill_qty",
+    "english": "Quantity to put on the rack",
+    "suggested": "ރެކަށް ލާ އަދަދު",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.refill_hint",
+    "english": "Moves goods from the store to the rack. The store goes down by the same amount.",
+    "suggested": "ސްޓޯރުން ތަކެތި ރެކަށް ބަދަލުކުރޭ. ސްޓޯރުން އެހައި އަދަދެއް މަދުވާނެ.",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.refilled",
+    "english": "Rack refilled: {{shop}} {{unit}} on rack, {{store}} {{unit}} left in store",
+    "suggested": "ރެކު ފުރިއްޖެ: ރެކުގައި {{shop}} {{unit}}، ސްޓޯރުގައި {{store}} {{unit}} ބާކީ",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.location",
+    "english": "Where",
+    "suggested": "ހުރި ތަން",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.add_shop_product",
+    "english": "Add product",
+    "suggested": "ތަކެތި އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.add_shop_product_hint",
+    "english": "A product for sale, with its stock in the store and on the rack.",
+    "suggested": "ވިއްކާ ތަކެތި، ސްޓޯރާއި ރެކުގައި ހުރި ސްޓޮކާއެކު.",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.barcode",
+    "english": "Barcode / SKU",
+    "suggested": "ބާކޯޑް / އެސްކޭޔޫ",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.barcode_hint",
+    "english": "Scan the product barcode into this box.",
+    "suggested": "މި ބޮކްސަށް ތަކެއްޗުގެ ބާކޯޑް ސްކޭން ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.opening_store",
+    "english": "Stock in store now",
+    "suggested": "މިހާރު ސްޓޯރުގައި ހުރި ސްޓޮކް",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.opening_rack",
+    "english": "Stock on rack now",
+    "suggested": "މިހާރު ރެކުގައި ހުރި ސްޓޮކް",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.rack_alert",
+    "english": "Rack alert level",
+    "suggested": "ރެކުގެ އެލާޓް ލެވެލް",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.rack_alert_hint",
+    "english": "Alert when this many or fewer are left on the rack (e.g. 5).",
+    "suggested": "ރެކުގައި މިހާ އަދަދަކަށް ނުވަތަ މަދުވުމުން އެލާޓް (މިސާލު 5).",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.store_alert",
+    "english": "Store alert level",
+    "suggested": "ސްޓޯރުގެ އެލާޓް ލެވެލް",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.store_alert_hint",
+    "english": "Time to reorder from the supplier when the store gets this low.",
+    "suggested": "ސްޓޯރުގައި މިހާ މަދުވުމުން ސަޕްލަޔަރުން އަލުން ގަންނަ ވަގުތު.",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "inventory.types.refill",
+    "english": "Rack refill",
+    "suggested": "ރެކު ފުރުން",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "notify.low_on_rack",
+    "english": "Low on rack: {{product}} ({{quantity}} left on rack, {{store}} in store)",
+    "suggested": "ރެކުގައި މަދު: {{product}} (ރެކުގައި {{quantity}} ބާކީ، ސްޓޯރުގައި {{store}})",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "reports.types.rack-low",
+    "english": "Low on rack",
+    "suggested": "ރެކުގައި މަދު",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "reports.types.store-stock",
+    "english": "Store stock",
+    "suggested": "ސްޓޯރު ސްޓޮކް",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "reports.columns.on_rack",
+    "english": "On rack",
+    "suggested": "ރެކުގައި",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "reports.columns.in_store",
+    "english": "In store",
+    "suggested": "ސްޓޯރުގައި",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "reports.columns.rack_alert_at",
+    "english": "Rack alert at",
+    "suggested": "ރެކު އެލާޓް",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "reports.columns.store_alert_at",
+    "english": "Store alert at",
+    "suggested": "ސްޓޯރު އެލާޓް",
+    "status": "needs_review",
+    "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
   }
 ]
