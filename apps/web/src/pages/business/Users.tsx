@@ -100,11 +100,14 @@ export default function UsersPage() {
       cell: (u) => (
         <div className="flex flex-wrap justify-end gap-1 md:justify-start">
           {u.isOwner && <Badge tone="violet">{t('users.owner')}</Badge>}
-          {u.roles.map((r) => (
-            <Badge key={r.id} tone="blue">
-              {roleLabel(t, r)}
-            </Badge>
-          ))}
+          {u.roles
+            // Don't repeat "Owner" when the role itself is called Owner (shops).
+            .filter((r) => !(u.isOwner && roleLabel(t, r) === t('users.owner')))
+            .map((r) => (
+              <Badge key={r.id} tone="blue">
+                {roleLabel(t, r)}
+              </Badge>
+            ))}
         </div>
       ),
     },

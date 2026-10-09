@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, ApiError, onUnauthorized, setCsrfToken } from '../lib/api';
 import { applyLanguage } from '../i18n';
 import { applyPreferences } from '../lib/theme';
+import { setRetailRoleNames } from '../lib/labels';
 
 export interface BusinessSession {
   csrfToken: string;
@@ -81,6 +82,8 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => onUnauthorized('business', () => qc.setQueryData(BIZ_SESSION_KEY, null)), [qc]);
 
   const session = query.data ?? null;
+  // Set during render (not in an effect) so role names are right on the very first paint.
+  setRetailRoleNames(!!session?.business.profile.retail);
   useEffect(() => {
     if (!session) return;
     setCsrfToken('business', session.csrfToken);

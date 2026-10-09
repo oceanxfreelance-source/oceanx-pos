@@ -87,6 +87,8 @@ export function useCategories() {
 function ProductList() {
   const { t } = useTranslation();
   const { can } = useBiz();
+  // Shops sell everything they stock: no item/ingredient/service types.
+  const retail = !!useBizSession().business.profile.retail;
   const money = useMoney();
   const cats = useCategories();
   const [categoryId, setCategoryId] = useState('');
@@ -130,8 +132,8 @@ function ProductList() {
         </div>
       ),
     },
-    { key: 'type', header: t('products.type'), hideOnMobile: true, cell: (p) => t(`products.types.${p.type}`) },
-    { key: 'stock', header: t('inventory.stock'), hideOnMobile: true, cell: (p) => (p.trackStock ? <Badge tone={(p.stock ?? 0) <= p.minStock ? 'red' : 'gray'}>{`${p.stock ?? 0} ${p.unit}`}</Badge> : '—') },
+    ...(retail ? [] : [{ key: 'type', header: t('products.type'), hideOnMobile: true, cell: (p: Product) => t(`products.types.${p.type}`) }]),
+    { key: 'stock', header: retail ? t('inventory.on_rack') : t('inventory.stock'), hideOnMobile: true, cell: (p) => (p.trackStock ? <Badge tone={(p.stock ?? 0) <= p.minStock ? 'red' : 'gray'}>{`${p.stock ?? 0} ${p.unit}`}</Badge> : '—') },
     { key: 'cost', header: t('products.cost_price'), hideOnMobile: true, cell: (p) => <span className="tabular-nums">{money(p.costPrice)}</span> },
     { key: 'price', header: t('products.selling_price'), className: 'text-end', cell: (p) => <span className="font-semibold tabular-nums">{money(p.sellingPrice)}</span> },
     {
@@ -160,14 +162,16 @@ function ProductList() {
             </option>
           ))}
         </Select>
-        <Select label={t('products.type')} value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="">{t('common.all')}</option>
-          {['item', 'ingredient', 'service'].map((x) => (
-            <option key={x} value={x}>
-              {t(`products.types.${x}`)}
-            </option>
-          ))}
-        </Select>
+        {!retail && (
+          <Select label={t('products.type')} value={type} onChange={(e) => setType(e.target.value)}>
+            <option value="">{t('common.all')}</option>
+            {['item', 'ingredient', 'service'].map((x) => (
+              <option key={x} value={x}>
+                {t(`products.types.${x}`)}
+              </option>
+            ))}
+          </Select>
+        )}
         {can('products.create') && (
           <div className="flex items-end">
             <Button className="w-full" icon={<Plus className="size-4" />} onClick={() => setEditing('new')}>
@@ -372,13 +376,15 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
                   </option>
                 ))}
               </Select>
-              <Select label={t('products.type')} value={form.type} onChange={set('type')}>
-                {['item', 'ingredient', 'service'].map((x) => (
-                  <option key={x} value={x}>
-                    {t(`products.types.${x}`)}
-                  </option>
-                ))}
-              </Select>
+              {!retail && (
+                <Select label={t('products.type')} value={form.type} onChange={set('type')}>
+                  {['item', 'ingredient', 'service'].map((x) => (
+                    <option key={x} value={x}>
+                      {t(`products.types.${x}`)}
+                    </option>
+                  ))}
+                </Select>
+              )}
               <Input label={t('products.unit')} value={form.unit} onChange={set('unit')} error={fieldErr('unit')} />
               <Input type="number" step="0.01" min={0} label={t('products.selling_price')} value={form.sellingPrice} onChange={set('sellingPrice')} error={fieldErr('sellingPrice')} />
               <Input type="number" step="0.01" min={0} label={t('products.cost_price')} value={form.costPrice} onChange={set('costPrice')} error={fieldErr('costPrice')} />

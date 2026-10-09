@@ -1,3 +1,4 @@
+import { isRetailType } from '@oceanx/shared';
 import type { FastifyInstance } from 'fastify';
 import { and, asc, count, eq, ilike, inArray, isNull, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
@@ -25,14 +26,15 @@ function cleanTranslations(t: Translations): Translations {
 }
 
 /** Convert validated product input (major units) to DB values (minor units). */
-function productValues(body: z.output<typeof productSchema>) {
+function productValues(body: z.output<typeof productSchema>, retail = false) {
   return {
     name: body.name,
     sku: body.sku,
     categoryId: body.categoryId,
     description: body.description,
     unit: body.unit,
-    type: body.type,
+    // Shops have no recipes or ingredients: everything they stock is for sale.
+    type: retail && body.type === 'ingredient' ? 'item' : body.type,
     costPrice: toMinor(body.costPrice),
     sellingPrice: toMinor(body.sellingPrice),
     taxRate: body.taxRate,
@@ -42,7 +44,7 @@ function productValues(body: z.output<typeof productSchema>) {
     isActive: body.isActive,
     showInPos: body.showInPos,
     showInMenu: body.showInMenu,
-    sendToKitchen: body.sendToKitchen,
+    sendToKitchen: retail ? false : body.sendToKitchen,
     options: body.options.map((g) => ({ ...g, choices: g.choices.map((c) => ({ name: c.name, price: toMinor(c.price) })) })),
     ...(body.translations ? { translations: cleanTranslations(body.translations) } : {}),
   };
@@ -172,7 +174,7 @@ export async function catalogRoutes(app: FastifyInstance) {
       }
       const [p] = await tx
         .insert(products)
-        .values({ ...productValues(body), businessId: ctx.businessId })
+        .values({ ...productValues(body, isRetailType(ctx.access.business.businessType)), businessId: ctx.businessId })
         .returning();
       await audit(tx, { ...actor(ctx), action: 'product.created', entityType: 'product', entityId: p!.id, metadata: { name: p!.name }, req });
       return p!;
@@ -188,7 +190,7 @@ export async function catalogRoutes(app: FastifyInstance) {
     await assertCategory(app, ctx, body.categoryId);
     const [before] = await db.select().from(products).where(own(products, ctx, id));
     if (!before) throw notFound();
-    const values = productValues(body);
+    const values = productValues(body, isRetailType(ctx.access.business.businessType));
     const [p] = await db
       .update(products)
       .set({ ...values, updatedAt: new Date() })

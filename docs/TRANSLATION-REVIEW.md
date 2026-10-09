@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 381 · **confirmed**: 144
+Status: **needs_review**: 393 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -23,6 +23,10 @@ review of the whole file is still recommended before launch.
 | `addons.request_cancelled` | Request cancelled | އެދުން ކެންސަލްކުރެވިއްޖެ | needs_review | Plain translation using existing app terms. |
 | `addons.request_sent` | Request sent. The platform team will switch it on. | އެދުން ފޮނުވިއްޖެ. ޕްލެޓްފޯމް ޓީމުން މި ހުޅުވައިދޭނެ. | needs_review | Platform team = ޕްލެޓްފޯމް ޓީމު (as in addons.request_hint). |
 | `addons.requested_on` | Requested {{date}} | {{date}} ގައި އެދިފައި | needs_review | Plain translation using existing app terms. |
+| `app.tagline` | Restaurant, Café & Shop Management | ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަ ހިންގުން | needs_review | New/updated: shops on the platform. |
+| `auth.aside_body` | Sales, stock, staff and reports for restaurants, cafés and shops — in your language, on any device. | ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަތަކަށް ވިއްކުމާއި، ސްޓޮކާއި، ސްޓާފާއި ރިޕޯޓްތައް — ތިބާގެ ބަހުން، ކޮންމެ ޑިވައިސްއެއްގައި. | needs_review | New/updated: shops on the platform. |
+| `auth.aside_title` | Run your restaurant, café or shop with confidence. | ރެސްޓޯރަންޓް، ކެފޭ ނުވަތަ ފިހާރަ ޔަގީންކަމާއެކު ހިންގާ. | needs_review | New/updated: shops on the platform. |
+| `auth.register_subtitle` | Set up your restaurant, café or shop in a few minutes. | ރެސްޓޯރަންޓް، ކެފޭ ނުވަތަ ފިހާރަ މިނިޓު ކިހާވަރަކުން ތައްޔާރުކުރައްވާ. | needs_review | New/updated: shops on the platform. |
 | `billing.amount` | Amount | އަދަދު | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.amount_to_pay` | Amount to pay | ދައްކަންޖެހޭ އަދަދު | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.ask_owner` | Please ask the business owner or a manager to pay for the plan. | ޕްލޭނަށް ފައިސާ ދެއްކުމަށް ވިޔަފާރީގެ ވެރިފަރާތަށް ނުވަތަ މެނޭޖަރަކަށް އެދިވަޑައިގަންނަވާ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
@@ -167,6 +171,10 @@ review of the whole file is still recommended before launch.
 | `nav.rota` | Duty rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | "Rota" rendered as ޑިއުޓީ ރޯސްޓަރު (loanword). Alternatives: ޑިއުޓީ ލިސްޓު, ޑިއުޓީ ޝެޑިއުލް. |
 | `nav.stock_check` | Stock check | ސްޓޮކް ބެލުން | needs_review | New: retail shops (stock check, barcode). |
 | `notify.low_on_rack` | Low on rack: {{product}} ({{quantity}} left on rack, {{store}} in store) | ރެކުގައި މަދު: {{product}} (ރެކުގައި {{quantity}} ބާކީ، ސްޓޯރުގައި {{store}}) | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `onboarding.steps_retail.categories` | Create product categories | ތަކެތީގެ ކެޓަގަރީތައް ހަދާ | needs_review | New/updated: shops on the platform. |
+| `onboarding.steps_retail.categories_hint` | e.g. Groceries, Drinks, Household. | މިސާލު: ގްރޮސަރީ، ބުއިން، ގޭބިސީ ތަކެތި. | needs_review | New/updated: shops on the platform. |
+| `onboarding.steps_retail.products` | Add your products | ތަކެތި އިތުރުކުރައްވާ | needs_review | New/updated: shops on the platform. |
+| `onboarding.steps_retail.products_hint` | Barcode, price and stock in store and on rack. | ބާކޯޑް، އަގު، އަދި ސްޓޯރާއި ރެކުގެ ސްޓޮކް. | needs_review | New/updated: shops on the platform. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
 | `perm.branding_manage` | Manage the company stamp and document signatures | ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
@@ -215,6 +223,10 @@ review of the whole file is still recommended before launch.
 | `reports.types.profit` | Profit & loss | ފައިދާއާއި ގެއްލުން | needs_review | Profit & loss: ފައިދާއާއި ގެއްލުން — standard phrase, but please confirm. |
 | `reports.types.rack-low` | Low on rack | ރެކުގައި މަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `reports.types.store-stock` | Store stock | ސްޓޯރު ސްޓޮކް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `roles.system_desc_retail.business_admin` | Full control of the shop. | ފިހާރައިގެ ފުރިހަމަ ކޮންޓްރޯލް. | needs_review | New/updated: shops on the platform. |
+| `roles.system_desc_retail.cashier` | Sells at the counter, checks stock, serves customers and makes quotations and invoices. | ކައުންޓަރުގައި ވިއްކައި، ސްޓޮކް ބަލައި، ކަސްޓަމަރުންނަށް ޚިދުމަތްދީ، ކޯޓޭޝަނާއި އިންވޮއިސް ހަދާ. | needs_review | New/updated: shops on the platform. |
+| `roles.system_retail.business_admin` | Owner | ވެރިފަރާތް | needs_review | New/updated: shops on the platform. |
+| `roles.system_retail.cashier` | Cashier / Salesperson | ކޭޝިއަރ / ވިއްކާ މީހާ | needs_review | New/updated: shops on the platform. |
 | `settings.hints.branding` | Your company stamp and whether documents show the stamp and signatures. | ކުންފުނީގެ ތައްގަނޑާއި، ލިޔެކިޔުންތަކުގައި ތައްގަނޑާއި ސޮއި ދައްކާނެ ގޮތް. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `settings.hints.pos` | How the point of sale behaves. | ޕޮއިންޓް އޮފް ސޭލް ހިނގާނެ ގޮތް. | needs_review | 'Point of sale' transliterated ޕޮއިންޓް އޮފް ސޭލް. Alternative: ވިއްކާ ސިސްޓަމް. |
 | `settings.loyalty.points_per_unit` | Points per 1 currency unit spent | ޚަރަދުކުރާ ކޮންމެ 1 ފައިސާ ޔުނިޓަކަށް ލިބޭ ޕޮއިންޓް | needs_review | Long phrasing; check clarity. |

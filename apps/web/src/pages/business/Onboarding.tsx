@@ -28,6 +28,8 @@ export function OnboardingCard() {
   const q = useQuery({ queryKey: ['biz', 'onboarding'], queryFn: () => api.get<OnboardingState>('/onboarding') });
   const done = useMutation({ mutationFn: () => api.post('/onboarding/complete', {}), onSuccess: () => qc.invalidateQueries({ queryKey: ['biz', 'onboarding'] }), onError: toastErr });
   if (!q.data || q.data.completed) return null;
+  // Shops get shop wording (products and barcodes, not menu items).
+  const stepNs = session.business.profile.retail ? 'onboarding.steps_retail' : 'onboarding.steps';
   const steps = [
     { key: 'profile', done: q.data.hasLogo, to: '/settings' },
     { key: 'categories', done: q.data.categories > 0, to: '/products' },
@@ -68,8 +70,8 @@ export function OnboardingCard() {
             <Link to={s.to} className="flex items-start gap-3 rounded-xl p-3 ring-1 ring-slate-200 hover:bg-slate-50 dark:ring-slate-800 dark:hover:bg-slate-800/50">
               {s.done ? <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-emerald-600" /> : <Circle className="mt-0.5 size-5 shrink-0 text-slate-300" />}
               <span>
-                <span className="block text-sm font-medium">{t(`onboarding.steps.${s.key}`)}</span>
-                <span className="block text-xs text-slate-500">{t(`onboarding.steps.${s.key}_hint`)}</span>
+                <span className="block text-sm font-medium">{t(`${stepNs}.${s.key}`, { defaultValue: t(`onboarding.steps.${s.key}`) })}</span>
+                <span className="block text-xs text-slate-500">{t(`${stepNs}.${s.key}_hint`, { defaultValue: t(`onboarding.steps.${s.key}_hint`) })}</span>
               </span>
             </Link>
           </li>

@@ -39,6 +39,18 @@ describe('retail shops', () => {
     expect(cs.modules).toContain('tables');
     expect((await cafe.owner.get('/api/stock-check?q=milk')).statusCode).toBe(404); // shop feature only
 
+    // A shop has only two built-in roles.
+    const roles = (await shop.owner.get('/api/roles')).json().items.map((r: { systemKey: string; name: string }) => [r.systemKey, r.name]);
+    expect(roles.sort()).toEqual([['business_admin', 'Owner'], ['cashier', 'Cashier / Salesperson']]);
+    const cafeRoles = (await cafe.owner.get('/api/roles')).json().items.map((r: { systemKey: string }) => r.systemKey).sort();
+    expect(cafeRoles).toEqual(['business_admin', 'cashier', 'kitchen_staff', 'manager', 'salesperson', 'waiter']);
+
+    // Everything a shop stocks is for sale: even if sent as an "ingredient" it is saved as an item and shows on the POS.
+    const rice = (await shop.owner.post('/api/products', { name: 'Rice 5kg', sku: '111', sellingPrice: 145, type: 'ingredient', sendToKitchen: true })).json();
+    expect(rice).toMatchObject({ type: 'item', sendToKitchen: false });
+    const catalog = (await shop.owner.get('/api/pos/catalog')).json();
+    expect(catalog.products.map((p: { name: string }) => p.name)).toContain('Rice 5kg');
+
     // Super Admin can list all shops together.
     const list = (await sa.get('/api/superadmin/businesses?type=retail')).json();
     expect(list.items.map((b: { name: string }) => b.name)).toEqual(['Corner Mart']);

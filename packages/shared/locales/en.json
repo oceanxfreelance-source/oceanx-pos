@@ -1,7 +1,7 @@
 {
   "app": {
     "name": "OceanX",
-    "tagline": "Restaurant & Café Management"
+    "tagline": "Restaurant, Café & Shop Management"
   },
   "common": {
     "actions": "Actions",
@@ -110,8 +110,8 @@
     "supermarket": "Supermarket / big shop"
   },
   "auth": {
-    "aside_body": "Sales, menu, staff and reports for restaurants and cafés — in your language, on any device.",
-    "aside_title": "Run your restaurant or café with confidence.",
+    "aside_body": "Sales, stock, staff and reports for restaurants, cafés and shops — in your language, on any device.",
+    "aside_title": "Run your restaurant, café or shop with confidence.",
     "back_to_login": "Back to sign in",
     "business_name": "Business name",
     "business_type": "Business type",
@@ -139,7 +139,7 @@
     "password_changed": "Password changed",
     "password_hint": "At least {{min}} characters.",
     "register_cta": "Create a business account",
-    "register_subtitle": "Set up your restaurant or café in a few minutes.",
+    "register_subtitle": "Set up your restaurant, café or shop in a few minutes.",
     "register_title": "Create your business",
     "reset_done_body": "Your password has been set. You can now sign in.",
     "reset_done_title": "Password updated",
@@ -272,7 +272,15 @@
     "title": "Roles & permissions",
     "updated": "Role updated",
     "user_count_one": "{{count}} user",
-    "user_count_other": "{{count}} users"
+    "user_count_other": "{{count}} users",
+    "system_retail": {
+      "business_admin": "Owner",
+      "cashier": "Cashier / Salesperson"
+    },
+    "system_desc_retail": {
+      "business_admin": "Full control of the shop.",
+      "cashier": "Sells at the counter, checks stock, serves customers and makes quotations and invoices."
+    }
   },
   "modules": {
     "dashboard": "Dashboard",
@@ -1912,7 +1920,13 @@
       "first_sale": "Make a first sale",
       "first_sale_hint": "Open the POS."
     },
-    "progress": "{{done}} of {{total}} done"
+    "progress": "{{done}} of {{total}} done",
+    "steps_retail": {
+      "categories": "Create product categories",
+      "categories_hint": "e.g. Groceries, Drinks, Household.",
+      "products": "Add your products",
+      "products_hint": "Barcode, price and stock in store and on rack."
+    }
   },
   "palette": {
     "title": "Quick search",

@@ -205,3 +205,12 @@ export const SYSTEM_ROLE_TEMPLATES: Record<SystemRoleKey, readonly PermissionKey
   kitchen_staff: ['dashboard.view', 'kitchen.view', 'kitchen.manage'],
   waiter: ['dashboard.view', 'pos.access', 'sales.view', 'sales.create', 'tables.view', 'kitchen.view', 'customers.view', 'reservations.view', 'reservations.manage'],
 };
+
+/**
+ * Shops get just two built-in roles: the owner (full access) and the person at the counter, who sells,
+ * looks after customers, checks stock and makes quotations / invoices. No kitchen, waiter or manager roles.
+ */
+export const RETAIL_SYSTEM_ROLE_KEYS: readonly SystemRoleKey[] = ['business_admin', 'cashier'];
+const RETAIL_CASHIER_EXTRA: PermissionKey[] = ['products.view', 'inventory.view', 'quotations.view', 'quotations.create', 'quotations.edit', 'quotations.print', 'quotations.send', 'invoices.view', 'invoices.create', 'invoices.print'];
+const FOOD_ONLY_PERMS = new Set<string>(['tables.view', 'online_orders.manage', 'karaoke.view', 'reservations.view']);
+export const RETAIL_CASHIER_PERMISSIONS: readonly PermissionKey[] = [...new Set([...SYSTEM_ROLE_TEMPLATES.cashier.filter((k) => !FOOD_ONLY_PERMS.has(k)), ...RETAIL_CASHIER_EXTRA])];

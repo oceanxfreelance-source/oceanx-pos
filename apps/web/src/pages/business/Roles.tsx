@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { Lock, Pencil, Plus, ShieldCheck, Trash2, Users } from 'lucide-react';
 import { api, ApiError } from '../../lib/api';
 import { useBiz } from '../../auth/business';
-import { moduleLabel, permissionLabel, roleLabel } from '../../lib/labels';
+import { moduleLabel, permissionLabel, roleDescription, roleLabel } from '../../lib/labels';
 import { useErrorMessage, useFieldErrors, useToastError } from '../../lib/useApiError';
 import { Alert, Badge, Card, EmptyState, PageHeader, SkeletonRows } from '../../components/ui/Card';
 import { Button, IconButton } from '../../components/ui/Button';
@@ -77,7 +77,7 @@ export default function RolesPage() {
                     {roleLabel(t, r)}
                   </h3>
                   <p className="mt-0.5 line-clamp-2 text-sm text-slate-500" dir="auto">
-                    {r.description || (r.systemKey ? t(`roles.system_desc.${r.systemKey}`, { defaultValue: '' }) : '')}
+                    {r.description || (r.systemKey ? roleDescription(t, r.systemKey) : '')}
                   </p>
                 </div>
                 {r.systemKey ? <Badge tone="violet">{t('roles.system_badge')}</Badge> : <Badge>{t('roles.custom_badge')}</Badge>}

@@ -1,6 +1,9 @@
 import { eq, sql } from 'drizzle-orm';
 import {
   defaultBusinessSettings,
+  isRetailType,
+  RETAIL_CASHIER_PERMISSIONS,
+  RETAIL_SYSTEM_ROLE_KEYS,
   SYSTEM_ROLE_KEYS,
   SYSTEM_ROLE_TEMPLATES,
   type BusinessType,
@@ -19,6 +22,8 @@ export const SYSTEM_ROLE_NAMES: Record<SystemRoleKey, string> = {
   kitchen_staff: 'Kitchen Staff',
   waiter: 'Waiter',
 };
+/** Shops: the same two roles under shop names. */
+const RETAIL_ROLE_NAMES: Partial<Record<SystemRoleKey, string>> = { business_admin: 'Owner', cashier: 'Cashier / Salesperson' };
 
 export function slugify(name: string): string {
   const base = name
@@ -114,14 +119,15 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
   });
 
   const roleIds: Partial<Record<SystemRoleKey, string>> = {};
-  for (const key of SYSTEM_ROLE_KEYS) {
+  const retail = isRetailType(input.businessType);
+  for (const key of retail ? RETAIL_SYSTEM_ROLE_KEYS : SYSTEM_ROLE_KEYS) {
     const [role] = await tx
       .insert(roles)
-      .values({ businessId: business.id, name: SYSTEM_ROLE_NAMES[key], systemKey: key })
+      .values({ businessId: business.id, name: (retail && RETAIL_ROLE_NAMES[key]) || SYSTEM_ROLE_NAMES[key], systemKey: key })
       .returning({ id: roles.id });
     if (!role) throw new AppError('internal_error');
     roleIds[key] = role.id;
-    const perms = SYSTEM_ROLE_TEMPLATES[key];
+    const perms = retail && key === 'cashier' ? RETAIL_CASHIER_PERMISSIONS : SYSTEM_ROLE_TEMPLATES[key];
     if (perms.length) await tx.insert(rolePermissions).values(perms.map((permissionKey) => ({ roleId: role.id, permissionKey })));
   }
 

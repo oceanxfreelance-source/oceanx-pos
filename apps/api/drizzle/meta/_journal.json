@@ -85,6 +85,13 @@
       "when": 1791541959925,
       "tag": "0011_shop_store_stock",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1791543149178,
+      "tag": "0012_retail_fixups",
+      "breakpoints": true
     }
   ]
 }

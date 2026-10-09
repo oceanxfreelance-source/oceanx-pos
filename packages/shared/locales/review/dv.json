@@ -3673,5 +3673,89 @@
     "suggested": "ސްޓޯރު އެލާޓް",
     "status": "needs_review",
     "notes": "New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock."
+  },
+  {
+    "key": "app.tagline",
+    "english": "Restaurant, Café & Shop Management",
+    "suggested": "ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަ ހިންގުން",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "auth.aside_title",
+    "english": "Run your restaurant, café or shop with confidence.",
+    "suggested": "ރެސްޓޯރަންޓް، ކެފޭ ނުވަތަ ފިހާރަ ޔަގީންކަމާއެކު ހިންގާ.",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "auth.aside_body",
+    "english": "Sales, stock, staff and reports for restaurants, cafés and shops — in your language, on any device.",
+    "suggested": "ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަތަކަށް ވިއްކުމާއި، ސްޓޮކާއި، ސްޓާފާއި ރިޕޯޓްތައް — ތިބާގެ ބަހުން، ކޮންމެ ޑިވައިސްއެއްގައި.",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "auth.register_subtitle",
+    "english": "Set up your restaurant, café or shop in a few minutes.",
+    "suggested": "ރެސްޓޯރަންޓް، ކެފޭ ނުވަތަ ފިހާރަ މިނިޓު ކިހާވަރަކުން ތައްޔާރުކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "roles.system_retail.business_admin",
+    "english": "Owner",
+    "suggested": "ވެރިފަރާތް",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "roles.system_retail.cashier",
+    "english": "Cashier / Salesperson",
+    "suggested": "ކޭޝިއަރ / ވިއްކާ މީހާ",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "roles.system_desc_retail.business_admin",
+    "english": "Full control of the shop.",
+    "suggested": "ފިހާރައިގެ ފުރިހަމަ ކޮންޓްރޯލް.",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "roles.system_desc_retail.cashier",
+    "english": "Sells at the counter, checks stock, serves customers and makes quotations and invoices.",
+    "suggested": "ކައުންޓަރުގައި ވިއްކައި، ސްޓޮކް ބަލައި، ކަސްޓަމަރުންނަށް ޚިދުމަތްދީ، ކޯޓޭޝަނާއި އިންވޮއިސް ހަދާ.",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "onboarding.steps_retail.categories",
+    "english": "Create product categories",
+    "suggested": "ތަކެތީގެ ކެޓަގަރީތައް ހަދާ",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "onboarding.steps_retail.categories_hint",
+    "english": "e.g. Groceries, Drinks, Household.",
+    "suggested": "މިސާލު: ގްރޮސަރީ، ބުއިން، ގޭބިސީ ތަކެތި.",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "onboarding.steps_retail.products",
+    "english": "Add your products",
+    "suggested": "ތަކެތި އިތުރުކުރައްވާ",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
+  },
+  {
+    "key": "onboarding.steps_retail.products_hint",
+    "english": "Barcode, price and stock in store and on rack.",
+    "suggested": "ބާކޯޑް، އަގު، އަދި ސްޓޯރާއި ރެކުގެ ސްޓޮކް.",
+    "status": "needs_review",
+    "notes": "New/updated: shops on the platform."
   }
 ]
