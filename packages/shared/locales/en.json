@@ -1186,7 +1186,8 @@
       "credit_payment": "Credit payment",
       "invoice": "Invoice payment",
       "booking": "Booking payment"
-    }
+    },
+    "reference_pv_hint": "Payment voucher (PV), cheque or transfer number."
   },
   "credit": {
     "limit": "Credit limit",
@@ -1343,7 +1344,16 @@
     "sales_count_other": "{{count}} sales",
     "last_purchase": "Last purchase",
     "viber_phone": "Viber number",
-    "viber_phone_hint": "Used for Credit (Pay Later) messages. Leave empty to use the phone number."
+    "viber_phone_hint": "Used for Credit (Pay Later) messages. Leave empty to use the phone number.",
+    "kind": "Customer type",
+    "kind_hint": "Companies and government offices usually buy on invoice and pay later by PO and payment voucher.",
+    "kinds": {
+      "all": "All customer types",
+      "person": "Person",
+      "company": "Company",
+      "government": "Government office"
+    },
+    "org_name": "Name of company or office"
   },
   "pos": {
     "search": "Search items…",
@@ -1478,7 +1488,10 @@
       "delete_body": "This draft is deleted permanently.",
       "issue_title": "Issue {{number}}?",
       "issue_body": "An issued invoice can no longer be edited and counts towards the customer's balance."
-    }
+    },
+    "customer_ref": "PO / reference no.",
+    "customer_ref_hint": "The customer's purchase order or tender number.",
+    "add_customer_ref": "Add PO number"
   },
   "quotations": {
     "title": "Quotations",
@@ -1562,7 +1575,8 @@
     "overdue_amount": "Overdue",
     "statement_note": "Please contact us if anything in this statement looks incorrect.",
     "authorized_signature": "Authorized signature",
-    "received_by": "Received by"
+    "received_by": "Received by",
+    "customer_ref": "PO No."
   },
   "inventory": {
     "title": "Inventory",

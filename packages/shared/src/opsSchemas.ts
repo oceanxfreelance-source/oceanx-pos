@@ -83,6 +83,9 @@ export const productSchema = z.object({
   translations: translationsSchema.optional(),
 });
 
+export const CUSTOMER_KINDS = ['person', 'company', 'government'] as const;
+export type CustomerKind = (typeof CUSTOMER_KINDS)[number];
+
 export const customerSchema = z.object({
   name: req(120),
   phone,
@@ -90,6 +93,8 @@ export const customerSchema = z.object({
   viberPhone: phone,
   email,
   company: text(120),
+  /** Companies and government offices buy on invoice (PO → invoice → payment voucher). */
+  kind: z.enum(CUSTOMER_KINDS).default('person'),
   address: text(500),
   taxNumber: text(50),
   notes: text(1000),
@@ -158,6 +163,8 @@ const docBase = {
   discount: money.default(0),
   notes: text(2000),
   terms: text(5000),
+  /** The customer's purchase order (PO) / tender number. */
+  customerRef: text(60),
   language: z.enum(LANGUAGE_CODES).nullable().default(null),
   items: z.array(docItemSchema).min(1).max(200),
 };
@@ -339,3 +346,6 @@ export const rotaEntrySchema = z
   })
   .refine((v) => v.kind !== 'shift' || !!v.shiftId, { path: ['shiftId'], message: 'required' });
 export const rotaCopySchema = z.object({ from: isoDate, to: isoDate });
+
+/** Add or correct the customer's PO number after an invoice is issued (the PO often arrives later). */
+export const customerRefSchema = z.object({ customerRef: text(60) });

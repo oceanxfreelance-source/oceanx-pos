@@ -203,4 +203,50 @@ describe('retail shops', () => {
     const cafeCashier = (await createStaff(env, cafe.owner, 'till@creditcafe.test', 'cashier')).client;
     expect((await cafeCashier.post('/api/customers', { name: 'Ali', creditLimit: 100 })).json().creditLimit).toBeNull();
   });
+
+  it('government and company accounts: quotation → accepted → invoice with the PO number → owed until the PV payment', async () => {
+    const shop = await setupBusiness(env, sa, 'Supply Mart', { type: 'retail_shop' });
+    const owner = shop.owner;
+    await sa.post(`/api/superadmin/businesses/${shop.businessId}/addons/credit/grant`);
+    const council = (await owner.post('/api/customers', { name: 'Male City Council', kind: 'government', phone: '3001234' })).json();
+    await owner.post('/api/customers', { name: 'Reef Builders Pvt Ltd', kind: 'company' });
+    await owner.post('/api/customers', { name: 'Walk-in Ali' });
+    expect(council.kind).toBe('government');
+    expect((await owner.get('/api/customers?kind=government')).json().items.map((c: { name: string }) => c.name)).toEqual(['Male City Council']);
+    expect((await owner.post('/api/customers', { name: 'X', kind: 'alien' })).statusCode).toBe(422);
+
+    // Quotation against their tender number; they accept; it becomes an invoice carrying the reference.
+    const q = (
+      await owner.post('/api/quotations', {
+        customerId: council.id,
+        quotationDate: '2026-10-01',
+        validUntil: '2026-10-31',
+        customerRef: 'RFQ/2026/118',
+        items: [{ name: 'A4 paper (box)', quantity: 10, unitPrice: 250 }],
+      })
+    ).json();
+    expect(q.customerRef).toBe('RFQ/2026/118');
+    await owner.post(`/api/quotations/${q.id}/accept`);
+    const inv = (await owner.post(`/api/quotations/${q.id}/convert`)).json();
+    expect(inv.customerRef).toBe('RFQ/2026/118');
+    await owner.post(`/api/invoices/${inv.id}/issue`);
+
+    // The PO arrives after the invoice went out: add it to the issued invoice.
+    const withPo = (await owner.post(`/api/invoices/${inv.id}/reference`, { customerRef: 'PO-MCC-2026-0457' })).json();
+    expect(withPo).toMatchObject({ customerRef: 'PO-MCC-2026-0457', status: 'issued' });
+
+    // Owed until paid: shows on the customer and the Credit page.
+    const owed = (await owner.get('/api/customers?kind=government')).json().items[0];
+    expect(owed.outstanding).toBe(250000);
+    const overview = (await owner.get('/api/credit/overview')).json();
+    expect(overview.customers.find((c: { id: string }) => c.id === council.id)).toMatchObject({ kind: 'government', invoiceDue: 250000 });
+
+    // Paid by payment voucher.
+    await owner.post(`/api/invoices/${inv.id}/payments`, { method: 'bank_transfer', amount: 2500, reference: 'PV-2026-3391' });
+    const paid = (await owner.get(`/api/invoices/${inv.id}`)).json();
+    expect(paid.invoice).toMatchObject({ status: 'paid', balanceDue: 0, customerRef: 'PO-MCC-2026-0457' });
+    expect(paid.payments[0].reference).toBe('PV-2026-3391');
+    expect((await owner.post(`/api/invoices/${inv.id}/reference`, { customerRef: 'PO-1' })).statusCode).toBe(200); // still fixable on a paid invoice
+  });
 });
+

@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 414 · **confirmed**: 144
+Status: **needs_review**: 426 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -119,6 +119,16 @@ review of the whole file is still recommended before launch.
 | `credit.remaining_after` | Remaining after this payment | މި ފައިސާ ދެއްކުމަށްފަހު ބާކީ | needs_review | New: part payments of dues and payment receipt. |
 | `credit.still_due` | Still due | އަދިވެސް ދައްކަންޖެހޭ | needs_review | New: part payments of dues and payment receipt. |
 | `credit.total_due_now` | Total due now | މިހާރު ދައްކަންޖެހޭ ޖުމްލަ | needs_review | New: part payments of dues and payment receipt. |
+| `customers.kind` | Customer type | ކަސްޓަމަރުގެ ބާވަތް | needs_review | New: company and government accounts (PO / PV). |
+| `customers.kind_hint` | Companies and government offices usually buy on invoice and pay later by PO and payment voucher. | ކުންފުނިތަކާއި ސަރުކާރު އޮފީސްތަކުން އާންމުކޮށް ގަންނަނީ އިންވޮއިހަށް، ފަހުން ޕީއޯ އާއި ޕޭމަންޓް ވައުޗަރުން ފައިސާ ދައްކައިގެން. | needs_review | New: company and government accounts (PO / PV). |
+| `customers.kinds.all` | All customer types | ހުރިހާ ބާވަތެއް | needs_review | New: company and government accounts (PO / PV). |
+| `customers.kinds.company` | Company | ކުންފުނި | needs_review | New: company and government accounts (PO / PV). |
+| `customers.kinds.government` | Government office | ސަރުކާރު އޮފީސް | needs_review | New: company and government accounts (PO / PV). |
+| `customers.kinds.person` | Person | ފަރުދެއް | needs_review | New: company and government accounts (PO / PV). |
+| `customers.org_name` | Name of company or office | ކުންފުނީގެ ނުވަތަ އޮފީހުގެ ނަން | needs_review | New: company and government accounts (PO / PV). |
+| `documents.add_customer_ref` | Add PO number | ޕީއޯ ނަންބަރު އިތުރުކުރައްވާ | needs_review | New: company and government accounts (PO / PV). |
+| `documents.customer_ref` | PO / reference no. | ޕީއޯ / ރެފަރެންސް ނަންބަރު | needs_review | New: company and government accounts (PO / PV). |
+| `documents.customer_ref_hint` | The customer's purchase order or tender number. | ކަސްޓަމަރުގެ ޕަރޗޭސް އޯޑަރު ނުވަތަ ޓެންޑަރ ނަންބަރު. | needs_review | New: company and government accounts (PO / PV). |
 | `documents.server_totals_hint` | Totals are recalculated by the server when you save. | ސޭވްކުރާއިރު ޖުމްލަތައް ސާވަރުން އަލުން ހިސާބުކުރާނެ. | needs_review | Technical note mentioning the server (ސާވަރު, as in existing settings.hints.tax). |
 | `errors.payroll_period_exists` | A salary sheet for this month already exists. | މި މަހުގެ މުސާރަ ޝީޓެއް ކުރިން ހަދާފައި އެބައޮތް. | needs_review | Plain translation using existing app terms. |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |
@@ -190,6 +200,7 @@ review of the whole file is still recommended before launch.
 | `onboarding.steps_retail.products` | Add your products | ތަކެތި އިތުރުކުރައްވާ | needs_review | New/updated: shops on the platform. |
 | `onboarding.steps_retail.products_hint` | Barcode, price and stock in store and on rack. | ބާކޯޑް، އަގު، އަދި ސްޓޯރާއި ރެކުގެ ސްޓޮކް. | needs_review | New/updated: shops on the platform. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
+| `payments.reference_pv_hint` | Payment voucher (PV), cheque or transfer number. | ޕޭމަންޓް ވައުޗަރު (ޕީވީ)، ޗެކު ނުވަތަ ޓްރާންސްފަރ ނަންބަރު. | needs_review | New: company and government accounts (PO / PV). |
 | `perm.branding_manage` | Manage the company stamp and document signatures | ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
@@ -206,6 +217,7 @@ review of the whole file is still recommended before launch.
 | `pos.out_on_rack` | {{name}} is out of stock on the rack. | {{name}} ރެކުގައި ނެތް. | needs_review | New: shops cannot sell more than is on the rack. |
 | `pos.search_retail` | Scan barcode or search… | ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ހޯއްދަވާ… | needs_review | New: retail shops (stock check, barcode). |
 | `print.authorized_signature` | Authorized signature | ހުއްދަދީފައިވާ ފަރާތުގެ ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `print.customer_ref` | PO No. | ޕީއޯ ނަންބަރު | needs_review | New: company and government accounts (PO / PV). |
 | `print.received_by` | Received by | ބަލައިގަތީ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `public_menu.menu_title` | Menu | މެނޫ | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.more` | More | އިތުރު | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |

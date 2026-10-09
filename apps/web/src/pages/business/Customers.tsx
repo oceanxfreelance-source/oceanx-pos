@@ -4,6 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { FileDown, Plus, Printer, Users } from 'lucide-react';
+import { CUSTOMER_KINDS, type CustomerKind } from '@oceanx/shared';
 import { api, ApiError, qs } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
 import { useFormat } from '../../lib/format';
@@ -26,6 +27,7 @@ interface Customer {
   viberPhone: string;
   email: string;
   company: string;
+  kind: CustomerKind;
   address: string;
   taxNumber: string;
   notes: string;
@@ -49,15 +51,18 @@ export default function CustomersPage() {
     }
   }, [searchParams, setSearchParams]);
   const [profile, setProfile] = useState<string | null>(null);
-  const { query, page, setPage, search, setSearch, pageSize } = useList<Customer>('customers', '/customers');
+  const retail = !!useBizSession().business.profile.retail;
+  const [kind, setKind] = useState('');
+  const { query, page, setPage, search, setSearch, pageSize } = useList<Customer>('customers', '/customers', { kind: kind || undefined });
   const columns: Column<Customer>[] = [
     {
       key: 'n',
       header: t('common.name'),
       cell: (c) => (
         <div className="min-w-0">
-          <p className="truncate font-medium" dir="auto">
+          <p className="flex items-center gap-2 truncate font-medium" dir="auto">
             {c.name}
+            {c.kind !== 'person' && <Badge tone={c.kind === 'government' ? 'blue' : 'gray'}>{t(`customers.kinds.${c.kind}`)}</Badge>}
           </p>
           <p className="truncate text-xs text-slate-500">
             {c.company && <span dir="auto">{c.company} · </span>}
@@ -94,7 +99,18 @@ export default function CustomersPage() {
         }
       />
       <Card padded={false}>
-        <ListToolbar search={search} onSearch={setSearch} placeholder={t('customers.search')} />
+        <ListToolbar search={search} onSearch={setSearch} placeholder={t('customers.search')}>
+          {retail && (
+            <Select aria-label={t('customers.kind')} value={kind} onChange={(e) => setKind(e.target.value)}>
+              <option value="">{t('customers.kinds.all')}</option>
+              {CUSTOMER_KINDS.map((k) => (
+                <option key={k} value={k}>
+                  {t(`customers.kinds.${k}`)}
+                </option>
+              ))}
+            </Select>
+          )}
+        </ListToolbar>
         {query.isLoading ? (
           <SkeletonRows />
         ) : !query.data?.items.length ? (
@@ -133,6 +149,7 @@ function CustomerDialog({ customer, onClose }: { customer: Customer | null; onCl
     viberPhone: customer?.viberPhone ?? '',
     email: customer?.email ?? '',
     company: customer?.company ?? '',
+    kind: customer?.kind ?? ('person' as CustomerKind),
     address: customer?.address ?? '',
     taxNumber: customer?.taxNumber ?? '',
     notes: customer?.notes ?? '',
@@ -175,7 +192,16 @@ function CustomerDialog({ customer, onClose }: { customer: Customer | null; onCl
       <div className="space-y-4">
         {save.error && !(save.error instanceof ApiError && save.error.code === 'validation_failed') && <Alert tone="red">{errMsg(save.error)}</Alert>}
         <div className="grid gap-4 sm:grid-cols-2">
-          <Input label={t('common.name')} value={form.name} onChange={set('name')} error={fe('name')} required />
+          {retail && (
+            <Select label={t('customers.kind')} hint={t('customers.kind_hint')} value={form.kind} onChange={set('kind')} className="sm:col-span-2">
+              {CUSTOMER_KINDS.map((k) => (
+                <option key={k} value={k}>
+                  {t(`customers.kinds.${k}`)}
+                </option>
+              ))}
+            </Select>
+          )}
+          <Input label={form.kind === 'person' ? t('common.name') : t('customers.org_name')} value={form.name} onChange={set('name')} error={fe('name')} required />
           <Input label={t('customers.company')} value={form.company} onChange={set('company')} error={fe('company')} />
           <Input label={t('common.phone')} type="tel" dir="ltr" value={form.phone} onChange={set('phone')} error={fe('phone')} />
           <Input label={t('customers.viber_phone')} hint={t('customers.viber_phone_hint')} type="tel" dir="ltr" placeholder={form.phone || undefined} value={form.viberPhone} onChange={set('viberPhone')} error={fe('viberPhone')} />

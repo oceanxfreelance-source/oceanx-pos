@@ -682,6 +682,8 @@ export const customers = pgTable(
     phone: text('phone').notNull().default(''),
     email: text('email').notNull().default(''),
     company: text('company').notNull().default(''),
+    /** person | company | government (councils, ministries: paid by PO and payment voucher). */
+    kind: text('kind').notNull().default('person'),
     address: text('address').notNull().default(''),
     taxNumber: text('tax_number').notNull().default(''),
     notes: text('notes').notNull().default(''),
@@ -835,6 +837,8 @@ export const quotations = pgTable(
     customerId: uuid('customer_id').notNull(),
     quotationDate: text('quotation_date').notNull(),
     validUntil: text('valid_until').notNull(),
+    /** The customer's own reference: purchase order (PO) / tender number. */
+    customerRef: text('customer_ref').notNull().default(''),
     salespersonId: uuid('salesperson_id'),
     status: text('status').notNull().default('draft'),
     language: text('language'),
@@ -893,6 +897,8 @@ export const invoices = pgTable(
     customerId: uuid('customer_id').notNull(),
     invoiceDate: text('invoice_date').notNull(),
     dueDate: text('due_date').notNull(),
+    /** The customer's own reference: purchase order (PO) / tender number. */
+    customerRef: text('customer_ref').notNull().default(''),
     salespersonId: uuid('salesperson_id'),
     status: text('status').notNull().default('draft'),
     sourceQuotationId: uuid('source_quotation_id'),

@@ -150,6 +150,7 @@ interface DocFields {
   language: string | null;
   notes: string;
   terms: string;
+  customerRef: string;
   orderDiscount: number;
   subtotal: number;
   discount: number;
@@ -185,6 +186,7 @@ export function DocumentEditorPage({ kind }: { kind: DocKind }) {
 function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | null }) {
   const { t } = useTranslation();
   const session = useBizSession();
+  const retail = !!session.business.profile.retail;
   const money = useMoney();
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -200,6 +202,7 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
     discount: doc ? String(doc.orderDiscount / 100) : '0',
     notes: doc?.notes ?? '',
     terms: doc?.terms ?? '',
+    customerRef: doc?.customerRef ?? '',
   });
   const [items, setItems] = useState<ItemDraft[]>(
     detail?.items.map((i) => ({
@@ -240,6 +243,7 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
         discount: parseAmount(head.discount),
         notes: head.notes,
         terms: head.terms,
+        customerRef: head.customerRef,
         items: items.map((i) => ({ productId: i.productId, name: i.name, description: i.description, quantity: parseAmount(i.quantity), unit: i.unit || 'pcs', unitPrice: parseAmount(i.unitPrice), discount: parseAmount(i.discount), taxRate: i.taxRate })),
       };
       return doc ? api.put<{ id: string }>(`/${p}/${doc.id}`, body) : api.post<{ id: string }>(`/${p}`, body);
@@ -263,6 +267,9 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
           </div>
           <Input type="date" label={t('common.date')} value={head.date} onChange={(e) => setHead({ ...head, date: e.target.value })} error={fe(kind === 'quotation' ? 'quotationDate' : 'invoiceDate')} />
           <Input type="date" label={t(kind === 'quotation' ? 'quotations.valid_until' : 'invoices.due_date')} value={head.until} onChange={(e) => setHead({ ...head, until: e.target.value })} error={fe(kind === 'quotation' ? 'validUntil' : 'dueDate')} />
+          {retail && (
+            <Input label={t('documents.customer_ref')} hint={t('documents.customer_ref_hint')} dir="ltr" value={head.customerRef} onChange={(e) => setHead({ ...head, customerRef: e.target.value })} error={fe('customerRef')} />
+          )}
           <Select label={t('documents.language')} hint={t('documents.language_hint')} value={head.language} onChange={(e) => setHead({ ...head, language: e.target.value })}>
             <option value="">{t('settings.use_default_document_language')}</option>
             {session.languages.map((l) => (
@@ -363,6 +370,8 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
   const [voiding, setVoiding] = useState(false);
   const [reason, setReason] = useState('');
   const [paying, setPaying] = useState(false);
+  const [settingRef, setSettingRef] = useState(false);
+  const retail = !!useBizSession().business.profile.retail;
   const refresh = () => {
     void qc.invalidateQueries({ queryKey: ['biz', kind, id] });
     void qc.invalidateQueries({ queryKey: ['biz', p] });
@@ -503,6 +512,21 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
             </dl>
             <dl className="mt-4 space-y-1 border-t border-slate-100 pt-3 text-sm dark:border-slate-800">
               <Line l={t(kind === 'quotation' ? 'quotations.valid_until' : 'invoices.due_date')} v={f.date(kind === 'quotation' ? doc.validUntil : doc.dueDate)} />
+              {(doc.customerRef || (retail && kind === 'invoice' && can('invoices.edit') && !['void', 'cancelled'].includes(doc.status))) && (
+                <Line
+                  l={t('documents.customer_ref')}
+                  v={
+                    <span className="inline-flex items-center gap-2">
+                      {doc.customerRef ? <Ltr>{doc.customerRef}</Ltr> : '—'}
+                      {kind === 'invoice' && can('invoices.edit') && !['void', 'cancelled'].includes(doc.status) && (
+                        <button type="button" className="text-xs font-medium text-brand-700 hover:underline dark:text-brand-300" onClick={() => setSettingRef(true)}>
+                          {doc.customerRef ? t('common.edit') : t('documents.add_customer_ref')}
+                        </button>
+                      )}
+                    </span>
+                  }
+                />
+              )}
               {doc.salespersonName && <Line l={t('documents.salesperson')} v={<span dir="auto">{doc.salespersonName}</span>} />}
               <Line l={t('documents.language')} v={d.documentLanguage.toUpperCase()} />
             </dl>
@@ -554,6 +578,17 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
       >
         <Textarea label={t('sales.void_reason')} value={reason} onChange={(e) => setReason(e.target.value)} />
       </Dialog>
+      {settingRef && kind === 'invoice' && (
+        <CustomerRefDialog
+          id={doc.id}
+          value={doc.customerRef}
+          onClose={() => setSettingRef(false)}
+          onDone={() => {
+            setSettingRef(false);
+            refresh();
+          }}
+        />
+      )}
       {paying && <InvoicePaymentDialog id={id!} balance={doc.balanceDue} onClose={() => setPaying(false)} onDone={refresh} />}
     </div>
   );
@@ -561,6 +596,7 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
 
 function InvoicePaymentDialog({ id, balance, onClose, onDone }: { id: string; balance: number; onClose: () => void; onDone: () => void }) {
   const { t } = useTranslation();
+  const retail = !!useBizSession().business.profile.retail;
   const money = useMoney();
   const errMsg = useErrorMessage();
   const [form, setForm] = useState({ method: 'bank_transfer', amount: (balance / 100).toFixed(2), reference: '', notes: '' });
@@ -595,8 +631,45 @@ function InvoicePaymentDialog({ id, balance, onClose, onDone }: { id: string; ba
           ))}
         </Select>
         <Input label={t('payments.amount')} type="number" min={0} step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} />
-        <Input label={t('payments.reference')} value={form.reference} onChange={(e) => setForm({ ...form, reference: e.target.value })} />
+        <Input label={t('payments.reference')} hint={retail ? t('payments.reference_pv_hint') : undefined} value={form.reference} onChange={(e) => setForm({ ...form, reference: e.target.value })} />
         <Textarea label={t('common.notes')} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+      </div>
+    </Dialog>
+  );
+}
+
+/** The PO often arrives after the invoice has gone out: add or correct it on an issued invoice. */
+function CustomerRefDialog({ id, value, onClose, onDone }: { id: string; value: string; onClose: () => void; onDone: () => void }) {
+  const { t } = useTranslation();
+  const errMsg = useErrorMessage();
+  const [ref, setRef] = useState(value);
+  const save = useMutation({
+    mutationFn: () => api.post(`/invoices/${id}/reference`, { customerRef: ref.trim() }),
+    onSuccess: () => {
+      toast.success(t('common.saved'));
+      onDone();
+    },
+  });
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      size="sm"
+      title={t('documents.customer_ref')}
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>
+            {t('common.cancel')}
+          </Button>
+          <Button onClick={() => save.mutate()} loading={save.isPending}>
+            {t('common.save')}
+          </Button>
+        </>
+      }
+    >
+      <div className="space-y-4">
+        {save.error && <Alert tone="red">{errMsg(save.error)}</Alert>}
+        <Input label={t('documents.customer_ref')} hint={t('documents.customer_ref_hint')} dir="ltr" value={ref} onChange={(e) => setRef(e.target.value)} autoFocus />
       </div>
     </Dialog>
   );

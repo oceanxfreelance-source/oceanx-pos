@@ -99,6 +99,13 @@
       "when": 1791544137808,
       "tag": "0013_pack_size",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1791546064095,
+      "tag": "0014_customer_kind_po",
+      "breakpoints": true
     }
   ]
 }

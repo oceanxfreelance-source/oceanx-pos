@@ -6,6 +6,7 @@ import {
   invoiceSchema,
   paginationQuerySchema,
   quotationSchema,
+  customerRefSchema,
   recordPaymentSchema,
   toMinor,
   voidSchema,
@@ -193,6 +194,7 @@ export async function documentRoutes(app: FastifyInstance) {
           language: body.language,
           notes: body.notes,
           terms: body.terms,
+          customerRef: body.customerRef,
           currency: ctx.access.business.currency,
           taxConfig: settings.tax,
           createdBy: ctx.user.id,
@@ -233,6 +235,7 @@ export async function documentRoutes(app: FastifyInstance) {
           language: body.language,
           notes: body.notes,
           terms: body.terms,
+          customerRef: body.customerRef,
           taxConfig: settings.tax,
           updatedBy: ctx.user.id,
           updatedAt: new Date(),
@@ -326,6 +329,7 @@ export async function documentRoutes(app: FastifyInstance) {
           language: q.language,
           notes: q.notes,
           terms: q.terms || settings.invoice.terms,
+          customerRef: q.customerRef,
           currency: q.currency,
           subtotal: q.subtotal,
           discount: q.discount,
@@ -472,6 +476,7 @@ export async function documentRoutes(app: FastifyInstance) {
           language: body.language,
           notes: body.notes,
           terms: body.terms,
+          customerRef: body.customerRef,
           currency: ctx.access.business.currency,
           taxConfig: settings.tax,
           balanceDue: totals.total,
@@ -513,6 +518,7 @@ export async function documentRoutes(app: FastifyInstance) {
           language: body.language,
           notes: body.notes,
           terms: body.terms,
+          customerRef: body.customerRef,
           taxConfig: settings.tax,
           balanceDue: totals.total,
           updatedBy: ctx.user.id,
@@ -598,6 +604,20 @@ export async function documentRoutes(app: FastifyInstance) {
       await audit(tx, { ...actor(ctx), action: 'invoice.deleted', entityType: 'invoice', entityId: id, req });
     });
     return { ok: true };
+  });
+
+  app.post('/invoices/:id/reference', { preHandler: requirePermission('invoices.edit') }, async (req) => {
+    const ctx = bizCtx(req);
+    const id = idParam(req);
+    const body = parse(customerRefSchema, req.body);
+    return db.transaction(async (tx) => {
+      const [i] = await tx.select().from(invoices).where(own(invoices, ctx, id)).for('update');
+      if (!i) throw notFound();
+      if (i.status === 'void' || i.status === 'cancelled') throw new AppError('document_locked', 'Invoice is closed');
+      const [u] = await tx.update(invoices).set({ customerRef: body.customerRef, updatedBy: ctx.user.id, updatedAt: new Date() }).where(eq(invoices.id, id)).returning();
+      await audit(tx, { ...actor(ctx), action: 'invoice.reference_set', entityType: 'invoice', entityId: id, metadata: { from: i.customerRef, to: body.customerRef }, req });
+      return u;
+    });
   });
 
   /** Record a (partial or full) payment. Amount is validated against the server-side balance under a row lock. */

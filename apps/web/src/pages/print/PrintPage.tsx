@@ -65,7 +65,10 @@ function toDoc(kind: Kind, d: any, t: TFunction): DocData {
             { label: t('print.date'), value: doc.quotationDate },
             { label: t('print.valid_until'), value: doc.validUntil },
           ],
-    meta: doc.salespersonName ? [{ label: t('print.salesperson'), value: doc.salespersonName }] : [],
+    meta: [
+      ...(doc.customerRef ? [{ label: t('print.customer_ref'), value: doc.customerRef }] : []),
+      ...(doc.salespersonName ? [{ label: t('print.salesperson'), value: doc.salespersonName }] : []),
+    ],
     lines: d.items.map((i: any) => ({ id: i.id, name: i.itemNameSnapshot, detail: i.description, quantity: Number(i.quantity), unit: i.unit, unitPrice: i.unitPrice, discount: i.discount, total: i.total })),
     totals: {
       subtotal: doc.subtotal,

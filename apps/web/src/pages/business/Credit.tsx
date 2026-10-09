@@ -16,6 +16,7 @@ import { CreditPaymentDialog } from './Customers';
 export interface CreditCustomer {
   id: string;
   name: string;
+  kind?: string;
   phone: string;
   viberPhone: string;
   creditLimit: number | null;
@@ -60,6 +61,12 @@ export default function CreditPage() {
         <div className="min-w-0">
           <p className="truncate font-medium" dir="auto">
             {c.name}
+            {c.kind && c.kind !== 'person' && (
+              <>
+                {' '}
+                <Badge tone={c.kind === 'government' ? 'blue' : 'gray'}>{t(`customers.kinds.${c.kind}`)}</Badge>
+              </>
+            )}
           </p>
           <p className="truncate text-xs text-slate-500">
             <Ltr>{c.viberPhone || c.phone || '—'}</Ltr>

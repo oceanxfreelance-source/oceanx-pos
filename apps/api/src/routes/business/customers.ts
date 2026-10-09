@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { and, asc, count, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
-import { customerSchema, isRetailType, loyaltyAdjustSchema, paginationQuerySchema, toMinor } from '@oceanx/shared';
+import { CUSTOMER_KINDS, customerSchema, isRetailType, loyaltyAdjustSchema, paginationQuerySchema, toMinor } from '@oceanx/shared';
 import { customers, invoices, loyaltyTransactions, payments, quotations, sales } from '../../db/schema';
 import { bizCtx, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
@@ -27,9 +27,11 @@ export async function customerRoutes(app: FastifyInstance) {
   app.get('/customers', { preHandler: requirePermission('customers.view') }, async (req) => {
     const ctx = bizCtx(req);
     const q = parse(paginationQuerySchema, req.query);
+    const kind = parse(z.object({ kind: z.enum(CUSTOMER_KINDS).optional() }), { kind: (req.query as { kind?: string }).kind || undefined }).kind;
     const where = and(
       eq(customers.businessId, ctx.businessId),
       isNull(customers.deletedAt),
+      kind ? eq(customers.kind, kind) : undefined,
       q.q ? or(ilike(customers.name, `%${q.q}%`), ilike(customers.phone, `%${q.q}%`), ilike(customers.email, `%${q.q}%`), ilike(customers.company, `%${q.q}%`)) : undefined,
     );
     const [items, [total]] = await Promise.all([
@@ -260,6 +262,7 @@ export async function customerRoutes(app: FastifyInstance) {
     const rows = await db.execute<{
       id: string;
       name: string;
+      kind: string;
       phone: string;
       viber_phone: string;
       credit_limit: string | null;
@@ -287,7 +290,7 @@ export async function customerRoutes(app: FastifyInstance) {
                MIN(due_date) AS oldest
           FROM open_items GROUP BY customer_id
       )
-      SELECT c.id, c.name, c.phone, c.viber_phone, c.credit_limit, c.credit_days,
+      SELECT c.id, c.name, c.kind, c.phone, c.viber_phone, c.credit_limit, c.credit_days,
              COALESCE(a.sales_due, 0) AS sales_due, COALESCE(a.invoice_due, 0) AS invoice_due, COALESCE(a.overdue, 0) AS overdue,
              a.oldest::text AS oldest,
              (SELECT MAX(p.paid_at) FROM payments p WHERE p.customer_id = c.id AND p.business_id = ${ctx.businessId}
@@ -304,6 +307,7 @@ export async function customerRoutes(app: FastifyInstance) {
       return {
         id: r.id,
         name: r.name,
+        kind: r.kind,
         phone: r.phone,
         viberPhone: r.viber_phone,
         creditLimit: limit,

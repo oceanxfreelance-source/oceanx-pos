@@ -985,5 +985,62 @@ test.describe.serial('OceanX operations', () => {
     await expect(page.getByText(/Available credit\W*Rf 50\.00/)).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/shop-pos-credit.png`, fullPage: true });
   });
+
+  test('shop sells to a council on invoice: government customer, PO added after issue, printed PO number, PV payment', async ({ page }) => {
+    await page.goto('/login');
+    await page.getByLabel('Email').fill('owner@cornermart.test');
+    await page.getByLabel('Password').fill('Corner-Mart-123');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page).toHaveURL(/\/$/);
+
+    // Add the council as a government office.
+    await page.goto('/customers');
+    await page.getByRole('button', { name: 'New customer' }).click();
+    const d = page.getByRole('dialog');
+    await d.getByLabel('Customer type').selectOption('government');
+    await d.getByLabel(/^Name of company or office/).fill('Male City Council');
+    await d.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByRole('row', { name: /Male City Council/ })).toContainText('Government office');
+    await page.getByLabel('Customer type').selectOption('government');
+    await expect(page.getByRole('row')).toHaveCount(2);
+
+    // Accepted quotation turned into an issued invoice (set up through the API).
+    const invoiceId = await page.evaluate(async () => {
+      const token = (await (await fetch('/api/auth/session')).json()).csrfToken as string;
+      const h = { 'x-csrf-token': token, 'content-type': 'application/json' };
+      const council = (await (await fetch('/api/customers?kind=government')).json()).items[0];
+      const q = await (
+        await fetch('/api/quotations', { method: 'POST', headers: h, body: JSON.stringify({ customerId: council.id, quotationDate: '2026-10-01', validUntil: '2026-10-31', customerRef: 'RFQ/2026/118', items: [{ name: 'A4 paper (box)', quantity: 10, unitPrice: 250 }] }) })
+      ).json();
+      await fetch(`/api/quotations/${q.id}/accept`, { method: 'POST', headers: h, body: '{}' });
+      const inv = await (await fetch(`/api/quotations/${q.id}/convert`, { method: 'POST', headers: h, body: '{}' })).json();
+      await fetch(`/api/invoices/${inv.id}/issue`, { method: 'POST', headers: h, body: '{}' });
+      return inv.id as string;
+    });
+
+    // The PO arrives later: add it to the issued invoice.
+    await page.goto(`/invoices/${invoiceId}`);
+    await expect(page.getByText('RFQ/2026/118')).toBeVisible();
+    await page.getByRole('button', { name: 'Edit' }).last().click();
+    await page.getByRole('dialog').getByLabel('PO / reference no.').fill('PO-MCC-2026-0457');
+    await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByText('PO-MCC-2026-0457')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/shop-invoice-po.png`, fullPage: true });
+
+    // Printed invoice shows the PO number.
+    await page.goto(`/print/invoice/${invoiceId}`);
+    await expect(page.getByText('PO No.')).toBeVisible();
+    await expect(page.getByText('PO-MCC-2026-0457')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/shop-invoice-po-print.png`, fullPage: true });
+
+    // Paid by payment voucher.
+    await page.goto(`/invoices/${invoiceId}`);
+    await page.getByRole('button', { name: 'Record payment' }).click();
+    await expect(page.getByText('Payment voucher (PV), cheque or transfer number.')).toBeVisible();
+    await page.getByRole('dialog').getByLabel('Reference').fill('PV-2026-3391');
+    await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByText(/PV-2026-3391/)).toBeVisible();
+    await expect(page.getByText('Paid').first()).toBeVisible();
+  });
 });
 

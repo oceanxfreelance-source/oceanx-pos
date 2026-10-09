@@ -3904,5 +3904,89 @@
     "suggested": "މި ކަސްޓަމަރަށް މިހާރު ގަނެ ފަހުން ފައިސާ ދެއްކޭނެ ގޮތަށް ކްރެޑިޓް އެކައުންޓެއް ހުޅުވޭނެ.",
     "status": "needs_review",
     "notes": "New: open a pay-later account from the POS."
+  },
+  {
+    "key": "customers.kind",
+    "english": "Customer type",
+    "suggested": "ކަސްޓަމަރުގެ ބާވަތް",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "customers.kind_hint",
+    "english": "Companies and government offices usually buy on invoice and pay later by PO and payment voucher.",
+    "suggested": "ކުންފުނިތަކާއި ސަރުކާރު އޮފީސްތަކުން އާންމުކޮށް ގަންނަނީ އިންވޮއިހަށް، ފަހުން ޕީއޯ އާއި ޕޭމަންޓް ވައުޗަރުން ފައިސާ ދައްކައިގެން.",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "customers.kinds.all",
+    "english": "All customer types",
+    "suggested": "ހުރިހާ ބާވަތެއް",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "customers.kinds.person",
+    "english": "Person",
+    "suggested": "ފަރުދެއް",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "customers.kinds.company",
+    "english": "Company",
+    "suggested": "ކުންފުނި",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "customers.kinds.government",
+    "english": "Government office",
+    "suggested": "ސަރުކާރު އޮފީސް",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "customers.org_name",
+    "english": "Name of company or office",
+    "suggested": "ކުންފުނީގެ ނުވަތަ އޮފީހުގެ ނަން",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "documents.customer_ref",
+    "english": "PO / reference no.",
+    "suggested": "ޕީއޯ / ރެފަރެންސް ނަންބަރު",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "documents.customer_ref_hint",
+    "english": "The customer's purchase order or tender number.",
+    "suggested": "ކަސްޓަމަރުގެ ޕަރޗޭސް އޯޑަރު ނުވަތަ ޓެންޑަރ ނަންބަރު.",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "documents.add_customer_ref",
+    "english": "Add PO number",
+    "suggested": "ޕީއޯ ނަންބަރު އިތުރުކުރައްވާ",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "payments.reference_pv_hint",
+    "english": "Payment voucher (PV), cheque or transfer number.",
+    "suggested": "ޕޭމަންޓް ވައުޗަރު (ޕީވީ)، ޗެކު ނުވަތަ ޓްރާންސްފަރ ނަންބަރު.",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "print.customer_ref",
+    "english": "PO No.",
+    "suggested": "ޕީއޯ ނަންބަރު",
+    "status": "needs_review",
+    "notes": "New: company and government accounts (PO / PV)."
   }
 ]
