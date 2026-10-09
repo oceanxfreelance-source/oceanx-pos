@@ -92,7 +92,11 @@ export default function PosPage() {
   const [category, setCategory] = useState<string | 'all'>('all');
   const [search, setSearch] = useState('');
   const [cart, setCart] = useState<CartLine[]>([]);
-  const [orderType, setOrderType] = useState<'dine_in' | 'takeaway' | 'delivery'>(session.pos.defaultOrderType === 'delivery' && !hasAddon('delivery') ? 'takeaway' : session.pos.defaultOrderType);
+  // Shops have no dine-in: sales are in-store (takeaway) or delivery.
+  const retail = !!session.business.profile.retail;
+  const [orderType, setOrderType] = useState<'dine_in' | 'takeaway' | 'delivery'>(
+    (session.pos.defaultOrderType === 'delivery' && !hasAddon('delivery')) || (retail && session.pos.defaultOrderType === 'dine_in') ? 'takeaway' : session.pos.defaultOrderType,
+  );
   const [tableId, setTableId] = useState<string | null>(null);
   const [customer, setCustomer] = useState<CustomerLite | null>(null);
   const [payingDue, setPayingDue] = useState(false);
@@ -200,7 +204,9 @@ export default function PosPage() {
   // Keyboard: Enter in search adds the first match; Escape clears.
   const onSearchKey = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && products[0]) {
-      onProduct(products[0]);
+      // A scanned barcode / exact SKU wins over name matches.
+      const code = search.trim().toLowerCase();
+      onProduct(products.find((p) => code && p.sku.toLowerCase() === code) ?? products[0]);
       setSearch('');
     }
     if (e.key === 'Escape') setSearch('');
@@ -216,6 +222,7 @@ export default function PosPage() {
         <div className="flex gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="radiogroup" aria-label={t('pos.order_type')}>
           {(['dine_in', 'takeaway', 'delivery'] as const)
             .filter((ot) => ot !== 'delivery' || (hasAddon('delivery') && can('delivery.manage')))
+            .filter((ot) => !retail || ot !== 'dine_in')
             .map((ot) => (
               <button
                 key={ot}
@@ -225,7 +232,7 @@ export default function PosPage() {
                 onClick={() => setOrderType(ot)}
                 className={clsx('flex-1 rounded-lg px-2 py-2 text-sm font-medium', orderType === ot ? 'bg-white shadow-sm dark:bg-slate-900' : 'text-slate-500')}
               >
-                {t(`pos.order_types.${ot}`)}
+                {retail && ot === 'takeaway' ? t('pos.order_types.in_store') : t(`pos.order_types.${ot}`)}
               </button>
             ))}
         </div>
@@ -397,7 +404,7 @@ export default function PosPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={onSearchKey}
-                placeholder={t('pos.search')}
+                placeholder={retail ? t('pos.search_retail') : t('pos.search')}
                 aria-label={t('pos.search')}
                 className="h-12 w-full rounded-xl border-0 bg-white ps-11 pe-4 text-base shadow-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-600 focus:outline-none dark:bg-slate-900 dark:ring-slate-700"
               />

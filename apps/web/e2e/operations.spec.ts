@@ -778,4 +778,49 @@ test.describe.serial('OceanX operations', () => {
     await page.screenshot({ path: `${SHOTS}/billing-page.png`, fullPage: true });
     await sa.close();
   });
+
+  test('retail shop: no restaurant screens; stock check by barcode; scan into the POS', async ({ page }) => {
+    await page.goto('/register');
+    await page.getByLabel('Business type').selectOption('supermarket');
+    await page.getByLabel('Business name').fill('Corner Mart');
+    await page.getByLabel('Your name').fill('Ibrahim Shareef');
+    await page.getByLabel('Email').fill('owner@cornermart.test');
+    await page.getByLabel('Password').fill('Corner-Mart-123');
+    await page.getByRole('button', { name: 'Create my business' }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Ibrahim');
+    const nav = page.locator('aside').first();
+    await expect(nav.getByRole('link', { name: 'Stock check' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Products', exact: true })).toBeVisible();
+    for (const food of ['Kitchen', 'Tables', 'QR Menu']) await expect(nav.getByRole('link', { name: food })).toHaveCount(0);
+
+    // Two products with barcodes and stock.
+    await page.evaluate(async () => {
+      const token = (await (await fetch('/api/auth/session')).json()).csrfToken as string;
+      const h = { 'x-csrf-token': token, 'content-type': 'application/json' };
+      for (const [name, sku, qty] of [['Coconut Oil 1L', '8901234567891', 3], ['Basmati Rice 5kg', '8901234567892', 30]] as const) {
+        const p = await (await fetch('/api/products', { method: 'POST', headers: h, body: JSON.stringify({ name, sku, sellingPrice: 45, trackStock: true, minStock: 5, unit: 'pcs' }) })).json();
+        await fetch('/api/inventory/adjust', { method: 'POST', headers: h, body: JSON.stringify({ productId: p.id, mode: 'add', quantity: qty, reason: 'opening' }) });
+      }
+    });
+
+    // The shopkeeper scans a barcode: low stock, 3 left.
+    await page.goto('/stock-check');
+    await page.getByLabel('Scan barcode or type product name…').fill('8901234567891');
+    await page.keyboard.press('Enter');
+    await expect(page.getByText('Coconut Oil 1L')).toBeVisible();
+    await expect(page.getByText('Low stock')).toBeVisible();
+    await expect(page.getByText('3 pcs')).toBeVisible();
+    await page.screenshot({ path: `${SHOTS}/retail-stock-check.png`, fullPage: true });
+
+    // The POS has no dine-in; a scanned barcode goes straight into the cart.
+    await page.goto('/pos');
+    await expect(page.getByRole('radio', { name: 'Dine-in' })).toHaveCount(0);
+    await expect(page.getByRole('radio', { name: 'In store' })).toBeVisible();
+    const search = page.getByPlaceholder('Scan barcode or search…');
+    await search.fill('8901234567892');
+    await search.press('Enter');
+    await expect(page.getByText('Basmati Rice 5kg').last()).toBeVisible();
+    await expect(page.getByRole('button', { name: /^Pay/ }).last()).toContainText('45');
+    await page.screenshot({ path: `${SHOTS}/retail-pos.png`, fullPage: true });
+  });
 });

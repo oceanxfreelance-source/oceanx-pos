@@ -14,6 +14,7 @@ import { reportRoutes } from './reports';
 import { staffRoutes } from './staff';
 import { brandingRoutes } from './branding';
 import { billingRoutes } from './billing';
+import { stockCheckRoutes } from './stockCheck';
 import { IMAGE_TYPES } from '../../lib/storage';
 
 /**
@@ -41,5 +42,6 @@ export async function businessRoutes(app: FastifyInstance, opts: { authRateLimit
     await secured.register(staffRoutes);
     await secured.register(brandingRoutes);
     await secured.register(billingRoutes);
+    await secured.register(stockCheckRoutes);
   });
 }

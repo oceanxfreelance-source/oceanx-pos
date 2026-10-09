@@ -1,5 +1,5 @@
 import { and, eq, inArray } from 'drizzle-orm';
-import { CORE_MODULES, getPermission, type PlanLimits } from '@oceanx/shared';
+import { CORE_MODULES, FOOD_ONLY_ADDONS, FOOD_ONLY_MODULES, getPermission, isRetailType, type PlanLimits } from '@oceanx/shared';
 import type { Executor } from '../db/client';
 import { addons, businessAddons, businesses, plans, subscriptions } from '../db/schema';
 
@@ -57,6 +57,12 @@ export async function loadBusinessAccess(db: Executor, businessId: string): Prom
 
   const modules = new Set<string>(CORE_MODULES);
   for (const m of row.plan?.modules ?? []) modules.add(m);
+
+  // Shops never get food-service features (kitchen, tables, QR menu, reservations…), whatever the plan or grants say.
+  if (isRetailType(row.business.businessType)) {
+    for (const m of FOOD_ONLY_MODULES) modules.delete(m);
+    for (const a of FOOD_ONLY_ADDONS) addonSet.delete(a);
+  }
 
   const limits: PlanLimits = { ...(row.plan?.limits ?? {}), ...(row.sub?.customLimits ?? {}) };
 

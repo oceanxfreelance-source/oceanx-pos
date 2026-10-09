@@ -23,6 +23,7 @@ const Settings = lazy(() => import('./pages/business/Settings'));
 const Outlets = lazy(() => import('./pages/business/Outlets'));
 const Addons = lazy(() => import('./pages/business/Addons'));
 const Billing = lazy(() => import('./pages/business/Billing'));
+const StockCheck = lazy(() => import('./pages/business/StockCheck'));
 const Activity = lazy(() => import('./pages/business/Activity'));
 const Account = lazy(() => import('./pages/business/Account'));
 const Pos = lazy(() => import('./pages/business/Pos'));
@@ -125,6 +126,7 @@ const router = createBrowserRouter([
           { path: 'businesses/:id', element: withSuspense(<SaBusinessDetail />) },
           { path: 'restaurants', element: withSuspense(<SaBusinesses presetType="restaurant" />) },
           { path: 'cafes', element: withSuspense(<SaBusinesses presetType="cafe" />) },
+          { path: 'retail', element: withSuspense(<SaBusinesses presetType="retail" />) },
           { path: 'plans', element: withSuspense(<SaPlans />) },
           { path: 'addons', element: withSuspense(<SaAddons />) },
           { path: 'subscriptions', element: withSuspense(<SaSubscriptions />) },
@@ -206,6 +208,7 @@ const router = createBrowserRouter([
           { path: 'outlets', element: withSuspense(<Outlets />) },
           { path: 'addons', element: withSuspense(<Addons />) },
           { path: 'billing', element: withSuspense(<Billing />) },
+          { path: 'stock-check', element: withSuspense(<StockCheck />) },
           { path: 'activity', element: withSuspense(<Activity />) },
           { path: 'account', element: withSuspense(<Account />) },
           { path: '*', element: <NotFound home="/" /> },

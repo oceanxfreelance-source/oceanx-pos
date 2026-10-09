@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 316 · **confirmed**: 144
+Status: **needs_review**: 337 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -95,6 +95,8 @@ review of the whole file is still recommended before launch.
 | `branding.show_stamp` | Show the company stamp on documents | ލިޔެކިޔުންތަކުގައި ކުންފުނީގެ ތައްގަނޑު ޖަހާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.show_stamp_hint` | Turn off to print documents without the stamp. | ތައްގަނޑު ނުޖަހާ ލިޔެކިޔުން ޕްރިންޓްކުރުމަށް ނިއްވާލައްވާ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.upload` | Upload photo | ފޮޓޯ އަޕްލޯޑްކުރޭ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `business_types.retail_shop` | Shop | ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
+| `business_types.supermarket` | Supermarket / big shop | ސުޕަރމާކެޓް / ބޮޑު ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `common.done` | Done | ނިމިއްޖެ | needs_review | Button that closes a finished step. |
 | `common.exit_fullscreen` | Exit full screen | ފުލް ސްކްރީނުން ނިކުމެވޭ | needs_review | New: full screen button in the top bar and POS. |
 | `common.fullscreen` | Full screen | ފުލް ސްކްރީން | needs_review | New: full screen button in the top bar and POS. |
@@ -136,9 +138,12 @@ review of the whole file is still recommended before launch.
 | `menu_i18n.name_in` | Name in {{language}} | {{language}} ބަހުން ނަން | needs_review | New: labels for item names in other languages. |
 | `modules.purchases` | Purchases | ގަތުން | needs_review | Alternative loanword: ޕާޗޭސް. |
 | `nav.billing` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `nav.group_catalog_retail` | Products & stock | ތަކެތިއާއި ސްޓޮކް | needs_review | New: retail shops menu section. |
 | `nav.group_staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
 | `nav.payroll` | Salary sheets | މުސާރަ ޝީޓްތައް | needs_review | "Salary sheet" = މުސާރަ ޝީޓް (މުސާރަ from expenses.categories.salaries). Alternative: މުސާރަ ލިސްޓު. |
+| `nav.products` | Products | ތަކެތި | needs_review | New: retail shops (stock check, barcode). |
 | `nav.rota` | Duty rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | "Rota" rendered as ޑިއުޓީ ރޯސްޓަރު (loanword). Alternatives: ޑިއުޓީ ލިސްޓު, ޑިއުޓީ ޝެޑިއުލް. |
+| `nav.stock_check` | Stock check | ސްޓޮކް ބެލުން | needs_review | New: retail shops (stock check, barcode). |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
 | `perm.branding_manage` | Manage the company stamp and document signatures | ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
@@ -148,6 +153,8 @@ review of the whole file is still recommended before launch.
 | `perm.payroll_view` | View salary sheets and salaries | މުސާރަ ޝީޓްތަކާއި މުސާރަ ބަލާ | needs_review | Plain translation using existing app terms. |
 | `perm.rota_manage` | Edit the duty rota and shifts | ޑިއުޓީ ރޯސްޓަރާއި ޝިފްޓުތައް ބަދަލުކުރޭ | needs_review | "Shift" = ޝިފްޓު (loanword). |
 | `perm.rota_view` | View the duty rota | ޑިއުޓީ ރޯސްޓަރު ބަލާ | needs_review | Plain translation using existing app terms. |
+| `pos.order_types.in_store` | In store | ފިހާރައިން | needs_review | New: retail shops (stock check, barcode). |
+| `pos.search_retail` | Scan barcode or search… | ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ހޯއްދަވާ… | needs_review | New: retail shops (stock check, barcode). |
 | `print.authorized_signature` | Authorized signature | ހުއްދަދީފައިވާ ފަރާތުގެ ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `print.received_by` | Received by | ބަލައިގަތީ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `public_menu.menu_title` | Menu | މެނޫ | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
@@ -283,11 +290,25 @@ review of the whole file is still recommended before launch.
 | `staff.total_deductions` | Total deductions | ޖުމްލަ ކެނޑުން | needs_review | New: individual payslips. ސްލިޕް = slip. |
 | `staff.total_net_pay` | Total net pay | ޖުމްލަ ނެޓް މުސާރަ | needs_review | Plain translation using existing app terms. |
 | `staff.unsaved` | You have unsaved changes. | ރައްކާނުކުރާ ބަދަލުތައް އެބަހުރި. | needs_review | Literal: "there are unsaved changes". |
+| `stock_check.empty_body` | Scan a barcode or type a name to check the stock instantly. | ސްޓޮކް ވަގުތުން ބެލުމަށް ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ނަން ލިޔުއްވާ. | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.empty_title` | Do we have it? | އެ އެއްޗެއް ހުރިތޯ؟ | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.not_found` | No product found | އެ ތަކެތި ނުފެނުނު | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.not_found_body` | Nothing matches “{{q}}”. | “{{q}}” އާ ގުޅޭ އެއްވެސް އެއްޗެއް ނެތް. | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.placeholder` | Scan barcode or type product name… | ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ތަކެއްޗުގެ ނަން ލިޔުއްވާ… | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.status_in_stock` | In stock | ސްޓޮކުގައި ހުރި | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.status_low` | Low stock | ސްޓޮކް މަދު | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.status_out` | Out of stock | ސްޓޮކް ހުސް | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.status_untracked` | Stock not tracked | ސްޓޮކް ނުބެލޭ | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.subtitle` | Scan or type a product to see if it is in stock here and at your other outlets. | މި ފިހާރައާއި އެހެން އައުޓްލެޓްތަކުގައި އެއްޗެއް ހުރިތޯ ބެލުމަށް ސްކޭން ކުރައްވާ ނުވަތަ ނަން ލިޔުއްވާ. | needs_review | New: retail shops (stock check, barcode). |
+| `stock_check.title` | Stock check | ސްޓޮކް ބެލުން | needs_review | New: retail shops (stock check, barcode). |
 | `superadmin.business.addon_requests_one` | {{count}} add-on requested | {{count}} އެޑް-އޮނަށް އެދިފައި | needs_review | Dhivehi does not inflect after numbers; _one/_other identical. "Add-on" = އެޑް-އޮން as in superadmin.business.*. |
 | `superadmin.business.addon_requests_other` | {{count}} add-ons requested | {{count}} އެޑް-އޮނަށް އެދިފައި | needs_review | Same as _one. |
 | `superadmin.business.enable` | Enable | ހުޅުވާ | needs_review | Matches common.enabled (ހުޅުވިފައި). Alternative: އެނޭބަލްކުރޭ. |
 | `superadmin.dashboard.mrr` | Monthly recurring revenue | މަހުން މަހަށް ލިބޭ އާމްދަނީ | needs_review | Financial term; confirm wording. |
+| `superadmin.dashboard.retail` | Retail shops | ފިހާރަތައް | needs_review | New: retail shops (stock check, barcode). |
+| `superadmin.dashboard.retail_hint` | Shops and supermarkets | ފިހާރަތަކާއި ސުޕަރމާކެޓްތައް | needs_review | New: retail shops (stock check, barcode). |
 | `superadmin.nav.payments` | Payments | ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.nav.retail` | Retail shops | ފިހާރަތައް | needs_review | New: retail shops (stock check, barcode). |
 | `superadmin.payments.approve` | Approve | ޤަބޫލުކުރޭ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.payments.approve_body_one` | Confirm that {{amount}} from {{name}} is in the bank. Their plan is activated for {{count}} month. | {{name}} ގެ ފަރާތުން {{amount}} ބޭންކަށް ލިބިފައިވާކަން ކަށަވަރުކުރޭ. އެ ފަރާތުގެ ޕްލޭން {{count}} މަހަށް އެކްޓިވް ކުރެވޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.payments.approve_body_other` | Confirm that {{amount}} from {{name}} is in the bank. Their plan is activated for {{count}} months. | {{name}} ގެ ފަރާތުން {{amount}} ބޭންކަށް ލިބިފައިވާކަން ކަށަވަރުކުރޭ. އެ ފަރާތުގެ ޕްލޭން {{count}} މަހަށް އެކްޓިވް ކުރެވޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |

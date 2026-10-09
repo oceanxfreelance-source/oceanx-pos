@@ -28,7 +28,7 @@ export interface BusinessSession {
     hasLogo: boolean;
     hasStamp: boolean;
     onboardingCompleted: boolean;
-    profile: { productsLabelKey: string; dashboardWidgets: string[]; tableService: boolean; kitchen: boolean };
+    profile: { productsLabelKey: string; dashboardWidgets: string[]; tableService: boolean; kitchen: boolean; retail?: boolean };
     suspensionReason: string | null;
   };
   subscription: { planName: string; planCode: string; effectiveStatus: string; currentPeriodEnd: string } | null;

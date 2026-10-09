@@ -91,7 +91,10 @@
     "group_staff": "Staff",
     "payroll": "Salary sheets",
     "rota": "Duty rota",
-    "billing": "Billing"
+    "billing": "Billing",
+    "products": "Products",
+    "stock_check": "Stock check",
+    "group_catalog_retail": "Products & stock"
   },
   "business_types": {
     "restaurant": "Restaurant",
@@ -102,7 +105,9 @@
     "juice_shop": "Juice shop",
     "dessert_shop": "Dessert shop",
     "takeaway": "Takeaway",
-    "other": "Other"
+    "other": "Other",
+    "retail_shop": "Shop",
+    "supermarket": "Supermarket / big shop"
   },
   "auth": {
     "aside_body": "Sales, menu, staff and reports for restaurants and cafés — in your language, on any device.",
@@ -831,7 +836,9 @@
       "total_businesses": "Total businesses",
       "total_users_one": "{{count}} user in total",
       "total_users_other": "{{count}} users in total",
-      "trials": "Trials"
+      "trials": "Trials",
+      "retail": "Retail shops",
+      "retail_hint": "Shops and supermarkets"
     },
     "languages": {
       "default": "Default",
@@ -860,7 +867,8 @@
       "settings": "Settings",
       "subscriptions": "Subscriptions",
       "users": "Users",
-      "payments": "Payments"
+      "payments": "Payments",
+      "retail": "Retail shops"
     },
     "plans": {
       "active": "Active",
@@ -1325,7 +1333,8 @@
     "order_types": {
       "dine_in": "Dine-in",
       "takeaway": "Takeaway",
-      "delivery": "Delivery"
+      "delivery": "Delivery",
+      "in_store": "In store"
     },
     "table": "Table",
     "no_table": "No table",
@@ -1360,7 +1369,8 @@
     "required": "required",
     "add_to_cart": "Add",
     "view_cart_one": "View order ({{count}} item)",
-    "view_cart_other": "View order ({{count}} items)"
+    "view_cart_other": "View order ({{count}} items)",
+    "search_retail": "Scan barcode or search…"
   },
   "kitchen": {
     "title": "Kitchen display",
@@ -2117,5 +2127,18 @@
     "banner_paid_one": "Your {{plan}} plan ends in {{count}} day.",
     "banner_paid_other": "Your {{plan}} plan ends in {{count}} days.",
     "banner_pending": "Your payment slip is being reviewed by the OceanX team."
+  },
+  "stock_check": {
+    "title": "Stock check",
+    "subtitle": "Scan or type a product to see if it is in stock here and at your other outlets.",
+    "placeholder": "Scan barcode or type product name…",
+    "empty_title": "Do we have it?",
+    "empty_body": "Scan a barcode or type a name to check the stock instantly.",
+    "not_found": "No product found",
+    "not_found_body": "Nothing matches “{{q}}”.",
+    "status_in_stock": "In stock",
+    "status_low": "Low stock",
+    "status_out": "Out of stock",
+    "status_untracked": "Stock not tracked"
   }
 }

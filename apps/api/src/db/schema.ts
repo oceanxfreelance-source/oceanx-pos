@@ -34,6 +34,8 @@ export const businessTypeEnum = pgEnum('business_type', [
   'juice_shop',
   'dessert_shop',
   'takeaway',
+  'retail_shop',
+  'supermarket',
   'other',
 ]);
 export const businessStatusEnum = pgEnum('business_status', ['pending', 'active', 'suspended', 'deactivated']);

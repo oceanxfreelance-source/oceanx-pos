@@ -54,6 +54,10 @@ export const ADDONS = [
 
 export type AddonKey = (typeof ADDONS)[number];
 
+/** Modules and add-ons that only make sense for food service; retail businesses never get them. */
+export const FOOD_ONLY_MODULES = ['tables', 'kitchen'] as const;
+export const FOOD_ONLY_ADDONS = ['qr_menu', 'online_ordering', 'reservations', 'karaoke', 'recipes', 'ingredient_costing', 'advanced_kitchen', 'catering', 'events', 'guesthouse'] as const;
+
 export function isCoreModule(key: string): key is CoreModuleKey {
   return (CORE_MODULES as readonly string[]).includes(key);
 }

@@ -71,6 +71,13 @@
       "when": 1791447332552,
       "tag": "0009_billing_payments",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1791539380731,
+      "tag": "0010_retail_types",
+      "breakpoints": true
     }
   ]
 }

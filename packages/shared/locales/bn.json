@@ -91,7 +91,10 @@
     "group_staff": "কর্মী",
     "payroll": "বেতন শিট",
     "rota": "ডিউটি রোস্টার",
-    "billing": "বিলিং"
+    "billing": "বিলিং",
+    "products": "পণ্য",
+    "stock_check": "স্টক যাচাই",
+    "group_catalog_retail": "পণ্য ও স্টক"
   },
   "business_types": {
     "restaurant": "রেস্টুরেন্ট",
@@ -102,7 +105,9 @@
     "juice_shop": "জুস শপ",
     "dessert_shop": "ডেজার্ট শপ",
     "takeaway": "টেকঅ্যাওয়ে",
-    "other": "অন্যান্য"
+    "other": "অন্যান্য",
+    "retail_shop": "দোকান",
+    "supermarket": "সুপারমার্কেট / বড় দোকান"
   },
   "auth": {
     "aside_body": "রেস্টুরেন্ট ও ক্যাফের জন্য বিক্রি, মেনু, কর্মী ও রিপোর্ট — আপনার ভাষায়, যেকোনো ডিভাইসে।",
@@ -831,7 +836,9 @@
       "total_businesses": "মোট ব্যবসা",
       "total_users_one": "মোট {{count}} জন ব্যবহারকারী",
       "total_users_other": "মোট {{count}} জন ব্যবহারকারী",
-      "trials": "ট্রায়াল"
+      "trials": "ট্রায়াল",
+      "retail": "খুচরা দোকান",
+      "retail_hint": "দোকান ও সুপারমার্কেট"
     },
     "languages": {
       "default": "ডিফল্ট",
@@ -860,7 +867,8 @@
       "settings": "সেটিংস",
       "subscriptions": "সাবস্ক্রিপশন",
       "users": "ব্যবহারকারী",
-      "payments": "পেমেন্ট"
+      "payments": "পেমেন্ট",
+      "retail": "খুচরা দোকান"
     },
     "plans": {
       "active": "সক্রিয়",
@@ -1325,7 +1333,8 @@
     "order_types": {
       "dine_in": "ডাইন-ইন",
       "takeaway": "টেকঅ্যাওয়ে",
-      "delivery": "ডেলিভারি"
+      "delivery": "ডেলিভারি",
+      "in_store": "দোকানে"
     },
     "table": "টেবিল",
     "no_table": "টেবিল নেই",
@@ -1360,7 +1369,8 @@
     "required": "আবশ্যক",
     "add_to_cart": "যোগ করুন",
     "view_cart_one": "অর্ডার দেখুন ({{count}}টি আইটেম)",
-    "view_cart_other": "অর্ডার দেখুন ({{count}}টি আইটেম)"
+    "view_cart_other": "অর্ডার দেখুন ({{count}}টি আইটেম)",
+    "search_retail": "বারকোড স্ক্যান করুন বা খুঁজুন…"
   },
   "kitchen": {
     "title": "কিচেন ডিসপ্লে",
@@ -2117,5 +2127,18 @@
     "banner_paid_one": "আপনার {{plan}} প্ল্যান {{count}} দিনে শেষ হবে।",
     "banner_paid_other": "আপনার {{plan}} প্ল্যান {{count}} দিনে শেষ হবে।",
     "banner_pending": "আপনার পেমেন্ট স্লিপ OceanX টিম যাচাই করছে।"
+  },
+  "stock_check": {
+    "title": "স্টক যাচাই",
+    "subtitle": "স্ক্যান করুন বা পণ্যের নাম লিখুন — এখানে ও অন্য আউটলেটে স্টক আছে কি না দেখুন।",
+    "placeholder": "বারকোড স্ক্যান করুন বা পণ্যের নাম লিখুন…",
+    "empty_title": "আমাদের কাছে আছে কি?",
+    "empty_body": "সাথে সাথে স্টক দেখতে বারকোড স্ক্যান করুন বা নাম লিখুন।",
+    "not_found": "কোনো পণ্য পাওয়া যায়নি",
+    "not_found_body": "“{{q}}” এর সাথে কিছু মেলেনি।",
+    "status_in_stock": "স্টকে আছে",
+    "status_low": "স্টক কম",
+    "status_out": "স্টক শেষ",
+    "status_untracked": "স্টক ট্র্যাক করা হয় না"
   }
 }

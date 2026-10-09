@@ -9,6 +9,7 @@ import {
   paginationQuerySchema,
   suspendBusinessSchema,
   updateBusinessSchema,
+  RETAIL_TYPES,
 } from '@oceanx/shared';
 import type { Executor } from '../../db/client';
 import { activityLogs, addonRequests, addons, businessAddons, businesses, outlets, plans, subscriptions, users, userSessions } from '../../db/schema';
@@ -22,7 +23,8 @@ import { provisionBusiness } from '../../services/provisioning';
 import { issueUserToken } from '../../services/tokens';
 
 const listQuerySchema = paginationQuerySchema.extend({
-  type: z.enum(BUSINESS_TYPES).optional(),
+  /** A business type, or 'retail' for every shop type. */
+  type: z.enum([...BUSINESS_TYPES, 'retail']).optional(),
   status: z.enum(['pending', 'active', 'suspended', 'deactivated']).optional(),
   subscription: z.enum(['trialing', 'active', 'expired']).optional(),
 });
@@ -69,7 +71,7 @@ export async function businessAdminRoutes(app: FastifyInstance) {
     const where = and(
       isNull(businesses.deletedAt),
       q.q ? or(ilike(businesses.name, `%${q.q}%`), ilike(businesses.email, `%${q.q}%`), ilike(businesses.slug, `%${q.q}%`)) : undefined,
-      q.type ? eq(businesses.businessType, q.type) : undefined,
+      q.type === 'retail' ? inArray(businesses.businessType, RETAIL_TYPES) : q.type ? eq(businesses.businessType, q.type) : undefined,
       q.status ? eq(businesses.status, q.status) : undefined,
       subFilter,
     );

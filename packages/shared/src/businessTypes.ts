@@ -12,6 +12,8 @@ export const BUSINESS_TYPES = [
   'juice_shop',
   'dessert_shop',
   'takeaway',
+  'retail_shop',
+  'supermarket',
   'other',
 ] as const;
 
@@ -28,6 +30,8 @@ export interface BusinessTypeProfile {
   kitchen: boolean;
   /** Suggested starter categories (translation keys). */
   suggestedCategoryKeys: string[];
+  /** Shops (not food service): no kitchen, tables, QR menu, reservations…; the POS is barcode-first. */
+  retail?: boolean;
 }
 
 const RESTAURANT_WIDGETS = ['today_sales', 'orders', 'customers', 'outstanding_due', 'low_stock', 'top_products', 'recent_sales', 'sales_trend'];
@@ -90,6 +94,22 @@ export const BUSINESS_TYPE_PROFILES: Record<BusinessType, BusinessTypeProfile> =
     kitchen: true,
     suggestedCategoryKeys: ['mains', 'sides', 'drinks'],
   },
+  retail_shop: {
+    productsLabelKey: 'nav.products',
+    dashboardWidgets: ['today_sales', 'orders', 'average_order_value', 'top_products', 'low_stock', 'recent_sales', 'sales_trend'],
+    tableService: false,
+    kitchen: false,
+    suggestedCategoryKeys: [],
+    retail: true,
+  },
+  supermarket: {
+    productsLabelKey: 'nav.products',
+    dashboardWidgets: ['today_sales', 'orders', 'average_order_value', 'top_products', 'low_stock', 'outstanding_due', 'recent_sales', 'sales_trend'],
+    tableService: false,
+    kitchen: false,
+    suggestedCategoryKeys: [],
+    retail: true,
+  },
   other: {
     productsLabelKey: 'nav.products_menu',
     dashboardWidgets: RESTAURANT_WIDGETS,
@@ -102,3 +122,10 @@ export const BUSINESS_TYPE_PROFILES: Record<BusinessType, BusinessTypeProfile> =
 export function isBusinessType(v: string): v is BusinessType {
   return (BUSINESS_TYPES as readonly string[]).includes(v);
 }
+
+/** Retail = shops (small shops, supermarkets) rather than food service. */
+export function isRetailType(t: string | null | undefined): boolean {
+  return !!t && isBusinessType(t) && !!BUSINESS_TYPE_PROFILES[t].retail;
+}
+
+export const RETAIL_TYPES: BusinessType[] = BUSINESS_TYPES.filter((t) => BUSINESS_TYPE_PROFILES[t].retail);

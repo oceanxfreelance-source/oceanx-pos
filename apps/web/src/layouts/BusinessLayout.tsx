@@ -35,6 +35,8 @@ import {
   UtensilsCrossed,
   Wallet,
   CreditCard,
+  Package,
+  ScanBarcode,
 } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { useBiz, useBizSession, type BusinessSession } from '../auth/business';
@@ -63,6 +65,8 @@ export function useBusinessNav(): NavGroup[] {
   const operations: NavGroup['items'] = [];
   if (can('dashboard.view')) operations.push({ to: '/', label: 'nav.dashboard', icon: LayoutDashboard, end: true });
   if (hasModule('pos') && can('pos.access')) operations.push({ to: '/pos', label: 'nav.pos', icon: MonitorSmartphone });
+  // Shops: "do we have it?" stock lookup right after the POS.
+  if (session.business.profile.retail && canAny('pos.access', 'inventory.view', 'products.view')) operations.push({ to: '/stock-check', label: 'nav.stock_check', icon: ScanBarcode });
   if (hasModule('sales') && canAny('sales.view', 'payments.view')) operations.push({ to: '/sales', label: 'nav.sales', icon: Receipt });
   if (hasModule('kitchen') && can('kitchen.view')) operations.push({ to: '/kitchen', label: 'nav.kitchen', icon: ChefHat });
   if (hasModule('tables') && can('tables.view')) operations.push({ to: '/tables', label: 'nav.tables', icon: LayoutGrid });
@@ -71,7 +75,7 @@ export function useBusinessNav(): NavGroup[] {
   if (hasAddon('karaoke') && can('karaoke.view')) operations.push({ to: '/karaoke', label: 'nav.karaoke', icon: Mic2 });
 
   const catalog: NavGroup['items'] = [];
-  if (hasModule('products') && canAny('products.view', 'categories.view')) catalog.push({ to: '/products', label: session.business.profile.productsLabelKey, icon: UtensilsCrossed });
+  if (hasModule('products') && canAny('products.view', 'categories.view')) catalog.push({ to: '/products', label: session.business.profile.productsLabelKey, icon: session.business.profile.retail ? Package : UtensilsCrossed });
   if (hasAddon('qr_menu') && can('qr_menu.manage')) catalog.push({ to: '/qr-menu', label: 'nav.qr_menu', icon: QrCode });
   if (hasModule('inventory') && can('inventory.view')) catalog.push({ to: '/inventory', label: 'nav.inventory', icon: Boxes });
   if ((hasModule('purchases') && can('purchases.view')) || (hasModule('suppliers') && can('suppliers.view'))) catalog.push({ to: '/purchases', label: 'nav.purchases', icon: PackagePlus });
@@ -100,7 +104,7 @@ export function useBusinessNav(): NavGroup[] {
   if (canAny(...SETTINGS_VIEW_PERMS)) management.push({ to: '/settings', label: 'nav.settings', icon: Settings });
   return [
     { items: operations },
-    { label: 'nav.group_catalog', items: catalog },
+    { label: session.business.profile.retail ? 'nav.group_catalog_retail' : 'nav.group_catalog', items: catalog },
     { label: 'nav.group_customers', items: sales },
     { label: 'nav.group_finance', items: finance },
     { label: 'nav.group_staff', items: staff },

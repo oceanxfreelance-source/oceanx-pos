@@ -3218,5 +3218,152 @@
     "suggested": "ޓްރަޔަލް ނުވަތަ ޕްލޭން ނިމުމުގެ މިހާ ދުވަސް ކުރިން ވެރިފަރާތްތަކަށް \"މިހާރު ފައިސާ ދައްކަވާ\" ބެނަރެއް ފެންނާނެ.",
     "status": "needs_review",
     "notes": "New: subscription billing (bank transfer slip upload and review)."
+  },
+  {
+    "key": "business_types.retail_shop",
+    "english": "Shop",
+    "suggested": "ފިހާރަ",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "business_types.supermarket",
+    "english": "Supermarket / big shop",
+    "suggested": "ސުޕަރމާކެޓް / ބޮޑު ފިހާރަ",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "nav.products",
+    "english": "Products",
+    "suggested": "ތަކެތި",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "nav.stock_check",
+    "english": "Stock check",
+    "suggested": "ސްޓޮކް ބެލުން",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "pos.order_types.in_store",
+    "english": "In store",
+    "suggested": "ފިހާރައިން",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "pos.search_retail",
+    "english": "Scan barcode or search…",
+    "suggested": "ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ހޯއްދަވާ…",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.title",
+    "english": "Stock check",
+    "suggested": "ސްޓޮކް ބެލުން",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.subtitle",
+    "english": "Scan or type a product to see if it is in stock here and at your other outlets.",
+    "suggested": "މި ފިހާރައާއި އެހެން އައުޓްލެޓްތަކުގައި އެއްޗެއް ހުރިތޯ ބެލުމަށް ސްކޭން ކުރައްވާ ނުވަތަ ނަން ލިޔުއްވާ.",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.placeholder",
+    "english": "Scan barcode or type product name…",
+    "suggested": "ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ތަކެއްޗުގެ ނަން ލިޔުއްވާ…",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.empty_title",
+    "english": "Do we have it?",
+    "suggested": "އެ އެއްޗެއް ހުރިތޯ؟",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.empty_body",
+    "english": "Scan a barcode or type a name to check the stock instantly.",
+    "suggested": "ސްޓޮކް ވަގުތުން ބެލުމަށް ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ނަން ލިޔުއްވާ.",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.not_found",
+    "english": "No product found",
+    "suggested": "އެ ތަކެތި ނުފެނުނު",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.not_found_body",
+    "english": "Nothing matches “{{q}}”.",
+    "suggested": "“{{q}}” އާ ގުޅޭ އެއްވެސް އެއްޗެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.status_in_stock",
+    "english": "In stock",
+    "suggested": "ސްޓޮކުގައި ހުރި",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.status_low",
+    "english": "Low stock",
+    "suggested": "ސްޓޮކް މަދު",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.status_out",
+    "english": "Out of stock",
+    "suggested": "ސްޓޮކް ހުސް",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "stock_check.status_untracked",
+    "english": "Stock not tracked",
+    "suggested": "ސްޓޮކް ނުބެލޭ",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "superadmin.nav.retail",
+    "english": "Retail shops",
+    "suggested": "ފިހާރަތައް",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "superadmin.dashboard.retail",
+    "english": "Retail shops",
+    "suggested": "ފިހާރަތައް",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "superadmin.dashboard.retail_hint",
+    "english": "Shops and supermarkets",
+    "suggested": "ފިހާރަތަކާއި ސުޕަރމާކެޓްތައް",
+    "status": "needs_review",
+    "notes": "New: retail shops (stock check, barcode)."
+  },
+  {
+    "key": "nav.group_catalog_retail",
+    "english": "Products & stock",
+    "suggested": "ތަކެތިއާއި ސްޓޮކް",
+    "status": "needs_review",
+    "notes": "New: retail shops menu section."
   }
 ]

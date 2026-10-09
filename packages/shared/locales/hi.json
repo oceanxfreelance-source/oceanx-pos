@@ -91,7 +91,10 @@
     "group_staff": "स्टाफ़",
     "payroll": "वेतन शीट",
     "rota": "ड्यूटी रोस्टर",
-    "billing": "बिलिंग"
+    "billing": "बिलिंग",
+    "products": "उत्पाद",
+    "stock_check": "स्टॉक जाँच",
+    "group_catalog_retail": "उत्पाद और स्टॉक"
   },
   "business_types": {
     "restaurant": "रेस्टोरेंट",
@@ -102,7 +105,9 @@
     "juice_shop": "जूस शॉप",
     "dessert_shop": "मिठाई / डेज़र्ट शॉप",
     "takeaway": "टेकअवे",
-    "other": "अन्य"
+    "other": "अन्य",
+    "retail_shop": "दुकान",
+    "supermarket": "सुपरमार्केट / बड़ी दुकान"
   },
   "auth": {
     "aside_body": "रेस्टोरेंट और कैफ़े के लिए बिक्री, मेनू, स्टाफ़ और रिपोर्ट — आपकी भाषा में, किसी भी डिवाइस पर।",
@@ -831,7 +836,9 @@
       "total_businesses": "कुल व्यवसाय",
       "total_users_one": "कुल {{count}} उपयोगकर्ता",
       "total_users_other": "कुल {{count}} उपयोगकर्ता",
-      "trials": "ट्रायल"
+      "trials": "ट्रायल",
+      "retail": "खुदरा दुकानें",
+      "retail_hint": "दुकानें और सुपरमार्केट"
     },
     "languages": {
       "default": "डिफ़ॉल्ट",
@@ -860,7 +867,8 @@
       "settings": "सेटिंग्स",
       "subscriptions": "सदस्यताएँ",
       "users": "उपयोगकर्ता",
-      "payments": "भुगतान"
+      "payments": "भुगतान",
+      "retail": "खुदरा दुकानें"
     },
     "plans": {
       "active": "सक्रिय",
@@ -1325,7 +1333,8 @@
     "order_types": {
       "dine_in": "डाइन-इन",
       "takeaway": "टेकअवे",
-      "delivery": "डिलीवरी"
+      "delivery": "डिलीवरी",
+      "in_store": "दुकान में"
     },
     "table": "टेबल",
     "no_table": "कोई टेबल नहीं",
@@ -1360,7 +1369,8 @@
     "required": "ज़रूरी",
     "add_to_cart": "जोड़ें",
     "view_cart_one": "ऑर्डर देखें ({{count}} आइटम)",
-    "view_cart_other": "ऑर्डर देखें ({{count}} आइटम)"
+    "view_cart_other": "ऑर्डर देखें ({{count}} आइटम)",
+    "search_retail": "बारकोड स्कैन करें या खोजें…"
   },
   "kitchen": {
     "title": "किचन डिस्प्ले",
@@ -2117,5 +2127,18 @@
     "banner_paid_one": "आपका {{plan}} प्लान {{count}} दिन में खत्म हो रहा है।",
     "banner_paid_other": "आपका {{plan}} प्लान {{count}} दिनों में खत्म हो रहा है।",
     "banner_pending": "आपकी भुगतान स्लिप की जाँच OceanX टीम कर रही है।"
+  },
+  "stock_check": {
+    "title": "स्टॉक जाँच",
+    "subtitle": "स्कैन करें या उत्पाद का नाम लिखें — देखें कि यहाँ और आपके दूसरे आउटलेट में स्टॉक है या नहीं।",
+    "placeholder": "बारकोड स्कैन करें या उत्पाद का नाम लिखें…",
+    "empty_title": "क्या यह हमारे पास है?",
+    "empty_body": "तुरंत स्टॉक देखने के लिए बारकोड स्कैन करें या नाम लिखें।",
+    "not_found": "कोई उत्पाद नहीं मिला",
+    "not_found_body": "“{{q}}” से कुछ मेल नहीं खाता।",
+    "status_in_stock": "स्टॉक में है",
+    "status_low": "स्टॉक कम है",
+    "status_out": "स्टॉक खत्म",
+    "status_untracked": "स्टॉक ट्रैक नहीं होता"
   }
 }

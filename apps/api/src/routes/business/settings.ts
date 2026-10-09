@@ -8,6 +8,8 @@ import {
   SETTINGS_SECTIONS,
   settingsSectionSchemas,
   type SettingsSection,
+  FOOD_ONLY_ADDONS,
+  isRetailType,
 } from '@oceanx/shared';
 import { addonRequests, addons, businessAddons, businesses, messageLog, outlets } from '../../db/schema';
 import { assertPermission, bizCtx, requireAnyPermission, requirePermission } from '../../guards/business';
@@ -177,7 +179,9 @@ export async function settingsRoutes(app: FastifyInstance) {
       .leftJoin(addonRequests, and(eq(addonRequests.addonId, addons.id), eq(addonRequests.businessId, ctx.businessId)))
       .where(eq(addons.isActive, true))
       .orderBy(addons.name);
-    return { items: rows.map((r) => ({ ...r, enabled: ctx.access.addons.has(r.code) })) };
+    // Shops are not offered food-service add-ons.
+    const retail = isRetailType(ctx.access.business.businessType);
+    return { items: rows.filter((r) => !retail || !(FOOD_ONLY_ADDONS as readonly string[]).includes(r.code)).map((r) => ({ ...r, enabled: ctx.access.addons.has(r.code) })) };
   });
 
   /** Ask the platform (Super Admin) to enable an add-on for this business. */
@@ -186,6 +190,7 @@ export async function settingsRoutes(app: FastifyInstance) {
     const body = parse(z.object({ note: z.string().trim().max(500).optional().default('') }), req.body ?? {});
     const [addon] = await db.select().from(addons).where(and(eq(addons.code, req.params.code), eq(addons.isActive, true)));
     if (!addon) throw notFound();
+    if (isRetailType(ctx.access.business.businessType) && (FOOD_ONLY_ADDONS as readonly string[]).includes(addon.code)) throw notFound();
     if (ctx.access.addons.has(addon.code)) return { ok: true, enabled: true };
     await db.insert(addonRequests).values({ businessId: ctx.businessId, addonId: addon.id, requestedBy: ctx.user.id, note: body.note }).onConflictDoNothing();
     await audit(db, { ...actor(ctx), action: 'addon.requested', entityType: 'addon', entityId: addon.code, req });

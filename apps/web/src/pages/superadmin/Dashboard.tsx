@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { RETAIL_TYPES } from '@oceanx/shared';
 import { useQuery } from '@tanstack/react-query';
-import { Building2, Clock, Coffee, CreditCard, TrendingUp, Users, UtensilsCrossed, XCircle } from 'lucide-react';
+import { Building2, Clock, Coffee, ShoppingBag, CreditCard, TrendingUp, Users, UtensilsCrossed, XCircle } from 'lucide-react';
 import { saApi } from '../../lib/api';
 import { useFormat } from '../../lib/format';
 import { actionLabel, addonLabel } from '../../lib/labels';
@@ -36,6 +37,7 @@ export default function SuperAdminDashboard() {
             <StatCard label={t('superadmin.dashboard.total_businesses')} value={f.number(d.businesses.total)} hint={t('superadmin.dashboard.new_30d', { count: d.businesses.newLast30Days })} icon={<Building2 className="size-5" />} />
             <StatCard label={t('superadmin.dashboard.restaurants')} value={f.number(d.businesses.byType.restaurant ?? 0)} icon={<UtensilsCrossed className="size-5" />} tone="violet" />
             <StatCard label={t('superadmin.dashboard.cafes')} value={f.number((d.businesses.byType.cafe ?? 0) + (d.businesses.byType.coffee_shop ?? 0))} hint={t('superadmin.dashboard.cafes_hint')} icon={<Coffee className="size-5" />} tone="amber" />
+            <StatCard label={t('superadmin.dashboard.retail')} value={f.number(RETAIL_TYPES.reduce((a, rt) => a + (d.businesses.byType[rt] ?? 0), 0))} hint={t('superadmin.dashboard.retail_hint')} icon={<ShoppingBag className="size-5" />} tone="green" />
             <StatCard
               label={t('superadmin.dashboard.mrr')}
               value={mrr.length ? mrr.map(([c, v]) => `${c} ${f.number(v, 2)}`).join(' · ') : '—'}

@@ -109,7 +109,8 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
     { key: 'created', header: t('common.created'), hideOnMobile: true, cell: (b) => <span className="text-slate-500">{f.date(b.createdAt)}</span> },
   ];
 
-  const title = presetType === 'restaurant' ? t('superadmin.nav.restaurants') : presetType === 'cafe' ? t('superadmin.nav.cafes') : t('superadmin.businesses.title');
+  const title =
+    presetType === 'restaurant' ? t('superadmin.nav.restaurants') : presetType === 'cafe' ? t('superadmin.nav.cafes') : presetType === 'retail' ? t('superadmin.nav.retail') : t('superadmin.businesses.title');
   return (
     <div>
       <PageHeader
@@ -135,6 +136,7 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
           </div>
           <Select label={t('auth.business_type')} value={type} onChange={(e) => (setType(e.target.value), setPage(1))} disabled={!!presetType}>
             <option value="">{t('common.all')}</option>
+            {presetType === 'retail' && <option value="retail">{t('superadmin.nav.retail')}</option>}
             {BUSINESS_TYPES.map((b) => (
               <option key={b} value={b}>
                 {t(`business_types.${b}`)}
@@ -169,7 +171,7 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
           </>
         )}
       </Card>
-      {creating && <CreateBusinessDialog onClose={() => setCreating(false)} defaultType={presetType} />}
+      {creating && <CreateBusinessDialog onClose={() => setCreating(false)} defaultType={presetType === 'retail' ? 'retail_shop' : presetType} />}
     </div>
   );
 }
