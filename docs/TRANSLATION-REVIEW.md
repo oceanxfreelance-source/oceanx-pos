@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 426 · **confirmed**: 144
+Status: **needs_review**: 428 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -23,6 +23,8 @@ review of the whole file is still recommended before launch.
 | `addons.request_cancelled` | Request cancelled | އެދުން ކެންސަލްކުރެވިއްޖެ | needs_review | Plain translation using existing app terms. |
 | `addons.request_sent` | Request sent. The platform team will switch it on. | އެދުން ފޮނުވިއްޖެ. ޕްލެޓްފޯމް ޓީމުން މި ހުޅުވައިދޭނެ. | needs_review | Platform team = ޕްލެޓްފޯމް ޓީމު (as in addons.request_hint). |
 | `addons.requested_on` | Requested {{date}} | {{date}} ގައި އެދިފައި | needs_review | Plain translation using existing app terms. |
+| `app.install` | Install app | އެޕް އިންސްޓޯލް ކުރައްވާ | needs_review | New: install the app on a tablet. |
+| `app.install_ios` | In Safari, tap the Share button, then “Add to Home Screen”. | ސަފާރީގައި ޝެއާ ބަޓަން ފިތާލުމަށްފަހު "Add to Home Screen" އަށް ފިއްތަވާ. | needs_review | New: install the app on a tablet. |
 | `app.tagline` | Restaurant, Café & Shop Management | ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަ ހިންގުން | needs_review | New/updated: shops on the platform. |
 | `auth.aside_body` | Sales, stock, staff and reports for restaurants, cafés and shops — in your language, on any device. | ރެސްޓޯރަންޓް، ކެފޭ އަދި ފިހާރަތަކަށް ވިއްކުމާއި، ސްޓޮކާއި، ސްޓާފާއި ރިޕޯޓްތައް — ތިބާގެ ބަހުން، ކޮންމެ ޑިވައިސްއެއްގައި. | needs_review | New/updated: shops on the platform. |
 | `auth.aside_title` | Run your restaurant, café or shop with confidence. | ރެސްޓޯރަންޓް، ކެފޭ ނުވަތަ ފިހާރަ ޔަގީންކަމާއެކު ހިންގާ. | needs_review | New/updated: shops on the platform. |

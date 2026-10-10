@@ -1,7 +1,9 @@
 {
   "app": {
     "name": "OceanX",
-    "tagline": "Restaurant, Café & Shop Management"
+    "tagline": "Restaurant, Café & Shop Management",
+    "install": "Install app",
+    "install_ios": "In Safari, tap the Share button, then “Add to Home Screen”."
   },
   "common": {
     "actions": "Actions",

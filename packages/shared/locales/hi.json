@@ -1,7 +1,9 @@
 {
   "app": {
     "name": "OceanX",
-    "tagline": "रेस्तराँ, कैफ़े और दुकान प्रबंधन"
+    "tagline": "रेस्तराँ, कैफ़े और दुकान प्रबंधन",
+    "install": "ऐप इंस्टॉल करें",
+    "install_ios": "Safari में शेयर बटन दबाएँ, फिर “Add to Home Screen” चुनें।"
   },
   "common": {
     "actions": "कार्रवाइयाँ",

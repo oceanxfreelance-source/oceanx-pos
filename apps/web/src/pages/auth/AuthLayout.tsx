@@ -4,6 +4,7 @@ import { Logo } from '../../components/Logo';
 import { FarumaWarning } from '../../components/FarumaWarning';
 import { DeviceThemeToggle } from '../../components/DeviceThemeToggle';
 import { FullscreenButton } from '../../components/FullscreenButton';
+import { InstallApp } from '../../components/InstallApp';
 
 export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' }) {
   const { t } = useTranslation();
@@ -28,6 +29,11 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
             {subtitle && <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">{subtitle}</p>}
             <div className="mt-8">{children}</div>
             {footer && <div className="mt-8 text-sm text-slate-500">{footer}</div>}
+            {variant === 'business' && (
+              <div className="mt-6">
+                <InstallApp />
+              </div>
+            )}
           </div>
         </div>
         <div

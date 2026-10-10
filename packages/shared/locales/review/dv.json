@@ -3988,5 +3988,19 @@
     "suggested": "ޕީއޯ ނަންބަރު",
     "status": "needs_review",
     "notes": "New: company and government accounts (PO / PV)."
+  },
+  {
+    "key": "app.install",
+    "english": "Install app",
+    "suggested": "އެޕް އިންސްޓޯލް ކުރައްވާ",
+    "status": "needs_review",
+    "notes": "New: install the app on a tablet."
+  },
+  {
+    "key": "app.install_ios",
+    "english": "In Safari, tap the Share button, then “Add to Home Screen”.",
+    "suggested": "ސަފާރީގައި ޝެއާ ބަޓަން ފިތާލުމަށްފަހު \"Add to Home Screen\" އަށް ފިއްތަވާ.",
+    "status": "needs_review",
+    "notes": "New: install the app on a tablet."
   }
 ]

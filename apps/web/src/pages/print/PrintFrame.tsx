@@ -1,4 +1,4 @@
-import { printPage } from '../../lib/desktop';
+import { closePrintPage, printPage } from '../../lib/desktop';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -55,7 +55,7 @@ export function PrintFrame({ ready, filename, landscape, width = '210mm', childr
       {/* Every printed document is A4; wide sheets (rota, salary sheet, wide reports) turn it sideways. */}
       {landscape && <style>{'@page { size: A4 landscape; }'}</style>}
       <div className="mx-auto mb-4 flex flex-wrap justify-end gap-2 px-4 print:hidden" style={{ maxWidth: width }}>
-        <Button variant="ghost" icon={<X className="size-4" />} onClick={() => window.close()}>
+        <Button variant="ghost" icon={<X className="size-4" />} onClick={closePrintPage}>
           {t('common.close')}
         </Button>
         <Button variant="secondary" icon={<Printer className="size-4" />} onClick={printPage} disabled={!ready}>

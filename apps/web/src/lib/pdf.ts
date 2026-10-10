@@ -1,3 +1,5 @@
+import { android } from './desktop';
+
 /**
  * Download a rendered page section as a real PDF file (A4). The browser renders the text with the
  * same fonts as the screen, so every language — including Thaana/RTL, Devanagari, Bengali and
@@ -48,7 +50,10 @@ export async function downloadPdf(el: HTMLElement, filename: string, opts: { lan
     pdf.setTextColor(140);
     pdf.text(`${i + 1} / ${slices.length}`, pageW - margin, pageH - margin / 2, { align: 'right' });
   });
-  pdf.save(filename.endsWith('.pdf') ? filename : `${filename}.pdf`);
+  const name = filename.endsWith('.pdf') ? filename : `${filename}.pdf`;
+  // The tablet app cannot follow blob downloads; it saves the file itself.
+  if (android) android.saveFile(pdf.output('datauristring').split(',')[1] ?? '', name, 'application/pdf');
+  else pdf.save(name);
 }
 
 /** Safe file name from user text (business/customer names may contain any script). */
