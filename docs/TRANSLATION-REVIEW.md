@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 717 · **confirmed**: 144
+Status: **needs_review**: 717 · **confirmed**: 146
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -760,6 +760,7 @@ review of the whole file is still recommended before launch.
 | `documents.subtotal` | Subtotal | ސަބްޓޯޓަލް | confirmed | Translated by the business owner (native speaker). |
 | `documents.tax` | Tax | ޓެކްސް | confirmed | Translated by the business owner (native speaker). |
 | `documents.total` | Total | ޖުމްލަ | confirmed | Translated by the business owner (native speaker). |
+| `documents.unit_price` | Unit price | ރޭޓް | confirmed | Translated by the business owner (native speaker). |
 | `expenses.categories.electricity` | Electricity | ކަރަންޓް | confirmed | ކަރަންޓް — standard everyday term. |
 | `expenses.categories.rent` | Rent | ކުލި | confirmed | ކުލި — standard. |
 | `expenses.categories.salaries` | Salaries | މުސާރަ | confirmed | މުސާރަ — standard. |
@@ -811,6 +812,7 @@ review of the whole file is still recommended before launch.
 | `print.statement` | Statement of account | އެކައުންޓް ސްޓޭޓްމަންޓް | confirmed | Translated by the business owner (native speaker). |
 | `print.thank_you` | Thank you! | ޝުކުރިއްޔާ! | confirmed | Translated by the business owner (native speaker). |
 | `print.total_outstanding` | Total outstanding | ދައްކަންޖެހޭ ޖުމްލަ ފައިސާ | confirmed | Translated by the business owner (native speaker). |
+| `print.unit_price` | Unit price | ރޭޓް | confirmed | Translated by the business owner (native speaker). |
 | `products.cost_price` | Cost price | ގަތް އަގު | confirmed | Translated by the business owner (native speaker). |
 | `products.item` | Item | އައިޓަމް | confirmed | Translated by the business owner (native speaker). |
 | `products.min_stock` | Low-stock alert at | ސްޓޮކް މަދުވާކަމުގެ އިންޒާރު މި އަދަދަށް ދިޔުމުން: | confirmed | Translated by the business owner (native speaker). |

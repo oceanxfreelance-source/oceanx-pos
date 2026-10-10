@@ -6025,5 +6025,19 @@
     "suggested": "ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސްގެ މަތީގައި ޕްރިންޓްވާނެ. ފްރީލާންސަރުންނަށް އަމިއްލަ ނަން ބޭނުން ކުރެވޭނެ.",
     "status": "needs_review",
     "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "documents.unit_price",
+    "english": "Unit price",
+    "suggested": "ރޭޓް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
+  },
+  {
+    "key": "print.unit_price",
+    "english": "Unit price",
+    "suggested": "ރޭޓް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   }
 ]
