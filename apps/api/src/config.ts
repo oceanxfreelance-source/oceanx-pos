@@ -11,6 +11,8 @@ const envSchema = z.object({
   HOST: z.string().default('0.0.0.0'),
   DATABASE_URL: z.string().min(1),
   APP_URL: z.string().url().default('http://localhost:5173'),
+  /** Gravity's own web address (optional). Gravity e-mails link there; without it they use APP_URL. */
+  GRAVITY_APP_URL: z.string().url().optional(),
   APP_ENCRYPTION_KEY: z.string().optional(),
   COOKIE_SECURE: bool,
   TRUST_PROXY: z.coerce.number().int().min(0).default(0),
@@ -59,4 +61,9 @@ export function loadConfig(overrides: Record<string, string | undefined> = {}): 
     if (env.MAIL_TRANSPORT !== 'smtp' && !(env.MAIL_TRANSPORT === 'log' && env.ALLOW_LOG_MAIL)) throw new Error('MAIL_TRANSPORT must be "smtp" in production (or "log" with ALLOW_LOG_MAIL=true for demos).');
   }
   return { ...env, encryptionKey };
+}
+
+/** Where a product's customers use the app: Gravity has its own address when GRAVITY_APP_URL is set. */
+export function appUrlFor(config: { APP_URL: string; GRAVITY_APP_URL?: string }, product: string | null | undefined) {
+  return product === 'gravity' && config.GRAVITY_APP_URL ? config.GRAVITY_APP_URL : config.APP_URL;
 }

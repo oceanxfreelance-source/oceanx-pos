@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, type ReactN
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, ApiError, onUnauthorized, setCsrfToken } from '../lib/api';
 import { android } from '../lib/desktop';
+import { GRAVITY_HOST } from '../lib/product';
 import { applyLanguage } from '../i18n';
 import { applyPreferences } from '../lib/theme';
 import { setRetailRoleNames } from '../lib/labels';
@@ -123,7 +124,7 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
           qc.clear();
           // A fresh page load guarantees no screen keeps showing the previous user (shared counter PCs).
           // The tablet app signs back in straight to the POS.
-          window.location.replace(android ? '/login?next=%2Fstart' : gravity ? '/gravity/login' : '/login');
+          window.location.replace(android ? '/login?next=%2Fstart' : gravity && !GRAVITY_HOST ? '/gravity/login' : '/login');
         }
       },
     };
@@ -148,6 +149,7 @@ export function useBizSession(): BusinessSession {
 /** Remembers the last product used on this device, so a signed-out Gravity user lands on the Gravity sign-in. */
 export const LAST_PRODUCT_KEY = 'ox.lastProduct';
 export function lastProduct(): 'pos' | 'gravity' {
+  if (GRAVITY_HOST) return 'gravity';
   try {
     return localStorage.getItem(LAST_PRODUCT_KEY) === 'gravity' ? 'gravity' : 'pos';
   } catch {

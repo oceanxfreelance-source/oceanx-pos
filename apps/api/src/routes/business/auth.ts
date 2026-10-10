@@ -8,7 +8,8 @@ import {
   registerBusinessSchema,
   resetPasswordSchema,
 } from '@oceanx/shared';
-import { outlets, platformLanguages, plans, userOutlets, userSessions, users } from '../../db/schema';
+import { businesses, outlets, platformLanguages, plans, userOutlets, userSessions, users } from '../../db/schema';
+import { appUrlFor } from '../../config';
 import { audit } from '../../lib/audit';
 import { hashToken, randomToken } from '../../lib/crypto';
 import { AppError } from '../../lib/errors';
@@ -158,8 +159,9 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
     const { db, mailer, config } = req.server.deps;
     const body = parse(forgotPasswordSchema, req.body);
     const [user] = await db
-      .select({ id: users.id, name: users.name, email: users.email, isActive: users.isActive, businessId: users.businessId })
+      .select({ id: users.id, name: users.name, email: users.email, isActive: users.isActive, businessId: users.businessId, product: businesses.product })
       .from(users)
+      .innerJoin(businesses, eq(businesses.id, users.businessId))
       .where(and(sql`lower(${users.email}) = ${body.email}`, isNull(users.deletedAt)))
       .limit(1);
     // Always respond identically to avoid revealing which e-mails exist.
@@ -168,7 +170,7 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
       await mailer.send({
         to: user.email,
         subject: 'Reset your password',
-        text: `Hello ${user.name},\n\nReset your password using this link (valid for 60 minutes):\n${config.APP_URL}/reset-password?token=${token}\n\nIf you did not request this, ignore this e-mail.`,
+        text: `Hello ${user.name},\n\nReset your password using this link (valid for 60 minutes):\n${appUrlFor(config, user.product)}/reset-password?token=${token}\n\nIf you did not request this, ignore this e-mail.`,
       });
       await audit(db, { actorType: 'user', actorId: user.id, businessId: user.businessId, action: 'user.password_reset_requested', req });
     }

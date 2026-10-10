@@ -1,0 +1,18 @@
+{
+  "name": "Gravity: quotations & invoices",
+  "short_name": "Gravity",
+  "description": "Quotations and invoices in English or Dhivehi, for entrepreneurs and freelancers.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#2e1065",
+  "theme_color": "#4c1d95",
+  "icons": [
+    { "src": "/gravity/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/gravity/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "New invoice", "url": "/invoices/new", "icons": [{ "src": "/gravity/icon-192.png", "sizes": "192x192" }] },
+    { "name": "New quotation", "url": "/quotations/new", "icons": [{ "src": "/gravity/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

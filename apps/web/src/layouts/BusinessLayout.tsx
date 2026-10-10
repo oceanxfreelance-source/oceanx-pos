@@ -43,6 +43,7 @@ import {
 } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, useBiz, useBizSession, type BusinessSession } from '../auth/business';
+import { GRAVITY_HOST } from '../lib/product';
 import { api } from '../lib/api';
 import { useToastError } from '../lib/useApiError';
 import { Shell, type NavGroup } from './Shell';
@@ -148,7 +149,7 @@ export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   const { session, isLoading } = useBiz();
   const location = useLocation();
   if (isLoading) return <AppLoader />;
-  if (!session) return <Navigate to={`${lastProduct() === 'gravity' ? '/gravity/login' : '/login'}${location.pathname !== '/' ? `?next=${encodeURIComponent(location.pathname + location.search)}` : ''}`} replace />;
+  if (!session) return <Navigate to={`${lastProduct() === 'gravity' && !GRAVITY_HOST ? '/gravity/login' : '/login'}${location.pathname !== '/' ? `?next=${encodeURIComponent(location.pathname + location.search)}` : ''}`} replace />;
   if (session.state !== 'ok') return <StatusScreen />;
   if (session.user.mustChangePassword) return <ForcePasswordChange />;
   // The tablet app is the POS only: the back office stays on computers and phones.

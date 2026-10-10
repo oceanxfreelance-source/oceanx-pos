@@ -9,6 +9,7 @@ import { useErrorMessage, useFieldErrors } from '../../lib/useApiError';
 import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Form';
 import { Alert } from '../../components/ui/Card';
+import { GRAVITY_HOST } from '../../lib/product';
 import { AuthLayout } from './AuthLayout';
 import { LanguagePicker } from './LanguagePicker';
 
@@ -43,7 +44,7 @@ export default function Register({ product = 'pos' }: { product?: 'pos' | 'gravi
         <div className="space-y-4">
           <p>
             {t('auth.have_account')}{' '}
-            <Link to={gravity ? '/gravity/login' : '/login'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
+            <Link to={gravity && !GRAVITY_HOST ? '/gravity/login' : '/login'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
               {t('auth.sign_in')}
             </Link>
           </p>

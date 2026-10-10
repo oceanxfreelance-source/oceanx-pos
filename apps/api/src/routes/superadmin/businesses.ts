@@ -15,6 +15,7 @@ import {
 } from '@oceanx/shared';
 import type { Executor } from '../../db/client';
 import { activityLogs, addonRequests, addons, businessAddons, businesses, outlets, plans, subscriptions, users, userSessions } from '../../db/schema';
+import { appUrlFor } from '../../config';
 import { saCtx } from '../../guards/superadmin';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
@@ -55,10 +56,11 @@ async function loadBusiness(db: Executor, id: string) {
 async function sendOwnerInvite(req: FastifyRequest, db: Executor, owner: { id: string; email: string; name: string }, businessName: string) {
   const { mailer, config } = req.server.deps;
   const token = await issueUserToken(db, owner.id, 'invite');
+  const [b] = await db.select({ product: businesses.product }).from(users).innerJoin(businesses, eq(businesses.id, users.businessId)).where(eq(users.id, owner.id));
   await mailer.send({
     to: owner.email,
     subject: `You're invited to manage ${businessName}`,
-    text: `Hello ${owner.name},\n\nAn account has been created for you as the administrator of ${businessName}.\nSet your password here (valid for 7 days):\n${config.APP_URL}/reset-password?token=${token}&invite=1\n`,
+    text: `Hello ${owner.name},\n\nAn account has been created for you as the administrator of ${businessName}.\nSet your password here (valid for 7 days):\n${appUrlFor(config, b?.product)}/reset-password?token=${token}&invite=1\n`,
   });
 }
 

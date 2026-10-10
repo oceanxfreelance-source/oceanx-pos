@@ -8,6 +8,7 @@ import { useErrorMessage } from '../../lib/useApiError';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Form';
 import { Alert } from '../../components/ui/Card';
+import { GRAVITY_HOST } from '../../lib/product';
 import { AuthLayout } from './AuthLayout';
 import { LanguagePicker } from './LanguagePicker';
 
@@ -44,7 +45,7 @@ export default function BusinessLogin({ product = 'pos' }: { product?: 'pos' | '
         <div className="space-y-4">
           <p>
             {t('auth.no_account')}{' '}
-            <Link to={product === 'gravity' ? '/gravity/register' : '/register'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
+            <Link to={product === 'gravity' && !GRAVITY_HOST ? '/gravity/register' : '/register'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
               {t('auth.register_cta')}
             </Link>
           </p>

@@ -12,6 +12,7 @@ import { Button } from './components/ui/Button';
 import { AppLoader } from './components/AppLoader';
 
 // Business (tenant) pages
+import { GRAVITY_HOST } from './lib/product';
 const BusinessLogin = lazy(() => import('./pages/auth/BusinessLogin'));
 const Register = lazy(() => import('./pages/auth/Register'));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
@@ -185,8 +186,9 @@ const router = createBrowserRouter([
     element: <BusinessRoot />,
     errorElement: <RouteError />,
     children: [
-      { path: 'login', element: <BusinessLogin /> },
-      { path: 'register', element: <Register /> },
+      // On Gravity's own address the plain sign-in and sign-up are Gravity's.
+      { path: 'login', element: <BusinessLogin product={GRAVITY_HOST ? 'gravity' : 'pos'} /> },
+      { path: 'register', element: <Register product={GRAVITY_HOST ? 'gravity' : 'pos'} /> },
       // Gravity (quotation & invoice generator): its own sign-up and sign-in look, same accounts system.
       { path: 'gravity', element: <Navigate to="/gravity/register" replace /> },
       { path: 'gravity/register', element: <Register product="gravity" /> },

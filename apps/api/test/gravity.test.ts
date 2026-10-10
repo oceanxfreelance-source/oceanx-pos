@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { appUrlFor } from '../src/config';
 import { Client, createSuperAdmin, createTestEnv, loginSuperAdmin, resetDb, setupBusiness, type TestEnv } from './helpers';
 
 let env: TestEnv;
@@ -91,5 +92,12 @@ describe('Gravity (quotation & invoice generator)', () => {
     const codes = (await owner.get('/api/billing')).json().plans.map((p: { code: string }) => p.code);
     expect(codes).not.toContain('gravity_pro');
     expect((await sa.get('/api/superadmin/plans?product=gravity')).json().items.map((p: { code: string }) => p.code).sort()).toEqual(['gravity_pro', 'gravity_trial']);
+  });
+
+  it('Gravity e-mails link to Gravity\'s own address when it has one', () => {
+    const cfg = { APP_URL: 'https://pos.example', GRAVITY_APP_URL: 'https://gravity.example' };
+    expect(appUrlFor(cfg, 'gravity')).toBe('https://gravity.example');
+    expect(appUrlFor(cfg, 'pos')).toBe('https://pos.example');
+    expect(appUrlFor({ APP_URL: 'https://pos.example' }, 'gravity')).toBe('https://pos.example');
   });
 });
