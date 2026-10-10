@@ -8,6 +8,7 @@ import App from './App';
 import { initTheme } from './lib/theme';
 import { ApiError } from './lib/api';
 import { installStaleChunkReload } from './lib/staleChunk';
+import { installTabletFit } from './lib/tabletFit';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,6 +22,7 @@ const queryClient = new QueryClient({
 void applyLanguage(readStoredLanguage());
 initTheme();
 installStaleChunkReload();
+installTabletFit();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

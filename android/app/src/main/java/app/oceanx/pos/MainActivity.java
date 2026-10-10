@@ -73,6 +73,14 @@ public class MainActivity extends Activity {
         s.setAllowFileAccess(false);
         s.setAllowContentAccess(false);
         s.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+        // Follow the page's layout width (tablets lay the POS out at 1280 and scale to fit), no pinch zoom,
+        // and the tablet's font-size setting does not blow the POS up.
+        s.setUseWideViewPort(true);
+        s.setLoadWithOverviewMode(true);
+        s.setSupportZoom(false);
+        s.setBuiltInZoomControls(false);
+        s.setDisplayZoomControls(false);
+        s.setTextZoom(100);
         s.setUserAgentString(s.getUserAgentString() + " OceanXAndroid/" + BuildConfig.VERSION_NAME);
 
         CookieManager cookies = CookieManager.getInstance();
