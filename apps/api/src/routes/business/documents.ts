@@ -29,7 +29,8 @@ import { documentBranding } from '../../services/branding';
 type DocItemsInput = z.output<typeof quotationSchema>['items'];
 
 /** Server-side document totals; items keep name/price snapshots so later product changes never alter a document. */
-function priceDocument(items: DocItemsInput, discount: number, tax: TaxConfig) {
+/** `noUnits`: Gravity lines are typed free text, so they carry no unit (no stray "pcs" on the document). */
+function priceDocument(items: DocItemsInput, discount: number, tax: TaxConfig, noUnits = false) {
   const calc = calculateTotals(
     items.map((i) => ({ quantity: i.quantity, unitPrice: toMinor(i.unitPrice), discount: toMinor(i.discount), taxRate: i.taxRate })),
     tax,
@@ -41,7 +42,7 @@ function priceDocument(items: DocItemsInput, discount: number, tax: TaxConfig) {
     itemNameSnapshot: i.name,
     description: i.description,
     quantity: i.quantity,
-    unit: i.unit,
+    unit: noUnits ? '' : i.unit,
     unitPrice: toMinor(i.unitPrice),
     discount: calc.lines[idx]!.discount,
     taxRate: i.taxRate,
@@ -179,7 +180,7 @@ export async function documentRoutes(app: FastifyInstance) {
       await assertCustomer(tx, ctx, body.customerId);
       const salespersonId = await resolveSalesperson(tx, ctx, body.salespersonId);
       const settings = await loadBusinessSettings(tx, ctx.businessId);
-      const { rows, totals } = priceDocument(body.items, body.discount, settings.tax);
+      const { rows, totals } = priceDocument(body.items, body.discount, settings.tax, ctx.access.business.product === 'gravity');
       const { number } = await allocateDocumentNumber(tx, { businessId: ctx.businessId, docType: 'quotation', numbering: settings.quotation.numbering, date: new Date(`${body.quotationDate}T12:00:00Z`) });
       const [q] = await tx
         .insert(quotations)
@@ -222,7 +223,7 @@ export async function documentRoutes(app: FastifyInstance) {
       await assertCustomer(tx, ctx, body.customerId);
       const salespersonId = await resolveSalesperson(tx, ctx, body.salespersonId ?? q.salespersonId);
       const settings = await loadBusinessSettings(tx, ctx.businessId);
-      const { rows, totals } = priceDocument(body.items, body.discount, settings.tax);
+      const { rows, totals } = priceDocument(body.items, body.discount, settings.tax, ctx.access.business.product === 'gravity');
       await tx.delete(quotationItems).where(eq(quotationItems.quotationId, id));
       await tx.insert(quotationItems).values(rows.map((r) => ({ ...r, businessId: ctx.businessId, quotationId: id })));
       const [u] = await tx
@@ -486,7 +487,7 @@ export async function documentRoutes(app: FastifyInstance) {
       await assertCustomer(tx, ctx, body.customerId);
       const salespersonId = await resolveSalesperson(tx, ctx, body.salespersonId);
       const settings = await loadBusinessSettings(tx, ctx.businessId);
-      const { rows, totals } = priceDocument(body.items, body.discount, settings.tax);
+      const { rows, totals } = priceDocument(body.items, body.discount, settings.tax, ctx.access.business.product === 'gravity');
       const { number } = await allocateDocumentNumber(tx, { businessId: ctx.businessId, docType: 'invoice', numbering: settings.invoice.numbering, date: new Date(`${body.invoiceDate}T12:00:00Z`) });
       const [i] = await tx
         .insert(invoices)
@@ -530,7 +531,7 @@ export async function documentRoutes(app: FastifyInstance) {
       await assertCustomer(tx, ctx, body.customerId);
       const salespersonId = await resolveSalesperson(tx, ctx, body.salespersonId ?? i.salespersonId);
       const settings = await loadBusinessSettings(tx, ctx.businessId);
-      const { rows, totals } = priceDocument(body.items, body.discount, settings.tax);
+      const { rows, totals } = priceDocument(body.items, body.discount, settings.tax, ctx.access.business.product === 'gravity');
       await tx.delete(invoiceItems).where(eq(invoiceItems.invoiceId, id));
       await tx.insert(invoiceItems).values(rows.map((r) => ({ ...r, businessId: ctx.businessId, invoiceId: id })));
       const [u] = await tx

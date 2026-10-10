@@ -100,11 +100,12 @@ export default function PrintPage() {
     const code = isLanguageCode(lang) ? lang : 'en';
     void ensureLoaded(code).then(() => setDocT(() => i18n.getFixedT(code)));
   }, [lang]);
+  // A quotation's data also carries the invoice it became (and an invoice its quotation): name the file by its own kind.
+  const number = (kind === 'receipt' ? q.data?.sale?.number : kind === 'invoice' ? q.data?.invoice?.number : q.data?.quotation?.number) ?? kind;
   useEffect(() => {
-    if (q.data) document.title = `${q.data.sale?.number ?? q.data.invoice?.number ?? q.data.quotation?.number ?? ''}`;
-  }, [q.data]);
+    if (q.data) document.title = `${number ?? ''}`;
+  }, [q.data, number]);
 
-  const number = q.data?.sale?.number ?? q.data?.invoice?.number ?? q.data?.quotation?.number ?? kind;
   return (
     <PrintFrame ready={!!q.data && !!docT} filename={pdfName(number, q.data?.customer?.name)} width="210mm">
       {q.error ? (

@@ -271,7 +271,7 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
         notes: head.notes,
         terms: head.terms,
         customerRef: head.customerRef,
-        items: items.map((i) => ({ productId: i.productId, name: i.name, description: i.description, quantity: parseAmount(i.quantity), unit: i.unit || 'pcs', unitPrice: parseAmount(i.unitPrice), discount: parseAmount(i.discount), taxRate: i.taxRate })),
+        items: items.map((i) => ({ productId: i.productId, name: i.name, description: i.description, quantity: parseAmount(i.quantity), unit: gravity ? '' : i.unit || 'pcs', unitPrice: parseAmount(i.unitPrice), discount: parseAmount(i.discount), taxRate: i.taxRate })),
       };
       return doc ? api.put<{ id: string }>(`/${p}/${doc.id}`, body) : api.post<{ id: string }>(`/${p}`, body);
     },

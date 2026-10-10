@@ -82,6 +82,8 @@ describe('Gravity (quotation & invoice generator)', () => {
     const detail = (await c.get(`/api/invoices/${inv.id}`)).json();
     expect(detail.settings.paymentDetails).toBe('BML 7730000123456\nAisha Ibrahim');
     expect(detail.documentLanguage).toBe('dv');
+    // Typed lines carry no unit ("pcs" would print on the document).
+    expect(detail.items.every((i: { unit: string }) => i.unit === '')).toBe(true);
   });
 
   it('POS businesses are unchanged and never see Gravity plans', async () => {
