@@ -5,7 +5,7 @@ import { createBrowserRouter, Link, Outlet, RouterProvider } from 'react-router-
 import { useTranslation } from 'react-i18next';
 import { BusinessAuthProvider } from './auth/business';
 import { SuperAdminAuthProvider } from './auth/superadmin';
-import { RequireBusinessAuth } from './layouts/BusinessLayout';
+import { RequireBusinessAuth, StartScreen } from './layouts/BusinessLayout';
 import { RequireSuperAdmin } from './layouts/SuperAdminLayout';
 import { SkeletonRows } from './components/ui/Card';
 import { Button } from './components/ui/Button';
@@ -160,6 +160,7 @@ const router = createBrowserRouter([
         // Full-screen operational screens (no sidebar shell).
         element: <RequireBusinessAuth bare />,
         children: [
+          { path: 'start', element: <StartScreen /> },
           { path: 'pos', element: withSuspense(<Pos />) },
           { path: 'kitchen', element: withSuspense(<Kitchen />) },
           { path: 'print/statement/:id', element: withSuspense(<StatementPrint />) },

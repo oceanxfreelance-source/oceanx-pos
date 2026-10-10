@@ -1057,5 +1057,18 @@ test.describe.serial('OceanX operations', () => {
     await expect(page.getByText(/PV-2026-3391/)).toBeVisible();
     await expect(page.getByText('Paid').first()).toBeVisible();
   });
+
+  test('tablet app start: signed out → sign in → straight into the POS', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto('/start');
+    await expect(page).toHaveURL(/\/login\?next=%2Fstart$/);
+    await page.getByLabel('Email').fill(OWNER.email);
+    await page.getByLabel('Password').fill(OWNER.password);
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page).toHaveURL(/\/pos$/);
+    // A link to another site is never followed after sign-in.
+    await page.goto('/login?next=//evil.example');
+    await expect(page).toHaveURL(/\/$/);
+  });
 });
 

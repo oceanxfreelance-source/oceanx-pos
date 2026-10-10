@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
 import { api } from '../../lib/api';
@@ -15,6 +15,10 @@ export default function BusinessLogin() {
   const { t } = useTranslation();
   const { session, setSession } = useBiz();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  // Back to the screen that asked for sign-in (same site only).
+  const nextParam = params.get('next') ?? '';
+  const next = nextParam.startsWith('/') && !nextParam.startsWith('//') && !nextParam.startsWith('/\\') ? nextParam : '/';
   const errMsg = useErrorMessage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,10 +26,10 @@ export default function BusinessLogin() {
     mutationFn: () => api.post<BusinessSession>('/auth/login', { email, password }),
     onSuccess: (s) => {
       setSession(s);
-      navigate('/', { replace: true });
+      navigate(next, { replace: true });
     },
   });
-  if (session) return <Navigate to="/" replace />;
+  if (session) return <Navigate to={next} replace />;
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     m.mutate();

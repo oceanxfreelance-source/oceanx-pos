@@ -40,6 +40,8 @@ import java.io.OutputStream;
 public class MainActivity extends Activity {
     private static final int FILE_CHOOSER = 1;
     private static final String HOME = BuildConfig.SERVER_URL;
+    /** Opens on the POS (or the kitchen display for kitchen staff); sign-in returns here. */
+    private static final String START = HOME + "/start";
     private static final String HOST = Uri.parse(HOME).getHost();
 
     private WebView web;
@@ -77,7 +79,7 @@ public class MainActivity extends Activity {
         web.setDownloadListener((url, userAgent, contentDisposition, mimeType, length) -> download(url, userAgent, contentDisposition, mimeType));
 
         if (savedInstanceState != null) web.restoreState(savedInstanceState);
-        else web.loadUrl(HOME);
+        else web.loadUrl(START);
     }
 
     @Override
@@ -203,7 +205,7 @@ public class MainActivity extends Activity {
             String html = "<html><head><meta name='viewport' content='width=device-width,initial-scale=1'></head>"
                     + "<body style='margin:0;background:#070809;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center'>"
                     + "<div><h2>No internet connection</h2><p style='color:#9fb0b8'>Check the Wi-Fi, then try again.</p>"
-                    + "<button onclick=\"location.href='" + HOME + "'\" style='margin-top:16px;padding:14px 28px;border-radius:999px;border:0;font-size:16px;font-weight:bold'>Try again</button></div></body></html>";
+                    + "<button onclick=\"location.href='" + START + "'\" style='margin-top:16px;padding:14px 28px;border-radius:999px;border:0;font-size:16px;font-weight:bold'>Try again</button></div></body></html>";
             view.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
         }
     }

@@ -2,7 +2,7 @@
   "name": "OceanX POS",
   "short_name": "OceanX",
   "description": "POS for restaurants, caf\u00e9s and shops",
-  "start_url": "/",
+  "start_url": "/start",
   "scope": "/",
   "display": "standalone",
   "background_color": "#070809",
@@ -23,6 +23,28 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "POS",
+      "url": "/pos",
+      "icons": [
+        {
+          "src": "/brand/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Kitchen",
+      "url": "/kitchen",
+      "icons": [
+        {
+          "src": "/brand/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

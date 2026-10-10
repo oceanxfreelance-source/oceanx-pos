@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
 import {
@@ -144,8 +144,9 @@ export function useThemeSwitch() {
 
 export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   const { session, isLoading } = useBiz();
+  const location = useLocation();
   if (isLoading) return <AppLoader />;
-  if (!session) return <Navigate to="/login" replace />;
+  if (!session) return <Navigate to={`/login${location.pathname !== '/' ? `?next=${encodeURIComponent(location.pathname + location.search)}` : ''}`} replace />;
   if (session.state !== 'ok') return <StatusScreen />;
   if (session.user.mustChangePassword) return <ForcePasswordChange />;
   return bare ? <Outlet /> : <BusinessLayout />;
@@ -332,5 +333,16 @@ function BusinessMark({ name, logoVersion }: { name: string; logoVersion: string
       {letter}
     </span>
   );
+}
+
+/**
+ * Where the tablet app and the installed app open: the POS for anyone who sells, the kitchen display
+ * for the kitchen, otherwise the dashboard.
+ */
+export function StartScreen() {
+  const { can, hasModule } = useBiz();
+  if (hasModule('pos') && can('pos.access')) return <Navigate to="/pos" replace />;
+  if (hasModule('kitchen') && can('kitchen.view')) return <Navigate to="/kitchen" replace />;
+  return <Navigate to="/" replace />;
 }
 
