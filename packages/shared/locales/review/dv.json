@@ -4002,5 +4002,26 @@
     "suggested": "ސަފާރީގައި ޝެއާ ބަޓަން ފިތާލުމަށްފަހު \"Add to Home Screen\" އަށް ފިއްތަވާ.",
     "status": "needs_review",
     "notes": "New: install the app on a tablet."
+  },
+  {
+    "key": "tablet.sign_out_confirm",
+    "english": "Sign out of this tablet? Held orders stay in Open orders; an order that isn’t held is cleared.",
+    "suggested": "މި ޓެބްލެޓުން ސައިން އައުޓް ވާންތޯ؟ ހޯލްޑް ކުރި އޯޑަރުތައް އޯޕަން އޯޑަރުގައި ހުންނާނެ؛ ހޯލްޑް ނުކުރާ އޯޑަރު ފޮހެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: tablet app is POS only."
+  },
+  {
+    "key": "tablet.pos_only_title",
+    "english": "This tablet is for the POS",
+    "suggested": "މި ޓެބްލެޓަކީ ޕީއޯއެސް އަށް",
+    "status": "needs_review",
+    "notes": "New: tablet app is POS only."
+  },
+  {
+    "key": "tablet.pos_only_body",
+    "english": "Your account can’t use the POS. Sign in with a cashier or waiter account, or use a computer or phone for the rest of the system.",
+    "suggested": "ތިޔަ އެކައުންޓުން ޕީއޯއެސް ބޭނުން ނުކުރެވޭނެ. ކޭޝިއަރ ނުވަތަ ވެއިޓަރ އެކައުންޓަކުން ވަދެވަޑައިގަންނަވާ، ނޫނީ ސިސްޓަމުގެ އެހެން ބައިތަކަށް ކޮމްޕިއުޓަރު ނުވަތަ ފޯނު ބޭނުން ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "New: tablet app is POS only."
   }
 ]

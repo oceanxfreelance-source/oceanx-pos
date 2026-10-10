@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { ArrowLeft, CheckCircle2, ClipboardList, HandCoins, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, UserPlus, X } from 'lucide-react';
+import { CheckCircle2, ClipboardList, HandCoins, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, UserPlus, X } from 'lucide-react';
+import { ScreenExit } from '../../components/ScreenExit';
 import { ItemAvatar, tintAt, tintFor } from '../../components/ItemAvatar';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { FullscreenButton } from '../../components/FullscreenButton';
@@ -417,9 +417,7 @@ export default function PosPage() {
     <div className="flex h-dvh flex-col bg-slate-50 dark:bg-slate-950">
       <FarumaWarning />
       <header className="flex h-14 shrink-0 items-center gap-2 border-b border-slate-200 bg-white px-3 dark:border-slate-800 dark:bg-slate-900">
-        <Link to="/" className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" aria-label={t('nav.dashboard')}>
-          <ArrowLeft className="rtl-flip size-5" />
-        </Link>
+        <ScreenExit />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold" dir="auto">
             {session.business.name}

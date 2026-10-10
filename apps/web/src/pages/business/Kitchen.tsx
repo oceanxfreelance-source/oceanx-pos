@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { ArrowLeft, ChefHat, Flame } from 'lucide-react';
+import { ChefHat, Flame } from 'lucide-react';
+import { ScreenExit } from '../../components/ScreenExit';
 import { api } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
 import { useToastError } from '../../lib/useApiError';
@@ -66,9 +66,7 @@ export default function KitchenPage() {
     <div className="flex h-dvh flex-col bg-slate-100 dark:bg-slate-950">
       <FarumaWarning />
       <header className="flex h-14 shrink-0 items-center gap-3 border-b border-slate-200 bg-white px-3 dark:border-slate-800 dark:bg-slate-900">
-        <Link to="/" className="rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label={t('nav.dashboard')}>
-          <ArrowLeft className="rtl-flip size-5" />
-        </Link>
+        <ScreenExit />
         <ChefHat className="size-5 text-brand-700" />
         <h1 className="font-semibold">{t('kitchen.title')}</h1>
         <span className="text-sm text-slate-500" dir="auto">

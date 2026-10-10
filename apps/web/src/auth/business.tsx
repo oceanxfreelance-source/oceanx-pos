@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, ApiError, onUnauthorized, setCsrfToken } from '../lib/api';
+import { android } from '../lib/desktop';
 import { applyLanguage } from '../i18n';
 import { applyPreferences } from '../lib/theme';
 import { setRetailRoleNames } from '../lib/labels';
@@ -113,7 +114,8 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
           qc.setQueryData(BIZ_SESSION_KEY, null);
           qc.clear();
           // A fresh page load guarantees no screen keeps showing the previous user (shared counter PCs).
-          window.location.replace('/login');
+          // The tablet app signs back in straight to the POS.
+          window.location.replace(android ? '/login?next=%2Fstart' : '/login');
         }
       },
     };

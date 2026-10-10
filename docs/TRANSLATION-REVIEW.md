@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 428 · **confirmed**: 144
+Status: **needs_review**: 431 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -435,6 +435,9 @@ review of the whole file is still recommended before launch.
 | `superadmin.settings.reminder_days` | Remind before the end (days) | ނިމުމުގެ ކުރިން ހަނދާންކޮށްދޭނީ (ދުވަސް) | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.settings.reminder_days_hint` | Owners see a "Pay now" banner this many days before their trial or plan ends. | ޓްރަޔަލް ނުވަތަ ޕްލޭން ނިމުމުގެ މިހާ ދުވަސް ކުރިން ވެރިފަރާތްތަކަށް "މިހާރު ފައިސާ ދައްކަވާ" ބެނަރެއް ފެންނާނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.status.suspended` | Suspended | ހުއްޓާލާފައި | needs_review | Alternative: ސަސްޕެންޑްކޮށްފައި. |
+| `tablet.pos_only_body` | Your account can’t use the POS. Sign in with a cashier or waiter account, or use a computer or phone for the rest of the system. | ތިޔަ އެކައުންޓުން ޕީއޯއެސް ބޭނުން ނުކުރެވޭނެ. ކޭޝިއަރ ނުވަތަ ވެއިޓަރ އެކައުންޓަކުން ވަދެވަޑައިގަންނަވާ، ނޫނީ ސިސްޓަމުގެ އެހެން ބައިތަކަށް ކޮމްޕިއުޓަރު ނުވަތަ ފޯނު ބޭނުން ކުރައްވާ. | needs_review | New: tablet app is POS only. |
+| `tablet.pos_only_title` | This tablet is for the POS | މި ޓެބްލެޓަކީ ޕީއޯއެސް އަށް | needs_review | New: tablet app is POS only. |
+| `tablet.sign_out_confirm` | Sign out of this tablet? Held orders stay in Open orders; an order that isn’t held is cleared. | މި ޓެބްލެޓުން ސައިން އައުޓް ވާންތޯ؟ ހޯލްޑް ކުރި އޯޑަރުތައް އޯޕަން އޯޑަރުގައި ހުންނާނެ؛ ހޯލްޑް ނުކުރާ އޯޑަރު ފޮހެވޭނެ. | needs_review | New: tablet app is POS only. |
 | `time.minutes_ago` | {{count}} minutes ago | {{count}} މިނެޓު ކުރިން | needs_review | Relative time phrasing used in lists (e.g. last sign-in). Confirm natural word order. |
 | `viber.on` | ON | ON | needs_review | Kept in Latin; alternative ހުޅުވާ is longer for a switch label. |
 | `viber.status_off` | Viber notifications are disabled. Credit transactions will continue normally. | Viber ނޯޓިފިކޭޝަން ބަންދުކޮށްފައި. ދަރަނީގެ މުޢާމަލާތްތައް އާދައިގެ ގޮތުގައި ކުރިއަށް ދާނެ. | needs_review | ބަންދު matches common.disabled. Same notification-term question as status_on. |

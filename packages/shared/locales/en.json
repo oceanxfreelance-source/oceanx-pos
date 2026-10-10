@@ -2235,5 +2235,10 @@
     "status_low": "Low stock",
     "status_out": "Out of stock",
     "status_untracked": "Stock not tracked"
+  },
+  "tablet": {
+    "sign_out_confirm": "Sign out of this tablet? Held orders stay in Open orders; an order that isn’t held is cleared.",
+    "pos_only_title": "This tablet is for the POS",
+    "pos_only_body": "Your account can’t use the POS. Sign in with a cashier or waiter account, or use a computer or phone for the rest of the system."
   }
 }

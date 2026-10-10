@@ -1070,5 +1070,33 @@ test.describe.serial('OceanX operations', () => {
     await page.goto('/login?next=//evil.example');
     await expect(page).toHaveURL(/\/$/);
   });
+
+  test('tablet app is the POS only: back office screens return to the POS; sign out asks first', async ({ browser }) => {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    await ctx.addInitScript(() => {
+      (window as unknown as { OceanXAndroid: object }).OceanXAndroid = { print() {}, saveFile() {} };
+    });
+    const page = await ctx.newPage();
+    await page.goto('/start');
+    await page.getByLabel('Email').fill(OWNER.email);
+    await page.getByLabel('Password').fill(OWNER.password);
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page).toHaveURL(/\/pos$/);
+    for (const path of ['/', '/settings', '/reports']) {
+      await page.goto(path);
+      await expect(page).toHaveURL(/\/pos$/);
+    }
+    await expect(page.getByRole('link', { name: 'Dashboard' })).toHaveCount(0);
+    await page.getByRole('button', { name: 'Sign out' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Sign out' }).click();
+    await expect(page).toHaveURL(/\/login\?next=%2Fstart$/);
+    await ctx.close();
+  });
+
+  test('in a normal browser the POS keeps its back arrow to the dashboard', async ({ page }) => {
+    await login(page);
+    await page.goto('/pos');
+    await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
+  });
 });
 
