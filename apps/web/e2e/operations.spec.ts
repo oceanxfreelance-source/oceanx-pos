@@ -193,7 +193,7 @@ test.describe.serial('OceanX operations', () => {
     await sap.getByLabel('Email').fill(SA_EMAIL);
     await sap.getByLabel('Password').fill(SA_PASSWORD);
     await sap.getByRole('button', { name: 'Sign in' }).click();
-    await expect(sap.getByRole('heading', { name: 'Platform dashboard' })).toBeVisible();
+    await expect(sap).toHaveURL(/superadmin\/hub$/);
     const csrf = await sap.evaluate(async () => (await (await fetch('/api/superadmin/auth/session')).json()).csrfToken as string);
     const biz = await sap.evaluate(async () => (await (await fetch('/api/superadmin/businesses?q=Reef')).json()).items[0].id as string);
     const granted = await sap.evaluate(
@@ -405,7 +405,7 @@ test.describe.serial('OceanX operations', () => {
     await sap.getByLabel('Email').fill(SA_EMAIL);
     await sap.getByLabel('Password').fill(SA_PASSWORD);
     await sap.getByRole('button', { name: 'Sign in' }).click();
-    await expect(sap.getByRole('heading', { name: 'Platform dashboard' })).toBeVisible();
+    await expect(sap).toHaveURL(/superadmin\/hub$/);
     const csrf = await sap.evaluate(async () => (await (await fetch('/api/superadmin/auth/session')).json()).csrfToken as string);
     const biz = await sap.evaluate(async () => (await (await fetch('/api/superadmin/businesses?q=Reef')).json()).items[0].id as string);
     const granted = await sap.evaluate(
@@ -514,7 +514,7 @@ test.describe.serial('OceanX operations', () => {
     await sap.getByLabel('Email').fill(SA_EMAIL);
     await sap.getByLabel('Password').fill(SA_PASSWORD);
     await sap.getByRole('button', { name: 'Sign in' }).click();
-    await expect(sap.getByRole('heading', { name: 'Platform dashboard' })).toBeVisible();
+    await expect(sap).toHaveURL(/superadmin\/hub$/);
     await sap.goto('/superadmin/businesses');
     await expect(sap.getByText('1 add-on requested').filter({ visible: true }).first()).toBeVisible();
     const csrf = await sap.evaluate(async () => (await (await fetch('/api/superadmin/auth/session')).json()).csrfToken as string);
@@ -724,7 +724,7 @@ test.describe.serial('OceanX operations', () => {
     await sap.getByLabel('Email').fill(SA_EMAIL);
     await sap.getByLabel('Password').fill(SA_PASSWORD);
     await sap.getByRole('button', { name: 'Sign in' }).click();
-    await expect(sap).toHaveURL(/superadmin\/dashboard/);
+    await expect(sap).toHaveURL(/superadmin\/hub/);
     await sap.goto('/superadmin/settings');
     await sap.getByLabel('Bank details for payments').fill('Bank of Maldives\nOceanX Pvt Ltd\nMVR 7730000012345');
     await sap.getByRole('button', { name: 'Save changes' }).click();
@@ -846,7 +846,7 @@ test.describe.serial('OceanX operations', () => {
     await sap.getByLabel('Email').fill(SA_EMAIL);
     await sap.getByLabel('Password').fill(SA_PASSWORD);
     await sap.getByRole('button', { name: 'Sign in' }).click();
-    await expect(sap).toHaveURL(/superadmin\/dashboard/);
+    await expect(sap).toHaveURL(/superadmin\/hub/);
     await sap.goto('/superadmin/retail');
     await sap.getByRole('button', { name: 'New business' }).click();
     const d = sap.getByRole('dialog');
@@ -941,7 +941,7 @@ test.describe.serial('OceanX operations', () => {
     await sap.getByLabel('Email').fill(SA_EMAIL);
     await sap.getByLabel('Password').fill(SA_PASSWORD);
     await sap.getByRole('button', { name: 'Sign in' }).click();
-    await expect(sap.getByRole('heading', { name: 'Platform dashboard' })).toBeVisible();
+    await expect(sap).toHaveURL(/superadmin\/hub$/);
     const csrf = await sap.evaluate(async () => (await (await fetch('/api/superadmin/auth/session')).json()).csrfToken as string);
     const biz = await sap.evaluate(async () => (await (await fetch('/api/superadmin/businesses?q=Corner')).json()).items[0].id as string);
     const status = await sap.evaluate(

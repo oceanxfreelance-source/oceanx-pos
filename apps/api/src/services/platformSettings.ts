@@ -14,6 +14,10 @@ export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   billingBankDetails: '',
   billingNote: '',
   billingReminderDays: 7,
+  companyAddress: '',
+  companyPhone: '',
+  companyTaxNumber: '',
+  hubTerms: '',
 };
 
 export async function getPlatformSettings(db: Executor): Promise<PlatformSettings> {

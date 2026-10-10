@@ -1373,3 +1373,214 @@ export const rotaEntries = pgTable(
     tenantFk('rota_entries_shift_fk', t, t.shiftId, rotaShifts).onDelete('cascade'),
   ],
 );
+
+// ============================================================================================
+// OceanX Hub: the company's main office (Super Admin). Leads, clients, services, quotes and
+// invoices for any service, projects and tasks, and support tickets. Platform-level data: no
+// business tenant; only Super Admin team members can read or change it.
+// ============================================================================================
+
+/** What OceanX sells (POS plans are separate; this is the price list for everything else too). */
+export const hubServices = pgTable('hub_services', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: text('name').notNull(),
+  /** pos | websites | design | marketing | hardware | it_support | software | other */
+  category: text('category').notNull().default('other'),
+  description: text('description').notNull().default(''),
+  unit: text('unit').notNull().default('job'),
+  price: money('price').notNull().default(0),
+  isActive: boolean('is_active').notNull().default(true),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+/** One client list for everything OceanX does; optionally linked to their POS business. */
+export const hubClients = pgTable(
+  'hub_clients',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name').notNull(),
+    company: text('company').notNull().default(''),
+    /** person | company | government */
+    kind: text('kind').notNull().default('company'),
+    phone: text('phone').notNull().default(''),
+    email: text('email').notNull().default(''),
+    address: text('address').notNull().default(''),
+    taxNumber: text('tax_number').notNull().default(''),
+    notes: text('notes').notNull().default(''),
+    businessId: uuid('business_id').references(() => businesses.id, { onDelete: 'set null' }),
+    createdBy: uuid('created_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('hub_clients_name_idx').on(t.name)],
+);
+
+/** People who showed interest (DMs, calls, walk-ins, sign-ups) until they become clients. */
+export const hubLeads = pgTable(
+  'hub_leads',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name').notNull(),
+    company: text('company').notNull().default(''),
+    phone: text('phone').notNull().default(''),
+    email: text('email').notNull().default(''),
+    /** tiktok | instagram | facebook | whatsapp | viber | email | phone | walk_in | website | referral | other */
+    source: text('source').notNull().default('other'),
+    serviceId: uuid('service_id').references(() => hubServices.id, { onDelete: 'set null' }),
+    interest: text('interest').notNull().default(''),
+    /** new | contacted | demo | proposal | won | lost */
+    status: text('status').notNull().default('new'),
+    nextFollowUp: text('next_follow_up'),
+    assignedTo: uuid('assigned_to').references(() => superAdmins.id, { onDelete: 'set null' }),
+    notes: text('notes').notNull().default(''),
+    clientId: uuid('client_id').references(() => hubClients.id, { onDelete: 'set null' }),
+    createdBy: uuid('created_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('hub_leads_status_idx').on(t.status), index('hub_leads_follow_up_idx').on(t.nextFollowUp)],
+);
+
+/** A job for a client: a website, a design package, a POS installation… */
+export const hubProjects = pgTable(
+  'hub_projects',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    clientId: uuid('client_id').references(() => hubClients.id, { onDelete: 'set null' }),
+    serviceId: uuid('service_id').references(() => hubServices.id, { onDelete: 'set null' }),
+    title: text('title').notNull(),
+    description: text('description').notNull().default(''),
+    /** planned | in_progress | review | done | cancelled */
+    status: text('status').notNull().default('planned'),
+    startDate: text('start_date'),
+    dueDate: text('due_date'),
+    value: money('value').notNull().default(0),
+    assignedTo: uuid('assigned_to').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdBy: uuid('created_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('hub_projects_status_idx').on(t.status)],
+);
+
+/** Team to-dos, on a project or on their own. */
+export const hubTasks = pgTable(
+  'hub_tasks',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    projectId: uuid('project_id').references(() => hubProjects.id, { onDelete: 'cascade' }),
+    title: text('title').notNull(),
+    notes: text('notes').notNull().default(''),
+    /** todo | doing | done */
+    status: text('status').notNull().default('todo'),
+    /** low | normal | high */
+    priority: text('priority').notNull().default('normal'),
+    dueDate: text('due_date'),
+    assignedTo: uuid('assigned_to').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdBy: uuid('created_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    completedAt: ts('completed_at'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('hub_tasks_status_idx').on(t.status), index('hub_tasks_project_idx').on(t.projectId)],
+);
+
+/** Support requests from clients and POS businesses. */
+export const hubTickets = pgTable(
+  'hub_tickets',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    number: text('number').notNull(),
+    clientId: uuid('client_id').references(() => hubClients.id, { onDelete: 'set null' }),
+    businessId: uuid('business_id').references(() => businesses.id, { onDelete: 'set null' }),
+    subject: text('subject').notNull(),
+    description: text('description').notNull().default(''),
+    /** phone | whatsapp | email | social | visit | other */
+    channel: text('channel').notNull().default('phone'),
+    /** low | normal | high | urgent */
+    priority: text('priority').notNull().default('normal'),
+    /** open | in_progress | waiting | resolved | closed */
+    status: text('status').notNull().default('open'),
+    assignedTo: uuid('assigned_to').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdBy: uuid('created_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    resolvedAt: ts('resolved_at'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [uniqueIndex('hub_tickets_number_uq').on(t.number), index('hub_tickets_status_idx').on(t.status)],
+);
+
+export const hubTicketNotes = pgTable(
+  'hub_ticket_notes',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    ticketId: uuid('ticket_id')
+      .notNull()
+      .references(() => hubTickets.id, { onDelete: 'cascade' }),
+    body: text('body').notNull(),
+    authorId: uuid('author_id').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+  },
+  (t) => [index('hub_ticket_notes_ticket_idx').on(t.ticketId)],
+);
+
+export interface HubDocItem {
+  serviceId: string | null;
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+}
+
+/** OceanX's own quotations and invoices for any service (POS subscriptions keep their own receipts). */
+export const hubDocuments = pgTable(
+  'hub_documents',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    /** quote | invoice */
+    kind: text('kind').notNull(),
+    number: text('number').notNull(),
+    clientId: uuid('client_id')
+      .notNull()
+      .references(() => hubClients.id, { onDelete: 'restrict' }),
+    projectId: uuid('project_id').references(() => hubProjects.id, { onDelete: 'set null' }),
+    issueDate: text('issue_date').notNull(),
+    /** Valid until (quote) / due date (invoice). */
+    dueDate: text('due_date'),
+    /** quote: draft | sent | accepted | rejected | converted ; invoice: draft | issued | partially_paid | paid | void */
+    status: text('status').notNull().default('draft'),
+    currency: text('currency').notNull().default('MVR'),
+    items: jsonb('items').$type<HubDocItem[]>().notNull().default([]),
+    subtotal: money('subtotal').notNull().default(0),
+    discount: money('discount').notNull().default(0),
+    total: money('total').notNull().default(0),
+    paidAmount: money('paid_amount').notNull().default(0),
+    notes: text('notes').notNull().default(''),
+    terms: text('terms').notNull().default(''),
+    sourceQuoteId: uuid('source_quote_id'),
+    createdBy: uuid('created_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [uniqueIndex('hub_documents_number_uq').on(t.number), index('hub_documents_client_idx').on(t.clientId), index('hub_documents_kind_status_idx').on(t.kind, t.status)],
+);
+
+export const hubPayments = pgTable(
+  'hub_payments',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    documentId: uuid('document_id')
+      .notNull()
+      .references(() => hubDocuments.id, { onDelete: 'cascade' }),
+    amount: money('amount').notNull(),
+    /** cash | bank_transfer | card | cheque | other */
+    method: text('method').notNull().default('bank_transfer'),
+    reference: text('reference').notNull().default(''),
+    paidAt: text('paid_at').notNull(),
+    voidedAt: ts('voided_at'),
+    receivedBy: uuid('received_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+  },
+  (t) => [index('hub_payments_document_idx').on(t.documentId)],
+);

@@ -23,17 +23,17 @@ export default function SuperAdminLogin() {
     mutationFn: () => saApi.post<SuperAdminSession>('/auth/login', { email, password }),
     onSuccess: (s) => {
       setSession(s);
-      if (!s.mfaPending) navigate('/superadmin/dashboard', { replace: true });
+      if (!s.mfaPending) navigate('/superadmin/hub', { replace: true });
     },
   });
   const mfa = useMutation({
     mutationFn: () => saApi.post<SuperAdminSession>('/auth/mfa', { code }),
     onSuccess: (s) => {
       setSession(s);
-      navigate('/superadmin/dashboard', { replace: true });
+      navigate('/superadmin/hub', { replace: true });
     },
   });
-  if (session && !session.mfaPending) return <Navigate to="/superadmin/dashboard" replace />;
+  if (session && !session.mfaPending) return <Navigate to="/superadmin/hub" replace />;
   const needsCode = session?.mfaPending;
 
   return (

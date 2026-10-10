@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { RouteError } from './components/RouteError';
 import { UpdateNotice } from './components/UpdateNotice';
-import { createBrowserRouter, Link, Outlet, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Link, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BusinessAuthProvider } from './auth/business';
 import { SuperAdminAuthProvider } from './auth/superadmin';
@@ -72,6 +72,17 @@ const SaLanguages = lazy(() => import('./pages/superadmin/Platform').then((m) =>
 const SaSettings = lazy(() => import('./pages/superadmin/Platform').then((m) => ({ default: m.PlatformSettingsPage })));
 const SaActivity = lazy(() => import('./pages/superadmin/Platform').then((m) => ({ default: m.SuperAdminActivityPage })));
 const SaSecurity = lazy(() => import('./pages/superadmin/Platform').then((m) => ({ default: m.SecurityPage })));
+const hub = () => import('./pages/superadmin/Hub');
+const HubOverview = lazy(() => hub().then((m) => ({ default: m.HubOverviewPage })));
+const HubLeads = lazy(() => hub().then((m) => ({ default: m.LeadsPage })));
+const HubClients = lazy(() => hub().then((m) => ({ default: m.ClientsPage })));
+const HubServices = lazy(() => hub().then((m) => ({ default: m.ServicesPage })));
+const HubProjects = lazy(() => hub().then((m) => ({ default: m.ProjectsPage })));
+const HubTasks = lazy(() => hub().then((m) => ({ default: m.TasksPage })));
+const HubTickets = lazy(() => hub().then((m) => ({ default: m.TicketsPage })));
+const HubDocuments = lazy(() => hub().then((m) => ({ default: m.HubDocumentsPage })));
+const HubDocument = lazy(() => hub().then((m) => ({ default: m.HubDocumentPage })));
+const HubPrint = lazy(() => import('./pages/superadmin/HubPrint'));
 
 function Loading() {
   return <SkeletonRows rows={6} />;
@@ -118,9 +129,23 @@ const router = createBrowserRouter([
       { path: 'forgot-password', element: <ForgotPassword domain="superadmin" /> },
       { path: 'reset-password', element: <ResetPassword domain="superadmin" /> },
       {
+        element: <RequireSuperAdmin bare />,
+        children: [{ path: 'hub/print/:id', element: withSuspense(<HubPrint />) }],
+      },
+      {
         element: <RequireSuperAdmin />,
         children: [
-          { index: true, element: <SaDashboard /> },
+          { index: true, element: <Navigate to="/superadmin/hub" replace /> },
+          { path: 'hub', element: withSuspense(<HubOverview />) },
+          { path: 'hub/leads', element: withSuspense(<HubLeads />) },
+          { path: 'hub/clients', element: withSuspense(<HubClients />) },
+          { path: 'hub/services', element: withSuspense(<HubServices />) },
+          { path: 'hub/projects', element: withSuspense(<HubProjects />) },
+          { path: 'hub/tasks', element: withSuspense(<HubTasks />) },
+          { path: 'hub/tickets', element: withSuspense(<HubTickets />) },
+          { path: 'hub/quotes', element: withSuspense(<HubDocuments kind="quote" />) },
+          { path: 'hub/invoices', element: withSuspense(<HubDocuments kind="invoice" />) },
+          { path: 'hub/documents/:id', element: withSuspense(<HubDocument />) },
           { path: 'dashboard', element: withSuspense(<SaDashboard />) },
           { path: 'businesses', element: withSuspense(<SaBusinesses />) },
           { path: 'businesses/:id', element: withSuspense(<SaBusinessDetail />) },
@@ -136,7 +161,7 @@ const router = createBrowserRouter([
           { path: 'settings', element: withSuspense(<SaSettings />) },
           { path: 'activity-logs', element: withSuspense(<SaActivity />) },
           { path: 'security', element: withSuspense(<SaSecurity />) },
-          { path: '*', element: <NotFound home="/superadmin/dashboard" /> },
+          { path: '*', element: <NotFound home="/superadmin/hub" /> },
         ],
       },
     ],

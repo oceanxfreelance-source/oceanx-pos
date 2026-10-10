@@ -4,6 +4,7 @@ import { superAdminAuthPublicRoutes, superAdminAuthSessionRoutes } from './auth'
 import { businessAdminRoutes } from './businesses';
 import { platformRoutes } from './platform';
 import { billingAdminRoutes } from './billing';
+import { hubRoutes } from './hub';
 
 /**
  * Super Admin API (/api/superadmin/*). A separate security domain:
@@ -17,5 +18,6 @@ export async function superAdminRoutes(app: FastifyInstance, opts: { authRateLim
     await secured.register(businessAdminRoutes);
     await secured.register(platformRoutes);
     await secured.register(billingAdminRoutes);
+    await secured.register(hubRoutes);
   });
 }

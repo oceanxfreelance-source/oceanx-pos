@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Banknote, Building2, ShoppingBag, Coffee, CreditCard, Gauge, History, Languages, Layers, LogOut, Puzzle, Settings, ShieldCheck, UserCog, UtensilsCrossed } from 'lucide-react';
+import { Banknote, Briefcase, Building2, ShoppingBag, Coffee, CreditCard, FileText, Gauge, Headset, History, LayoutGrid, Languages, Layers, ListTodo, LogOut, Package, Puzzle, Receipt, Settings, ShieldCheck, UserCog, UserPlus, Users, UtensilsCrossed } from 'lucide-react';
 import { LANGUAGES } from '@oceanx/shared';
 import { setSuperAdminLanguage, useSuperAdmin } from '../auth/superadmin';
 import { Shell, type NavGroup } from './Shell';
@@ -11,29 +11,43 @@ import { DeviceThemeToggle } from '../components/DeviceThemeToggle';
 import { FullscreenButton } from '../components/FullscreenButton';
 
 const GROUPS: NavGroup[] = [
-  { items: [{ to: '/superadmin/dashboard', label: 'superadmin.nav.dashboard', icon: Gauge }] },
+  { items: [{ to: '/superadmin/hub', label: 'hub.nav.overview', icon: LayoutGrid, end: true }] },
   {
-    label: 'superadmin.nav.group_tenants',
+    label: 'hub.nav.group_sales',
     items: [
+      { to: '/superadmin/hub/leads', label: 'hub.nav.leads', icon: UserPlus },
+      { to: '/superadmin/hub/clients', label: 'hub.nav.clients', icon: Users },
+      { to: '/superadmin/hub/quotes', label: 'hub.nav.quotes', icon: FileText },
+      { to: '/superadmin/hub/invoices', label: 'hub.nav.invoices', icon: Receipt },
+      { to: '/superadmin/hub/services', label: 'hub.nav.services', icon: Package },
+    ],
+  },
+  {
+    label: 'hub.nav.group_work',
+    items: [
+      { to: '/superadmin/hub/projects', label: 'hub.nav.projects', icon: Briefcase },
+      { to: '/superadmin/hub/tasks', label: 'hub.nav.tasks', icon: ListTodo },
+      { to: '/superadmin/hub/tickets', label: 'hub.nav.tickets', icon: Headset },
+    ],
+  },
+  {
+    label: 'hub.nav.group_pos',
+    items: [
+      { to: '/superadmin/dashboard', label: 'superadmin.nav.dashboard', icon: Gauge },
       { to: '/superadmin/businesses', label: 'superadmin.nav.businesses', icon: Building2 },
       { to: '/superadmin/restaurants', label: 'superadmin.nav.restaurants', icon: UtensilsCrossed },
       { to: '/superadmin/cafes', label: 'superadmin.nav.cafes', icon: Coffee },
       { to: '/superadmin/retail', label: 'superadmin.nav.retail', icon: ShoppingBag },
       { to: '/superadmin/subscriptions', label: 'superadmin.nav.subscriptions', icon: CreditCard },
       { to: '/superadmin/payments', label: 'superadmin.nav.payments', icon: Banknote },
-    ],
-  },
-  {
-    label: 'superadmin.nav.group_catalog',
-    items: [
       { to: '/superadmin/plans', label: 'superadmin.nav.plans', icon: Layers },
       { to: '/superadmin/addons', label: 'superadmin.nav.addons', icon: Puzzle },
     ],
   },
   {
-    label: 'superadmin.nav.group_platform',
+    label: 'hub.nav.group_company',
     items: [
-      { to: '/superadmin/users', label: 'superadmin.nav.users', icon: UserCog },
+      { to: '/superadmin/users', label: 'hub.nav.team', icon: UserCog },
       { to: '/superadmin/languages', label: 'superadmin.nav.languages', icon: Languages },
       { to: '/superadmin/settings', label: 'superadmin.nav.settings', icon: Settings },
       { to: '/superadmin/activity-logs', label: 'superadmin.nav.activity', icon: History },
@@ -42,11 +56,11 @@ const GROUPS: NavGroup[] = [
   },
 ];
 
-export function RequireSuperAdmin() {
+export function RequireSuperAdmin({ bare }: { bare?: boolean }) {
   const { session, isLoading } = useSuperAdmin();
   if (isLoading) return <SkeletonRows rows={6} />;
   if (!session || session.mfaPending) return <Navigate to="/superadmin/login" replace />;
-  return <SuperAdminLayout />;
+  return bare ? <Outlet /> : <SuperAdminLayout />;
 }
 
 function SuperAdminLayout() {

@@ -136,6 +136,9 @@ test.describe.serial('OceanX phase 1', () => {
     await page.getByLabel('Email').fill(SA_EMAIL);
     await page.getByLabel('Password').fill(SA_PASSWORD);
     await page.getByRole('button', { name: 'Sign in' }).click();
+    // Sign-in lands on the Hub (main office); the POS console is one of its sections.
+    await expect(page).toHaveURL(/superadmin\/hub$/);
+    await page.goto('/superadmin/dashboard');
     await expect(page.getByRole('heading', { name: 'Platform dashboard' })).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/sa-dashboard-desktop.png`, fullPage: true });
     await page.getByRole('link', { name: 'Cafés' }).click();

@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 431 · **confirmed**: 144
+Status: **needs_review**: 654 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -135,6 +135,229 @@ review of the whole file is still recommended before launch.
 | `errors.payroll_period_exists` | A salary sheet for this month already exists. | މި މަހުގެ މުސާރަ ޝީޓެއް ކުރިން ހަދާފައި އެބައޮތް. | needs_review | Plain translation using existing app terms. |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |
 | `expenses.payee` | Paid to | ފައިސާ ދިން ފަރާތް | needs_review | Paid to: ފައިސާ ދިން ފަރާތް. |
+| `hub.active` | Active | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.add_line` | Add line | ލައިނެއް އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.add_task` | Add | އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.add_task_placeholder` | Add a task and press Enter | ކަމެއް ލިޔެ Enter ފިތާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.add_update` | Write an update… | އަޕްޑޭޓެއް ލިޔޭ… | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.all` | All | ހުރިހާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.all_tasks` | Everyone's tasks | ހުރިހާ ކަންތައްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.amount` | Amount | އަދަދު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.amount_due` | Amount due | ދައްކަންޖެހޭ ފައިސާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.assigned_to` | Assigned to | ހަވާލުކުރެވިފައިވާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.balance` | Balance | ބާކީ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.categories.design` | Design | ޑިޒައިން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.categories.hardware` | Hardware | ހާޑްވެއަރ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.categories.it_support` | IT support | އައިޓީ ސަޕޯޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.categories.marketing` | Marketing | މާކެޓިންގ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.categories.other` | Other | އެހެނިހެން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.categories.pos` | POS | ޕީއޯއެސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.categories.software` | Software | ސޮފްޓްވެއަރ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.categories.websites` | Websites | ވެބްސައިޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.category` | Category | ބާވަތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.channel` | Came in by | ކޮންގޮތަކުން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.channels.email` | Email | އީމެއިލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.channels.other` | Other | އެހެނިހެން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.channels.phone` | Phone | ފޯނު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.channels.social` | Social media | ސޯޝަލް މީޑިއާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.channels.visit` | Visit | ޒިޔާރަތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.choose_client` | Choose a client | ކްލައިންޓެއް ޚިޔާރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.client` | Client | ކްލައިންޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.client_kind` | Type | ބާވަތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.client_kinds.company` | Company | ކުންފުނި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.client_kinds.government` | Government / council | ސަރުކާރު / ކައުންސިލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.client_kinds.person` | Person | ފަރުދެއް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.clients` | Clients | ކްލައިންޓުން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.clients_subtitle` | Everyone we work for: POS customers, website clients and more. | އަޅުގަނޑުމެން މަސައްކަތްކޮށްދޭ ހުރިހާ ފަރާތެއް: ޕީއޯއެސް، ވެބްސައިޓް އަދި އެހެނިހެން. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.company` | Company | ކުންފުނި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.convert_to_client` | Make client | ކްލައިންޓަކަށް ހަދާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.convert_to_invoice` | Make invoice | އިންވޮއިސްއަކަށް ހަދާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.converted_to_invoice` | Invoice created from the quotation | ކޯޓޭޝަނުން އިންވޮއިސް ހެދިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.delete_client` | Delete client? | ކްލައިންޓް ފުހެލަންތޯ؟ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.delete_client_body` | Clients with quotations or invoices can't be deleted. | ކޯޓޭޝަން ނުވަތަ އިންވޮއިސް ހުރި ކްލައިންޓުން ފުހެލެވޭކަށް ނެތް. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.description` | Description | ތަފްޞީލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.discount` | Discount | ޑިސްކައުންޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.accepted` | Accepted | ގަބޫލުކުރި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.converted` | Invoiced | އިންވޮއިސް ކުރެވިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.draft` | Draft | ޑްރާފްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.issued` | Issued | ނެރިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.paid` | Paid | ދައްކާފައި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.partially_paid` | Part paid | ބައެއް ދައްކާފައި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.rejected` | Rejected | ރިޖެކްޓްކުރި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.sent` | Sent | ފޮނުވިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.doc_statuses.void` | Void | ބާޠިލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.due` | Due | ނިންމަންޖެހޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.due_date` | Due date | ނިންމަންޖެހޭ ތާރީޚު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.follow_up` | Follow up | ފޮލޯއަޕް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.follow_ups_today` | Follow-ups due | ފޮލޯއަޕް ކުރަންޖެހޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.inactive` | Inactive | ހުއްޓާލާފައި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.interest` | Interested in | ޝައުޤުވެރިވާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.interest_details` | What they need | ބޭނުންވާ ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.interested_in` | Interested in | ޝައުޤުވެރިވާ ޚިދުމަތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.internal` | Internal | އެތެރޭގެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.invoice` | Invoice | އިންވޮއިސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.invoices` | Invoices | އިންވޮއިސްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.invoices_subtitle` | What clients owe OceanX, and payments received. | ކްލައިންޓުން OceanX އަށް ދައްކަންޖެހޭ ފައިސާ، އަދި ލިބުނު ފައިސާ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.issue` | Issue invoice | އިންވޮއިސް ނެރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.items` | Items | އައިޓަމްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_converted` | Lead is now a client | ލީޑް މިހާރު ކްލައިންޓެއް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_is_client` | This lead is already a client. | މި ލީޑަކީ މިހާރުވެސް ކްލައިންޓެއް. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_statuses.contacted` | Contacted | ގުޅިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_statuses.demo` | Demo | ޑެމޯ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_statuses.lost` | Lost | ގެއްލުނު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_statuses.new` | New | އައު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_statuses.proposal` | Proposal sent | ޕްރޮޕޯސަލް ފޮނުވިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_statuses.won` | Won | ލިބުނު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_tabs.all` | All | ހުރިހާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_tabs.lost` | Lost | ގެއްލުނު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_tabs.open` | Open | ހުޅުވާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.lead_tabs.won` | Won | ލިބުނު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.leads` | Leads | ލީޑްސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.leads_subtitle` | People interested in our services, from social media, calls and walk-ins. | ސޯޝަލް މީޑިއާ، ފޯނު ކޯލް އަދި ސީދާ އަންނަ، ޚިދުމަތަށް ޝައުޤުވެރިވާ މީހުން. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.mark_accepted` | Accepted | ގަބޫލުކުރި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.mark_rejected` | Rejected | ރިޖެކްޓްކުރި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.mark_sent` | Mark sent | ފޮނުވިކަމަށް ބަލާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.method` | Method | ގޮތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.methods.bank_transfer` | Bank transfer | ބޭންކް ޓްރާންސްފަރ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.methods.card` | Card | ކާޑު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.methods.cash` | Cash | ފައިސާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.methods.cheque` | Cheque | ޗެކް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.methods.other` | Other | އެހެނިހެން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.my_tasks` | My tasks | އަހަރެންގެ ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.clients` | Clients | ކްލައިންޓުން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.group_company` | Company | ކުންފުނި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.group_sales` | Sales | ސޭލްސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.group_work` | Work | މަސައްކަތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.invoices` | Invoices | އިންވޮއިސްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.leads` | Leads | ލީޑްސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.overview` | Main office | މައި އޮފީސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.projects` | Projects | ޕްރޮޖެކްޓްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.quotes` | Quotations | ކޯޓޭޝަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.services` | Services | ޚިދުމަތްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.tasks` | Tasks | ކުރަންޖެހޭ ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.team` | Team | ޓީމް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.tickets` | Support tickets | ސަޕޯޓް ޓިކެޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.new_client` | New client | އައު ކްލައިންޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.new_invoice` | New invoice | އައު އިންވޮއިސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.new_lead` | New lead | އައު ލީޑް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.new_project` | New project | އައު ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.new_quote` | New quotation | އައު ކޯޓޭޝަން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.new_service` | New service | އައު ޚިދުމަތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.new_ticket` | New ticket | އައު ޓިކެޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.next_follow_up` | Next follow-up | ދެން ފޮލޯއަޕް ކުރާ ދުވަސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_client` | No client (internal) | ކްލައިންޓެއް ނޫން (އެތެރޭގެ) | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_clients` | No clients yet | އަދި ކްލައިންޓެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_clients_body` | Add a client, or turn a lead into one. | ކްލައިންޓެއް އިތުރުކުރޭ، ނުވަތަ ލީޑެއް ކްލައިންޓަކަށް ހަދާ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_documents` | Nothing here yet | އަދި އެއްވެސް އެއްޗެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_documents_body` | Create one for a client. Prices come from your services list. | ކްލައިންޓަކަށް ހަދާ. އަގުތައް ލިބޭނީ ޚިދުމަތްތަކުގެ ލިސްޓުން. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_leads` | No leads yet | އަދި ލީޑެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_leads_body` | Add everyone who asks about our services so nobody is forgotten. | ޚިދުމަތާ ބެހޭގޮތުން ސުވާލުކުރާ ކޮންމެ މީހަކު ހިމަނާ، އެއްވެސް މީހަކު ހަނދާން ނައްތާނުލެވޭނެ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_projects` | No projects | ޕްރޮޖެކްޓެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_projects_body` | Create a project for each job and break it into tasks. | ކޮންމެ މަސައްކަތަކަށް ޕްރޮޖެކްޓެއް ހަދައި، ކަންތައްތަކަށް ބަހާލާ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_service` | No service | ޚިދުމަތެއް ނޫން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_services` | No services yet | އަދި ޚިދުމަތެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_services_body` | Add what you offer: POS setup, websites, design, marketing, hardware and more. | ދެއްވާ ޚިދުމަތްތައް އިތުރުކުރޭ: ޕީއޯއެސް، ވެބްސައިޓް، ޑިޒައިން، މާކެޓިންގ، ހާޑްވެއަރ އަދި އެހެނިހެން. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_tasks` | No open tasks. | ނުނިމޭ ކަމެއް ނެތް. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_tickets` | No tickets | ޓިކެޓެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_tickets_body` | Log calls, messages and visits from customers who need help. | އެހީއަށް ގުޅާ ކަސްޓަމަރުންގެ ގުޅުންތަކާއި މެސެޖުތައް ލިޔެލާ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nothing_due` | Nothing due today. | މިއަދު ކުރަންޖެހޭ އެއްވެސް ކަމެއް ނެތް. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.number` | Number | ނަންބަރު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.open_projects` | Open projects | ހުޅުވާ ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.open_tickets` | Open tickets | ހުޅުވާ ޓިކެޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.opened` | Opened | ހުޅުވި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.overview_subtitle` | Everything OceanX does, in one place: sales, work, support and the POS. | OceanX ގެ ހުރިހާ މަސައްކަތެއް އެއް ތަނެއްގައި: ސޭލްސް، މަސައްކަތް، ސަޕޯޓް އަދި ޕީއޯއެސް. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.overview_title` | Welcome, {{name}} | މަރުޙަބާ، {{name}} | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.payment_recorded` | Payment recorded | ފައިސާ ލިޔެވިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.payments` | Payments | ފައިސާ ދެއްކުންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.pos_business` | POS business | ޕީއޯއެސް ވިޔަފާރި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.pos_business_hint` | Link if this client uses OceanX POS. | މި ކްލައިންޓް OceanX POS ބޭނުންކުރާނަމަ ގުޅާލާ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.post_update` | Post | ފޮނުވާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.price` | Price | އަގު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.print_pdf` | Print / PDF | ޕްރިންޓް / PDF | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.priorities.high` | High | މަތި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.priorities.low` | Low | ދަށް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.priorities.normal` | Normal | އާދައިގެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.priorities.urgent` | Urgent | އަވަސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.priority` | Priority | މުހިންމުކަން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project` | Project | ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_statuses.cancelled` | Cancelled | ކެންސަލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_statuses.done` | Done | ނިމިފައި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_statuses.in_progress` | In progress | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_statuses.planned` | Planned | ރާވާފައި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_statuses.review` | In review | ރިވިއު ކުރަނީ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_tabs.active` | In progress | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_tabs.all` | All | ހުރިހާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_tabs.done` | Done | ނިމިފައި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_title` | Project name | ޕްރޮޖެކްޓްގެ ނަން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.projects` | Projects | ޕްރޮޖެކްޓްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.projects_subtitle` | Jobs we are delivering: installs, websites, designs and campaigns. | ހިންގަމުންދާ މަސައްކަތްތައް: އިންސްޓޯލޭޝަން، ވެބްސައިޓް، ޑިޒައިން އަދި ކެމްޕެއިން. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.qty` | Qty | އަދަދު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.quote` | Quotation | ކޯޓޭޝަން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.quotes` | Quotations | ކޯޓޭޝަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.quotes_subtitle` | Price offers we send to clients. | ކްލައިންޓުންނަށް ފޮނުވާ އަގު ހުށަހެޅުންތައް. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.record_payment` | Record payment | ފައިސާ ލިބުނުކަން ލިޔޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.reference` | Reference | ރެފަރެންސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.search_clients` | Search clients | ކްލައިންޓުން ހޯދާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.search_leads` | Search name, company, phone or email | ނަން، ކުންފުނި، ފޯނު ނުވަތަ އީމެއިލް ހޯދާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.search_tickets` | Search tickets | ޓިކެޓް ހޯދާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.service` | Service | ޚިދުމަތް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.services` | Services | ޚިދުމަތްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.services_subtitle` | What OceanX sells, with standard prices for quotations. | OceanX ވިއްކާ ޚިދުމަތްތަކާއި، ކޯޓޭޝަނަށް ބޭނުންކުރާ އަގުތައް. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.settings.company_hint` | Printed on OceanX quotations and invoices. Bank details below are printed too. | OceanX ގެ ކޯޓޭޝަނާއި އިންވޮއިސްގައި ޕްރިންޓްވާނެ. ތިރީގައިވާ ބޭންކް މަޢުލޫމާތުވެސް ޕްރިންޓްވާނެ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.settings.company_section` | OceanX company details | OceanX ކުންފުނީގެ މަޢުލޫމާތު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.settings.terms` | Default terms | ޑިފޯލްޓް ޝަރުތުތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.settings.terms_hint` | Added to new quotations and invoices. | އައު ކޯޓޭޝަނާއި އިންވޮއިސްއަށް އެކުލެވޭނެ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.source` | Source | ކޮންތާކުން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.sources.email` | Email | އީމެއިލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.sources.other` | Other | އެހެނިހެން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.sources.phone` | Phone call | ފޯނު ކޯލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.sources.referral` | Referral | ރިފަރަލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.sources.walk_in` | Walk-in | ސީދާ އައި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.sources.website` | Website | ވެބްސައިޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.start_date` | Start date | ފަށާ ތާރީޚު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_clients` | Clients | ކްލައިންޓުން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_due` | Money owed to us | އަޅުގަނޑުމެންނަށް ލިބެންޖެހޭ ފައިސާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_follow_ups_one` | {{count}} follow-up due | {{count}} ފޮލޯއަޕް ކުރަން ޖެހޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_follow_ups_other` | {{count}} follow-ups due | {{count}} ފޮލޯއަޕް ކުރަން ޖެހޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_leads` | Open leads | ހުޅުވާ ލީޑްސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_my_tasks` | My open tasks | އަހަރެންގެ ނުނިމޭ ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_pos` | Active POS businesses | ހިނގަމުންދާ ޕީއޯއެސް ވިޔަފާރި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_pos_pending_one` | {{count}} payment to check | {{count}} ފައިސާ ޗެކްކުރަން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_pos_pending_other` | {{count}} payments to check | {{count}} ފައިސާ ޗެކްކުރަން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_projects` | Active projects | ހިނގަމުންދާ ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_received` | Received this month | މި މަހު ލިބުނު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_team_tasks_one` | {{count}} open for the team | ޓީމަށް {{count}} ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_team_tasks_other` | {{count}} open for the team | ޓީމަށް {{count}} ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_tickets` | Open tickets | ހުޅުވާ ޓިކެޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_unpaid_invoices_one` | {{count}} unpaid invoice | {{count}} ނުދައްކާ އިންވޮއިސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_unpaid_invoices_other` | {{count}} unpaid invoices | {{count}} ނުދައްކާ އިންވޮއިސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_urgent_one` | {{count}} urgent | {{count}} އަވަސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_urgent_other` | {{count}} urgent | {{count}} އަވަސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.subject` | Subject | މައުޟޫޢު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.subtotal` | Subtotal | ސަބް ޓޯޓަލް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.tasks` | Tasks | ކުރަންޖެހޭ ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.tasks_subtitle` | Your to-do list and the team's. | ތިބާގެ އަދި ޓީމުގެ ކުރަންޖެހޭ ކަންތައް. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.tax_number` | Tax number (TIN) | ޓެކްސް ނަންބަރު (TIN) | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket` | Ticket | ޓިކެޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket_statuses.closed` | Closed | ބަންދު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket_statuses.in_progress` | Working on it | މަސައްކަތްކުރަމުން | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket_statuses.open` | Open | ހުޅުވާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket_statuses.resolved` | Resolved | ހައްލުކުރެވިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket_statuses.waiting` | Waiting on customer | ކަސްޓަމަރަށް އިންތިޒާރުކުރަނީ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket_tabs.all` | All | ހުރިހާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket_tabs.open_all` | Open | ހުޅުވާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ticket_tabs.resolved` | Resolved | ހައްލުކުރެވިފައި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.tickets` | Support tickets | ސަޕޯޓް ޓިކެޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.tickets_subtitle` | Customer problems and requests, until they are solved. | ކަސްޓަމަރުންގެ މައްސަލަތަކާއި އެދުންތައް، ހައްލުވާންދެން. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.tip_add_services` | Tip: add your services first to fill prices in one tap. | ޓިޕް: އެއް ފިތުމުން އަގު ލިބޭނެގޮތަށް ފުރަތަމަ ޚިދުމަތްތައް އިތުރުކުރޭ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.total` | Total | ޖުމްލަ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.unassigned` | Unassigned | ހަވާލުނުކުރެވޭ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.unit` | Unit | ޔުނިޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.unit_hint` | e.g. job, month, hour, page | މިސާލު: މަސައްކަތް، މަސް، ގަޑިއިރު، ޞަފްޙާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.unpaid` | Unpaid | ނުދައްކާ | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.updates` | Updates | އަޕްޑޭޓްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.valid_until` | Valid until | މުއްދަތު ހަމަވާ ދުވަސް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.value` | Value | އަގު | needs_review | New: OceanX Hub (Super Admin main office). |
 | `inventory.add_shop_product` | Add product | ތަކެތި އިތުރުކުރޭ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.add_shop_product_hint` | A product for sale, with its stock in the store and on the rack. | ވިއްކާ ތަކެތި، ސްޓޯރާއި ރެކުގައި ހުރި ސްޓޮކާއެކު. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.add_supply` | Add stock item | ސްޓޮކް އައިޓަމެއް އިތުރުކުރޭ | needs_review | Loanwords ސްޓޮކް/އައިޓަމް follow existing inventory strings. Alternative: ސްޓޮކަށް ތަކެއްޗެއް އިތުރުކުރޭ. |

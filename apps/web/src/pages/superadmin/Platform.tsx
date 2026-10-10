@@ -334,6 +334,10 @@ interface PlatformSettings {
   billingBankDetails: string;
   billingNote: string;
   billingReminderDays: number;
+  companyAddress: string;
+  companyPhone: string;
+  companyTaxNumber: string;
+  hubTerms: string;
 }
 
 export function PlatformSettingsPage() {
@@ -381,6 +385,14 @@ export function PlatformSettingsPage() {
             ))}
           </Select>
           <Input label={t('superadmin.settings.default_currency')} value={form.defaultCurrency} maxLength={3} dir="ltr" onChange={(e) => setForm({ ...form, defaultCurrency: e.target.value.toUpperCase() })} error={fieldErr('defaultCurrency')} />
+        </div>
+        <h3 className="mt-8 mb-3 text-sm font-semibold">{t('hub.settings.company_section')}</h3>
+        <p className="-mt-2 mb-3 text-xs text-slate-500">{t('hub.settings.company_hint')}</p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Textarea className="sm:col-span-2" rows={2} label={t('common.address')} value={form.companyAddress} maxLength={300} onChange={(e) => setForm({ ...form, companyAddress: e.target.value })} error={fieldErr('companyAddress')} />
+          <Input type="tel" dir="ltr" label={t('common.phone')} value={form.companyPhone} onChange={(e) => setForm({ ...form, companyPhone: e.target.value })} error={fieldErr('companyPhone')} />
+          <Input dir="ltr" label={t('hub.tax_number')} value={form.companyTaxNumber} onChange={(e) => setForm({ ...form, companyTaxNumber: e.target.value })} error={fieldErr('companyTaxNumber')} />
+          <Textarea className="sm:col-span-2" rows={3} label={t('hub.settings.terms')} hint={t('hub.settings.terms_hint')} value={form.hubTerms} maxLength={2000} onChange={(e) => setForm({ ...form, hubTerms: e.target.value })} error={fieldErr('hubTerms')} />
         </div>
         <h3 className="mt-8 mb-3 text-sm font-semibold">{t('superadmin.settings.billing_section')}</h3>
         <div className="grid gap-4 sm:grid-cols-2">

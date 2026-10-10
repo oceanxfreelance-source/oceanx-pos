@@ -14,6 +14,8 @@ export interface DocBusiness {
   phone: string;
   email: string;
   hasLogo: boolean;
+  /** A fixed logo instead of the business logo (OceanX's own documents in the Hub). */
+  logoUrl?: string;
 }
 export interface DocRegional {
   currencySymbol: string;
@@ -87,7 +89,7 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
     return (
       <article lang={doc.language} dir={dir} className="doc-receipt mx-auto bg-white p-3 font-mono text-[12px] leading-snug text-black" style={{ width: doc.paperWidth === '58mm' ? '58mm' : '80mm' }}>
         <header className="space-y-0.5 text-center">
-          {doc.business.hasLogo && <img src="/api/settings/logo" alt="" className="mx-auto mb-1 max-h-14 object-contain" />}
+          {(doc.business.logoUrl || doc.business.hasLogo) && <img src={doc.business.logoUrl ?? "/api/settings/logo"} alt="" className="mx-auto mb-1 max-h-14 object-contain" />}
           <p className="text-[14px] font-bold" dir="auto">
             {doc.business.name}
           </p>
@@ -136,7 +138,7 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
       <StatusStamp doc={doc} />
       <header className="flex items-start justify-between gap-6 border-b border-slate-200 pb-6">
         <div className="space-y-1">
-          {doc.business.hasLogo && <img src="/api/settings/logo" alt="" className="mb-2 max-h-16 object-contain" />}
+          {(doc.business.logoUrl || doc.business.hasLogo) && <img src={doc.business.logoUrl ?? "/api/settings/logo"} alt="" className="mb-2 max-h-16 object-contain" />}
           <p className="text-lg font-bold" dir="auto">
             {doc.business.name}
           </p>
