@@ -50,6 +50,8 @@ writeFileSync(
     {
       version: 3,
       routes: [
+        // Pages and files: never framed by other sites (stops sign-in page clickjacking), no type sniffing.
+        { src: '^/(?!api(?:/|$))(.*)$', headers: { 'x-frame-options': 'SAMEORIGIN', 'x-content-type-options': 'nosniff', 'referrer-policy': 'strict-origin-when-cross-origin' }, continue: true },
         { src: '^/assets/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
         { src: '^/api(/.*)?$', dest: '/api' },
         { handle: 'filesystem' },

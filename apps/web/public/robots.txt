@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /$
+Allow: /login
+Allow: /register
+Allow: /brand/
+Disallow: /api/
+Disallow: /superadmin
+Disallow: /menu/
+Disallow: /print/
