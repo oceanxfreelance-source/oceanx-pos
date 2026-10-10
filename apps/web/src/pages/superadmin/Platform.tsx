@@ -330,6 +330,7 @@ interface PlatformSettings {
   supportEmail: string;
   registrationMode: 'open' | 'approval' | 'closed';
   defaultPlanCode: string;
+  gravityPlanCode: string;
   defaultCurrency: string;
   billingBankDetails: string;
   billingNote: string;
@@ -344,7 +345,8 @@ export function PlatformSettingsPage() {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ['sa', 'settings'], queryFn: () => saApi.get<PlatformSettings>('/settings') });
-  const plans = useQuery({ queryKey: ['sa', 'plans'], queryFn: () => saApi.get<{ items: { code: string; name: string; isActive: boolean }[] }>('/plans') });
+  const plans = useQuery({ queryKey: ['sa', 'plans', 'pos'], queryFn: () => saApi.get<{ items: { code: string; name: string; isActive: boolean }[] }>('/plans?product=pos') });
+  const gravityPlans = useQuery({ queryKey: ['sa', 'plans', 'gravity'], queryFn: () => saApi.get<{ items: { code: string; name: string; isActive: boolean }[] }>('/plans?product=gravity') });
   const [form, setForm] = useState<PlatformSettings | null>(null);
   useEffect(() => {
     if (q.data) setForm(q.data);
@@ -379,6 +381,13 @@ export function PlatformSettingsPage() {
           </Select>
           <Select label={t('superadmin.settings.default_plan')} value={form.defaultPlanCode} onChange={(e) => setForm({ ...form, defaultPlanCode: e.target.value })} error={fieldErr('defaultPlanCode')} hint={t('superadmin.settings.default_plan_hint')}>
             {plans.data?.items.map((p) => (
+              <option key={p.code} value={p.code}>
+                {p.name}
+              </option>
+            ))}
+          </Select>
+          <Select label={t('gravity.signup_plan')} value={form.gravityPlanCode} onChange={(e) => setForm({ ...form, gravityPlanCode: e.target.value })} error={fieldErr('gravityPlanCode')} hint={t('gravity.signup_plan_hint')}>
+            {gravityPlans.data?.items.map((p) => (
               <option key={p.code} value={p.code}>
                 {p.name}
               </option>

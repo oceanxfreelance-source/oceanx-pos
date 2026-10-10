@@ -10,6 +10,7 @@ export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   supportEmail: '',
   registrationMode: 'approval',
   defaultPlanCode: 'trial',
+  gravityPlanCode: 'gravity_trial',
   defaultCurrency: 'MVR',
   billingBankDetails: '',
   billingNote: '',

@@ -704,7 +704,9 @@
       "orders_enabled": "অনলাইন অর্ডার গ্রহণ করুন",
       "orders_enabled_hint": "অনলাইন অর্ডার অ্যাড-অন প্রয়োজন। অর্ডারগুলো অনলাইন অর্ডারে দেখা যাবে।",
       "message": "মেনুতে দেখানো বার্তা"
-    }
+    },
+    "payment_details": "পেমেন্টের তথ্য",
+    "payment_details_hint": "ব্যাংক, অ্যাকাউন্টের নাম ও নম্বর, বা পেমেন্টের অন্য উপায়। ডকুমেন্টে ছাপা হয়।"
   },
   "account": {
     "business": "ব্যবসা",
@@ -1493,7 +1495,8 @@
     },
     "customer_ref": "PO / রেফারেন্স নং",
     "customer_ref_hint": "গ্রাহকের ক্রয় আদেশ বা টেন্ডার নম্বর।",
-    "add_customer_ref": "PO নম্বর যোগ করুন"
+    "add_customer_ref": "PO নম্বর যোগ করুন",
+    "add_line": "লাইন যোগ করুন"
   },
   "quotations": {
     "title": "কোটেশন",
@@ -1578,7 +1581,8 @@
     "statement_note": "এই স্টেটমেন্টে কিছু ভুল মনে হলে অনুগ্রহ করে আমাদের সাথে যোগাযোগ করুন।",
     "authorized_signature": "অনুমোদিত স্বাক্ষর",
     "received_by": "গ্রহণকারী",
-    "customer_ref": "PO নং"
+    "customer_ref": "PO নং",
+    "payment_details": "পেমেন্টের তথ্য"
   },
   "inventory": {
     "title": "স্টক",
@@ -2519,5 +2523,52 @@
       "color": "রং",
       "order": "তালিকায় ক্রম"
     }
+  },
+  "gravity": {
+    "name": "Gravity",
+    "tagline": "কোটেশন ও ইনভয়েস",
+    "aside_title": "প্রথম দিন থেকেই পেশাদার দেখান। মিনিটেই কোটেশন ও ইনভয়েস।",
+    "aside_1": "ইংরেজি বা ধিভেহিতে",
+    "aside_2": "আপনার লোগো, সিল, স্বাক্ষর ও ব্যাংকের তথ্য",
+    "aside_3": "এক ট্যাপে গৃহীত কোটেশনকে ইনভয়েস করুন",
+    "aside_4": "কে টাকা দিয়েছে আর কী বাকি, দেখুন",
+    "register_title": "আপনার Gravity অ্যাকাউন্ট খুলুন",
+    "register_subtitle": "উদ্যোক্তা, ফ্রিল্যান্সার ও ছোট ব্যবসার জন্য: ইংরেজি বা ধিভেহিতে কোটেশন ও ইনভয়েস।",
+    "create_account": "অ্যাকাউন্ট খুলুন",
+    "home_title": "হ্যালো, {{name}}",
+    "home_subtitle": "এক নজরে আপনার কোটেশন ও ইনভয়েস।",
+    "setup_title": "আপনার ডকুমেন্টের চেহারা পূর্ণ করুন",
+    "setup_body": "আপনার লোগো ও পেমেন্টের তথ্য যোগ করুন। এগুলো প্রতিটি কোটেশন ও ইনভয়েসে ছাপা হয়। সিল ও স্বাক্ষর ঐচ্ছিক।",
+    "add_logo": "লোগো যোগ করুন",
+    "add_payment_details": "পেমেন্টের তথ্য যোগ করুন",
+    "owed_to_you": "আপনার পাওনা",
+    "unpaid_invoices_one": "{{count}}টি অপরিশোধিত ইনভয়েস",
+    "unpaid_invoices_other": "{{count}}টি অপরিশোধিত ইনভয়েস",
+    "overdue": "মেয়াদোত্তীর্ণ",
+    "awaiting_reply": "উত্তরের অপেক্ষায় কোটেশন",
+    "all_invoices": "ইনভয়েস",
+    "all_quotations_one": "{{count}}টি কোটেশন",
+    "all_quotations_other": "{{count}}টি কোটেশন",
+    "no_invoices": "এখনও কোনো ইনভয়েস নেই",
+    "no_quotations": "এখনও কোনো কোটেশন নেই",
+    "see_all": "সব দেখুন",
+    "accounts": "Gravity অ্যাকাউন্ট",
+    "accounts_subtitle": "কোটেশন ও ইনভয়েসের জন্য Gravity ব্যবহারকারী ব্যবসা।",
+    "new_account": "নতুন Gravity অ্যাকাউন্ট",
+    "payments": "Gravity পেমেন্ট",
+    "plans": "Gravity প্ল্যান",
+    "console": "Gravity কনসোল",
+    "active_accounts": "সক্রিয় Gravity অ্যাকাউন্ট",
+    "signup_link": "গ্রাহকরা এখানে সাইন আপ করেন",
+    "signup_plan": "Gravity সাইন-আপ প্ল্যান",
+    "signup_plan_hint": "নতুন Gravity অ্যাকাউন্ট এই প্ল্যানে শুরু হয়।",
+    "who_owes": "কার কাছে পাওনা",
+    "who_owes_total": "ইস্যু করা ইনভয়েসে {{amount}} বাকি",
+    "nobody_owes": "কারও কাছে পাওনা নেই",
+    "nobody_owes_body": "পুরো পরিশোধ না হওয়া ইস্যু করা ইনভয়েস এখানে গ্রাহক অনুযায়ী দেখা যায়।",
+    "oldest_due": "সবচেয়ে পুরোনো বকেয়া {{date}}",
+    "overdue_amount": "{{amount}} মেয়াদোত্তীর্ণ",
+    "business_name": "আপনার নাম বা ব্যবসার নাম",
+    "business_name_hint": "আপনার কোটেশন ও ইনভয়েসের উপরে ছাপা হয়। ফ্রিল্যান্সাররা নিজের নাম দিতে পারেন।"
   }
 }

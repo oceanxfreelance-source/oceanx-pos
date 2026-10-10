@@ -9,6 +9,7 @@ import {
   type BusinessType,
   type LanguageCode,
   type SystemRoleKey,
+  type Product,
 } from '@oceanx/shared';
 import type { Executor } from '../db/client';
 import { businesses, businessSettings, outlets, plans, rolePermissions, roles, subscriptions, userRoles, users } from '../db/schema';
@@ -55,6 +56,8 @@ export async function emailInUse(db: Executor, email: string, exceptUserId?: str
 }
 
 export interface ProvisionInput {
+  /** OceanX product the account is for (default pos). The plan must be for the same product. */
+  product?: Product;
   name: string;
   businessType: BusinessType;
   email?: string;
@@ -74,9 +77,13 @@ export interface ProvisionInput {
  * Create a fully-provisioned tenant in ONE transaction:
  * business + subscription + default outlet + settings + system roles + owner (Business Admin).
  */
+const GRAVITY_SYSTEM_ROLE_KEYS: readonly SystemRoleKey[] = ['business_admin'];
+
 export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
   const [plan] = await tx.select().from(plans).where(eq(plans.id, input.planId)).limit(1);
   if (!plan) throw new AppError('validation_failed', 'Unknown plan', { fields: { planId: { code: 'invalid_option' } } });
+  const product = input.product ?? 'pos';
+  if (plan.product !== product) throw new AppError('validation_failed', 'Plan is for another product', { fields: { planId: { code: 'invalid_option' } } });
   if (await emailInUse(tx, input.owner.email)) throw new AppError('email_taken', 'Email already registered', { fields: { 'owner.email': { code: 'email_taken' } } });
 
   const now = new Date();
@@ -85,6 +92,7 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
     .values({
       name: input.name,
       slug: await uniqueSlug(tx, input.name),
+      product,
       businessType: input.businessType,
       status: input.status,
       email: input.email ?? '',
@@ -120,7 +128,9 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
 
   const roleIds: Partial<Record<SystemRoleKey, string>> = {};
   const retail = isRetailType(input.businessType);
-  for (const key of retail ? RETAIL_SYSTEM_ROLE_KEYS : SYSTEM_ROLE_KEYS) {
+  // Gravity (quotations & invoices only) is one person: just the owner's admin role, no POS roles.
+  const roleKeys = product === 'gravity' ? GRAVITY_SYSTEM_ROLE_KEYS : retail ? RETAIL_SYSTEM_ROLE_KEYS : SYSTEM_ROLE_KEYS;
+  for (const key of roleKeys) {
     const [role] = await tx
       .insert(roles)
       .values({ businessId: business.id, name: (retail && RETAIL_ROLE_NAMES[key]) || SYSTEM_ROLE_NAMES[key], systemKey: key })

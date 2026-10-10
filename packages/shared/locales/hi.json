@@ -704,7 +704,9 @@
       "orders_enabled": "ऑनलाइन ऑर्डर स्वीकार करें",
       "orders_enabled_hint": "ऑनलाइन ऑर्डरिंग ऐड-ऑन ज़रूरी है। ऑर्डर ऑनलाइन ऑर्डर में दिखते हैं।",
       "message": "मेनू पर दिखने वाला संदेश"
-    }
+    },
+    "payment_details": "भुगतान विवरण",
+    "payment_details_hint": "बैंक, खाते का नाम और नंबर, या भुगतान के अन्य तरीके। दस्तावेज़ पर छपता है।"
   },
   "account": {
     "business": "व्यवसाय",
@@ -1493,7 +1495,8 @@
     },
     "customer_ref": "PO / संदर्भ संख्या",
     "customer_ref_hint": "ग्राहक का खरीद आदेश या टेंडर नंबर।",
-    "add_customer_ref": "PO नंबर जोड़ें"
+    "add_customer_ref": "PO नंबर जोड़ें",
+    "add_line": "पंक्ति जोड़ें"
   },
   "quotations": {
     "title": "कोटेशन",
@@ -1578,7 +1581,8 @@
     "statement_note": "यदि इस विवरण में कुछ भी गलत लगे तो कृपया हमसे संपर्क करें।",
     "authorized_signature": "अधिकृत हस्ताक्षर",
     "received_by": "प्राप्तकर्ता",
-    "customer_ref": "PO नं."
+    "customer_ref": "PO नं.",
+    "payment_details": "भुगतान विवरण"
   },
   "inventory": {
     "title": "इन्वेंटरी",
@@ -2519,5 +2523,52 @@
       "color": "रंग",
       "order": "सूची में क्रम"
     }
+  },
+  "gravity": {
+    "name": "Gravity",
+    "tagline": "कोटेशन और इनवॉइस",
+    "aside_title": "पहले दिन से पेशेवर दिखें। मिनटों में कोटेशन और इनवॉइस।",
+    "aside_1": "अंग्रेज़ी या धिवेही में",
+    "aside_2": "आपका लोगो, मुहर, हस्ताक्षर और बैंक विवरण",
+    "aside_3": "स्वीकृत कोटेशन को एक टैप में इनवॉइस बनाएँ",
+    "aside_4": "किसने भुगतान किया और क्या बकाया है, देखें",
+    "register_title": "अपना Gravity खाता बनाएँ",
+    "register_subtitle": "उद्यमियों, फ्रीलांसरों और छोटे व्यवसायों के लिए: अंग्रेज़ी या धिवेही में कोटेशन और इनवॉइस।",
+    "create_account": "खाता बनाएँ",
+    "home_title": "नमस्ते, {{name}}",
+    "home_subtitle": "आपके कोटेशन और इनवॉइस एक नज़र में।",
+    "setup_title": "अपने दस्तावेज़ों का रूप पूरा करें",
+    "setup_body": "अपना लोगो और भुगतान का तरीका जोड़ें। ये हर कोटेशन और इनवॉइस पर छपते हैं। मुहर और हस्ताक्षर वैकल्पिक हैं।",
+    "add_logo": "लोगो जोड़ें",
+    "add_payment_details": "भुगतान विवरण जोड़ें",
+    "owed_to_you": "आपको मिलना है",
+    "unpaid_invoices_one": "{{count}} अवैतनिक इनवॉइस",
+    "unpaid_invoices_other": "{{count}} अवैतनिक इनवॉइस",
+    "overdue": "बकाया (देर से)",
+    "awaiting_reply": "जवाब का इंतज़ार कर रहे कोटेशन",
+    "all_invoices": "इनवॉइस",
+    "all_quotations_one": "{{count}} कोटेशन",
+    "all_quotations_other": "{{count}} कोटेशन",
+    "no_invoices": "अभी कोई इनवॉइस नहीं",
+    "no_quotations": "अभी कोई कोटेशन नहीं",
+    "see_all": "सभी देखें",
+    "accounts": "Gravity खाते",
+    "accounts_subtitle": "कोटेशन और इनवॉइस के लिए Gravity इस्तेमाल करने वाले व्यवसाय।",
+    "new_account": "नया Gravity खाता",
+    "payments": "Gravity भुगतान",
+    "plans": "Gravity प्लान",
+    "console": "Gravity कंसोल",
+    "active_accounts": "सक्रिय Gravity खाते",
+    "signup_link": "ग्राहक यहाँ साइन अप करते हैं",
+    "signup_plan": "Gravity साइन-अप प्लान",
+    "signup_plan_hint": "नए Gravity खाते इसी प्लान से शुरू होते हैं।",
+    "who_owes": "किसका बकाया है",
+    "who_owes_total": "जारी इनवॉइस पर {{amount}} बकाया",
+    "nobody_owes": "किसी का बकाया नहीं",
+    "nobody_owes_body": "पूरी तरह भुगतान न हुए जारी इनवॉइस यहाँ ग्राहक के अनुसार दिखते हैं।",
+    "oldest_due": "सबसे पुराना देय {{date}}",
+    "overdue_amount": "{{amount}} देरी से",
+    "business_name": "आपका नाम या व्यवसाय का नाम",
+    "business_name_hint": "आपके कोटेशन और इनवॉइस के ऊपर छपता है। फ्रीलांसर अपना नाम इस्तेमाल कर सकते हैं।"
   }
 }

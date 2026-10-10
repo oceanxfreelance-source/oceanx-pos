@@ -64,6 +64,8 @@ export const settingsSectionSchemas = {
     notes: shortText(2000),
     terms: shortText(5000),
     footer: shortText(500),
+    /** How to pay: bank, account name and number, mobile pay… printed on the document. */
+    paymentDetails: shortText(1000),
     language: z.enum(LANGUAGE_CODES).nullable(),
   }),
   quotation: z.object({
@@ -72,6 +74,8 @@ export const settingsSectionSchemas = {
     notes: shortText(2000),
     terms: shortText(5000),
     footer: shortText(500),
+    /** How to pay: bank, account name and number, mobile pay… printed on the document. */
+    paymentDetails: shortText(1000),
     language: z.enum(LANGUAGE_CODES).nullable(),
   }),
   pos: z.object({
@@ -156,6 +160,7 @@ export function defaultBusinessSettings(opts: { currency?: string; timezone?: st
       notes: '',
       terms: '',
       footer: '',
+      paymentDetails: '',
       language: null,
     },
     quotation: {
@@ -164,6 +169,7 @@ export function defaultBusinessSettings(opts: { currency?: string; timezone?: st
       notes: '',
       terms: '',
       footer: '',
+      paymentDetails: '',
       language: null,
     },
     pos: { defaultOrderType: 'dine_in', allowNegativeStock: true, sendToKitchen: true, requireTableForDineIn: false, maxDiscountPercent: 100 },

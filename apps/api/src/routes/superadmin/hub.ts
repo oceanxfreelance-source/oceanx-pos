@@ -118,9 +118,10 @@ export async function hubRoutes(app: FastifyInstance) {
     const v = await ventureFilter(ventureId);
     const by = (col: Parameters<typeof eq>[0]) => (v ? eq(col, v.id) : undefined);
     const showPos = !v || v.kind === 'pos';
+    const showGravity = !v || v.kind === 'gravity';
     const d = today();
     const monthStart = `${d.slice(0, 8)}01`;
-    const [leads, followUps, clients, projects, myTasks, openTasks, tickets, urgent, unpaid, paidMonth, pos, posPending] = await Promise.all([
+    const [leads, followUps, clients, projects, myTasks, openTasks, tickets, urgent, unpaid, paidMonth, pos, posPending, gravity] = await Promise.all([
       db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), by(hubLeads.ventureId))),
       db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), lte(hubLeads.nextFollowUp, d), by(hubLeads.ventureId))),
       db.select({ n: count() }).from(hubClients).where(v ? clientInVenture(v.id, v.kind === 'pos') : undefined),
@@ -138,8 +139,13 @@ export async function hubRoutes(app: FastifyInstance) {
         .from(hubPayments)
         .innerJoin(hubDocuments, eq(hubDocuments.id, hubPayments.documentId))
         .where(and(isNull(hubPayments.voidedAt), sql`${hubPayments.paidAt} >= ${monthStart}`, by(hubDocuments.ventureId))),
-      db.select({ n: count() }).from(businesses).where(eq(businesses.status, 'active')),
-      db.select({ n: count() }).from(billingPayments).where(eq(billingPayments.status, 'pending')),
+      db.select({ n: count() }).from(businesses).where(and(eq(businesses.status, 'active'), eq(businesses.product, 'pos'))),
+      db
+        .select({ n: count() })
+        .from(billingPayments)
+        .innerJoin(businesses, eq(businesses.id, billingPayments.businessId))
+        .where(and(eq(billingPayments.status, 'pending'), eq(businesses.product, 'pos'))),
+      db.select({ n: count() }).from(businesses).where(and(eq(businesses.status, 'active'), eq(businesses.product, 'gravity'))),
     ]);
     const settings = await getPlatformSettings(db);
     return {
@@ -157,6 +163,7 @@ export async function hubRoutes(app: FastifyInstance) {
       receivedThisMonth: Number(paidMonth[0]?.total ?? 0),
       posBusinessesActive: showPos ? (pos[0]?.n ?? 0) : null,
       posPaymentsPending: showPos ? (posPending[0]?.n ?? 0) : null,
+      gravityAccountsActive: showGravity ? (gravity[0]?.n ?? 0) : null,
       venture: v,
     };
   });
@@ -173,13 +180,18 @@ export async function hubRoutes(app: FastifyInstance) {
       })
       .from(hubVentures)
       .orderBy(asc(hubVentures.sortOrder), asc(hubVentures.createdAt));
-    const hasPos = rows.some((r) => r.v.kind === 'pos');
-    const [pos, posPending] = hasPos
-      ? await Promise.all([
-          db.select({ n: count() }).from(businesses).where(eq(businesses.status, 'active')),
-          db.select({ n: count() }).from(billingPayments).where(eq(billingPayments.status, 'pending')),
-        ])
-      : [[], []];
+    const active = await db
+      .select({ product: businesses.product, n: count() })
+      .from(businesses)
+      .where(and(eq(businesses.status, 'active'), isNull(businesses.deletedAt)))
+      .groupBy(businesses.product);
+    const pending = await db
+      .select({ product: businesses.product, n: count() })
+      .from(billingPayments)
+      .innerJoin(businesses, eq(businesses.id, billingPayments.businessId))
+      .where(eq(billingPayments.status, 'pending'))
+      .groupBy(businesses.product);
+    const nOf = (list: { product: string; n: number }[], product: string) => list.find((x) => x.product === product)?.n ?? 0;
     return {
       items: rows.map((r) => ({
         ...r.v,
@@ -187,7 +199,9 @@ export async function hubRoutes(app: FastifyInstance) {
         jobsActive: r.jobsActive,
         ticketsOpen: r.ticketsOpen,
         amountDue: Number(r.amountDue),
-        ...(r.v.kind === 'pos' ? { posBusinessesActive: pos[0]?.n ?? 0, posPaymentsPending: posPending[0]?.n ?? 0 } : {}),
+        // Built-in product projects also show their accounts and payments waiting for review.
+        ...(r.v.kind !== 'custom' ? { accountsActive: nOf(active, r.v.kind), paymentsPending: nOf(pending, r.v.kind) } : {}),
+        ...(r.v.kind === 'pos' ? { posBusinessesActive: nOf(active, 'pos'), posPaymentsPending: nOf(pending, 'pos') } : {}),
       })),
     };
   });

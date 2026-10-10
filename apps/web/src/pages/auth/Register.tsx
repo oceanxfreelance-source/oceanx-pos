@@ -12,7 +12,9 @@ import { Alert } from '../../components/ui/Card';
 import { AuthLayout } from './AuthLayout';
 import { LanguagePicker } from './LanguagePicker';
 
-export default function Register() {
+/** Sign-up for OceanX POS, or for Gravity (quotations & invoices) at /gravity/register. */
+export default function Register({ product = 'pos' }: { product?: 'pos' | 'gravity' }) {
+  const gravity = product === 'gravity';
   const { t, i18n } = useTranslation();
   const { session, setSession } = useBiz();
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ export default function Register() {
   const [form, setForm] = useState({ businessName: '', businessType: 'restaurant' as BusinessType, ownerName: '', email: '', phone: '', password: '', currency: 'MVR' });
   const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
   const m = useMutation({
-    mutationFn: () => api.post<BusinessSession>('/auth/register', { ...form, language: i18n.language }),
+    mutationFn: () => api.post<BusinessSession>('/auth/register', { ...form, product, businessType: gravity ? 'other' : form.businessType, language: i18n.language }),
     onSuccess: (s) => {
       setSession(s);
       navigate('/', { replace: true });
@@ -34,13 +36,14 @@ export default function Register() {
   };
   return (
     <AuthLayout
-      title={t('auth.register_title')}
-      subtitle={t('auth.register_subtitle')}
+      variant={gravity ? 'gravity' : 'business'}
+      title={gravity ? t('gravity.register_title') : t('auth.register_title')}
+      subtitle={gravity ? t('gravity.register_subtitle') : t('auth.register_subtitle')}
       footer={
         <div className="space-y-4">
           <p>
             {t('auth.have_account')}{' '}
-            <Link to="/login" className="font-medium text-brand-700 hover:underline dark:text-brand-300">
+            <Link to={gravity ? '/gravity/login' : '/login'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
               {t('auth.sign_in')}
             </Link>
           </p>
@@ -50,14 +53,23 @@ export default function Register() {
     >
       <form onSubmit={onSubmit} className="space-y-4">
         {m.error && !(m.error instanceof ApiError && m.error.code === 'validation_failed') && <Alert tone="red">{errMsg(m.error)}</Alert>}
-        <Select label={t('auth.business_type')} value={form.businessType} onChange={set('businessType')} required>
-          {BUSINESS_TYPES.map((bt) => (
-            <option key={bt} value={bt}>
-              {t(`business_types.${bt}`)}
-            </option>
-          ))}
-        </Select>
-        <Input label={t('auth.business_name')} value={form.businessName} onChange={set('businessName')} error={fieldErr('businessName')} required />
+        {!gravity && (
+          <Select label={t('auth.business_type')} value={form.businessType} onChange={set('businessType')} required>
+            {BUSINESS_TYPES.map((bt) => (
+              <option key={bt} value={bt}>
+                {t(`business_types.${bt}`)}
+              </option>
+            ))}
+          </Select>
+        )}
+        <Input
+          label={gravity ? t('gravity.business_name') : t('auth.business_name')}
+          hint={gravity ? t('gravity.business_name_hint') : undefined}
+          value={form.businessName}
+          onChange={set('businessName')}
+          error={fieldErr('businessName')}
+          required
+        />
         <Input label={t('auth.your_name')} value={form.ownerName} onChange={set('ownerName')} error={fieldErr('ownerName')} required />
         <div className="grid gap-4 sm:grid-cols-2">
           <Input type="email" autoComplete="username" label={t('auth.email')} value={form.email} onChange={set('email')} error={fieldErr('email')} required />
@@ -76,7 +88,7 @@ export default function Register() {
         />
         <Input label={t('settings.currency')} value={form.currency} maxLength={3} onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value.toUpperCase() }))} error={fieldErr('currency')} dir="ltr" required />
         <Button type="submit" size="lg" className="w-full" loading={m.isPending}>
-          {t('auth.create_business')}
+          {gravity ? t('gravity.create_account') : t('auth.create_business')}
         </Button>
       </form>
     </AuthLayout>

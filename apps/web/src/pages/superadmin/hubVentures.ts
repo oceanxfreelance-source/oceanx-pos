@@ -6,7 +6,7 @@ import type { BadgeTone } from '../../components/ui/Card';
 export interface Venture {
   id: string;
   name: string;
-  kind: 'pos' | 'custom';
+  kind: 'pos' | 'gravity' | 'custom';
   description: string;
   color: string;
   isActive: boolean;
@@ -15,6 +15,9 @@ export interface Venture {
   jobsActive: number;
   ticketsOpen: number;
   amountDue: number;
+  /** Built-in product projects: active accounts and payments waiting for review. */
+  accountsActive?: number;
+  paymentsPending?: number;
   posBusinessesActive?: number;
   posPaymentsPending?: number;
 }

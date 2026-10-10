@@ -1,5 +1,5 @@
 import { notInArray, sql } from 'drizzle-orm';
-import { ADDONS, LANGUAGES, PERMISSIONS, PLAN_MODULES, SYSTEM_ROLE_TEMPLATES, type AddonKey } from '@oceanx/shared';
+import { ADDONS, GRAVITY_MODULES, LANGUAGES, PERMISSIONS, PLAN_MODULES, SYSTEM_ROLE_TEMPLATES, type AddonKey } from '@oceanx/shared';
 import type { Executor } from './client';
 import { addons, permissions, platformLanguages, plans } from './schema';
 
@@ -54,6 +54,9 @@ const DEFAULT_PLANS = [
     modules: ALL,
   },
   { code: 'custom', name: 'Custom', priceMonthly: '0', trialDays: 0, sortOrder: 4, limits: {}, modules: ALL, isPublic: false },
+  // Gravity (quotation & invoice generator). Prices are set by the OceanX team in Super Admin.
+  { product: 'gravity', code: 'gravity_trial', name: 'Gravity Trial', priceMonthly: '0', trialDays: 14, sortOrder: 10, limits: { max_users: 1, storage_mb: 100 }, modules: [...GRAVITY_MODULES] },
+  { product: 'gravity', code: 'gravity_pro', name: 'Gravity Pro', priceMonthly: '9', trialDays: 0, sortOrder: 11, limits: { max_users: 1, storage_mb: 1000 }, modules: [...GRAVITY_MODULES] },
 ];
 
 /**

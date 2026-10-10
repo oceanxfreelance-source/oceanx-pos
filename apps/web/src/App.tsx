@@ -155,6 +155,11 @@ const router = createBrowserRouter([
           { path: 'restaurants', element: withSuspense(<SaBusinesses presetType="restaurant" />) },
           { path: 'cafes', element: withSuspense(<SaBusinesses presetType="cafe" />) },
           { path: 'retail', element: withSuspense(<SaBusinesses presetType="retail" />) },
+          // Gravity (quotation & invoice generator) console.
+          { path: 'gravity/accounts', element: withSuspense(<SaBusinesses product="gravity" />) },
+          { path: 'gravity/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
+          { path: 'gravity/plans', element: withSuspense(<SaPlans product="gravity" />) },
+          { path: 'gravity/payments', element: withSuspense(<SaPayments product="gravity" />) },
           { path: 'plans', element: withSuspense(<SaPlans />) },
           { path: 'addons', element: withSuspense(<SaAddons />) },
           { path: 'subscriptions', element: withSuspense(<SaSubscriptions />) },
@@ -182,6 +187,10 @@ const router = createBrowserRouter([
     children: [
       { path: 'login', element: <BusinessLogin /> },
       { path: 'register', element: <Register /> },
+      // Gravity (quotation & invoice generator): its own sign-up and sign-in look, same accounts system.
+      { path: 'gravity', element: <Navigate to="/gravity/register" replace /> },
+      { path: 'gravity/register', element: <Register product="gravity" /> },
+      { path: 'gravity/login', element: <BusinessLogin product="gravity" /> },
       { path: 'forgot-password', element: <ForgotPassword domain="business" /> },
       { path: 'reset-password', element: <ResetPassword domain="business" /> },
       {

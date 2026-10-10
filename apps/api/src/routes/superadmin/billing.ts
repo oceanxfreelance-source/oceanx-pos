@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { and, count, eq, gte, sql } from 'drizzle-orm';
 import { z } from 'zod';
-import { billingRecordSchema, billingRejectSchema, billingReviewSchema } from '@oceanx/shared';
+import { billingRecordSchema, billingRejectSchema, billingReviewSchema, PRODUCTS } from '@oceanx/shared';
 import { billingPayments, businesses } from '../../db/schema';
 import { saCtx } from '../../guards/superadmin';
 import { audit } from '../../lib/audit';
@@ -17,18 +17,20 @@ export async function billingAdminRoutes(app: FastifyInstance) {
   const saAudit = (ctx: ReturnType<typeof saCtx>) => ({ actorType: 'super_admin' as const, actorId: ctx.admin.id, actorName: ctx.admin.name });
 
   app.get('/billing/payments', async (req) => {
-    const q = parse(z.object({ status: z.enum(['pending', 'approved', 'rejected']).optional(), businessId: z.uuid().optional() }), req.query);
+    const q = parse(z.object({ status: z.enum(['pending', 'approved', 'rejected']).optional(), businessId: z.uuid().optional(), product: z.enum(PRODUCTS).optional() }), req.query);
     return { items: await listPayments(db, q) };
   });
 
-  app.get('/billing/summary', async () => {
+  app.get('/billing/summary', async (req) => {
+    const q = parse(z.object({ product: z.enum(PRODUCTS).optional() }), req.query);
+    const byProduct = q.product ? sql`${billingPayments.businessId} IN (SELECT id FROM businesses WHERE product = ${q.product})` : undefined;
     const monthStart = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), 1));
     const [pending, received] = await Promise.all([
-      db.select({ n: count() }).from(billingPayments).where(eq(billingPayments.status, 'pending')),
+      db.select({ n: count() }).from(billingPayments).where(and(eq(billingPayments.status, 'pending'), byProduct)),
       db
         .select({ currency: billingPayments.currency, total: sql<string>`sum(${billingPayments.amount})::text`, n: count() })
         .from(billingPayments)
-        .where(and(eq(billingPayments.status, 'approved'), gte(billingPayments.reviewedAt, monthStart)))
+        .where(and(eq(billingPayments.status, 'approved'), gte(billingPayments.reviewedAt, monthStart), byProduct))
         .groupBy(billingPayments.currency),
     ]);
     return { pending: pending[0]?.n ?? 0, receivedThisMonth: received.map((r) => ({ currency: r.currency, total: Number(r.total), count: r.n })) };
@@ -75,9 +77,9 @@ export async function billingAdminRoutes(app: FastifyInstance) {
     const ctx = saCtx(req);
     const businessId = idParam(req);
     const body = parse(billingRecordSchema, req.body);
-    const [b] = await db.select({ id: businesses.id }).from(businesses).where(eq(businesses.id, businessId));
+    const [b] = await db.select({ id: businesses.id, product: businesses.product }).from(businesses).where(eq(businesses.id, businessId));
     if (!b) throw notFound();
-    const { plan, amount, currency } = await payablePlan(db, body.planId, body.months);
+    const { plan, amount, currency } = await payablePlan(db, body.planId, body.months, b.product);
     const p = await db.transaction(async (tx) => {
       const [row] = await tx
         .insert(billingPayments)

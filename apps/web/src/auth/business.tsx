@@ -23,6 +23,8 @@ export interface BusinessSession {
     id: string;
     name: string;
     slug: string;
+    /** OceanX product: pos | gravity (quotations & invoices). */
+    product: 'pos' | 'gravity';
     businessType: string;
     status: string;
     currency: string;
@@ -91,6 +93,11 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
     setCsrfToken('business', session.csrfToken);
     void applyLanguage(session.user.language);
     applyPreferences(session.user.preferences);
+    try {
+      localStorage.setItem(LAST_PRODUCT_KEY, session.business.product);
+    } catch {
+      /* storage blocked: sign-out falls back to the POS sign-in */
+    }
   }, [session]);
 
   const setSession = useCallback((s: BusinessSession | null) => qc.setQueryData(BIZ_SESSION_KEY, s), [qc]);
@@ -107,6 +114,7 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
       refresh: () => qc.invalidateQueries({ queryKey: BIZ_SESSION_KEY }),
       setSession,
       logout: async () => {
+        const gravity = session?.business.product === 'gravity';
         try {
           await api.post('/auth/logout');
         } finally {
@@ -115,7 +123,7 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
           qc.clear();
           // A fresh page load guarantees no screen keeps showing the previous user (shared counter PCs).
           // The tablet app signs back in straight to the POS.
-          window.location.replace(android ? '/login?next=%2Fstart' : '/login');
+          window.location.replace(android ? '/login?next=%2Fstart' : gravity ? '/gravity/login' : '/login');
         }
       },
     };
@@ -135,4 +143,14 @@ export function useBizSession(): BusinessSession {
   const { session } = useBiz();
   if (!session) throw new Error('No business session');
   return session;
+}
+
+/** Remembers the last product used on this device, so a signed-out Gravity user lands on the Gravity sign-in. */
+export const LAST_PRODUCT_KEY = 'ox.lastProduct';
+export function lastProduct(): 'pos' | 'gravity' {
+  try {
+    return localStorage.getItem(LAST_PRODUCT_KEY) === 'gravity' ? 'gravity' : 'pos';
+  } catch {
+    return 'pos';
+  }
 }

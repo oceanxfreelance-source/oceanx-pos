@@ -15,9 +15,10 @@ export function addMonths(from: Date, months: number): Date {
 }
 
 /** A plan a business can pay for: active, public, with a price. Amount is in minor units. */
-export async function payablePlan(db: Executor, planId: string, months: number) {
+/** A paid, public plan of the business's own product (a POS account can't buy a Gravity plan, and back). */
+export async function payablePlan(db: Executor, planId: string, months: number, product: string) {
   const [plan] = await db.select().from(plans).where(eq(plans.id, planId));
-  if (!plan || !plan.isActive || !plan.isPublic || Number(plan.priceMonthly) <= 0) {
+  if (!plan || !plan.isActive || !plan.isPublic || Number(plan.priceMonthly) <= 0 || plan.product !== product) {
     throw new AppError('validation_failed', 'Choose a paid plan', { fields: { planId: { code: 'invalid_option' } } });
   }
   return { plan, amount: Math.round(Number(plan.priceMonthly) * 100) * months, currency: plan.currency };
@@ -59,8 +60,9 @@ export async function approvePayment(tx: Executor, paymentId: string, adminId: s
 }
 
 /** Payments with the names needed on screen (business, plan, who submitted / reviewed). */
-export async function listPayments(db: Executor, where: { businessId?: string; status?: string }, limit = 200) {
+export async function listPayments(db: Executor, where: { businessId?: string; status?: string; product?: string }, limit = 200) {
   const conds = [];
+  if (where.product) conds.push(eq(businesses.product, where.product));
   if (where.businessId) conds.push(eq(billingPayments.businessId, where.businessId));
   if (where.status) conds.push(eq(billingPayments.status, where.status));
   const rows = await db

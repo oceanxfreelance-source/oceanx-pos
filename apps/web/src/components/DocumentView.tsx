@@ -51,6 +51,8 @@ export interface DocData {
   notes?: string;
   terms?: string;
   footer?: string;
+  /** How to pay (bank / account), printed above the signature. */
+  paymentDetails?: string;
   /** Company stamp and preparer's signature (quotations and invoices). */
   branding?: DocBranding | null;
   paperWidth?: '58mm' | '80mm' | 'a4';
@@ -240,6 +242,14 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
               </p>
             </div>
           )}
+        </section>
+      )}
+      {doc.paymentDetails && (
+        <section className="mt-6 rounded-lg border border-slate-200 p-3" data-payment-details>
+          <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">{t('print.payment_details')}</p>
+          <p className="mt-1 whitespace-pre-line" dir="auto">
+            {doc.paymentDetails}
+          </p>
         </section>
       )}
       <SignatureBlock branding={doc.branding} t={t} />

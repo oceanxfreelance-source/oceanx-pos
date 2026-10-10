@@ -108,6 +108,7 @@ interface Overview {
   receivedThisMonth: number;
   posBusinessesActive: number | null;
   posPaymentsPending: number | null;
+  gravityAccountsActive: number | null;
 }
 interface Service {
   id: string;
@@ -321,6 +322,7 @@ export function HubOverviewPage() {
       />
       {!ventureId && <VentureGrid />}
       {venture?.kind === 'pos' && <PosConsoleLinks pending={o?.posPaymentsPending ?? 0} />}
+      {venture?.kind === 'gravity' && <GravityConsoleLinks pending={venture.paymentsPending ?? 0} />}
       {!o ? (
         <SkeletonRows rows={4} />
       ) : (
@@ -344,6 +346,11 @@ export function HubOverviewPage() {
           <Link to={`${base}/clients`}>
             <StatCard label={t('hub.stat_clients')} value={o.clients} icon={<Users className="size-5" />} tone="gray" />
           </Link>
+          {o.gravityAccountsActive !== null && (
+            <Link to="/superadmin/gravity/accounts">
+              <StatCard label={t('gravity.active_accounts')} value={o.gravityAccountsActive} icon={<FileText className="size-5" />} tone="violet" />
+            </Link>
+          )}
           {o.posBusinessesActive !== null && (
             <Link to="/superadmin/dashboard">
               <StatCard label={t('hub.stat_pos')} value={o.posBusinessesActive} hint={o.posPaymentsPending ? t('hub.stat_pos_pending', { count: o.posPaymentsPending }) : undefined} icon={<Store className="size-5" />} tone={o.posPaymentsPending ? 'amber' : 'green'} />
@@ -430,7 +437,7 @@ function VentureGrid() {
             <div key={v.id} className={clsx('relative rounded-2xl bg-white p-4 shadow-sm ring-1 dark:bg-slate-900', tone.ring, !v.isActive && 'opacity-60')}>
               <Link to={`/superadmin/p/${v.id}`} className="block" aria-label={t('hub.ventures.open', { name: v.name })}>
                 <div className="flex items-center gap-3">
-                  <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-white', tone.dot)}>{v.kind === 'pos' ? <Store className="size-5" /> : <FolderKanban className="size-5" />}</span>
+                  <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-white', tone.dot)}>{v.kind === 'pos' ? <Store className="size-5" /> : v.kind === 'gravity' ? <FileText className="size-5" /> : <FolderKanban className="size-5" />}</span>
                   <div className="min-w-0">
                     <p className="truncate font-semibold" dir="auto">
                       {v.name}
@@ -441,10 +448,10 @@ function VentureGrid() {
                   </div>
                 </div>
                 <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
-                  {v.kind === 'pos' && (
+                  {v.kind !== 'custom' && (
                     <>
-                      <dt className="text-slate-500">{t('hub.stat_pos')}</dt>
-                      <dd className="text-end font-medium">{v.posBusinessesActive ?? 0}</dd>
+                      <dt className="text-slate-500">{v.kind === 'pos' ? t('hub.stat_pos') : t('gravity.active_accounts')}</dt>
+                      <dd className="text-end font-medium">{v.accountsActive ?? 0}</dd>
                     </>
                   )}
                   <dt className="text-slate-500">{t('hub.stat_leads')}</dt>
@@ -511,6 +518,36 @@ function VentureDialog({ venture, onClose }: { venture: Venture | null; onClose:
         )}
       </div>
     </Dialog>
+  );
+}
+
+/** Inside the Gravity project: its accounts, payments and plans. */
+function GravityConsoleLinks({ pending }: { pending: number }) {
+  const { t } = useTranslation();
+  const links: [string, string, React.ComponentType<{ className?: string }>][] = [
+    ['/superadmin/gravity/accounts', 'gravity.accounts', Building2],
+    ['/superadmin/gravity/payments', 'superadmin.nav.payments', Banknote],
+    ['/superadmin/gravity/plans', 'superadmin.nav.plans', Layers],
+  ];
+  return (
+    <section aria-label={t('gravity.console')}>
+      <h2 className="mb-3 text-lg font-semibold">{t('gravity.console')}</h2>
+      <p className="-mt-2 mb-3 text-sm text-slate-500">
+        {t('gravity.signup_link')}{' '}
+        <a href="/gravity/register" target="_blank" rel="noreferrer" className="font-medium text-brand-700 hover:underline dark:text-brand-300" dir="ltr">
+          {window.location.host}/gravity
+        </a>
+      </p>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {links.map(([to, label, Icon]) => (
+          <Link key={to} to={to} className="flex items-center gap-2 rounded-xl bg-white p-3 text-sm font-medium shadow-sm ring-1 ring-slate-200 hover:ring-brand-500 dark:bg-slate-900 dark:ring-slate-800">
+            <Icon className="size-4 shrink-0 text-slate-500" />
+            <span className="min-w-0 truncate">{t(label)}</span>
+            {to === '/superadmin/gravity/payments' && pending > 0 && <Badge tone="amber">{pending}</Badge>}
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 

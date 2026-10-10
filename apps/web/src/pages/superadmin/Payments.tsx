@@ -186,11 +186,11 @@ export function PaymentsTable({ items, showBusiness = true }: { items: SaPayment
 }
 
 /** Payment taken by the team (cash at the restaurant, card…): recorded and applied at once. */
-export function RecordPaymentDialog({ businessId, currentPlanId, onClose }: { businessId: string; currentPlanId?: string; onClose: () => void }) {
+export function RecordPaymentDialog({ businessId, currentPlanId, onClose, product = 'pos' }: { businessId: string; currentPlanId?: string; onClose: () => void; product?: string }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const toastErr = useToastError();
-  const plans = useQuery({ queryKey: ['sa', 'plans'], queryFn: () => saApi.get<{ items: Plan[] }>('/plans') });
+  const plans = useQuery({ queryKey: ['sa', 'plans', product], queryFn: () => saApi.get<{ items: Plan[] }>(`/plans?product=${product}`) });
   const paid = plans.data?.items.filter((p) => p.isActive && Number(p.priceMonthly) > 0) ?? [];
   const [planId, setPlanId] = useState(currentPlanId ?? '');
   const [months, setMonths] = useState(1);
@@ -260,19 +260,23 @@ export function RecordPaymentDialog({ businessId, currentPlanId, onClose }: { bu
   );
 }
 
-export function usePayments(params: { status?: string; businessId?: string }) {
+export function usePayments(params: { status?: string; businessId?: string; product?: string }) {
   const search = new URLSearchParams(Object.entries(params).filter(([, v]) => v) as [string, string][]).toString();
   return useQuery({ queryKey: ['sa', 'payments', params], queryFn: () => saApi.get<{ items: SaPayment[] }>(`/billing/payments${search ? `?${search}` : ''}`) });
 }
 
-export default function PaymentsPage() {
+/** Subscription payments of one product (OceanX POS or Gravity). */
+export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'gravity' }) {
   const { t } = useTranslation();
   const [tab, setTab] = useState<'pending' | 'approved' | 'rejected'>('pending');
-  const q = usePayments({ status: tab });
-  const summary = useQuery({ queryKey: ['sa', 'payments', 'summary'], queryFn: () => saApi.get<{ pending: number; receivedThisMonth: { currency: string; total: number; count: number }[] }>('/billing/summary') });
+  const q = usePayments({ status: tab, product });
+  const summary = useQuery({
+    queryKey: ['sa', 'payments', 'summary', product],
+    queryFn: () => saApi.get<{ pending: number; receivedThisMonth: { currency: string; total: number; count: number }[] }>(`/billing/summary?product=${product}`),
+  });
   return (
     <div className="space-y-6">
-      <PageHeader title={t('superadmin.payments.title')} description={t('superadmin.payments.subtitle')} />
+      <PageHeader title={product === 'gravity' ? t('gravity.payments') : t('superadmin.payments.title')} description={t('superadmin.payments.subtitle')} />
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label={t('superadmin.payments.waiting')} value={String(summary.data?.pending ?? '—')} tone="amber" />
         <StatCard

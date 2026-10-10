@@ -26,6 +26,15 @@ test('hub: lead becomes a client, is quoted, invoiced and pays', async ({ page }
   await expect(page.locator('aside').first().getByRole('link', { name: 'All businesses' })).toBeVisible();
   await expect(page.locator('aside').first().getByRole('link', { name: 'Main office' })).toBeVisible();
 
+  // Gravity is built in too: its console lists only Gravity accounts (never POS businesses).
+  await page.locator('aside').first().getByRole('link', { name: 'Main office' }).click();
+  await page.locator('aside').first().getByRole('link', { name: 'Gravity', exact: true }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Gravity');
+  await page.locator('aside').first().getByRole('link', { name: 'Gravity accounts' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Gravity accounts');
+  await expect(page.getByText('Reef Kitchen')).toHaveCount(0);
+  await expect(page.locator('aside').first().getByRole('link', { name: 'All businesses' })).toHaveCount(0);
+
   // A new project (business line) gets its own space: a lead added inside it stays inside it.
   const PROJECT = `Websites ${run}`;
   await page.goto('/superadmin/hub');

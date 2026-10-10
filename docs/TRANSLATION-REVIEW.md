@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 669 · **confirmed**: 144
+Status: **needs_review**: 717 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -129,12 +129,57 @@ review of the whole file is still recommended before launch.
 | `customers.kinds.person` | Person | ފަރުދެއް | needs_review | New: company and government accounts (PO / PV). |
 | `customers.org_name` | Name of company or office | ކުންފުނީގެ ނުވަތަ އޮފީހުގެ ނަން | needs_review | New: company and government accounts (PO / PV). |
 | `documents.add_customer_ref` | Add PO number | ޕީއޯ ނަންބަރު އިތުރުކުރައްވާ | needs_review | New: company and government accounts (PO / PV). |
+| `documents.add_line` | Add line | ލައިނެއް އިތުރުކުރޭ | needs_review | New: Gravity (quotation & invoice generator). |
 | `documents.customer_ref` | PO / reference no. | ޕީއޯ / ރެފަރެންސް ނަންބަރު | needs_review | New: company and government accounts (PO / PV). |
 | `documents.customer_ref_hint` | The customer's purchase order or tender number. | ކަސްޓަމަރުގެ ޕަރޗޭސް އޯޑަރު ނުވަތަ ޓެންޑަރ ނަންބަރު. | needs_review | New: company and government accounts (PO / PV). |
 | `documents.server_totals_hint` | Totals are recalculated by the server when you save. | ސޭވްކުރާއިރު ޖުމްލަތައް ސާވަރުން އަލުން ހިސާބުކުރާނެ. | needs_review | Technical note mentioning the server (ސާވަރު, as in existing settings.hints.tax). |
 | `errors.payroll_period_exists` | A salary sheet for this month already exists. | މި މަހުގެ މުސާރަ ޝީޓެއް ކުރިން ހަދާފައި އެބައޮތް. | needs_review | Plain translation using existing app terms. |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |
 | `expenses.payee` | Paid to | ފައިސާ ދިން ފަރާތް | needs_review | Paid to: ފައިސާ ދިން ފަރާތް. |
+| `gravity.accounts` | Gravity accounts | Gravity އެކައުންޓްތައް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.accounts_subtitle` | Businesses using Gravity for quotations and invoices. | ކޯޓޭޝަނާއި އިންވޮއިސްއަށް Gravity ބޭނުންކުރާ ވިޔަފާރިތައް. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.active_accounts` | Active Gravity accounts | ހިނގަމުންދާ Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.add_logo` | Add logo | ލޯގޯ އިތުރުކުރޭ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.add_payment_details` | Add payment details | ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރޭ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.all_invoices` | Invoices | އިންވޮއިސްތައް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.all_quotations_one` | {{count}} quotation | {{count}} ކޯޓޭޝަން | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.all_quotations_other` | {{count}} quotations | {{count}} ކޯޓޭޝަން | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.aside_1` | In English or Dhivehi | އިނގިރޭސި ނުވަތަ ދިވެހިން | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.aside_2` | Your logo, stamp, signature and bank details | ތިޔަ ލޯގޯ، ސްޓޭމްޕް، ސޮއި އަދި ބޭންކް މަޢުލޫމާތު | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.aside_3` | Turn an accepted quotation into an invoice in one tap | ގަބޫލުކުރި ކޯޓޭޝަން އެއް ފިތުމުން އިންވޮއިސްއަކަށް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.aside_4` | Track who has paid and what is overdue | ފައިސާ ދެއްކި މީހުންނާއި ލަސްވެފައިވާ ފައިސާ ބަލާ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.aside_title` | Look professional from day one. Quotations and invoices in minutes. | ފުރަތަމަ ދުވަހުން ފެށިގެން ޕްރޮފެޝަނަލް. މިނެޓުކޮޅެއްގައި ކޯޓޭޝަނާއި އިންވޮއިސް. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.awaiting_reply` | Quotations awaiting reply | ޖަވާބަށް އިންތިޒާރުކުރާ ކޯޓޭޝަން | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.business_name` | Your name or business name | ތިޔަ ނަން ނުވަތަ ވިޔަފާރީގެ ނަން | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.business_name_hint` | Printed at the top of your quotations and invoices. Freelancers can use their own name. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސްގެ މަތީގައި ޕްރިންޓްވާނެ. ފްރީލާންސަރުންނަށް އަމިއްލަ ނަން ބޭނުން ކުރެވޭނެ. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.console` | Gravity console | Gravity ކޮންސޯލް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.create_account` | Create account | އެކައުންޓް ހައްދަވާ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.home_subtitle` | Your quotations and invoices at a glance. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސް އެއް ނަޒަރަކުން. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.home_title` | Hello, {{name}} | ހަލޯ، {{name}} | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.new_account` | New Gravity account | އައު Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.no_invoices` | No invoices yet | އަދި އިންވޮއިސެއް ނެތް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.no_quotations` | No quotations yet | އަދި ކޯޓޭޝަނެއް ނެތް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.nobody_owes` | Nobody owes you | އެއްވެސް ފަރާތަކުން ފައިސާ ދައްކަން ނުޖެހޭ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.nobody_owes_body` | Issued invoices that are not fully paid show here, by customer. | ފުރިހަމައަށް ނުދައްކާ ނެރެފައިވާ އިންވޮއިސްތައް ކަސްޓަމަރުން ވަކިން މިތާ ފެންނާނެ. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.oldest_due` | oldest due {{date}} | އެންމެ ކުރީ ތާރީޚު {{date}} | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.overdue` | Overdue | ލަސްވެފައި | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.overdue_amount` | {{amount}} overdue | {{amount}} ލަސްވެފައި | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.owed_to_you` | Owed to you | ތިޔަބޭފުޅާއަށް ލިބެންޖެހޭ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.payments` | Gravity payments | Gravity ފައިސާ ދެއްކުންތައް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.plans` | Gravity plans | Gravity ޕްލޭންތައް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.register_subtitle` | For entrepreneurs, freelancers and small businesses: quotations and invoices in English or Dhivehi. | ވިޔަފާރިވެރިން، ފްރީލާންސަރުން އަދި ކުދި ވިޔަފާރިތަކަށް: އިނގިރޭސި ނުވަތަ ދިވެހިން ކޯޓޭޝަނާއި އިންވޮއިސް. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.register_title` | Create your Gravity account | ތިޔަ Gravity އެކައުންޓް ހައްދަވާ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.see_all` | See all | ހުރިހާ އެއްޗެއް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.setup_body` | Add your logo and how customers can pay you. They print on every quotation and invoice. Stamp and signature are optional. | ތިޔަ ލޯގޯ އަދި ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރައްވާ. ހުރިހާ ކޯޓޭޝަނާއި އިންވޮއިސްގައި ޕްރިންޓްވާނެ. ސްޓޭމްޕާއި ސޮއި އިޚްތިޔާރީ. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.setup_title` | Finish your documents' look | ތިޔަ ޑޮކިއުމަންޓްތައް ފުރިހަމަކުރައްވާ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.signup_link` | Customers sign up at | ކަސްޓަމަރުން ސައިން އަޕް ކުރާނީ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.signup_plan` | Gravity sign-up plan | Gravity ސައިން އަޕް ޕްލޭން | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.signup_plan_hint` | New Gravity accounts start on this plan. | އައު Gravity އެކައުންޓްތައް ފަށާނީ މި ޕްލޭނުން. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.tagline` | Quotations & invoices | ކޯޓޭޝަން އަދި އިންވޮއިސް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.unpaid_invoices_one` | {{count}} unpaid invoice | {{count}} ނުދައްކާ އިންވޮއިސް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.unpaid_invoices_other` | {{count}} unpaid invoices | {{count}} ނުދައްކާ އިންވޮއިސް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.who_owes` | Who owes you | ފައިސާ ދައްކަންޖެހޭ ފަރާތްތައް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.who_owes_total` | {{amount}} unpaid on issued invoices | ނެރެފައިވާ އިންވޮއިސްތަކުން {{amount}} ނުދައްކާ | needs_review | New: Gravity (quotation & invoice generator). |
 | `hub.active` | Active | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.add_line` | Add line | ލައިނެއް އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.add_task` | Add | އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -458,6 +503,7 @@ review of the whole file is still recommended before launch.
 | `pos.search_retail` | Scan barcode or search… | ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ހޯއްދަވާ… | needs_review | New: retail shops (stock check, barcode). |
 | `print.authorized_signature` | Authorized signature | ހުއްދަދީފައިވާ ފަރާތުގެ ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `print.customer_ref` | PO No. | ޕީއޯ ނަންބަރު | needs_review | New: company and government accounts (PO / PV). |
+| `print.payment_details` | Payment details | ފައިސާ ދައްކާނެ ގޮތް | needs_review | New: Gravity (quotation & invoice generator). |
 | `print.received_by` | Received by | ބަލައިގަތީ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `public_menu.menu_title` | Menu | މެނޫ | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.more` | More | އިތުރު | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
@@ -503,6 +549,8 @@ review of the whole file is still recommended before launch.
 | `settings.hints.branding` | Your company stamp and whether documents show the stamp and signatures. | ކުންފުނީގެ ތައްގަނޑާއި، ލިޔެކިޔުންތަކުގައި ތައްގަނޑާއި ސޮއި ދައްކާނެ ގޮތް. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `settings.hints.pos` | How the point of sale behaves. | ޕޮއިންޓް އޮފް ސޭލް ހިނގާނެ ގޮތް. | needs_review | 'Point of sale' transliterated ޕޮއިންޓް އޮފް ސޭލް. Alternative: ވިއްކާ ސިސްޓަމް. |
 | `settings.loyalty.points_per_unit` | Points per 1 currency unit spent | ޚަރަދުކުރާ ކޮންމެ 1 ފައިސާ ޔުނިޓަކަށް ލިބޭ ޕޮއިންޓް | needs_review | Long phrasing; check clarity. |
+| `settings.payment_details` | Payment details | ފައިސާ ދައްކާނެ ގޮތް | needs_review | New: Gravity (quotation & invoice generator). |
+| `settings.payment_details_hint` | Bank, account name and number, or other ways to pay. Printed on the document. | ބޭންކް، އެކައުންޓްގެ ނަމާއި ނަންބަރު، ނުވަތަ ފައިސާ ދެއްކޭނެ އެހެން ގޮތްތައް. ޑޮކިއުމަންޓުގައި ޕްރިންޓްވާނެ. | needs_review | New: Gravity (quotation & invoice generator). |
 | `settings.pos.allow_negative_stock` | Allow selling when out of stock | ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ | needs_review | Check phrasing: ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ. |
 | `settings.tabs.branding` | Stamp & signature | ތައްގަނޑާއި ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `staff.active_hint` | Inactive staff are left off new salary sheets and the rota. | އިންއެކްޓިވް ސްޓާފުން އާ މުސާރަ ޝީޓްތަކާއި ރޯސްޓަރުގައި ނުހިމެނޭނެ. | needs_review | Inactive = އިންއެކްޓިވް as in users.account_active_hint; common.inactive uses ހަރަކާތްތެރި ނޫން. |

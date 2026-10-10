@@ -126,6 +126,8 @@ export const plans = pgTable(
   'plans',
   {
     id: uuid('id').primaryKey().defaultRandom(),
+    /** Which OceanX product the plan is for: pos | gravity. */
+    product: text('product').notNull().default('pos'),
     code: text('code').notNull(),
     name: text('name').notNull(),
     description: text('description').notNull().default(''),
@@ -171,6 +173,8 @@ export const businesses = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     name: text('name').notNull(),
     slug: text('slug').notNull(),
+    /** Which OceanX product this account uses: pos (OceanX POS) | gravity (quotations & invoices). */
+    product: text('product').notNull().default('pos'),
     businessType: businessTypeEnum('business_type').notNull(),
     status: businessStatusEnum('status').notNull().default('pending'),
     email: text('email').notNull().default(''),
@@ -1390,7 +1394,7 @@ export const hubVentures = pgTable(
   {
     id: uuid('id').primaryKey().defaultRandom(),
     name: text('name').notNull(),
-    /** pos (built in, one) | custom */
+    /** pos | gravity (built in, one each: they open that product's console) | custom */
     kind: text('kind').notNull().default('custom'),
     description: text('description').notNull().default(''),
     /** Accent colour key (blue, violet, green, amber, rose, slate). */
@@ -1400,7 +1404,8 @@ export const hubVentures = pgTable(
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (t) => [uniqueIndex('hub_ventures_pos_uq').on(t.kind).where(sql`${t.kind} = 'pos'`)],
+  // One built-in project per product (pos, gravity); any number of custom ones.
+  (t) => [uniqueIndex('hub_ventures_builtin_uq').on(t.kind).where(sql`${t.kind} <> 'custom'`)],
 );
 
 /** What OceanX sells (POS plans are separate; this is the price list for everything else too). */

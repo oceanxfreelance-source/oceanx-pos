@@ -10,6 +10,7 @@ import { Badge, Card, CardHeader, EmptyState, PageHeader, Skeleton, StatCard } f
 import { SalesWidgets } from './SalesWidgets';
 import { useQuickActions } from '../../layouts/BusinessLayout';
 import { OnboardingCard } from './Onboarding';
+import GravityHome from './GravityHome';
 
 interface DashboardData {
   widgets: {
@@ -27,7 +28,13 @@ interface DashboardData {
  * permissions allow it, and rendered only if present. Sales/order widgets follow the
  * business-type widget profile (see SalesWidgets).
  */
+/** Home page: Gravity accounts get the quotations & invoices home; POS businesses the POS dashboard. */
 export default function Dashboard() {
+  const session = useBizSession();
+  return session.business.product === 'gravity' ? <GravityHome /> : <PosDashboard />;
+}
+
+function PosDashboard() {
   const { t } = useTranslation();
   const s = useBizSession();
   const { can } = useBiz();

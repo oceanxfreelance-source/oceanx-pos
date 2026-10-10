@@ -22,6 +22,11 @@ const POS_CONSOLE: NavItem[] = [
   { to: '/superadmin/plans', label: 'superadmin.nav.plans', icon: Layers },
   { to: '/superadmin/addons', label: 'superadmin.nav.addons', icon: Puzzle },
 ];
+const GRAVITY_CONSOLE: NavItem[] = [
+  { to: '/superadmin/gravity/accounts', label: 'gravity.accounts', icon: Building2 },
+  { to: '/superadmin/gravity/payments', label: 'superadmin.nav.payments', icon: Banknote },
+  { to: '/superadmin/gravity/plans', label: 'superadmin.nav.plans', icon: Layers },
+];
 const COMPANY: NavGroup = {
   label: 'hub.nav.group_company',
   items: [
@@ -64,14 +69,14 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
   // Menu keys are translated; project names are shown as typed.
   const tr = (groups: NavGroup[]) => groups.map((g) => ({ label: g.label ? t(g.label) : undefined, items: g.items.map((i) => ({ ...i, label: t(i.label) })) }));
   const ventures = useVentures();
-  const pos = ventures.find((v) => v.kind === 'pos');
   const m = /^\/superadmin\/p\/([^/]+)/.exec(pathname);
-  const inPosConsole = POS_CONSOLE.some((i) => pathname === i.to || pathname.startsWith(`${i.to}/`));
-  const current = m ? ventures.find((v) => v.id === m[1]) : inPosConsole ? pos : undefined;
-  const currentId = m?.[1] ?? (inPosConsole ? pos?.id : undefined);
+  // The POS and Gravity console pages belong to their built-in project.
+  const consoleKind = POS_CONSOLE.some((i) => pathname === i.to || pathname.startsWith(`${i.to}/`)) ? 'pos' : pathname.startsWith('/superadmin/gravity/') ? 'gravity' : null;
+  const current = m ? ventures.find((v) => v.id === m[1]) : consoleKind ? ventures.find((v) => v.kind === consoleKind) : undefined;
+  const currentId = m?.[1] ?? current?.id;
   if (currentId) {
     const base = `/superadmin/p/${currentId}`;
-    const isPos = current?.kind === 'pos' || (inPosConsole && !m);
+    const kind = current?.kind ?? consoleKind;
     return {
       sub: current?.name ?? null,
       groups: tr([
@@ -81,7 +86,8 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
             { to: base, label: 'hub.nav.project_home', icon: FolderKanban, end: true },
           ],
         },
-        ...(isPos ? [{ label: 'hub.nav.group_pos_console', items: POS_CONSOLE }] : []),
+        ...(kind === 'pos' ? [{ label: 'hub.nav.group_pos_console', items: POS_CONSOLE }] : []),
+        ...(kind === 'gravity' ? [{ label: 'gravity.console', items: GRAVITY_CONSOLE }] : []),
         ...workGroups(base),
         COMPANY,
       ]),
@@ -95,7 +101,7 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
         label: t('hub.nav.group_projects'),
         items: ventures
           .filter((v) => v.isActive)
-          .map((v) => ({ to: `/superadmin/p/${v.id}`, label: v.name, icon: v.kind === 'pos' ? Store : FolderKanban })),
+          .map((v) => ({ to: `/superadmin/p/${v.id}`, label: v.name, icon: v.kind === 'pos' ? Store : v.kind === 'gravity' ? FileText : FolderKanban })),
       },
       ...tr([...workGroups('/superadmin/hub'), COMPANY]),
     ],

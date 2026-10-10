@@ -704,7 +704,9 @@
       "orders_enabled": "Accept online orders",
       "orders_enabled_hint": "Requires the online ordering add-on. Orders appear under Online orders.",
       "message": "Message shown on the menu"
-    }
+    },
+    "payment_details": "Payment details",
+    "payment_details_hint": "Bank, account name and number, or other ways to pay. Printed on the document."
   },
   "account": {
     "business": "Business",
@@ -1493,7 +1495,8 @@
     },
     "customer_ref": "PO / reference no.",
     "customer_ref_hint": "The customer's purchase order or tender number.",
-    "add_customer_ref": "Add PO number"
+    "add_customer_ref": "Add PO number",
+    "add_line": "Add line"
   },
   "quotations": {
     "title": "Quotations",
@@ -1578,7 +1581,8 @@
     "statement_note": "Please contact us if anything in this statement looks incorrect.",
     "authorized_signature": "Authorized signature",
     "received_by": "Received by",
-    "customer_ref": "PO No."
+    "customer_ref": "PO No.",
+    "payment_details": "Payment details"
   },
   "inventory": {
     "title": "Inventory",
@@ -2519,5 +2523,52 @@
       "color": "Colour",
       "order": "Order in the list"
     }
+  },
+  "gravity": {
+    "name": "Gravity",
+    "tagline": "Quotations & invoices",
+    "aside_title": "Look professional from day one. Quotations and invoices in minutes.",
+    "aside_1": "In English or Dhivehi",
+    "aside_2": "Your logo, stamp, signature and bank details",
+    "aside_3": "Turn an accepted quotation into an invoice in one tap",
+    "aside_4": "Track who has paid and what is overdue",
+    "register_title": "Create your Gravity account",
+    "register_subtitle": "For entrepreneurs, freelancers and small businesses: quotations and invoices in English or Dhivehi.",
+    "create_account": "Create account",
+    "home_title": "Hello, {{name}}",
+    "home_subtitle": "Your quotations and invoices at a glance.",
+    "setup_title": "Finish your documents' look",
+    "setup_body": "Add your logo and how customers can pay you. They print on every quotation and invoice. Stamp and signature are optional.",
+    "add_logo": "Add logo",
+    "add_payment_details": "Add payment details",
+    "owed_to_you": "Owed to you",
+    "unpaid_invoices_one": "{{count}} unpaid invoice",
+    "unpaid_invoices_other": "{{count}} unpaid invoices",
+    "overdue": "Overdue",
+    "awaiting_reply": "Quotations awaiting reply",
+    "all_invoices": "Invoices",
+    "all_quotations_one": "{{count}} quotation",
+    "all_quotations_other": "{{count}} quotations",
+    "no_invoices": "No invoices yet",
+    "no_quotations": "No quotations yet",
+    "see_all": "See all",
+    "accounts": "Gravity accounts",
+    "accounts_subtitle": "Businesses using Gravity for quotations and invoices.",
+    "new_account": "New Gravity account",
+    "payments": "Gravity payments",
+    "plans": "Gravity plans",
+    "console": "Gravity console",
+    "active_accounts": "Active Gravity accounts",
+    "signup_link": "Customers sign up at",
+    "signup_plan": "Gravity sign-up plan",
+    "signup_plan_hint": "New Gravity accounts start on this plan.",
+    "who_owes": "Who owes you",
+    "who_owes_total": "{{amount}} unpaid on issued invoices",
+    "nobody_owes": "Nobody owes you",
+    "nobody_owes_body": "Issued invoices that are not fully paid show here, by customer.",
+    "oldest_due": "oldest due {{date}}",
+    "overdue_amount": "{{amount}} overdue",
+    "business_name": "Your name or business name",
+    "business_name_hint": "Printed at the top of your quotations and invoices. Freelancers can use their own name."
   }
 }

@@ -8,3 +8,4 @@ export * from './schemas';
 export * from './money';
 export * from './opsSchemas';
 export * from './hubSchemas';
+export * from './products';

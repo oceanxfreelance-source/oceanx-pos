@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { ArrowRightLeft, FileText, Plus, Printer, Send, Trash2 } from 'lucide-react';
-import { calculateTotals, toMinor } from '@oceanx/shared';
+import { ArrowRightLeft, FileText, Plus, Printer, Send, Trash2, UserPlus } from 'lucide-react';
+import { DocCustomerDialog } from '../../components/DocCustomerDialog';
+import { calculateTotals, GRAVITY_DOCUMENT_LANGUAGES, toMinor } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
 import { useFormat } from '../../lib/format';
@@ -49,10 +50,13 @@ export function DocumentListPage({ kind }: { kind: DocKind }) {
   const f = useFormat();
   const navigate = useNavigate();
   const p = plural(kind);
-  const [status, setStatus] = useState('');
+  // Links can open the list already filtered: ?status=unpaid|overdue|sent… and ?customerId= (one customer's invoices).
+  const [params, setParams] = useSearchParams();
+  const [status, setStatus] = useState(params.get('status') ?? '');
+  const customerId = params.get('customerId') ?? '';
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
-  const { query, page, setPage, search, setSearch, pageSize } = useList<DocRow>(p, `/${p}`, { status, from, to });
+  const { query, page, setPage, search, setSearch, pageSize } = useList<DocRow>(p, `/${p}`, { status, from, to, customerId });
   const summary = query.data?.summary as { outstanding: number; overdue: number } | undefined;
   const columns: Column<DocRow>[] = [
     { key: 'n', header: t('documents.number'), cell: (d) => <Ltr className="font-medium">{d.number}</Ltr> },
@@ -103,6 +107,24 @@ export function DocumentListPage({ kind }: { kind: DocKind }) {
           <Input type="date" label={t('common.from')} value={from} onChange={(e) => setFrom(e.target.value)} />
           <Input type="date" label={t('common.to')} value={to} onChange={(e) => setTo(e.target.value)} />
         </ListToolbar>
+        {customerId && (
+          <div className="flex items-center gap-2 border-b border-slate-100 px-4 py-2 text-sm dark:border-slate-800">
+            <span className="text-slate-500">{t('customers.customer')}:</span>
+            <span className="font-medium" dir="auto">
+              {query.data?.items[0]?.customerName ?? '…'}
+            </span>
+            <button
+              type="button"
+              className="ms-auto text-brand-700 hover:underline dark:text-brand-300"
+              onClick={() => {
+                params.delete('customerId');
+                setParams(params, { replace: true });
+              }}
+            >
+              {t('common.clear')}
+            </button>
+          </div>
+        )}
         {query.isLoading ? (
           <SkeletonRows />
         ) : !query.data?.items.length ? (
@@ -187,6 +209,11 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
   const { t } = useTranslation();
   const session = useBizSession();
   const retail = !!session.business.profile.retail;
+  const { hasModule, can } = useBiz();
+  const [newCustomer, setNewCustomer] = useState(false);
+  // Gravity: lines are typed (no product list) and documents are English or Dhivehi.
+  const gravity = session.business.product === 'gravity';
+  const docLanguages = gravity ? session.languages.filter((l) => (GRAVITY_DOCUMENT_LANGUAGES as readonly string[]).includes(l.code)) : session.languages;
   const money = useMoney();
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -215,7 +242,7 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
       unitPrice: String(i.unitPrice / 100),
       discount: String(i.discount / 100),
       taxRate: i.taxRate,
-    })) ?? [],
+    })) ?? (gravity ? [{ key: keySeq++, productId: null, name: '', description: '', quantity: '1', unit: 'pcs', unitPrice: '', discount: '0', taxRate: null }] : []),
   );
   const upd = (k: number, patch: Partial<ItemDraft>) => setItems((xs) => xs.map((x) => (x.key === k ? { ...x, ...patch } : x)));
   const addBlank = () => setItems((xs) => [...xs, { key: keySeq++, productId: null, name: '', description: '', quantity: '1', unit: 'pcs', unitPrice: '0', discount: '0', taxRate: null }]);
@@ -262,9 +289,23 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
       {save.error && !(save.error instanceof ApiError && save.error.code === 'validation_failed') && <Alert tone="red">{errMsg(save.error)}</Alert>}
       <Card>
         <div className="grid gap-4 md:grid-cols-4">
-          <div className="md:col-span-2">
-            <CustomerPicker label={t('customers.customer')} value={customer?.id ?? null} valueLabel={customer?.name} onChange={(id, c) => setCustomer(id && c ? { id, name: c.name } : null)} error={fe('customerId')} />
+          <div className="flex items-end gap-2 md:col-span-2">
+            <div className="min-w-0 flex-1">
+              <CustomerPicker label={t('customers.customer')} value={customer?.id ?? null} valueLabel={customer?.name} onChange={(id, c) => setCustomer(id && c ? { id, name: c.name } : null)} error={fe('customerId')} />
+            </div>
+            {gravity && can('customers.create') && (
+              <Button variant="secondary" icon={<UserPlus className="size-4" />} onClick={() => setNewCustomer(true)} aria-label={t('customers.create')} title={t('customers.create')} />
+            )}
           </div>
+          {newCustomer && (
+            <DocCustomerDialog
+              onClose={() => setNewCustomer(false)}
+              onCreated={(c) => {
+                setCustomer({ id: c.id, name: c.name });
+                setNewCustomer(false);
+              }}
+            />
+          )}
           <Input type="date" label={t('common.date')} value={head.date} onChange={(e) => setHead({ ...head, date: e.target.value })} error={fe(kind === 'quotation' ? 'quotationDate' : 'invoiceDate')} />
           <Input type="date" label={t(kind === 'quotation' ? 'quotations.valid_until' : 'invoices.due_date')} value={head.until} onChange={(e) => setHead({ ...head, until: e.target.value })} error={fe(kind === 'quotation' ? 'validUntil' : 'dueDate')} />
           {retail && (
@@ -272,7 +313,7 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
           )}
           <Select label={t('documents.language')} hint={t('documents.language_hint')} value={head.language} onChange={(e) => setHead({ ...head, language: e.target.value })}>
             <option value="">{t('settings.use_default_document_language')}</option>
-            {session.languages.map((l) => (
+            {docLanguages.map((l) => (
               <option key={l.code} value={l.code}>
                 {l.nativeName}
               </option>
@@ -300,17 +341,19 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
               <Input className="sm:col-span-12" placeholder={t('documents.item_description')} aria-label={t('documents.item_description')} value={i.description} onChange={(e) => upd(i.key, { description: e.target.value })} />
             </div>
           ))}
-          <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-            <ProductPicker
-              value={null}
-              placeholder={t('documents.add_product')}
-              onChange={(_id, pr) =>
-                pr &&
-                setItems((xs) => [...xs, { key: keySeq++, productId: pr.id, name: pr.name, description: '', quantity: '1', unit: pr.unit, unitPrice: String(pr.sellingPrice / 100), discount: '0', taxRate: pr.taxRate }])
-              }
-            />
+          <div className={hasModule('products') ? 'grid gap-3 sm:grid-cols-[1fr_auto]' : 'flex'}>
+            {hasModule('products') && (
+              <ProductPicker
+                value={null}
+                placeholder={t('documents.add_product')}
+                onChange={(_id, pr) =>
+                  pr &&
+                  setItems((xs) => [...xs, { key: keySeq++, productId: pr.id, name: pr.name, description: '', quantity: '1', unit: pr.unit, unitPrice: String(pr.sellingPrice / 100), discount: '0', taxRate: pr.taxRate }])
+                }
+              />
+            )}
             <Button variant="secondary" icon={<Plus className="size-4" />} onClick={addBlank}>
-              {t('documents.add_custom_item')}
+              {hasModule('products') ? t('documents.add_custom_item') : t('documents.add_line')}
             </Button>
           </div>
         </div>

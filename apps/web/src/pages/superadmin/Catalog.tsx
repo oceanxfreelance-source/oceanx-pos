@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Layers, Pencil, Plus, Puzzle } from 'lucide-react';
-import { PLAN_LIMIT_KEYS, PLAN_MODULES } from '@oceanx/shared';
+import { GRAVITY_MODULES, PLAN_LIMIT_KEYS, PLAN_MODULES } from '@oceanx/shared';
 import { saApi, ApiError } from '../../lib/api';
 import { useFormat } from '../../lib/format';
 import { addonLabel, moduleLabel } from '../../lib/labels';
@@ -30,15 +30,16 @@ interface PlanFull {
   subscriptionCount: number;
 }
 
-export function PlansPage() {
+/** Plans of one product: OceanX POS or Gravity. */
+export function PlansPage({ product = 'pos' }: { product?: 'pos' | 'gravity' }) {
   const { t } = useTranslation();
   const f = useFormat();
-  const q = useQuery({ queryKey: ['sa', 'plans'], queryFn: () => saApi.get<{ items: PlanFull[] }>('/plans') });
+  const q = useQuery({ queryKey: ['sa', 'plans', product], queryFn: () => saApi.get<{ items: PlanFull[] }>(`/plans?product=${product}`) });
   const [editing, setEditing] = useState<PlanFull | 'new' | null>(null);
   return (
     <div>
       <PageHeader
-        title={t('superadmin.plans.title')}
+        title={product === 'gravity' ? t('gravity.plans') : t('superadmin.plans.title')}
         description={t('superadmin.plans.subtitle')}
         actions={
           <Button icon={<Plus className="size-4" />} onClick={() => setEditing('new')}>
@@ -100,16 +101,19 @@ export function PlansPage() {
           ))}
         </div>
       )}
-      {editing && <PlanDialog plan={editing === 'new' ? null : editing} onClose={() => setEditing(null)} />}
+      {editing && <PlanDialog product={product} plan={editing === 'new' ? null : editing} onClose={() => setEditing(null)} />}
     </div>
   );
 }
 
-function PlanDialog({ plan, onClose }: { plan: PlanFull | null; onClose: () => void }) {
+function PlanDialog({ plan, onClose, product }: { plan: PlanFull | null; onClose: () => void; product: 'pos' | 'gravity' }) {
+  // Gravity plans can only switch Gravity's features (customers, quotations, invoices).
+  const moduleChoices: readonly string[] = product === 'gravity' ? GRAVITY_MODULES : PLAN_MODULES;
   const { t } = useTranslation();
   const qc = useQueryClient();
   const errMsg = useErrorMessage();
   const [form, setForm] = useState({
+    product,
     code: plan?.code ?? '',
     name: plan?.name ?? '',
     description: plan?.description ?? '',
@@ -119,7 +123,7 @@ function PlanDialog({ plan, onClose }: { plan: PlanFull | null; onClose: () => v
     isActive: plan?.isActive ?? true,
     isPublic: plan?.isPublic ?? true,
     sortOrder: plan?.sortOrder ?? 0,
-    modules: plan?.modules ?? [...PLAN_MODULES],
+    modules: plan?.modules ?? [...moduleChoices],
   });
   // '' = unlimited
   const [limits, setLimits] = useState<Record<string, string>>(Object.fromEntries(PLAN_LIMIT_KEYS.map((k) => [k, plan?.limits[k] == null ? '' : String(plan.limits[k])])));
@@ -184,7 +188,7 @@ function PlanDialog({ plan, onClose }: { plan: PlanFull | null; onClose: () => v
         <div>
           <p className="mb-3 text-sm font-semibold">{t('superadmin.plans.modules_title')}</p>
           <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-4">
-            {PLAN_MODULES.map((m) => (
+            {moduleChoices.map((m) => (
               <Checkbox
                 key={m}
                 checked={form.modules.includes(m)}

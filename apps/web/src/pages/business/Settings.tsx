@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import QRCode from 'qrcode';
 import { ImageUp, Lock, Stamp } from 'lucide-react';
-import { BUSINESS_TYPES, formatDocumentNumber, LANGUAGES, type BusinessSettings, type NumberingSettings } from '@oceanx/shared';
+import { BUSINESS_TYPES, formatDocumentNumber, GRAVITY_DOCUMENT_LANGUAGES, LANGUAGES, type BusinessSettings, type NumberingSettings } from '@oceanx/shared';
 import { api } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
 import { useFieldErrors, useToastError } from '../../lib/useApiError';
@@ -28,12 +29,16 @@ type Tab = 'profile' | 'viber' | keyof BusinessSettings;
 export default function SettingsPage() {
   const { t } = useTranslation();
   const { can } = useBiz();
+  const gravity = useBizSession().business.product === 'gravity';
   const q = useQuery({ queryKey: ['biz', 'settings'], queryFn: () => api.get<SettingsResponse>('/settings') });
-  const [tab, setTab] = useState<Tab | null>(null);
+  const [params] = useSearchParams();
+  const [tab, setTab] = useState<Tab | null>((params.get('tab') as Tab | null) ?? null);
   const tabs: { value: Tab; label: string }[] = [];
   if (q.data?.profile) tabs.push({ value: 'profile', label: t('settings.tabs.profile') });
-  for (const s of ['regional', 'tax', 'receipt', 'invoice', 'quotation', 'branding', 'pos', 'loyalty', 'online'] as const) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
-  if (can('settings.view')) tabs.push({ value: 'viber', label: t('viber.tab') });
+  // Gravity (quotations & invoices only) has no receipts, POS, loyalty, online ordering or Viber.
+  const sections = gravity ? (['regional', 'tax', 'invoice', 'quotation', 'branding'] as const) : (['regional', 'tax', 'receipt', 'invoice', 'quotation', 'branding', 'pos', 'loyalty', 'online'] as const);
+  for (const s of sections) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
+  if (can('settings.view') && !gravity) tabs.push({ value: 'viber', label: t('viber.tab') });
   const active = tab ?? tabs[0]?.value ?? null;
 
   return (
@@ -153,6 +158,7 @@ function ProfileSection({ profile, editable }: { profile: NonNullable<SettingsRe
 
 function SectionForm<S extends keyof BusinessSettings>({ section, initial, editable }: { section: S; initial: BusinessSettings[S]; editable: boolean }) {
   const { t } = useTranslation();
+  const docLangs = useDocLanguages();
   const qc = useQueryClient();
   const { refresh } = useBiz();
   const retail = !!useBizSession().business.profile.retail;
@@ -197,7 +203,7 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
           <option value="12h">{t('settings.time_12h')}</option>
         </Select>
         <Select label={t('settings.document_language')} hint={t('settings.document_language_hint')} value={r.documentLanguage} onChange={(e) => set({ documentLanguage: e.target.value } as never)}>
-          {LANGUAGES.map((l) => (
+          {docLangs.map((l) => (
             <option key={l.code} value={l.code}>
               {l.nativeName} — {l.name}
             </option>
@@ -322,7 +328,7 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
         <NumberingEditor value={doc.numbering} onChange={(numbering) => set({ numbering } as never)} fieldErr={fieldErr} />
         <Select label={t('settings.document_language_override')} hint={t('settings.document_language_override_hint')} value={doc.language ?? ''} onChange={(e) => set({ language: e.target.value || null } as never)}>
           <option value="">{t('settings.use_default_document_language')}</option>
-          {LANGUAGES.map((l) => (
+          {docLangs.map((l) => (
             <option key={l.code} value={l.code}>
               {l.nativeName} — {l.name}
             </option>
@@ -332,6 +338,14 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
           <div className="grid gap-4 sm:grid-cols-2">
             <Textarea label={t('settings.default_notes')} value={doc.notes ?? ''} onChange={(e) => set({ notes: e.target.value } as never)} />
             <Textarea label={t('settings.terms')} value={doc.terms ?? ''} onChange={(e) => set({ terms: e.target.value } as never)} />
+            <Textarea
+              className="sm:col-span-2"
+              rows={4}
+              label={t('settings.payment_details')}
+              hint={t('settings.payment_details_hint')}
+              value={(doc as { paymentDetails?: string }).paymentDetails ?? ''}
+              onChange={(e) => set({ paymentDetails: e.target.value } as never)}
+            />
           </div>
         )}
         <Textarea label={t('settings.footer')} value={doc.footer} onChange={(e) => set({ footer: e.target.value } as never)} hint={t('settings.footer_hint')} />
@@ -452,4 +466,10 @@ function StampSetup() {
       )}
     </div>
   );
+}
+
+/** Languages a document can be printed in: Gravity makes English and Dhivehi documents; the POS all six. */
+export function useDocLanguages() {
+  const gravity = useBizSession().business.product === 'gravity';
+  return gravity ? LANGUAGES.filter((l) => (GRAVITY_DOCUMENT_LANGUAGES as readonly string[]).includes(l.code)) : LANGUAGES;
 }

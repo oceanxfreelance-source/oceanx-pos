@@ -43,7 +43,9 @@ export interface Plan {
 export const STATUS_TONE: Record<string, BadgeTone> = { active: 'green', pending: 'amber', suspended: 'red', deactivated: 'gray' };
 export const SUB_TONE: Record<string, BadgeTone> = { active: 'green', trialing: 'blue', past_due: 'amber', expired: 'red', cancelled: 'gray' };
 
-export default function BusinessesPage({ presetType }: { presetType?: string }) {
+/** Business accounts of one product: OceanX POS (optionally one business type) or Gravity. */
+export default function BusinessesPage({ presetType, product = 'pos' }: { presetType?: string; product?: 'pos' | 'gravity' }) {
+  const gravity = product === 'gravity';
   const { t } = useTranslation();
   const f = useFormat();
   const navigate = useNavigate();
@@ -64,8 +66,8 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
   }, [search]);
 
   const list = useQuery({
-    queryKey: ['sa', 'businesses', page, q, type, status, subscription],
-    queryFn: () => saApi.get<Paginated<Row>>(`/businesses${qs({ page, pageSize: 20, q, type, status, subscription })}`),
+    queryKey: ['sa', 'businesses', product, page, q, type, status, subscription],
+    queryFn: () => saApi.get<Paginated<Row>>(`/businesses${qs({ product, page, pageSize: 20, q, type, status, subscription })}`),
     placeholderData: keepPreviousData,
   });
 
@@ -110,13 +112,14 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
     { key: 'created', header: t('common.created'), hideOnMobile: true, cell: (b) => <span className="text-slate-500">{f.date(b.createdAt)}</span> },
   ];
 
-  const title =
-    presetType === 'restaurant' ? t('superadmin.nav.restaurants') : presetType === 'cafe' ? t('superadmin.nav.cafes') : presetType === 'retail' ? t('superadmin.nav.retail') : t('superadmin.businesses.title');
+  const title = gravity
+    ? t('gravity.accounts')
+    : presetType === 'restaurant' ? t('superadmin.nav.restaurants') : presetType === 'cafe' ? t('superadmin.nav.cafes') : presetType === 'retail' ? t('superadmin.nav.retail') : t('superadmin.businesses.title');
   return (
     <div>
       <PageHeader
         title={title}
-        description={t('superadmin.businesses.subtitle')}
+        description={gravity ? t('gravity.accounts_subtitle') : t('superadmin.businesses.subtitle')}
         actions={
           <Button icon={<Plus className="size-4" />} onClick={() => setCreating(true)}>
             {t('superadmin.businesses.create')}
@@ -135,6 +138,7 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
               className="w-full rounded-xl border-0 bg-slate-50 py-2.5 ps-9 pe-3 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-600 focus:outline-none dark:bg-slate-800 dark:ring-slate-700"
             />
           </div>
+          {!gravity && (
           <Select label={t('auth.business_type')} value={type} onChange={(e) => (setType(e.target.value), setPage(1))} disabled={!!presetType}>
             <option value="">{t('common.all')}</option>
             {presetType === 'retail' && <option value="retail">{t('superadmin.nav.retail')}</option>}
@@ -144,6 +148,7 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
               </option>
             ))}
           </Select>
+          )}
           <Select label={t('common.status')} value={status} onChange={(e) => (setStatus(e.target.value), setPage(1))}>
             <option value="">{t('common.all')}</option>
             {['pending', 'active', 'suspended', 'deactivated'].map((s) => (
@@ -167,25 +172,26 @@ export default function BusinessesPage({ presetType }: { presetType?: string }) 
           <EmptyState icon={<Building2 className="size-6" />} title={t('superadmin.businesses.empty_title')} description={t('superadmin.businesses.empty_body')} />
         ) : (
           <>
-            <DataTable columns={columns} rows={list.data.items} rowKey={(b) => b.id} onRowClick={(b) => navigate(`/superadmin/businesses/${b.id}`)} />
+            <DataTable columns={columns} rows={list.data.items} rowKey={(b) => b.id} onRowClick={(b) => navigate(gravity ? `/superadmin/gravity/accounts/${b.id}` : `/superadmin/businesses/${b.id}`)} />
             <Pagination page={page} pageSize={20} total={list.data.total} onPage={setPage} />
           </>
         )}
       </Card>
-      {creating && <CreateBusinessDialog onClose={() => setCreating(false)} defaultType={presetType === 'retail' ? 'retail_shop' : presetType} />}
+      {creating && <CreateBusinessDialog product={product} onClose={() => setCreating(false)} defaultType={presetType === 'retail' ? 'retail_shop' : presetType} />}
     </div>
   );
 }
 
-function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; defaultType?: string }) {
+function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClose: () => void; defaultType?: string; product?: 'pos' | 'gravity' }) {
+  const gravity = product === 'gravity';
   const { t } = useTranslation();
   const qc = useQueryClient();
   const navigate = useNavigate();
   const errMsg = useErrorMessage();
-  const plans = useQuery({ queryKey: ['sa', 'plans'], queryFn: () => saApi.get<{ items: Plan[] }>('/plans') });
+  const plans = useQuery({ queryKey: ['sa', 'plans', product], queryFn: () => saApi.get<{ items: Plan[] }>(`/plans?product=${product}`) });
   const [form, setForm] = useState({
     name: '',
-    businessType: defaultType ?? 'restaurant',
+    businessType: gravity ? 'other' : (defaultType ?? 'restaurant'),
     email: '',
     phone: '',
     address: '',
@@ -200,7 +206,7 @@ function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; d
   const [created, setCreated] = useState<{ id: string; email: string; password: string } | null>(null);
   useEffect(() => {
     if (!form.planId && plans.data?.items.length) {
-      const trial = plans.data.items.find((p) => p.code === 'trial' && p.isActive) ?? plans.data.items.find((p) => p.isActive);
+      const trial = plans.data.items.find((p) => p.code === (gravity ? 'gravity_trial' : 'trial') && p.isActive) ?? plans.data.items.find((p) => p.isActive);
       if (trial) setForm((f) => ({ ...f, planId: trial.id }));
     }
   }, [plans.data, form.planId]);
@@ -208,6 +214,7 @@ function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; d
   const m = useMutation({
     mutationFn: () =>
       saApi.post<{ id: string }>('/businesses', {
+        product,
         name: form.name,
         businessType: form.businessType,
         email: form.email,
@@ -231,11 +238,11 @@ function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; d
       open
       onClose={onClose}
       size="lg"
-      title={t('superadmin.businesses.create')}
+      title={gravity ? t('gravity.new_account') : t('superadmin.businesses.create')}
       description={t('superadmin.businesses.create_hint')}
       footer={
         created ? (
-          <Button onClick={() => navigate(`/superadmin/businesses/${created.id}`)}>{t('superadmin.credentials.open_business')}</Button>
+          <Button onClick={() => navigate(gravity ? `/superadmin/gravity/accounts/${created.id}` : `/superadmin/businesses/${created.id}`)}>{t('superadmin.credentials.open_business')}</Button>
         ) : (
           <>
             <Button variant="secondary" onClick={onClose}>
@@ -255,13 +262,15 @@ function CreateBusinessDialog({ onClose, defaultType }: { onClose: () => void; d
         {m.error && !(m.error instanceof ApiError && m.error.code === 'validation_failed') && <Alert tone="red">{errMsg(m.error)}</Alert>}
         <div className="grid gap-4 sm:grid-cols-2">
           <Input label={t('auth.business_name')} value={form.name} onChange={set('name')} error={fieldErr('name')} required />
-          <Select label={t('auth.business_type')} value={form.businessType} onChange={set('businessType')}>
-            {BUSINESS_TYPES.map((b) => (
-              <option key={b} value={b}>
-                {t(`business_types.${b}`)}
-              </option>
-            ))}
-          </Select>
+          {!gravity && (
+            <Select label={t('auth.business_type')} value={form.businessType} onChange={set('businessType')}>
+              {BUSINESS_TYPES.map((b) => (
+                <option key={b} value={b}>
+                  {t(`business_types.${b}`)}
+                </option>
+              ))}
+            </Select>
+          )}
           <Input type="email" label={t('superadmin.businesses.business_email')} value={form.email} onChange={set('email')} error={fieldErr('email')} />
           <Input type="tel" label={t('common.phone')} value={form.phone} onChange={set('phone')} error={fieldErr('phone')} />
           <Input label={t('settings.currency')} value={form.currency} maxLength={3} dir="ltr" onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value.toUpperCase() }))} error={fieldErr('currency')} />

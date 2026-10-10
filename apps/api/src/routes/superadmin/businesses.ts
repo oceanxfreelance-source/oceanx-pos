@@ -3,6 +3,7 @@ import { and, count, desc, eq, ilike, inArray, isNull, or, sql } from 'drizzle-o
 import { z } from 'zod';
 import {
   BUSINESS_TYPES,
+  PRODUCTS,
   changePlanSchema,
   createBusinessSchema,
   extendSubscriptionSchema,
@@ -25,6 +26,8 @@ import { issueUserToken } from '../../services/tokens';
 import { hashPassword } from '../../lib/password';
 
 const listQuerySchema = paginationQuerySchema.extend({
+  /** Which product's accounts (POS lists never mix in Gravity accounts). */
+  product: z.enum(PRODUCTS).default('pos'),
   /** A business type, or 'retail' for every shop type. */
   type: z.enum([...BUSINESS_TYPES, 'retail']).optional(),
   status: z.enum(['pending', 'active', 'suspended', 'deactivated']).optional(),
@@ -72,6 +75,7 @@ export async function businessAdminRoutes(app: FastifyInstance) {
           : undefined;
     const where = and(
       isNull(businesses.deletedAt),
+      eq(businesses.product, q.product),
       q.q ? or(ilike(businesses.name, `%${q.q}%`), ilike(businesses.email, `%${q.q}%`), ilike(businesses.slug, `%${q.q}%`)) : undefined,
       q.type === 'retail' ? inArray(businesses.businessType, RETAIL_TYPES) : q.type ? eq(businesses.businessType, q.type) : undefined,
       q.status ? eq(businesses.status, q.status) : undefined,
@@ -82,6 +86,7 @@ export async function businessAdminRoutes(app: FastifyInstance) {
         id: businesses.id,
         name: businesses.name,
         slug: businesses.slug,
+        product: businesses.product,
         businessType: businesses.businessType,
         status: businesses.status,
         email: businesses.email,
@@ -277,7 +282,8 @@ export async function businessAdminRoutes(app: FastifyInstance) {
     await db.transaction(async (tx) => {
       await loadBusiness(tx, id);
       const [plan] = await tx.select().from(plans).where(eq(plans.id, body.planId));
-      if (!plan) throw new AppError('validation_failed', 'Unknown plan', { fields: { planId: { code: 'invalid_option' } } });
+      const [biz] = await tx.select({ product: businesses.product }).from(businesses).where(eq(businesses.id, id));
+      if (!plan || plan.product !== biz?.product) throw new AppError('validation_failed', 'Unknown plan', { fields: { planId: { code: 'invalid_option' } } });
       const [current] = await tx
         .select({ sub: subscriptions, planCode: plans.code })
         .from(subscriptions)

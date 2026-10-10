@@ -5689,5 +5689,341 @@
     "suggested": "ލިސްޓުގައި ހުންނަ ތަރުތީބު",
     "status": "needs_review",
     "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "gravity.tagline",
+    "english": "Quotations & invoices",
+    "suggested": "ކޯޓޭޝަން އަދި އިންވޮއިސް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.aside_title",
+    "english": "Look professional from day one. Quotations and invoices in minutes.",
+    "suggested": "ފުރަތަމަ ދުވަހުން ފެށިގެން ޕްރޮފެޝަނަލް. މިނެޓުކޮޅެއްގައި ކޯޓޭޝަނާއި އިންވޮއިސް.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.aside_1",
+    "english": "In English or Dhivehi",
+    "suggested": "އިނގިރޭސި ނުވަތަ ދިވެހިން",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.aside_2",
+    "english": "Your logo, stamp, signature and bank details",
+    "suggested": "ތިޔަ ލޯގޯ، ސްޓޭމްޕް، ސޮއި އަދި ބޭންކް މަޢުލޫމާތު",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.aside_3",
+    "english": "Turn an accepted quotation into an invoice in one tap",
+    "suggested": "ގަބޫލުކުރި ކޯޓޭޝަން އެއް ފިތުމުން އިންވޮއިސްއަކަށް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.aside_4",
+    "english": "Track who has paid and what is overdue",
+    "suggested": "ފައިސާ ދެއްކި މީހުންނާއި ލަސްވެފައިވާ ފައިސާ ބަލާ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.register_title",
+    "english": "Create your Gravity account",
+    "suggested": "ތިޔަ Gravity އެކައުންޓް ހައްދަވާ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.register_subtitle",
+    "english": "For entrepreneurs, freelancers and small businesses: quotations and invoices in English or Dhivehi.",
+    "suggested": "ވިޔަފާރިވެރިން، ފްރީލާންސަރުން އަދި ކުދި ވިޔަފާރިތަކަށް: އިނގިރޭސި ނުވަތަ ދިވެހިން ކޯޓޭޝަނާއި އިންވޮއިސް.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.create_account",
+    "english": "Create account",
+    "suggested": "އެކައުންޓް ހައްދަވާ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.home_title",
+    "english": "Hello, {{name}}",
+    "suggested": "ހަލޯ، {{name}}",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.home_subtitle",
+    "english": "Your quotations and invoices at a glance.",
+    "suggested": "ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސް އެއް ނަޒަރަކުން.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.setup_title",
+    "english": "Finish your documents' look",
+    "suggested": "ތިޔަ ޑޮކިއުމަންޓްތައް ފުރިހަމަކުރައްވާ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.setup_body",
+    "english": "Add your logo and how customers can pay you. They print on every quotation and invoice. Stamp and signature are optional.",
+    "suggested": "ތިޔަ ލޯގޯ އަދި ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރައްވާ. ހުރިހާ ކޯޓޭޝަނާއި އިންވޮއިސްގައި ޕްރިންޓްވާނެ. ސްޓޭމްޕާއި ސޮއި އިޚްތިޔާރީ.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.add_logo",
+    "english": "Add logo",
+    "suggested": "ލޯގޯ އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.add_payment_details",
+    "english": "Add payment details",
+    "suggested": "ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.owed_to_you",
+    "english": "Owed to you",
+    "suggested": "ތިޔަބޭފުޅާއަށް ލިބެންޖެހޭ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.unpaid_invoices_one",
+    "english": "{{count}} unpaid invoice",
+    "suggested": "{{count}} ނުދައްކާ އިންވޮއިސް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.unpaid_invoices_other",
+    "english": "{{count}} unpaid invoices",
+    "suggested": "{{count}} ނުދައްކާ އިންވޮއިސް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.overdue",
+    "english": "Overdue",
+    "suggested": "ލަސްވެފައި",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.awaiting_reply",
+    "english": "Quotations awaiting reply",
+    "suggested": "ޖަވާބަށް އިންތިޒާރުކުރާ ކޯޓޭޝަން",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.all_invoices",
+    "english": "Invoices",
+    "suggested": "އިންވޮއިސްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.all_quotations_one",
+    "english": "{{count}} quotation",
+    "suggested": "{{count}} ކޯޓޭޝަން",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.all_quotations_other",
+    "english": "{{count}} quotations",
+    "suggested": "{{count}} ކޯޓޭޝަން",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.no_invoices",
+    "english": "No invoices yet",
+    "suggested": "އަދި އިންވޮއިސެއް ނެތް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.no_quotations",
+    "english": "No quotations yet",
+    "suggested": "އަދި ކޯޓޭޝަނެއް ނެތް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.see_all",
+    "english": "See all",
+    "suggested": "ހުރިހާ އެއްޗެއް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.accounts",
+    "english": "Gravity accounts",
+    "suggested": "Gravity އެކައުންޓްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.accounts_subtitle",
+    "english": "Businesses using Gravity for quotations and invoices.",
+    "suggested": "ކޯޓޭޝަނާއި އިންވޮއިސްއަށް Gravity ބޭނުންކުރާ ވިޔަފާރިތައް.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.new_account",
+    "english": "New Gravity account",
+    "suggested": "އައު Gravity އެކައުންޓް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.payments",
+    "english": "Gravity payments",
+    "suggested": "Gravity ފައިސާ ދެއްކުންތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.plans",
+    "english": "Gravity plans",
+    "suggested": "Gravity ޕްލޭންތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.console",
+    "english": "Gravity console",
+    "suggested": "Gravity ކޮންސޯލް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.active_accounts",
+    "english": "Active Gravity accounts",
+    "suggested": "ހިނގަމުންދާ Gravity އެކައުންޓް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.signup_link",
+    "english": "Customers sign up at",
+    "suggested": "ކަސްޓަމަރުން ސައިން އަޕް ކުރާނީ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.signup_plan",
+    "english": "Gravity sign-up plan",
+    "suggested": "Gravity ސައިން އަޕް ޕްލޭން",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.signup_plan_hint",
+    "english": "New Gravity accounts start on this plan.",
+    "suggested": "އައު Gravity އެކައުންޓްތައް ފަށާނީ މި ޕްލޭނުން.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "settings.payment_details",
+    "english": "Payment details",
+    "suggested": "ފައިސާ ދައްކާނެ ގޮތް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "settings.payment_details_hint",
+    "english": "Bank, account name and number, or other ways to pay. Printed on the document.",
+    "suggested": "ބޭންކް، އެކައުންޓްގެ ނަމާއި ނަންބަރު، ނުވަތަ ފައިސާ ދެއްކޭނެ އެހެން ގޮތްތައް. ޑޮކިއުމަންޓުގައި ޕްރިންޓްވާނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "print.payment_details",
+    "english": "Payment details",
+    "suggested": "ފައިސާ ދައްކާނެ ގޮތް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "documents.add_line",
+    "english": "Add line",
+    "suggested": "ލައިނެއް އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.who_owes",
+    "english": "Who owes you",
+    "suggested": "ފައިސާ ދައްކަންޖެހޭ ފަރާތްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.who_owes_total",
+    "english": "{{amount}} unpaid on issued invoices",
+    "suggested": "ނެރެފައިވާ އިންވޮއިސްތަކުން {{amount}} ނުދައްކާ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.nobody_owes",
+    "english": "Nobody owes you",
+    "suggested": "އެއްވެސް ފަރާތަކުން ފައިސާ ދައްކަން ނުޖެހޭ",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.nobody_owes_body",
+    "english": "Issued invoices that are not fully paid show here, by customer.",
+    "suggested": "ފުރިހަމައަށް ނުދައްކާ ނެރެފައިވާ އިންވޮއިސްތައް ކަސްޓަމަރުން ވަކިން މިތާ ފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.oldest_due",
+    "english": "oldest due {{date}}",
+    "suggested": "އެންމެ ކުރީ ތާރީޚު {{date}}",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.overdue_amount",
+    "english": "{{amount}} overdue",
+    "suggested": "{{amount}} ލަސްވެފައި",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.business_name",
+    "english": "Your name or business name",
+    "suggested": "ތިޔަ ނަން ނުވަތަ ވިޔަފާރީގެ ނަން",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
+  },
+  {
+    "key": "gravity.business_name_hint",
+    "english": "Printed at the top of your quotations and invoices. Freelancers can use their own name.",
+    "suggested": "ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސްގެ މަތީގައި ޕްރިންޓްވާނެ. ފްރީލާންސަރުންނަށް އަމިއްލަ ނަން ބޭނުން ކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity (quotation & invoice generator)."
   }
 ]

@@ -17,7 +17,7 @@ import { PaymentsTable, RecordPaymentDialog, usePayments } from './Payments';
 import { OwnerCredentials, generatePassword } from '../../components/OwnerCredentials';
 
 interface Detail {
-  business: { id: string; name: string; slug: string; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
+  business: { id: string; name: string; slug: string; product: 'pos' | 'gravity'; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
   subscription: { status: string; effectiveStatus: string; currentPeriodEnd: string; startsAt: string; plan: Plan } | null;
   addons: { code: string; name: string; isActive: boolean; status: string | null; grantedAt: string | null; revokedAt: string | null; expiresAt: string | null; requestedAt: string | null; requestNote: string | null }[];
   userCount: number;
@@ -83,14 +83,14 @@ export default function BusinessDetailPage() {
     <div className="space-y-6">
       <PageHeader
         back={
-          <Link to="/superadmin/businesses" className="mb-2 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
-            <ArrowLeft className="rtl-flip size-4" /> {t('superadmin.businesses.title')}
+          <Link to={b.product === 'gravity' ? '/superadmin/gravity/accounts' : '/superadmin/businesses'} className="mb-2 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
+            <ArrowLeft className="rtl-flip size-4" /> {b.product === 'gravity' ? t('gravity.accounts') : t('superadmin.businesses.title')}
           </Link>
         }
         title={<span dir="auto">{b.name}</span>}
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            {t(`business_types.${b.businessType}`)} · <Ltr>{b.slug}</Ltr>
+            {b.product === 'gravity' ? t('gravity.name') : t(`business_types.${b.businessType}`)} · <Ltr>{b.slug}</Ltr>
             <Badge tone={STATUS_TONE[b.status]} dot>
               {t(`superadmin.status.${b.status}`)}
             </Badge>
@@ -198,6 +198,8 @@ export default function BusinessDetailPage() {
             <Info label={t('common.created')} value={f.date(b.createdAt)} />
           </dl>
         </Card>
+        {/* Add-ons are POS extras: Gravity accounts have none. */}
+        {b.product !== 'gravity' && (
         <Card className="lg:col-span-2">
           <CardHeader title={t('superadmin.business.addons')} description={t('superadmin.business.addons_hint')} />
           <ul className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -233,6 +235,7 @@ export default function BusinessDetailPage() {
             })}
           </ul>
         </Card>
+        )}
       </div>
 
       <Card>
@@ -280,10 +283,10 @@ export default function BusinessDetailPage() {
         message={confirm ? t(`superadmin.business.${confirm}_body`, { name: b.name }) : ''}
       />
       {suspending && <SuspendDialog loading={action.isPending} onClose={() => setSuspending(false)} onConfirm={(reason) => action.mutate({ verb: 'suspend', body: { reason } })} />}
-      {changingPlan && <ChangePlanDialog businessId={b.id} currentPlanId={sub?.plan.id} onClose={() => setChangingPlan(false)} onDone={refresh} />}
+      {changingPlan && <ChangePlanDialog product={b.product} businessId={b.id} currentPlanId={sub?.plan.id} onClose={() => setChangingPlan(false)} onDone={refresh} />}
       {extending && <ExtendDialog businessId={b.id} onClose={() => setExtending(false)} onDone={refresh} />}
       {settingPassword && <OwnerPasswordDialog businessId={b.id} onClose={() => setSettingPassword(false)} onDone={refresh} />}
-      {recording && <RecordPaymentDialog businessId={b.id} currentPlanId={sub?.plan.id} onClose={() => setRecording(false)} />}
+      {recording && <RecordPaymentDialog product={b.product} businessId={b.id} currentPlanId={sub?.plan.id} onClose={() => setRecording(false)} />}
       <Card padded={false}>
         <div className="p-5 pb-0">
           <CardHeader title={t('superadmin.payments.title')} />
@@ -329,10 +332,11 @@ function SuspendDialog({ onClose, onConfirm, loading }: { onClose: () => void; o
   );
 }
 
-function ChangePlanDialog({ businessId, currentPlanId, onClose, onDone }: { businessId: string; currentPlanId?: string; onClose: () => void; onDone: () => void }) {
+function ChangePlanDialog({ businessId, currentPlanId, onClose, onDone, product }: { businessId: string; currentPlanId?: string; onClose: () => void; onDone: () => void; product: string }) {
   const { t } = useTranslation();
   const toastErr = useToastError();
-  const plans = useQuery({ queryKey: ['sa', 'plans'], queryFn: () => saApi.get<{ items: Plan[] }>('/plans') });
+  // Only the plans of the account's own product (a POS business can't move to a Gravity plan).
+  const plans = useQuery({ queryKey: ['sa', 'plans', product], queryFn: () => saApi.get<{ items: Plan[] }>(`/plans?product=${product}`) });
   const [planId, setPlanId] = useState(currentPlanId ?? '');
   const [status, setStatus] = useState<'active' | 'trialing'>('active');
   const m = useMutation({

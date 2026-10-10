@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { BUSINESS_TYPES } from './businessTypes';
 import { LANGUAGE_CODES } from './languages';
 import { PLAN_LIMIT_KEYS, MODULES } from './modules';
+import { PRODUCTS } from './products';
 
 /**
  * Request schemas shared by API (authoritative validation) and web (form UX).
@@ -59,8 +60,10 @@ export const changePasswordSchema = (min: 'business' | 'superadmin') =>
 export const mfaCodeSchema = z.object({ code: z.string().trim().regex(/^\d{6}$/) });
 
 export const registerBusinessSchema = z.object({
+  /** Which OceanX product the account is for (Gravity sign-up sends 'gravity'). */
+  product: z.enum(PRODUCTS).default('pos'),
   businessName: name,
-  businessType: z.enum(BUSINESS_TYPES),
+  businessType: z.enum(BUSINESS_TYPES).default('other'),
   ownerName: name,
   email: emailSchema,
   password: businessPasswordSchema,
@@ -142,6 +145,7 @@ const limitsSchema = z
   .strict();
 
 export const planSchema = z.object({
+  product: z.enum(PRODUCTS).default('pos'),
   code: z
     .string()
     .trim()
@@ -176,8 +180,9 @@ export const addonSchema = z.object({
 });
 
 export const createBusinessSchema = z.object({
+  product: z.enum(PRODUCTS).default('pos'),
   name,
-  businessType: z.enum(BUSINESS_TYPES),
+  businessType: z.enum(BUSINESS_TYPES).default('other'),
   email: z.union([emailSchema, z.literal('')]).default(''),
   phone,
   address: optionalText(500),
@@ -224,6 +229,8 @@ export const platformSettingsSchema = z
     supportEmail: z.union([emailSchema, z.literal('')]),
     registrationMode: z.enum(['open', 'approval', 'closed']),
     defaultPlanCode: z.string().trim().max(40),
+    /** Plan new Gravity sign-ups start on. */
+    gravityPlanCode: z.string().trim().max(40),
     defaultCurrency: z.string().trim().length(3).toUpperCase(),
     /** Shown to businesses on the payment screen: bank name, account name and number(s). */
     billingBankDetails: z.string().trim().max(1000),

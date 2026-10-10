@@ -45,6 +45,7 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
       id: b.id,
       name: b.name,
       slug: b.slug,
+      product: b.product,
       businessType: b.businessType,
       status: b.status,
       currency: b.currency,
@@ -206,14 +207,20 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
     const settings = await getPlatformSettings(db);
     if (settings.registrationMode === 'closed') throw new AppError('registration_closed', 'Registration is closed');
     const body = parse(registerBusinessSchema, req.body);
-    const [plan] = await db.select().from(plans).where(and(eq(plans.code, settings.defaultPlanCode), eq(plans.isActive, true))).limit(1);
+    const planCode = body.product === 'gravity' ? settings.gravityPlanCode : settings.defaultPlanCode;
+    const [plan] = await db
+      .select()
+      .from(plans)
+      .where(and(eq(plans.code, planCode), eq(plans.product, body.product), eq(plans.isActive, true)))
+      .limit(1);
     if (!plan) throw new AppError('registration_closed', 'Registration is not configured');
 
     const passwordHash = await hashPassword(body.password);
     const { business, owner } = await db.transaction(async (tx) => {
       const res = await provisionBusiness(tx, {
+        product: body.product,
         name: body.businessName,
-        businessType: body.businessType,
+        businessType: body.product === 'gravity' ? 'other' : body.businessType,
         email: body.email,
         phone: body.phone,
         currency: body.currency,

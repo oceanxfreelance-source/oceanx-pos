@@ -1,5 +1,5 @@
 import { and, eq, inArray } from 'drizzle-orm';
-import { CORE_MODULES, FOOD_ONLY_ADDONS, FOOD_ONLY_MODULES, getPermission, isRetailType, type PlanLimits } from '@oceanx/shared';
+import { CORE_MODULES, FOOD_ONLY_ADDONS, FOOD_ONLY_MODULES, GRAVITY_EXCLUDED_CORE, GRAVITY_MODULES, getPermission, isRetailType, type PlanLimits } from '@oceanx/shared';
 import type { Executor } from '../db/client';
 import { addons, businessAddons, businesses, plans, subscriptions } from '../db/schema';
 
@@ -62,6 +62,14 @@ export async function loadBusinessAccess(db: Executor, businessId: string): Prom
   if (isRetailType(row.business.businessType)) {
     for (const m of FOOD_ONLY_MODULES) modules.delete(m);
     for (const a of FOOD_ONLY_ADDONS) addonSet.delete(a);
+  }
+
+  // Gravity accounts only ever get quotations, invoices and customers (plus the core), never POS features or add-ons.
+  if (row.business.product === 'gravity') {
+    const allowed = new Set<string>([...CORE_MODULES, ...GRAVITY_MODULES]);
+    for (const m of GRAVITY_EXCLUDED_CORE) allowed.delete(m);
+    for (const m of [...modules]) if (!allowed.has(m)) modules.delete(m);
+    addonSet.clear();
   }
 
   const limits: PlanLimits = { ...(row.plan?.limits ?? {}), ...(row.sub?.customLimits ?? {}) };

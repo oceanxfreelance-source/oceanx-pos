@@ -93,7 +93,7 @@ async function documentContext(db: Executor, ctx: BusinessContext, kind: 'invoic
   const docSettings = kind === 'invoice' ? settings.invoice : settings.quotation;
   return {
     business: { name: b.name, businessType: b.businessType, address: b.address, phone: b.phone, email: b.email, hasLogo: !!b.logoPath },
-    settings: { regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber }, footer: docSettings.footer },
+    settings: { regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber }, footer: docSettings.footer, paymentDetails: docSettings.paymentDetails },
     documentLanguage: language ?? docSettings.language ?? settings.regional.documentLanguage,
   };
 }
@@ -420,6 +420,31 @@ export async function documentRoutes(app: FastifyInstance) {
       total: Number(total?.n ?? 0),
       summary: { outstanding: Number(sums?.outstanding ?? 0), overdue: Number(sums?.overdue ?? 0) },
     };
+  });
+
+  /** Who owes how much: issued, unpaid invoices grouped by customer (largest first), with the overdue part. */
+  app.get('/invoices/outstanding', { preHandler: requirePermission('invoices.view') }, async (req) => {
+    const ctx = bizCtx(req);
+    const t = today(ctx);
+    const rows = await db
+      .select({
+        customerId: customers.id,
+        customerName: customers.name,
+        company: customers.company,
+        phone: customers.phone,
+        invoices: count(),
+        outstanding: sql<string>`SUM(${invoices.balanceDue})::text`,
+        overdue: sql<string>`COALESCE(SUM(${invoices.balanceDue}) FILTER (WHERE ${invoices.dueDate} < ${t}), 0)::text`,
+        oldestDue: sql<string>`MIN(${invoices.dueDate})`,
+      })
+      .from(invoices)
+      .innerJoin(customers, eq(customers.id, invoices.customerId))
+      .where(and(eq(invoices.businessId, ctx.businessId), sql`${invoices.status} IN ('issued','partially_paid')`, sql`${invoices.balanceDue} > 0`))
+      .groupBy(customers.id, customers.name, customers.company, customers.phone)
+      .orderBy(sql`SUM(${invoices.balanceDue}) DESC`)
+      .limit(200);
+    const items = rows.map((r) => ({ ...r, outstanding: Number(r.outstanding), overdue: Number(r.overdue) }));
+    return { items, total: items.reduce((a, r) => a + r.outstanding, 0) };
   });
 
   app.get('/invoices/:id', { preHandler: requirePermission('invoices.view') }, async (req) => {

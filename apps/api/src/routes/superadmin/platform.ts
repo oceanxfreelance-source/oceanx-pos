@@ -8,6 +8,7 @@ import {
   paginationQuerySchema,
   planSchema,
   platformSettingsSchema,
+  PRODUCTS,
 } from '@oceanx/shared';
 import {
   activityLogs,
@@ -41,23 +42,23 @@ export async function platformRoutes(app: FastifyInstance) {
       db
         .select({ type: businesses.businessType, n: count() })
         .from(businesses)
-        .where(isNull(businesses.deletedAt))
+        .where(and(isNull(businesses.deletedAt), eq(businesses.product, 'pos')))
         .groupBy(businesses.businessType),
       db
         .select({ status: businesses.status, n: count() })
         .from(businesses)
-        .where(isNull(businesses.deletedAt))
+        .where(and(isNull(businesses.deletedAt), eq(businesses.product, 'pos')))
         .groupBy(businesses.status),
       db.execute<{ trialing: string; active: string; expired: string }>(sql`
         SELECT
           count(*) FILTER (WHERE status = 'trialing' AND current_period_end >= now()) AS trialing,
           count(*) FILTER (WHERE status IN ('active','past_due') AND current_period_end >= now()) AS active,
           count(*) FILTER (WHERE status IN ('expired','cancelled') OR current_period_end < now()) AS expired
-        FROM subscriptions`),
+        FROM subscriptions WHERE business_id IN (SELECT id FROM businesses WHERE product = 'pos')`),
       db.execute<{ currency: string; total: string }>(sql`
         SELECT p.currency, sum(p.price_monthly)::text AS total
         FROM subscriptions s JOIN plans p ON p.id = s.plan_id JOIN businesses b ON b.id = s.business_id
-        WHERE s.status IN ('active','past_due') AND s.current_period_end >= now() AND b.status = 'active'
+        WHERE s.status IN ('active','past_due') AND s.current_period_end >= now() AND b.status = 'active' AND b.product = 'pos'
         GROUP BY p.currency`),
       db.execute<{ currency: string; total: string }>(sql`
         SELECT a.currency, sum(a.price_monthly)::text AS total
@@ -67,7 +68,7 @@ export async function platformRoutes(app: FastifyInstance) {
       db
         .select({ n: count() })
         .from(businesses)
-        .where(and(isNull(businesses.deletedAt), gte(businesses.createdAt, sql`now() - interval '30 days'`))),
+        .where(and(isNull(businesses.deletedAt), eq(businesses.product, 'pos'), gte(businesses.createdAt, sql`now() - interval '30 days'`))),
       db.execute<{ total: string; active30: string }>(sql`
         SELECT count(*) FILTER (WHERE deleted_at IS NULL) AS total,
                count(*) FILTER (WHERE deleted_at IS NULL AND last_login_at >= now() - interval '30 days') AS active30
@@ -110,11 +111,13 @@ export async function platformRoutes(app: FastifyInstance) {
   });
 
   // ------------------------------------------------------------ plans
-  app.get('/plans', async () => {
+  app.get('/plans', async (req) => {
+    const q = parse(z.object({ product: z.enum(PRODUCTS).optional() }), req.query);
     const rows = await db
       .select({ plan: plans, n: count(subscriptions.id) })
       .from(plans)
       .leftJoin(subscriptions, eq(subscriptions.planId, plans.id))
+      .where(q.product ? eq(plans.product, q.product) : undefined)
       .groupBy(plans.id)
       .orderBy(plans.sortOrder, plans.name);
     return { items: rows.map((r) => ({ ...r.plan, subscriptionCount: num(r.n) })) };
@@ -252,9 +255,15 @@ export async function platformRoutes(app: FastifyInstance) {
   app.patch('/settings', async (req) => {
     const ctx = saCtx(req);
     const body = parse(platformSettingsSchema, req.body);
-    if (body.defaultPlanCode) {
-      const [p] = await db.select({ id: plans.id }).from(plans).where(eq(plans.code, body.defaultPlanCode));
-      if (!p) throw new AppError('validation_failed', 'Unknown plan', { fields: { defaultPlanCode: { code: 'invalid_option' } } });
+    // Each product's sign-up plan must be one of that product's plans.
+    for (const [field, product] of [
+      ['defaultPlanCode', 'pos'],
+      ['gravityPlanCode', 'gravity'],
+    ] as const) {
+      const code = body[field];
+      if (!code) continue;
+      const [p] = await db.select({ id: plans.id }).from(plans).where(and(eq(plans.code, code), eq(plans.product, product)));
+      if (!p) throw new AppError('validation_failed', 'Unknown plan', { fields: { [field]: { code: 'invalid_option' } } });
     }
     await db.transaction(async (tx) => {
       for (const [key, value] of Object.entries(body)) {

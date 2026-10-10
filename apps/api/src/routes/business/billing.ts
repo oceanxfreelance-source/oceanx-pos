@@ -28,7 +28,7 @@ export async function billingRoutes(app: FastifyInstance) {
       db
         .select({ id: plans.id, code: plans.code, name: plans.name, description: plans.description, priceMonthly: plans.priceMonthly, currency: plans.currency, limits: plans.limits })
         .from(plans)
-        .where(and(eq(plans.isActive, true), eq(plans.isPublic, true), gt(plans.priceMonthly, '0')))
+        .where(and(eq(plans.isActive, true), eq(plans.isPublic, true), gt(plans.priceMonthly, '0'), eq(plans.product, ctx.access.business.product)))
         .orderBy(asc(plans.sortOrder)),
       listPayments(db, { businessId: ctx.businessId }, 50),
     ]);
@@ -57,7 +57,7 @@ export async function billingRoutes(app: FastifyInstance) {
       .from(billingPayments)
       .where(and(eq(billingPayments.businessId, ctx.businessId), eq(billingPayments.status, 'pending')));
     if (pending) throw new AppError('conflict', 'A payment is already waiting for review');
-    const { plan, amount, currency } = await payablePlan(db, q.planId, q.months);
+    const { plan, amount, currency } = await payablePlan(db, q.planId, q.months, ctx.access.business.product);
     const saved = await storage.saveBusinessDocument(ctx.businessId, 'billing-slip', req.body);
     const [p] = await db
       .insert(billingPayments)

@@ -81,6 +81,7 @@ function toDoc(kind: Kind, d: any, t: TFunction): DocData {
     notes: doc.notes,
     terms: doc.terms,
     footer: d.settings.footer,
+    paymentDetails: d.settings.paymentDetails,
     branding: d.branding ?? null,
   };
 }

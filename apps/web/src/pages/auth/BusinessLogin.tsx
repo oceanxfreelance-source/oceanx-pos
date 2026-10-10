@@ -11,7 +11,8 @@ import { Alert } from '../../components/ui/Card';
 import { AuthLayout } from './AuthLayout';
 import { LanguagePicker } from './LanguagePicker';
 
-export default function BusinessLogin() {
+/** Business sign-in. `/gravity/login` shows the same sign-in with Gravity's look. */
+export default function BusinessLogin({ product = 'pos' }: { product?: 'pos' | 'gravity' }) {
   const { t } = useTranslation();
   const { session, setSession } = useBiz();
   const navigate = useNavigate();
@@ -36,13 +37,14 @@ export default function BusinessLogin() {
   };
   return (
     <AuthLayout
+      variant={product === 'gravity' ? 'gravity' : 'business'}
       title={t('auth.login_title')}
       subtitle={t('auth.login_subtitle')}
       footer={
         <div className="space-y-4">
           <p>
             {t('auth.no_account')}{' '}
-            <Link to="/register" className="font-medium text-brand-700 hover:underline dark:text-brand-300">
+            <Link to={product === 'gravity' ? '/gravity/register' : '/register'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
               {t('auth.register_cta')}
             </Link>
           </p>
