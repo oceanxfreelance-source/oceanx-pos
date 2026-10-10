@@ -22,8 +22,19 @@ export const HUB_CLIENT_KINDS = ['person', 'company', 'government'] as const;
 export const HUB_QUOTE_STATUSES = ['draft', 'sent', 'accepted', 'rejected', 'converted'] as const;
 export const HUB_INVOICE_STATUSES = ['draft', 'issued', 'partially_paid', 'paid', 'void'] as const;
 export const HUB_PAYMENT_METHODS = ['cash', 'bank_transfer', 'card', 'cheque', 'other'] as const;
+export const HUB_VENTURE_COLORS = ['blue', 'violet', 'green', 'amber', 'rose', 'slate'] as const;
+
+/** One of OceanX's own projects / business lines (OceanX POS is built in). */
+export const hubVentureSchema = z.object({
+  name: req(80),
+  description: text(500),
+  color: z.enum(HUB_VENTURE_COLORS).default('blue'),
+  isActive: z.boolean().default(true),
+  sortOrder: z.number().int().min(0).max(1000).default(0),
+});
 
 export const hubServiceSchema = z.object({
+  ventureId: optId,
   name: req(120),
   category: z.enum(HUB_SERVICE_CATEGORIES).default('other'),
   description: text(1000),
@@ -33,6 +44,7 @@ export const hubServiceSchema = z.object({
 });
 
 export const hubClientSchema = z.object({
+  ventureId: optId,
   name: req(120),
   company: text(120),
   kind: z.enum(HUB_CLIENT_KINDS).default('company'),
@@ -45,6 +57,7 @@ export const hubClientSchema = z.object({
 });
 
 export const hubLeadSchema = z.object({
+  ventureId: optId,
   name: req(120),
   company: text(120),
   phone,
@@ -59,6 +72,7 @@ export const hubLeadSchema = z.object({
 });
 
 export const hubProjectSchema = z.object({
+  ventureId: optId,
   title: req(160),
   clientId: optId,
   serviceId: optId,
@@ -71,6 +85,7 @@ export const hubProjectSchema = z.object({
 });
 
 export const hubTaskSchema = z.object({
+  ventureId: optId,
   title: req(200),
   projectId: optId,
   notes: text(2000),
@@ -82,6 +97,7 @@ export const hubTaskSchema = z.object({
 
 export const hubTicketSchema = z
   .object({
+    ventureId: optId,
     subject: req(200),
     description: text(4000),
     clientId: optId,
@@ -102,6 +118,7 @@ export const hubDocItemSchema = z.object({
 });
 
 export const hubDocumentSchema = z.object({
+  ventureId: optId,
   clientId: id,
   projectId: optId,
   issueDate: z.iso.date(),

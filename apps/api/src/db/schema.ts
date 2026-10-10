@@ -1380,9 +1380,33 @@ export const rotaEntries = pgTable(
 // business tenant; only Super Admin team members can read or change it.
 // ============================================================================================
 
+/**
+ * OceanX's own projects / business lines (OceanX POS, websites, design studio...). Everything in the
+ * Hub can belong to one, so each project has its own leads, clients, prices, documents, jobs and
+ * tickets. The built-in POS project (kind 'pos') also opens the POS console.
+ */
+export const hubVentures = pgTable(
+  'hub_ventures',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name').notNull(),
+    /** pos (built in, one) | custom */
+    kind: text('kind').notNull().default('custom'),
+    description: text('description').notNull().default(''),
+    /** Accent colour key (blue, violet, green, amber, rose, slate). */
+    color: text('color').notNull().default('blue'),
+    isActive: boolean('is_active').notNull().default(true),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [uniqueIndex('hub_ventures_pos_uq').on(t.kind).where(sql`${t.kind} = 'pos'`)],
+);
+
 /** What OceanX sells (POS plans are separate; this is the price list for everything else too). */
 export const hubServices = pgTable('hub_services', {
   id: uuid('id').primaryKey().defaultRandom(),
+  ventureId: uuid('venture_id').references(() => hubVentures.id, { onDelete: 'set null' }),
   name: text('name').notNull(),
   /** pos | websites | design | marketing | hardware | it_support | software | other */
   category: text('category').notNull().default('other'),
@@ -1399,6 +1423,7 @@ export const hubClients = pgTable(
   'hub_clients',
   {
     id: uuid('id').primaryKey().defaultRandom(),
+    ventureId: uuid('venture_id').references(() => hubVentures.id, { onDelete: 'set null' }),
     name: text('name').notNull(),
     company: text('company').notNull().default(''),
     /** person | company | government */
@@ -1421,6 +1446,7 @@ export const hubLeads = pgTable(
   'hub_leads',
   {
     id: uuid('id').primaryKey().defaultRandom(),
+    ventureId: uuid('venture_id').references(() => hubVentures.id, { onDelete: 'set null' }),
     name: text('name').notNull(),
     company: text('company').notNull().default(''),
     phone: text('phone').notNull().default(''),
@@ -1447,6 +1473,7 @@ export const hubProjects = pgTable(
   'hub_projects',
   {
     id: uuid('id').primaryKey().defaultRandom(),
+    ventureId: uuid('venture_id').references(() => hubVentures.id, { onDelete: 'set null' }),
     clientId: uuid('client_id').references(() => hubClients.id, { onDelete: 'set null' }),
     serviceId: uuid('service_id').references(() => hubServices.id, { onDelete: 'set null' }),
     title: text('title').notNull(),
@@ -1469,6 +1496,7 @@ export const hubTasks = pgTable(
   'hub_tasks',
   {
     id: uuid('id').primaryKey().defaultRandom(),
+    ventureId: uuid('venture_id').references(() => hubVentures.id, { onDelete: 'set null' }),
     projectId: uuid('project_id').references(() => hubProjects.id, { onDelete: 'cascade' }),
     title: text('title').notNull(),
     notes: text('notes').notNull().default(''),
@@ -1491,6 +1519,7 @@ export const hubTickets = pgTable(
   'hub_tickets',
   {
     id: uuid('id').primaryKey().defaultRandom(),
+    ventureId: uuid('venture_id').references(() => hubVentures.id, { onDelete: 'set null' }),
     number: text('number').notNull(),
     clientId: uuid('client_id').references(() => hubClients.id, { onDelete: 'set null' }),
     businessId: uuid('business_id').references(() => businesses.id, { onDelete: 'set null' }),
@@ -1538,6 +1567,7 @@ export const hubDocuments = pgTable(
   'hub_documents',
   {
     id: uuid('id').primaryKey().defaultRandom(),
+    ventureId: uuid('venture_id').references(() => hubVentures.id, { onDelete: 'set null' }),
     /** quote | invoice */
     kind: text('kind').notNull(),
     number: text('number').notNull(),

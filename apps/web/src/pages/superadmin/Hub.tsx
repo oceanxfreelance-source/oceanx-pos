@@ -7,6 +7,13 @@ import clsx from 'clsx';
 import {
   Banknote,
   Briefcase,
+  Building2,
+  CreditCard,
+  FolderKanban,
+  Gauge,
+  Layers,
+  Pencil,
+  Puzzle,
   CheckCircle2,
   FileText,
   Headset,
@@ -29,6 +36,7 @@ import {
   HUB_SERVICE_CATEGORIES,
   HUB_TICKET_CHANNELS,
   HUB_TICKET_STATUSES,
+  HUB_VENTURE_COLORS,
 } from '@oceanx/shared';
 import { saApi, ApiError } from '../../lib/api';
 import { useFormat } from '../../lib/format';
@@ -43,8 +51,44 @@ import { DataTable, type Column } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { fmtAmount } from '../business/Billing';
+import { VENTURE_TONE, useVentures, type Venture } from './hubVentures';
 
 // ---------------------------------------------------------------- shared
+/** Where a Hub page is: the main office (everything) or inside one project (only its work). */
+export function useHubCtx() {
+  const { ventureId } = useParams<{ ventureId?: string }>();
+  const ventures = useVentures();
+  const venture = ventures.find((v) => v.id === ventureId) ?? null;
+  const base = ventureId ? `/superadmin/p/${ventureId}` : '/superadmin/hub';
+  const qs = (params: Record<string, string | undefined> = {}) => {
+    const u = new URLSearchParams();
+    for (const [k, v] of Object.entries(params)) if (v) u.set(k, v);
+    if (ventureId) u.set('ventureId', ventureId);
+    const str = u.toString();
+    return str ? `?${str}` : '';
+  };
+  return { ventureId: ventureId ?? null, venture, base, qs, ventures };
+}
+function VentureSelect({ value, onChange }: { value: string | null; onChange: (v: string | null) => void }) {
+  const { t } = useTranslation();
+  const ventures = useVentures().filter((v) => v.isActive || v.id === value);
+  return (
+    <Select label={t('hub.ventures.project')} value={value ?? ''} onChange={(e) => onChange(e.target.value || null)}>
+      <option value="">{t('hub.ventures.general')}</option>
+      {ventures.map((v) => (
+        <option key={v.id} value={v.id}>
+          {v.name}
+        </option>
+      ))}
+    </Select>
+  );
+}
+function VentureBadge({ id }: { id: string | null }) {
+  const v = useVentures().find((x) => x.id === id);
+  if (!v) return <>—</>;
+  return <Badge tone={(VENTURE_TONE[v.color] ?? VENTURE_TONE.blue!).tone}>{v.name}</Badge>;
+}
+
 interface TeamMember {
   id: string;
   name: string;
@@ -62,11 +106,12 @@ interface Overview {
   invoicesUnpaid: number;
   amountDue: number;
   receivedThisMonth: number;
-  posBusinessesActive: number;
-  posPaymentsPending: number;
+  posBusinessesActive: number | null;
+  posPaymentsPending: number | null;
 }
 interface Service {
   id: string;
+  ventureId: string | null;
   name: string;
   category: string;
   description: string;
@@ -76,6 +121,7 @@ interface Service {
 }
 interface Client {
   id: string;
+  ventureId: string | null;
   name: string;
   company: string;
   kind: string;
@@ -91,6 +137,7 @@ interface Client {
 }
 interface Lead {
   id: string;
+  ventureId: string | null;
   name: string;
   company: string;
   phone: string;
@@ -108,6 +155,7 @@ interface Lead {
 }
 interface Project {
   id: string;
+  ventureId: string | null;
   title: string;
   clientId: string | null;
   clientName: string | null;
@@ -124,6 +172,7 @@ interface Project {
 }
 interface Task {
   id: string;
+  ventureId: string | null;
   title: string;
   projectId: string | null;
   projectTitle: string | null;
@@ -136,6 +185,7 @@ interface Task {
 }
 interface Ticket {
   id: string;
+  ventureId: string | null;
   number: string;
   subject: string;
   description: string;
@@ -152,6 +202,7 @@ interface Ticket {
 }
 interface DocRow {
   id: string;
+  ventureId: string | null;
   kind: 'quote' | 'invoice';
   number: string;
   clientId: string;
@@ -172,7 +223,7 @@ const TICKET_TONE: Record<string, BadgeTone> = { open: 'red', in_progress: 'blue
 const DOC_TONE: Record<string, BadgeTone> = { draft: 'gray', sent: 'blue', accepted: 'green', rejected: 'red', converted: 'violet', issued: 'blue', partially_paid: 'amber', paid: 'green', void: 'gray' };
 
 function useCurrency() {
-  const q = useQuery({ queryKey: ['sa', 'hub', 'overview'], queryFn: () => saApi.get<Overview>('/hub/overview'), staleTime: 60_000 });
+  const q = useQuery({ queryKey: ['sa', 'hub', 'overview', 'all'], queryFn: () => saApi.get<Overview>('/hub/overview'), staleTime: 60_000 });
   return q.data?.currency ?? 'MVR';
 }
 function useTeam() {
@@ -254,42 +305,50 @@ function FormError({ error }: { error: unknown }) {
 export function HubOverviewPage() {
   const { t } = useTranslation();
   const { session } = useSuperAdmin();
-  const q = useQuery({ queryKey: ['sa', 'hub', 'overview'], queryFn: () => saApi.get<Overview>('/hub/overview') });
-  const leads = useQuery({ queryKey: ['sa', 'hub', 'leads', 'open', ''], queryFn: () => saApi.get<{ items: Lead[] }>('/hub/leads?status=open') });
-  const tasks = useQuery({ queryKey: ['sa', 'hub', 'tasks', 'mine'], queryFn: () => saApi.get<{ items: Task[] }>('/hub/tasks?status=open&mine=true') });
-  const tickets = useQuery({ queryKey: ['sa', 'hub', 'tickets', 'open_all', ''], queryFn: () => saApi.get<{ items: Ticket[] }>('/hub/tickets?status=open_all') });
+  const { ventureId, venture, base, qs } = useHubCtx();
+  const q = useQuery({ queryKey: ['sa', 'hub', 'overview', ventureId ?? 'all'], queryFn: () => saApi.get<Overview>(`/hub/overview${qs()}`) });
+  const leads = useQuery({ queryKey: ['sa', 'hub', 'leads', ventureId, 'open', ''], queryFn: () => saApi.get<{ items: Lead[] }>(`/hub/leads${qs({ status: 'open' })}`) });
+  const tasks = useQuery({ queryKey: ['sa', 'hub', 'tasks', ventureId, '', 'mine'], queryFn: () => saApi.get<{ items: Task[] }>(`/hub/tasks${qs({ status: 'open', mine: 'true' })}`) });
+  const tickets = useQuery({ queryKey: ['sa', 'hub', 'tickets', ventureId, 'open_all', ''], queryFn: () => saApi.get<{ items: Ticket[] }>(`/hub/tickets${qs({ status: 'open_all' })}`) });
   const o = q.data;
   const cur = o?.currency ?? 'MVR';
   const due = (leads.data?.items ?? []).filter((l) => l.nextFollowUp && l.nextFollowUp <= today());
   return (
     <div className="space-y-6">
-      <PageHeader title={t('hub.overview_title', { name: session?.admin.name ?? '' })} description={t('hub.overview_subtitle')} />
+      <PageHeader
+        title={venture ? venture.name : t('hub.overview_title', { name: session?.admin.name ?? '' })}
+        description={venture ? venture.description || t('hub.ventures.project_subtitle') : t('hub.overview_subtitle')}
+      />
+      {!ventureId && <VentureGrid />}
+      {venture?.kind === 'pos' && <PosConsoleLinks pending={o?.posPaymentsPending ?? 0} />}
       {!o ? (
         <SkeletonRows rows={4} />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <Link to="/superadmin/hub/leads">
+          <Link to={`${base}/leads`}>
             <StatCard label={t('hub.stat_leads')} value={o.leadsOpen} hint={o.followUpsDue ? t('hub.stat_follow_ups', { count: o.followUpsDue }) : undefined} icon={<UserPlus className="size-5" />} tone={o.followUpsDue ? 'amber' : 'blue'} />
           </Link>
-          <Link to="/superadmin/hub/invoices">
+          <Link to={`${base}/invoices`}>
             <StatCard label={t('hub.stat_due')} value={fmtAmount(o.amountDue, cur)} hint={t('hub.stat_unpaid_invoices', { count: o.invoicesUnpaid })} icon={<Receipt className="size-5" />} tone={o.amountDue ? 'amber' : 'green'} />
           </Link>
           <StatCard label={t('hub.stat_received')} value={fmtAmount(o.receivedThisMonth, cur)} icon={<Banknote className="size-5" />} tone="green" />
-          <Link to="/superadmin/hub/tickets">
+          <Link to={`${base}/tickets`}>
             <StatCard label={t('hub.stat_tickets')} value={o.ticketsOpen} hint={o.ticketsUrgent ? t('hub.stat_urgent', { count: o.ticketsUrgent }) : undefined} icon={<Headset className="size-5" />} tone={o.ticketsUrgent ? 'red' : 'blue'} />
           </Link>
-          <Link to="/superadmin/hub/projects">
+          <Link to={`${base}/jobs`}>
             <StatCard label={t('hub.stat_projects')} value={o.projectsActive} icon={<Briefcase className="size-5" />} tone="violet" />
           </Link>
-          <Link to="/superadmin/hub/tasks">
+          <Link to={`${base}/tasks`}>
             <StatCard label={t('hub.stat_my_tasks')} value={o.myOpenTasks} hint={t('hub.stat_team_tasks', { count: o.openTasks })} icon={<ListTodo className="size-5" />} tone="blue" />
           </Link>
-          <Link to="/superadmin/hub/clients">
+          <Link to={`${base}/clients`}>
             <StatCard label={t('hub.stat_clients')} value={o.clients} icon={<Users className="size-5" />} tone="gray" />
           </Link>
-          <Link to="/superadmin/dashboard">
-            <StatCard label={t('hub.stat_pos')} value={o.posBusinessesActive} hint={o.posPaymentsPending ? t('hub.stat_pos_pending', { count: o.posPaymentsPending }) : undefined} icon={<Store className="size-5" />} tone={o.posPaymentsPending ? 'amber' : 'green'} />
-          </Link>
+          {o.posBusinessesActive !== null && (
+            <Link to="/superadmin/dashboard">
+              <StatCard label={t('hub.stat_pos')} value={o.posBusinessesActive} hint={o.posPaymentsPending ? t('hub.stat_pos_pending', { count: o.posPaymentsPending }) : undefined} icon={<Store className="size-5" />} tone={o.posPaymentsPending ? 'amber' : 'green'} />
+            </Link>
+          )}
         </div>
       )}
       <div className="grid gap-6 lg:grid-cols-3">
@@ -301,7 +360,7 @@ export function HubOverviewPage() {
             <ul className="space-y-2 text-sm">
               {due.slice(0, 8).map((l) => (
                 <li key={l.id} className="flex items-center justify-between gap-2">
-                  <Link to="/superadmin/hub/leads" className="min-w-0 truncate font-medium hover:underline" dir="auto">
+                  <Link to={`${base}/leads`} className="min-w-0 truncate font-medium hover:underline" dir="auto">
                     {l.name}
                     {l.company ? ` · ${l.company}` : ''}
                   </Link>
@@ -350,15 +409,148 @@ export function HubOverviewPage() {
   );
 }
 
+/** Main office: every OceanX project as a card; open one to see everything related to it. */
+function VentureGrid() {
+  const { t } = useTranslation();
+  const cur = useCurrency();
+  const ventures = useVentures();
+  const [editing, setEditing] = useState<Venture | 'new' | null>(null);
+  return (
+    <section aria-label={t('hub.ventures.title')}>
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <h2 className="text-lg font-semibold">{t('hub.ventures.title')}</h2>
+        <Button size="sm" variant="secondary" icon={<Plus className="size-4" />} onClick={() => setEditing('new')}>
+          {t('hub.ventures.new')}
+        </Button>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {ventures.map((v) => {
+          const tone = VENTURE_TONE[v.color] ?? VENTURE_TONE.blue!;
+          return (
+            <div key={v.id} className={clsx('relative rounded-2xl bg-white p-4 shadow-sm ring-1 dark:bg-slate-900', tone.ring, !v.isActive && 'opacity-60')}>
+              <Link to={`/superadmin/p/${v.id}`} className="block" aria-label={t('hub.ventures.open', { name: v.name })}>
+                <div className="flex items-center gap-3">
+                  <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-white', tone.dot)}>{v.kind === 'pos' ? <Store className="size-5" /> : <FolderKanban className="size-5" />}</span>
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold" dir="auto">
+                      {v.name}
+                    </p>
+                    <p className="truncate text-xs text-slate-500" dir="auto">
+                      {v.description || (v.kind === 'pos' ? t('hub.ventures.pos_hint') : t('hub.ventures.project_subtitle'))}
+                    </p>
+                  </div>
+                </div>
+                <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                  {v.kind === 'pos' && (
+                    <>
+                      <dt className="text-slate-500">{t('hub.stat_pos')}</dt>
+                      <dd className="text-end font-medium">{v.posBusinessesActive ?? 0}</dd>
+                    </>
+                  )}
+                  <dt className="text-slate-500">{t('hub.stat_leads')}</dt>
+                  <dd className="text-end font-medium">{v.leadsOpen}</dd>
+                  <dt className="text-slate-500">{t('hub.stat_projects')}</dt>
+                  <dd className="text-end font-medium">{v.jobsActive}</dd>
+                  <dt className="text-slate-500">{t('hub.stat_tickets')}</dt>
+                  <dd className="text-end font-medium">{v.ticketsOpen}</dd>
+                  <dt className="text-slate-500">{t('hub.stat_due')}</dt>
+                  <dd className="text-end font-medium">{fmtAmount(v.amountDue, cur)}</dd>
+                </dl>
+              </Link>
+              <button type="button" onClick={() => setEditing(v)} aria-label={t('hub.ventures.edit', { name: v.name })} className="absolute end-3 top-3 rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800">
+                <Pencil className="size-4" />
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      {editing && <VentureDialog venture={editing === 'new' ? null : editing} onClose={() => setEditing(null)} />}
+    </section>
+  );
+}
+
+function VentureDialog({ venture, onClose }: { venture: Venture | null; onClose: () => void }) {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const [f, setF] = useState({ name: venture?.name ?? '', description: venture?.description ?? '', color: venture?.color ?? 'violet', isActive: venture?.isActive ?? true, sortOrder: venture?.sortOrder ?? 10 });
+  const save = useMutation({
+    mutationFn: () => (venture ? saApi.put(`/hub/ventures/${venture.id}`, f) : saApi.post('/hub/ventures', f)),
+    onSuccess: () => {
+      toast.success(t('common.saved'));
+      invalidateHub(qc);
+      onClose();
+    },
+  });
+  const fe = useFieldErrors(save.error);
+  return (
+    <Dialog open onClose={onClose} title={venture ? venture.name : t('hub.ventures.new')} footer={<SaveFooter onCancel={onClose} onSave={() => save.mutate()} saving={save.isPending} disabled={!f.name.trim()} />}>
+      <div className="space-y-4">
+        <FormError error={save.error} />
+        <Input label={t('common.name')} hint={t('hub.ventures.name_hint')} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} error={fe('name')} required autoFocus />
+        <Textarea label={t('hub.description')} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} />
+        <fieldset>
+          <legend className="mb-2 text-sm font-medium">{t('hub.ventures.color')}</legend>
+          <div className="flex flex-wrap gap-2">
+            {HUB_VENTURE_COLORS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                aria-label={c}
+                aria-pressed={f.color === c}
+                onClick={() => setF({ ...f, color: c })}
+                className={clsx('size-8 rounded-full ring-offset-2 dark:ring-offset-slate-900', VENTURE_TONE[c]!.dot, f.color === c && 'ring-2 ring-slate-900 dark:ring-white')}
+              />
+            ))}
+          </div>
+        </fieldset>
+        <Input type="number" min={0} max={1000} label={t('hub.ventures.order')} value={String(f.sortOrder)} onChange={(e) => setF({ ...f, sortOrder: Number(e.target.value) || 0 })} />
+        {venture?.kind !== 'pos' && (
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" checked={f.isActive} onChange={(e) => setF({ ...f, isActive: e.target.checked })} /> {t('hub.active')}
+          </label>
+        )}
+      </div>
+    </Dialog>
+  );
+}
+
+/** Inside the OceanX POS project: shortcuts to the POS console. */
+function PosConsoleLinks({ pending }: { pending: number }) {
+  const { t } = useTranslation();
+  const links: [string, string, React.ComponentType<{ className?: string }>][] = [
+    ['/superadmin/dashboard', 'superadmin.nav.dashboard', Gauge],
+    ['/superadmin/businesses', 'superadmin.nav.businesses', Building2],
+    ['/superadmin/subscriptions', 'superadmin.nav.subscriptions', CreditCard],
+    ['/superadmin/payments', 'superadmin.nav.payments', Banknote],
+    ['/superadmin/plans', 'superadmin.nav.plans', Layers],
+    ['/superadmin/addons', 'superadmin.nav.addons', Puzzle],
+  ];
+  return (
+    <section aria-label={t('hub.nav.group_pos_console')}>
+      <h2 className="mb-3 text-lg font-semibold">{t('hub.nav.group_pos_console')}</h2>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
+        {links.map(([to, label, Icon]) => (
+          <Link key={to} to={to} className="flex items-center gap-2 rounded-xl bg-white p-3 text-sm font-medium shadow-sm ring-1 ring-slate-200 hover:ring-brand-500 dark:bg-slate-900 dark:ring-slate-800">
+            <Icon className="size-4 shrink-0 text-slate-500" />
+            <span className="min-w-0 truncate">{t(label)}</span>
+            {to === '/superadmin/payments' && pending > 0 && <Badge tone="amber">{pending}</Badge>}
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ---------------------------------------------------------------- leads
 export function LeadsPage() {
   const { t } = useTranslation();
+  const { ventureId, qs } = useHubCtx();
   const [status, setStatus] = useState<'open' | 'won' | 'lost' | 'all'>('open');
   const [search, setSearch] = useState('');
   const [editing, setEditing] = useState<Lead | 'new' | null>(null);
   const q = useQuery({
-    queryKey: ['sa', 'hub', 'leads', status, search],
-    queryFn: () => saApi.get<{ items: Lead[] }>(`/hub/leads?${new URLSearchParams({ ...(status !== 'all' ? { status } : {}), ...(search ? { q: search } : {}) })}`),
+    queryKey: ['sa', 'hub', 'leads', ventureId, status, search],
+    queryFn: () => saApi.get<{ items: Lead[] }>(`/hub/leads${qs({ status: status !== 'all' ? status : undefined, q: search })}`),
   });
   const columns: Column<Lead>[] = [
     {
@@ -380,6 +572,7 @@ export function LeadsPage() {
     { key: 'i', header: t('hub.interest'), hideOnMobile: true, cell: (l) => <span dir="auto">{l.serviceName ?? l.interest ?? '—'}</span> },
     { key: 'f', header: t('hub.follow_up'), cell: (l) => (l.nextFollowUp ? <Badge tone={overdue(l.nextFollowUp) && !['won', 'lost'].includes(l.status) ? 'red' : 'gray'}>{l.nextFollowUp}</Badge> : '—') },
     { key: 'a', header: t('hub.assigned_to'), hideOnMobile: true, cell: (l) => l.assignedName ?? '—' },
+    ...(ventureId ? [] : [{ key: 'venture', header: t('hub.ventures.project'), hideOnMobile: true, cell: (r: Lead) => <VentureBadge id={r.ventureId} /> }]),
     { key: 'st', header: t('common.status'), className: 'text-end', cell: (l) => <Badge tone={LEAD_TONE[l.status]}>{t(`hub.lead_statuses.${l.status}`)}</Badge> },
   ];
   return (
@@ -415,10 +608,12 @@ export function LeadsPage() {
 
 function LeadDialog({ lead, onClose }: { lead: Lead | null; onClose: () => void }) {
   const { t } = useTranslation();
+  const { base, ventureId } = useHubCtx();
   const qc = useQueryClient();
   const navigate = useNavigate();
   const toastErr = useToastError();
   const [f, setF] = useState({
+    ventureId: lead ? lead.ventureId : ventureId,
     name: lead?.name ?? '',
     company: lead?.company ?? '',
     phone: lead?.phone ?? '',
@@ -449,7 +644,7 @@ function LeadDialog({ lead, onClose }: { lead: Lead | null; onClose: () => void 
       toast.success(t('hub.lead_converted'));
       invalidateHub(qc);
       onClose();
-      navigate('/superadmin/hub/clients');
+      navigate(`${base}/clients`);
     },
     onError: toastErr,
   });
@@ -483,6 +678,7 @@ function LeadDialog({ lead, onClose }: { lead: Lead | null; onClose: () => void 
           <Input label={t('hub.company')} value={f.company} onChange={set('company')} />
           <Input label={t('common.phone')} type="tel" dir="ltr" value={f.phone} onChange={set('phone')} error={fe('phone')} />
           <Input label={t('common.email')} type="email" dir="ltr" value={f.email} onChange={set('email')} error={fe('email')} />
+          <VentureSelect value={f.ventureId} onChange={(v) => setF((x) => ({ ...x, ventureId: v }))} />
           <Select label={t('hub.source')} value={f.source} onChange={set('source')}>
             {HUB_LEAD_SOURCES.map((s) => (
               <option key={s} value={s}>
@@ -512,10 +708,11 @@ function LeadDialog({ lead, onClose }: { lead: Lead | null; onClose: () => void 
 // ---------------------------------------------------------------- clients
 export function ClientsPage() {
   const { t } = useTranslation();
+  const { ventureId, qs } = useHubCtx();
   const cur = useCurrency();
   const [search, setSearch] = useState('');
   const [editing, setEditing] = useState<Client | 'new' | null>(null);
-  const q = useQuery({ queryKey: ['sa', 'hub', 'clients', search], queryFn: () => saApi.get<{ items: Client[] }>(`/hub/clients${search ? `?q=${encodeURIComponent(search)}` : ''}`) });
+  const q = useQuery({ queryKey: ['sa', 'hub', 'clients', ventureId, search], queryFn: () => saApi.get<{ items: Client[] }>(`/hub/clients${qs({ q: search })}`) });
   const columns: Column<Client>[] = [
     {
       key: 'n',
@@ -535,6 +732,7 @@ export function ClientsPage() {
     },
     { key: 'p', header: t('hub.pos_business'), hideOnMobile: true, cell: (c) => (c.businessName ? <Badge tone="green">{c.businessName}</Badge> : '—') },
     { key: 'pr', header: t('hub.open_projects'), hideOnMobile: true, cell: (c) => c.openProjects || '—' },
+    ...(ventureId ? [] : [{ key: 'venture', header: t('hub.ventures.project'), hideOnMobile: true, cell: (r: Client) => <VentureBadge id={r.ventureId} /> }]),
     { key: 'd', header: t('hub.amount_due'), className: 'text-end', cell: (c) => (c.amountDue ? <span className="font-semibold text-amber-700">{fmtAmount(c.amountDue, cur)}</span> : '—') },
   ];
   return (
@@ -565,6 +763,7 @@ export function ClientsPage() {
 
 function ClientDialog({ client, onClose }: { client: Client | null; onClose: () => void }) {
   const { t } = useTranslation();
+  const { base, ventureId } = useHubCtx();
   const qc = useQueryClient();
   const f0 = useFormat();
   const toastErr = useToastError();
@@ -576,6 +775,7 @@ function ClientDialog({ client, onClose }: { client: Client | null; onClose: () 
     enabled: !!client,
   });
   const [f, setF] = useState({
+    ventureId: client ? client.ventureId : ventureId,
     name: client?.name ?? '',
     company: client?.company ?? '',
     kind: client?.kind ?? 'company',
@@ -643,6 +843,7 @@ function ClientDialog({ client, onClose }: { client: Client | null; onClose: () 
           <Input label={t('common.phone')} type="tel" dir="ltr" value={f.phone} onChange={set('phone')} error={fe('phone')} />
           <Input label={t('common.email')} type="email" dir="ltr" value={f.email} onChange={set('email')} error={fe('email')} />
           <Input label={t('hub.tax_number')} dir="ltr" value={f.taxNumber} onChange={set('taxNumber')} />
+          <VentureSelect value={f.ventureId} onChange={(v) => setF((x) => ({ ...x, ventureId: v }))} />
           <Select label={t('hub.pos_business')} hint={t('hub.pos_business_hint')} value={f.businessId ?? ''} onChange={(e) => setF((x) => ({ ...x, businessId: e.target.value || null }))}>
             <option value="">—</option>
             {(businesses.data?.items ?? []).map((b) => (
@@ -665,7 +866,7 @@ function ClientDialog({ client, onClose }: { client: Client | null; onClose: () 
               </p>
             ))}
             {d.documents.map((x) => (
-              <Link key={x.id} to={`/superadmin/hub/documents/${x.id}`} className="flex justify-between gap-2 hover:underline">
+              <Link key={x.id} to={`${base}/documents/${x.id}`} className="flex justify-between gap-2 hover:underline">
                 <span>
                   <FileText className="me-1 inline size-3.5" /> <Ltr>{x.number}</Ltr> · {f0.date(x.issueDate)}
                 </span>
@@ -691,9 +892,10 @@ function ClientDialog({ client, onClose }: { client: Client | null; onClose: () 
 // ---------------------------------------------------------------- services
 export function ServicesPage() {
   const { t } = useTranslation();
+  const { ventureId, qs } = useHubCtx();
   const cur = useCurrency();
   const [editing, setEditing] = useState<Service | 'new' | null>(null);
-  const q = useQuery({ queryKey: ['sa', 'hub', 'services'], queryFn: () => saApi.get<{ items: Service[] }>('/hub/services') });
+  const q = useQuery({ queryKey: ['sa', 'hub', 'services', ventureId], queryFn: () => saApi.get<{ items: Service[] }>(`/hub/services${qs()}`) });
   const columns: Column<Service>[] = [
     {
       key: 'n',
@@ -708,6 +910,7 @@ export function ServicesPage() {
       ),
     },
     { key: 'c', header: t('hub.category'), hideOnMobile: true, cell: (s) => <Badge tone="violet">{t(`hub.categories.${s.category}`)}</Badge> },
+    ...(ventureId ? [] : [{ key: 'venture', header: t('hub.ventures.project'), hideOnMobile: true, cell: (r: Service) => <VentureBadge id={r.ventureId} /> }]),
     { key: 'p', header: t('hub.price'), className: 'text-end', cell: (s) => `${fmtAmount(s.price, cur)} / ${s.unit}` },
   ];
   return (
@@ -737,8 +940,10 @@ export function ServicesPage() {
 
 function ServiceDialog({ service, onClose }: { service: Service | null; onClose: () => void }) {
   const { t } = useTranslation();
+  const { ventureId } = useHubCtx();
   const qc = useQueryClient();
   const [f, setF] = useState({
+    ventureId: service ? service.ventureId : ventureId,
     name: service?.name ?? '',
     category: service?.category ?? 'websites',
     description: service?.description ?? '',
@@ -764,6 +969,7 @@ function ServiceDialog({ service, onClose }: { service: Service | null; onClose:
       <div className="space-y-4">
         <FormError error={save.error} />
         <Input label={t('common.name')} value={f.name} onChange={set('name')} error={fe('name')} required autoFocus />
+        <VentureSelect value={f.ventureId} onChange={(v) => setF((x) => ({ ...x, ventureId: v }))} />
         <div className="grid gap-4 sm:grid-cols-3">
           <Select label={t('hub.category')} value={f.category} onChange={set('category')}>
             {HUB_SERVICE_CATEGORIES.map((c) => (
@@ -787,11 +993,12 @@ function ServiceDialog({ service, onClose }: { service: Service | null; onClose:
 // ---------------------------------------------------------------- projects
 export function ProjectsPage() {
   const { t } = useTranslation();
+  const { ventureId, qs } = useHubCtx();
   const cur = useCurrency();
   const f = useFormat();
   const [status, setStatus] = useState<'active' | 'done' | 'all'>('active');
   const [editing, setEditing] = useState<Project | 'new' | null>(null);
-  const q = useQuery({ queryKey: ['sa', 'hub', 'projects', status], queryFn: () => saApi.get<{ items: Project[] }>(`/hub/projects${status !== 'all' ? `?status=${status}` : ''}`) });
+  const q = useQuery({ queryKey: ['sa', 'hub', 'projects', ventureId, status], queryFn: () => saApi.get<{ items: Project[] }>(`/hub/projects${qs({ status: status !== 'all' ? status : undefined })}`) });
   const columns: Column<Project>[] = [
     {
       key: 't',
@@ -811,6 +1018,7 @@ export function ProjectsPage() {
     { key: 'a', header: t('hub.assigned_to'), hideOnMobile: true, cell: (p) => p.assignedName ?? '—' },
     { key: 'd', header: t('hub.due'), cell: (p) => (p.dueDate ? <Badge tone={overdue(p.dueDate) && !['done', 'cancelled'].includes(p.status) ? 'red' : 'gray'}>{f.date(p.dueDate)}</Badge> : '—') },
     { key: 'v', header: t('hub.value'), hideOnMobile: true, cell: (p) => (p.value ? fmtAmount(p.value, cur) : '—') },
+    ...(ventureId ? [] : [{ key: 'venture', header: t('hub.ventures.project'), hideOnMobile: true, cell: (r: Project) => <VentureBadge id={r.ventureId} /> }]),
     { key: 's', header: t('common.status'), className: 'text-end', cell: (p) => <Badge tone={PROJECT_TONE[p.status]}>{t(`hub.project_statuses.${p.status}`)}</Badge> },
   ];
   return (
@@ -841,8 +1049,10 @@ export function ProjectsPage() {
 
 function ProjectDialog({ project, onClose }: { project: Project | null; onClose: () => void }) {
   const { t } = useTranslation();
+  const { ventureId } = useHubCtx();
   const qc = useQueryClient();
   const [f, setF] = useState({
+    ventureId: project ? project.ventureId : ventureId,
     title: project?.title ?? '',
     clientId: project?.clientId ?? null,
     serviceId: project?.serviceId ?? null,
@@ -872,6 +1082,7 @@ function ProjectDialog({ project, onClose }: { project: Project | null; onClose:
         <FormError error={save.error} />
         <Input label={t('hub.project_title')} value={f.title} onChange={set('title')} error={fe('title')} required autoFocus />
         <div className="grid gap-4 sm:grid-cols-2">
+          <VentureSelect value={f.ventureId} onChange={(v) => setF((x) => ({ ...x, ventureId: v }))} />
           <ClientSelect value={f.clientId} onChange={(v) => setF((x) => ({ ...x, clientId: v }))} />
           <ServiceSelect value={f.serviceId} onChange={(v) => setF((x) => ({ ...x, serviceId: v }))} />
           <Select label={t('common.status')} value={f.status} onChange={set('status')}>
@@ -896,14 +1107,16 @@ function ProjectDialog({ project, onClose }: { project: Project | null; onClose:
 // ---------------------------------------------------------------- tasks
 function TaskList({ projectId, mine }: { projectId?: string; mine?: boolean }) {
   const { t } = useTranslation();
+  const { ventureId, qs } = useHubCtx();
   const qc = useQueryClient();
   const toastErr = useToastError();
   const [title, setTitle] = useState('');
-  const params = new URLSearchParams({ ...(projectId ? { projectId } : {}), ...(mine ? { mine: 'true', status: 'open' } : {}) });
-  const q = useQuery({ queryKey: ['sa', 'hub', 'tasks', projectId ?? '', mine ? 'mine' : ''], queryFn: () => saApi.get<{ items: Task[] }>(`/hub/tasks?${params}`) });
+  // A job's task list shows every task of the job, whichever project page it is opened from.
+  const url = projectId ? `/hub/tasks?projectId=${projectId}` : `/hub/tasks${qs(mine ? { mine: 'true', status: 'open' } : {})}`;
+  const q = useQuery({ queryKey: ['sa', 'hub', 'tasks', projectId ? null : ventureId, projectId ?? '', mine ? 'mine' : ''], queryFn: () => saApi.get<{ items: Task[] }>(url) });
   const { session } = useSuperAdmin();
   const add = useMutation({
-    mutationFn: () => saApi.post('/hub/tasks', { title: title.trim(), projectId: projectId ?? null, assignedTo: mine ? (session?.admin.id ?? null) : null }),
+    mutationFn: () => saApi.post('/hub/tasks', { title: title.trim(), projectId: projectId ?? null, ventureId, assignedTo: mine ? (session?.admin.id ?? null) : null }),
     onSuccess: () => {
       setTitle('');
       invalidateHub(qc);
@@ -911,7 +1124,7 @@ function TaskList({ projectId, mine }: { projectId?: string; mine?: boolean }) {
     onError: toastErr,
   });
   const toggle = useMutation({
-    mutationFn: (x: Task) => saApi.put(`/hub/tasks/${x.id}`, { title: x.title, projectId: x.projectId, notes: x.notes, priority: x.priority, dueDate: x.dueDate, assignedTo: x.assignedTo, status: x.status === 'done' ? 'todo' : 'done' }),
+    mutationFn: (x: Task) => saApi.put(`/hub/tasks/${x.id}`, { title: x.title, projectId: x.projectId, ventureId: x.ventureId, notes: x.notes, priority: x.priority, dueDate: x.dueDate, assignedTo: x.assignedTo, status: x.status === 'done' ? 'todo' : 'done' }),
     onSuccess: () => invalidateHub(qc),
     onError: toastErr,
   });
@@ -974,13 +1187,14 @@ export function TasksPage() {
 // ---------------------------------------------------------------- tickets
 export function TicketsPage() {
   const { t } = useTranslation();
+  const { ventureId, qs } = useHubCtx();
   const f = useFormat();
   const [status, setStatus] = useState<'open_all' | 'resolved' | 'all'>('open_all');
   const [search, setSearch] = useState('');
   const [editing, setEditing] = useState<Ticket | 'new' | null>(null);
   const q = useQuery({
-    queryKey: ['sa', 'hub', 'tickets', status, search],
-    queryFn: () => saApi.get<{ items: Ticket[] }>(`/hub/tickets?${new URLSearchParams({ ...(status !== 'all' ? { status } : {}), ...(search ? { q: search } : {}) })}`),
+    queryKey: ['sa', 'hub', 'tickets', ventureId, status, search],
+    queryFn: () => saApi.get<{ items: Ticket[] }>(`/hub/tickets${qs({ status: status !== 'all' ? status : undefined, q: search })}`),
   });
   const columns: Column<Ticket>[] = [
     {
@@ -1000,6 +1214,7 @@ export function TicketsPage() {
     { key: 'p', header: t('hub.priority'), cell: (x) => <Badge tone={PRIORITY_TONE[x.priority]}>{t(`hub.priorities.${x.priority}`)}</Badge> },
     { key: 'a', header: t('hub.assigned_to'), hideOnMobile: true, cell: (x) => x.assignedName ?? '—' },
     { key: 'c', header: t('hub.opened'), hideOnMobile: true, cell: (x) => f.dateTime(x.createdAt) },
+    ...(ventureId ? [] : [{ key: 'venture', header: t('hub.ventures.project'), hideOnMobile: true, cell: (r: Ticket) => <VentureBadge id={r.ventureId} /> }]),
     { key: 'st', header: t('common.status'), className: 'text-end', cell: (x) => <Badge tone={TICKET_TONE[x.status]}>{t(`hub.ticket_statuses.${x.status}`)}</Badge> },
   ];
   return (
@@ -1031,6 +1246,7 @@ export function TicketsPage() {
 
 function TicketDialog({ ticket, onClose }: { ticket: Ticket | null; onClose: () => void }) {
   const { t } = useTranslation();
+  const { ventureId } = useHubCtx();
   const qc = useQueryClient();
   const fmt = useFormat();
   const toastErr = useToastError();
@@ -1042,6 +1258,7 @@ function TicketDialog({ ticket, onClose }: { ticket: Ticket | null; onClose: () 
   });
   const [note, setNote] = useState('');
   const [f, setF] = useState({
+    ventureId: ticket ? ticket.ventureId : ventureId,
     subject: ticket?.subject ?? '',
     description: ticket?.description ?? '',
     clientId: ticket?.clientId ?? null,
@@ -1090,6 +1307,7 @@ function TicketDialog({ ticket, onClose }: { ticket: Ticket | null; onClose: () 
             ))}
           </Select>
           <ClientSelect value={f.clientId} onChange={(v) => setF((x) => ({ ...x, clientId: v }))} />
+          <VentureSelect value={f.ventureId} onChange={(v) => setF((x) => ({ ...x, ventureId: v }))} />
           <Select label={t('hub.priority')} value={f.priority} onChange={set('priority')}>
             {HUB_PRIORITIES.map((p) => (
               <option key={p} value={p}>
@@ -1143,13 +1361,14 @@ function TicketDialog({ ticket, onClose }: { ticket: Ticket | null; onClose: () 
 // ---------------------------------------------------------------- quotations & invoices
 export function HubDocumentsPage({ kind }: { kind: 'quote' | 'invoice' }) {
   const { t } = useTranslation();
+  const { base, ventureId, qs } = useHubCtx();
   const f = useFormat();
   const navigate = useNavigate();
   const [status, setStatus] = useState<string>(kind === 'invoice' ? 'unpaid' : 'all');
   const [creating, setCreating] = useState(false);
   const q = useQuery({
-    queryKey: ['sa', 'hub', 'documents', kind, status],
-    queryFn: () => saApi.get<{ items: DocRow[] }>(`/hub/documents?kind=${kind}${status !== 'all' ? `&status=${status}` : ''}`),
+    queryKey: ['sa', 'hub', 'documents', ventureId, kind, status],
+    queryFn: () => saApi.get<{ items: DocRow[] }>(`/hub/documents${qs({ kind, status: status !== 'all' ? status : undefined })}`),
   });
   const tabs = kind === 'invoice' ? ['unpaid', 'paid', 'draft', 'all'] : ['all', 'draft', 'sent', 'accepted'];
   const columns: Column<DocRow>[] = [
@@ -1170,6 +1389,7 @@ export function HubDocumentsPage({ kind }: { kind: 'quote' | 'invoice' }) {
     { key: 'd', header: t('common.date'), hideOnMobile: true, cell: (d) => f.date(d.issueDate) },
     { key: 't', header: t('hub.total'), cell: (d) => fmtAmount(d.total, d.currency) },
     ...(kind === 'invoice' ? [{ key: 'b', header: t('hub.balance'), hideOnMobile: true, cell: (d: DocRow) => (d.total - d.paidAmount > 0 && d.status !== 'void' ? fmtAmount(d.total - d.paidAmount, d.currency) : '—') }] : []),
+    ...(ventureId ? [] : [{ key: 'venture', header: t('hub.ventures.project'), hideOnMobile: true, cell: (r: DocRow) => <VentureBadge id={r.ventureId} /> }]),
     { key: 's', header: t('common.status'), className: 'text-end', cell: (d) => <Badge tone={DOC_TONE[d.status]}>{t(`hub.doc_statuses.${d.status}`)}</Badge> },
   ];
   return (
@@ -1190,10 +1410,10 @@ export function HubDocumentsPage({ kind }: { kind: 'quote' | 'invoice' }) {
         ) : !q.data?.items.length ? (
           <EmptyState icon={<FileText className="size-6" />} title={t('hub.no_documents')} description={t('hub.no_documents_body')} />
         ) : (
-          <DataTable columns={columns} rows={q.data.items} rowKey={(d) => d.id} onRowClick={(d) => navigate(`/superadmin/hub/documents/${d.id}`)} />
+          <DataTable columns={columns} rows={q.data.items} rowKey={(d) => d.id} onRowClick={(d) => navigate(`${base}/documents/${d.id}`)} />
         )}
       </Card>
-      {creating && <DocumentDialog kind={kind} onClose={() => setCreating(false)} onSaved={(id) => navigate(`/superadmin/hub/documents/${id}`)} />}
+      {creating && <DocumentDialog kind={kind} onClose={() => setCreating(false)} onSaved={(id) => navigate(`${base}/documents/${id}`)} />}
     </div>
   );
 }
@@ -1207,6 +1427,7 @@ interface DocDetail {
 
 function DocumentDialog({ kind, doc, onClose, onSaved }: { kind: 'quote' | 'invoice'; doc?: DocDetail['document']; onClose: () => void; onSaved: (id: string) => void }) {
   const { t } = useTranslation();
+  const { ventureId } = useHubCtx();
   const qc = useQueryClient();
   const services = useServices();
   const plus = (days: number) => {
@@ -1215,6 +1436,7 @@ function DocumentDialog({ kind, doc, onClose, onSaved }: { kind: 'quote' | 'invo
     return d.toISOString().slice(0, 10);
   };
   const [clientId, setClientId] = useState<string | null>(doc?.clientId ?? null);
+  const [docVenture, setDocVenture] = useState<string | null>(doc ? doc.ventureId : ventureId);
   const [issueDate, setIssueDate] = useState(doc?.issueDate ?? today());
   const [dueDate, setDueDate] = useState(doc?.dueDate ?? plus(kind === 'quote' ? 30 : 14));
   const [discount, setDiscount] = useState(doc ? String(doc.discount / 100) : '');
@@ -1230,6 +1452,7 @@ function DocumentDialog({ kind, doc, onClose, onSaved }: { kind: 'quote' | 'invo
   const save = useMutation({
     mutationFn: () => {
       const body = {
+        ventureId: docVenture,
         clientId,
         issueDate,
         dueDate: dueDate || null,
@@ -1258,9 +1481,10 @@ function DocumentDialog({ kind, doc, onClose, onSaved }: { kind: 'quote' | 'invo
       <div className="space-y-4">
         <FormError error={save.error} />
         <div className="grid gap-4 sm:grid-cols-3">
-          <div className="sm:col-span-3">
+          <div className="sm:col-span-2">
             <ClientSelect value={clientId} onChange={setClientId} required />
           </div>
+          <VentureSelect value={docVenture} onChange={setDocVenture} />
           <Input type="date" label={t('common.date')} value={issueDate} onChange={(e) => setIssueDate(e.target.value)} />
           <Input type="date" label={t(kind === 'invoice' ? 'hub.due_date' : 'hub.valid_until')} value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
           <Input type="number" min={0} step="0.01" label={t('hub.discount')} value={discount} onChange={(e) => setDiscount(e.target.value)} />
@@ -1308,6 +1532,7 @@ function DocumentDialog({ kind, doc, onClose, onSaved }: { kind: 'quote' | 'invo
 export function HubDocumentPage() {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
+  const { base } = useHubCtx();
   const f = useFormat();
   const qc = useQueryClient();
   const navigate = useNavigate();
@@ -1328,7 +1553,7 @@ export function HubDocumentPage() {
     onSuccess: (r) => {
       toast.success(t('hub.converted_to_invoice'));
       invalidateHub(qc);
-      navigate(`/superadmin/hub/documents/${r.id}`);
+      navigate(`${base}/documents/${r.id}`);
     },
     onError: toastErr,
   });
@@ -1337,7 +1562,7 @@ export function HubDocumentPage() {
     onSuccess: () => {
       toast.success(t('common.deleted'));
       invalidateHub(qc);
-      navigate(q.data?.document.kind === 'invoice' ? '/superadmin/hub/invoices' : '/superadmin/hub/quotes');
+      navigate(q.data?.document.kind === 'invoice' ? `${base}/invoices` : `${base}/quotes`);
     },
     onError: toastErr,
   });
@@ -1350,7 +1575,7 @@ export function HubDocumentPage() {
       <PageHeader
         title={<Ltr>{d.number}</Ltr>}
         description={`${t(isQuote ? 'hub.quote' : 'hub.invoice')} · ${client.name}`}
-        back={<Link to={isQuote ? '/superadmin/hub/quotes' : '/superadmin/hub/invoices'}>{t('common.back')}</Link>}
+        back={<Link to={isQuote ? `${base}/quotes` : `${base}/invoices`}>{t('common.back')}</Link>}
         actions={
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" icon={<Printer className="size-4" />} onClick={() => window.open(`/superadmin/hub/print/${d.id}`, '_blank', 'noopener')}>
@@ -1459,6 +1684,12 @@ export function HubDocumentPage() {
                 <dd>{f.date(d.dueDate)}</dd>
               </div>
             )}
+            <div className="flex justify-between gap-2">
+              <dt className="text-slate-500">{t('hub.ventures.project')}</dt>
+              <dd>
+                <VentureBadge id={d.ventureId} />
+              </dd>
+            </div>
             <div className="flex justify-between gap-2">
               <dt className="text-slate-500">{t('hub.client')}</dt>
               <dd className="text-end" dir="auto">

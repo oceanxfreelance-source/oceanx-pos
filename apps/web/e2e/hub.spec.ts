@@ -18,7 +18,33 @@ test('hub: lead becomes a client, is quoted, invoiced and pays', async ({ page }
   await expect(page).toHaveURL(/superadmin\/hub$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Welcome');
   await expect(page.getByRole('link', { name: 'Leads', exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'All businesses' })).toBeVisible();
+
+  // Every OceanX project is listed; OceanX POS is built in and opens with its own menu (POS console + its work).
+  await page.locator('aside').first().getByRole('link', { name: 'OceanX POS' }).click();
+  await expect(page).toHaveURL(/superadmin\/p\/[0-9a-f-]+$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('OceanX POS');
+  await expect(page.locator('aside').first().getByRole('link', { name: 'All businesses' })).toBeVisible();
+  await expect(page.locator('aside').first().getByRole('link', { name: 'Main office' })).toBeVisible();
+
+  // A new project (business line) gets its own space: a lead added inside it stays inside it.
+  const PROJECT = `Websites ${run}`;
+  await page.goto('/superadmin/hub');
+  await page.getByRole('button', { name: 'New project' }).click();
+  await page.getByRole('dialog').getByLabel('Name').fill(PROJECT);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await page.getByRole('link', { name: `Open ${PROJECT}` }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(PROJECT);
+  await expect(page.locator('aside').first().getByRole('link', { name: 'All businesses' })).toHaveCount(0);
+  const projectUrl = page.url();
+  await page.locator('aside').first().getByRole('link', { name: 'Leads', exact: true }).click();
+  await page.getByRole('button', { name: 'New lead' }).click();
+  await expect(page.getByRole('dialog').getByLabel('Project')).toHaveValue(projectUrl.split('/').pop()!);
+  await page.getByRole('dialog').getByLabel('Name').fill(`Site lead ${run}`);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByRole('row', { name: new RegExp(`Site lead ${run}`) })).toBeVisible();
+  // The main office sees it too, tagged with the project.
+  await page.goto('/superadmin/hub/leads');
+  await expect(page.getByRole('row', { name: new RegExp(`Site lead ${run}`) })).toContainText(PROJECT);
 
   // A service with a standard price.
   await page.goto('/superadmin/hub/services');

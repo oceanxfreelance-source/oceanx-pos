@@ -308,7 +308,9 @@ test.describe.serial('OceanX operations', () => {
     await sap.getByLabel('Email').fill(SA_EMAIL);
     await sap.getByLabel('Password').fill(SA_PASSWORD);
     await sap.getByRole('button', { name: 'Sign in' }).click();
-    await sap.getByRole('link', { name: 'Restaurants' }).click();
+    // The POS console lives in the OceanX POS project.
+    await sap.locator('aside').first().getByRole('link', { name: 'OceanX POS' }).click();
+    await sap.locator('aside').first().getByRole('link', { name: 'Restaurants' }).click();
     await expect(sap.getByText('Viber requested').filter({ visible: true }).first()).toBeVisible();
     await sap.getByText('Reef Kitchen').first().click();
     await sap.getByRole('button', { name: 'Enable' }).click();

@@ -17,6 +17,7 @@ import {
   hubTaskSchema,
   hubTicketNoteSchema,
   hubTicketSchema,
+  hubVentureSchema,
   toMinor,
 } from '@oceanx/shared';
 import type { Executor } from '../../db/client';
@@ -32,6 +33,7 @@ import {
   hubTasks,
   hubTicketNotes,
   hubTickets,
+  hubVentures,
   superAdmins,
   type HubDocItem,
 } from '../../db/schema';
@@ -78,6 +80,31 @@ export async function hubRoutes(app: FastifyInstance) {
     const [a] = await tx.select({ id: superAdmins.id }).from(superAdmins).where(eq(superAdmins.id, id));
     if (!a) throw new AppError('validation_failed', 'Unknown team member', { fields: { assignedTo: { code: 'invalid' } } });
   }
+  async function assertVenture(tx: Executor, id: string | null | undefined) {
+    if (!id) return;
+    const [v] = await tx.select({ id: hubVentures.id }).from(hubVentures).where(eq(hubVentures.id, id));
+    if (!v) throw new AppError('validation_failed', 'Unknown project', { fields: { ventureId: { code: 'invalid' } } });
+  }
+  async function posVentureId(tx: Executor) {
+    const [v] = await tx.select({ id: hubVentures.id }).from(hubVentures).where(eq(hubVentures.kind, 'pos'));
+    return v?.id ?? null;
+  }
+  /** Clients of a project: their home project is it, or they have work in it (POS: also linked POS businesses). */
+  const clientInVenture = (v: string, pos: boolean) =>
+    sql`(hub_clients.venture_id = ${v}
+      OR EXISTS (SELECT 1 FROM hub_leads x WHERE x.client_id = hub_clients.id AND x.venture_id = ${v})
+      OR EXISTS (SELECT 1 FROM hub_documents x WHERE x.client_id = hub_clients.id AND x.venture_id = ${v})
+      OR EXISTS (SELECT 1 FROM hub_projects x WHERE x.client_id = hub_clients.id AND x.venture_id = ${v})
+      OR EXISTS (SELECT 1 FROM hub_tickets x WHERE x.client_id = hub_clients.id AND x.venture_id = ${v})
+      ${pos ? sql`OR hub_clients.business_id IS NOT NULL` : sql``})`;
+  async function ventureFilter(id: string | undefined) {
+    if (!id) return null;
+    const [v] = await db.select().from(hubVentures).where(eq(hubVentures.id, id));
+    if (!v) throw notFound();
+    return v;
+  }
+  const vq = { ventureId: z.uuid().optional() };
+
   async function assertBusiness(tx: Executor, id: string | null | undefined) {
     if (!id) return;
     const [b] = await tx.select({ id: businesses.id }).from(businesses).where(eq(businesses.id, id));
@@ -87,25 +114,30 @@ export async function hubRoutes(app: FastifyInstance) {
   // ------------------------------------------------------------------ overview
   app.get('/hub/overview', async (req) => {
     const me = saCtx(req).admin.id;
+    const { ventureId } = parse(z.object(vq), req.query);
+    const v = await ventureFilter(ventureId);
+    const by = (col: Parameters<typeof eq>[0]) => (v ? eq(col, v.id) : undefined);
+    const showPos = !v || v.kind === 'pos';
     const d = today();
     const monthStart = `${d.slice(0, 8)}01`;
     const [leads, followUps, clients, projects, myTasks, openTasks, tickets, urgent, unpaid, paidMonth, pos, posPending] = await Promise.all([
-      db.select({ n: count() }).from(hubLeads).where(notInArray(hubLeads.status, ['won', 'lost'])),
-      db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), lte(hubLeads.nextFollowUp, d))),
-      db.select({ n: count() }).from(hubClients),
-      db.select({ n: count() }).from(hubProjects).where(inArray(hubProjects.status, ['planned', 'in_progress', 'review'])),
-      db.select({ n: count() }).from(hubTasks).where(and(ne(hubTasks.status, 'done'), eq(hubTasks.assignedTo, me))),
-      db.select({ n: count() }).from(hubTasks).where(ne(hubTasks.status, 'done')),
-      db.select({ n: count() }).from(hubTickets).where(inArray(hubTickets.status, ['open', 'in_progress', 'waiting'])),
-      db.select({ n: count() }).from(hubTickets).where(and(inArray(hubTickets.status, ['open', 'in_progress', 'waiting']), inArray(hubTickets.priority, ['high', 'urgent']))),
+      db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), by(hubLeads.ventureId))),
+      db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), lte(hubLeads.nextFollowUp, d), by(hubLeads.ventureId))),
+      db.select({ n: count() }).from(hubClients).where(v ? clientInVenture(v.id, v.kind === 'pos') : undefined),
+      db.select({ n: count() }).from(hubProjects).where(and(inArray(hubProjects.status, ['planned', 'in_progress', 'review']), by(hubProjects.ventureId))),
+      db.select({ n: count() }).from(hubTasks).where(and(ne(hubTasks.status, 'done'), eq(hubTasks.assignedTo, me), by(hubTasks.ventureId))),
+      db.select({ n: count() }).from(hubTasks).where(and(ne(hubTasks.status, 'done'), by(hubTasks.ventureId))),
+      db.select({ n: count() }).from(hubTickets).where(and(inArray(hubTickets.status, ['open', 'in_progress', 'waiting']), by(hubTickets.ventureId))),
+      db.select({ n: count() }).from(hubTickets).where(and(inArray(hubTickets.status, ['open', 'in_progress', 'waiting']), inArray(hubTickets.priority, ['high', 'urgent']), by(hubTickets.ventureId))),
       db
         .select({ n: count(), due: sql<string>`COALESCE(sum(${hubDocuments.total} - ${hubDocuments.paidAmount}), 0)::text` })
         .from(hubDocuments)
-        .where(and(eq(hubDocuments.kind, 'invoice'), inArray(hubDocuments.status, ['issued', 'partially_paid']))),
+        .where(and(eq(hubDocuments.kind, 'invoice'), inArray(hubDocuments.status, ['issued', 'partially_paid']), by(hubDocuments.ventureId))),
       db
         .select({ total: sql<string>`COALESCE(sum(${hubPayments.amount}), 0)::text` })
         .from(hubPayments)
-        .where(and(isNull(hubPayments.voidedAt), sql`${hubPayments.paidAt} >= ${monthStart}`)),
+        .innerJoin(hubDocuments, eq(hubDocuments.id, hubPayments.documentId))
+        .where(and(isNull(hubPayments.voidedAt), sql`${hubPayments.paidAt} >= ${monthStart}`, by(hubDocuments.ventureId))),
       db.select({ n: count() }).from(businesses).where(eq(businesses.status, 'active')),
       db.select({ n: count() }).from(billingPayments).where(eq(billingPayments.status, 'pending')),
     ]);
@@ -123,9 +155,64 @@ export async function hubRoutes(app: FastifyInstance) {
       invoicesUnpaid: unpaid[0]?.n ?? 0,
       amountDue: Number(unpaid[0]?.due ?? 0),
       receivedThisMonth: Number(paidMonth[0]?.total ?? 0),
-      posBusinessesActive: pos[0]?.n ?? 0,
-      posPaymentsPending: posPending[0]?.n ?? 0,
+      posBusinessesActive: showPos ? (pos[0]?.n ?? 0) : null,
+      posPaymentsPending: showPos ? (posPending[0]?.n ?? 0) : null,
+      venture: v,
     };
+  });
+
+  // ------------------------------------------------------------------ projects (OceanX's own business lines)
+  app.get('/hub/ventures', async () => {
+    const rows = await db
+      .select({
+        v: hubVentures,
+        leadsOpen: sql<number>`(SELECT count(*) FROM hub_leads x WHERE x.venture_id = hub_ventures.id AND x.status NOT IN ('won','lost'))::int`,
+        jobsActive: sql<number>`(SELECT count(*) FROM hub_projects x WHERE x.venture_id = hub_ventures.id AND x.status IN ('planned','in_progress','review'))::int`,
+        ticketsOpen: sql<number>`(SELECT count(*) FROM hub_tickets x WHERE x.venture_id = hub_ventures.id AND x.status IN ('open','in_progress','waiting'))::int`,
+        amountDue: sql<string>`(SELECT COALESCE(sum(x.total - x.paid_amount), 0) FROM hub_documents x WHERE x.venture_id = hub_ventures.id AND x.kind = 'invoice' AND x.status IN ('issued','partially_paid'))::text`,
+      })
+      .from(hubVentures)
+      .orderBy(asc(hubVentures.sortOrder), asc(hubVentures.createdAt));
+    const hasPos = rows.some((r) => r.v.kind === 'pos');
+    const [pos, posPending] = hasPos
+      ? await Promise.all([
+          db.select({ n: count() }).from(businesses).where(eq(businesses.status, 'active')),
+          db.select({ n: count() }).from(billingPayments).where(eq(billingPayments.status, 'pending')),
+        ])
+      : [[], []];
+    return {
+      items: rows.map((r) => ({
+        ...r.v,
+        leadsOpen: r.leadsOpen,
+        jobsActive: r.jobsActive,
+        ticketsOpen: r.ticketsOpen,
+        amountDue: Number(r.amountDue),
+        ...(r.v.kind === 'pos' ? { posBusinessesActive: pos[0]?.n ?? 0, posPaymentsPending: posPending[0]?.n ?? 0 } : {}),
+      })),
+    };
+  });
+  app.post('/hub/ventures', async (req, reply) => {
+    const ctx = saCtx(req);
+    const b = parse(hubVentureSchema, req.body);
+    const [v] = await db.insert(hubVentures).values({ ...b, kind: 'custom' }).returning();
+    await audit(db, { ...saAudit(ctx), action: 'hub.venture_created', entityType: 'hub_venture', entityId: v!.id, metadata: { name: b.name }, req });
+    reply.status(201);
+    return v;
+  });
+  app.put('/hub/ventures/:id', async (req) => {
+    const ctx = saCtx(req);
+    const b = parse(hubVentureSchema, req.body);
+    const id = idParam(req);
+    const [before] = await db.select({ kind: hubVentures.kind }).from(hubVentures).where(eq(hubVentures.id, id));
+    if (!before) throw notFound();
+    // The built-in POS project is always on: it opens the POS console.
+    const [v] = await db
+      .update(hubVentures)
+      .set({ ...b, isActive: before.kind === 'pos' ? true : b.isActive, updatedAt: new Date() })
+      .where(eq(hubVentures.id, id))
+      .returning();
+    await audit(db, { ...saAudit(ctx), action: 'hub.venture_updated', entityType: 'hub_venture', entityId: id, metadata: { name: b.name }, req });
+    return v;
   });
 
   /** Team members to assign work to. */
@@ -135,17 +222,18 @@ export async function hubRoutes(app: FastifyInstance) {
 
   // ------------------------------------------------------------------ services (price list)
   app.get('/hub/services', async (req) => {
-    const q = parse(z.object({ active: z.enum(['true', 'false']).optional() }), req.query);
+    const q = parse(z.object({ active: z.enum(['true', 'false']).optional(), ...vq }), req.query);
     const items = await db
       .select()
       .from(hubServices)
-      .where(q.active ? eq(hubServices.isActive, q.active === 'true') : undefined)
+      .where(and(q.active ? eq(hubServices.isActive, q.active === 'true') : undefined, q.ventureId ? eq(hubServices.ventureId, q.ventureId) : undefined))
       .orderBy(asc(hubServices.category), asc(hubServices.name));
     return { items };
   });
   app.post('/hub/services', async (req, reply) => {
     const ctx = saCtx(req);
     const b = parse(hubServiceSchema, req.body);
+    await assertVenture(db, b.ventureId);
     const [s] = await db.insert(hubServices).values({ ...b, price: toMinor(b.price) }).returning();
     await audit(db, { ...saAudit(ctx), action: 'hub.service_created', entityType: 'hub_service', entityId: s!.id, req });
     reply.status(201);
@@ -154,6 +242,7 @@ export async function hubRoutes(app: FastifyInstance) {
   app.put('/hub/services/:id', async (req) => {
     const ctx = saCtx(req);
     const b = parse(hubServiceSchema, req.body);
+    await assertVenture(db, b.ventureId);
     const [s] = await db
       .update(hubServices)
       .set({ ...b, price: toMinor(b.price), updatedAt: new Date() })
@@ -166,8 +255,12 @@ export async function hubRoutes(app: FastifyInstance) {
 
   // ------------------------------------------------------------------ clients
   app.get('/hub/clients', async (req) => {
-    const q = parse(z.object({ q: z.string().trim().max(100).optional() }), req.query);
-    const where = q.q ? or(ilike(hubClients.name, `%${q.q}%`), ilike(hubClients.company, `%${q.q}%`), ilike(hubClients.phone, `%${q.q}%`), ilike(hubClients.email, `%${q.q}%`)) : undefined;
+    const q = parse(z.object({ q: z.string().trim().max(100).optional(), ...vq }), req.query);
+    const v = await ventureFilter(q.ventureId);
+    const where = and(
+      q.q ? or(ilike(hubClients.name, `%${q.q}%`), ilike(hubClients.company, `%${q.q}%`), ilike(hubClients.phone, `%${q.q}%`), ilike(hubClients.email, `%${q.q}%`)) : undefined,
+      v ? clientInVenture(v.id, v.kind === 'pos') : undefined,
+    );
     const rows = await db
       .select({
         c: hubClients,
@@ -202,6 +295,7 @@ export async function hubRoutes(app: FastifyInstance) {
     const ctx = saCtx(req);
     const b = parse(hubClientSchema, req.body);
     await assertBusiness(db, b.businessId);
+    await assertVenture(db, b.ventureId);
     const [c] = await db.insert(hubClients).values({ ...b, createdBy: ctx.admin.id }).returning();
     await audit(db, { ...saAudit(ctx), action: 'hub.client_created', entityType: 'hub_client', entityId: c!.id, req });
     reply.status(201);
@@ -211,6 +305,7 @@ export async function hubRoutes(app: FastifyInstance) {
     const ctx = saCtx(req);
     const b = parse(hubClientSchema, req.body);
     await assertBusiness(db, b.businessId);
+    await assertVenture(db, b.ventureId);
     const [c] = await db.update(hubClients).set({ ...b, updatedAt: new Date() }).where(eq(hubClients.id, idParam(req))).returning();
     if (!c) throw notFound();
     await audit(db, { ...saAudit(ctx), action: 'hub.client_updated', entityType: 'hub_client', entityId: c.id, req });
@@ -229,8 +324,9 @@ export async function hubRoutes(app: FastifyInstance) {
 
   // ------------------------------------------------------------------ leads
   app.get('/hub/leads', async (req) => {
-    const q = parse(z.object({ status: z.enum([...HUB_LEAD_STATUSES, 'open']).optional(), q: z.string().trim().max(100).optional() }), req.query);
+    const q = parse(z.object({ status: z.enum([...HUB_LEAD_STATUSES, 'open']).optional(), q: z.string().trim().max(100).optional(), ...vq }), req.query);
     const conds: SQL[] = [];
+    if (q.ventureId) conds.push(eq(hubLeads.ventureId, q.ventureId));
     if (q.status === 'open') conds.push(notInArray(hubLeads.status, ['won', 'lost']));
     else if (q.status) conds.push(eq(hubLeads.status, q.status));
     if (q.q) conds.push(or(ilike(hubLeads.name, `%${q.q}%`), ilike(hubLeads.company, `%${q.q}%`), ilike(hubLeads.phone, `%${q.q}%`))!);
@@ -248,6 +344,7 @@ export async function hubRoutes(app: FastifyInstance) {
     const ctx = saCtx(req);
     const b = parse(hubLeadSchema, req.body);
     await assertAdmin(db, b.assignedTo);
+    await assertVenture(db, b.ventureId);
     const [l] = await db.insert(hubLeads).values({ ...b, createdBy: ctx.admin.id }).returning();
     await audit(db, { ...saAudit(ctx), action: 'hub.lead_created', entityType: 'hub_lead', entityId: l!.id, metadata: { source: b.source }, req });
     reply.status(201);
@@ -257,6 +354,7 @@ export async function hubRoutes(app: FastifyInstance) {
     const ctx = saCtx(req);
     const b = parse(hubLeadSchema, req.body);
     await assertAdmin(db, b.assignedTo);
+    await assertVenture(db, b.ventureId);
     const [l] = await db.update(hubLeads).set({ ...b, updatedAt: new Date() }).where(eq(hubLeads.id, idParam(req))).returning();
     if (!l) throw notFound();
     await audit(db, { ...saAudit(ctx), action: 'hub.lead_updated', entityType: 'hub_lead', entityId: l.id, metadata: { status: l.status }, req });
@@ -276,7 +374,7 @@ export async function hubRoutes(app: FastifyInstance) {
       else {
         const [c] = await tx
           .insert(hubClients)
-          .values({ name: l.name, company: l.company, phone: l.phone, email: l.email, kind: l.company ? 'company' : 'person', notes: l.notes, createdBy: ctx.admin.id })
+          .values({ name: l.name, company: l.company, phone: l.phone, email: l.email, kind: l.company ? 'company' : 'person', notes: l.notes, ventureId: l.ventureId, createdBy: ctx.admin.id })
           .returning({ id: hubClients.id });
         clientId = c!.id;
       }
@@ -288,8 +386,9 @@ export async function hubRoutes(app: FastifyInstance) {
 
   // ------------------------------------------------------------------ projects & tasks
   app.get('/hub/projects', async (req) => {
-    const q = parse(z.object({ status: z.enum([...HUB_PROJECT_STATUSES, 'active']).optional(), clientId: z.uuid().optional() }), req.query);
+    const q = parse(z.object({ status: z.enum([...HUB_PROJECT_STATUSES, 'active']).optional(), clientId: z.uuid().optional(), ...vq }), req.query);
     const conds: SQL[] = [];
+    if (q.ventureId) conds.push(eq(hubProjects.ventureId, q.ventureId));
     if (q.status === 'active') conds.push(inArray(hubProjects.status, ['planned', 'in_progress', 'review']));
     else if (q.status) conds.push(eq(hubProjects.status, q.status));
     if (q.clientId) conds.push(eq(hubProjects.clientId, q.clientId));
@@ -314,6 +413,7 @@ export async function hubRoutes(app: FastifyInstance) {
     const b = parse(hubProjectSchema, req.body);
     await assertClient(db, b.clientId);
     await assertAdmin(db, b.assignedTo);
+    await assertVenture(db, b.ventureId);
     const [p] = await db.insert(hubProjects).values({ ...b, value: toMinor(b.value), createdBy: ctx.admin.id }).returning();
     await audit(db, { ...saAudit(ctx), action: 'hub.project_created', entityType: 'hub_project', entityId: p!.id, req });
     reply.status(201);
@@ -324,6 +424,7 @@ export async function hubRoutes(app: FastifyInstance) {
     const b = parse(hubProjectSchema, req.body);
     await assertClient(db, b.clientId);
     await assertAdmin(db, b.assignedTo);
+    await assertVenture(db, b.ventureId);
     const [p] = await db
       .update(hubProjects)
       .set({ ...b, value: toMinor(b.value), updatedAt: new Date() })
@@ -335,8 +436,9 @@ export async function hubRoutes(app: FastifyInstance) {
   });
 
   app.get('/hub/tasks', async (req) => {
-    const q = parse(z.object({ status: z.enum([...HUB_TASK_STATUSES, 'open']).optional(), mine: z.enum(['true']).optional(), projectId: z.uuid().optional() }), req.query);
+    const q = parse(z.object({ status: z.enum([...HUB_TASK_STATUSES, 'open']).optional(), mine: z.enum(['true']).optional(), projectId: z.uuid().optional(), ...vq }), req.query);
     const conds: SQL[] = [];
+    if (q.ventureId) conds.push(eq(hubTasks.ventureId, q.ventureId));
     if (q.status === 'open') conds.push(ne(hubTasks.status, 'done'));
     else if (q.status) conds.push(eq(hubTasks.status, q.status));
     if (q.mine) conds.push(eq(hubTasks.assignedTo, saCtx(req).admin.id));
@@ -351,10 +453,19 @@ export async function hubRoutes(app: FastifyInstance) {
       .limit(1000);
     return { items: rows.map((r) => ({ ...r.t, projectTitle: r.projectTitle, assignedName: r.assignedName })) };
   });
+  /** A task in a job belongs to the job's project. */
+  async function taskVenture(b: z.output<typeof hubTaskSchema>) {
+    await assertAdmin(db, b.assignedTo);
+    await assertVenture(db, b.ventureId);
+    if (!b.projectId) return b.ventureId;
+    const [p] = await db.select({ ventureId: hubProjects.ventureId }).from(hubProjects).where(eq(hubProjects.id, b.projectId));
+    if (!p) throw new AppError('validation_failed', 'Unknown job', { fields: { projectId: { code: 'invalid' } } });
+    return p.ventureId;
+  }
   app.post('/hub/tasks', async (req, reply) => {
     const ctx = saCtx(req);
     const b = parse(hubTaskSchema, req.body);
-    await assertAdmin(db, b.assignedTo);
+    b.ventureId = await taskVenture(b);
     const [t] = await db
       .insert(hubTasks)
       .values({ ...b, createdBy: ctx.admin.id, completedAt: b.status === 'done' ? new Date() : null })
@@ -364,7 +475,7 @@ export async function hubRoutes(app: FastifyInstance) {
   });
   app.put('/hub/tasks/:id', async (req) => {
     const b = parse(hubTaskSchema, req.body);
-    await assertAdmin(db, b.assignedTo);
+    b.ventureId = await taskVenture(b);
     const id = idParam(req);
     const [before] = await db.select({ status: hubTasks.status, completedAt: hubTasks.completedAt }).from(hubTasks).where(eq(hubTasks.id, id));
     if (!before) throw notFound();
@@ -380,8 +491,9 @@ export async function hubRoutes(app: FastifyInstance) {
 
   // ------------------------------------------------------------------ support tickets
   app.get('/hub/tickets', async (req) => {
-    const q = parse(z.object({ status: z.enum([...HUB_TICKET_STATUSES, 'open_all']).optional(), q: z.string().trim().max(100).optional() }), req.query);
+    const q = parse(z.object({ status: z.enum([...HUB_TICKET_STATUSES, 'open_all']).optional(), q: z.string().trim().max(100).optional(), ...vq }), req.query);
     const conds: SQL[] = [];
+    if (q.ventureId) conds.push(eq(hubTickets.ventureId, q.ventureId));
     if (q.status === 'open_all') conds.push(inArray(hubTickets.status, ['open', 'in_progress', 'waiting']));
     else if (q.status) conds.push(eq(hubTickets.status, q.status));
     if (q.q) conds.push(or(ilike(hubTickets.subject, `%${q.q}%`), ilike(hubTickets.number, `%${q.q}%`))!);
@@ -422,6 +534,9 @@ export async function hubRoutes(app: FastifyInstance) {
     await assertClient(db, b.clientId);
     await assertBusiness(db, b.businessId);
     await assertAdmin(db, b.assignedTo);
+    await assertVenture(db, b.ventureId);
+    // A ticket from a POS business belongs to the POS project.
+    if (!b.ventureId && b.businessId) b.ventureId = await posVentureId(db);
     const t = await db.transaction(async (tx) => {
       const number = await nextNumber(tx, 'OXT', 'hub_tickets');
       const [row] = await tx.insert(hubTickets).values({ ...b, number, createdBy: ctx.admin.id }).returning();
@@ -437,6 +552,9 @@ export async function hubRoutes(app: FastifyInstance) {
     await assertClient(db, b.clientId);
     await assertBusiness(db, b.businessId);
     await assertAdmin(db, b.assignedTo);
+    await assertVenture(db, b.ventureId);
+    // A ticket from a POS business belongs to the POS project.
+    if (!b.ventureId && b.businessId) b.ventureId = await posVentureId(db);
     const id = idParam(req);
     const [before] = await db.select({ resolvedAt: hubTickets.resolvedAt }).from(hubTickets).where(eq(hubTickets.id, id));
     if (!before) throw notFound();
@@ -460,13 +578,14 @@ export async function hubRoutes(app: FastifyInstance) {
   // ------------------------------------------------------------------ quotations & invoices
   app.get('/hub/documents', async (req) => {
     const q = parse(
-      z.object({ kind: z.enum(['quote', 'invoice']), status: z.enum([...HUB_QUOTE_STATUSES, ...HUB_INVOICE_STATUSES, 'unpaid']).optional(), clientId: z.uuid().optional() }),
+      z.object({ kind: z.enum(['quote', 'invoice']), status: z.enum([...HUB_QUOTE_STATUSES, ...HUB_INVOICE_STATUSES, 'unpaid']).optional(), clientId: z.uuid().optional(), ...vq }),
       req.query,
     );
     const conds: SQL[] = [eq(hubDocuments.kind, q.kind)];
     if (q.status === 'unpaid') conds.push(inArray(hubDocuments.status, ['issued', 'partially_paid']));
     else if (q.status) conds.push(eq(hubDocuments.status, q.status));
     if (q.clientId) conds.push(eq(hubDocuments.clientId, q.clientId));
+    if (q.ventureId) conds.push(eq(hubDocuments.ventureId, q.ventureId));
     const rows = await db
       .select({ d: hubDocuments, clientName: hubClients.name })
       .from(hubDocuments)
@@ -502,6 +621,7 @@ export async function hubRoutes(app: FastifyInstance) {
     const b = parse(hubDocumentSchema, req.body);
     const d = await db.transaction(async (tx) => {
       await assertClient(tx, b.clientId);
+      await assertVenture(tx, b.ventureId);
       const settings = await getPlatformSettings(tx);
       const { rows, subtotal, discount, total } = price(b.items, b.discount);
       const number = await nextNumber(tx, kind === 'quote' ? 'OXQ' : 'OXI', 'hub_documents');
@@ -510,6 +630,7 @@ export async function hubRoutes(app: FastifyInstance) {
         .values({
           kind,
           number,
+          ventureId: b.ventureId,
           clientId: b.clientId,
           projectId: b.projectId,
           issueDate: b.issueDate,
@@ -540,10 +661,11 @@ export async function hubRoutes(app: FastifyInstance) {
       const editable = d.kind === 'quote' ? ['draft', 'sent'].includes(d.status) : d.status === 'draft';
       if (!editable) throw new AppError('document_locked', 'This document can no longer be edited');
       await assertClient(tx, b.clientId);
+      await assertVenture(tx, b.ventureId);
       const { rows, subtotal, discount, total } = price(b.items, b.discount);
       const [u] = await tx
         .update(hubDocuments)
-        .set({ clientId: b.clientId, projectId: b.projectId, issueDate: b.issueDate, dueDate: b.dueDate, items: rows, subtotal, discount, total, notes: b.notes, terms: b.terms, updatedAt: new Date() })
+        .set({ ventureId: b.ventureId, clientId: b.clientId, projectId: b.projectId, issueDate: b.issueDate, dueDate: b.dueDate, items: rows, subtotal, discount, total, notes: b.notes, terms: b.terms, updatedAt: new Date() })
         .where(eq(hubDocuments.id, id))
         .returning();
       await audit(tx, { ...saAudit(ctx), action: `hub.${d.kind}_updated`, entityType: 'hub_document', entityId: id, metadata: { total }, req });
@@ -586,6 +708,7 @@ export async function hubRoutes(app: FastifyInstance) {
         .values({
           kind: 'invoice',
           number,
+          ventureId: q.ventureId,
           clientId: q.clientId,
           projectId: q.projectId,
           issueDate: today(),

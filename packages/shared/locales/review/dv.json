@@ -4089,10 +4089,10 @@
   },
   {
     "key": "hub.nav.projects",
-    "english": "Projects",
-    "suggested": "ޕްރޮޖެކްޓްތައް",
+    "english": "Jobs",
+    "suggested": "ޖޮބްތައް",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.nav.tasks",
@@ -4201,10 +4201,10 @@
   },
   {
     "key": "hub.stat_projects",
-    "english": "Active projects",
-    "suggested": "ހިނގަމުންދާ ޕްރޮޖެކްޓް",
+    "english": "Active jobs",
+    "suggested": "ހިނގަމުންދާ ޖޮބް",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.stat_my_tasks",
@@ -4670,10 +4670,10 @@
   },
   {
     "key": "hub.open_projects",
-    "english": "Open projects",
-    "suggested": "ހުޅުވާ ޕްރޮޖެކްޓް",
+    "english": "Open jobs",
+    "suggested": "ހުޅުވާ ޖޮބް",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.amount_due",
@@ -4852,52 +4852,52 @@
   },
   {
     "key": "hub.projects",
-    "english": "Projects",
-    "suggested": "ޕްރޮޖެކްޓްތައް",
+    "english": "Jobs",
+    "suggested": "ޖޮބްތައް",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.projects_subtitle",
-    "english": "Jobs we are delivering: installs, websites, designs and campaigns.",
-    "suggested": "ހިންގަމުންދާ މަސައްކަތްތައް: އިންސްޓޯލޭޝަން، ވެބްސައިޓް، ޑިޒައިން އަދި ކެމްޕެއިން.",
+    "english": "Work we are delivering for clients: installs, websites, designs and campaigns.",
+    "suggested": "ކްލައިންޓުންނަށް ކޮށްދޭ މަސައްކަތް: އިންސްޓޯލޭޝަން، ވެބްސައިޓް، ޑިޒައިން އަދި ކެމްޕެއިން.",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.project",
-    "english": "Project",
-    "suggested": "ޕްރޮޖެކްޓް",
+    "english": "Job",
+    "suggested": "ޖޮބް",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.project_title",
-    "english": "Project name",
-    "suggested": "ޕްރޮޖެކްޓްގެ ނަން",
+    "english": "Job name",
+    "suggested": "ޖޮބްގެ ނަން",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.new_project",
-    "english": "New project",
-    "suggested": "އައު ޕްރޮޖެކްޓް",
+    "english": "New job",
+    "suggested": "އައު ޖޮބް",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.no_projects",
-    "english": "No projects",
-    "suggested": "ޕްރޮޖެކްޓެއް ނެތް",
+    "english": "No jobs",
+    "suggested": "ޖޮބެއް ނެތް",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.no_projects_body",
-    "english": "Create a project for each job and break it into tasks.",
-    "suggested": "ކޮންމެ މަސައްކަތަކަށް ޕްރޮޖެކްޓެއް ހަދައި، ކަންތައްތަކަށް ބަހާލާ.",
+    "english": "Create a job for each piece of client work and break it into tasks.",
+    "suggested": "ކްލައިންޓަކަށް ކުރާ ކޮންމެ މަސައްކަތަކަށް ޖޮބެއް ހަދައި، ކަންތައްތަކަށް ބަހާލާ.",
     "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   },
   {
     "key": "hub.project_tabs.active",
@@ -5584,5 +5584,110 @@
     "suggested": "އައު ކޯޓޭޝަނާއި އިންވޮއިސްއަށް އެކުލެވޭނެ.",
     "status": "needs_review",
     "notes": "New: OceanX Hub (Super Admin main office)."
+  },
+  {
+    "key": "hub.nav.group_projects",
+    "english": "Projects",
+    "suggested": "ޕްރޮޖެކްޓްތައް",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.nav.group_pos_console",
+    "english": "POS console",
+    "suggested": "ޕީއޯއެސް ކޮންސޯލް",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.nav.back_main_office",
+    "english": "Main office",
+    "suggested": "މައި އޮފީސް",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.nav.project_home",
+    "english": "Project overview",
+    "suggested": "ޕްރޮޖެކްޓްގެ ޚުލާޞާ",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.title",
+    "english": "Your projects",
+    "suggested": "ތިޔަ ޕްރޮޖެކްޓްތައް",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.new",
+    "english": "New project",
+    "suggested": "އައު ޕްރޮޖެކްޓް",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.edit",
+    "english": "Edit {{name}}",
+    "suggested": "{{name}} ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.open",
+    "english": "Open {{name}}",
+    "suggested": "{{name}} ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.project",
+    "english": "Project",
+    "suggested": "ޕްރޮޖެކްޓް",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.general",
+    "english": "General (no project)",
+    "suggested": "އާންމު (ޕްރޮޖެކްޓެއް ނޫން)",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.project_subtitle",
+    "english": "Everything for this project: leads, clients, prices, documents, jobs and support.",
+    "suggested": "މި ޕްރޮޖެކްޓާ ގުޅޭ ހުރިހާ ކަމެއް: ލީޑްސް، ކްލައިންޓުން، އަގު، ޑޮކިއުމަންޓް، ޖޮބް އަދި ސަޕޯޓް.",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.pos_hint",
+    "english": "POS for restaurants, cafés, shops and supermarkets.",
+    "suggested": "ރެސްޓޯރަންޓް، ކެފޭ، ފިހާރަ އަދި ސުޕަރމާކެޓްތަކަށް ޕީއޯއެސް.",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.name_hint",
+    "english": "e.g. OceanX Websites, Design studio, IT support",
+    "suggested": "މިސާލު: OceanX ވެބްސައިޓް، ޑިޒައިން ސްޓޫޑިއޯ، އައިޓީ ސަޕޯޓް",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.color",
+    "english": "Colour",
+    "suggested": "ކުލަ",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
+  },
+  {
+    "key": "hub.ventures.order",
+    "english": "Order in the list",
+    "suggested": "ލިސްޓުގައި ހުންނަ ތަރުތީބު",
+    "status": "needs_review",
+    "notes": "New: OceanX Hub projects (each business line) and jobs."
   }
 ]

@@ -99,6 +99,48 @@ describe('OceanX Hub (main office)', () => {
     expect((await shop.owner.get('/api/superadmin/hub/overview')).statusCode).toBe(401);
     expect((await new Client(env.app).get('/api/superadmin/hub/clients')).statusCode).toBe(401);
   });
+
+  it('projects (business lines): OceanX POS built in; each project sees only its own work', async () => {
+    const list = (await sa.get('/api/superadmin/hub/ventures')).json().items;
+    const pos = list.find((v: { kind: string }) => v.kind === 'pos');
+    expect(pos).toMatchObject({ name: 'OceanX POS', isActive: true });
+    expect(pos.posBusinessesActive).toBeTypeOf('number');
+    // The POS project cannot be switched off.
+    expect((await sa.put(`/api/superadmin/hub/ventures/${pos.id}`, { name: 'OceanX POS', isActive: false })).json().isActive).toBe(true);
+
+    const web = (await sa.post('/api/superadmin/hub/ventures', { name: 'OceanX Websites', color: 'violet' })).json();
+    expect(web).toMatchObject({ kind: 'custom', color: 'violet' });
+    expect((await sa.post('/api/superadmin/hub/ventures', { name: 'X', kind: 'pos' })).json().kind).toBe('custom');
+
+    await sa.post('/api/superadmin/hub/leads', { name: 'Web lead', ventureId: web.id, source: 'tiktok' });
+    await sa.post('/api/superadmin/hub/leads', { name: 'POS lead', ventureId: pos.id });
+    const c = (await sa.post('/api/superadmin/hub/clients', { name: 'Site client', ventureId: web.id })).json();
+    const job = (await sa.post('/api/superadmin/hub/projects', { title: 'Build site', clientId: c.id, ventureId: web.id })).json();
+    const task = (await sa.post('/api/superadmin/hub/tasks', { title: 'Wireframes', projectId: job.id })).json();
+    expect(task.ventureId).toBe(web.id);
+    const inv = (await sa.post('/api/superadmin/hub/documents?kind=invoice', { clientId: c.id, ventureId: web.id, issueDate: '2026-10-10', items: [{ description: 'Site', quantity: 1, unitPrice: 3000 }] })).json();
+    await sa.post(`/api/superadmin/hub/documents/${inv.id}/status`, { status: 'issued' });
+    const biz = await setupBusiness(env, sa, 'Hub POS Cafe');
+    const tk = (await sa.post('/api/superadmin/hub/tickets', { subject: 'Printer', businessId: biz.businessId })).json();
+    expect(tk.ventureId).toBe(pos.id);
+
+    const leads = (await sa.get(`/api/superadmin/hub/leads?ventureId=${web.id}`)).json().items;
+    expect(leads.map((l: { name: string }) => l.name)).toEqual(['Web lead']);
+    expect((await sa.get(`/api/superadmin/hub/clients?ventureId=${web.id}`)).json().items).toHaveLength(1);
+    expect((await sa.get(`/api/superadmin/hub/clients?ventureId=${pos.id}`)).json().items).toHaveLength(0);
+    expect((await sa.get(`/api/superadmin/hub/tasks?ventureId=${web.id}`)).json().items).toHaveLength(1);
+    expect((await sa.get(`/api/superadmin/hub/tickets?ventureId=${web.id}`)).json().items).toHaveLength(0);
+    expect((await sa.get(`/api/superadmin/hub/documents?kind=invoice&ventureId=${pos.id}`)).json().items).toHaveLength(0);
+
+    const ovWeb = (await sa.get(`/api/superadmin/hub/overview?ventureId=${web.id}`)).json();
+    expect(ovWeb).toMatchObject({ leadsOpen: 1, clients: 1, projectsActive: 1, openTasks: 1, ticketsOpen: 0, amountDue: 300000, posBusinessesActive: null });
+    const ovPos = (await sa.get(`/api/superadmin/hub/overview?ventureId=${pos.id}`)).json();
+    expect(ovPos).toMatchObject({ leadsOpen: 1, ticketsOpen: 1, amountDue: 0 });
+    expect(ovPos.posBusinessesActive).toBeGreaterThanOrEqual(1);
+    const all = (await sa.get('/api/superadmin/hub/ventures')).json().items.find((v: { id: string }) => v.id === web.id);
+    expect(all).toMatchObject({ leadsOpen: 1, jobsActive: 1, ticketsOpen: 0, amountDue: 300000 });
+    expect((await sa.post('/api/superadmin/hub/leads', { name: 'Bad', ventureId: '00000000-0000-4000-8000-000000000000' })).json().error.code).toBe('validation_failed');
+  });
 });
 
 function today() {

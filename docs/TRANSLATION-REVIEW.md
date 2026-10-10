@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 654 · **confirmed**: 144
+Status: **needs_review**: 669 · **confirmed**: 144
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -224,14 +224,18 @@ review of the whole file is still recommended before launch.
 | `hub.methods.cheque` | Cheque | ޗެކް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.methods.other` | Other | އެހެނިހެން | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.my_tasks` | My tasks | އަހަރެންގެ ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.back_main_office` | Main office | މައި އޮފީސް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.nav.clients` | Clients | ކްލައިންޓުން | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.nav.group_company` | Company | ކުންފުނި | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.group_pos_console` | POS console | ޕީއޯއެސް ކޮންސޯލް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.nav.group_projects` | Projects | ޕްރޮޖެކްޓްތައް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.nav.group_sales` | Sales | ސޭލްސް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.nav.group_work` | Work | މަސައްކަތް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.nav.invoices` | Invoices | އިންވޮއިސްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.nav.leads` | Leads | ލީޑްސް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.nav.overview` | Main office | މައި އޮފީސް | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.nav.projects` | Projects | ޕްރޮޖެކްޓްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.nav.project_home` | Project overview | ޕްރޮޖެކްޓްގެ ޚުލާޞާ | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.nav.projects` | Jobs | ޖޮބްތައް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.nav.quotes` | Quotations | ކޯޓޭޝަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.nav.services` | Services | ޚިދުމަތްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.nav.tasks` | Tasks | ކުރަންޖެހޭ ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -240,7 +244,7 @@ review of the whole file is still recommended before launch.
 | `hub.new_client` | New client | އައު ކްލައިންޓް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.new_invoice` | New invoice | އައު އިންވޮއިސް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.new_lead` | New lead | އައު ލީޑް | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.new_project` | New project | އައު ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.new_project` | New job | އައު ޖޮބް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.new_quote` | New quotation | އައު ކޯޓޭޝަން | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.new_service` | New service | އައު ޚިދުމަތް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.new_ticket` | New ticket | އައު ޓިކެޓް | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -252,8 +256,8 @@ review of the whole file is still recommended before launch.
 | `hub.no_documents_body` | Create one for a client. Prices come from your services list. | ކްލައިންޓަކަށް ހަދާ. އަގުތައް ލިބޭނީ ޚިދުމަތްތަކުގެ ލިސްޓުން. | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.no_leads` | No leads yet | އަދި ލީޑެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.no_leads_body` | Add everyone who asks about our services so nobody is forgotten. | ޚިދުމަތާ ބެހޭގޮތުން ސުވާލުކުރާ ކޮންމެ މީހަކު ހިމަނާ، އެއްވެސް މީހަކު ހަނދާން ނައްތާނުލެވޭނެ. | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.no_projects` | No projects | ޕްރޮޖެކްޓެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.no_projects_body` | Create a project for each job and break it into tasks. | ކޮންމެ މަސައްކަތަކަށް ޕްރޮޖެކްޓެއް ހަދައި، ކަންތައްތަކަށް ބަހާލާ. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.no_projects` | No jobs | ޖޮބެއް ނެތް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.no_projects_body` | Create a job for each piece of client work and break it into tasks. | ކްލައިންޓަކަށް ކުރާ ކޮންމެ މަސައްކަތަކަށް ޖޮބެއް ހަދައި، ކަންތައްތަކަށް ބަހާލާ. | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.no_service` | No service | ޚިދުމަތެއް ނޫން | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.no_services` | No services yet | އަދި ޚިދުމަތެއް ނެތް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.no_services_body` | Add what you offer: POS setup, websites, design, marketing, hardware and more. | ދެއްވާ ޚިދުމަތްތައް އިތުރުކުރޭ: ޕީއޯއެސް، ވެބްސައިޓް، ޑިޒައިން، މާކެޓިންގ، ހާޑްވެއަރ އަދި އެހެނިހެން. | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -262,7 +266,7 @@ review of the whole file is still recommended before launch.
 | `hub.no_tickets_body` | Log calls, messages and visits from customers who need help. | އެހީއަށް ގުޅާ ކަސްޓަމަރުންގެ ގުޅުންތަކާއި މެސެޖުތައް ލިޔެލާ. | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.nothing_due` | Nothing due today. | މިއަދު ކުރަންޖެހޭ އެއްވެސް ކަމެއް ނެތް. | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.number` | Number | ނަންބަރު | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.open_projects` | Open projects | ހުޅުވާ ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.open_projects` | Open jobs | ހުޅުވާ ޖޮބް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.open_tickets` | Open tickets | ހުޅުވާ ޓިކެޓް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.opened` | Opened | ހުޅުވި | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.overview_subtitle` | Everything OceanX does, in one place: sales, work, support and the POS. | OceanX ގެ ހުރިހާ މަސައްކަތެއް އެއް ތަނެއްގައި: ސޭލްސް، މަސައްކަތް، ސަޕޯޓް އަދި ޕީއޯއެސް. | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -279,7 +283,7 @@ review of the whole file is still recommended before launch.
 | `hub.priorities.normal` | Normal | އާދައިގެ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.priorities.urgent` | Urgent | އަވަސް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.priority` | Priority | މުހިންމުކަން | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.project` | Project | ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project` | Job | ޖޮބް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.project_statuses.cancelled` | Cancelled | ކެންސަލް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.project_statuses.done` | Done | ނިމިފައި | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.project_statuses.in_progress` | In progress | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -288,9 +292,9 @@ review of the whole file is still recommended before launch.
 | `hub.project_tabs.active` | In progress | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.project_tabs.all` | All | ހުރިހާ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.project_tabs.done` | Done | ނިމިފައި | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.project_title` | Project name | ޕްރޮޖެކްޓްގެ ނަން | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.projects` | Projects | ޕްރޮޖެކްޓްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.projects_subtitle` | Jobs we are delivering: installs, websites, designs and campaigns. | ހިންގަމުންދާ މަސައްކަތްތައް: އިންސްޓޯލޭޝަން، ވެބްސައިޓް، ޑިޒައިން އަދި ކެމްޕެއިން. | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.project_title` | Job name | ޖޮބްގެ ނަން | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.projects` | Jobs | ޖޮބްތައް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.projects_subtitle` | Work we are delivering for clients: installs, websites, designs and campaigns. | ކްލައިންޓުންނަށް ކޮށްދޭ މަސައްކަތް: އިންސްޓޯލޭޝަން، ވެބްސައިޓް، ޑިޒައިން އަދި ކެމްޕެއިން. | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.qty` | Qty | އަދަދު | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.quote` | Quotation | ކޯޓޭޝަން | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.quotes` | Quotations | ކޯޓޭޝަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -324,7 +328,7 @@ review of the whole file is still recommended before launch.
 | `hub.stat_pos` | Active POS businesses | ހިނގަމުންދާ ޕީއޯއެސް ވިޔަފާރި | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.stat_pos_pending_one` | {{count}} payment to check | {{count}} ފައިސާ ޗެކްކުރަން | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.stat_pos_pending_other` | {{count}} payments to check | {{count}} ފައިސާ ޗެކްކުރަން | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.stat_projects` | Active projects | ހިނގަމުންދާ ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.stat_projects` | Active jobs | ހިނގަމުންދާ ޖޮބް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.stat_received` | Received this month | މި މަހު ލިބުނު | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.stat_team_tasks_one` | {{count}} open for the team | ޓީމަށް {{count}} ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.stat_team_tasks_other` | {{count}} open for the team | ޓީމަށް {{count}} ކަންތައް | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -358,6 +362,17 @@ review of the whole file is still recommended before launch.
 | `hub.updates` | Updates | އަޕްޑޭޓްތައް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.valid_until` | Valid until | މުއްދަތު ހަމަވާ ދުވަސް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.value` | Value | އަގު | needs_review | New: OceanX Hub (Super Admin main office). |
+| `hub.ventures.color` | Colour | ކުލަ | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.edit` | Edit {{name}} | {{name}} ބަދަލުކުރޭ | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.general` | General (no project) | އާންމު (ޕްރޮޖެކްޓެއް ނޫން) | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.name_hint` | e.g. OceanX Websites, Design studio, IT support | މިސާލު: OceanX ވެބްސައިޓް، ޑިޒައިން ސްޓޫޑިއޯ، އައިޓީ ސަޕޯޓް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.new` | New project | އައު ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.open` | Open {{name}} | {{name}} ހުޅުވާ | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.order` | Order in the list | ލިސްޓުގައި ހުންނަ ތަރުތީބު | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.pos_hint` | POS for restaurants, cafés, shops and supermarkets. | ރެސްޓޯރަންޓް، ކެފޭ، ފިހާރަ އަދި ސުޕަރމާކެޓްތަކަށް ޕީއޯއެސް. | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.project` | Project | ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.project_subtitle` | Everything for this project: leads, clients, prices, documents, jobs and support. | މި ޕްރޮޖެކްޓާ ގުޅޭ ހުރިހާ ކަމެއް: ލީޑްސް، ކްލައިންޓުން، އަގު، ޑޮކިއުމަންޓް، ޖޮބް އަދި ސަޕޯޓް. | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `hub.ventures.title` | Your projects | ތިޔަ ޕްރޮޖެކްޓްތައް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `inventory.add_shop_product` | Add product | ތަކެތި އިތުރުކުރޭ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.add_shop_product_hint` | A product for sale, with its stock in the store and on the rack. | ވިއްކާ ތަކެތި، ސްޓޯރާއި ރެކުގައި ހުރި ސްޓޮކާއެކު. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.add_supply` | Add stock item | ސްޓޮކް އައިޓަމެއް އިތުރުކުރޭ | needs_review | Loanwords ސްޓޮކް/އައިޓަމް follow existing inventory strings. Alternative: ސްޓޮކަށް ތަކެއްޗެއް އިތުރުކުރޭ. |
