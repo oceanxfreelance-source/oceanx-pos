@@ -1,0 +1,48 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Version of the tablet app. The system itself updates on its own (the app opens the live site);
+// bump this only when the app shell changes.
+def appVersion = '1.0.0'
+def appVersionCode = 1
+
+android {
+    namespace 'app.oceanx.pos'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'app.oceanx.pos'
+        minSdk 24
+        targetSdk 35
+        versionCode appVersionCode
+        versionName appVersion
+        buildConfigField 'String', 'SERVER_URL', '"https://oceanx-pos-oceanx1.vercel.app"'
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    signingConfigs {
+        release {
+            // Supplied by the build (GitHub secret, or a temporary key); never stored in the repository.
+            storeFile file(System.getenv('ANDROID_KEYSTORE') ?: 'release.jks')
+            storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD')
+            keyAlias System.getenv('ANDROID_KEY_ALIAS') ?: 'oceanx'
+            keyPassword System.getenv('ANDROID_KEY_PASSWORD') ?: System.getenv('ANDROID_KEYSTORE_PASSWORD')
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
