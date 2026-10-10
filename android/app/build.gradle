@@ -4,8 +4,8 @@ plugins {
 
 // Version of the tablet app. The system itself updates on its own (the app opens the live site);
 // bump this only when the app shell changes.
-def appVersion = '1.0.1'
-def appVersionCode = 2
+def appVersion = '1.0.2'
+def appVersionCode = 3
 
 android {
     namespace 'app.oceanx.pos'
