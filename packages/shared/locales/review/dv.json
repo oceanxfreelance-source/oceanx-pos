@@ -6046,5 +6046,40 @@
     "suggested": "ފައިސާ ދައްކާފައި",
     "status": "confirmed",
     "notes": "Translated by the business owner (native speaker)."
+  },
+  {
+    "key": "gravity.finish_setup",
+    "english": "Add your logo and payment details so they print on your documents",
+    "suggested": "ތިޔަ ލޯގޯ އަދި ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރައްވާ، ޑޮކިއުމަންޓުތަކުގައި ޕްރިންޓްވާނެ",
+    "status": "needs_review",
+    "notes": "New: Gravity home (phone)."
+  },
+  {
+    "key": "gravity.quotes_waiting_one",
+    "english": "{{count}} quotation waiting for a reply",
+    "suggested": "{{count}} ކޯޓޭޝަނެއް ޖަވާބަށް އިންތިޒާރުކުރަނީ",
+    "status": "needs_review",
+    "notes": "New: Gravity home (phone)."
+  },
+  {
+    "key": "gravity.quotes_waiting_other",
+    "english": "{{count}} quotations waiting for a reply",
+    "suggested": "{{count}} ކޯޓޭޝަން ޖަވާބަށް އިންތިޒާރުކުރަނީ",
+    "status": "needs_review",
+    "notes": "New: Gravity home (phone)."
+  },
+  {
+    "key": "gravity.recent",
+    "english": "Latest",
+    "suggested": "އެންމެ ފަހުގެ",
+    "status": "needs_review",
+    "notes": "New: Gravity home (phone)."
+  },
+  {
+    "key": "gravity.nothing_yet",
+    "english": "Your quotations and invoices will show here.",
+    "suggested": "ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސްތައް މިތާ ފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity home (phone)."
   }
 ]

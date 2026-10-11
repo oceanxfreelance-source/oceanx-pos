@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 716 · **confirmed**: 148
+Status: **needs_review**: 721 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -154,6 +154,7 @@ review of the whole file is still recommended before launch.
 | `gravity.business_name_hint` | Printed at the top of your quotations and invoices. Freelancers can use their own name. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސްގެ މަތީގައި ޕްރިންޓްވާނެ. ފްރީލާންސަރުންނަށް އަމިއްލަ ނަން ބޭނުން ކުރެވޭނެ. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.console` | Gravity console | Gravity ކޮންސޯލް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.create_account` | Create account | އެކައުންޓް ހައްދަވާ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.finish_setup` | Add your logo and payment details so they print on your documents | ތިޔަ ލޯގޯ އަދި ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރައްވާ، ޑޮކިއުމަންޓުތަކުގައި ޕްރިންޓްވާނެ | needs_review | New: Gravity home (phone). |
 | `gravity.home_subtitle` | Your quotations and invoices at a glance. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސް އެއް ނަޒަރަކުން. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.home_title` | Hello, {{name}} | ހަލޯ، {{name}} | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.new_account` | New Gravity account | އައު Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
@@ -161,12 +162,16 @@ review of the whole file is still recommended before launch.
 | `gravity.no_quotations` | No quotations yet | އަދި ކޯޓޭޝަނެއް ނެތް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.nobody_owes` | Nobody owes you | އެއްވެސް ފަރާތަކުން ފައިސާ ދައްކަން ނުޖެހޭ | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.nobody_owes_body` | Issued invoices that are not fully paid show here, by customer. | ފުރިހަމައަށް ނުދައްކާ ނެރެފައިވާ އިންވޮއިސްތައް ކަސްޓަމަރުން ވަކިން މިތާ ފެންނާނެ. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.nothing_yet` | Your quotations and invoices will show here. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސްތައް މިތާ ފެންނާނެ. | needs_review | New: Gravity home (phone). |
 | `gravity.oldest_due` | oldest due {{date}} | އެންމެ ކުރީ ތާރީޚު {{date}} | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.overdue` | Overdue | ލަސްވެފައި | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.overdue_amount` | {{amount}} overdue | {{amount}} ލަސްވެފައި | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.owed_to_you` | Owed to you | ތިޔަބޭފުޅާއަށް ލިބެންޖެހޭ | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.payments` | Gravity payments | Gravity ފައިސާ ދެއްކުންތައް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.plans` | Gravity plans | Gravity ޕްލޭންތައް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.quotes_waiting_one` | {{count}} quotation waiting for a reply | {{count}} ކޯޓޭޝަނެއް ޖަވާބަށް އިންތިޒާރުކުރަނީ | needs_review | New: Gravity home (phone). |
+| `gravity.quotes_waiting_other` | {{count}} quotations waiting for a reply | {{count}} ކޯޓޭޝަން ޖަވާބަށް އިންތިޒާރުކުރަނީ | needs_review | New: Gravity home (phone). |
+| `gravity.recent` | Latest | އެންމެ ފަހުގެ | needs_review | New: Gravity home (phone). |
 | `gravity.register_subtitle` | For entrepreneurs, freelancers and small businesses: quotations and invoices in English or Dhivehi. | ވިޔަފާރިވެރިން، ފްރީލާންސަރުން އަދި ކުދި ވިޔަފާރިތަކަށް: އިނގިރޭސި ނުވަތަ ދިވެހިން ކޯޓޭޝަނާއި އިންވޮއިސް. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.register_title` | Create your Gravity account | ތިޔަ Gravity އެކައުންޓް ހައްދަވާ | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.see_all` | See all | ހުރިހާ އެއްޗެއް | needs_review | New: Gravity (quotation & invoice generator). |

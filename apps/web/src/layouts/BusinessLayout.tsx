@@ -262,8 +262,11 @@ function BusinessLayout() {
             <OutletSwitcher session={session} />
           </div>
           <NotificationBell />
-          <FullscreenButton />
-          <ThemeToggle value={theme.value} onChange={theme.set} />
+          {/* Gravity on a phone: a clean bar (full screen and theme are PC extras). */}
+          <div className={session.business.product === 'gravity' ? 'hidden items-center gap-2 sm:flex' : 'contents'}>
+            <FullscreenButton />
+            <ThemeToggle value={theme.value} onChange={theme.set} />
+          </div>
           <LanguageMenu current={session.user.language} languages={session.languages} onChange={(c) => setLang.mutate(c)} />
           <Dropdown
             trigger={() => (

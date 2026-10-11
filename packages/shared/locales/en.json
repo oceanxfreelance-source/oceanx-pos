@@ -2569,6 +2569,11 @@
     "oldest_due": "oldest due {{date}}",
     "overdue_amount": "{{amount}} overdue",
     "business_name": "Your name or business name",
-    "business_name_hint": "Printed at the top of your quotations and invoices. Freelancers can use their own name."
+    "business_name_hint": "Printed at the top of your quotations and invoices. Freelancers can use their own name.",
+    "finish_setup": "Add your logo and payment details so they print on your documents",
+    "quotes_waiting_one": "{{count}} quotation waiting for a reply",
+    "quotes_waiting_other": "{{count}} quotations waiting for a reply",
+    "recent": "Latest",
+    "nothing_yet": "Your quotations and invoices will show here."
   }
 }

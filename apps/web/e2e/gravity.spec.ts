@@ -19,7 +19,11 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
   await page.getByRole('button', { name: 'Create account' }).click();
 
   // Gravity home: no POS anywhere.
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Hello, Aisha');
+  // A clean home: what you are owed and the two main actions, no greeting.
+  await expect(page.getByRole('link', { name: /Owed to you/ })).toContainText('0.00');
+  await expect(page.getByRole('link', { name: 'New invoice' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'New quotation' })).toBeVisible();
+  await expect(page.getByText(/^Hello/)).toHaveCount(0);
   const nav = page.locator('aside').first();
   await expect(nav.getByRole('link', { name: 'Quotations' })).toBeVisible();
   await expect(nav.getByRole('link', { name: 'Invoices' })).toBeVisible();
@@ -32,7 +36,7 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
   await page.screenshot({ path: `${SHOTS}/gravity-home-empty.png`, fullPage: true });
 
   // Payment details, printed on every invoice.
-  await page.getByRole('button', { name: 'Add payment details' }).click();
+  await page.getByRole('link', { name: /Add your logo and payment details/ }).click();
   await page.getByLabel('Payment details').fill('Bank of Maldives 7730000123456\nAisha Ibrahim');
   await page.getByRole('button', { name: 'Save changes' }).click();
   await expect(page.getByText('Saved').first()).toBeVisible();
@@ -98,7 +102,9 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
     ['/invoices', 'invoices'],
   ] as const) {
     await page.goto(path);
-    await expect(page.locator('main h1')).toBeVisible();
+    await expect(page.locator('main')).toBeVisible();
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('main .animate-pulse')).toHaveCount(0);
     await fits();
     await page.screenshot({ path: `${SHOTS}/gravity-phone-${shot}.png`, fullPage: true });
   }
