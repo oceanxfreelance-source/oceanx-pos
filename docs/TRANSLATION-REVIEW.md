@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 729 · **confirmed**: 148
+Status: **needs_review**: 730 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -166,6 +166,7 @@ review of the whole file is still recommended before launch.
 | `gravity.home_subtitle` | Your quotations and invoices at a glance. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސް އެއް ނަޒަރަކުން. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.home_title` | Hello, {{name}} | ހަލޯ، {{name}} | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.new_account` | New Gravity account | އައު Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.no_account` | New to Gravity? | Gravity އަށް އަލެއްތަ؟ | needs_review | New: Gravity sign-in footer. |
 | `gravity.no_invoices` | No invoices yet | އަދި އިންވޮއިސެއް ނެތް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.no_quotations` | No quotations yet | އަދި ކޯޓޭޝަނެއް ނެތް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.nobody_owes` | Nobody owes you | އެއްވެސް ފަރާތަކުން ފައިސާ ދައްކަން ނުޖެހޭ | needs_review | New: Gravity (quotation & invoice generator). |
