@@ -30,6 +30,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -37,31 +38,55 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 /**
- * OceanX POS for tablets: the live system full-screen, with the few things a web page cannot do on its own
- * inside an app — printing, saving PDFs, choosing photos and downloading exports.
+ * One shell, two apps (see build.gradle flavors):
+ *  - OceanX POS for tablets: the live POS full-screen and sideways, screen kept on during service;
+ *  - Gravity for phones: quotations & invoices as a normal phone app (status bar shown, turns with the phone).
+ * Both add the few things a web page cannot do on its own inside an app — printing, saving PDFs, choosing
+ * photos and downloading exports.
  */
 public class MainActivity extends Activity {
     private static final int FILE_CHOOSER = 1;
     private static final String HOME = BuildConfig.SERVER_URL;
-    /** Opens on the POS (or the kitchen display for kitchen staff); sign-in returns here. */
-    private static final String START = HOME + "/start";
+    /** POS: opens on the POS (or the kitchen display for kitchen staff). Gravity: opens on its home. */
+    private static final String START = HOME + BuildConfig.START_PATH;
+    private static final boolean PHONE = BuildConfig.PHONE_APP;
     private static final String HOST = Uri.parse(HOME).getHost();
 
     private WebView web;
     private ValueCallback<Uri[]> fileCallback;
 
     @Override
+    @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // A till or kitchen screen should stay on during service.
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        // A till or kitchen screen should stay on during service (a phone app lets the screen sleep).
+        if (!PHONE) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (!PHONE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
 
         web = new WebView(this);
-        web.setBackgroundColor(Color.BLACK);
-        setContentView(web);
+        web.setBackgroundColor(PHONE ? Color.WHITE : Color.BLACK);
+        if (PHONE) {
+            // Phones keep the status and navigation bars: the page sits between them and above the keyboard.
+            // The app draws edge to edge on every Android version (15 does it anyway) and adds that space here.
+            FrameLayout root = new FrameLayout(this);
+            root.setBackgroundColor(Color.parseColor("#4c1d95"));
+            root.addView(web, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+            root.setOnApplyWindowInsetsListener((v, insets) -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    android.graphics.Insets i = insets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.ime() | WindowInsets.Type.displayCutout());
+                    v.setPadding(i.left, i.top, i.right, i.bottom);
+                } else {
+                    v.setPadding(insets.getSystemWindowInsetLeft(), insets.getSystemWindowInsetTop(), insets.getSystemWindowInsetRight(), insets.getSystemWindowInsetBottom());
+                }
+                return insets;
+            });
+            setContentView(root);
+            drawEdgeToEdge();
+        } else {
+            setContentView(web);
+        }
 
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
@@ -99,7 +124,18 @@ public class MainActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) goFullScreen();
+        if (hasFocus && !PHONE) goFullScreen();
+    }
+
+    /** Phones: the app draws under the bars on every Android version and pads itself (no double spacing). */
+    @SuppressWarnings("deprecation")
+    private void drawEdgeToEdge() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().setDecorFitsSystemWindows(false);
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
     }
 
     /** Full screen: no status bar or navigation buttons; a swipe from the edge shows them for a moment. */
@@ -120,6 +156,7 @@ public class MainActivity extends Activity {
 
     /** Sign-in pages turn any way; once signed in the app stays sideways (landscape) for the POS. */
     private void orientationFor(String url) {
+        if (PHONE) return; // the phone app turns with the phone
         String path = url == null ? "" : Uri.parse(url).getPath();
         if (path == null) path = "";
         boolean signIn = path.startsWith("/login") || path.startsWith("/register") || path.startsWith("/forgot-password") || path.startsWith("/reset-password");
@@ -152,7 +189,7 @@ public class MainActivity extends Activity {
         public void print(String jobName) {
             runOnUiThread(() -> {
                 PrintManager pm = (PrintManager) getSystemService(PRINT_SERVICE);
-                String name = jobName == null || jobName.isEmpty() ? "OceanX" : jobName;
+                String name = jobName == null || jobName.isEmpty() ? getString(R.string.app_name) : jobName;
                 PrintAttributes attrs = new PrintAttributes.Builder().setMediaSize(PrintAttributes.MediaSize.ISO_A4).build();
                 pm.print(name, web.createPrintDocumentAdapter(name), attrs);
             });
@@ -260,8 +297,8 @@ public class MainActivity extends Activity {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             if (!request.isForMainFrame()) return;
             String html = "<html><head><meta name='viewport' content='width=device-width,initial-scale=1'></head>"
-                    + "<body style='margin:0;background:#070809;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center'>"
-                    + "<div><h2>No internet connection</h2><p style='color:#9fb0b8'>Check the Wi-Fi, then try again.</p>"
+                    + "<body style='margin:0;background:" + (PHONE ? "#2e1065" : "#070809") + ";color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center'>"
+                    + "<div><h2>No internet connection</h2><p style='color:#9fb0b8'>Check Wi-Fi or mobile data, then try again.</p>"
                     + "<button onclick=\"location.href='" + START + "'\" style='margin-top:16px;padding:14px 28px;border-radius:999px;border:0;font-size:16px;font-weight:bold'>Try again</button></div></body></html>";
             view.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
         }

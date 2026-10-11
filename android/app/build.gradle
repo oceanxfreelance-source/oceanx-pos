@@ -2,22 +2,46 @@ plugins {
     id 'com.android.application'
 }
 
-// Version of the tablet app. The system itself updates on its own (the app opens the live site);
-// bump this only when the app shell changes.
+// Two apps from one shell. The systems themselves update on their own (the apps open the live sites);
+// bump a version only when that app's shell changes.
+// OceanX POS for tablets (restaurants and cafés).
 def appVersion = '1.0.4'
 def appVersionCode = 5
+// Gravity for phones (quotations & invoices).
+def gravityVersion = '1.0.0'
+def gravityVersionCode = 1
 
 android {
     namespace 'app.oceanx.pos'
     compileSdk 35
 
     defaultConfig {
-        applicationId 'app.oceanx.pos'
         minSdk 24
         targetSdk 35
-        versionCode appVersionCode
-        versionName appVersion
-        buildConfigField 'String', 'SERVER_URL', '"https://oceanx-pos-oceanx1.vercel.app"'
+    }
+
+    flavorDimensions 'product'
+    productFlavors {
+        pos {
+            dimension 'product'
+            applicationId 'app.oceanx.pos'
+            versionCode appVersionCode
+            versionName appVersion
+            buildConfigField 'String', 'SERVER_URL', '"https://oceanx-pos-oceanx1.vercel.app"'
+            // Opens on the POS (or the kitchen display); sideways, full screen, screen kept on.
+            buildConfigField 'String', 'START_PATH', '"/start"'
+            buildConfigField 'boolean', 'PHONE_APP', 'false'
+        }
+        gravity {
+            dimension 'product'
+            applicationId 'app.oceanx.gravity'
+            versionCode gravityVersionCode
+            versionName gravityVersion
+            buildConfigField 'String', 'SERVER_URL', '"https://oceanx-gravity.vercel.app"'
+            // A normal phone app: turns with the phone, keeps the status bar, lets the screen sleep.
+            buildConfigField 'String', 'START_PATH', '"/"'
+            buildConfigField 'boolean', 'PHONE_APP', 'true'
+        }
     }
 
     buildFeatures {

@@ -1,4 +1,20 @@
-# OceanX POS: Android tablet app
+# Android apps: OceanX POS (tablets) and Gravity (phones)
+
+One shell builds two apps (Gradle flavors in `app/build.gradle`):
+
+| App | Flavor | Opens | Behaviour |
+|---|---|---|---|
+| OceanX POS (tablets) | `pos` | oceanx-pos-oceanx1.vercel.app/start | Full screen, sideways, screen kept on, POS only |
+| Gravity (phones) | `gravity` | oceanx-gravity.vercel.app | Normal phone app: status bar, turns with the phone |
+
+Both can print (A4), save PDFs to Downloads, choose photos and download exports. Gravity's name, purple
+theme and icons are in `app/src/gravity/res`.
+
+GitHub Actions (`.github/workflows/android-apps.yml`) builds both and publishes
+`android-v<version>` (POS) and `gravity-android-v<version>` (Gravity). An existing release is never
+replaced: bump `appVersion` / `gravityVersion` to publish a new one.
+
+## OceanX POS tablet app
 
 For restaurants and cafés: waiters taking orders at the table, the counter, and the kitchen display.
 The app opens the live system full-screen, keeps the screen on during service and adds what a web page

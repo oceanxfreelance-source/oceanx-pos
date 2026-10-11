@@ -1,4 +1,4 @@
-import { android } from './desktop';
+import { posTablet } from './desktop';
 
 /** Tablets show the system as a 1280-wide screen when sideways, scaled to fit: the POS fits without big tiles. */
 const TABLET_WIDTH = 1280;
@@ -12,7 +12,7 @@ const installedApp = () => window.matchMedia?.('(display-mode: standalone)').mat
  * upright tablets keep the normal layout.
  */
 export function installTabletFit() {
-  if (!android && !installedApp()) return;
+  if (!posTablet && !installedApp()) return;
   const meta = document.querySelector<HTMLMetaElement>('meta[name="viewport"]');
   if (!meta) return;
   const apply = () => {
