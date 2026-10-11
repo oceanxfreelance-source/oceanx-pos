@@ -156,3 +156,57 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
   await expect(page).toHaveURL(/\/gravity\/login$/);
   await expect(page.getByText('Quotations & invoices').first()).toBeVisible();
 });
+
+/**
+ * When the free trial ends, a Gravity user is stopped by the payment screen (as in the POS):
+ * the plan's MVR price, how to pay, and the slip upload.
+ */
+test('gravity: trial ends → the payment screen pops up', async ({ browser }) => {
+  test.setTimeout(150_000);
+  const run = Date.now().toString(36);
+  const { SA_EMAIL, SA_PASSWORD } = await import('./global-setup');
+  const sa = await browser.newPage();
+  const setPlan = async (trial: string, unit: string) => {
+    await sa.goto('/superadmin/gravity/plans');
+    await sa.getByLabel(/^Monthly price \(MVR\)/).fill('150');
+    await sa.getByLabel(/^Free trial/).fill(trial);
+    await sa.getByLabel('Unit').selectOption(unit);
+    await sa.getByRole('button', { name: 'Save' }).click();
+    await expect(sa.getByText('MVR 150.00')).toBeVisible();
+  };
+  await sa.goto('/superadmin/login');
+  await sa.getByLabel('Email').fill(SA_EMAIL);
+  await sa.getByLabel('Password').fill(SA_PASSWORD);
+  await sa.getByRole('button', { name: 'Sign in' }).click();
+  await expect(sa).toHaveURL(/superadmin\/hub$/);
+  await setPlan('1', 'minutes');
+
+  const phone = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await phone.newPage();
+  try {
+    await page.goto('/gravity/register');
+    await page.getByLabel('Your name or business name').fill(`Short Trial ${run}`);
+    await page.getByRole('textbox', { name: /^Your name\*?$/ }).fill('Mariyam');
+    await page.getByLabel('Email').fill(`short-${run}@gravity.test`);
+    await page.getByLabel('Password').fill('Gravity-Pass-123');
+    await page.getByRole('button', { name: 'Create account' }).click();
+    await expect(page.getByRole('link', { name: 'New invoice' })).toBeVisible();
+    // Less than a day left: the reminder says how much time.
+    await expect(page.getByText(/Your free trial ends in \d+ min/)).toBeVisible();
+
+    // The minute passes: everything is blocked by the payment screen.
+    await page.waitForTimeout(62_000);
+    await page.reload();
+    await expect(page.getByRole('heading', { name: 'Your free trial has ended' })).toBeVisible();
+    await expect(page.getByText(/MVR\s*150/).first()).toBeVisible();
+    await expect(page.getByText('Upload the transfer slip')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'New invoice' })).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+    await page.screenshot({ path: `${SHOTS}/gravity-phone-trial-ended.png`, fullPage: true });
+  } finally {
+    // Back to the usual 14 days for everyone else.
+    await setPlan('14', 'days');
+    await phone.close();
+    await sa.close();
+  }
+});

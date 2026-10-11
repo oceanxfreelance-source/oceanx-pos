@@ -10,18 +10,23 @@ import { FarumaWarning } from '../../components/FarumaWarning';
 import { ChangePasswordForm } from '../../components/ChangePasswordForm';
 import { useFormat } from '../../lib/format';
 import { PayPanel, useBilling } from './Billing';
+import { GravityMark } from '../auth/AuthLayout';
+import { GRAVITY_HOST, useProductTheme } from '../../lib/product';
 
 function Frame({ icon, title, body, children, wide }: { icon: React.ReactNode; title: string; body: React.ReactNode; children?: React.ReactNode; wide?: boolean }) {
   const { t } = useTranslation();
   const { logout } = useBiz();
   const navigate = useNavigate();
+  // A Gravity account sees Gravity's name, logo and colours here too.
+  const gravity = useBizSession().business.product === 'gravity';
+  useProductTheme(gravity);
   return (
     <div className="min-h-dvh">
       <FarumaWarning />
       <div className={`mx-auto flex min-h-dvh flex-col justify-center px-5 py-10 ${wide ? 'max-w-2xl' : 'max-w-lg'}`}>
         <div className="mb-6 flex items-center gap-2">
-          <Logo />
-          <span className="font-semibold">{t('app.name')}</span>
+          {gravity ? <GravityMark className="size-9" /> : <Logo />}
+          <span className="font-semibold">{gravity ? t('gravity.name') : t('app.name')}</span>
         </div>
         <Card className="animate-pop-in">
           <div className="mb-4 inline-flex rounded-2xl bg-brand-50 p-3 text-brand-700 dark:bg-brand-950 dark:text-brand-300">{icon}</div>
@@ -34,7 +39,7 @@ function Frame({ icon, title, body, children, wide }: { icon: React.ReactNode; t
               icon={<LogOut className="rtl-flip size-4" />}
               onClick={async () => {
                 await logout();
-                navigate('/login');
+                navigate(gravity && !GRAVITY_HOST ? '/gravity/login' : '/login');
               }}
             >
               {t('auth.logout')}
@@ -74,8 +79,8 @@ export function StatusScreen() {
         <Frame
           wide
           icon={<CalendarX2 className="size-6" />}
-          title={s.subscription?.planCode === 'trial' ? t('billing.trial_over_title') : t('status.expired_title')}
-          body={t('billing.blocked_body', { plan: s.subscription?.planName ?? '—', date: f.date(s.subscription?.currentPeriodEnd) })}
+          title={s.subscription?.planCode === 'trial' || s.subscription?.status === 'trialing' ? t('billing.trial_over_title') : t('status.expired_title')}
+          body={t('billing.blocked_body', { plan: s.subscription?.planName ?? '—', date: f.date(s.subscription?.currentPeriodEnd), app: s.business.product === 'gravity' ? 'Gravity' : 'OceanX' })}
         >
           <ExpiredPay />
         </Frame>

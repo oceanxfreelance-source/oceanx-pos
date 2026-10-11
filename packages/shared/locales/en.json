@@ -2192,7 +2192,7 @@
     "pay_title": "Pay for your plan",
     "pay_hint": "Pay by bank transfer and upload the slip. Our team checks it and activates your plan.",
     "trial_over_title": "Your free trial has ended",
-    "blocked_body": "Your {{plan}} period ended on {{date}}. Pay for a plan below to keep using OceanX — your data is safe.",
+    "blocked_body": "Your {{plan}} period ended on {{date}}. Pay for a plan below to keep using {{app}} — your data is safe.",
     "choose_plan": "Choose a plan",
     "month": "month",
     "months_one": "{{count}} month",
