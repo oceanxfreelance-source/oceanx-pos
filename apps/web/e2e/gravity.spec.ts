@@ -137,6 +137,15 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
     return sheet.left >= 0 && sheet.right <= window.innerWidth + 1 && stamp.right <= window.innerWidth + 1 && stamp.left >= 0;
   });
   expect(inside).toBe(true);
+  // The app in Dhivehi (right to left) with an English document: the stamp still sits on the page.
+  await page.evaluate(() => (document.documentElement.dir = 'rtl'));
+  const onSheet = await page.evaluate(() => {
+    const sheet = document.querySelector('article')!.getBoundingClientRect();
+    const stamp = document.querySelector('img[data-stamp="paid"]')!.getBoundingClientRect();
+    return stamp.left >= sheet.left && stamp.right <= sheet.right;
+  });
+  expect(onSheet).toBe(true);
+  await page.evaluate(() => (document.documentElement.dir = 'ltr'));
   await page.screenshot({ path: `${SHOTS}/gravity-phone-invoice-print.png`, fullPage: true });
   await page.setViewportSize({ width: 1280, height: 720 });
 

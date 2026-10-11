@@ -69,7 +69,7 @@ function StatusStamp({ doc }: { doc: DocData }) {
       src={`/stamps/${stamp}.png`}
       alt={stamp === 'paid' ? 'PAID' : 'REJECTED'}
       data-stamp={stamp}
-      className="pointer-events-none absolute start-1/2 top-40 z-10 w-[120mm] max-w-[80%] -translate-x-1/2 opacity-80 select-none rtl:translate-x-1/2"
+      className="pointer-events-none absolute left-1/2 top-40 z-10 w-[120mm] max-w-[80%] -translate-x-1/2 opacity-80 select-none"
     />
   );
 }
