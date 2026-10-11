@@ -5546,9 +5546,9 @@
   {
     "key": "hub.doc_statuses.paid",
     "english": "Paid",
-    "suggested": "ދައްކާފައި",
-    "status": "needs_review",
-    "notes": "New: OceanX Hub (Super Admin main office)."
+    "suggested": "ފައިސާ ދައްކާފައި",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "hub.doc_statuses.void",
@@ -6037,6 +6037,13 @@
     "key": "print.unit_price",
     "english": "Unit price",
     "suggested": "ރޭޓް",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
+  },
+  {
+    "key": "status_labels.paid",
+    "english": "Paid",
+    "suggested": "ފައިސާ ދައްކާފައި",
     "status": "confirmed",
     "notes": "Translated by the business owner (native speaker)."
   }

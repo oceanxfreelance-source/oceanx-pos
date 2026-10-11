@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 717 · **confirmed**: 146
+Status: **needs_review**: 716 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -226,7 +226,6 @@ review of the whole file is still recommended before launch.
 | `hub.doc_statuses.converted` | Invoiced | އިންވޮއިސް ކުރެވިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.doc_statuses.draft` | Draft | ޑްރާފްޓް | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.doc_statuses.issued` | Issued | ނެރިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
-| `hub.doc_statuses.paid` | Paid | ދައްކާފައި | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.doc_statuses.partially_paid` | Part paid | ބައެއް ދައްކާފައި | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.doc_statuses.rejected` | Rejected | ރިޖެކްޓްކުރި | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.doc_statuses.sent` | Sent | ފޮނުވިއްޖެ | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -764,6 +763,7 @@ review of the whole file is still recommended before launch.
 | `expenses.categories.electricity` | Electricity | ކަރަންޓް | confirmed | ކަރަންޓް — standard everyday term. |
 | `expenses.categories.rent` | Rent | ކުލި | confirmed | ކުލި — standard. |
 | `expenses.categories.salaries` | Salaries | މުސާރަ | confirmed | މުސާރަ — standard. |
+| `hub.doc_statuses.paid` | Paid | ފައިސާ ދައްކާފައި | confirmed | Translated by the business owner (native speaker). |
 | `karaoke.deposit` | Deposit (cash) | ޑިޕޮސިޓް (ނަގުދު ފައިސާ) | confirmed | Translated by the business owner (native speaker). |
 | `karaoke.title` | Karaoke | ކަރައޯކޭ | confirmed | Translated by the business owner (native speaker). |
 | `kitchen.actions.ready` | Served | ސާރވްކުރެވިއްޖެ | confirmed | Translated by the business owner (native speaker). |
@@ -866,6 +866,7 @@ review of the whole file is still recommended before launch.
 | `status_labels.no_show` | No-show | ހާޒިރެއްނުވޭ | confirmed | Translated by the business owner (native speaker). |
 | `status_labels.occupied` | Occupied | ބޭނުންކުރެވެނީ | confirmed | Translated by the business owner (native speaker). |
 | `status_labels.overdue` | Overdue | މުއްދަތު ހަމަވެފައި | confirmed | Translated by the business owner (native speaker). |
+| `status_labels.paid` | Paid | ފައިސާ ދައްކާފައި | confirmed | Translated by the business owner (native speaker). |
 | `status_labels.rejected` | Rejected | ރިޖެކްޓްކުރެވިފައި | confirmed | Translated by the business owner (native speaker). |
 | `status_labels.seated` | Seated | އިށީނދެފައި | confirmed | Translated by the business owner (native speaker). |
 | `status_labels.void` | Void | ބާތިލު | confirmed | Translated by the business owner (native speaker). |
