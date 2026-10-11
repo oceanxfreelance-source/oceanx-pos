@@ -141,3 +141,15 @@ html.reduce-motion *::after {
     display: none !important;
   }
 }
+
+/*
+ * Printed A4 documents: every line lines up with the document's own direction. An English name, company,
+ * phone or bank detail inside a Dhivehi document (dir="auto"/"ltr" paragraphs) would otherwise sit on the
+ * left, away from its right-aligned Dhivehi label.
+ */
+.doc-a4[dir='rtl'] p[dir]:not(.text-center) {
+  text-align: right;
+}
+.doc-a4[dir='ltr'] p[dir]:not(.text-center) {
+  text-align: left;
+}

@@ -172,7 +172,7 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
               <p className="mt-1 font-semibold" dir="auto">
                 {doc.customer.name}
               </p>
-              {doc.customer.company && <p dir="auto">{doc.customer.company}</p>}
+              {doc.customer.company && doc.customer.company.trim() !== doc.customer.name.trim() && <p dir="auto">{doc.customer.company}</p>}
               {doc.customer.address && <p className="whitespace-pre-line" dir="auto">{doc.customer.address}</p>}
               <p dir="ltr" className="text-start">
                 {[doc.customer.phone, doc.customer.email].filter(Boolean).join(' · ')}
