@@ -127,6 +127,13 @@
       "when": 1791645291836,
       "tag": "0017_gravity",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1791700034814,
+      "tag": "0018_gravity_one_plan",
+      "breakpoints": true
     }
   ]
 }

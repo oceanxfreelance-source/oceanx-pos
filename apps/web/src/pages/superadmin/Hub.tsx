@@ -532,7 +532,7 @@ function GravityConsoleLinks({ pending }: { pending: number }) {
   const links: [string, string, React.ComponentType<{ className?: string }>][] = [
     ['/superadmin/gravity/accounts', 'gravity.accounts', Building2],
     ['/superadmin/gravity/payments', 'superadmin.nav.payments', Banknote],
-    ['/superadmin/gravity/plans', 'superadmin.nav.plans', Layers],
+    ['/superadmin/gravity/plans', 'gravity.nav_plan', Layers],
   ];
   return (
     <section aria-label={t('gravity.console')}>

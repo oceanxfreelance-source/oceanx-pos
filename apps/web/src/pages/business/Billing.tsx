@@ -32,7 +32,7 @@ export interface BillingPayment {
 export interface BillingInfo {
   canPay: boolean;
   state: string;
-  subscription: { planId: string; planName: string; planCode: string; status: string; effectiveStatus: string; currentPeriodEnd: string; daysLeft: number } | null;
+  subscription: { planId: string; planName: string; planCode: string; status: string; effectiveStatus: string; currentPeriodEnd: string; daysLeft: number; minutesLeft: number } | null;
   reminderDays: number;
   bankDetails: string;
   note: string;
@@ -206,6 +206,8 @@ export function BillingBanner() {
   const sub = info?.subscription;
   if (!info || !sub || sub.daysLeft > info.reminderDays) return null;
   const pending = info.payments.some((p) => p.status === 'pending');
+  // Gravity trials can be hours or minutes long: under a day, say how much time is left.
+  const short = session?.business.product === 'gravity' && sub.minutesLeft > 0 && sub.minutesLeft < 1440;
   return (
     <div className={clsx('flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-4 py-2 text-center text-sm', pending ? 'bg-sky-50 text-sky-900 dark:bg-sky-950 dark:text-sky-100' : 'bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100')}>
       <CalendarClock className="size-4 shrink-0" />
@@ -213,7 +215,9 @@ export function BillingBanner() {
         {pending
           ? t('billing.banner_pending')
           : sub.effectiveStatus === 'trialing'
-            ? t('billing.banner_trial', { count: Math.max(sub.daysLeft, 0) })
+            ? short
+              ? t('billing.banner_trial_time', { time: timeLeft(t, sub.minutesLeft) })
+              : t('billing.banner_trial', { count: Math.max(sub.daysLeft, 0) })
             : t('billing.banner_paid', { count: Math.max(sub.daysLeft, 0), plan: sub.planName })}
       </span>
       {!pending && (
@@ -230,9 +234,11 @@ export default function BillingPage() {
   const { t } = useTranslation();
   const f = useFormat();
   const q = useBilling();
+  const { session } = useBiz();
   if (!q.data) return <SkeletonRows rows={6} />;
   const info = q.data;
   const sub = info.subscription;
+  const short = session?.business.product === 'gravity' && !!sub && sub.minutesLeft > 0 && sub.minutesLeft < 1440;
   return (
     <div className="space-y-6">
       <PageHeader title={t('billing.title')} description={t('billing.subtitle')} />
@@ -246,7 +252,7 @@ export default function BillingPage() {
                 <Badge tone={sub.effectiveStatus === 'expired' ? 'red' : sub.effectiveStatus === 'trialing' ? 'blue' : 'green'}>{t(`billing.sub_${sub.effectiveStatus}`, { defaultValue: sub.effectiveStatus })}</Badge>
               </p>
               <p className="text-slate-600 dark:text-slate-300">
-                {sub.daysLeft >= 0 ? t('billing.ends_on', { date: f.date(sub.currentPeriodEnd), count: sub.daysLeft }) : t('billing.ended_on', { date: f.date(sub.currentPeriodEnd) })}
+                {short ? t('billing.ends_at_time', { date: f.dateTime(sub.currentPeriodEnd), time: timeLeft(t, sub.minutesLeft) }) : sub.daysLeft >= 0 ? t('billing.ends_on', { date: f.date(sub.currentPeriodEnd), count: sub.daysLeft }) : t('billing.ended_on', { date: f.date(sub.currentPeriodEnd) })}
               </p>
             </div>
           ) : (
@@ -319,4 +325,11 @@ export default function BillingPage() {
       </Card>
     </div>
   );
+}
+
+/** "1 h 30 min" (Gravity's short trials). */
+function timeLeft(t: (k: string, o?: Record<string, unknown>) => string, minutes: number) {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return [h > 0 && t('billing.hours_n', { count: h }), (m > 0 || h === 0) && t('billing.minutes_n', { count: m })].filter(Boolean).join(' ');
 }

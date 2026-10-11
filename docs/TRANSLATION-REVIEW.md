@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 730 · **confirmed**: 148
+Status: **needs_review**: 748 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -39,14 +39,20 @@ review of the whole file is still recommended before launch.
 | `billing.banner_pending` | Your payment slip is being reviewed by the OceanX team. | ތިޔަ ފައިސާ ދެއްކި ސްލިޕް OceanX ޓީމުން ޗެކްކުރަމުން. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.banner_trial_one` | Your free trial ends in {{count}} day. | ތިޔަ ހިލޭ ޓްރަޔަލް ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.banner_trial_other` | Your free trial ends in {{count}} days. | ތިޔަ ހިލޭ ޓްރަޔަލް ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.banner_trial_time` | Your free trial ends in {{time}}. | ހިލޭ ޓްރަޔަލް ނިމޭނީ {{time}} ފަހުން. | needs_review | New: Gravity one plan and trial. |
 | `billing.blocked_body` | Your {{plan}} period ended on {{date}}. Pay for a plan below to keep using OceanX — your data is safe. | ތިޔަ {{plan}} މުއްދަތު {{date}} ގައި ނިމިއްޖެ. OceanX ކުރިއަށް ބޭނުންކުރުމަށް ތިރީގައިވާ ޕްލޭނެއްގެ ފައިސާ ދައްކަވާ — ތިޔަ ޑޭޓާ ރައްކާތެރިކަމާއެކު ހުންނާނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.choose_plan` | Choose a plan | ޕްލޭނެއް ހޮވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.current_plan` | Current plan | މިހާރުގެ ޕްލޭން | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.ended_on` | Ended on {{date}} | {{date}} ގައި ނިމުނު | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.ends_at_time` | Ends {{date}} ({{time}} left) | {{date}} ގައި ނިމޭނެ ({{time}} ބާކީ) | needs_review | New: Gravity one plan and trial. |
 | `billing.ends_on_one` | Ends on {{date}} ({{count}} day left) | {{date}} ގައި ނިމޭނެ ({{count}} ދުވަސް ބާކީ) | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.ends_on_other` | Ends on {{date}} ({{count}} days left) | {{date}} ގައި ނިމޭނެ ({{count}} ދުވަސް ބާކީ) | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.file_too_big` | The file is larger than 5 MB. | ފައިލް 5 MB އަށް ވުރެ ބޮޑު. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.history` | Payments | ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.hours_n_one` | {{count}} h | {{count}} ގަޑިއިރު | needs_review | New: Gravity one plan and trial. |
+| `billing.hours_n_other` | {{count}} h | {{count}} ގަޑިއިރު | needs_review | New: Gravity one plan and trial. |
+| `billing.minutes_n_one` | {{count}} min | {{count}} މިނެޓް | needs_review | New: Gravity one plan and trial. |
+| `billing.minutes_n_other` | {{count}} min | {{count}} މިނެޓް | needs_review | New: Gravity one plan and trial. |
 | `billing.month` | month | މަސް | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.months_one` | {{count}} month | {{count}} މަސް | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.months_other` | {{count}} months | {{count}} މަސް | needs_review | New: subscription billing (bank transfer slip upload and review). |
@@ -165,6 +171,8 @@ review of the whole file is still recommended before launch.
 | `gravity.finish_setup` | Add your logo and payment details so they print on your documents | ތިޔަ ލޯގޯ އަދި ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރައްވާ، ޑޮކިއުމަންޓުތަކުގައި ޕްރިންޓްވާނެ | needs_review | New: Gravity home (phone). |
 | `gravity.home_subtitle` | Your quotations and invoices at a glance. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސް އެއް ނަޒަރަކުން. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.home_title` | Hello, {{name}} | ހަލޯ، {{name}} | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.monthly_price` | Monthly price (MVR) | މަހު އަގު (MVR) | needs_review | New: Gravity one plan and trial. |
+| `gravity.nav_plan` | Plan & trial | ޕްލޭން އަދި ޓްރަޔަލް | needs_review | New: Gravity one plan and trial. |
 | `gravity.new_account` | New Gravity account | އައު Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.no_account` | New to Gravity? | Gravity އަށް އަލެއްތަ؟ | needs_review | New: Gravity sign-in footer. |
 | `gravity.no_invoices` | No invoices yet | އަދި އިންވޮއިސެއް ނެތް | needs_review | New: Gravity (quotation & invoice generator). |
@@ -177,6 +185,10 @@ review of the whole file is still recommended before launch.
 | `gravity.overdue_amount` | {{amount}} overdue | {{amount}} ލަސްވެފައި | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.owed_to_you` | Owed to you | ތިޔަބޭފުޅާއަށް ލިބެންޖެހޭ | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.payments` | Gravity payments | Gravity ފައިސާ ދެއްކުންތައް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.plan_accounts_one` | {{count}} account on this plan | {{count}} އެކައުންޓް މި ޕްލޭނުގައި | needs_review | New: Gravity one plan and trial. |
+| `gravity.plan_accounts_other` | {{count}} accounts on this plan | {{count}} އެކައުންޓް މި ޕްލޭނުގައި | needs_review | New: Gravity one plan and trial. |
+| `gravity.plan_subtitle` | One plan for everyone. After the free trial, accounts pay this price every month. | އެންމެންނަށް އެއް ޕްލޭން. ހިލޭ ޓްރަޔަލް ނިމުމުން، ކޮންމެ މަހަކު މި އަގު ދައްކަންވާނެ. | needs_review | New: Gravity one plan and trial. |
+| `gravity.plan_title` | Gravity plan | Gravity ޕްލޭން | needs_review | New: Gravity one plan and trial. |
 | `gravity.plans` | Gravity plans | Gravity ޕްލޭންތައް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.quotes_waiting_one` | {{count}} quotation waiting for a reply | {{count}} ކޯޓޭޝަނެއް ޖަވާބަށް އިންތިޒާރުކުރަނީ | needs_review | New: Gravity home (phone). |
 | `gravity.quotes_waiting_other` | {{count}} quotations waiting for a reply | {{count}} ކޯޓޭޝަން ޖަވާބަށް އިންތިޒާރުކުރަނީ | needs_review | New: Gravity home (phone). |
@@ -190,6 +202,12 @@ review of the whole file is still recommended before launch.
 | `gravity.signup_plan` | Gravity sign-up plan | Gravity ސައިން އަޕް ޕްލޭން | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.signup_plan_hint` | New Gravity accounts start on this plan. | އައު Gravity އެކައުންޓްތައް ފަށާނީ މި ޕްލޭނުން. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.tagline` | Quotations & invoices | ކޯޓޭޝަން އަދި އިންވޮއިސް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.trial_hint` | 0 = no free trial. A new trial length applies to accounts created from now on. | 0 = ހިލޭ ޓްރަޔަލެއް ނެތް. އައު ޓްރަޔަލް މުއްދަތު ހިނގާނީ މިހިން ފެށިގެން ހަދާ އެކައުންޓްތަކަށް. | needs_review | New: Gravity one plan and trial. |
+| `gravity.trial_length` | Free trial | ހިލޭ ޓްރަޔަލް | needs_review | New: Gravity one plan and trial. |
+| `gravity.trial_unit` | Unit | ވަގުތު | needs_review | New: Gravity one plan and trial. |
+| `gravity.unit_days` | Days | ދުވަސް | needs_review | New: Gravity one plan and trial. |
+| `gravity.unit_hours` | Hours | ގަޑިއިރު | needs_review | New: Gravity one plan and trial. |
+| `gravity.unit_minutes` | Minutes | މިނެޓް | needs_review | New: Gravity one plan and trial. |
 | `gravity.unpaid_invoices_one` | {{count}} unpaid invoice | {{count}} ނުދައްކާ އިންވޮއިސް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.unpaid_invoices_other` | {{count}} unpaid invoices | {{count}} ނުދައްކާ އިންވޮއިސް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.who_owes` | Who owes you | ފައިސާ ދައްކަންޖެހޭ ފަރާތްތައް | needs_review | New: Gravity (quotation & invoice generator). |

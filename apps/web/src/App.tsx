@@ -65,6 +65,7 @@ const SaDashboard = lazy(() => import('./pages/superadmin/Dashboard'));
 const SaBusinesses = lazy(() => import('./pages/superadmin/Businesses'));
 const SaBusinessDetail = lazy(() => import('./pages/superadmin/BusinessDetail'));
 const SaPlans = lazy(() => import('./pages/superadmin/Catalog').then((m) => ({ default: m.PlansPage })));
+const SaGravityPlan = lazy(() => import('./pages/superadmin/GravityPlan'));
 const SaPayments = lazy(() => import('./pages/superadmin/Payments'));
 const SaAddons = lazy(() => import('./pages/superadmin/Catalog').then((m) => ({ default: m.AddonCatalogPage })));
 const SaSubscriptions = lazy(() => import('./pages/superadmin/Platform').then((m) => ({ default: m.SubscriptionsPage })));
@@ -159,7 +160,7 @@ const router = createBrowserRouter([
           // Gravity (quotation & invoice generator) console.
           { path: 'gravity/accounts', element: withSuspense(<SaBusinesses product="gravity" />) },
           { path: 'gravity/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
-          { path: 'gravity/plans', element: withSuspense(<SaPlans product="gravity" />) },
+          { path: 'gravity/plans', element: withSuspense(<SaGravityPlan />) },
           { path: 'gravity/payments', element: withSuspense(<SaPayments product="gravity" />) },
           { path: 'plans', element: withSuspense(<SaPlans />) },
           { path: 'addons', element: withSuspense(<SaAddons />) },

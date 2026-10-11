@@ -26,7 +26,7 @@ describe('Gravity (quotation & invoice generator)', () => {
     const s = res.json();
     expect(s.state).toBe('ok');
     expect(s.business.product).toBe('gravity');
-    expect(s.subscription.planCode).toBe('gravity_trial');
+    expect(s.subscription.planCode).toBe('gravity');
     expect([...s.modules].sort()).toEqual(['customers', 'dashboard', 'invoices', 'quotations', 'settings']);
     // One person: no team, roles or activity log.
     expect((await c.get('/api/users')).statusCode).toBe(403);
@@ -34,9 +34,10 @@ describe('Gravity (quotation & invoice generator)', () => {
     // No POS, product catalogue or add-ons.
     expect((await c.get('/api/products')).statusCode).toBe(403);
     expect((await c.get('/api/sales')).statusCode).toBe(403);
-    // Only Gravity's paid plans can be bought.
+    // Gravity's one plan (MVR) is the only thing to pay for.
     const billing = (await c.get('/api/billing')).json();
-    expect(billing.plans.map((p: { code: string }) => p.code)).toEqual(['gravity_pro']);
+    expect(billing.plans.map((p: { code: string; currency: string }) => [p.code, p.currency])).toEqual([['gravity', 'MVR']]);
+    expect(billing.subscription).toMatchObject({ effectiveStatus: 'trialing', daysLeft: 14 });
     const posPlan = (await sa.get('/api/superadmin/plans?product=pos')).json().items.find((p: { code: string }) => p.code === 'pro');
     expect((await c.request('POST', `/api/billing/payments?planId=${posPlan.id}&months=1`, Buffer.from('x'), { 'content-type': 'image/png' })).json().error.code).toBe('validation_failed');
 
@@ -92,8 +93,30 @@ describe('Gravity (quotation & invoice generator)', () => {
     expect(s.business.product).toBe('pos');
     expect(s.modules).toContain('pos');
     const codes = (await owner.get('/api/billing')).json().plans.map((p: { code: string }) => p.code);
-    expect(codes).not.toContain('gravity_pro');
-    expect((await sa.get('/api/superadmin/plans?product=gravity')).json().items.map((p: { code: string }) => p.code).sort()).toEqual(['gravity_pro', 'gravity_trial']);
+    expect(codes).not.toContain('gravity');
+    expect((await sa.get('/api/superadmin/plans?product=gravity')).json().items.map((p: { code: string }) => p.code)).toEqual(['gravity']);
+  });
+
+  it('one plan for everyone: Super Admin sets the MVR price and a trial of any length (even minutes)', async () => {
+    const plan = (await sa.get('/api/superadmin/gravity/plan')).json();
+    expect(plan).toMatchObject({ name: 'Gravity', currency: 'MVR', trialMinutes: 14 * 1440 });
+    expect((await sa.put('/api/superadmin/gravity/plan', { priceMonthly: 150, trialMinutes: 90 })).statusCode).toBe(200);
+    expect((await sa.get('/api/superadmin/gravity/plan')).json()).toMatchObject({ priceMonthly: '150.00', trialMinutes: 90 });
+    // No second Gravity plan.
+    expect((await sa.post('/api/superadmin/plans', { product: 'gravity', code: 'gravity_two', name: 'Two', priceMonthly: 1, currency: 'MVR', trialDays: 0, limits: {}, modules: [] })).statusCode).toBe(422);
+    expect((await sa.put('/api/superadmin/gravity/plan', { priceMonthly: -1, trialMinutes: 90 })).statusCode).toBe(422);
+
+    // A new account gets a 1 h 30 min trial, then pays MVR 150 a month.
+    const c = new Client(env.app);
+    const before = Date.now();
+    await c.post('/api/auth/register', signup);
+    const billing = (await c.get('/api/billing')).json();
+    expect(billing.subscription.effectiveStatus).toBe('trialing');
+    expect(billing.subscription.minutesLeft).toBe(90);
+    const ends = new Date(billing.subscription.currentPeriodEnd).getTime();
+    expect(ends - before).toBeGreaterThanOrEqual(90 * 60_000 - 1000);
+    expect(ends - before).toBeLessThan(91 * 60_000);
+    expect(billing.plans).toEqual([expect.objectContaining({ code: 'gravity', priceMonthly: 15000, currency: 'MVR' })]);
   });
 
   it('Gravity e-mails link to Gravity\'s own address when it has one', () => {

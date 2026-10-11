@@ -6144,5 +6144,131 @@
     "suggested": "Gravity އަށް އަލެއްތަ؟",
     "status": "needs_review",
     "notes": "New: Gravity sign-in footer."
+  },
+  {
+    "key": "gravity.plan_title",
+    "english": "Gravity plan",
+    "suggested": "Gravity ޕްލޭން",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.plan_subtitle",
+    "english": "One plan for everyone. After the free trial, accounts pay this price every month.",
+    "suggested": "އެންމެންނަށް އެއް ޕްލޭން. ހިލޭ ޓްރަޔަލް ނިމުމުން، ކޮންމެ މަހަކު މި އަގު ދައްކަންވާނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.plan_accounts_one",
+    "english": "{{count}} account on this plan",
+    "suggested": "{{count}} އެކައުންޓް މި ޕްލޭނުގައި",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.plan_accounts_other",
+    "english": "{{count}} accounts on this plan",
+    "suggested": "{{count}} އެކައުންޓް މި ޕްލޭނުގައި",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.monthly_price",
+    "english": "Monthly price (MVR)",
+    "suggested": "މަހު އަގު (MVR)",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.trial_length",
+    "english": "Free trial",
+    "suggested": "ހިލޭ ޓްރަޔަލް",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.trial_unit",
+    "english": "Unit",
+    "suggested": "ވަގުތު",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.unit_days",
+    "english": "Days",
+    "suggested": "ދުވަސް",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.unit_hours",
+    "english": "Hours",
+    "suggested": "ގަޑިއިރު",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.unit_minutes",
+    "english": "Minutes",
+    "suggested": "މިނެޓް",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.trial_hint",
+    "english": "0 = no free trial. A new trial length applies to accounts created from now on.",
+    "suggested": "0 = ހިލޭ ޓްރަޔަލެއް ނެތް. އައު ޓްރަޔަލް މުއްދަތު ހިނގާނީ މިހިން ފެށިގެން ހަދާ އެކައުންޓްތަކަށް.",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "gravity.nav_plan",
+    "english": "Plan & trial",
+    "suggested": "ޕްލޭން އަދި ޓްރަޔަލް",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "billing.banner_trial_time",
+    "english": "Your free trial ends in {{time}}.",
+    "suggested": "ހިލޭ ޓްރަޔަލް ނިމޭނީ {{time}} ފަހުން.",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "billing.ends_at_time",
+    "english": "Ends {{date}} ({{time}} left)",
+    "suggested": "{{date}} ގައި ނިމޭނެ ({{time}} ބާކީ)",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "billing.hours_n_one",
+    "english": "{{count}} h",
+    "suggested": "{{count}} ގަޑިއިރު",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "billing.hours_n_other",
+    "english": "{{count}} h",
+    "suggested": "{{count}} ގަޑިއިރު",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "billing.minutes_n_one",
+    "english": "{{count}} min",
+    "suggested": "{{count}} މިނެޓް",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "billing.minutes_n_other",
+    "english": "{{count}} min",
+    "suggested": "{{count}} މިނެޓް",
+    "status": "needs_review",
+    "notes": "New: Gravity one plan and trial."
   }
 ]

@@ -2235,7 +2235,13 @@
     "banner_trial_other": "ඔබේ නොමිලේ අත්හදා බැලීම දින {{count}} කින් අවසන් වේ.",
     "banner_paid_one": "ඔබේ {{plan}} සැලසුම දින {{count}} කින් අවසන් වේ.",
     "banner_paid_other": "ඔබේ {{plan}} සැලසුම දින {{count}} කින් අවසන් වේ.",
-    "banner_pending": "ඔබේ ගෙවීම් ස්ලිප් එක OceanX කණ්ඩායම පරීක්ෂා කරමින් සිටී."
+    "banner_pending": "ඔබේ ගෙවීම් ස්ලිප් එක OceanX කණ්ඩායම පරීක්ෂා කරමින් සිටී.",
+    "banner_trial_time": "ඔබගේ නොමිලේ අත්හදා බැලීම {{time}} කින් අවසන් වේ.",
+    "ends_at_time": "{{date}} අවසන් වේ ({{time}} ඉතිරියි)",
+    "hours_n_one": "පැය {{count}}",
+    "hours_n_other": "පැය {{count}}",
+    "minutes_n_one": "මිනිත්තු {{count}}",
+    "minutes_n_other": "මිනිත්තු {{count}}"
   },
   "stock_check": {
     "title": "තොග පරීක්ෂාව",
@@ -2585,6 +2591,18 @@
     "quotes_waiting_one": "මිල ගණන් {{count}}ක් පිළිතුරු බලාපොරොත්තුවෙන්",
     "quotes_waiting_other": "මිල ගණන් {{count}}ක් පිළිතුරු බලාපොරොත්තුවෙන්",
     "recent": "නවතම",
-    "nothing_yet": "ඔබේ මිල ගණන් සහ ඉන්වොයිස් මෙහි පෙන්වයි."
+    "nothing_yet": "ඔබේ මිල ගණන් සහ ඉන්වොයිස් මෙහි පෙන්වයි.",
+    "plan_title": "Gravity සැලසුම",
+    "plan_subtitle": "සැමට එකම සැලසුමක්. නොමිලේ අත්හදා බැලීමෙන් පසු සෑම මසකම මෙම මිල.",
+    "plan_accounts_one": "මෙම සැලසුමේ ගිණුම් {{count}}",
+    "plan_accounts_other": "මෙම සැලසුමේ ගිණුම් {{count}}",
+    "monthly_price": "මාසික මිල (MVR)",
+    "trial_length": "නොමිලේ අත්හදා බැලීම",
+    "trial_unit": "ඒකකය",
+    "unit_days": "දින",
+    "unit_hours": "පැය",
+    "unit_minutes": "මිනිත්තු",
+    "trial_hint": "0 = නොමිලේ අත්හදා බැලීමක් නැත. නව කාලය මෙතැන් සිට සාදන ගිණුම් සඳහා අදාළ වේ.",
+    "nav_plan": "සැලසුම සහ අත්හදා බැලීම"
   }
 }

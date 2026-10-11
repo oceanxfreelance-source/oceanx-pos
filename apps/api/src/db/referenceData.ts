@@ -54,9 +54,9 @@ const DEFAULT_PLANS = [
     modules: ALL,
   },
   { code: 'custom', name: 'Custom', priceMonthly: '0', trialDays: 0, sortOrder: 4, limits: {}, modules: ALL, isPublic: false },
-  // Gravity (quotation & invoice generator). Prices are set by the OceanX team in Super Admin.
-  { product: 'gravity', code: 'gravity_trial', name: 'Gravity Trial', priceMonthly: '0', trialDays: 14, sortOrder: 10, limits: { max_users: 1, storage_mb: 100 }, modules: [...GRAVITY_MODULES] },
-  { product: 'gravity', code: 'gravity_pro', name: 'Gravity Pro', priceMonthly: '9', trialDays: 0, sortOrder: 11, limits: { max_users: 1, storage_mb: 1000 }, modules: [...GRAVITY_MODULES] },
+  // Gravity (quotation & invoice generator): one monthly plan for everyone, priced in MVR, with a free trial.
+  // Super Admin sets the price and the trial length (days, hours or minutes).
+  { product: 'gravity', code: 'gravity', name: 'Gravity', priceMonthly: '139', currency: 'MVR', trialDays: 0, trialMinutes: 14 * 1440, sortOrder: 10, limits: { max_users: 1, storage_mb: 1000 }, modules: [...GRAVITY_MODULES] },
 ];
 
 /**
@@ -95,7 +95,7 @@ export async function syncReferenceData(db: Executor): Promise<void> {
   for (const p of DEFAULT_PLANS) {
     await db
       .insert(plans)
-      .values({ ...p, description: '', currency: 'USD', limits: p.limits as Record<string, number | null>, modules: p.modules })
+      .values({ ...p, description: '', currency: 'currency' in p ? p.currency : 'USD', limits: p.limits as Record<string, number | null>, modules: p.modules })
       .onConflictDoNothing();
   }
   // The protected Business Admin role always holds every permission, including ones added in later releases.

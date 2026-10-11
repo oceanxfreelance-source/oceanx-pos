@@ -164,6 +164,12 @@ export const planSchema = z.object({
   sortOrder: z.number().int().min(0).max(1000).default(0),
 });
 
+/** Gravity's one plan: the monthly price (MVR) and the free trial, in minutes (up to a year). */
+export const gravityPlanSchema = z.object({
+  priceMonthly: z.number().min(0).max(1_000_000),
+  trialMinutes: z.number().int().min(0).max(525_600),
+});
+
 export const addonSchema = z.object({
   code: z
     .string()

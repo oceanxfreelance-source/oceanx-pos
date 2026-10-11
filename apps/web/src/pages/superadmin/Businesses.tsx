@@ -206,7 +206,7 @@ function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClo
   const [created, setCreated] = useState<{ id: string; email: string; password: string } | null>(null);
   useEffect(() => {
     if (!form.planId && plans.data?.items.length) {
-      const trial = plans.data.items.find((p) => p.code === (gravity ? 'gravity_trial' : 'trial') && p.isActive) ?? plans.data.items.find((p) => p.isActive);
+      const trial = plans.data.items.find((p) => p.code === (gravity ? 'gravity' : 'trial') && p.isActive) ?? plans.data.items.find((p) => p.isActive);
       if (trial) setForm((f) => ({ ...f, planId: trial.id }));
     }
   }, [plans.data, form.planId]);

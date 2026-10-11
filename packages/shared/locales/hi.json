@@ -2235,7 +2235,13 @@
     "banner_trial_other": "आपका फ़्री ट्रायल {{count}} दिनों में खत्म हो रहा है।",
     "banner_paid_one": "आपका {{plan}} प्लान {{count}} दिन में खत्म हो रहा है।",
     "banner_paid_other": "आपका {{plan}} प्लान {{count}} दिनों में खत्म हो रहा है।",
-    "banner_pending": "आपकी भुगतान स्लिप की जाँच OceanX टीम कर रही है।"
+    "banner_pending": "आपकी भुगतान स्लिप की जाँच OceanX टीम कर रही है।",
+    "banner_trial_time": "आपका मुफ़्त ट्रायल {{time}} में खत्म होगा।",
+    "ends_at_time": "{{date}} को खत्म ({{time}} बाकी)",
+    "hours_n_one": "{{count}} घंटा",
+    "hours_n_other": "{{count}} घंटे",
+    "minutes_n_one": "{{count}} मिनट",
+    "minutes_n_other": "{{count}} मिनट"
   },
   "stock_check": {
     "title": "स्टॉक जाँच",
@@ -2585,6 +2591,18 @@
     "quotes_waiting_one": "{{count}} कोटेशन जवाब का इंतज़ार कर रहा है",
     "quotes_waiting_other": "{{count}} कोटेशन जवाब का इंतज़ार कर रहे हैं",
     "recent": "ताज़ा",
-    "nothing_yet": "आपके कोटेशन और इनवॉइस यहाँ दिखेंगे।"
+    "nothing_yet": "आपके कोटेशन और इनवॉइस यहाँ दिखेंगे।",
+    "plan_title": "Gravity प्लान",
+    "plan_subtitle": "सबके लिए एक प्लान। मुफ़्त ट्रायल के बाद हर महीने यही कीमत।",
+    "plan_accounts_one": "इस प्लान पर {{count}} खाता",
+    "plan_accounts_other": "इस प्लान पर {{count}} खाते",
+    "monthly_price": "मासिक कीमत (MVR)",
+    "trial_length": "मुफ़्त ट्रायल",
+    "trial_unit": "इकाई",
+    "unit_days": "दिन",
+    "unit_hours": "घंटे",
+    "unit_minutes": "मिनट",
+    "trial_hint": "0 = कोई मुफ़्त ट्रायल नहीं। नई ट्रायल अवधि अब से बनने वाले खातों पर लागू होगी।",
+    "nav_plan": "प्लान और ट्रायल"
   }
 }

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import {
   addonSchema,
   createSuperAdminSchema,
+  gravityPlanSchema,
   languageUpdateSchema,
   paginationQuerySchema,
   planSchema,
@@ -126,6 +127,8 @@ export async function platformRoutes(app: FastifyInstance) {
   app.post('/plans', async (req, reply) => {
     const ctx = saCtx(req);
     const body = parse(planSchema, req.body);
+    // Gravity has one plan for everyone (edited under /gravity/plan).
+    if (body.product === 'gravity') throw new AppError('validation_failed', 'Gravity has one plan', { fields: { product: { code: 'invalid_option' } } });
     const [plan] = await db
       .insert(plans)
       .values({ ...body, priceMonthly: body.priceMonthly.toFixed(2), limits: body.limits as Record<string, number | null> })
@@ -147,6 +150,36 @@ export async function platformRoutes(app: FastifyInstance) {
     if (!plan) throw notFound();
     await audit(db, { actorType: 'super_admin', actorId: ctx.admin.id, actorName: ctx.admin.name, action: 'superadmin.plan_updated', entityType: 'plan', entityId: id, metadata: { code: body.code }, req });
     return plan;
+  });
+
+  // ------------------------------------------------------------ Gravity's one plan
+  const gravityPlan = async () => {
+    const { gravityPlanCode } = await getPlatformSettings(db);
+    const [plan] = await db
+      .select()
+      .from(plans)
+      .where(and(eq(plans.code, gravityPlanCode), eq(plans.product, 'gravity')));
+    if (!plan) throw notFound();
+    return plan;
+  };
+
+  app.get('/gravity/plan', async () => {
+    const plan = await gravityPlan();
+    const [n] = await db.select({ n: count() }).from(subscriptions).where(eq(subscriptions.planId, plan.id));
+    return { id: plan.id, name: plan.name, priceMonthly: plan.priceMonthly, currency: plan.currency, trialMinutes: plan.trialMinutes ?? plan.trialDays * 1440, accounts: num(n?.n) };
+  });
+
+  app.put('/gravity/plan', async (req) => {
+    const ctx = saCtx(req);
+    const body = parse(gravityPlanSchema, req.body);
+    const plan = await gravityPlan();
+    // Everyone pays the same, in MVR. A new trial length applies to accounts created from now on.
+    await db
+      .update(plans)
+      .set({ priceMonthly: body.priceMonthly.toFixed(2), currency: 'MVR', trialMinutes: body.trialMinutes, trialDays: 0, isActive: true, isPublic: true, updatedAt: new Date() })
+      .where(eq(plans.id, plan.id));
+    await audit(db, { actorType: 'super_admin', actorId: ctx.admin.id, actorName: ctx.admin.name, action: 'superadmin.plan_updated', entityType: 'plan', entityId: plan.id, metadata: { code: plan.code, priceMonthly: body.priceMonthly, trialMinutes: body.trialMinutes }, req });
+    return { ok: true };
   });
 
   // ------------------------------------------------------------ add-on catalog

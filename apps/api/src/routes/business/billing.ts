@@ -33,11 +33,14 @@ export async function billingRoutes(app: FastifyInstance) {
       listPayments(db, { businessId: ctx.businessId }, 50),
     ]);
     const sub = ctx.access.subscription;
-    const daysLeft = sub ? Math.ceil((sub.currentPeriodEnd.getTime() - Date.now()) / 86_400_000) : null;
+    const msLeft = sub ? sub.currentPeriodEnd.getTime() - Date.now() : 0;
+    const daysLeft = sub ? Math.ceil(msLeft / 86_400_000) : null;
+    // Short trials (hours or minutes) are shown as time left.
+    const minutesLeft = sub ? Math.max(0, Math.ceil(msLeft / 60_000)) : null;
     return {
       canPay: canPay(ctx),
       state: ctx.access.state,
-      subscription: sub && { planId: sub.planId, planName: sub.planName, planCode: sub.planCode, status: sub.status, effectiveStatus: sub.effectiveStatus, currentPeriodEnd: sub.currentPeriodEnd, daysLeft },
+      subscription: sub && { planId: sub.planId, planName: sub.planName, planCode: sub.planCode, status: sub.status, effectiveStatus: sub.effectiveStatus, currentPeriodEnd: sub.currentPeriodEnd, daysLeft, minutesLeft },
       reminderDays: settings.billingReminderDays,
       bankDetails: settings.billingBankDetails,
       note: settings.billingNote,

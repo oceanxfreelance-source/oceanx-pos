@@ -35,6 +35,25 @@ test('hub: lead becomes a client, is quoted, invoiced and pays', async ({ page }
   await expect(page.getByText('Reef Kitchen')).toHaveCount(0);
   await expect(page.locator('aside').first().getByRole('link', { name: 'All businesses' })).toHaveCount(0);
 
+  // Gravity has one plan for everyone: an MVR price and a free trial in days, hours or minutes.
+  await page.locator('aside').first().getByRole('link', { name: 'Plan & trial' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Gravity plan');
+  await expect(page.getByLabel(/^Free trial/)).toHaveValue('14');
+  await expect(page.getByLabel('Unit')).toHaveValue('days');
+  await page.getByLabel(/^Monthly price \(MVR\)/).fill('150');
+  await page.getByLabel(/^Free trial/).fill('90');
+  await page.getByLabel('Unit').selectOption('minutes');
+  await page.getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('MVR 150.00')).toBeVisible();
+  await page.reload();
+  await expect(page.getByLabel(/^Free trial/)).toHaveValue('90');
+  await expect(page.getByLabel('Unit')).toHaveValue('minutes');
+  // Back to 14 days for the other tests.
+  await page.getByLabel(/^Free trial/).fill('14');
+  await page.getByLabel('Unit').selectOption('days');
+  await page.getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('MVR 150.00')).toBeVisible();
+
   // A new project (business line) gets its own space: a lead added inside it stays inside it.
   const PROJECT = `Websites ${run}`;
   await page.goto('/superadmin/hub');

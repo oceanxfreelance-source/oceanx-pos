@@ -134,6 +134,8 @@ export const plans = pgTable(
     priceMonthly: numeric('price_monthly', { precision: 12, scale: 2 }).notNull().default('0'),
     currency: text('currency').notNull().default('USD'),
     trialDays: integer('trial_days').notNull().default(0),
+    /** Trial length in minutes; when set it is used instead of trial_days (Gravity: days, hours or minutes). */
+    trialMinutes: integer('trial_minutes'),
     /** { max_users, max_outlets, ... } — null value = unlimited */
     limits: jsonb('limits').$type<Record<string, number | null>>().notNull().default({}),
     /** Plan-controlled module keys (core modules are always on). */

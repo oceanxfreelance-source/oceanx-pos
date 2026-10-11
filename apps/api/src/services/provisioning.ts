@@ -77,6 +77,11 @@ export interface ProvisionInput {
  * Create a fully-provisioned tenant in ONE transaction:
  * business + subscription + default outlet + settings + system roles + owner (Business Admin).
  */
+/** A plan's free trial: trial_minutes when set (Gravity: any length), otherwise trial_days. */
+export function planTrialMs(plan: { trialDays: number; trialMinutes: number | null }): number {
+  return plan.trialMinutes != null ? plan.trialMinutes * 60_000 : plan.trialDays * 86_400_000;
+}
+
 const GRAVITY_SYSTEM_ROLE_KEYS: readonly SystemRoleKey[] = ['business_admin'];
 
 export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
@@ -106,14 +111,14 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
     .returning();
   if (!business) throw new AppError('internal_error');
 
-  const trialDays = input.trialDays ?? plan.trialDays;
-  const trialing = trialDays > 0;
+  const trialMs = input.trialDays !== undefined ? input.trialDays * 86_400_000 : planTrialMs(plan);
+  const trialing = trialMs > 0;
   await tx.insert(subscriptions).values({
     businessId: business.id,
     planId: plan.id,
     status: trialing ? 'trialing' : 'active',
     startsAt: now,
-    currentPeriodEnd: new Date(now.getTime() + (trialing ? trialDays : 30) * 86_400_000),
+    currentPeriodEnd: new Date(now.getTime() + (trialing ? trialMs : 30 * 86_400_000)),
   });
 
   const [outlet] = await tx

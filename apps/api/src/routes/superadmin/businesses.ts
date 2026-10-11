@@ -22,7 +22,7 @@ import { AppError, notFound } from '../../lib/errors';
 import { idParam } from '../../lib/params';
 import { parse } from '../../lib/validation';
 import { effectiveSubscriptionStatus } from '../../services/access';
-import { provisionBusiness } from '../../services/provisioning';
+import { planTrialMs, provisionBusiness } from '../../services/provisioning';
 import { issueUserToken } from '../../services/tokens';
 import { hashPassword } from '../../lib/password';
 
@@ -291,8 +291,8 @@ export async function businessAdminRoutes(app: FastifyInstance) {
         .from(subscriptions)
         .innerJoin(plans, eq(plans.id, subscriptions.planId))
         .where(eq(subscriptions.businessId, id));
-      const days = body.status === 'trialing' ? Math.max(plan.trialDays, 1) : 30;
-      const periodEnd = body.periodEnd ? new Date(body.periodEnd) : new Date(Date.now() + days * 86_400_000);
+      const ms = body.status === 'trialing' ? planTrialMs(plan) || 86_400_000 : 30 * 86_400_000;
+      const periodEnd = body.periodEnd ? new Date(body.periodEnd) : new Date(Date.now() + ms);
       if (current) {
         await tx
           .update(subscriptions)

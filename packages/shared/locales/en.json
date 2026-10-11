@@ -2235,7 +2235,13 @@
     "banner_trial_other": "Your free trial ends in {{count}} days.",
     "banner_paid_one": "Your {{plan}} plan ends in {{count}} day.",
     "banner_paid_other": "Your {{plan}} plan ends in {{count}} days.",
-    "banner_pending": "Your payment slip is being reviewed by the OceanX team."
+    "banner_pending": "Your payment slip is being reviewed by the OceanX team.",
+    "banner_trial_time": "Your free trial ends in {{time}}.",
+    "ends_at_time": "Ends {{date}} ({{time}} left)",
+    "hours_n_one": "{{count}} h",
+    "hours_n_other": "{{count}} h",
+    "minutes_n_one": "{{count}} min",
+    "minutes_n_other": "{{count}} min"
   },
   "stock_check": {
     "title": "Stock check",
@@ -2585,6 +2591,18 @@
     "quotes_waiting_one": "{{count}} quotation waiting for a reply",
     "quotes_waiting_other": "{{count}} quotations waiting for a reply",
     "recent": "Latest",
-    "nothing_yet": "Your quotations and invoices will show here."
+    "nothing_yet": "Your quotations and invoices will show here.",
+    "plan_title": "Gravity plan",
+    "plan_subtitle": "One plan for everyone. After the free trial, accounts pay this price every month.",
+    "plan_accounts_one": "{{count}} account on this plan",
+    "plan_accounts_other": "{{count}} accounts on this plan",
+    "monthly_price": "Monthly price (MVR)",
+    "trial_length": "Free trial",
+    "trial_unit": "Unit",
+    "unit_days": "Days",
+    "unit_hours": "Hours",
+    "unit_minutes": "Minutes",
+    "trial_hint": "0 = no free trial. A new trial length applies to accounts created from now on.",
+    "nav_plan": "Plan & trial"
   }
 }

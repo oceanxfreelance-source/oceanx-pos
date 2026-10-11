@@ -2235,7 +2235,13 @@
     "banner_trial_other": "আপনার ফ্রি ট্রায়াল {{count}} দিনে শেষ হবে।",
     "banner_paid_one": "আপনার {{plan}} প্ল্যান {{count}} দিনে শেষ হবে।",
     "banner_paid_other": "আপনার {{plan}} প্ল্যান {{count}} দিনে শেষ হবে।",
-    "banner_pending": "আপনার পেমেন্ট স্লিপ OceanX টিম যাচাই করছে।"
+    "banner_pending": "আপনার পেমেন্ট স্লিপ OceanX টিম যাচাই করছে।",
+    "banner_trial_time": "আপনার ফ্রি ট্রায়াল {{time}} পরে শেষ হবে।",
+    "ends_at_time": "{{date}} তারিখে শেষ ({{time}} বাকি)",
+    "hours_n_one": "{{count}} ঘণ্টা",
+    "hours_n_other": "{{count}} ঘণ্টা",
+    "minutes_n_one": "{{count}} মিনিট",
+    "minutes_n_other": "{{count}} মিনিট"
   },
   "stock_check": {
     "title": "স্টক যাচাই",
@@ -2585,6 +2591,18 @@
     "quotes_waiting_one": "{{count}}টি কোটেশন উত্তরের অপেক্ষায়",
     "quotes_waiting_other": "{{count}}টি কোটেশন উত্তরের অপেক্ষায়",
     "recent": "সাম্প্রতিক",
-    "nothing_yet": "আপনার কোটেশন ও ইনভয়েস এখানে দেখা যাবে।"
+    "nothing_yet": "আপনার কোটেশন ও ইনভয়েস এখানে দেখা যাবে।",
+    "plan_title": "Gravity প্ল্যান",
+    "plan_subtitle": "সবার জন্য একটি প্ল্যান। ফ্রি ট্রায়ালের পর প্রতি মাসে এই দাম।",
+    "plan_accounts_one": "এই প্ল্যানে {{count}}টি অ্যাকাউন্ট",
+    "plan_accounts_other": "এই প্ল্যানে {{count}}টি অ্যাকাউন্ট",
+    "monthly_price": "মাসিক দাম (MVR)",
+    "trial_length": "ফ্রি ট্রায়াল",
+    "trial_unit": "একক",
+    "unit_days": "দিন",
+    "unit_hours": "ঘণ্টা",
+    "unit_minutes": "মিনিট",
+    "trial_hint": "0 = কোনো ফ্রি ট্রায়াল নেই। নতুন ট্রায়ালের সময় এখন থেকে খোলা অ্যাকাউন্টে প্রযোজ্য।",
+    "nav_plan": "প্ল্যান ও ট্রায়াল"
   }
 }
