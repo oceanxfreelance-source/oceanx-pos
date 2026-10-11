@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { ArrowRightLeft, FileText, Plus, Printer, Send, Trash2, UserPlus } from 'lucide-react';
+import { ArrowRightLeft, FileText, Plus, MoreHorizontal, Printer, Search, Send, Trash2, UserPlus } from 'lucide-react';
+import { Dropdown, DropdownItem } from '../../components/Dropdown';
 import { DocCustomerDialog } from '../../components/DocCustomerDialog';
 import { calculateTotals, GRAVITY_DOCUMENT_LANGUAGES, toMinor } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
@@ -58,6 +59,9 @@ export function DocumentListPage({ kind }: { kind: DocKind }) {
   const [to, setTo] = useState('');
   const { query, page, setPage, search, setSearch, pageSize } = useList<DocRow>(p, `/${p}`, { status, from, to, customerId });
   const summary = query.data?.summary as { outstanding: number; overdue: number } | undefined;
+  // Gravity (mostly phones): a short page — compact totals, status chips, one-line rows, dates filter on PC only.
+  const gravity = useBizSession().business.product === 'gravity';
+  const amountOf = (d: DocRow) => (kind === 'invoice' && d.status !== 'draft' ? (d.balanceDue ?? 0) : d.total);
   const columns: Column<DocRow>[] = [
     { key: 'n', header: t('documents.number'), cell: (d) => <Ltr className="font-medium">{d.number}</Ltr> },
     { key: 'c', header: t('customers.customer'), cell: (d) => <span dir="auto">{d.customerName}</span> },
@@ -79,7 +83,7 @@ export function DocumentListPage({ kind }: { kind: DocKind }) {
     <div className="space-y-6">
       <PageHeader
         title={t(`${p}.title`)}
-        description={t(`${p}.subtitle`)}
+        description={gravity ? undefined : t(`${p}.subtitle`)}
         actions={
           can(`${p}.create`) && (
             <Link to={`/${p}/new`}>
@@ -88,13 +92,60 @@ export function DocumentListPage({ kind }: { kind: DocKind }) {
           )
         }
       />
-      {summary && (
+      {summary && gravity && (
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900 dark:ring-slate-800">
+            <p className="text-xs text-slate-500">{t('credit.outstanding')}</p>
+            <p className="mt-0.5 text-lg font-semibold tabular-nums">{money(summary.outstanding)}</p>
+          </div>
+          <div className="rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900 dark:ring-slate-800">
+            <p className="text-xs text-slate-500">{t('status_labels.overdue')}</p>
+            <p className={`mt-0.5 text-lg font-semibold tabular-nums ${summary.overdue > 0 ? 'text-rose-600' : ''}`}>{money(summary.overdue)}</p>
+          </div>
+        </div>
+      )}
+      {summary && !gravity && (
         <div className="grid gap-4 sm:grid-cols-2">
           <StatCard label={t('credit.outstanding')} value={money(summary.outstanding)} />
           <StatCard label={t('status_labels.overdue')} value={money(summary.overdue)} tone={summary.overdue > 0 ? 'red' : 'green'} />
         </div>
       )}
       <Card padded={false}>
+        {gravity ? (
+          <div className="space-y-3 border-b border-slate-100 p-3 sm:p-4 dark:border-slate-800">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="relative w-full sm:max-w-xs">
+                <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t('documents.search')}
+                  className="w-full rounded-xl border-0 bg-slate-50 py-2.5 ps-9 pe-3 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-600 focus:outline-none dark:bg-slate-800 dark:ring-slate-700"
+                />
+              </div>
+              <div className="hidden gap-3 sm:ms-auto sm:flex">
+                <Input type="date" aria-label={t('common.from')} value={from} onChange={(e) => setFrom(e.target.value)} />
+                <Input type="date" aria-label={t('common.to')} value={to} onChange={(e) => setTo(e.target.value)} />
+              </div>
+            </div>
+            {/* Status as chips: one tap, scrolls sideways on a phone. */}
+            <div className="-mx-3 flex gap-2 overflow-x-auto px-3 pb-1 sm:mx-0 sm:px-0" role="tablist" aria-label={t('common.status')}>
+              {['', ...(kind === 'invoice' ? ['unpaid', 'overdue', 'paid', 'draft'] : ['sent', 'accepted', 'draft', 'rejected'])].map((v) => (
+                <button
+                  key={v || 'all'}
+                  type="button"
+                  role="tab"
+                  aria-selected={status === v}
+                  onClick={() => setStatus(v)}
+                  className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium ${status === v ? 'bg-violet-700 text-white' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200'}`}
+                >
+                  {v ? t(`status_labels.${v}`) : t('common.all')}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
         <ListToolbar search={search} onSearch={setSearch} placeholder={t('documents.search')}>
           <Select label={t('common.status')} value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="">{t('common.all')}</option>
@@ -107,6 +158,7 @@ export function DocumentListPage({ kind }: { kind: DocKind }) {
           <Input type="date" label={t('common.from')} value={from} onChange={(e) => setFrom(e.target.value)} />
           <Input type="date" label={t('common.to')} value={to} onChange={(e) => setTo(e.target.value)} />
         </ListToolbar>
+        )}
         {customerId && (
           <div className="flex items-center gap-2 border-b border-slate-100 px-4 py-2 text-sm dark:border-slate-800">
             <span className="text-slate-500">{t('customers.customer')}:</span>
@@ -131,7 +183,32 @@ export function DocumentListPage({ kind }: { kind: DocKind }) {
           <EmptyState icon={<FileText className="size-6" />} title={t(`${p}.empty_title`)} description={t(`${p}.empty_body`)} />
         ) : (
           <>
-            <DataTable columns={columns} rows={query.data.items} rowKey={(d) => d.id} onRowClick={(d) => navigate(`/${p}/${d.id}`)} />
+            <DataTable
+              columns={columns}
+              rows={query.data.items}
+              rowKey={(d) => d.id}
+              onRowClick={(d) => navigate(`/${p}/${d.id}`)}
+              mobileRow={
+                gravity
+                  ? (d) => (
+                      <div className="flex items-center gap-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium" dir="auto">
+                            {d.customerName}
+                          </p>
+                          <p className="truncate text-xs text-slate-500">
+                            <Ltr>{d.number}</Ltr> · {f.date(d.quotationDate ?? d.invoiceDate)}
+                          </p>
+                        </div>
+                        <div className="shrink-0 text-end">
+                          <p className="text-sm font-semibold tabular-nums">{money(amountOf(d))}</p>
+                          <StatusBadge status={d.status} />
+                        </div>
+                      </div>
+                    )
+                  : undefined
+              }
+            />
             <Pagination page={page} pageSize={pageSize} total={query.data.total} onPage={setPage} />
           </>
         )}
@@ -211,6 +288,7 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
   const retail = !!session.business.profile.retail;
   const { hasModule, can } = useBiz();
   const [newCustomer, setNewCustomer] = useState(false);
+  const [openDetails, setOpenDetails] = useState<Set<number>>(new Set());
   // Gravity: lines are typed (no product list) and documents are English or Dhivehi.
   const gravity = session.business.product === 'gravity';
   const docLanguages = gravity ? session.languages.filter((l) => (GRAVITY_DOCUMENT_LANGUAGES as readonly string[]).includes(l.code)) : session.languages;
@@ -283,6 +361,148 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
     },
   });
   const fe = useFieldErrors(save.error);
+  const canSave = !!customer && items.length > 0 && !items.some((i) => !i.name.trim());
+  // Gravity (mostly phones): only what is needed — who, dates, lines (item · qty · price) and the total.
+  // Language, notes, terms and a discount are under "More options"; Save stays at the bottom of the screen.
+  if (gravity) {
+    const extras = [head.notes, head.terms, head.language, parseAmount(head.discount) > 0 ? '1' : ''].filter(Boolean).length;
+    return (
+      <div className="mx-auto max-w-2xl space-y-4 pb-24 lg:pb-0">
+        <PageHeader title={doc ? <Ltr>{doc.number}</Ltr> : t(`${p}.create`)} back={<Link to={doc ? `/${p}/${doc.id}` : `/${p}`}>{t('common.back')}</Link>} />
+        {save.error && !(save.error instanceof ApiError && save.error.code === 'validation_failed') && <Alert tone="red">{errMsg(save.error)}</Alert>}
+        <Card>
+          <div className="space-y-3">
+            <div className="flex items-end gap-2">
+              <div className="min-w-0 flex-1">
+                <CustomerPicker label={t('customers.customer')} value={customer?.id ?? null} valueLabel={customer?.name} onChange={(id, c) => setCustomer(id && c ? { id, name: c.name } : null)} error={fe('customerId')} />
+              </div>
+              {can('customers.create') && (
+                <Button variant="secondary" icon={<UserPlus className="size-4" />} onClick={() => setNewCustomer(true)} aria-label={t('customers.create')} title={t('customers.create')} />
+              )}
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Input type="date" label={t('common.date')} value={head.date} onChange={(e) => setHead({ ...head, date: e.target.value })} error={fe(kind === 'quotation' ? 'quotationDate' : 'invoiceDate')} />
+              <Input type="date" label={t(kind === 'quotation' ? 'quotations.valid_until' : 'invoices.due_date')} value={head.until} onChange={(e) => setHead({ ...head, until: e.target.value })} error={fe(kind === 'quotation' ? 'validUntil' : 'dueDate')} />
+            </div>
+          </div>
+        </Card>
+        {newCustomer && (
+          <DocCustomerDialog
+            onClose={() => setNewCustomer(false)}
+            onCreated={(c) => {
+              setCustomer({ id: c.id, name: c.name });
+              setNewCustomer(false);
+            }}
+          />
+        )}
+        <Card>
+          <p className="mb-3 text-base font-semibold">{t('documents.items')}</p>
+          {fe('items') && <p className="mb-2 text-sm text-rose-600">{fe('items')}</p>}
+          <div className="space-y-3">
+            {items.map((i, idx) => (
+              <div key={i.key} className="space-y-2 rounded-xl bg-slate-50 p-3 dark:bg-slate-800/50">
+                <div className="flex items-start gap-2">
+                  <input
+                    value={i.name}
+                    onChange={(e) => upd(i.key, { name: e.target.value })}
+                    placeholder={t('documents.item_placeholder')}
+                    aria-label={t('documents.item')}
+                    dir="auto"
+                    className="min-w-0 flex-1 rounded-lg border-0 bg-white px-3 py-2.5 text-sm font-medium ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-600 focus:outline-none dark:bg-slate-900 dark:ring-slate-700"
+                  />
+                  <IconButton label={t('common.delete')} onClick={() => setItems((xs) => xs.filter((x) => x.key !== i.key))}>
+                    <Trash2 className="size-4" />
+                  </IconButton>
+                </div>
+                <div className="grid grid-cols-[5rem_1fr_auto] items-center gap-2">
+                  <label className="text-xs text-slate-500">
+                    {t('documents.quantity')}
+                    <input
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step="0.001"
+                      value={i.quantity}
+                      onChange={(e) => upd(i.key, { quantity: e.target.value })}
+                      aria-label={t('documents.quantity')}
+                      className="mt-1 w-full rounded-lg border-0 bg-white px-3 py-2 text-sm text-slate-900 ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-600 focus:outline-none dark:bg-slate-900 dark:text-white dark:ring-slate-700"
+                    />
+                  </label>
+                  <label className="text-xs text-slate-500">
+                    {t('documents.unit_price')}
+                    <input
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step="0.01"
+                      value={i.unitPrice}
+                      onChange={(e) => upd(i.key, { unitPrice: e.target.value })}
+                      placeholder="0.00"
+                      aria-label={t('documents.unit_price')}
+                      className="mt-1 w-full rounded-lg border-0 bg-white px-3 py-2 text-sm text-slate-900 ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-600 focus:outline-none dark:bg-slate-900 dark:text-white dark:ring-slate-700"
+                    />
+                  </label>
+                  <span className="min-w-[5.5rem] pt-5 text-end text-sm font-semibold tabular-nums">{preview?.lines[idx] ? money(preview.lines[idx].total) : '—'}</span>
+                </div>
+                {i.description || openDetails.has(i.key) ? (
+                  <input
+                    value={i.description}
+                    onChange={(e) => upd(i.key, { description: e.target.value })}
+                    placeholder={t('documents.item_description')}
+                    aria-label={t('documents.item_description')}
+                    dir="auto"
+                    autoFocus={!i.description}
+                    className="w-full rounded-lg border-0 bg-white px-3 py-2 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-600 focus:outline-none dark:bg-slate-900 dark:ring-slate-700"
+                  />
+                ) : (
+                  <button type="button" className="text-xs font-medium text-brand-700 dark:text-brand-300" onClick={() => setOpenDetails((s) => new Set(s).add(i.key))}>
+                    + {t('documents.add_details')}
+                  </button>
+                )}
+              </div>
+            ))}
+            <Button variant="secondary" className="w-full" icon={<Plus className="size-4" />} onClick={addBlank}>
+              {t('documents.add_line')}
+            </Button>
+          </div>
+        </Card>
+        <details className="group rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900 dark:ring-slate-800" open={extras > 0 && !!doc}>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-5 py-4 text-sm font-semibold">
+            <span>
+              {t('documents.more_options')}
+              {extras > 0 && <span className="ms-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">{extras}</span>}
+            </span>
+            <span className="text-slate-400 transition-transform group-open:rotate-180">⌄</span>
+          </summary>
+          <div className="space-y-4 px-5 pb-5">
+            <Select label={t('documents.language')} value={head.language} onChange={(e) => setHead({ ...head, language: e.target.value })}>
+              <option value="">{t('settings.use_default_document_language')}</option>
+              {docLanguages.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.nativeName}
+                </option>
+              ))}
+            </Select>
+            <Textarea label={t('documents.notes')} value={head.notes} onChange={(e) => setHead({ ...head, notes: e.target.value })} />
+            <Textarea label={t('documents.terms')} value={head.terms} onChange={(e) => setHead({ ...head, terms: e.target.value })} />
+            <Input type="number" inputMode="decimal" min={0} step="0.01" label={t('documents.order_discount')} value={head.discount} onChange={(e) => setHead({ ...head, discount: e.target.value })} error={fe('discount')} />
+          </div>
+        </details>
+        {/* Total and Save always in reach: fixed above the phone tab bar, a normal card on a PC. */}
+        <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-20 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur lg:static lg:rounded-2xl lg:border-0 lg:shadow-sm lg:ring-1 lg:ring-slate-200/80 dark:border-slate-800 dark:bg-slate-900/95 lg:dark:ring-slate-800">
+          <div className="mx-auto flex max-w-2xl items-center gap-4">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-slate-500">{t('documents.total')}</p>
+              <p className="text-lg font-bold tabular-nums">{money(preview?.total ?? 0)}</p>
+            </div>
+            <Button className="min-w-32" onClick={() => save.mutate()} loading={save.isPending} disabled={!canSave}>
+              {t('common.save')}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="space-y-6">
       <PageHeader title={doc ? <Ltr>{doc.number}</Ltr> : t(`${p}.create`)} back={<Link to={doc ? `/${p}/${doc.id}` : `/${p}`}>{t('common.back')}</Link>} />
@@ -481,6 +701,11 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
     if (key === 'void') return setVoiding(true);
     setConfirm({ action: key, danger });
   };
+  const allowed = actions.filter((a) => a.show && can(a.perm));
+  // Gravity on a phone: Print, the next step and at most one more as buttons; everything else under "More".
+  const MAIN_ORDER = ['convert', 'issue', 'pay', 'accept', 'send', 'edit'];
+  const mainActions = allowed.filter((a) => !a.danger && MAIN_ORDER.includes(a.key)).sort((x, y) => MAIN_ORDER.indexOf(x.key) - MAIN_ORDER.indexOf(y.key)).slice(0, 2);
+  const moreActions = allowed.filter((a) => !mainActions.includes(a));
   return (
     <div className="space-y-6">
       <PageHeader
@@ -497,16 +722,42 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
         }
         actions={
           <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" icon={<Printer className="size-4" />} onClick={() => window.open(`/print/${kind}/${id}`, '_blank', 'noopener')}>
-              {t('print.print')}
+            <Button variant="secondary" icon={<Printer className="size-4" />} aria-label={t('print.print')} onClick={() => window.open(`/print/${kind}/${id}`, '_blank', 'noopener')}>
+              {/* Gravity phones: icon only, so the next steps fit on one line. */}
+              <span className={gravityDoc ? 'hidden sm:inline' : undefined}>{t('print.print')}</span>
             </Button>
-            {actions
-              .filter((a) => a.show && can(a.perm))
-              .map((a) => (
-                <Button key={a.key} variant={a.primary ? 'primary' : a.danger ? 'ghost' : 'secondary'} className={a.danger ? 'text-rose-600' : undefined} icon={a.icon} onClick={() => onAction(a.key, a.danger)}>
-                  {a.label}
-                </Button>
-              ))}
+            {(gravityDoc ? mainActions : allowed).map((a) => (
+              <Button key={a.key} variant={a.primary ? 'primary' : a.danger ? 'ghost' : 'secondary'} className={a.danger ? 'text-rose-600' : undefined} icon={a.icon} onClick={() => onAction(a.key, a.danger)}>
+                {a.label}
+              </Button>
+            ))}
+            {gravityDoc && moreActions.length > 0 && (
+              <Dropdown
+                trigger={() => (
+                  <span className="inline-flex h-10 items-center gap-1 rounded-xl px-3 text-sm font-medium text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 dark:text-slate-200 dark:ring-slate-700 dark:hover:bg-slate-800">
+                    <MoreHorizontal className="size-4" /> {t('common.more')}
+                  </span>
+                )}
+              >
+                {(close) => (
+                  <>
+                    {moreActions.map((a) => (
+                      <DropdownItem
+                        key={a.key}
+                        danger={a.danger}
+                        icon={a.icon}
+                        onClick={() => {
+                          close();
+                          onAction(a.key, a.danger);
+                        }}
+                      >
+                        {a.label}
+                      </DropdownItem>
+                    ))}
+                  </>
+                )}
+              </Dropdown>
+            )}
           </div>
         }
       />

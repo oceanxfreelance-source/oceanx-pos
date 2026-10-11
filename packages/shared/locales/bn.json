@@ -55,7 +55,8 @@
     "done": "সম্পন্ন",
     "fullscreen": "পূর্ণ স্ক্রিন",
     "exit_fullscreen": "পূর্ণ স্ক্রিন থেকে বের হন",
-    "update_available": "OceanX-এর নতুন সংস্করণ পাওয়া যাচ্ছে।"
+    "update_available": "OceanX-এর নতুন সংস্করণ পাওয়া যাচ্ছে।",
+    "more": "আরও"
   },
   "nav": {
     "account": "আমার অ্যাকাউন্ট",
@@ -1496,7 +1497,10 @@
     "customer_ref": "PO / রেফারেন্স নং",
     "customer_ref_hint": "গ্রাহকের ক্রয় আদেশ বা টেন্ডার নম্বর।",
     "add_customer_ref": "PO নম্বর যোগ করুন",
-    "add_line": "লাইন যোগ করুন"
+    "add_line": "লাইন যোগ করুন",
+    "item_placeholder": "আইটেম বা সেবা",
+    "add_details": "বিবরণ যোগ করুন",
+    "more_options": "আরও বিকল্প"
   },
   "quotations": {
     "title": "কোটেশন",

@@ -55,7 +55,8 @@
     "done": "Done",
     "fullscreen": "Full screen",
     "exit_fullscreen": "Exit full screen",
-    "update_available": "A new version of OceanX is available."
+    "update_available": "A new version of OceanX is available.",
+    "more": "More"
   },
   "nav": {
     "account": "My account",
@@ -1496,7 +1497,10 @@
     "customer_ref": "PO / reference no.",
     "customer_ref_hint": "The customer's purchase order or tender number.",
     "add_customer_ref": "Add PO number",
-    "add_line": "Add line"
+    "add_line": "Add line",
+    "item_placeholder": "Item or service",
+    "add_details": "Add details",
+    "more_options": "More options"
   },
   "quotations": {
     "title": "Quotations",

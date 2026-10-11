@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 725 · **confirmed**: 148
+Status: **needs_review**: 729 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -110,6 +110,7 @@ review of the whole file is still recommended before launch.
 | `common.done` | Done | ނިމިއްޖެ | needs_review | Button that closes a finished step. |
 | `common.exit_fullscreen` | Exit full screen | ފުލް ސްކްރީނުން ނިކުމެވޭ | needs_review | New: full screen button in the top bar and POS. |
 | `common.fullscreen` | Full screen | ފުލް ސްކްރީން | needs_review | New: full screen button in the top bar and POS. |
+| `common.more` | More | އިތުރަށް | needs_review | New: Gravity phone layout. |
 | `common.update_available` | A new version of OceanX is available. | OceanX ގެ އައު ވަރޝަނެއް ލިބެން އެބައޮތް. | needs_review | Bar shown when an update is published while the app is open. |
 | `credit.amount_paid` | Amount paid | ދެއްކި އަދަދު | needs_review | New: part payments of dues and payment receipt. |
 | `credit.due_label` | Due | ދައްކަންޖެހޭ | needs_review | New: part payments of dues and payment receipt. |
@@ -133,9 +134,12 @@ review of the whole file is still recommended before launch.
 | `customers.kinds.person` | Person | ފަރުދެއް | needs_review | New: company and government accounts (PO / PV). |
 | `customers.org_name` | Name of company or office | ކުންފުނީގެ ނުވަތަ އޮފީހުގެ ނަން | needs_review | New: company and government accounts (PO / PV). |
 | `documents.add_customer_ref` | Add PO number | ޕީއޯ ނަންބަރު އިތުރުކުރައްވާ | needs_review | New: company and government accounts (PO / PV). |
+| `documents.add_details` | Add details | ތަފްޞީލު އިތުރުކުރޭ | needs_review | New: Gravity phone layout. |
 | `documents.add_line` | Add line | ލައިނެއް އިތުރުކުރޭ | needs_review | New: Gravity (quotation & invoice generator). |
 | `documents.customer_ref` | PO / reference no. | ޕީއޯ / ރެފަރެންސް ނަންބަރު | needs_review | New: company and government accounts (PO / PV). |
 | `documents.customer_ref_hint` | The customer's purchase order or tender number. | ކަސްޓަމަރުގެ ޕަރޗޭސް އޯޑަރު ނުވަތަ ޓެންޑަރ ނަންބަރު. | needs_review | New: company and government accounts (PO / PV). |
+| `documents.item_placeholder` | Item or service | އައިޓަމް ނުވަތަ ޚިދުމަތް | needs_review | New: Gravity phone layout. |
+| `documents.more_options` | More options | އިތުރު އޮޕްޝަންތައް | needs_review | New: Gravity phone layout. |
 | `documents.server_totals_hint` | Totals are recalculated by the server when you save. | ސޭވްކުރާއިރު ޖުމްލަތައް ސާވަރުން އަލުން ހިސާބުކުރާނެ. | needs_review | Technical note mentioning the server (ސާވަރު, as in existing settings.hints.tax). |
 | `errors.payroll_period_exists` | A salary sheet for this month already exists. | މި މަހުގެ މުސާރަ ޝީޓެއް ކުރިން ހަދާފައި އެބައޮތް. | needs_review | Plain translation using existing app terms. |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |

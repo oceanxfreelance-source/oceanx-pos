@@ -74,6 +74,7 @@ function ReadOnlyNote({ editable }: { editable: boolean }) {
 
 function ProfileSection({ profile, editable }: { profile: NonNullable<SettingsResponse['profile']>; editable: boolean }) {
   const { t } = useTranslation();
+  const gravityAccount = useBizSession().business.product === 'gravity';
   const qc = useQueryClient();
   const { refresh } = useBiz();
   const toastErr = useToastError();
@@ -133,6 +134,8 @@ function ProfileSection({ profile, editable }: { profile: NonNullable<SettingsRe
         </div>
         <fieldset disabled={!editable} className="grid gap-4 sm:grid-cols-2">
           <Input label={t('auth.business_name')} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} error={fieldErr('name')} required />
+          {/* Gravity has no business types (they only shape the POS). */}
+          {!gravityAccount && (
           <Select label={t('auth.business_type')} value={form.businessType} onChange={(e) => setForm({ ...form, businessType: e.target.value })} hint={t('settings.business_type_hint')}>
             {BUSINESS_TYPES.map((b) => (
               <option key={b} value={b}>
@@ -140,6 +143,7 @@ function ProfileSection({ profile, editable }: { profile: NonNullable<SettingsRe
               </option>
             ))}
           </Select>
+          )}
           <Input type="email" label={t('auth.email')} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} error={fieldErr('email')} />
           <Input type="tel" label={t('common.phone')} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} error={fieldErr('phone')} />
           <Textarea className="sm:col-span-2" label={t('common.address')} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} error={fieldErr('address')} />

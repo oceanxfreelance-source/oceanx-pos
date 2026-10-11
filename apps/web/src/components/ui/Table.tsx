@@ -13,7 +13,20 @@ export interface Column<T> {
   hideOnMobile?: boolean;
 }
 
-export function DataTable<T>({ columns, rows, rowKey, onRowClick }: { columns: Column<T>[]; rows: T[]; rowKey: (r: T) => string; onRowClick?: (r: T) => void }) {
+export function DataTable<T>({
+  columns,
+  rows,
+  rowKey,
+  onRowClick,
+  mobileRow,
+}: {
+  columns: Column<T>[];
+  rows: T[];
+  rowKey: (r: T) => string;
+  onRowClick?: (r: T) => void;
+  /** Phones: one compact row per item instead of a label/value card. */
+  mobileRow?: (r: T) => React.ReactNode;
+}) {
   return (
     <>
       {/* Desktop / tablet */}
@@ -48,8 +61,8 @@ export function DataTable<T>({ columns, rows, rowKey, onRowClick }: { columns: C
       {/* Mobile: stacked cards, not a shrunken table */}
       <ul className="divide-y divide-slate-100 md:hidden dark:divide-slate-800">
         {rows.map((r) => (
-          <li key={rowKey(r)} onClick={onRowClick ? () => onRowClick(r) : undefined} className={clsx('space-y-1.5 px-4 py-3.5', onRowClick && 'active:bg-slate-50')}>
-            {columns
+          <li key={rowKey(r)} onClick={onRowClick ? () => onRowClick(r) : undefined} className={clsx(mobileRow ? 'px-4 py-3' : 'space-y-1.5 px-4 py-3.5', onRowClick && 'active:bg-slate-50 dark:active:bg-slate-800/50')}>
+            {mobileRow ? mobileRow(r) : columns
               .filter((c) => !c.hideOnMobile)
               .map((c, i) => (
                 <div key={c.key} className={clsx('flex items-center justify-between gap-3 text-sm', i === 0 && 'font-medium')}>

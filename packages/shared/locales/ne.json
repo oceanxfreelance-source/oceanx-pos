@@ -55,7 +55,8 @@
     "done": "भयो",
     "fullscreen": "पूरा स्क्रिन",
     "exit_fullscreen": "पूरा स्क्रिनबाट बाहिर निस्कनुहोस्",
-    "update_available": "OceanX को नयाँ संस्करण उपलब्ध छ।"
+    "update_available": "OceanX को नयाँ संस्करण उपलब्ध छ।",
+    "more": "थप"
   },
   "nav": {
     "account": "मेरो खाता",
@@ -1496,7 +1497,10 @@
     "customer_ref": "PO / सन्दर्भ नं.",
     "customer_ref_hint": "ग्राहकको खरिद आदेश वा टेन्डर नम्बर।",
     "add_customer_ref": "PO नम्बर थप्नुहोस्",
-    "add_line": "लाइन थप्नुहोस्"
+    "add_line": "लाइन थप्नुहोस्",
+    "item_placeholder": "सामान वा सेवा",
+    "add_details": "विवरण थप्नुहोस्",
+    "more_options": "थप विकल्प"
   },
   "quotations": {
     "title": "कोटेसन",

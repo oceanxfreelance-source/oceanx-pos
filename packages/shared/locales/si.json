@@ -55,7 +55,8 @@
     "done": "අවසන්",
     "fullscreen": "පූර්ණ තිරය",
     "exit_fullscreen": "පූර්ණ තිරයෙන් ඉවත් වන්න",
-    "update_available": "OceanX හි නව අනුවාදයක් ලබා ගත හැක."
+    "update_available": "OceanX හි නව අනුවාදයක් ලබා ගත හැක.",
+    "more": "තවත්"
   },
   "nav": {
     "account": "මගේ ගිණුම",
@@ -1496,7 +1497,10 @@
     "customer_ref": "PO / යොමු අංකය",
     "customer_ref_hint": "පාරිභෝගිකයාගේ මිලදී ගැනීමේ ඇණවුම හෝ ටෙන්ඩර් අංකය.",
     "add_customer_ref": "PO අංකය එක් කරන්න",
-    "add_line": "පේළියක් එක් කරන්න"
+    "add_line": "පේළියක් එක් කරන්න",
+    "item_placeholder": "අයිතමය හෝ සේවාව",
+    "add_details": "විස්තර එක් කරන්න",
+    "more_options": "තවත් විකල්ප"
   },
   "quotations": {
     "title": "මිල ගණන්",

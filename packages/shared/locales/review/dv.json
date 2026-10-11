@@ -6109,5 +6109,33 @@
     "suggested": "ރަތް ތަންޑު",
     "status": "needs_review",
     "notes": "New: stamp ink look (blue / red)."
+  },
+  {
+    "key": "common.more",
+    "english": "More",
+    "suggested": "އިތުރަށް",
+    "status": "needs_review",
+    "notes": "New: Gravity phone layout."
+  },
+  {
+    "key": "documents.item_placeholder",
+    "english": "Item or service",
+    "suggested": "އައިޓަމް ނުވަތަ ޚިދުމަތް",
+    "status": "needs_review",
+    "notes": "New: Gravity phone layout."
+  },
+  {
+    "key": "documents.add_details",
+    "english": "Add details",
+    "suggested": "ތަފްޞީލު އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: Gravity phone layout."
+  },
+  {
+    "key": "documents.more_options",
+    "english": "More options",
+    "suggested": "އިތުރު އޮޕްޝަންތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity phone layout."
   }
 ]
