@@ -78,9 +78,9 @@ export default function GravityHome() {
       {canInv && (
         <Link
           to="/invoices?status=unpaid"
-          className="block rounded-3xl bg-gradient-to-br from-violet-700 to-violet-900 p-5 text-white shadow-sm active:scale-[0.99] sm:p-6"
+          className="gravity-surface block rounded-3xl p-5 text-white shadow-sm active:scale-[0.99] sm:p-6"
         >
-          <p className="text-sm text-violet-100">{t('gravity.owed_to_you')}</p>
+          <p className="text-sm text-brand-100">{t('gravity.owed_to_you')}</p>
           <p className="mt-1 text-4xl font-bold tracking-tight tabular-nums">{money(owed)}</p>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
             <span className="rounded-full bg-white/15 px-2.5 py-1">{t('gravity.unpaid_invoices', { count: unpaid.data?.total ?? 0 })}</span>
@@ -92,7 +92,7 @@ export default function GravityHome() {
       {/* The two things you do most */}
       <div className="grid grid-cols-2 gap-3">
         {can('invoices.create') && (
-          <Link to="/invoices/new" className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-violet-700 px-3 py-4 text-center font-semibold text-white shadow-sm active:scale-[0.98]">
+          <Link to="/invoices/new" className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-emerald-700 px-3 py-4 text-center font-semibold text-white shadow-sm active:scale-[0.98]">
             <FilePlus2 className="size-6" />
             {t('invoices.create')}
           </Link>
@@ -102,7 +102,7 @@ export default function GravityHome() {
             to="/quotations/new"
             className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white px-3 py-4 text-center font-semibold text-slate-800 shadow-sm ring-1 ring-slate-200 active:scale-[0.98] dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-800"
           >
-            <FileText className="size-6 text-violet-700 dark:text-violet-300" />
+            <FileText className="size-6 text-emerald-700 dark:text-emerald-400" />
             {t('quotations.create')}
           </Link>
         )}
@@ -138,7 +138,7 @@ export default function GravityHome() {
               {recent.map((d) => (
                 <li key={`${d.kind}-${d.id}`}>
                   <Link to={`/${d.kind === 'invoice' ? 'invoices' : 'quotations'}/${d.id}`} className="flex items-center gap-3 px-4 py-3 active:bg-slate-50 dark:active:bg-slate-800/50">
-                    <span className={clsx('grid size-9 shrink-0 place-items-center rounded-xl', d.kind === 'invoice' ? 'bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300')}>
+                    <span className={clsx('grid size-9 shrink-0 place-items-center rounded-xl', d.kind === 'invoice' ? 'bg-brand-100 text-brand-700 dark:bg-brand-950 dark:text-brand-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300')}>
                       {d.kind === 'invoice' ? <FileSpreadsheet className="size-4" /> : <FileText className="size-4" />}
                     </span>
                     <div className="min-w-0 flex-1">

@@ -85,7 +85,7 @@ function gravityShell(html) {
   const desc = 'Quotations and invoices in English or Dhivehi for entrepreneurs, freelancers and small businesses. On your phone or PC.';
   const swaps = [
     [/<title>[^<]*<\/title>/, `<title>${title.replace('&', '&amp;')}</title>`],
-    [/<meta name="theme-color" content="[^"]*" \/>/, '<meta name="theme-color" content="#4c1d95" />'],
+    [/<meta name="theme-color" content="[^"]*" \/>/, '<meta name="theme-color" content="#03213a" />'],
     [/<link rel="manifest" href="[^"]*" \/>/, '<link rel="manifest" href="/gravity.webmanifest" />'],
     [/<link rel="apple-touch-icon" href="[^"]*" \/>/, '<link rel="apple-touch-icon" href="/gravity/apple-touch-icon.png" />'],
     [/<link rel="icon" type="image\/png" sizes="32x32" href="[^"]*" \/>/, '<link rel="icon" type="image/png" sizes="32x32" href="/gravity/icon-64.png" />'],

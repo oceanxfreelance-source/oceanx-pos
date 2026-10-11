@@ -138,7 +138,7 @@ export function DocumentListPage({ kind }: { kind: DocKind }) {
                   role="tab"
                   aria-selected={status === v}
                   onClick={() => setStatus(v)}
-                  className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium ${status === v ? 'bg-violet-700 text-white' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200'}`}
+                  className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium ${status === v ? 'bg-brand-700 text-white' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200'}`}
                 >
                   {v ? t(`status_labels.${v}`) : t('common.all')}
                 </button>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 /**
  * Which product this web address serves. Gravity can have its own address (any host with "gravity" in it,
  * e.g. gravity.example.com or oceanx-gravity.vercel.app, or one listed in VITE_GRAVITY_HOSTS). There the app is
@@ -22,5 +23,17 @@ export function applyHostBranding() {
   set('link[rel="manifest"]', 'href', '/gravity.webmanifest');
   set('link[rel="apple-touch-icon"]', 'href', '/gravity/apple-touch-icon.png');
   set('link[rel="icon"]', 'href', '/gravity/icon-64.png');
-  set('meta[name="theme-color"]', 'content', '#4c1d95');
+  set('meta[name="theme-color"]', 'content', '#03213a');
+  document.documentElement.dataset.product = 'gravity';
+}
+
+/** Gravity's navy/green colours while a Gravity screen is open (always on a Gravity address). */
+export function useProductTheme(gravity: boolean) {
+  useEffect(() => {
+    if (!gravity || GRAVITY_HOST) return;
+    document.documentElement.dataset.product = 'gravity';
+    return () => {
+      delete document.documentElement.dataset.product;
+    };
+  }, [gravity]);
 }

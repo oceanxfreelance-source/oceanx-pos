@@ -2545,6 +2545,7 @@
     "register_title": "Create your Gravity account",
     "register_subtitle": "For entrepreneurs, freelancers and small businesses: quotations and invoices in English or Dhivehi.",
     "create_account": "Create account",
+    "no_account": "New to Gravity?",
     "home_title": "Hello, {{name}}",
     "home_subtitle": "Your quotations and invoices at a glance.",
     "setup_title": "Finish your documents' look",

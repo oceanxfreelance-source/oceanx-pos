@@ -5,9 +5,11 @@ import { FarumaWarning } from '../../components/FarumaWarning';
 import { DeviceThemeToggle } from '../../components/DeviceThemeToggle';
 import { FullscreenButton } from '../../components/FullscreenButton';
 import { InstallApp } from '../../components/InstallApp';
+import { useProductTheme } from '../../lib/product';
 
 export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' | 'gravity' }) {
   const { t } = useTranslation();
+  useProductTheme(variant === 'gravity');
   return (
     <div className="relative min-h-dvh">
       <FarumaWarning />
@@ -41,7 +43,7 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
             variant === 'superadmin'
               ? 'relative hidden overflow-hidden bg-slate-900 lg:block'
               : variant === 'gravity'
-                ? 'relative hidden overflow-hidden bg-gradient-to-br from-violet-700 via-violet-900 to-slate-950 lg:block'
+                ? 'gravity-surface relative hidden overflow-hidden lg:block'
                 : 'relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 lg:block'
           }
         >
@@ -100,7 +102,7 @@ function GravityAside() {
         <path d={GRAVITY_G} fill="none" stroke="white" strokeWidth="3" strokeLinejoin="round" />
       </svg>
       <p className="max-w-md text-3xl leading-tight font-semibold">{t('gravity.aside_title')}</p>
-      <ul className="mt-4 max-w-md space-y-1.5 text-violet-100">
+      <ul className="mt-4 max-w-md space-y-1.5 text-brand-100">
         <li>✓ {t('gravity.aside_1')}</li>
         <li>✓ {t('gravity.aside_2')}</li>
         <li>✓ {t('gravity.aside_3')}</li>

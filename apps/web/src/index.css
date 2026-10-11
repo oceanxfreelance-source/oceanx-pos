@@ -78,6 +78,26 @@
   }
 }
 
+/* Gravity: navy + green like its logo. Set on <html data-product="gravity"> (Gravity address, Gravity sign-in, a Gravity account). */
+:root[data-product='gravity'] {
+  --color-brand-50: #eef5f8;
+  --color-brand-100: #d5e7ee;
+  --color-brand-200: #acd0dd;
+  --color-brand-300: #78b0c6;
+  --color-brand-400: #3f8aa8;
+  --color-brand-500: #1d6c8b;
+  --color-brand-600: #155672;
+  --color-brand-700: #0f425c;
+  --color-brand-800: #0b324a;
+  --color-brand-900: #07263b;
+  --color-brand-950: #031827;
+}
+.gravity-surface {
+  background:
+    radial-gradient(120% 90% at 0% 100%, rgb(42 125 94 / 0.85), transparent 60%),
+    radial-gradient(120% 120% at 45% 35%, #0f3b58, #03213a 55%, #010c16);
+}
+
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;

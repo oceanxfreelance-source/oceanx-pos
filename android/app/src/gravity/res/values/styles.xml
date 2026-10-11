@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Gravity (phones): purple bars, white page. -->
+    <!-- Gravity (phones): navy bars, white page. -->
     <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:statusBarColor">#4c1d95</item>
-        <item name="android:navigationBarColor">#4c1d95</item>
+        <item name="android:statusBarColor">#03213a</item>
+        <item name="android:navigationBarColor">#03213a</item>
     </style>
 </resources>

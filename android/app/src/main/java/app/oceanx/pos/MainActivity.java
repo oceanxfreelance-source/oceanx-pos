@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
             // Phones keep the status and navigation bars: the page sits between them and above the keyboard.
             // The app draws edge to edge on every Android version (15 does it anyway) and adds that space here.
             FrameLayout root = new FrameLayout(this);
-            root.setBackgroundColor(Color.parseColor("#4c1d95"));
+            root.setBackgroundColor(Color.parseColor("#03213a"));
             root.addView(web, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
             root.setOnApplyWindowInsetsListener((v, insets) -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -297,7 +297,7 @@ public class MainActivity extends Activity {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             if (!request.isForMainFrame()) return;
             String html = "<html><head><meta name='viewport' content='width=device-width,initial-scale=1'></head>"
-                    + "<body style='margin:0;background:" + (PHONE ? "#2e1065" : "#070809") + ";color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center'>"
+                    + "<body style='margin:0;background:" + (PHONE ? "#03213a" : "#070809") + ";color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center'>"
                     + "<div><h2>No internet connection</h2><p style='color:#9fb0b8'>Check Wi-Fi or mobile data, then try again.</p>"
                     + "<button onclick=\"location.href='" + START + "'\" style='margin-top:16px;padding:14px 28px;border-radius:999px;border:0;font-size:16px;font-weight:bold'>Try again</button></div></body></html>";
             view.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);

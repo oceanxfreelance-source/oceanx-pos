@@ -44,9 +44,9 @@ export default function BusinessLogin({ product = 'pos' }: { product?: 'pos' | '
       footer={
         <div className="space-y-4">
           <p>
-            {t('auth.no_account')}{' '}
+            {product === 'gravity' ? t('gravity.no_account') : t('auth.no_account')}{' '}
             <Link to={product === 'gravity' && !GRAVITY_HOST ? '/gravity/register' : '/register'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
-              {t('auth.register_cta')}
+              {product === 'gravity' ? t('gravity.create_account') : t('auth.register_cta')}
             </Link>
           </p>
           <LanguagePicker />

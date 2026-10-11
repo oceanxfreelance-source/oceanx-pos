@@ -43,7 +43,7 @@ import {
 } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, useBiz, useBizSession, type BusinessSession } from '../auth/business';
-import { GRAVITY_HOST } from '../lib/product';
+import { GRAVITY_HOST, useProductTheme } from '../lib/product';
 import { api } from '../lib/api';
 import { useToastError } from '../lib/useApiError';
 import { Shell, type NavGroup } from './Shell';
@@ -225,6 +225,7 @@ export function LanguageMenu({ current, languages, onChange }: { current: string
 function BusinessLayout() {
   const { t } = useTranslation();
   const session = useBizSession();
+  useProductTheme(session.business.product === 'gravity');
   const { logout, refresh } = useBiz();
   const navigate = useNavigate();
   const groups = useBusinessNav();

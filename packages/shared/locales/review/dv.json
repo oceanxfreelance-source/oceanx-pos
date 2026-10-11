@@ -6137,5 +6137,12 @@
     "suggested": "އިތުރު އޮޕްޝަންތައް",
     "status": "needs_review",
     "notes": "New: Gravity phone layout."
+  },
+  {
+    "key": "gravity.no_account",
+    "english": "New to Gravity?",
+    "suggested": "Gravity އަށް އަލެއްތަ؟",
+    "status": "needs_review",
+    "notes": "New: Gravity sign-in footer."
   }
 ]
