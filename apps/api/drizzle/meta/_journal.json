@@ -134,6 +134,13 @@
       "when": 1791700034814,
       "tag": "0018_gravity_one_plan",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1791705159206,
+      "tag": "0019_platform_emails",
+      "breakpoints": true
     }
   ]
 }

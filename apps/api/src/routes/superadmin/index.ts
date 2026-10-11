@@ -4,6 +4,7 @@ import { superAdminAuthPublicRoutes, superAdminAuthSessionRoutes } from './auth'
 import { businessAdminRoutes } from './businesses';
 import { platformRoutes } from './platform';
 import { billingAdminRoutes } from './billing';
+import { mailRoutes } from './mail';
 import { hubRoutes } from './hub';
 
 /**
@@ -19,5 +20,6 @@ export async function superAdminRoutes(app: FastifyInstance, opts: { authRateLim
     await secured.register(platformRoutes);
     await secured.register(billingAdminRoutes);
     await secured.register(hubRoutes);
+    await secured.register(mailRoutes);
   });
 }

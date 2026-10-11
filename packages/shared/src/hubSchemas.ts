@@ -135,3 +135,22 @@ export const hubPaymentSchema = z.object({
   reference: text(100),
   paidAt: z.iso.date(),
 });
+
+/** Who an office email goes to: business owners of one product, narrowed by where their subscription stands. */
+export const MAIL_SEGMENTS = ['all', 'trialing', 'trial_ending', 'expired', 'active', 'selected'] as const;
+export const mailAudienceSchema = z.object({
+  /** POS businesses, Gravity accounts, or both. */
+  product: z.enum(['pos', 'gravity', 'all']),
+  segment: z.enum(MAIL_SEGMENTS),
+  /** trial_ending: trials ending within this many hours. */
+  hours: z.number().int().min(1).max(24 * 30).default(24),
+  /** selected: these accounts only. */
+  businessIds: z.array(z.string().uuid()).max(200).default([]),
+});
+/** {{name}}, {{business}}, {{ends}}, {{time_left}}, {{price}} and {{link}} are filled in for each person. */
+export const mailMessageSchema = z.object({
+  audience: mailAudienceSchema,
+  subject: z.string().trim().min(1).max(200),
+  body: z.string().trim().min(1).max(5000),
+});
+export const MAIL_MAX_RECIPIENTS = 100;

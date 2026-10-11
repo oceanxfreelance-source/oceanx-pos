@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 750 · **confirmed**: 148
+Status: **needs_review**: 800 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -717,6 +717,56 @@ review of the whole file is still recommended before launch.
 | `superadmin.dashboard.mrr` | Monthly recurring revenue | މަހުން މަހަށް ލިބޭ އާމްދަނީ | needs_review | Financial term; confirm wording. |
 | `superadmin.dashboard.retail` | Retail shops | ފިހާރަތައް | needs_review | New: retail shops (stock check, barcode). |
 | `superadmin.dashboard.retail_hint` | Shops and supermarkets | ފިހާރަތަކާއި ސުޕަރމާކެޓްތައް | needs_review | New: retail shops (stock check, barcode). |
+| `superadmin.mail.body` | Message | މެސެޖް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.confirm_body_one` | It goes to {{count}} person now. | މިހާރު {{count}} މީހަކަށް ދާނެ. | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.confirm_body_other` | It goes to {{count}} people now. | މިހާރު {{count}} މީހުންނަށް ދާނެ. | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.confirm_title` | Send this email? | މި އީމެއިލް ފޮނުވަންތަ؟ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.delivered` | {{sent}} of {{total}} sent | {{total}} ން {{sent}} ފޮނުވިއްޖެ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.failed_toast_one` | {{count}} email could not be sent | {{count}} އީމެއިލް ނުފޮނުވުނު | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.failed_toast_other` | {{count}} emails could not be sent | {{count}} އީމެއިލް ނުފޮނުވުނު | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.history` | Sent emails | ފޮނުވި އީމެއިލްތައް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.history_empty` | Nothing sent yet. | އަދި އެއްވެސް އީމެއިލެއް ނުފޮނުވޭ. | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.nav` | Mail | މެއިލް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.nobody` | Nobody in this group right now. | މިހާރު މި ގްރޫޕުގައި އެއްވެސް މީހަކު ނެތް. | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.not_sent` | Not sent | ނުފޮނުވޭ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.ok` | Sent | ފޮނުވިއްޖެ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.ph_business` | Business or account name | ވިޔަފާރީގެ ނަން | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.ph_ends` | When the trial or plan ends | ޓްރަޔަލް ނުވަތަ ޕްލޭން ނިމޭ ވަގުތު | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.ph_link` | Link to the app | އެޕަށް ލިންކް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.ph_name` | Owner name | ވެރިފަރާތުގެ ނަން | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.ph_price` | Monthly price | މަހު އަގު | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.ph_time_left` | Time left | ބާކީ ވަގުތު | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.placeholders_hint` | Filled in for each person: | ކޮންމެ މީހަކަށް ވަކިން ފުރިގެންދާނެ: | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.preview` | Preview | ޕްރިވިއު | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.preview_for` | As {{email}} will see it | {{email}} އަށް ފެންނާނެ ގޮތް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.product_all` | Everyone | އެންމެންނަށް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.product_gravity` | Gravity accounts | Gravity އެކައުންޓްތައް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.product_pos` | POS businesses | POS ވިޔަފާރިތައް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.recipients_one` | {{count}} person gets this | {{count}} މީހަކަށް މި ލިބޭނެ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.recipients_other` | {{count}} people get this | {{count}} މީހުންނަށް މި ލިބޭނެ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.search` | Search accounts | އެކައުންޓް ހޯދާ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.seg_active` | Paying customers | ފައިސާ ދައްކާ ކަސްޓަމަރުން | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.seg_all` | All accounts | ހުރިހާ އެކައުންޓެއް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.seg_expired` | Trial or plan ended | ޓްރަޔަލް ނުވަތަ ޕްލޭން ނިމިފައި | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.seg_selected` | Choose accounts | އެކައުންޓްތައް ހޮވާ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.seg_trial_ending` | Trial ending soon | ޓްރަޔަލް ނިމެން ކައިރިވެފައި | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.seg_trialing` | On free trial | ހިލޭ ޓްރަޔަލްގައި | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.send` | Send email | އީމެއިލް ފޮނުވާ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.send_to` | Send to | ފޮނުވާނީ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.sent_toast_one` | Sent to {{count}} person | {{count}} މީހަކަށް ފޮނުވިއްޖެ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.sent_toast_other` | Sent to {{count}} people | {{count}} މީހުންނަށް ފޮނުވިއްޖެ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.subject` | Subject | މައުޟޫއު | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.subtitle` | Email your customers: trial reminders, notices or a message of your own. | ކަސްޓަމަރުންނަށް އީމެއިލް ފޮނުވާ: ޓްރަޔަލް ހަނދާންކޮށްދިނުން، ނޯޓިސް، ނުވަތަ ތިމާގެ މެސެޖެއް. | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.template` | Message | މެސެޖް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.title` | Mail | މެއިލް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.to` | To | ފޮނުވާ ފަރާތް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.too_many` | At most {{max}} people per email. Choose a smaller group. | އެއް އީމެއިލެއް ފޮނުވޭނީ އެންމެ ގިނަވެގެން {{max}} މީހުންނަށް. ކުޑަ ގްރޫޕެއް ހޮވާ. | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.tpl_custom` | Write my own | ތިމާގެ މެސެޖެއް ލިޔުން | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.tpl_renewal` | Plan renewal reminder | ޕްލޭން އާކުރުމުގެ ހަނދާންކޮށްދިނުން | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.tpl_trial_ended` | Trial has ended | ޓްރަޔަލް ނިމިއްޖެ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.tpl_trial_ending` | Trial ends soon | ޓްރަޔަލް ނިމެނީ | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.who` | Who | ކާކަށް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.within_hours` | Ending within (hours) | ނިމޭނީ (ގަޑިއިރު) ތެރޭ | needs_review | New: Super Admin office mail. |
 | `superadmin.nav.payments` | Payments | ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.nav.retail` | Retail shops | ފިހާރަތައް | needs_review | New: retail shops (stock check, barcode). |
 | `superadmin.payments.approve` | Approve | ޤަބޫލުކުރޭ | needs_review | New: subscription billing (bank transfer slip upload and review). |

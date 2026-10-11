@@ -6284,5 +6284,355 @@
     "suggested": "މަދުން ދައްކާ",
     "status": "needs_review",
     "notes": "New: Super Admin menu (long project list)."
+  },
+  {
+    "key": "superadmin.mail.nav",
+    "english": "Mail",
+    "suggested": "މެއިލް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.title",
+    "english": "Mail",
+    "suggested": "މެއިލް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.subtitle",
+    "english": "Email your customers: trial reminders, notices or a message of your own.",
+    "suggested": "ކަސްޓަމަރުންނަށް އީމެއިލް ފޮނުވާ: ޓްރަޔަލް ހަނދާންކޮށްދިނުން، ނޯޓިސް، ނުވަތަ ތިމާގެ މެސެޖެއް.",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.send_to",
+    "english": "Send to",
+    "suggested": "ފޮނުވާނީ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.product_pos",
+    "english": "POS businesses",
+    "suggested": "POS ވިޔަފާރިތައް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.product_gravity",
+    "english": "Gravity accounts",
+    "suggested": "Gravity އެކައުންޓްތައް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.product_all",
+    "english": "Everyone",
+    "suggested": "އެންމެންނަށް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.who",
+    "english": "Who",
+    "suggested": "ކާކަށް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.seg_all",
+    "english": "All accounts",
+    "suggested": "ހުރިހާ އެކައުންޓެއް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.seg_trialing",
+    "english": "On free trial",
+    "suggested": "ހިލޭ ޓްރަޔަލްގައި",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.seg_trial_ending",
+    "english": "Trial ending soon",
+    "suggested": "ޓްރަޔަލް ނިމެން ކައިރިވެފައި",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.seg_expired",
+    "english": "Trial or plan ended",
+    "suggested": "ޓްރަޔަލް ނުވަތަ ޕްލޭން ނިމިފައި",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.seg_active",
+    "english": "Paying customers",
+    "suggested": "ފައިސާ ދައްކާ ކަސްޓަމަރުން",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.seg_selected",
+    "english": "Choose accounts",
+    "suggested": "އެކައުންޓްތައް ހޮވާ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.within_hours",
+    "english": "Ending within (hours)",
+    "suggested": "ނިމޭނީ (ގަޑިއިރު) ތެރޭ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.search",
+    "english": "Search accounts",
+    "suggested": "އެކައުންޓް ހޯދާ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.template",
+    "english": "Message",
+    "suggested": "މެސެޖް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.tpl_trial_ending",
+    "english": "Trial ends soon",
+    "suggested": "ޓްރަޔަލް ނިމެނީ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.tpl_trial_ended",
+    "english": "Trial has ended",
+    "suggested": "ޓްރަޔަލް ނިމިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.tpl_renewal",
+    "english": "Plan renewal reminder",
+    "suggested": "ޕްލޭން އާކުރުމުގެ ހަނދާންކޮށްދިނުން",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.tpl_custom",
+    "english": "Write my own",
+    "suggested": "ތިމާގެ މެސެޖެއް ލިޔުން",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.subject",
+    "english": "Subject",
+    "suggested": "މައުޟޫއު",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.body",
+    "english": "Message",
+    "suggested": "މެސެޖް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.placeholders_hint",
+    "english": "Filled in for each person:",
+    "suggested": "ކޮންމެ މީހަކަށް ވަކިން ފުރިގެންދާނެ:",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.ph_name",
+    "english": "Owner name",
+    "suggested": "ވެރިފަރާތުގެ ނަން",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.ph_business",
+    "english": "Business or account name",
+    "suggested": "ވިޔަފާރީގެ ނަން",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.ph_ends",
+    "english": "When the trial or plan ends",
+    "suggested": "ޓްރަޔަލް ނުވަތަ ޕްލޭން ނިމޭ ވަގުތު",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.ph_time_left",
+    "english": "Time left",
+    "suggested": "ބާކީ ވަގުތު",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.ph_price",
+    "english": "Monthly price",
+    "suggested": "މަހު އަގު",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.ph_link",
+    "english": "Link to the app",
+    "suggested": "އެޕަށް ލިންކް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.recipients_one",
+    "english": "{{count}} person gets this",
+    "suggested": "{{count}} މީހަކަށް މި ލިބޭނެ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.recipients_other",
+    "english": "{{count}} people get this",
+    "suggested": "{{count}} މީހުންނަށް މި ލިބޭނެ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.nobody",
+    "english": "Nobody in this group right now.",
+    "suggested": "މިހާރު މި ގްރޫޕުގައި އެއްވެސް މީހަކު ނެތް.",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.too_many",
+    "english": "At most {{max}} people per email. Choose a smaller group.",
+    "suggested": "އެއް އީމެއިލެއް ފޮނުވޭނީ އެންމެ ގިނަވެގެން {{max}} މީހުންނަށް. ކުޑަ ގްރޫޕެއް ހޮވާ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.preview",
+    "english": "Preview",
+    "suggested": "ޕްރިވިއު",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.preview_for",
+    "english": "As {{email}} will see it",
+    "suggested": "{{email}} އަށް ފެންނާނެ ގޮތް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.to",
+    "english": "To",
+    "suggested": "ފޮނުވާ ފަރާތް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.send",
+    "english": "Send email",
+    "suggested": "އީމެއިލް ފޮނުވާ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.confirm_title",
+    "english": "Send this email?",
+    "suggested": "މި އީމެއިލް ފޮނުވަންތަ؟",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.confirm_body_one",
+    "english": "It goes to {{count}} person now.",
+    "suggested": "މިހާރު {{count}} މީހަކަށް ދާނެ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.confirm_body_other",
+    "english": "It goes to {{count}} people now.",
+    "suggested": "މިހާރު {{count}} މީހުންނަށް ދާނެ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.sent_toast_one",
+    "english": "Sent to {{count}} person",
+    "suggested": "{{count}} މީހަކަށް ފޮނުވިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.sent_toast_other",
+    "english": "Sent to {{count}} people",
+    "suggested": "{{count}} މީހުންނަށް ފޮނުވިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.failed_toast_one",
+    "english": "{{count}} email could not be sent",
+    "suggested": "{{count}} އީމެއިލް ނުފޮނުވުނު",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.failed_toast_other",
+    "english": "{{count}} emails could not be sent",
+    "suggested": "{{count}} އީމެއިލް ނުފޮނުވުނު",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.history",
+    "english": "Sent emails",
+    "suggested": "ފޮނުވި އީމެއިލްތައް",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.history_empty",
+    "english": "Nothing sent yet.",
+    "suggested": "އަދި އެއްވެސް އީމެއިލެއް ނުފޮނުވޭ.",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.delivered",
+    "english": "{{sent}} of {{total}} sent",
+    "suggested": "{{total}} ން {{sent}} ފޮނުވިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.ok",
+    "english": "Sent",
+    "suggested": "ފޮނުވިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "superadmin.mail.not_sent",
+    "english": "Not sent",
+    "suggested": "ނުފޮނުވޭ",
+    "status": "needs_review",
+    "notes": "New: Super Admin office mail."
   }
 ]

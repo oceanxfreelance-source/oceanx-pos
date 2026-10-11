@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Banknote, Briefcase, Building2, ShoppingBag, Store, Coffee, CreditCard, FileText, FolderKanban, Gauge, Headset, History, LayoutGrid, Languages, Layers, ListTodo, LogOut, Package, Puzzle, Receipt, Settings, ShieldCheck, UserCog, UserPlus, Users, UtensilsCrossed } from 'lucide-react';
+import { Banknote, Briefcase, Building2, ShoppingBag, Store, Coffee, CreditCard, FileText, FolderKanban, Gauge, Headset, History, LayoutGrid, Languages, Layers, ListTodo, LogOut, Mail, Package, Puzzle, Receipt, Settings, ShieldCheck, UserCog, UserPlus, Users, UtensilsCrossed } from 'lucide-react';
 import { LANGUAGES } from '@oceanx/shared';
 import { setSuperAdminLanguage, useSuperAdmin } from '../auth/superadmin';
 import { Shell, type NavGroup, type NavItem } from './Shell';
@@ -30,6 +30,7 @@ const GRAVITY_CONSOLE: NavItem[] = [
 const COMPANY: NavGroup = {
   label: 'hub.nav.group_company',
   items: [
+    { to: '/superadmin/mail', label: 'superadmin.mail.nav', icon: Mail },
     { to: '/superadmin/users', label: 'hub.nav.team', icon: UserCog },
     { to: '/superadmin/languages', label: 'superadmin.nav.languages', icon: Languages },
     { to: '/superadmin/settings', label: 'superadmin.nav.settings', icon: Settings },

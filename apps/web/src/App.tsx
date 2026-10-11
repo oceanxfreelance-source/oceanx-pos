@@ -66,6 +66,7 @@ const SaBusinesses = lazy(() => import('./pages/superadmin/Businesses'));
 const SaBusinessDetail = lazy(() => import('./pages/superadmin/BusinessDetail'));
 const SaPlans = lazy(() => import('./pages/superadmin/Catalog').then((m) => ({ default: m.PlansPage })));
 const SaGravityPlan = lazy(() => import('./pages/superadmin/GravityPlan'));
+const SaMail = lazy(() => import('./pages/superadmin/Mail'));
 const SaPayments = lazy(() => import('./pages/superadmin/Payments'));
 const SaAddons = lazy(() => import('./pages/superadmin/Catalog').then((m) => ({ default: m.AddonCatalogPage })));
 const SaSubscriptions = lazy(() => import('./pages/superadmin/Platform').then((m) => ({ default: m.SubscriptionsPage })));
@@ -166,6 +167,7 @@ const router = createBrowserRouter([
           { path: 'addons', element: withSuspense(<SaAddons />) },
           { path: 'subscriptions', element: withSuspense(<SaSubscriptions />) },
           { path: 'payments', element: withSuspense(<SaPayments />) },
+          { path: 'mail', element: withSuspense(<SaMail />) },
           { path: 'users', element: withSuspense(<SaUsers />) },
           { path: 'languages', element: withSuspense(<SaLanguages />) },
           { path: 'settings', element: withSuspense(<SaSettings />) },

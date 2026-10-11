@@ -135,6 +135,10 @@
   --color-slate-950: #04192b;
 }
 :root[data-palette='navy'] body {
+  background: transparent;
+}
+:root[data-palette='navy'] {
+  background-color: #03213a;
   background:
     radial-gradient(70rem 50rem at 0% 100%, rgb(42 125 94 / 0.35), transparent 60%),
     radial-gradient(80rem 60rem at 60% 0%, #0f3b58, #03213a 55%, #010c16) fixed;

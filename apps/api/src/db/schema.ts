@@ -1621,3 +1621,24 @@ export const hubPayments = pgTable(
   },
   (t) => [index('hub_payments_document_idx').on(t.documentId)],
 );
+
+/**
+ * Emails the OceanX office sent to business owners from Super Admin (trial reminders, notices, custom):
+ * who it went to, what it said, and whether each one was delivered.
+ */
+export const platformEmails = pgTable(
+  'platform_emails',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    subject: text('subject').notNull(),
+    body: text('body').notNull(),
+    /** The group it was sent to: { product, segment, hours?, businessIds? }. */
+    audience: jsonb('audience').$type<Record<string, unknown>>().notNull(),
+    recipients: jsonb('recipients').$type<{ email: string; business: string; ok: boolean }[]>().notNull(),
+    sentCount: integer('sent_count').notNull().default(0),
+    failedCount: integer('failed_count').notNull().default(0),
+    sentBy: uuid('sent_by').references(() => superAdmins.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+  },
+  (t) => [index('platform_emails_created_idx').on(t.createdAt)],
+);

@@ -5,7 +5,7 @@ import { SA_EMAIL, SA_PASSWORD } from './global-setup';
  * OceanX Hub (the team's main office): service → lead → client → quotation → invoice → payment,
  * plus a support ticket and a task.
  */
-test('hub: lead becomes a client, is quoted, invoiced and pays', async ({ page }) => {
+test('hub: lead becomes a client, is quoted, invoiced and pays', async ({ page, browser }) => {
   const run = Date.now().toString(36);
   const SERVICE = `Hub E2E website ${run}`;
   const CLIENT = `Aminath Hub ${run}`;
@@ -55,6 +55,32 @@ test('hub: lead becomes a client, is quoted, invoiced and pays', async ({ page }
   await page.getByLabel('Unit').selectOption('days');
   await page.getByRole('button', { name: 'Save' }).click();
   await expect(page.getByText('MVR 150.00')).toBeVisible();
+
+  // A customer to write to (a new Gravity account).
+  const other = await browser.newContext();
+  const reg = await other.request.post('/api/auth/register', {
+    data: { product: 'gravity', businessName: `Mail test ${run}`, ownerName: 'Hawwa', email: `mail-${run}@gravity.test`, password: 'Gravity-Pass-123', currency: 'MVR' },
+  });
+  expect(reg.status()).toBe(201);
+  await other.close();
+
+  // Office mail: a trial reminder or our own message to customers (POS, Gravity or everyone), previewed before sending.
+  await page.locator('aside').first().getByRole('link', { name: 'Mail' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mail');
+  await page.getByRole('tab', { name: 'Everyone' }).click();
+  await page.getByLabel('Who').selectOption('all');
+  await page.getByLabel('Message', { exact: true }).first().selectOption('custom');
+  await page.getByLabel(/^Subject/).fill(`Office hours ${run}`);
+  await page.getByRole('textbox', { name: /^Message/ }).fill('Hello {{name}},\nWe are open on Friday.');
+  // The preview shows the message as the first person will get it, with their name filled in.
+  await expect(page.getByText(/^To: .+@/)).toBeVisible();
+  await expect(page.locator('pre').first()).toContainText(/^Hello (?!\{\{).+,/);
+  await expect(page.getByText(/[1-9]\d* (person|people) gets? this/).first()).toBeVisible();
+  await page.screenshot({ path: 'e2e/screenshots/superadmin-mail.png', fullPage: true });
+  await page.getByRole('button', { name: 'Send email' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Send email' }).click();
+  await expect(page.getByText(/^Sent to \d+/)).toBeVisible();
+  await expect(page.getByRole('button', { name: new RegExp(`Office hours ${run}`) })).toBeVisible();
 
   // A new project (business line) gets its own space: a lead added inside it stays inside it.
   const PROJECT = `Websites ${run}`;
