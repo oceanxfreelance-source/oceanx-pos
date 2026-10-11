@@ -53,6 +53,8 @@ export interface DocData {
   footer?: string;
   /** How to pay (bank / account), printed above the signature. */
   paymentDetails?: string;
+  /** Hide the small status line under the number (Gravity); the PAID / REJECTED stamp still shows. */
+  hideStatusLine?: boolean;
   /** Company stamp and preparer's signature (quotations and invoices). */
   branding?: DocBranding | null;
   paperWidth?: '58mm' | '80mm' | 'a4';
@@ -161,7 +163,7 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
               {doc.number}
             </p>
           )}
-          {doc.status && <p className="mt-1 text-xs tracking-wide text-slate-500 uppercase">{t(`status_labels.${doc.status}`)}</p>}
+          {doc.status && !doc.hideStatusLine && <p className="mt-1 text-xs tracking-wide text-slate-500 uppercase">{t(`status_labels.${doc.status}`)}</p>}
         </div>
       </header>
       <section className="grid grid-cols-2 gap-6 py-6">

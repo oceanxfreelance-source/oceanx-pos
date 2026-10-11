@@ -83,6 +83,7 @@ function toDoc(kind: Kind, d: any, t: TFunction): DocData {
     terms: doc.terms,
     footer: d.settings.footer,
     paymentDetails: d.settings.paymentDetails,
+    hideStatusLine: d.business.product === 'gravity',
     branding: d.branding ?? null,
   };
 }

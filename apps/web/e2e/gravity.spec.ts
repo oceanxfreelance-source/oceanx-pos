@@ -90,6 +90,8 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
   await expect(doc).toContainText('Bank of Maldives 7730000123456');
   // One person: no salesperson line on Gravity documents.
   await expect(doc).not.toContainText('Salesperson');
+  // No small status line under the number (the PAID stamp says it).
+  await expect(doc.locator('header')).not.toContainText(/paid/i);
   await expect(doc.locator('img[data-stamp="paid"]')).toBeVisible();
   await page.screenshot({ path: `${SHOTS}/gravity-invoice-print.png`, fullPage: true });
 
