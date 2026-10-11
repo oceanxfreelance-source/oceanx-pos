@@ -17,7 +17,9 @@ test('hub: lead becomes a client, is quoted, invoiced and pays', async ({ page }
   await page.getByRole('button', { name: 'Sign in' }).click();
   await expect(page).toHaveURL(/superadmin\/hub$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Welcome');
-  await expect(page.getByRole('link', { name: 'Leads', exact: true })).toBeVisible();
+  await expect(page.locator('aside').first().getByRole('link', { name: 'Leads', exact: true })).toBeVisible();
+  // The welcome banner has one-tap links to the daily pages.
+  await expect(page.getByRole('main').getByRole('link', { name: 'Leads', exact: true })).toHaveAttribute('href', '/superadmin/hub/leads');
 
   // Every OceanX project is listed; OceanX POS is built in and opens with its own menu (POS console + its work).
   await page.locator('aside').first().getByRole('link', { name: 'OceanX POS' }).click();

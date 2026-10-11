@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { forceDark } from './theme';
 /**
  * Which product this web address serves. Gravity can have its own address (any host with "gravity" in it,
  * e.g. gravity.example.com or oceanx-gravity.vercel.app, or one listed in VITE_GRAVITY_HOSTS). There the app is
@@ -25,6 +26,19 @@ export function applyHostBranding() {
   set('link[rel="icon"]', 'href', '/gravity/icon-64.png');
   set('meta[name="theme-color"]', 'content', '#03213a');
   document.documentElement.dataset.product = 'gravity';
+}
+
+/** Navy/green colours (like Gravity's) while a Super Admin screen is open. */
+export function useNavyPalette(active: boolean) {
+  useEffect(() => {
+    if (!active) return;
+    document.documentElement.dataset.palette = 'navy';
+    forceDark(true);
+    return () => {
+      delete document.documentElement.dataset.palette;
+      forceDark(false);
+    };
+  }, [active]);
 }
 
 /** Gravity's navy/green colours while a Gravity screen is open (always on a Gravity address). */

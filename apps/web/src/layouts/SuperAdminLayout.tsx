@@ -8,7 +8,7 @@ import { useVentures } from '../pages/superadmin/hubVentures';
 import { Dropdown, DropdownItem } from '../components/Dropdown';
 import { SkeletonRows } from '../components/ui/Card';
 import { LanguageMenu } from './BusinessLayout';
-import { DeviceThemeToggle } from '../components/DeviceThemeToggle';
+import { useNavyPalette } from '../lib/product';
 import { FullscreenButton } from '../components/FullscreenButton';
 
 const POS_CONSOLE: NavItem[] = [
@@ -99,6 +99,7 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
       ...tr([{ items: [{ to: '/superadmin/hub', label: 'hub.nav.overview', icon: LayoutGrid, end: true }] }]),
       {
         label: t('hub.nav.group_projects'),
+        collapseAfter: 5,
         items: ventures
           .filter((v) => v.isActive)
           .map((v) => ({ to: `/superadmin/p/${v.id}`, label: v.name, icon: v.kind === 'pos' ? Store : v.kind === 'gravity' ? FileText : FolderKanban })),
@@ -120,20 +121,21 @@ function SuperAdminLayout() {
   const { session, logout } = useSuperAdmin();
   const navigate = useNavigate();
   const nav = useNav();
+  useNavyPalette(true);
   return (
     <Shell
+      tone="deep"
       brand={t('app.name')}
       brandSub={nav.sub ?? t('hub.nav.overview')}
       groups={nav.groups}
       topbar={
         <>
           <FullscreenButton />
-          <DeviceThemeToggle />
           <LanguageMenu current={i18n.language} languages={LANGUAGES.map((l) => ({ code: l.code, nativeName: l.nativeName }))} onChange={setSuperAdminLanguage} />
           <Dropdown
             trigger={() => (
               <button type="button" className="flex items-center gap-2 rounded-xl py-1.5 ps-1.5 pe-2.5 hover:bg-slate-100 dark:hover:bg-slate-800">
-                <span className="flex size-8 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white dark:bg-slate-700">
+                <span className="flex size-8 items-center justify-center rounded-full bg-brand-600 text-sm font-semibold text-white">
                   {session?.admin.name.slice(0, 1).toUpperCase()}
                 </span>
                 <span className="hidden text-sm font-medium sm:inline">{session?.admin.name}</span>

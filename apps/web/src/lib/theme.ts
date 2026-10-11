@@ -13,9 +13,16 @@ export function readStoredTheme(): ThemeChoice {
   return 'system';
 }
 
+let forcedDark = false;
+/** Super Admin always uses its navy look (dark), whatever the device theme. */
+export function forceDark(on: boolean) {
+  forcedDark = on;
+  render();
+}
+
 function render() {
   const root = document.documentElement;
-  const dark = current.theme === 'dark' || (current.theme === 'system' && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+  const dark = forcedDark || current.theme === 'dark' || (current.theme === 'system' && window.matchMedia?.('(prefers-color-scheme: dark)').matches);
   root.classList.toggle('dark', !!dark);
   root.style.colorScheme = dark ? 'dark' : 'light';
   root.classList.toggle('reduce-motion', current.reduceAnimations);

@@ -6270,5 +6270,19 @@
     "suggested": "{{count}} މިނެޓް",
     "status": "needs_review",
     "notes": "New: Gravity one plan and trial."
+  },
+  {
+    "key": "common.show_all",
+    "english": "Show all ({{count}})",
+    "suggested": "ހުރިހާ އެއްޗެއް ދައްކާ ({{count}})",
+    "status": "needs_review",
+    "notes": "New: Super Admin menu (long project list)."
+  },
+  {
+    "key": "common.show_less",
+    "english": "Show less",
+    "suggested": "މަދުން ދައްކާ",
+    "status": "needs_review",
+    "notes": "New: Super Admin menu (long project list)."
   }
 ]

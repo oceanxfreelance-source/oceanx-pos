@@ -56,7 +56,9 @@
     "fullscreen": "पूरा स्क्रिन",
     "exit_fullscreen": "पूरा स्क्रिनबाट बाहिर निस्कनुहोस्",
     "update_available": "OceanX को नयाँ संस्करण उपलब्ध छ।",
-    "more": "थप"
+    "more": "थप",
+    "show_all": "सबै देखाउनुहोस् ({{count}})",
+    "show_less": "कम देखाउनुहोस्"
   },
   "nav": {
     "account": "मेरो खाता",

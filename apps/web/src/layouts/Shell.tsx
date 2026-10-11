@@ -16,6 +16,8 @@ export interface NavItem {
 export interface NavGroup {
   label?: string;
   items: NavItem[];
+  /** Show only the first n items, with "Show all" (long lists such as projects). */
+  collapseAfter?: number;
 }
 
 const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform);
@@ -30,6 +32,7 @@ export function Shell({
   primaryAction,
   bottomNav,
   palette,
+  tone = 'light',
   children,
 }: {
   brand: ReactNode;
@@ -45,12 +48,16 @@ export function Shell({
   bottomNav?: NavItem[];
   /** Groups for the ⌘K quick search. */
   palette?: PaletteGroup[];
+  /** 'deep': a navy and green sidebar with white text (Super Admin). */
+  tone?: 'light' | 'deep';
   children: ReactNode;
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [searching, setSearching] = useState(false);
   const location = useLocation();
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
+  const deep = tone === 'deep';
   useEffect(() => setOpen(false), [location.pathname]);
   useEffect(() => {
     if (!palette) return;
@@ -68,11 +75,15 @@ export function Shell({
     <nav className="flex-1 space-y-5 overflow-y-auto px-3 pt-2 pb-4">
       {groups
         .filter((g) => g.items.length)
-        .map((g, gi) => (
+        .map((g, gi) => {
+          const cut = g.collapseAfter !== undefined && g.items.length > g.collapseAfter + 1 && !expanded[gi];
+          // A collapsed list still shows the page you are on.
+          const items = cut ? g.items.filter((item, i) => i < g.collapseAfter! || location.pathname.startsWith(item.to)) : g.items;
+          return (
           <div key={gi}>
-            {g.label && <p className="mb-1 px-3 text-[11px] font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">{g.label}</p>}
+            {g.label && <p className={clsx('mb-1 px-3 text-[11px] font-semibold tracking-wider uppercase', deep ? 'text-white/45' : 'text-slate-400 dark:text-slate-500')}>{g.label}</p>}
             <ul className="space-y-0.5">
-              {g.items.map((item) => (
+              {items.map((item) => (
                 <li key={item.to}>
                   <NavLink
                     to={item.to}
@@ -80,16 +91,31 @@ export function Shell({
                     className={({ isActive }) =>
                       clsx(
                         'group relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors',
-                        isActive
-                          ? 'bg-brand-50 text-brand-800 dark:bg-brand-950/70 dark:text-brand-200'
-                          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-100',
+                        deep
+                          ? isActive
+                            ? 'bg-white/15 text-white shadow-sm'
+                            : 'text-white/70 hover:bg-white/10 hover:text-white'
+                          : isActive
+                            ? 'bg-brand-50 text-brand-800 dark:bg-brand-950/70 dark:text-brand-200'
+                            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-100',
                       )
                     }
                   >
                     {({ isActive }) => (
                       <>
-                        {isActive && <span aria-hidden className="absolute inset-y-2 start-0 w-1 rounded-full bg-brand-600" />}
-                        <item.icon className={clsx('size-[18px] shrink-0', isActive ? 'text-brand-700 dark:text-brand-300' : 'text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200')} />
+                        {isActive && <span aria-hidden className={clsx('absolute inset-y-2 start-0 w-1 rounded-full', deep ? 'bg-emerald-400' : 'bg-brand-600')} />}
+                        <item.icon
+                          className={clsx(
+                            'size-[18px] shrink-0',
+                            deep
+                              ? isActive
+                                ? 'text-emerald-300'
+                                : 'text-white/50 group-hover:text-white'
+                              : isActive
+                                ? 'text-brand-700 dark:text-brand-300'
+                                : 'text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200',
+                          )}
+                        />
                         <span className="truncate">{t(item.label)}</span>
                       </>
                     )}
@@ -97,8 +123,18 @@ export function Shell({
                 </li>
               ))}
             </ul>
+            {g.collapseAfter !== undefined && g.items.length > g.collapseAfter + 1 && (
+              <button
+                type="button"
+                onClick={() => setExpanded((e) => ({ ...e, [gi]: !e[gi] }))}
+                className={clsx('mt-0.5 w-full rounded-xl px-3 py-1.5 text-start text-xs font-medium', deep ? 'text-emerald-300 hover:bg-white/10' : 'text-brand-700 hover:bg-slate-100 dark:text-brand-300 dark:hover:bg-slate-800/60')}
+              >
+                {expanded[gi] ? t('common.show_less') : t('common.show_all', { count: g.items.length })}
+              </button>
+            )}
           </div>
-        ))}
+          );
+        })}
     </nav>
   );
 
@@ -106,8 +142,8 @@ export function Shell({
     <div className="flex h-16 items-center gap-3 px-5">
       {brandMark ?? <Logo />}
       <div className="min-w-0">
-        <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">{brand}</p>
-        {brandSub && <p className="truncate text-xs text-slate-500">{brandSub}</p>}
+        <p className={clsx('truncate text-sm font-semibold', deep ? 'text-white' : 'text-slate-900 dark:text-white')}>{brand}</p>
+        {brandSub && <p className={clsx('truncate text-xs', deep ? 'text-white/60' : 'text-slate-500')}>{brandSub}</p>}
       </div>
     </div>
   );
@@ -127,26 +163,26 @@ export function Shell({
   return (
     <div className="min-h-dvh">
       {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 start-0 z-30 hidden w-64 flex-col border-e border-slate-200 bg-white lg:flex dark:border-slate-800 dark:bg-slate-900">
+      <aside className={clsx('fixed inset-y-0 start-0 z-30 hidden w-64 flex-col lg:flex', deep ? 'gravity-surface border-e border-white/10 text-white' : 'border-e border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900')}>
         {brandBlock}
         {cta}
         {nav}
-        {footer && <div className="border-t border-slate-200 p-3 dark:border-slate-800">{footer}</div>}
+        {footer && <div className={clsx('border-t p-3', deep ? 'border-white/10' : 'border-slate-200 dark:border-slate-800')}>{footer}</div>}
       </aside>
       {/* Mobile drawer */}
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="animate-fade-in absolute inset-0 bg-slate-950/40" onClick={() => setOpen(false)} />
-          <aside className="animate-slide-in-start rtl:animate-none absolute inset-y-0 start-0 flex w-72 max-w-[85vw] flex-col bg-white shadow-xl dark:bg-slate-900">
+          <aside className={clsx('animate-slide-in-start rtl:animate-none absolute inset-y-0 start-0 flex w-72 max-w-[85vw] flex-col shadow-xl', deep ? 'gravity-surface text-white' : 'bg-white dark:bg-slate-900')}>
             <div className="flex items-center justify-between pe-3">
               {brandBlock}
-              <button type="button" onClick={() => setOpen(false)} aria-label={t('common.close')} className="rounded-lg p-2 text-slate-500 hover:bg-slate-100">
+              <button type="button" onClick={() => setOpen(false)} aria-label={t('common.close')} className={clsx('rounded-lg p-2', deep ? 'text-white/70 hover:bg-white/10' : 'text-slate-500 hover:bg-slate-100')}>
                 <X className="size-5" />
               </button>
             </div>
             {cta}
             {nav}
-            {footer && <div className="border-t border-slate-200 p-3 dark:border-slate-800">{footer}</div>}
+            {footer && <div className={clsx('border-t p-3', deep ? 'border-white/10' : 'border-slate-200 dark:border-slate-800')}>{footer}</div>}
           </aside>
         </div>
       )}

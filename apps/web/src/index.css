@@ -95,7 +95,7 @@
   --safe-bottom: 0px;
 }
 
-/* Gravity: navy + green like its logo. Set on <html data-product="gravity"> (Gravity address, Gravity sign-in, a Gravity account). */
+/* Gravity: navy + green like its logo. Set on <html data-product="gravity"> (Gravity address, sign-in, a Gravity account). */
 :root[data-product='gravity'] {
   --color-brand-50: #eef5f8;
   --color-brand-100: #d5e7ee;
@@ -109,6 +109,37 @@
   --color-brand-900: #07263b;
   --color-brand-950: #031827;
 }
+:root[data-palette='navy'] {
+  /* Super Admin: the whole console in the colours of Gravity's logo — deep navy pages, green actions. */
+  --color-brand-50: #ecf8f2;
+  --color-brand-100: #d0eedf;
+  --color-brand-200: #a3dcc1;
+  --color-brand-300: #6fc49f;
+  --color-brand-400: #43a97f;
+  --color-brand-500: #2a8f67;
+  --color-brand-600: #23805c;
+  --color-brand-700: #1d6f50;
+  --color-brand-800: #175a41;
+  --color-brand-900: #124634;
+  --color-brand-950: #0a2a1f;
+  --color-slate-50: #eef5f8;
+  --color-slate-100: #dce9ef;
+  --color-slate-200: #bcd2dc;
+  --color-slate-300: #98b5c4;
+  --color-slate-400: #7596a9;
+  --color-slate-500: #5a7d91;
+  --color-slate-600: #3f6176;
+  --color-slate-700: #23485f;
+  --color-slate-800: #143650;
+  --color-slate-900: #0b2840;
+  --color-slate-950: #04192b;
+}
+:root[data-palette='navy'] body {
+  background:
+    radial-gradient(70rem 50rem at 0% 100%, rgb(42 125 94 / 0.35), transparent 60%),
+    radial-gradient(80rem 60rem at 60% 0%, #0f3b58, #03213a 55%, #010c16) fixed;
+}
+
 .gravity-surface {
   background:
     radial-gradient(120% 90% at 0% 100%, rgb(42 125 94 / 0.85), transparent 60%),

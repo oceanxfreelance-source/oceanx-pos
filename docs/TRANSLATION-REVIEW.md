@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 748 · **confirmed**: 148
+Status: **needs_review**: 750 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -117,6 +117,8 @@ review of the whole file is still recommended before launch.
 | `common.exit_fullscreen` | Exit full screen | ފުލް ސްކްރީނުން ނިކުމެވޭ | needs_review | New: full screen button in the top bar and POS. |
 | `common.fullscreen` | Full screen | ފުލް ސްކްރީން | needs_review | New: full screen button in the top bar and POS. |
 | `common.more` | More | އިތުރަށް | needs_review | New: Gravity phone layout. |
+| `common.show_all` | Show all ({{count}}) | ހުރިހާ އެއްޗެއް ދައްކާ ({{count}}) | needs_review | New: Super Admin menu (long project list). |
+| `common.show_less` | Show less | މަދުން ދައްކާ | needs_review | New: Super Admin menu (long project list). |
 | `common.update_available` | A new version of OceanX is available. | OceanX ގެ އައު ވަރޝަނެއް ލިބެން އެބައޮތް. | needs_review | Bar shown when an update is published while the app is open. |
 | `credit.amount_paid` | Amount paid | ދެއްކި އަދަދު | needs_review | New: part payments of dues and payment receipt. |
 | `credit.due_label` | Due | ދައްކަންޖެހޭ | needs_review | New: part payments of dues and payment receipt. |

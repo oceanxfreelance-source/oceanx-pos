@@ -315,12 +315,39 @@ export function HubOverviewPage() {
   const o = q.data;
   const cur = o?.currency ?? 'MVR';
   const due = (leads.data?.items ?? []).filter((l) => l.nextFollowUp && l.nextFollowUp <= today());
+  const f = useFormat();
+  const quick: [string, string, typeof UserPlus][] = [
+    [`${base}/leads`, 'hub.nav.leads', UserPlus],
+    [`${base}/quotes`, 'hub.nav.quotes', FileText],
+    [`${base}/invoices`, 'hub.nav.invoices', Receipt],
+    [`${base}/tickets`, 'hub.nav.tickets', Headset],
+    [`${base}/tasks`, 'hub.nav.tasks', ListTodo],
+  ];
   return (
     <div className="space-y-6">
-      <PageHeader
-        title={venture ? venture.name : t('hub.overview_title', { name: session?.admin.name ?? '' })}
-        description={venture ? venture.description || t('hub.ventures.project_subtitle') : t('hub.overview_subtitle')}
-      />
+      {/* Welcome: today's date and one tap to the pages used every day. */}
+      <section className="gravity-surface relative overflow-hidden rounded-3xl p-6 text-white shadow-lg ring-1 ring-white/10 sm:p-8">
+        <svg className="pointer-events-none absolute -end-16 -top-20 size-72 opacity-10" viewBox="0 0 200 200" aria-hidden>
+          <circle cx="100" cy="100" r="90" fill="none" stroke="white" strokeWidth="1.5" />
+          <circle cx="100" cy="100" r="60" fill="none" stroke="white" strokeWidth="1.5" />
+          <circle cx="100" cy="100" r="30" fill="none" stroke="white" strokeWidth="1.5" />
+        </svg>
+        <p className="relative text-sm text-white/70">{f.date(new Date())}</p>
+        <h1 className="relative mt-1 text-2xl font-semibold tracking-tight sm:text-3xl" dir="auto">
+          {venture ? venture.name : t('hub.overview_title', { name: session?.admin.name ?? '' })}
+        </h1>
+        <p className="relative mt-1.5 max-w-2xl text-sm text-white/75 sm:text-base" dir="auto">
+          {venture ? venture.description || t('hub.ventures.project_subtitle') : t('hub.overview_subtitle')}
+        </p>
+        <div className="relative mt-5 flex flex-wrap gap-2">
+          {quick.map(([to, label, Icon]) => (
+            <Link key={to} to={to} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-2 text-sm font-medium text-white ring-1 ring-white/15 transition hover:bg-white/20">
+              <Icon className="size-4 text-emerald-300" />
+              {t(label)}
+            </Link>
+          ))}
+        </div>
+      </section>
       {!ventureId && <VentureGrid />}
       {venture?.kind === 'pos' && <PosConsoleLinks pending={o?.posPaymentsPending ?? 0} />}
       {venture?.kind === 'gravity' && <GravityConsoleLinks pending={venture.paymentsPending ?? 0} />}
@@ -435,7 +462,7 @@ function VentureGrid() {
         {ventures.map((v) => {
           const tone = VENTURE_TONE[v.color] ?? VENTURE_TONE.blue!;
           return (
-            <div key={v.id} className={clsx('relative rounded-2xl bg-white p-4 shadow-sm ring-1 dark:bg-slate-900', tone.ring, !v.isActive && 'opacity-60')}>
+            <div key={v.id} className={clsx('relative min-w-0 rounded-2xl bg-white p-4 shadow-sm ring-1 transition hover:-translate-y-0.5 hover:shadow-md dark:bg-slate-900', tone.ring, !v.isActive && 'opacity-60')}>
               <Link to={`/superadmin/p/${v.id}`} className="block" aria-label={t('hub.ventures.open', { name: v.name })}>
                 <div className="flex items-center gap-3">
                   {v.kind === 'gravity' ? (

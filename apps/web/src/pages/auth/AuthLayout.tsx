@@ -5,17 +5,18 @@ import { FarumaWarning } from '../../components/FarumaWarning';
 import { DeviceThemeToggle } from '../../components/DeviceThemeToggle';
 import { FullscreenButton } from '../../components/FullscreenButton';
 import { InstallApp } from '../../components/InstallApp';
-import { useProductTheme } from '../../lib/product';
+import { useNavyPalette, useProductTheme } from '../../lib/product';
 
 export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' | 'gravity' }) {
   const { t } = useTranslation();
   useProductTheme(variant === 'gravity');
+  useNavyPalette(variant === 'superadmin');
   return (
     <div className="relative min-h-dvh">
       <FarumaWarning />
       <div className="absolute end-4 top-4 z-10 flex items-center gap-1">
         <FullscreenButton />
-        <DeviceThemeToggle />
+        {variant !== 'superadmin' && <DeviceThemeToggle />}
       </div>
       <div className="grid min-h-dvh lg:grid-cols-2">
         <div className="flex flex-col justify-center px-5 py-10 sm:px-10">
@@ -41,7 +42,7 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
         <div
           className={
             variant === 'superadmin'
-              ? 'relative hidden overflow-hidden bg-slate-900 lg:block'
+              ? 'gravity-surface relative hidden overflow-hidden lg:block'
               : variant === 'gravity'
                 ? 'gravity-surface relative hidden overflow-hidden lg:block'
                 : 'relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 lg:block'
