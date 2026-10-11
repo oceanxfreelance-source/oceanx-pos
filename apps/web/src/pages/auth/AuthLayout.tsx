@@ -56,8 +56,10 @@ function AuthAside() {
   const { t } = useTranslation();
   return (
     <div className="flex h-full flex-col justify-end p-12 text-white">
-      <svg className="absolute -end-24 -top-24 size-[28rem] opacity-15" viewBox="0 0 700 700" aria-hidden>
-        <path d={GRAVITY_G} fill="none" stroke="white" strokeWidth="3" strokeLinejoin="round" />
+      <svg className="absolute -end-24 -top-24 size-[28rem] opacity-15" viewBox="0 0 200 200" aria-hidden>
+        <circle cx="100" cy="100" r="90" fill="none" stroke="white" strokeWidth="1" />
+        <circle cx="100" cy="100" r="60" fill="none" stroke="white" strokeWidth="1" />
+        <circle cx="100" cy="100" r="30" fill="none" stroke="white" strokeWidth="1" />
       </svg>
       <p className="max-w-md text-3xl leading-tight font-semibold">{t('auth.aside_title')}</p>
       <p className="mt-3 max-w-md text-brand-100">{t('auth.aside_body')}</p>
@@ -65,7 +67,6 @@ function AuthAside() {
   );
 }
 
-/** Gravity's mark: a planet with an orbit (no POS branding). */
 /** Gravity's hexagon "G" (white) on its deep-sea tile. */
 const GRAVITY_G = 'M186,50 L526,50 L688,320 L682,327 L224,327 L217,320 L289,197 L366,197 L336,252 L531,252 L472,149 L241,149 L126,350 L241,550 L472,550 L531,448 L336,448 L366,503 L289,503 L217,380 L224,373 L682,373 L688,380 L526,650 L186,650 L14,357 L14,343 Z';
 
@@ -95,9 +96,8 @@ function GravityAside() {
   const { t } = useTranslation();
   return (
     <div className="flex h-full flex-col justify-end p-12 text-white">
-      <svg className="absolute -end-24 -top-24 size-[28rem] opacity-20" viewBox="0 0 200 200" aria-hidden>
-        <ellipse cx="100" cy="100" rx="95" ry="35" fill="none" stroke="white" strokeWidth="1" transform="rotate(-25 100 100)" />
-        <circle cx="100" cy="100" r="40" fill="none" stroke="white" strokeWidth="1" />
+      <svg className="absolute -end-24 -top-24 size-[28rem] opacity-15" viewBox="0 0 700 700" aria-hidden>
+        <path d={GRAVITY_G} fill="none" stroke="white" strokeWidth="3" strokeLinejoin="round" />
       </svg>
       <p className="max-w-md text-3xl leading-tight font-semibold">{t('gravity.aside_title')}</p>
       <ul className="mt-4 max-w-md space-y-1.5 text-violet-100">
