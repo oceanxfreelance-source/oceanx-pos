@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 721 · **confirmed**: 148
+Status: **needs_review**: 725 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -100,6 +100,10 @@ review of the whole file is still recommended before launch.
 | `branding.show_signature_hint` | The signature of the person who prepared the document. | ލިޔުން ތައްޔާރުކުރި މީހާގެ ސޮއި. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.show_stamp` | Show the company stamp on documents | ލިޔެކިޔުންތަކުގައި ކުންފުނީގެ ތައްގަނޑު ޖަހާ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `branding.show_stamp_hint` | Turn off to print documents without the stamp. | ތައްގަނޑު ނުޖަހާ ލިޔެކިޔުން ޕްރިންޓްކުރުމަށް ނިއްވާލައްވާ. | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `branding.stamp_look.blue` | Blue ink | ނޫ ތަންޑު | needs_review | New: stamp ink look (blue / red). |
+| `branding.stamp_look.original` | Original colours | އަސްލު ކުލަ | needs_review | New: stamp ink look (blue / red). |
+| `branding.stamp_look.red` | Red ink | ރަތް ތަންޑު | needs_review | New: stamp ink look (blue / red). |
+| `branding.stamp_pick_look` | Choose how your stamp looks | ސްޓޭމްޕް ފެންނަންވީ ގޮތް ޚިޔާރުކުރައްވާ | needs_review | New: stamp ink look (blue / red). |
 | `branding.upload` | Upload photo | ފޮޓޯ އަޕްލޯޑްކުރޭ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `business_types.retail_shop` | Shop | ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `business_types.supermarket` | Supermarket / big shop | ސުޕަރމާކެޓް / ބޮޑު ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |

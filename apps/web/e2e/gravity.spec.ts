@@ -41,6 +41,17 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
   await page.getByRole('button', { name: 'Save changes' }).click();
   await expect(page.getByText('Saved').first()).toBeVisible();
 
+  // Company stamp from a coloured logo, turned into a blue ink stamp.
+  await page.goto('/settings?tab=branding');
+  await page.locator('input[type=file]').first().setInputFiles('e2e/fixtures/colour-logo.png');
+  await expect(page.getByText('Choose how your stamp looks')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Original colours' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Red ink' })).toBeVisible();
+  await page.screenshot({ path: `${SHOTS}/gravity-stamp-picker.png`, fullPage: true });
+  await page.getByRole('button', { name: 'Blue ink' }).click();
+  await expect(page.getByText('Choose how your stamp looks')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Remove' }).first()).toBeVisible();
+
   // Quotation: new customer from the editor, typed lines, English or Dhivehi only.
   await page.goto('/quotations/new');
   const lang = page.getByLabel('Document language');
@@ -93,6 +104,7 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
   // No small status line under the number (the PAID stamp says it).
   await expect(doc.locator('header')).not.toContainText(/paid/i);
   await expect(doc.locator('img[data-stamp="paid"]')).toBeVisible();
+  await expect(doc.locator('img[src="/api/settings/stamp"]')).toBeVisible();
   await page.screenshot({ path: `${SHOTS}/gravity-invoice-print.png`, fullPage: true });
 
   // Phones first: every Gravity screen fits a phone without sideways scrolling, with a bottom tab bar.

@@ -6081,5 +6081,33 @@
     "suggested": "ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސްތައް މިތާ ފެންނާނެ.",
     "status": "needs_review",
     "notes": "New: Gravity home (phone)."
+  },
+  {
+    "key": "branding.stamp_pick_look",
+    "english": "Choose how your stamp looks",
+    "suggested": "ސްޓޭމްޕް ފެންނަންވީ ގޮތް ޚިޔާރުކުރައްވާ",
+    "status": "needs_review",
+    "notes": "New: stamp ink look (blue / red)."
+  },
+  {
+    "key": "branding.stamp_look.original",
+    "english": "Original colours",
+    "suggested": "އަސްލު ކުލަ",
+    "status": "needs_review",
+    "notes": "New: stamp ink look (blue / red)."
+  },
+  {
+    "key": "branding.stamp_look.blue",
+    "english": "Blue ink",
+    "suggested": "ނޫ ތަންޑު",
+    "status": "needs_review",
+    "notes": "New: stamp ink look (blue / red)."
+  },
+  {
+    "key": "branding.stamp_look.red",
+    "english": "Red ink",
+    "suggested": "ރަތް ތަންޑު",
+    "status": "needs_review",
+    "notes": "New: stamp ink look (blue / red)."
   }
 ]

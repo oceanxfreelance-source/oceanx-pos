@@ -455,7 +455,7 @@ function StampSetup() {
     <div className="space-y-2">
       <p className="text-sm font-medium">{t('branding.company_stamp')}</p>
       <p className="text-xs text-slate-500">{t('branding.company_stamp_hint')}</p>
-      <InkSetup current={session.business.hasStamp ? '/api/settings/stamp' : null} uploadPath="/settings/stamp" allowDraw={false} onChanged={() => void refresh()} previewClass="size-32 object-contain" />
+      <InkSetup current={session.business.hasStamp ? '/api/settings/stamp' : null} uploadPath="/settings/stamp" allowDraw={false} inkChoice onChanged={() => void refresh()} previewClass="size-32 object-contain" />
       {!session.business.hasStamp && (
         <div className="flex flex-wrap items-center gap-3 rounded-xl bg-slate-50 p-3 dark:bg-slate-800/50">
           <p className="min-w-0 flex-1 text-xs text-slate-600 dark:text-slate-300">{t('branding.make_stamp_hint')}</p>

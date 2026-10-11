@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Eraser, ImageUp, PenLine, Trash2 } from 'lucide-react';
 import { api } from '../lib/api';
-import { inkToPng } from '../lib/ink';
+import { inkStamp, inkToPng } from '../lib/ink';
 import { useToastError } from '../lib/useApiError';
 import { Button } from './ui/Button';
 import { Tabs } from './ui/Tabs';
@@ -19,12 +19,15 @@ export function InkSetup({
   allowDraw,
   onChanged,
   previewClass,
+  inkChoice = false,
 }: {
   current: string | null;
   uploadPath: string;
   allowDraw: boolean;
   onChanged: () => void;
   previewClass: string;
+  /** Company stamp: after choosing a picture, offer it in its own colours or as a blue / red ink stamp. */
+  inkChoice?: boolean;
 }) {
   const { t } = useTranslation();
   const toastErr = useToastError();
@@ -47,10 +50,22 @@ export function InkSetup({
     },
     onError: toastErr,
   });
+  const [looks, setLooks] = useState<{ key: 'original' | 'blue' | 'red'; blob: Blob; url: string }[] | null>(null);
+  useEffect(() => () => looks?.forEach((l) => URL.revokeObjectURL(l.url)), [looks]);
   const fromFile = async (file?: File) => {
     if (!file) return;
     try {
-      save.mutate(await inkToPng(file));
+      const png = await inkToPng(file);
+      if (!inkChoice) {
+        save.mutate(png);
+        return;
+      }
+      const options = [
+        { key: 'original' as const, blob: png },
+        { key: 'blue' as const, blob: await inkStamp(png, 'blue') },
+        { key: 'red' as const, blob: await inkStamp(png, 'red') },
+      ];
+      setLooks(options.map((o) => ({ ...o, url: URL.createObjectURL(o.blob) })));
     } catch {
       toast.error(t('validation.invalid_image'));
     }
@@ -77,7 +92,28 @@ export function InkSetup({
           onChange={setMode}
         />
       )}
-      {mode === 'draw' ? (
+      {looks ? (
+        <div className="space-y-3 rounded-xl bg-slate-50 p-3 dark:bg-slate-800/50">
+          <p className="text-sm font-medium">{t('branding.stamp_pick_look')}</p>
+          <div className="grid grid-cols-3 gap-2">
+            {looks.map((l) => (
+              <button
+                key={l.key}
+                type="button"
+                disabled={save.isPending}
+                onClick={() => save.mutate(l.blob, { onSuccess: () => setLooks(null) })}
+                className="flex flex-col items-center gap-2 rounded-xl bg-white p-2 ring-1 ring-slate-200 hover:ring-2 hover:ring-brand-500 disabled:opacity-60 dark:ring-slate-700"
+              >
+                <img src={l.url} alt="" className="aspect-square w-full -rotate-6 object-contain" />
+                <span className="text-xs font-medium text-slate-700">{t(`branding.stamp_look.${l.key}`)}</span>
+              </button>
+            ))}
+          </div>
+          <Button variant="ghost" size="sm" onClick={() => setLooks(null)}>
+            {t('common.cancel')}
+          </Button>
+        </div>
+      ) : mode === 'draw' ? (
         <SignaturePad onSave={async (c) => save.mutate(await inkToPng(c))} saving={save.isPending} />
       ) : (
         <label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border-2 border-dashed border-slate-300 p-6 text-center text-sm text-slate-600 hover:border-brand-500 dark:border-slate-700 dark:text-slate-300">

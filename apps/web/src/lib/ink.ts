@@ -121,3 +121,95 @@ export async function makeStamp(name: string, subtitle = ''): Promise<Blob> {
   g.fillText(initials || '★', mid, mid + 6);
   return new Promise((resolve, reject) => c.toBlob((b) => (b ? resolve(b) : reject(new Error('stamp'))), 'image/png'));
 }
+
+export type StampInk = 'blue' | 'red';
+const INK_RGB: Record<StampInk, [number, number, number]> = { blue: [29, 63, 158], red: [200, 16, 46] };
+
+/** Small fixed-seed random numbers, so the same logo always gets the same ink texture. */
+function seeded(seed: number) {
+  let s = seed >>> 0 || 1;
+  return () => {
+    s ^= s << 13;
+    s ^= s >>> 17;
+    s ^= s << 5;
+    return ((s >>> 0) % 10000) / 10000;
+  };
+}
+
+/**
+ * Turn a logo (any colours, transparent background, as made by inkToPng) into a rubber-stamp impression in
+ * one ink colour: darker parts take more ink, light parts stay clear, and the ink is uneven like a real
+ * stamp (grain, a few worn patches, slightly soft edges). Returns a transparent PNG of the same size.
+ */
+export async function inkStamp(png: Blob, ink: StampInk): Promise<Blob> {
+  const bmp = await createImageBitmap(png);
+  const w = bmp.width;
+  const h = bmp.height;
+  const c = document.createElement('canvas');
+  c.width = w;
+  c.height = h;
+  const g = c.getContext('2d', { willReadFrequently: true })!;
+  g.drawImage(bmp, 0, 0);
+  const data = g.getImageData(0, 0, w, h);
+  const px = data.data;
+  const [r, gr, b] = INK_RGB[ink];
+  const rand = seeded(w * 7919 + h * 104729);
+  // Mottled ink: a coarse random grid, smoothly blended (rubber never inks evenly).
+  const cell = Math.max(4, Math.round(Math.max(w, h) / 90));
+  const gw = Math.ceil(w / cell) + 2;
+  const gh = Math.ceil(h / cell) + 2;
+  const grid = Array.from({ length: gw * gh }, () => rand());
+  const mottle = (x: number, y: number) => {
+    const gx = x / cell;
+    const gy = y / cell;
+    const x0 = Math.floor(gx);
+    const y0 = Math.floor(gy);
+    const fx = gx - x0;
+    const fy = gy - y0;
+    const at = (i: number, j: number) => grid[j * gw + i]!;
+    const top = at(x0, y0) * (1 - fx) + at(x0 + 1, y0) * fx;
+    const bottom = at(x0, y0 + 1) * (1 - fx) + at(x0 + 1, y0 + 1) * fx;
+    return top * (1 - fy) + bottom * fy;
+  };
+  // A few small worn spots where the stamp pressed lightly.
+  const patches = Array.from({ length: 12 }, () => ({ x: rand() * w, y: rand() * h, r: (0.03 + rand() * 0.06) * Math.max(w, h), k: 0.5 + rand() * 0.3 }));
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4;
+      const a = px[i + 3]! / 255;
+      if (a === 0) continue;
+      const light = (0.299 * px[i]! + 0.587 * px[i + 1]! + 0.114 * px[i + 2]!) / 255;
+      // How much ink this spot takes: dark → full, light → clear (white parts of the logo stay paper).
+      const dark = 1 - light;
+      let amount = (dark <= 0.12 ? 0 : dark >= 0.45 ? 1 : (dark - 0.12) / 0.33) * a;
+      if (amount === 0) {
+        px[i + 3] = 0;
+        continue;
+      }
+      for (const p of patches) {
+        const d = Math.hypot(x - p.x, y - p.y) / p.r;
+        if (d < 1) amount *= 1 - (1 - d) * (1 - p.k);
+      }
+      amount *= 0.72 + 0.28 * mottle(x, y);
+      // Fine grain, and a few specks the ink missed.
+      const n = rand();
+      amount *= n < 0.035 ? 0.1 : 0.86 + n * 0.14;
+      px[i] = r;
+      px[i + 1] = gr;
+      px[i + 2] = b;
+      px[i + 3] = Math.round(Math.min(1, amount) * 245);
+    }
+  }
+  g.putImageData(data, 0, 0);
+  // Slightly soft edges, as ink spreads a little into paper.
+  const out = document.createElement('canvas');
+  out.width = w;
+  out.height = h;
+  const og = out.getContext('2d')!;
+  og.filter = 'blur(0.6px)';
+  og.drawImage(c, 0, 0);
+  og.filter = 'none';
+  og.globalAlpha = 0.55;
+  og.drawImage(c, 0, 0);
+  return new Promise((resolve, reject) => out.toBlob((bl) => (bl ? resolve(bl) : reject(new Error('png'))), 'image/png'));
+}
