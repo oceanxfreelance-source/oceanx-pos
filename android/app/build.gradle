@@ -8,8 +8,8 @@ plugins {
 def appVersion = '1.0.4'
 def appVersionCode = 5
 // Gravity for phones (quotations & invoices).
-def gravityVersion = '1.0.0'
-def gravityVersionCode = 1
+def gravityVersion = '1.0.1'
+def gravityVersionCode = 2
 
 android {
     namespace 'app.oceanx.pos'
