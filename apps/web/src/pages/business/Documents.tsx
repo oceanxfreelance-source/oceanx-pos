@@ -414,7 +414,10 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
   const [reason, setReason] = useState('');
   const [paying, setPaying] = useState(false);
   const [settingRef, setSettingRef] = useState(false);
-  const retail = !!useBizSession().business.profile.retail;
+  const detailSession = useBizSession();
+  const retail = !!detailSession.business.profile.retail;
+  // Gravity is one person: no salesperson line.
+  const gravityDoc = detailSession.business.product === 'gravity';
   const refresh = () => {
     void qc.invalidateQueries({ queryKey: ['biz', kind, id] });
     void qc.invalidateQueries({ queryKey: ['biz', p] });
@@ -570,7 +573,7 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
                   }
                 />
               )}
-              {doc.salespersonName && <Line l={t('documents.salesperson')} v={<span dir="auto">{doc.salespersonName}</span>} />}
+              {doc.salespersonName && !gravityDoc && <Line l={t('documents.salesperson')} v={<span dir="auto">{doc.salespersonName}</span>} />}
               <Line l={t('documents.language')} v={d.documentLanguage.toUpperCase()} />
             </dl>
           </Card>

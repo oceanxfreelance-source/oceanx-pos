@@ -88,6 +88,8 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
   await page.goto(`/print/invoice/${invoiceUrl.split('/').pop()}`);
   const doc = page.locator('article');
   await expect(doc).toContainText('Bank of Maldives 7730000123456');
+  // One person: no salesperson line on Gravity documents.
+  await expect(doc).not.toContainText('Salesperson');
   await expect(doc.locator('img[data-stamp="paid"]')).toBeVisible();
   await page.screenshot({ path: `${SHOTS}/gravity-invoice-print.png`, fullPage: true });
 

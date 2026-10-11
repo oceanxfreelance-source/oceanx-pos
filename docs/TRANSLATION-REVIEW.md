@@ -811,7 +811,7 @@ review of the whole file is still recommended before launch.
 | `print.overdue_amount` | Overdue | މުއްދަތު ހަމަވެފައި | confirmed | Translated by the business owner (native speaker). |
 | `print.payments` | Payments | ދެއްކި ފައިސާ | confirmed | Translated by the business owner (native speaker). |
 | `print.pdf_failed` | Could not create the PDF. Try Print → Save as PDF instead. | ޕީޑީއެފް ހެދޭގޮތެއް ނުވި. ޕްރިންޓް → "ސޭވް އޭޒް ޕީޑީއެފް" އަށް ފިއްތަވާލައްވާ. | confirmed | Translated by the business owner (native speaker). |
-| `print.prepared_for` | Prepared for | ތައްޔާރުކުރެވުނީ | confirmed | Translated by the business owner (native speaker). |
+| `print.prepared_for` | Prepared for | ލިބެންވީ | confirmed | Translated by the business owner (native speaker). |
 | `print.quotation` | Quotation | ކޯޓޭޝަން | confirmed | Translated by the business owner (native speaker). |
 | `print.receipt` | Receipt | ރަސީދު | confirmed | Translated by the business owner (native speaker). |
 | `print.statement` | Statement of account | އެކައުންޓް ސްޓޭޓްމަންޓް | confirmed | Translated by the business owner (native speaker). |

@@ -67,7 +67,8 @@ function toDoc(kind: Kind, d: any, t: TFunction): DocData {
           ],
     meta: [
       ...(doc.customerRef ? [{ label: t('print.customer_ref'), value: doc.customerRef }] : []),
-      ...(doc.salespersonName ? [{ label: t('print.salesperson'), value: doc.salespersonName }] : []),
+      // Gravity is one person: no salesperson line.
+      ...(doc.salespersonName && d.business.product !== 'gravity' ? [{ label: t('print.salesperson'), value: doc.salespersonName }] : []),
     ],
     lines: d.items.map((i: any) => ({ id: i.id, name: i.itemNameSnapshot, detail: i.description, quantity: Number(i.quantity), unit: i.unit, unitPrice: i.unitPrice, discount: i.discount, total: i.total })),
     totals: {

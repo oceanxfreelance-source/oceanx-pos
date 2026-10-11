@@ -93,7 +93,7 @@ async function documentContext(db: Executor, ctx: BusinessContext, kind: 'invoic
   const b = ctx.access.business;
   const docSettings = kind === 'invoice' ? settings.invoice : settings.quotation;
   return {
-    business: { name: b.name, businessType: b.businessType, address: b.address, phone: b.phone, email: b.email, hasLogo: !!b.logoPath },
+    business: { name: b.name, product: b.product, businessType: b.businessType, address: b.address, phone: b.phone, email: b.email, hasLogo: !!b.logoPath },
     settings: { regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber }, footer: docSettings.footer, paymentDetails: docSettings.paymentDetails },
     documentLanguage: language ?? docSettings.language ?? settings.regional.documentLanguage,
   };
