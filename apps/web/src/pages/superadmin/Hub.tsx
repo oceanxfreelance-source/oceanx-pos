@@ -51,6 +51,7 @@ import { DataTable, type Column } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { fmtAmount } from '../business/Billing';
+import { GravityMark } from '../auth/AuthLayout';
 import { VENTURE_TONE, useVentures, type Venture } from './hubVentures';
 
 // ---------------------------------------------------------------- shared
@@ -437,7 +438,11 @@ function VentureGrid() {
             <div key={v.id} className={clsx('relative rounded-2xl bg-white p-4 shadow-sm ring-1 dark:bg-slate-900', tone.ring, !v.isActive && 'opacity-60')}>
               <Link to={`/superadmin/p/${v.id}`} className="block" aria-label={t('hub.ventures.open', { name: v.name })}>
                 <div className="flex items-center gap-3">
-                  <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-white', tone.dot)}>{v.kind === 'pos' ? <Store className="size-5" /> : v.kind === 'gravity' ? <FileText className="size-5" /> : <FolderKanban className="size-5" />}</span>
+                  {v.kind === 'gravity' ? (
+                    <GravityMark className="size-10 shrink-0" />
+                  ) : (
+                    <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-white', tone.dot)}>{v.kind === 'pos' ? <Store className="size-5" /> : <FolderKanban className="size-5" />}</span>
+                  )}
                   <div className="min-w-0">
                     <p className="truncate font-semibold" dir="auto">
                       {v.name}

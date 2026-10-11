@@ -5,7 +5,7 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#2e1065",
+  "background_color": "#03213a",
   "theme_color": "#4c1d95",
   "icons": [
     { "src": "/gravity/icon-192.png", "sizes": "192x192", "type": "image/png" },
