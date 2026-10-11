@@ -10,6 +10,7 @@ import { ApiError } from './lib/api';
 import { installStaleChunkReload } from './lib/staleChunk';
 import { installTabletFit } from './lib/tabletFit';
 import { applyHostBranding } from './lib/product';
+import { android } from './lib/desktop';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +26,8 @@ initTheme();
 installStaleChunkReload();
 installTabletFit();
 applyHostBranding();
+// The Android app keeps the page clear of the phone's bars itself (see --safe-bottom).
+if (android) document.documentElement.classList.add('in-android-app');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

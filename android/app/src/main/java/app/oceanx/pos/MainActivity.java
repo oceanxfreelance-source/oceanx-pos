@@ -80,7 +80,8 @@ public class MainActivity extends Activity {
                 } else {
                     v.setPadding(insets.getSystemWindowInsetLeft(), insets.getSystemWindowInsetTop(), insets.getSystemWindowInsetRight(), insets.getSystemWindowInsetBottom());
                 }
-                return insets;
+                // Used up here: the page must not add the same space again (it would make the bottom bar twice as tall).
+                return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ? WindowInsets.CONSUMED : insets.consumeSystemWindowInsets();
             });
             setContentView(root);
             drawEdgeToEdge();
@@ -98,12 +99,13 @@ public class MainActivity extends Activity {
         s.setAllowFileAccess(false);
         s.setAllowContentAccess(false);
         s.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
-        // Follow the page's layout width (tablets lay the POS out at 1280 and scale to fit), no pinch zoom,
+        // Follow the page's layout width (tablets lay the POS out at 1280 and scale to fit),
         // and the tablet's font-size setting does not blow the POS up.
         s.setUseWideViewPort(true);
         s.setLoadWithOverviewMode(true);
-        s.setSupportZoom(false);
-        s.setBuiltInZoomControls(false);
+        // Phones: pinch to zoom (e.g. to read an A4 invoice shown smaller to fit the screen). The POS tablet stays fixed.
+        s.setSupportZoom(PHONE);
+        s.setBuiltInZoomControls(PHONE);
         s.setDisplayZoomControls(false);
         s.setTextZoom(100);
         s.setUserAgentString(s.getUserAgentString() + " OceanXAndroid/" + BuildConfig.VERSION_NAME);

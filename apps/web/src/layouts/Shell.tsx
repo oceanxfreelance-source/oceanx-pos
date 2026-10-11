@@ -176,7 +176,7 @@ export function Shell({
       </div>
       {/* Phone tab bar */}
       {bottomNav && bottomNav.length > 0 && (
-        <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden dark:border-slate-800 dark:bg-slate-900/95" aria-label={t('common.menu')}>
+        <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 pb-[var(--safe-bottom)] backdrop-blur lg:hidden dark:border-slate-800 dark:bg-slate-900/95" aria-label={t('common.menu')}>
           <ul className="mx-auto flex max-w-md">
             {bottomNav.slice(0, 4).map((item) => (
               <li key={item.to} className="flex-1">

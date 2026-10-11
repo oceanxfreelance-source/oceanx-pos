@@ -78,6 +78,23 @@
   }
 }
 
+@media print {
+  /* On paper the sheet fills the printable width (A4 minus the printer's margins). */
+  .print-fit {
+    zoom: 1 !important;
+    width: auto !important;
+    max-width: 100%;
+  }
+}
+
+/* Space for the phone's home bar. The Android app already keeps the page above it, so there it is 0. */
+:root {
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+:root.in-android-app {
+  --safe-bottom: 0px;
+}
+
 /* Gravity: navy + green like its logo. Set on <html data-product="gravity"> (Gravity address, Gravity sign-in, a Gravity account). */
 :root[data-product='gravity'] {
   --color-brand-50: #eef5f8;

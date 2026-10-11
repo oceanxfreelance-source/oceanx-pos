@@ -27,10 +27,15 @@ export function PrintFrame({ ready, filename, landscape, width = '210mm', childr
     };
   }, []);
 
+  // A phone shows the whole A4 page made smaller (like a PDF), never a squeezed page with things cut off.
+  const fit = useFitWidth(width);
+
   const download = async () => {
     if (!ref.current) return;
     setBusy(true);
     try {
+      // The PDF is taken from the page at its real size.
+      await new Promise((r) => setTimeout(r, 60));
       await document.fonts?.ready;
       await downloadPdf(ref.current, filename, { landscape });
     } catch {
@@ -65,11 +70,25 @@ export function PrintFrame({ ready, filename, landscape, width = '210mm', childr
           {t('print.download_pdf')}
         </Button>
       </div>
-      <div className="mx-auto overflow-x-auto shadow-sm print:shadow-none" style={{ maxWidth: width }}>
+      <div className="print-fit mx-auto shadow-sm print:shadow-none" style={{ width, zoom: fit < 1 && !busy ? fit : undefined }}>
         <div ref={ref} className="bg-white">
           {children}
         </div>
       </div>
     </div>
   );
+}
+
+/** How much to shrink a sheet `width` wide (e.g. "210mm") so it fits the screen; 1 when it already fits. */
+function useFitWidth(width: string) {
+  const px = width.endsWith('mm') ? (parseFloat(width) * 96) / 25.4 : parseFloat(width);
+  const measure = () => (px > 0 ? Math.min(1, (window.innerWidth - 16) / px) : 1);
+  const [fit, setFit] = useState(measure);
+  useEffect(() => {
+    const onResize = () => setFit(measure());
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [px]);
+  return fit;
 }

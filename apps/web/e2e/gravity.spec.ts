@@ -127,6 +127,17 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
   const tabs = page.getByRole('navigation', { name: 'Menu' }).last();
   await expect(tabs.getByRole('link', { name: 'Quotations' })).toBeVisible();
   await expect(tabs.getByRole('link', { name: 'Invoices' })).toBeVisible();
+  // The printed invoice on a phone: the whole A4 page, made smaller; the PAID stamp stays on the page.
+  await page.goto(`/print/invoice/${invoiceUrl.split('/').pop()}`);
+  await expect(doc.locator('img[data-stamp="paid"]')).toBeVisible();
+  await fits();
+  const inside = await page.evaluate(() => {
+    const sheet = document.querySelector('article')!.getBoundingClientRect();
+    const stamp = document.querySelector('img[data-stamp="paid"]')!.getBoundingClientRect();
+    return sheet.left >= 0 && sheet.right <= window.innerWidth + 1 && stamp.right <= window.innerWidth + 1 && stamp.left >= 0;
+  });
+  expect(inside).toBe(true);
+  await page.screenshot({ path: `${SHOTS}/gravity-phone-invoice-print.png`, fullPage: true });
   await page.setViewportSize({ width: 1280, height: 720 });
 
   // Signing out goes back to Gravity's sign-in.

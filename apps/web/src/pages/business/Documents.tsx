@@ -489,7 +489,7 @@ function DocumentEditor({ kind, detail }: { kind: DocKind; detail: DocDetail | n
           </div>
         </details>
         {/* Total and Save always in reach: fixed above the phone tab bar, a normal card on a PC. */}
-        <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-20 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur lg:static lg:rounded-2xl lg:border-0 lg:shadow-sm lg:ring-1 lg:ring-slate-200/80 dark:border-slate-800 dark:bg-slate-900/95 lg:dark:ring-slate-800">
+        <div className="fixed inset-x-0 bottom-[calc(4rem+var(--safe-bottom))] z-20 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur lg:static lg:rounded-2xl lg:border-0 lg:shadow-sm lg:ring-1 lg:ring-slate-200/80 dark:border-slate-800 dark:bg-slate-900/95 lg:dark:ring-slate-800">
           <div className="mx-auto flex max-w-2xl items-center gap-4">
             <div className="min-w-0 flex-1">
               <p className="text-xs text-slate-500">{t('documents.total')}</p>
