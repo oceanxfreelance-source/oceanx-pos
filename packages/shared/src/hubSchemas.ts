@@ -140,7 +140,7 @@ export const hubPaymentSchema = z.object({
 export const MAIL_SEGMENTS = ['all', 'trialing', 'trial_ending', 'expired', 'active', 'selected'] as const;
 export const mailAudienceSchema = z.object({
   /** POS businesses, Gravity accounts, or both. */
-  product: z.enum(['pos', 'gravity', 'all']),
+  product: z.enum(['pos', 'gravity', 'flow', 'all']),
   segment: z.enum(MAIL_SEGMENTS),
   /** trial_ending: trials ending within this many hours. */
   hours: z.number().int().min(1).max(24 * 30).default(24),

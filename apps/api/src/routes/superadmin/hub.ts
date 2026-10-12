@@ -119,9 +119,10 @@ export async function hubRoutes(app: FastifyInstance) {
     const by = (col: Parameters<typeof eq>[0]) => (v ? eq(col, v.id) : undefined);
     const showPos = !v || v.kind === 'pos';
     const showGravity = !v || v.kind === 'gravity';
+    const showFlow = !v || v.kind === 'flow';
     const d = today();
     const monthStart = `${d.slice(0, 8)}01`;
-    const [leads, followUps, clients, projects, myTasks, openTasks, tickets, urgent, unpaid, paidMonth, pos, posPending, gravity] = await Promise.all([
+    const [leads, followUps, clients, projects, myTasks, openTasks, tickets, urgent, unpaid, paidMonth, pos, posPending, gravity, flow] = await Promise.all([
       db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), by(hubLeads.ventureId))),
       db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), lte(hubLeads.nextFollowUp, d), by(hubLeads.ventureId))),
       db.select({ n: count() }).from(hubClients).where(v ? clientInVenture(v.id, v.kind === 'pos') : undefined),
@@ -146,6 +147,7 @@ export async function hubRoutes(app: FastifyInstance) {
         .innerJoin(businesses, eq(businesses.id, billingPayments.businessId))
         .where(and(eq(billingPayments.status, 'pending'), eq(businesses.product, 'pos'))),
       db.select({ n: count() }).from(businesses).where(and(eq(businesses.status, 'active'), eq(businesses.product, 'gravity'))),
+      db.select({ n: count() }).from(businesses).where(and(eq(businesses.status, 'active'), eq(businesses.product, 'flow'))),
     ]);
     const settings = await getPlatformSettings(db);
     return {
@@ -164,6 +166,7 @@ export async function hubRoutes(app: FastifyInstance) {
       posBusinessesActive: showPos ? (pos[0]?.n ?? 0) : null,
       posPaymentsPending: showPos ? (posPending[0]?.n ?? 0) : null,
       gravityAccountsActive: showGravity ? (gravity[0]?.n ?? 0) : null,
+      flowAccountsActive: showFlow ? (flow[0]?.n ?? 0) : null,
       venture: v,
     };
   });

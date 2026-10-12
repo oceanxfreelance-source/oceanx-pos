@@ -1,5 +1,5 @@
 import { notInArray, sql } from 'drizzle-orm';
-import { ADDONS, GRAVITY_MODULES, LANGUAGES, PERMISSIONS, PLAN_MODULES, SYSTEM_ROLE_TEMPLATES, type AddonKey } from '@oceanx/shared';
+import { ADDONS, FLOW_MODULES, GRAVITY_MODULES, LANGUAGES, PERMISSIONS, PLAN_MODULES, SYSTEM_ROLE_TEMPLATES, type AddonKey } from '@oceanx/shared';
 import type { Executor } from './client';
 import { addons, permissions, platformLanguages, plans } from './schema';
 
@@ -23,7 +23,8 @@ const ADDON_INFO: Record<AddonKey, { name: string; category: string; description
   staff_rota: { name: 'Duty Rota', category: 'staff', description: 'Weekly duty rota: shifts, days off and leave for every staff member.' },
 };
 
-const ALL = [...PLAN_MODULES];
+// POS plans: every POS module (Gravity Flow's income & expenses module is Flow's own).
+const ALL = PLAN_MODULES.filter((m) => !(FLOW_MODULES as readonly string[]).includes(m));
 const DEFAULT_PLANS = [
   { code: 'trial', name: 'Trial', priceMonthly: '0', trialDays: 14, sortOrder: 0, limits: { max_users: 5, max_outlets: 1, max_products: 200, storage_mb: 200 }, modules: ALL },
   {
@@ -57,6 +58,8 @@ const DEFAULT_PLANS = [
   // Gravity (quotation & invoice generator): one monthly plan for everyone, priced in MVR, with a free trial.
   // Super Admin sets the price and the trial length (days, hours or minutes).
   { product: 'gravity', code: 'gravity', name: 'Gravity', priceMonthly: '139', currency: 'MVR', trialDays: 0, trialMinutes: 14 * 1440, sortOrder: 10, limits: { max_users: 1, storage_mb: 1000 }, modules: [...GRAVITY_MODULES] },
+  // Gravity Flow (income, expenses and profit): one monthly plan for everyone, like Gravity; Super Admin sets price and trial.
+  { product: 'flow', code: 'flow', name: 'Gravity Flow', priceMonthly: '139', currency: 'MVR', trialDays: 0, trialMinutes: 14 * 1440, sortOrder: 20, limits: { max_users: 1, storage_mb: 1000 }, modules: [...FLOW_MODULES] },
 ];
 
 /**

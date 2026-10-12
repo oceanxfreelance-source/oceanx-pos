@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm';
 import type { Translations } from '@oceanx/shared';
 import {
+  check,
   customType,
   bigint,
   bigserial,
@@ -1641,4 +1642,62 @@ export const platformEmails = pgTable(
     createdAt: createdAt(),
   },
   (t) => [index('platform_emails_created_idx').on(t.createdAt)],
+);
+
+/**
+ * Gravity Flow: income and expense categories, per account. Starter categories are added the first time
+ * the account opens Flow; the owner renames, adds or removes them.
+ */
+export const financeCategories = pgTable(
+  'finance_categories',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    /** income | expense */
+    kind: text('kind').notNull(),
+    name: text('name').notNull(),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    unique('finance_categories_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('finance_categories_name_uq')
+      .on(t.businessId, t.kind, sql`lower(${t.name})`)
+      .where(sql`${t.deletedAt} IS NULL`),
+  ],
+);
+
+/**
+ * Gravity Flow: one income or expense. Amounts are whole minor units (laari/cents) of the account's
+ * currency, always positive; the kind says which way the money went. occurredOn is the calendar day in
+ * the account's time zone. Deleting keeps the row (deleted_at) so history stays explainable.
+ */
+export const financeTransactions = pgTable(
+  'finance_transactions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    kind: text('kind').notNull(),
+    categoryId: uuid('category_id'),
+    amount: money('amount').notNull(),
+    occurredOn: text('occurred_on').notNull(),
+    description: text('description').notNull().default(''),
+    reference: text('reference').notNull().default(''),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    index('finance_transactions_business_day_idx').on(t.businessId, t.occurredOn),
+    tenantFk('finance_transactions_category_fk', t, t.categoryId, financeCategories),
+    check('finance_transactions_kind_ck', sql`${t.kind} IN ('income','expense')`),
+    check('finance_transactions_amount_ck', sql`${t.amount} > 0`),
+  ],
 );

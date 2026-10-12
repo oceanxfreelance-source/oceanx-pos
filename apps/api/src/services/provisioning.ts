@@ -5,6 +5,7 @@ import {
   RETAIL_CASHIER_PERMISSIONS,
   RETAIL_SYSTEM_ROLE_KEYS,
   SYSTEM_ROLE_KEYS,
+  isSoloProduct,
   SYSTEM_ROLE_TEMPLATES,
   type BusinessType,
   type LanguageCode,
@@ -134,7 +135,7 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
   const roleIds: Partial<Record<SystemRoleKey, string>> = {};
   const retail = isRetailType(input.businessType);
   // Gravity (quotations & invoices only) is one person: just the owner's admin role, no POS roles.
-  const roleKeys = product === 'gravity' ? GRAVITY_SYSTEM_ROLE_KEYS : retail ? RETAIL_SYSTEM_ROLE_KEYS : SYSTEM_ROLE_KEYS;
+  const roleKeys = isSoloProduct(product) ? GRAVITY_SYSTEM_ROLE_KEYS : retail ? RETAIL_SYSTEM_ROLE_KEYS : SYSTEM_ROLE_KEYS;
   for (const key of roleKeys) {
     const [role] = await tx
       .insert(roles)

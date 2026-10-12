@@ -3,8 +3,9 @@
  * every plan is for one product. Super Admin manages them all.
  *  - pos:     OceanX POS (restaurants, cafés, shops, supermarkets)
  *  - gravity: Gravity, the quotation & invoice generator (English and Dhivehi documents)
+ *  - flow:    Gravity Flow, income, expenses and profit (daily and monthly) for small businesses
  */
-export const PRODUCTS = ['pos', 'gravity'] as const;
+export const PRODUCTS = ['pos', 'gravity', 'flow'] as const;
 export type Product = (typeof PRODUCTS)[number];
 
 /** What a Gravity account can use (on top of the core: dashboard, users, roles, settings, audit). Lines are typed on each document: no product catalogue, no POS. */
@@ -13,3 +14,12 @@ export const GRAVITY_MODULES = ['customers', 'quotations', 'invoices'] as const;
 export const GRAVITY_EXCLUDED_CORE = ['addons', 'users', 'roles', 'audit'] as const;
 /** Gravity documents are made in English or Dhivehi. */
 export const GRAVITY_DOCUMENT_LANGUAGES = ['en', 'dv'] as const;
+
+/** What a Gravity Flow account can use (on top of the core): income, expenses and profit. */
+export const FLOW_MODULES = ['finance'] as const;
+
+/** One-person products (Gravity, Gravity Flow): no team, roles, activity log or add-ons; documents and money only. */
+export const SOLO_PRODUCTS = ['gravity', 'flow'] as const;
+export const isSoloProduct = (p: string | null | undefined) => (SOLO_PRODUCTS as readonly string[]).includes(p ?? '');
+/** The modules each one-person product may use, besides the core. */
+export const SOLO_PRODUCT_MODULES: Record<string, readonly string[]> = { gravity: GRAVITY_MODULES, flow: FLOW_MODULES };

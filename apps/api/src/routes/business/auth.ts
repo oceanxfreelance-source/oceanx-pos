@@ -209,7 +209,7 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
     const settings = await getPlatformSettings(db);
     if (settings.registrationMode === 'closed') throw new AppError('registration_closed', 'Registration is closed');
     const body = parse(registerBusinessSchema, req.body);
-    const planCode = body.product === 'gravity' ? settings.gravityPlanCode : settings.defaultPlanCode;
+    const planCode = body.product === 'gravity' ? settings.gravityPlanCode : body.product === 'flow' ? settings.flowPlanCode : settings.defaultPlanCode;
     const [plan] = await db
       .select()
       .from(plans)
@@ -222,7 +222,7 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
       const res = await provisionBusiness(tx, {
         product: body.product,
         name: body.businessName,
-        businessType: body.product === 'gravity' ? 'other' : body.businessType,
+        businessType: body.product === 'pos' ? body.businessType : 'other',
         email: body.email,
         phone: body.phone,
         currency: body.currency,

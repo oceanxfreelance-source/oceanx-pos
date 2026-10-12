@@ -129,7 +129,7 @@ export async function platformRoutes(app: FastifyInstance) {
     const ctx = saCtx(req);
     const body = parse(planSchema, req.body);
     // Gravity has one plan for everyone (edited under /gravity/plan).
-    if (body.product === 'gravity') throw new AppError('validation_failed', 'Gravity has one plan', { fields: { product: { code: 'invalid_option' } } });
+    if (body.product !== 'pos') throw new AppError('validation_failed', 'This product has one plan', { fields: { product: { code: 'invalid_option' } } });
     const [plan] = await db
       .insert(plans)
       .values({ ...body, priceMonthly: body.priceMonthly.toFixed(2), limits: body.limits as Record<string, number | null> })
@@ -153,35 +153,39 @@ export async function platformRoutes(app: FastifyInstance) {
     return plan;
   });
 
-  // ------------------------------------------------------------ Gravity's one plan
-  const gravityPlan = async () => {
-    const { gravityPlanCode } = await getPlatformSettings(db);
-    const [plan] = await db
-      .select()
-      .from(plans)
-      .where(and(eq(plans.code, gravityPlanCode), eq(plans.product, 'gravity')));
-    if (!plan) throw notFound();
-    return plan;
-  };
+  // ------------------------------------------------------------ Gravity's and Gravity Flow's one plan
+  // Each one-person product has one plan for everyone: an MVR price and a free trial of any length.
+  for (const product of ['gravity', 'flow'] as const) {
+    const productPlan = async () => {
+      const settings = await getPlatformSettings(db);
+      const code = product === 'gravity' ? settings.gravityPlanCode : settings.flowPlanCode;
+      const [plan] = await db
+        .select()
+        .from(plans)
+        .where(and(eq(plans.code, code), eq(plans.product, product)));
+      if (!plan) throw notFound();
+      return plan;
+    };
 
-  app.get('/gravity/plan', async () => {
-    const plan = await gravityPlan();
-    const [n] = await db.select({ n: count() }).from(subscriptions).where(eq(subscriptions.planId, plan.id));
-    return { id: plan.id, name: plan.name, priceMonthly: plan.priceMonthly, currency: plan.currency, trialMinutes: plan.trialMinutes ?? plan.trialDays * 1440, accounts: num(n?.n) };
-  });
+    app.get(`/${product}/plan`, async () => {
+      const plan = await productPlan();
+      const [n] = await db.select({ n: count() }).from(subscriptions).where(eq(subscriptions.planId, plan.id));
+      return { id: plan.id, name: plan.name, priceMonthly: plan.priceMonthly, currency: plan.currency, trialMinutes: plan.trialMinutes ?? plan.trialDays * 1440, accounts: num(n?.n) };
+    });
 
-  app.put('/gravity/plan', async (req) => {
-    const ctx = saCtx(req);
-    const body = parse(gravityPlanSchema, req.body);
-    const plan = await gravityPlan();
-    // Everyone pays the same, in MVR. A new trial length applies to accounts created from now on.
-    await db
-      .update(plans)
-      .set({ priceMonthly: body.priceMonthly.toFixed(2), currency: 'MVR', trialMinutes: body.trialMinutes, trialDays: 0, isActive: true, isPublic: true, updatedAt: new Date() })
-      .where(eq(plans.id, plan.id));
-    await audit(db, { actorType: 'super_admin', actorId: ctx.admin.id, actorName: ctx.admin.name, action: 'superadmin.plan_updated', entityType: 'plan', entityId: plan.id, metadata: { code: plan.code, priceMonthly: body.priceMonthly, trialMinutes: body.trialMinutes }, req });
-    return { ok: true };
-  });
+    app.put(`/${product}/plan`, async (req) => {
+      const ctx = saCtx(req);
+      const body = parse(gravityPlanSchema, req.body);
+      const plan = await productPlan();
+      // Everyone pays the same, in MVR. A new trial length applies to accounts created from now on.
+      await db
+        .update(plans)
+        .set({ priceMonthly: body.priceMonthly.toFixed(2), currency: 'MVR', trialMinutes: body.trialMinutes, trialDays: 0, isActive: true, isPublic: true, updatedAt: new Date() })
+        .where(eq(plans.id, plan.id));
+      await audit(db, { actorType: 'super_admin', actorId: ctx.admin.id, actorName: ctx.admin.name, action: 'superadmin.plan_updated', entityType: 'plan', entityId: plan.id, metadata: { code: plan.code, priceMonthly: body.priceMonthly, trialMinutes: body.trialMinutes }, req });
+      return { ok: true };
+    });
+  }
 
   // ------------------------------------------------------------ add-on catalog
   app.get('/addons', async () => {
@@ -293,6 +297,7 @@ export async function platformRoutes(app: FastifyInstance) {
     for (const [field, product] of [
       ['defaultPlanCode', 'pos'],
       ['gravityPlanCode', 'gravity'],
+      ['flowPlanCode', 'flow'],
     ] as const) {
       const code = body[field];
       if (!code) continue;
