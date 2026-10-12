@@ -14,10 +14,24 @@ export function isGravityHost(hostname: string): boolean {
   return host.includes('gravity') || extra.includes(host);
 }
 
+/** Super Admin's own address (any host with "admin" in it, e.g. admin.oceanx.app or oceanx-admin.vercel.app). */
+export function isAdminHost(hostname: string): boolean {
+  const host = hostname.toLowerCase();
+  return host.includes('admin') && !host.includes('gravity');
+}
+
+export const ADMIN_HOST = typeof window !== 'undefined' && isAdminHost(window.location.hostname);
+
 export const GRAVITY_HOST = typeof window !== 'undefined' && isGravityHost(window.location.hostname);
 
 /** On a Gravity address: Gravity's title, icon, colour and install manifest (crawlers get them from gravity.html). */
 export function applyHostBranding() {
+  if (ADMIN_HOST) {
+    // The admin address is Super Admin only.
+    document.title = 'OceanX Admin';
+    if (!window.location.pathname.startsWith('/superadmin')) window.location.replace('/superadmin');
+    return;
+  }
   if (!GRAVITY_HOST) return;
   document.title = 'Gravity: quotations & invoices';
   const set = (selector: string, attr: string, value: string) => document.querySelectorAll(selector).forEach((el) => el.setAttribute(attr, value));

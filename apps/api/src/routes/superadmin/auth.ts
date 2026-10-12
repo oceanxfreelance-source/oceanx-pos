@@ -13,6 +13,7 @@ import { parse } from '../../lib/validation';
 import { idParam } from '../../lib/params';
 import { saCtx } from '../../guards/superadmin';
 import { getPlatformSettings } from '../../services/platformSettings';
+import { superAdminUrl } from '../../config';
 import { consumeSuperAdminToken, issueSuperAdminToken } from '../../services/tokens';
 
 const TOTP_PERIOD = 30;
@@ -100,7 +101,7 @@ export async function superAdminAuthPublicRoutes(app: FastifyInstance, opts: { a
       await mailer.send({
         to: admin.email,
         subject: 'Super Admin password reset',
-        text: `A password reset was requested for your Super Admin account.\n\nReset link (valid for 30 minutes):\n${config.APP_URL}/superadmin/reset-password?token=${token}\n\nIf you did not request this, secure your account immediately.`,
+        text: `A password reset was requested for your Super Admin account.\n\nReset link (valid for 30 minutes):\n${superAdminUrl(config)}/superadmin/reset-password?token=${token}\n\nIf you did not request this, secure your account immediately.`,
       });
       await audit(db, { actorType: 'super_admin', actorId: admin.id, action: 'superadmin.password_reset_requested', req });
     }

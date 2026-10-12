@@ -20,7 +20,7 @@ export interface TestEnv {
   close: () => Promise<void>;
 }
 
-export async function createTestEnv(opts: { authRateLimit?: number; storageDriver?: 'fs' | 'db' } = {}): Promise<TestEnv> {
+export async function createTestEnv(opts: { authRateLimit?: number; storageDriver?: 'fs' | 'db'; env?: Record<string, string> } = {}): Promise<TestEnv> {
   const config = loadConfig({
     NODE_ENV: 'test',
     DATABASE_URL: TEST_DATABASE_URL,
@@ -30,6 +30,7 @@ export async function createTestEnv(opts: { authRateLimit?: number; storageDrive
     COOKIE_SECURE: 'false',
     STORAGE_DRIVER: opts.storageDriver ?? 'fs',
     VIBER_PROVIDER: 'memory',
+    ...opts.env,
   });
   const { db, pool } = createDb(TEST_DATABASE_URL, 5);
   const mailer = createMailer(config, { warn() {} } as never);

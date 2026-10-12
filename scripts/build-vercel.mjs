@@ -57,6 +57,9 @@ writeFileSync(
         { src: '^/(?!api(?:/|$))(.*)$', headers: { 'x-frame-options': 'SAMEORIGIN', 'x-content-type-options': 'nosniff', 'referrer-policy': 'strict-origin-when-cross-origin' }, continue: true },
         { src: '^/assets/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
         { src: '^/api(/.*)?$', dest: '/api' },
+        // Super Admin's own address (SUPERADMIN_APP_URL): it opens straight into Super Admin, and
+        // /superadmin on the POS or Gravity addresses moves there (its API answers only there).
+        ...adminRoutes(),
         // Gravity's address (any host with "gravity" in it): the app shell is gravity.html.
         { src: '^/(?:index\\.html)?$', has: [{ type: 'host', value: gravityHostPattern() }], dest: '/gravity.html', headers: { 'cache-control': 'no-cache' } },
         { handle: 'filesystem' },
@@ -71,6 +74,16 @@ writeFileSync(
 );
 if (!existsSync(path.join(out, 'static/index.html'))) throw new Error('web build missing');
 console.log('Vercel build output ready at .vercel/output');
+
+function adminRoutes() {
+  const url = (process.env.SUPERADMIN_APP_URL ?? '').replace(/\/$/, '');
+  if (!url) return [];
+  const host = new URL(url).hostname.replace(/\./g, '\\.');
+  return [
+    { src: '^/$', has: [{ type: 'host', value: host }], status: 308, headers: { Location: '/superadmin' } },
+    { src: '^/superadmin(/.*)?$', missing: [{ type: 'host', value: host }], status: 308, headers: { Location: `${url}/superadmin$1` } },
+  ];
+}
 
 /** Host pattern for Gravity's own address (kept in step with apps/web/src/lib/product.ts). */
 function gravityHostPattern() {

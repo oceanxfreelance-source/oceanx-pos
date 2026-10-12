@@ -30,6 +30,7 @@ import { AppError, notFound } from '../../lib/errors';
 import { idParam } from '../../lib/params';
 import { parse } from '../../lib/validation';
 import { getPlatformSettings } from '../../services/platformSettings';
+import { superAdminUrl } from '../../config';
 import { issueSuperAdminToken } from '../../services/tokens';
 
 const num = (v: unknown) => Number(v ?? 0);
@@ -401,7 +402,7 @@ export async function platformRoutes(app: FastifyInstance) {
       await mailer.send({
         to: body.email,
         subject: 'Super Admin invitation',
-        text: `You have been invited as a platform Super Admin.\nSet your password (valid for 48 hours):\n${config.APP_URL}/superadmin/reset-password?token=${token}&invite=1\n`,
+        text: `You have been invited as a platform Super Admin.\nSet your password (valid for 48 hours):\n${superAdminUrl(config)}/superadmin/reset-password?token=${token}&invite=1\n`,
       });
       await audit(tx, { actorType: 'super_admin', actorId: ctx.admin.id, actorName: ctx.admin.name, action: 'superadmin.admin_invited', entityType: 'super_admin', entityId: a!.id, metadata: { email: body.email }, req });
       return a!;

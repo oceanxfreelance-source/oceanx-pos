@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { superAdminGuard } from '../../guards/superadmin';
+import { notFound } from '../../lib/errors';
 import { superAdminAuthPublicRoutes, superAdminAuthSessionRoutes } from './auth';
 import { businessAdminRoutes } from './businesses';
 import { platformRoutes } from './platform';
@@ -12,6 +13,14 @@ import { hubRoutes } from './hub';
  * separate cookie, session table, guard and routes from business users.
  */
 export async function superAdminRoutes(app: FastifyInstance, opts: { authRateLimit: number }) {
+  // Super Admin has its own address: from the POS or Gravity addresses it does not exist.
+  const adminUrl = app.deps.config.SUPERADMIN_APP_URL;
+  if (adminUrl) {
+    const adminHost = new URL(adminUrl).hostname.toLowerCase();
+    app.addHook('onRequest', async (req) => {
+      if (req.hostname.split(':')[0]!.toLowerCase() !== adminHost) throw notFound();
+    });
+  }
   await app.register(async (pub) => superAdminAuthPublicRoutes(pub, opts));
   await app.register(async (secured) => {
     secured.addHook('onRequest', superAdminGuard);
