@@ -1,0 +1,52 @@
+name: Admin desktop app (Windows installer)
+
+# Builds OceanX Admin Setup.exe (the Super Admin console as a Windows program) on a real Windows machine
+# and publishes it as a GitHub release ("admin-desktop-v<version>").
+on:
+  push:
+    paths:
+      - 'desktop-admin/**'
+      - '.github/workflows/desktop-admin-windows.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop-admin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: desktop-admin/package-lock.json
+      - run: npm ci
+      - run: npm run build:win
+      - name: Version
+        id: v
+        shell: bash
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OceanX-Admin-Setup-${{ steps.v.outputs.version }}
+          path: desktop-admin/dist/OceanX-Admin-Setup-*.exe
+          retention-days: 30
+      - name: Publish release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="admin-desktop-v${{ steps.v.outputs.version }}"
+          file=$(ls dist/OceanX-Admin-Setup-*.exe)
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "$file" --clobber
+          else
+            gh release create "$tag" "$file" --target "$GITHUB_SHA" --prerelease \
+              --title "OceanX Admin for Windows ${{ steps.v.outputs.version }}" \
+              --notes "The Super Admin console as a Windows program. Download OceanX-Admin-Setup-${{ steps.v.outputs.version }}.exe and double-click it. See desktop-admin/README.md."
+          fi

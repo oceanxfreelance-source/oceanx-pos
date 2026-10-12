@@ -1,0 +1,51 @@
+{
+  "name": "oceanx-admin-desktop",
+  "productName": "OceanX Admin",
+  "version": "1.0.0",
+  "description": "OceanX Super Admin — Windows desktop app for the OceanX office",
+  "author": "OceanX",
+  "private": true,
+  "main": "src/main.js",
+  "oceanx": {
+    "adminUrl": "https://oceanx-admin.vercel.app"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0",
+    "resedit": "^2.0.0"
+  },
+  "build": {
+    "appId": "app.oceanx.admin",
+    "productName": "OceanX Admin",
+    "artifactName": "OceanX-Admin-Setup-${version}.exe",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "afterPack": "build/afterPack.js",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "OceanX Admin",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "runAfterFinish": true
+    }
+  }
+}
