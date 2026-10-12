@@ -6634,5 +6634,712 @@
     "suggested": "ނުފޮނުވޭ",
     "status": "needs_review",
     "notes": "New: Super Admin office mail."
+  },
+  {
+    "key": "flow.tagline",
+    "english": "Income, expenses & profit",
+    "suggested": "އާމްދަނީ، ޚަރަދާއި ފައިދާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.register_title",
+    "english": "Create your Gravity Flow account",
+    "suggested": "Gravity Flow އެކައުންޓް ހައްދަވާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.register_subtitle",
+    "english": "See your income, expenses and profit every day. Free trial, no card needed.",
+    "suggested": "ކޮންމެ ދުވަހަކު ތިބާގެ އާމްދަނީ، ޚަރަދާއި ފައިދާ ބައްލަވާ. ހިލޭ ޓްރަޔަލް.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.business_name",
+    "english": "Your business or your name",
+    "suggested": "ތިބާގެ ވިޔަފާރި ނުވަތަ ނަން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.business_name_hint",
+    "english": "Shown at the top of your screens.",
+    "suggested": "ސްކްރީނުގެ މަތީގައި ފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.no_account",
+    "english": "New to Gravity Flow?",
+    "suggested": "Gravity Flow އަށް އަލެއްތަ؟",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.aside_title",
+    "english": "Know every day if you are making money.",
+    "suggested": "ފައިދާ ލިބޭތޯ ކޮންމެ ދުވަހަކު އެނގޭނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.aside_1",
+    "english": "Add income and expenses in seconds",
+    "suggested": "ސިކުންތުކޮޅެއްގައި އާމްދަނީއާއި ޚަރަދު ލިޔެވޭނެ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.aside_2",
+    "english": "Profit for every day and the whole month",
+    "suggested": "ކޮންމެ ދުވަހެއްގެ އަދި މުޅި މަހުގެ ފައިދާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.aside_3",
+    "english": "Every past month kept",
+    "suggested": "ކުރީގެ ހުރިހާ މަހެއް ރައްކާވެފައި",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.accounts",
+    "english": "Gravity Flow accounts",
+    "suggested": "Gravity Flow އެކައުންޓްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.accounts_subtitle",
+    "english": "People and businesses using Gravity Flow for income and expenses.",
+    "suggested": "އާމްދަނީއާއި ޚަރަދަށް Gravity Flow ބޭނުންކުރާ ފަރާތްތައް.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.new_account",
+    "english": "New Gravity Flow account",
+    "suggested": "އައު Gravity Flow އެކައުންޓެއް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.payments",
+    "english": "Gravity Flow payments",
+    "suggested": "Gravity Flow ޕޭމަންޓްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.plan_title",
+    "english": "Gravity Flow plan",
+    "suggested": "Gravity Flow ޕްލޭން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.console",
+    "english": "Gravity Flow console",
+    "suggested": "Gravity Flow ކޮންސޯލް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.active_accounts",
+    "english": "Active Gravity Flow accounts",
+    "suggested": "ހަރަކާތްތެރި Gravity Flow އެކައުންޓްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.nav_transactions",
+    "english": "Transactions",
+    "suggested": "މުޢާމަލާތްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.nav_months",
+    "english": "Months",
+    "suggested": "މަސްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.income",
+    "english": "Income",
+    "suggested": "އާމްދަނީ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.expense",
+    "english": "Expense",
+    "suggested": "ޚަރަދު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.expenses",
+    "english": "Expenses",
+    "suggested": "ޚަރަދު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.profit",
+    "english": "Profit",
+    "suggested": "ފައިދާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.loss",
+    "english": "Loss",
+    "suggested": "ގެއްލުން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.margin",
+    "english": "Profit margin",
+    "suggested": "ފައިދާގެ ނިސްބަތް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.margin_hint",
+    "english": "Profit ÷ income",
+    "suggested": "ފައިދާ ÷ އާމްދަނީ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.add_income",
+    "english": "Add income",
+    "suggested": "އާމްދަނީ ލިޔުއްވާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.add_expense",
+    "english": "Add expense",
+    "suggested": "ޚަރަދު ލިޔުއްވާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.add",
+    "english": "Add",
+    "suggested": "އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.edit",
+    "english": "Change",
+    "suggested": "ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.amount",
+    "english": "Amount",
+    "suggested": "އަދަދު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.date",
+    "english": "Date",
+    "suggested": "ތާރީޚު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.category",
+    "english": "Category",
+    "suggested": "ބާވަތް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.categories",
+    "english": "Categories",
+    "suggested": "ބާވަތްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.categories_hint",
+    "english": "Group your income and expenses. Removing one keeps its records.",
+    "suggested": "އާމްދަނީއާއި ޚަރަދު ބާވަތްތަކަށް ބަހާލައްވާ. ބާވަތެއް ފޮހެލިޔަސް ރެކޯޑްތައް ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.no_category",
+    "english": "No category",
+    "suggested": "ބާވަތެއް ނެތް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.new_category",
+    "english": "New category",
+    "suggested": "އައު ބާވަތެއް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.remove_category",
+    "english": "Remove this category?",
+    "suggested": "މި ބާވަތް ފޮހެލަންތަ؟",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.remove_category_body",
+    "english": "Its records stay, with the same name, in every total.",
+    "suggested": "އޭގެ ރެކޯޑްތައް ހުރިހާ ޖުމްލައެއްގައި އެ ނަމުގައި ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.note",
+    "english": "Note (optional)",
+    "suggested": "ނޯޓު (ބޭނުންނަމަ)",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.deleted",
+    "english": "Deleted",
+    "suggested": "ފޮހެލެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.delete_title",
+    "english": "Delete this record?",
+    "suggested": "މި ރެކޯޑް ފޮހެލަންތަ؟",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.delete_body",
+    "english": "It leaves every total and graph.",
+    "suggested": "ހުރިހާ ޖުމްލައަކާއި ގްރާފަކުން އުނިވެގެންދާނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.daily_profit",
+    "english": "Daily profit",
+    "suggested": "ދުވަހުގެ ފައިދާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.daily_chart",
+    "english": "Profit of each day this month",
+    "suggested": "މި މަހުގެ ކޮންމެ ދުވަހެއްގެ ފައިދާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.tap_day",
+    "english": "Tap a day to see it",
+    "suggested": "ދުވަހަކަށް ފިތާލައްވާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.month_profit",
+    "english": "Profit this month",
+    "suggested": "މި މަހުގެ ފައިދާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.month_chart",
+    "english": "Profit so far this month, day by day",
+    "suggested": "މި މަހު މިހާތަނަށް ލިބުނު ފައިދާ، ދުވަހުން ދުވަހަށް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.month_profit_hint",
+    "english": "Adds up each day from the 1st. Above the line is profit, below is loss. A new graph starts every month.",
+    "suggested": "1 ވަނަ ދުވަހުން ފެށިގެން ޖަމާވަނީ. ރޮނގުގެ މަތީ ފައިދާ، ތިރީ ގެއްލުން. ކޮންމެ މަހަކު އައު ގްރާފެއް ފެށޭނެ.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.months_chart",
+    "english": "Income, expenses and profit by month",
+    "suggested": "މަހުން މަހަށް އާމްދަނީ، ޚަރަދާއި ފައިދާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.previous_months",
+    "english": "Previous months",
+    "suggested": "ކުރީގެ މަސްތައް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.last_12",
+    "english": "Last 12 months",
+    "suggested": "ފަހުގެ 12 މަސް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.months_subtitle",
+    "english": "Every month so far. Tap a month to see its days.",
+    "suggested": "މިހާތަނަށް ހުރިހާ މަހެއް. ދުވަސްތައް ބެއްލެވުމަށް މަހަކަށް ފިތާލައްވާ.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.latest",
+    "english": "Latest",
+    "suggested": "އެންމެ ފަހުގެ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.see_all",
+    "english": "See all",
+    "suggested": "ހުރިހާ އެއްޗެއް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.nothing_month",
+    "english": "Nothing recorded in {{month}} yet.",
+    "suggested": "{{month}} ގައި އަދި އެއްވެސް އެއްޗެއް ނުލިޔެވޭ.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.this_month",
+    "english": "This month",
+    "suggested": "މި މަސް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.prev_month",
+    "english": "Previous month",
+    "suggested": "ކުރީ މަސް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.next_month",
+    "english": "Next month",
+    "suggested": "ދެން އަންނަ މަސް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.same_as_last",
+    "english": "Same as last month",
+    "suggested": "ކުރީ މަހާ އެއްފަދަ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.vs_last",
+    "english": "vs last month",
+    "suggested": "ކުރީ މަހާ އަޅާބަލާއިރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.search",
+    "english": "Search notes or categories",
+    "suggested": "ނޯޓު ނުވަތަ ބާވަތް ހޯދާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.type",
+    "english": "Type",
+    "suggested": "ބާވަތް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.all",
+    "english": "All",
+    "suggested": "ހުރިހާ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.all_categories",
+    "english": "All categories",
+    "suggested": "ހުރިހާ ބާވަތެއް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.sort",
+    "english": "Sort",
+    "suggested": "ތަރުތީބު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.sort_newest",
+    "english": "Newest first",
+    "suggested": "އެންމެ އައު އެއްޗެއް ކުރިން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.sort_oldest",
+    "english": "Oldest first",
+    "suggested": "އެންމެ ބާ އެއްޗެއް ކުރިން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.sort_largest",
+    "english": "Largest first",
+    "suggested": "އެންމެ ބޮޑު އަދަދު ކުރިން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.sort_smallest",
+    "english": "Smallest first",
+    "suggested": "އެންމެ ކުޑަ އަދަދު ކުރިން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.no_results",
+    "english": "Nothing here.",
+    "suggested": "އެއްވެސް އެއްޗެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.prev",
+    "english": "Previous",
+    "suggested": "ކުރީގެ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.next",
+    "english": "Next",
+    "suggested": "ދެން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.page_of",
+    "english": "Page {{page}} of {{pages}} · {{total}}",
+    "suggested": "{{pages}} ން {{page}} ވަނަ ޞަފްޙާ · {{total}}",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "modules.finance",
+    "english": "Income & expenses",
+    "suggested": "އާމްދަނީއާއި ޚަރަދު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "perm.finance_view",
+    "english": "View income, expenses and profit",
+    "suggested": "އާމްދަނީ، ޚަރަދާއި ފައިދާ ބެލުން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "perm.finance_manage",
+    "english": "Add, change and delete income and expenses",
+    "suggested": "އާމްދަނީއާއި ޚަރަދު ލިޔުން، ބަދަލުކުރުމާއި ފޮހެލުން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m1",
+    "english": "January",
+    "suggested": "ޖަނަވަރީ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort1",
+    "english": "Jan",
+    "suggested": "ޖަނަވަރީ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m2",
+    "english": "February",
+    "suggested": "ފެބުރުވަރީ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort2",
+    "english": "Feb",
+    "suggested": "ފެބުރުވަރީ",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m3",
+    "english": "March",
+    "suggested": "މާރިޗު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort3",
+    "english": "Mar",
+    "suggested": "މާރިޗު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m4",
+    "english": "April",
+    "suggested": "އޭޕްރީލް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort4",
+    "english": "Apr",
+    "suggested": "އޭޕްރީލް",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m5",
+    "english": "May",
+    "suggested": "މެއި",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort5",
+    "english": "May",
+    "suggested": "މެއި",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m6",
+    "english": "June",
+    "suggested": "ޖޫން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort6",
+    "english": "Jun",
+    "suggested": "ޖޫން",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m7",
+    "english": "July",
+    "suggested": "ޖުލައި",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort7",
+    "english": "Jul",
+    "suggested": "ޖުލައި",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m8",
+    "english": "August",
+    "suggested": "އޯގަސްޓު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort8",
+    "english": "Aug",
+    "suggested": "އޯގަސްޓު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m9",
+    "english": "September",
+    "suggested": "ސެޕްޓެމްބަރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort9",
+    "english": "Sep",
+    "suggested": "ސެޕްޓެމްބަރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m10",
+    "english": "October",
+    "suggested": "އޮކްޓޫބަރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort10",
+    "english": "Oct",
+    "suggested": "އޮކްޓޫބަރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m11",
+    "english": "November",
+    "suggested": "ނޮވެމްބަރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort11",
+    "english": "Nov",
+    "suggested": "ނޮވެމްބަރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.m12",
+    "english": "December",
+    "suggested": "ޑިސެމްބަރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
+  },
+  {
+    "key": "flow.mshort12",
+    "english": "Dec",
+    "suggested": "ޑިސެމްބަރު",
+    "status": "needs_review",
+    "notes": "New: Gravity Flow."
   }
 ]

@@ -7,7 +7,6 @@ import {
   financeCategorySchema,
   financeListQuerySchema,
   financeTransactionSchema,
-  minorToDecimal,
   monthSchema,
   type FinanceKind,
 } from '@oceanx/shared';
@@ -19,7 +18,6 @@ import { AppError, notFound } from '../../lib/errors';
 import { idParam } from '../../lib/params';
 import { actor, businessToday, own } from '../../lib/tenant';
 import { parse } from '../../lib/validation';
-import { buildXlsx, type Cell } from '../../lib/xlsx';
 
 type Ctx = ReturnType<typeof bizCtx>;
 
@@ -306,48 +304,6 @@ export async function financeRoutes(app: FastifyInstance) {
     return { ok: true };
   });
 
-  // ---------------------------------------------------------------- exports
-  /** A month as CSV or Excel: the transactions, the totals, and every day's profit. */
-  app.get('/finance/export', { preHandler: requirePermission('finance.export') }, async (req, reply) => {
-    const ctx = bizCtx(req);
-    const q = parse(z.object({ month: monthSchema, format: z.enum(['csv', 'xlsx']) }), req.query);
-    const [summary, rows] = await Promise.all([
-      monthSummary(db, ctx.businessId, q.month),
-      listSelect()
-        .where(listWhere(ctx, { month: q.month, page: 1, pageSize: 100, sort: 'oldest' }))
-        .orderBy(...order('oldest')),
-    ]);
-    const cur = ctx.access.business.currency;
-    const money = (minor: number) => Number(minorToDecimal(minor));
-    const txRows: Cell[][] = [
-      ['Date', 'Type', 'Category', 'Description', 'Reference', `Amount (${cur})`],
-      ...rows.map((r) => [r.t.occurredOn, r.t.kind === 'income' ? 'Income' : 'Expense', r.categoryName ?? '', r.t.description, r.t.reference, money(r.t.kind === 'income' ? r.t.amount : -r.t.amount)]),
-    ];
-    const totals: Cell[][] = [
-      ['', '', '', '', 'Total income', money(summary.totals.income)],
-      ['', '', '', '', 'Total expenses', money(-summary.totals.expense)],
-      ['', '', '', '', 'Net profit', money(summary.totals.net)],
-    ];
-    const daily: Cell[][] = [['Date', `Income (${cur})`, `Expenses (${cur})`, `Daily profit (${cur})`, `Profit so far this month (${cur})`], ...summary.days.map((d) => [d.date, money(d.income), money(d.expense), money(d.profit), money(d.cumulative)])];
-    const base = `gravity-flow-${q.month}`;
-    if (q.format === 'xlsx') {
-      const buf = buildXlsx([
-        { name: 'Transactions', rows: [...txRows, [], ...totals] },
-        { name: 'Daily profit', rows: daily },
-      ]);
-      reply.header('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet').header('content-disposition', `attachment; filename="${base}.xlsx"`);
-      return reply.send(buf);
-    }
-    const csvCell = (v: Cell) => {
-      const s = v === null ? '' : String(v);
-      // Values starting with = + - @ are prefixed so spreadsheet programs never run them as formulas.
-      const safe = /^[=+\-@]/.test(s) && typeof v === 'string' ? `'${s}` : s;
-      return /[",\n]/.test(safe) ? `"${safe.replace(/"/g, '""')}"` : safe;
-    };
-    const csv = [...txRows, [], ...totals].map((r) => r.map(csvCell).join(',')).join('\r\n');
-    reply.header('content-type', 'text/csv; charset=utf-8').header('content-disposition', `attachment; filename="${base}.csv"`);
-    return `﻿${csv}\r\n`;
-  });
 }
 
 /** `count` months from `first`, each with income, expense, net and margin (zero when nothing was recorded). */

@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { inflateRawSync } from 'node:zlib';
+import { sql } from 'drizzle-orm';
 import { Client, createSuperAdmin, createTestEnv, loginSuperAdmin, resetDb, setupBusiness, type TestEnv } from './helpers';
 
 let env: TestEnv;
@@ -23,22 +23,6 @@ async function flowAccount(name: string) {
   return { c, session: res.json() };
 }
 const add = (c: Client, kind: 'income' | 'expense', amount: string | number, occurredOn: string, extra: Record<string, unknown> = {}) => c.post('/api/finance/transactions', { kind, amount, occurredOn, ...extra });
-
-/** Files inside an .xlsx (a ZIP), by name. */
-function unzip(buf: Buffer) {
-  const files: Record<string, string> = {};
-  let i = 0;
-  while (buf.readUInt32LE(i) === 0x04034b50) {
-    const size = buf.readUInt32LE(i + 18);
-    const nameLen = buf.readUInt16LE(i + 26);
-    const extra = buf.readUInt16LE(i + 28);
-    const name = buf.subarray(i + 30, i + 30 + nameLen).toString();
-    const data = buf.subarray(i + 30 + nameLen + extra, i + 30 + nameLen + extra + size);
-    files[name] = inflateRawSync(data).toString('utf8');
-    i += 30 + nameLen + extra + size;
-  }
-  return files;
-}
 
 describe('Gravity Flow (income, expenses, profit)', () => {
   it('a Flow account gets income & expenses only, on its own plan with a free trial', async () => {
@@ -190,22 +174,24 @@ describe('Gravity Flow (income, expenses, profit)', () => {
     expect((await g.get('/api/finance/summary')).statusCode).toBe(403);
   });
 
-  it('exports a month as CSV and Excel', async () => {
-    const { c } = await flowAccount('Export');
-    await add(c, 'income', '1500', '2026-08-02', { description: 'Catch sold, "big" one' });
-    await add(c, 'expense', '250.75', '2026-08-03', { description: '=HYPERLINK("x")' });
-    const csv = await c.get('/api/finance/export?month=2026-08&format=csv');
-    expect(csv.headers['content-type']).toContain('text/csv');
-    expect(csv.body).toContain('2026-08-02,Income,,"Catch sold, ""big"" one",,1500');
-    expect(csv.body).toContain(`'=HYPERLINK`); // never a live formula
-    expect(csv.body).toContain('Net profit,1249.25');
-    const xlsx = await c.request('GET', '/api/finance/export?month=2026-08&format=xlsx');
-    expect(xlsx.headers['content-type']).toContain('spreadsheetml');
-    const files = unzip(xlsx.rawPayload);
-    expect(Object.keys(files)).toEqual(expect.arrayContaining(['xl/workbook.xml', 'xl/worksheets/sheet1.xml', 'xl/worksheets/sheet2.xml']));
-    expect(files['xl/worksheets/sheet1.xml']).toContain('Catch sold, &quot;big&quot; one');
-    expect(files['xl/worksheets/sheet1.xml']).toContain('<v>-250.75</v>');
-    expect(files['xl/worksheets/sheet2.xml']!.match(/<row /g)).toHaveLength(32); // header + 31 days
-    expect((await c.get('/api/finance/export?month=2026-13&format=csv')).statusCode).toBe(422);
+  it('phone app: sign in once (long sign-in); browsers and the POS keep the normal limits', async () => {
+    await flowAccount('Phone');
+    const { ownerEmail } = await setupBusiness(env, sa, 'Lagoon Cafe', { type: 'cafe' });
+    const APP = 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/126 Mobile Safari/537.36 OceanXAndroid/1.0.0';
+    const login = (email: string, password: string, ua: string) => env.app.inject({ method: 'POST', url: '/api/auth/login', headers: { 'user-agent': ua }, payload: { email, password } });
+    const maxAge = (r: Awaited<ReturnType<typeof login>>) => Number(/Max-Age=(\d+)/.exec(String(r.headers['set-cookie']))?.[1]);
+    const app = await login('phone@flow.test', 'Flow-Pass-1234', APP);
+    expect(app.statusCode).toBe(200);
+    expect(maxAge(app)).toBe(365 * 86_400);
+    const web = await login('phone@flow.test', 'Flow-Pass-1234', 'Mozilla/5.0 Chrome/126');
+    expect(maxAge(web)).toBe(168 * 3_600);
+    const pos = await login(ownerEmail, 'Owner-Pass-123', APP);
+    expect(pos.statusCode).toBe(200);
+    expect(maxAge(pos)).toBe(168 * 3_600);
+    // A month without opening the app: still signed in. The same month in a browser: signed out.
+    await env.db.execute(sql`UPDATE user_sessions SET last_seen_at = now() - interval '30 days'`);
+    const cookie = (r: Awaited<ReturnType<typeof login>>) => String(r.headers['set-cookie']).split(';')[0]!;
+    expect((await env.app.inject({ method: 'GET', url: '/api/auth/session', headers: { cookie: cookie(app) } })).statusCode).toBe(200);
+    expect((await env.app.inject({ method: 'GET', url: '/api/auth/session', headers: { cookie: cookie(web) } })).statusCode).toBe(401);
   });
 });

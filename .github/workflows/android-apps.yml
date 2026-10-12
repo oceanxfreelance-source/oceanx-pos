@@ -51,18 +51,20 @@ jobs:
           fi
           echo "ANDROID_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
       - name: Build
-        run: gradle -p android assemblePosRelease assembleGravityRelease --no-daemon
+        run: gradle -p android assemblePosRelease assembleGravityRelease assembleFlowRelease --no-daemon
       - name: Versions
         id: v
         shell: bash
         run: |
           echo "pos=$(grep -oP "def appVersion = '\K[^']+" android/app/build.gradle)" >> "$GITHUB_OUTPUT"
           echo "gravity=$(grep -oP "def gravityVersion = '\K[^']+" android/app/build.gradle)" >> "$GITHUB_OUTPUT"
+          echo "flow=$(grep -oP "def flowVersion = '\K[^']+" android/app/build.gradle)" >> "$GITHUB_OUTPUT"
       - name: Rename
         shell: bash
         run: |
           cp android/app/build/outputs/apk/pos/release/app-pos-release.apk "OceanX-POS-Tablet-${{ steps.v.outputs.pos }}.apk"
           cp android/app/build/outputs/apk/gravity/release/app-gravity-release.apk "Gravity-${{ steps.v.outputs.gravity }}.apk"
+          cp android/app/build/outputs/apk/flow/release/app-flow-release.apk "Gravity-Flow-${{ steps.v.outputs.flow }}.apk"
       - uses: actions/upload-artifact@v4
         with:
           name: android-apps
@@ -86,3 +88,6 @@ jobs:
           publish "gravity-android-v${{ steps.v.outputs.gravity }}" "Gravity-${{ steps.v.outputs.gravity }}.apk" \
             "Gravity for Android ${{ steps.v.outputs.gravity }}" \
             "Gravity (quotations & invoices) for Android phones. Download the APK on the phone, open it and allow installing from this source. Signing: $SIGNING."
+          publish "flow-android-v${{ steps.v.outputs.flow }}" "Gravity-Flow-${{ steps.v.outputs.flow }}.apk" \
+            "Gravity Flow for Android ${{ steps.v.outputs.flow }}" \
+            "Gravity Flow (income, expenses & profit) for Android phones. Sign in once. Download the APK on the phone, open it and allow installing from this source. Signing: $SIGNING."

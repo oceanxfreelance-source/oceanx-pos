@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 800 · **confirmed**: 148
+Status: **needs_review**: 901 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -152,6 +152,104 @@ review of the whole file is still recommended before launch.
 | `errors.payroll_period_exists` | A salary sheet for this month already exists. | މި މަހުގެ މުސާރަ ޝީޓެއް ކުރިން ހަދާފައި އެބައޮތް. | needs_review | Plain translation using existing app terms. |
 | `expenses.categories.ingredients` | Ingredients | ކާނާގެ ތަކެތި | needs_review | ކާނާގެ ތަކެތި; see products.types.ingredient. |
 | `expenses.payee` | Paid to | ފައިސާ ދިން ފަރާތް | needs_review | Paid to: ފައިސާ ދިން ފަރާތް. |
+| `flow.accounts` | Gravity Flow accounts | Gravity Flow އެކައުންޓްތައް | needs_review | New: Gravity Flow. |
+| `flow.accounts_subtitle` | People and businesses using Gravity Flow for income and expenses. | އާމްދަނީއާއި ޚަރަދަށް Gravity Flow ބޭނުންކުރާ ފަރާތްތައް. | needs_review | New: Gravity Flow. |
+| `flow.active_accounts` | Active Gravity Flow accounts | ހަރަކާތްތެރި Gravity Flow އެކައުންޓްތައް | needs_review | New: Gravity Flow. |
+| `flow.add` | Add | އިތުރުކުރޭ | needs_review | New: Gravity Flow. |
+| `flow.add_expense` | Add expense | ޚަރަދު ލިޔުއްވާ | needs_review | New: Gravity Flow. |
+| `flow.add_income` | Add income | އާމްދަނީ ލިޔުއްވާ | needs_review | New: Gravity Flow. |
+| `flow.all` | All | ހުރިހާ | needs_review | New: Gravity Flow. |
+| `flow.all_categories` | All categories | ހުރިހާ ބާވަތެއް | needs_review | New: Gravity Flow. |
+| `flow.amount` | Amount | އަދަދު | needs_review | New: Gravity Flow. |
+| `flow.aside_1` | Add income and expenses in seconds | ސިކުންތުކޮޅެއްގައި އާމްދަނީއާއި ޚަރަދު ލިޔެވޭނެ | needs_review | New: Gravity Flow. |
+| `flow.aside_2` | Profit for every day and the whole month | ކޮންމެ ދުވަހެއްގެ އަދި މުޅި މަހުގެ ފައިދާ | needs_review | New: Gravity Flow. |
+| `flow.aside_3` | Every past month kept | ކުރީގެ ހުރިހާ މަހެއް ރައްކާވެފައި | needs_review | New: Gravity Flow. |
+| `flow.aside_title` | Know every day if you are making money. | ފައިދާ ލިބޭތޯ ކޮންމެ ދުވަހަކު އެނގޭނެ. | needs_review | New: Gravity Flow. |
+| `flow.business_name` | Your business or your name | ތިބާގެ ވިޔަފާރި ނުވަތަ ނަން | needs_review | New: Gravity Flow. |
+| `flow.business_name_hint` | Shown at the top of your screens. | ސްކްރީނުގެ މަތީގައި ފެންނާނެ. | needs_review | New: Gravity Flow. |
+| `flow.categories` | Categories | ބާވަތްތައް | needs_review | New: Gravity Flow. |
+| `flow.categories_hint` | Group your income and expenses. Removing one keeps its records. | އާމްދަނީއާއި ޚަރަދު ބާވަތްތަކަށް ބަހާލައްވާ. ބާވަތެއް ފޮހެލިޔަސް ރެކޯޑްތައް ހުންނާނެ. | needs_review | New: Gravity Flow. |
+| `flow.category` | Category | ބާވަތް | needs_review | New: Gravity Flow. |
+| `flow.console` | Gravity Flow console | Gravity Flow ކޮންސޯލް | needs_review | New: Gravity Flow. |
+| `flow.daily_chart` | Profit of each day this month | މި މަހުގެ ކޮންމެ ދުވަހެއްގެ ފައިދާ | needs_review | New: Gravity Flow. |
+| `flow.daily_profit` | Daily profit | ދުވަހުގެ ފައިދާ | needs_review | New: Gravity Flow. |
+| `flow.date` | Date | ތާރީޚު | needs_review | New: Gravity Flow. |
+| `flow.delete_body` | It leaves every total and graph. | ހުރިހާ ޖުމްލައަކާއި ގްރާފަކުން އުނިވެގެންދާނެ. | needs_review | New: Gravity Flow. |
+| `flow.delete_title` | Delete this record? | މި ރެކޯޑް ފޮހެލަންތަ؟ | needs_review | New: Gravity Flow. |
+| `flow.deleted` | Deleted | ފޮހެލެވިއްޖެ | needs_review | New: Gravity Flow. |
+| `flow.edit` | Change | ބަދަލުކުރޭ | needs_review | New: Gravity Flow. |
+| `flow.expense` | Expense | ޚަރަދު | needs_review | New: Gravity Flow. |
+| `flow.expenses` | Expenses | ޚަރަދު | needs_review | New: Gravity Flow. |
+| `flow.income` | Income | އާމްދަނީ | needs_review | New: Gravity Flow. |
+| `flow.last_12` | Last 12 months | ފަހުގެ 12 މަސް | needs_review | New: Gravity Flow. |
+| `flow.latest` | Latest | އެންމެ ފަހުގެ | needs_review | New: Gravity Flow. |
+| `flow.loss` | Loss | ގެއްލުން | needs_review | New: Gravity Flow. |
+| `flow.m1` | January | ޖަނަވަރީ | needs_review | New: Gravity Flow. |
+| `flow.m10` | October | އޮކްޓޫބަރު | needs_review | New: Gravity Flow. |
+| `flow.m11` | November | ނޮވެމްބަރު | needs_review | New: Gravity Flow. |
+| `flow.m12` | December | ޑިސެމްބަރު | needs_review | New: Gravity Flow. |
+| `flow.m2` | February | ފެބުރުވަރީ | needs_review | New: Gravity Flow. |
+| `flow.m3` | March | މާރިޗު | needs_review | New: Gravity Flow. |
+| `flow.m4` | April | އޭޕްރީލް | needs_review | New: Gravity Flow. |
+| `flow.m5` | May | މެއި | needs_review | New: Gravity Flow. |
+| `flow.m6` | June | ޖޫން | needs_review | New: Gravity Flow. |
+| `flow.m7` | July | ޖުލައި | needs_review | New: Gravity Flow. |
+| `flow.m8` | August | އޯގަސްޓު | needs_review | New: Gravity Flow. |
+| `flow.m9` | September | ސެޕްޓެމްބަރު | needs_review | New: Gravity Flow. |
+| `flow.margin` | Profit margin | ފައިދާގެ ނިސްބަތް | needs_review | New: Gravity Flow. |
+| `flow.margin_hint` | Profit ÷ income | ފައިދާ ÷ އާމްދަނީ | needs_review | New: Gravity Flow. |
+| `flow.month_chart` | Profit so far this month, day by day | މި މަހު މިހާތަނަށް ލިބުނު ފައިދާ، ދުވަހުން ދުވަހަށް | needs_review | New: Gravity Flow. |
+| `flow.month_profit` | Profit this month | މި މަހުގެ ފައިދާ | needs_review | New: Gravity Flow. |
+| `flow.month_profit_hint` | Adds up each day from the 1st. Above the line is profit, below is loss. A new graph starts every month. | 1 ވަނަ ދުވަހުން ފެށިގެން ޖަމާވަނީ. ރޮނގުގެ މަތީ ފައިދާ، ތިރީ ގެއްލުން. ކޮންމެ މަހަކު އައު ގްރާފެއް ފެށޭނެ. | needs_review | New: Gravity Flow. |
+| `flow.months_chart` | Income, expenses and profit by month | މަހުން މަހަށް އާމްދަނީ، ޚަރަދާއި ފައިދާ | needs_review | New: Gravity Flow. |
+| `flow.months_subtitle` | Every month so far. Tap a month to see its days. | މިހާތަނަށް ހުރިހާ މަހެއް. ދުވަސްތައް ބެއްލެވުމަށް މަހަކަށް ފިތާލައްވާ. | needs_review | New: Gravity Flow. |
+| `flow.mshort1` | Jan | ޖަނަވަރީ | needs_review | New: Gravity Flow. |
+| `flow.mshort10` | Oct | އޮކްޓޫބަރު | needs_review | New: Gravity Flow. |
+| `flow.mshort11` | Nov | ނޮވެމްބަރު | needs_review | New: Gravity Flow. |
+| `flow.mshort12` | Dec | ޑިސެމްބަރު | needs_review | New: Gravity Flow. |
+| `flow.mshort2` | Feb | ފެބުރުވަރީ | needs_review | New: Gravity Flow. |
+| `flow.mshort3` | Mar | މާރިޗު | needs_review | New: Gravity Flow. |
+| `flow.mshort4` | Apr | އޭޕްރީލް | needs_review | New: Gravity Flow. |
+| `flow.mshort5` | May | މެއި | needs_review | New: Gravity Flow. |
+| `flow.mshort6` | Jun | ޖޫން | needs_review | New: Gravity Flow. |
+| `flow.mshort7` | Jul | ޖުލައި | needs_review | New: Gravity Flow. |
+| `flow.mshort8` | Aug | އޯގަސްޓު | needs_review | New: Gravity Flow. |
+| `flow.mshort9` | Sep | ސެޕްޓެމްބަރު | needs_review | New: Gravity Flow. |
+| `flow.nav_months` | Months | މަސްތައް | needs_review | New: Gravity Flow. |
+| `flow.nav_transactions` | Transactions | މުޢާމަލާތްތައް | needs_review | New: Gravity Flow. |
+| `flow.new_account` | New Gravity Flow account | އައު Gravity Flow އެކައުންޓެއް | needs_review | New: Gravity Flow. |
+| `flow.new_category` | New category | އައު ބާވަތެއް | needs_review | New: Gravity Flow. |
+| `flow.next` | Next | ދެން | needs_review | New: Gravity Flow. |
+| `flow.next_month` | Next month | ދެން އަންނަ މަސް | needs_review | New: Gravity Flow. |
+| `flow.no_account` | New to Gravity Flow? | Gravity Flow އަށް އަލެއްތަ؟ | needs_review | New: Gravity Flow. |
+| `flow.no_category` | No category | ބާވަތެއް ނެތް | needs_review | New: Gravity Flow. |
+| `flow.no_results` | Nothing here. | އެއްވެސް އެއްޗެއް ނެތް. | needs_review | New: Gravity Flow. |
+| `flow.note` | Note (optional) | ނޯޓު (ބޭނުންނަމަ) | needs_review | New: Gravity Flow. |
+| `flow.nothing_month` | Nothing recorded in {{month}} yet. | {{month}} ގައި އަދި އެއްވެސް އެއްޗެއް ނުލިޔެވޭ. | needs_review | New: Gravity Flow. |
+| `flow.page_of` | Page {{page}} of {{pages}} · {{total}} | {{pages}} ން {{page}} ވަނަ ޞަފްޙާ · {{total}} | needs_review | New: Gravity Flow. |
+| `flow.payments` | Gravity Flow payments | Gravity Flow ޕޭމަންޓްތައް | needs_review | New: Gravity Flow. |
+| `flow.plan_title` | Gravity Flow plan | Gravity Flow ޕްލޭން | needs_review | New: Gravity Flow. |
+| `flow.prev` | Previous | ކުރީގެ | needs_review | New: Gravity Flow. |
+| `flow.prev_month` | Previous month | ކުރީ މަސް | needs_review | New: Gravity Flow. |
+| `flow.previous_months` | Previous months | ކުރީގެ މަސްތައް | needs_review | New: Gravity Flow. |
+| `flow.profit` | Profit | ފައިދާ | needs_review | New: Gravity Flow. |
+| `flow.register_subtitle` | See your income, expenses and profit every day. Free trial, no card needed. | ކޮންމެ ދުވަހަކު ތިބާގެ އާމްދަނީ، ޚަރަދާއި ފައިދާ ބައްލަވާ. ހިލޭ ޓްރަޔަލް. | needs_review | New: Gravity Flow. |
+| `flow.register_title` | Create your Gravity Flow account | Gravity Flow އެކައުންޓް ހައްދަވާ | needs_review | New: Gravity Flow. |
+| `flow.remove_category` | Remove this category? | މި ބާވަތް ފޮހެލަންތަ؟ | needs_review | New: Gravity Flow. |
+| `flow.remove_category_body` | Its records stay, with the same name, in every total. | އޭގެ ރެކޯޑްތައް ހުރިހާ ޖުމްލައެއްގައި އެ ނަމުގައި ހުންނާނެ. | needs_review | New: Gravity Flow. |
+| `flow.same_as_last` | Same as last month | ކުރީ މަހާ އެއްފަދަ | needs_review | New: Gravity Flow. |
+| `flow.search` | Search notes or categories | ނޯޓު ނުވަތަ ބާވަތް ހޯދާ | needs_review | New: Gravity Flow. |
+| `flow.see_all` | See all | ހުރިހާ އެއްޗެއް | needs_review | New: Gravity Flow. |
+| `flow.sort` | Sort | ތަރުތީބު | needs_review | New: Gravity Flow. |
+| `flow.sort_largest` | Largest first | އެންމެ ބޮޑު އަދަދު ކުރިން | needs_review | New: Gravity Flow. |
+| `flow.sort_newest` | Newest first | އެންމެ އައު އެއްޗެއް ކުރިން | needs_review | New: Gravity Flow. |
+| `flow.sort_oldest` | Oldest first | އެންމެ ބާ އެއްޗެއް ކުރިން | needs_review | New: Gravity Flow. |
+| `flow.sort_smallest` | Smallest first | އެންމެ ކުޑަ އަދަދު ކުރިން | needs_review | New: Gravity Flow. |
+| `flow.tagline` | Income, expenses & profit | އާމްދަނީ، ޚަރަދާއި ފައިދާ | needs_review | New: Gravity Flow. |
+| `flow.tap_day` | Tap a day to see it | ދުވަހަކަށް ފިތާލައްވާ | needs_review | New: Gravity Flow. |
+| `flow.this_month` | This month | މި މަސް | needs_review | New: Gravity Flow. |
+| `flow.type` | Type | ބާވަތް | needs_review | New: Gravity Flow. |
+| `flow.vs_last` | vs last month | ކުރީ މަހާ އަޅާބަލާއިރު | needs_review | New: Gravity Flow. |
 | `gravity.accounts` | Gravity accounts | Gravity އެކައުންޓްތައް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.accounts_subtitle` | Businesses using Gravity for quotations and invoices. | ކޯޓޭޝަނާއި އިންވޮއިސްއަށް Gravity ބޭނުންކުރާ ވިޔަފާރިތައް. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.active_accounts` | Active Gravity accounts | ހިނގަމުންދާ Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
@@ -504,6 +602,7 @@ review of the whole file is still recommended before launch.
 | `menu_i18n.message_in` | Welcome message in {{language}} | {{language}} ބަހުން މަރުޙަބާ މެސެޖު | needs_review | New: labels for item names in other languages. |
 | `menu_i18n.more_languages` | More languages | އިތުރު ބަސްތައް | needs_review | New: labels for item names in other languages. |
 | `menu_i18n.name_in` | Name in {{language}} | {{language}} ބަހުން ނަން | needs_review | New: labels for item names in other languages. |
+| `modules.finance` | Income & expenses | އާމްދަނީއާއި ޚަރަދު | needs_review | New: Gravity Flow. |
 | `modules.purchases` | Purchases | ގަތުން | needs_review | Alternative loanword: ޕާޗޭސް. |
 | `nav.billing` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `nav.group_catalog_retail` | Products & stock | ތަކެތިއާއި ސްޓޮކް | needs_review | New: retail shops menu section. |
@@ -522,6 +621,8 @@ review of the whole file is still recommended before launch.
 | `perm.branding_manage` | Manage the company stamp and document signatures | ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
+| `perm.finance_manage` | Add, change and delete income and expenses | އާމްދަނީއާއި ޚަރަދު ލިޔުން، ބަދަލުކުރުމާއި ފޮހެލުން | needs_review | New: Gravity Flow. |
+| `perm.finance_view` | View income, expenses and profit | އާމްދަނީ، ޚަރަދާއި ފައިދާ ބެލުން | needs_review | New: Gravity Flow. |
 | `perm.loyalty_view` | View loyalty points | ލޮޔަލްޓީ ޕޮއިންޓް ބަލާ | needs_review | ލޮޔަލްޓީ ޕޮއިންޓް — consistent with existing addons.names.loyalty. Native alternative not common. |
 | `perm.payroll_manage` | Make and finalize salary sheets | މުސާރަ ޝީޓް ހަދައި ފައިނަލްކުރޭ | needs_review | "Finalize" rendered as loanword ފައިނަލްކުރޭ. Alternative: ނިންމާ / ކަށަވަރުކުރޭ. |
 | `perm.payroll_view` | View salary sheets and salaries | މުސާރަ ޝީޓްތަކާއި މުސާރަ ބަލާ | needs_review | Plain translation using existing app terms. |

@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, type ReactN
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, ApiError, onUnauthorized, setCsrfToken } from '../lib/api';
 import { posTablet } from '../lib/desktop';
-import { GRAVITY_HOST } from '../lib/product';
+import { HOST_PRODUCT, productPath, type Product } from '../lib/product';
 import { applyLanguage } from '../i18n';
 import { applyPreferences } from '../lib/theme';
 import { setRetailRoleNames } from '../lib/labels';
@@ -24,8 +24,8 @@ export interface BusinessSession {
     id: string;
     name: string;
     slug: string;
-    /** OceanX product: pos | gravity (quotations & invoices). */
-    product: 'pos' | 'gravity';
+    /** OceanX product: pos | gravity (quotations & invoices) | flow (income, expenses & profit). */
+    product: Product;
     businessType: string;
     status: string;
     currency: string;
@@ -115,7 +115,7 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
       refresh: () => qc.invalidateQueries({ queryKey: BIZ_SESSION_KEY }),
       setSession,
       logout: async () => {
-        const gravity = session?.business.product === 'gravity';
+        const product = session?.business.product ?? 'pos';
         try {
           await api.post('/auth/logout');
         } finally {
@@ -124,7 +124,7 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
           qc.clear();
           // A fresh page load guarantees no screen keeps showing the previous user (shared counter PCs).
           // The tablet app signs back in straight to the POS.
-          window.location.replace(posTablet ? '/login?next=%2Fstart' : gravity && !GRAVITY_HOST ? '/gravity/login' : '/login');
+          window.location.replace(posTablet ? '/login?next=%2Fstart' : productPath(product, 'login'));
         }
       },
     };
@@ -148,10 +148,11 @@ export function useBizSession(): BusinessSession {
 
 /** Remembers the last product used on this device, so a signed-out Gravity user lands on the Gravity sign-in. */
 export const LAST_PRODUCT_KEY = 'ox.lastProduct';
-export function lastProduct(): 'pos' | 'gravity' {
-  if (GRAVITY_HOST) return 'gravity';
+export function lastProduct(): Product {
+  if (HOST_PRODUCT !== 'pos') return HOST_PRODUCT;
   try {
-    return localStorage.getItem(LAST_PRODUCT_KEY) === 'gravity' ? 'gravity' : 'pos';
+    const v = localStorage.getItem(LAST_PRODUCT_KEY);
+    return v === 'gravity' || v === 'flow' ? v : 'pos';
   } catch {
     return 'pos';
   }

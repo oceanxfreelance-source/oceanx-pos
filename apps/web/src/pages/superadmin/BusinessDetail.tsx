@@ -17,7 +17,7 @@ import { PaymentsTable, RecordPaymentDialog, usePayments } from './Payments';
 import { OwnerCredentials, generatePassword } from '../../components/OwnerCredentials';
 
 interface Detail {
-  business: { id: string; name: string; slug: string; product: 'pos' | 'gravity'; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
+  business: { id: string; name: string; slug: string; product: 'pos' | 'gravity' | 'flow'; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
   subscription: { status: string; effectiveStatus: string; currentPeriodEnd: string; startsAt: string; plan: Plan } | null;
   addons: { code: string; name: string; isActive: boolean; status: string | null; grantedAt: string | null; revokedAt: string | null; expiresAt: string | null; requestedAt: string | null; requestNote: string | null }[];
   userCount: number;
@@ -83,14 +83,14 @@ export default function BusinessDetailPage() {
     <div className="space-y-6">
       <PageHeader
         back={
-          <Link to={b.product === 'gravity' ? '/superadmin/gravity/accounts' : '/superadmin/businesses'} className="mb-2 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
-            <ArrowLeft className="rtl-flip size-4" /> {b.product === 'gravity' ? t('gravity.accounts') : t('superadmin.businesses.title')}
+          <Link to={b.product !== 'pos' ? `/superadmin/${b.product}/accounts` : '/superadmin/businesses'} className="mb-2 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
+            <ArrowLeft className="rtl-flip size-4" /> {b.product !== 'pos' ? t(`${b.product}.accounts`) : t('superadmin.businesses.title')}
           </Link>
         }
         title={<span dir="auto">{b.name}</span>}
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            {b.product === 'gravity' ? t('gravity.name') : t(`business_types.${b.businessType}`)} · <Ltr>{b.slug}</Ltr>
+            {b.product !== 'pos' ? t(`${b.product}.name`) : t(`business_types.${b.businessType}`)} · <Ltr>{b.slug}</Ltr>
             <Badge tone={STATUS_TONE[b.status]} dot>
               {t(`superadmin.status.${b.status}`)}
             </Badge>
@@ -199,7 +199,7 @@ export default function BusinessDetailPage() {
           </dl>
         </Card>
         {/* Add-ons are POS extras: Gravity accounts have none. */}
-        {b.product !== 'gravity' && (
+        {b.product === 'pos' && (
         <Card className="lg:col-span-2">
           <CardHeader title={t('superadmin.business.addons')} description={t('superadmin.business.addons_hint')} />
           <ul className="divide-y divide-slate-100 dark:divide-slate-800">

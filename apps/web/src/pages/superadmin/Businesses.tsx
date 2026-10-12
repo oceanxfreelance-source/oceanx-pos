@@ -13,6 +13,7 @@ import { Button } from '../../components/ui/Button';
 import { Input, Select, Textarea } from '../../components/ui/Form';
 import { Dialog } from '../../components/ui/Dialog';
 import { DataTable, Pagination, type Column } from '../../components/ui/Table';
+import type { Product } from '../../lib/product';
 import { OwnerCredentials, generatePassword } from '../../components/OwnerCredentials';
 
 interface Row {
@@ -44,8 +45,9 @@ export const STATUS_TONE: Record<string, BadgeTone> = { active: 'green', pending
 export const SUB_TONE: Record<string, BadgeTone> = { active: 'green', trialing: 'blue', past_due: 'amber', expired: 'red', cancelled: 'gray' };
 
 /** Business accounts of one product: OceanX POS (optionally one business type) or Gravity. */
-export default function BusinessesPage({ presetType, product = 'pos' }: { presetType?: string; product?: 'pos' | 'gravity' }) {
-  const gravity = product === 'gravity';
+export default function BusinessesPage({ presetType, product = 'pos' }: { presetType?: string; product?: Product }) {
+  // Gravity and Gravity Flow: one-person accounts with one plan (code = product).
+  const gravity = product !== 'pos';
   const { t } = useTranslation();
   const f = useFormat();
   const navigate = useNavigate();
@@ -113,13 +115,13 @@ export default function BusinessesPage({ presetType, product = 'pos' }: { preset
   ];
 
   const title = gravity
-    ? t('gravity.accounts')
+    ? t(`${product}.accounts`)
     : presetType === 'restaurant' ? t('superadmin.nav.restaurants') : presetType === 'cafe' ? t('superadmin.nav.cafes') : presetType === 'retail' ? t('superadmin.nav.retail') : t('superadmin.businesses.title');
   return (
     <div>
       <PageHeader
         title={title}
-        description={gravity ? t('gravity.accounts_subtitle') : t('superadmin.businesses.subtitle')}
+        description={gravity ? t(`${product}.accounts_subtitle`) : t('superadmin.businesses.subtitle')}
         actions={
           <Button icon={<Plus className="size-4" />} onClick={() => setCreating(true)}>
             {t('superadmin.businesses.create')}
@@ -172,7 +174,7 @@ export default function BusinessesPage({ presetType, product = 'pos' }: { preset
           <EmptyState icon={<Building2 className="size-6" />} title={t('superadmin.businesses.empty_title')} description={t('superadmin.businesses.empty_body')} />
         ) : (
           <>
-            <DataTable columns={columns} rows={list.data.items} rowKey={(b) => b.id} onRowClick={(b) => navigate(gravity ? `/superadmin/gravity/accounts/${b.id}` : `/superadmin/businesses/${b.id}`)} />
+            <DataTable columns={columns} rows={list.data.items} rowKey={(b) => b.id} onRowClick={(b) => navigate(gravity ? `/superadmin/${product}/accounts/${b.id}` : `/superadmin/businesses/${b.id}`)} />
             <Pagination page={page} pageSize={20} total={list.data.total} onPage={setPage} />
           </>
         )}
@@ -182,8 +184,9 @@ export default function BusinessesPage({ presetType, product = 'pos' }: { preset
   );
 }
 
-function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClose: () => void; defaultType?: string; product?: 'pos' | 'gravity' }) {
-  const gravity = product === 'gravity';
+function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClose: () => void; defaultType?: string; product?: Product }) {
+  // Gravity and Gravity Flow: one-person accounts with one plan (code = product).
+  const gravity = product !== 'pos';
   const { t } = useTranslation();
   const qc = useQueryClient();
   const navigate = useNavigate();
@@ -206,7 +209,7 @@ function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClo
   const [created, setCreated] = useState<{ id: string; email: string; password: string } | null>(null);
   useEffect(() => {
     if (!form.planId && plans.data?.items.length) {
-      const trial = plans.data.items.find((p) => p.code === (gravity ? 'gravity' : 'trial') && p.isActive) ?? plans.data.items.find((p) => p.isActive);
+      const trial = plans.data.items.find((p) => p.code === (gravity ? product : 'trial') && p.isActive) ?? plans.data.items.find((p) => p.isActive);
       if (trial) setForm((f) => ({ ...f, planId: trial.id }));
     }
   }, [plans.data, form.planId]);
@@ -238,11 +241,11 @@ function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClo
       open
       onClose={onClose}
       size="lg"
-      title={gravity ? t('gravity.new_account') : t('superadmin.businesses.create')}
+      title={gravity ? t(`${product}.new_account`) : t('superadmin.businesses.create')}
       description={t('superadmin.businesses.create_hint')}
       footer={
         created ? (
-          <Button onClick={() => navigate(gravity ? `/superadmin/gravity/accounts/${created.id}` : `/superadmin/businesses/${created.id}`)}>{t('superadmin.credentials.open_business')}</Button>
+          <Button onClick={() => navigate(gravity ? `/superadmin/${product}/accounts/${created.id}` : `/superadmin/businesses/${created.id}`)}>{t('superadmin.credentials.open_business')}</Button>
         ) : (
           <>
             <Button variant="secondary" onClick={onClose}>

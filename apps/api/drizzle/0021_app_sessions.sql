@@ -1,0 +1,1 @@
+ALTER TABLE "user_sessions" ADD COLUMN "long_lived" boolean DEFAULT false NOT NULL;

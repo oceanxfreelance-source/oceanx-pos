@@ -148,6 +148,13 @@
       "when": 1791820200359,
       "tag": "0020_gravity_flow",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1791821686406,
+      "tag": "0021_app_sessions",
+      "breakpoints": true
     }
   ]
 }

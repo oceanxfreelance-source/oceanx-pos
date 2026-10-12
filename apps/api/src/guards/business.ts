@@ -40,7 +40,7 @@ export async function authenticateBusiness(
     clearBusinessCookie(reply, config);
     throw new AppError('unauthenticated', 'Authentication required');
   }
-  const idleMs = config.BUSINESS_SESSION_IDLE_MINUTES * 60_000;
+  const idleMs = row.s.longLived ? config.APP_SESSION_IDLE_DAYS * 86_400_000 : config.BUSINESS_SESSION_IDLE_MINUTES * 60_000;
   if (row.s.expiresAt.getTime() < now || row.s.lastSeenAt.getTime() + idleMs < now) {
     await db.update(userSessions).set({ revokedAt: new Date() }).where(eq(userSessions.id, row.s.id));
     clearBusinessCookie(reply, config);

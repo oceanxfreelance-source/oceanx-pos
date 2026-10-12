@@ -96,7 +96,8 @@
 }
 
 /* Gravity: navy + green like its logo. Set on <html data-product="gravity"> (Gravity address, sign-in, a Gravity account). */
-:root[data-product='gravity'] {
+:root[data-product='gravity'],
+:root[data-product='flow'] {
   --color-brand-50: #eef5f8;
   --color-brand-100: #d5e7ee;
   --color-brand-200: #acd0dd;

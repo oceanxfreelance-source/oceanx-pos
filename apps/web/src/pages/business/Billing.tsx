@@ -207,7 +207,7 @@ export function BillingBanner() {
   if (!info || !sub || sub.daysLeft > info.reminderDays) return null;
   const pending = info.payments.some((p) => p.status === 'pending');
   // Gravity trials can be hours or minutes long: under a day, say how much time is left.
-  const short = session?.business.product === 'gravity' && sub.minutesLeft > 0 && sub.minutesLeft < 1440;
+  const short = !!session && session.business.product !== 'pos' && sub.minutesLeft > 0 && sub.minutesLeft < 1440;
   return (
     <div className={clsx('flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-4 py-2 text-center text-sm', pending ? 'bg-sky-50 text-sky-900 dark:bg-sky-950 dark:text-sky-100' : 'bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100')}>
       <CalendarClock className="size-4 shrink-0" />
@@ -238,7 +238,7 @@ export default function BillingPage() {
   if (!q.data) return <SkeletonRows rows={6} />;
   const info = q.data;
   const sub = info.subscription;
-  const short = session?.business.product === 'gravity' && !!sub && sub.minutesLeft > 0 && sub.minutesLeft < 1440;
+  const short = !!session && session.business.product !== 'pos' && !!sub && sub.minutesLeft > 0 && sub.minutesLeft < 1440;
   return (
     <div className="space-y-6">
       <PageHeader title={t('billing.title')} description={t('billing.subtitle')} />

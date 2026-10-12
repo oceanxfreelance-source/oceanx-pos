@@ -20,6 +20,7 @@ cpSync(path.join(root, 'apps/web/dist'), path.join(out, 'static'), { recursive: 
 
 // 1b. Gravity's own address gets the same app with Gravity's title, icon, colour, install manifest and share preview.
 writeFileSync(path.join(out, 'static/gravity.html'), gravityShell(readFileSync(path.join(out, 'static/index.html'), 'utf8')));
+writeFileSync(path.join(out, 'static/flow.html'), flowShell(readFileSync(path.join(out, 'static/index.html'), 'utf8')));
 
 // 2. API → single bundled function. Native argon2 bindings are copied next to it.
 await build({
@@ -60,9 +61,11 @@ writeFileSync(
         // Super Admin's own address (SUPERADMIN_APP_URL): it opens straight into Super Admin, and
         // /superadmin on the POS or Gravity addresses moves there (its API answers only there).
         ...adminRoutes(),
-        // Gravity's address (any host with "gravity" in it): the app shell is gravity.html.
+        // Gravity Flow's address (any host with "flow" in it) and Gravity's (any host with "gravity"): their own app shells.
+        { src: '^/(?:index\\.html)?$', has: [{ type: 'host', value: '.*flow.*' }], dest: '/flow.html', headers: { 'cache-control': 'no-cache' } },
         { src: '^/(?:index\\.html)?$', has: [{ type: 'host', value: gravityHostPattern() }], dest: '/gravity.html', headers: { 'cache-control': 'no-cache' } },
         { handle: 'filesystem' },
+        { src: '^/(.*)$', has: [{ type: 'host', value: '.*flow.*' }], dest: '/flow.html', headers: { 'cache-control': 'no-cache' } },
         { src: '^/(.*)$', has: [{ type: 'host', value: gravityHostPattern() }], dest: '/gravity.html', headers: { 'cache-control': 'no-cache' } },
         // The app shell must always be fresh so a new deploy is picked up on the next visit.
         { src: '^/(.*)$', dest: '/index.html', headers: { 'cache-control': 'no-cache' } },
@@ -120,4 +123,35 @@ function gravityShell(html) {
     out = out.replace(re, to);
   }
   return out.replace(/OceanX POS/g, 'Gravity');
+}
+
+/** index.html with Gravity Flow's name, icons, theme colour, manifest and Open Graph tags. */
+function flowShell(html) {
+  const title = 'Gravity Flow: income, expenses & profit';
+  const base = (process.env.FLOW_APP_URL ?? '').replace(/\/$/, '');
+  const desc = 'Income, expenses and profit for small businesses: see your daily and monthly profit, on your phone or PC.';
+  const swaps = [
+    [/<title>[^<]*<\/title>/, `<title>${title.replace('&', '&amp;')}</title>`],
+    [/<meta name="theme-color" content="[^"]*" \/>/, '<meta name="theme-color" content="#03213a" />'],
+    [/<link rel="manifest" href="[^"]*" \/>/, '<link rel="manifest" href="/flow.webmanifest" />'],
+    [/<link rel="apple-touch-icon" href="[^"]*" \/>/, '<link rel="apple-touch-icon" href="/flow/apple-touch-icon.png" />'],
+    [/<link rel="icon" type="image\/png" sizes="32x32" href="[^"]*" \/>/, '<link rel="icon" type="image/png" sizes="32x32" href="/flow/icon-64.png" />'],
+    [/<link rel="icon" type="image\/png" sizes="192x192" href="[^"]*" \/>/, '<link rel="icon" type="image/png" sizes="192x192" href="/flow/icon-192.png" />'],
+    [/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${desc}" />`],
+    [/<meta property="og:site_name" content="[^"]*" \/>/, '<meta property="og:site_name" content="Gravity Flow" />'],
+    [/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${title.replace('&', '&amp;')}" />`],
+    [/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${desc}" />`],
+    [/<meta property="og:url" content="[^"]*" \/>/, base ? `<meta property="og:url" content="${base}/" />` : ''],
+    [/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${base}/flow/og-image.jpg" />`],
+    [/<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${title.replace('&', '&amp;')}" />`],
+    [/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${desc}" />`],
+    [/<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${base}/flow/og-image.jpg" />`],
+    [/<meta property="og:image:alt" content="[^"]*" \/>/, '<meta property="og:image:alt" content="Gravity Flow: income, expenses and profit" />'],
+  ];
+  let out = html;
+  for (const [re, to] of swaps) {
+    if (!re.test(out)) continue;
+    out = out.replace(re, to);
+  }
+  return out.replace(/OceanX POS/g, 'Gravity Flow');
 }

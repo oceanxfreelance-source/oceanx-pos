@@ -7,6 +7,7 @@ import {
   loginSchema,
   registerBusinessSchema,
   resetPasswordSchema,
+  isSoloProduct,
 } from '@oceanx/shared';
 import { businesses, outlets, platformLanguages, plans, userOutlets, userSessions, users } from '../../db/schema';
 import { appUrlFor } from '../../config';
@@ -89,11 +90,17 @@ async function enabledLanguages(req: FastifyRequest) {
     .orderBy(platformLanguages.sortOrder);
 }
 
+/** The OceanX phone app adds "OceanXAndroid/<version>" to its browser identity. */
+const fromPhoneApp = (req: FastifyRequest) => /\bOceanXAndroid\//.test(req.headers['user-agent'] ?? '');
+
 async function startSession(req: FastifyRequest, reply: FastifyReply, user: { id: string; businessId: string; defaultOutletId: string | null }) {
   const { db, config } = req.server.deps;
   const token = randomToken();
   const csrfToken = randomToken(24);
-  const absoluteMs = config.BUSINESS_SESSION_ABSOLUTE_HOURS * 3_600_000;
+  // Gravity and Gravity Flow phone apps: sign in once (until signing out, or a long time unused). Everything else: the normal limits.
+  const [biz] = await db.select({ product: businesses.product }).from(businesses).where(eq(businesses.id, user.businessId));
+  const longLived = fromPhoneApp(req) && isSoloProduct(biz?.product);
+  const absoluteMs = longLived ? config.APP_SESSION_ABSOLUTE_DAYS * 86_400_000 : config.BUSINESS_SESSION_ABSOLUTE_HOURS * 3_600_000;
   await db.insert(userSessions).values({
     userId: user.id,
     businessId: user.businessId,
@@ -103,6 +110,7 @@ async function startSession(req: FastifyRequest, reply: FastifyReply, user: { id
     ip: req.ip,
     userAgent: req.headers['user-agent']?.slice(0, 300) ?? null,
     expiresAt: new Date(Date.now() + absoluteMs),
+    longLived,
   });
   reply.setCookie(BUSINESS_COOKIE, token, businessCookieOptions(config, Math.floor(absoluteMs / 1000)));
   // Make the fresh cookie visible to the guard for the payload below.

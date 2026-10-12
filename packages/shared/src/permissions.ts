@@ -89,7 +89,6 @@ export const PERMISSIONS = [
   // Gravity Flow: income, expenses and profit.
   p('finance.view', 'finance'),
   p('finance.manage', 'finance'),
-  p('finance.export', 'finance'),
 
   p('users.view', 'users'),
   p('users.create', 'users'),

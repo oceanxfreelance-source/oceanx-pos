@@ -29,14 +29,17 @@ type Tab = 'profile' | 'viber' | keyof BusinessSettings;
 export default function SettingsPage() {
   const { t } = useTranslation();
   const { can } = useBiz();
-  const gravity = useBizSession().business.product === 'gravity';
+  // Gravity and Gravity Flow (one-person products): no Viber, receipts or POS settings.
+  const gravity = useBizSession().business.product !== 'pos';
   const q = useQuery({ queryKey: ['biz', 'settings'], queryFn: () => api.get<SettingsResponse>('/settings') });
   const [params] = useSearchParams();
   const [tab, setTab] = useState<Tab | null>((params.get('tab') as Tab | null) ?? null);
   const tabs: { value: Tab; label: string }[] = [];
   if (q.data?.profile) tabs.push({ value: 'profile', label: t('settings.tabs.profile') });
   // Gravity (quotations & invoices only) has no receipts, POS, loyalty, online ordering or Viber.
-  const sections = gravity ? (['regional', 'tax', 'invoice', 'quotation', 'branding'] as const) : (['regional', 'tax', 'receipt', 'invoice', 'quotation', 'branding', 'pos', 'loyalty', 'online'] as const);
+  // Gravity Flow (income & expenses) only needs its currency and time zone, and its logo.
+  const flow = useBizSession().business.product === 'flow';
+  const sections = flow ? (['regional', 'branding'] as const) : gravity ? (['regional', 'tax', 'invoice', 'quotation', 'branding'] as const) : (['regional', 'tax', 'receipt', 'invoice', 'quotation', 'branding', 'pos', 'loyalty', 'online'] as const);
   for (const s of sections) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
   if (can('settings.view') && !gravity) tabs.push({ value: 'viber', label: t('viber.tab') });
   const active = tab ?? tabs[0]?.value ?? null;
@@ -74,7 +77,7 @@ function ReadOnlyNote({ editable }: { editable: boolean }) {
 
 function ProfileSection({ profile, editable }: { profile: NonNullable<SettingsResponse['profile']>; editable: boolean }) {
   const { t } = useTranslation();
-  const gravityAccount = useBizSession().business.product === 'gravity';
+  const gravityAccount = useBizSession().business.product !== 'pos';
   const qc = useQueryClient();
   const { refresh } = useBiz();
   const toastErr = useToastError();

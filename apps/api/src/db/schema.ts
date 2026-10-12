@@ -389,6 +389,8 @@ export const userSessions = pgTable(
     lastSeenAt: ts('last_seen_at').notNull().defaultNow(),
     expiresAt: ts('expires_at').notNull(),
     revokedAt: ts('revoked_at'),
+    /** Signed in from the Gravity / Gravity Flow phone app: stays signed in (sign in once). */
+    longLived: boolean('long_lived').notNull().default(false),
   },
   (t) => [
     uniqueIndex('user_sessions_token_uq').on(t.tokenHash),

@@ -266,7 +266,7 @@ export function usePayments(params: { status?: string; businessId?: string; prod
 }
 
 /** Subscription payments of one product (OceanX POS or Gravity). */
-export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'gravity' }) {
+export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'gravity' | 'flow' }) {
   const { t } = useTranslation();
   const [tab, setTab] = useState<'pending' | 'approved' | 'rejected'>('pending');
   const q = usePayments({ status: tab, product });
@@ -276,7 +276,7 @@ export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'g
   });
   return (
     <div className="space-y-6">
-      <PageHeader title={product === 'gravity' ? t('gravity.payments') : t('superadmin.payments.title')} description={t('superadmin.payments.subtitle')} />
+      <PageHeader title={product !== 'pos' ? t(`${product}.payments`) : t('superadmin.payments.title')} description={t('superadmin.payments.subtitle')} />
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label={t('superadmin.payments.waiting')} value={String(summary.data?.pending ?? '—')} tone="amber" />
         <StatCard

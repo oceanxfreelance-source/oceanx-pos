@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Banknote, Briefcase, Building2, ShoppingBag, Store, Coffee, CreditCard, FileText, FolderKanban, Gauge, Headset, History, LayoutGrid, Languages, Layers, ListTodo, LogOut, Mail, Package, Puzzle, Receipt, Settings, ShieldCheck, UserCog, UserPlus, Users, UtensilsCrossed } from 'lucide-react';
+import { Banknote, Briefcase, Building2, ShoppingBag, Store, Coffee, CreditCard, FileText, FolderKanban, Gauge, Headset, History, LayoutGrid, Languages, Layers, ListTodo, LogOut, Mail, Package, Puzzle, Receipt, Settings, ShieldCheck, TrendingUp, UserCog, UserPlus, Users, UtensilsCrossed } from 'lucide-react';
 import { LANGUAGES } from '@oceanx/shared';
 import { setSuperAdminLanguage, useSuperAdmin } from '../auth/superadmin';
 import { Shell, type NavGroup, type NavItem } from './Shell';
@@ -26,6 +26,11 @@ const GRAVITY_CONSOLE: NavItem[] = [
   { to: '/superadmin/gravity/accounts', label: 'gravity.accounts', icon: Building2 },
   { to: '/superadmin/gravity/payments', label: 'superadmin.nav.payments', icon: Banknote },
   { to: '/superadmin/gravity/plans', label: 'gravity.nav_plan', icon: Layers },
+];
+const FLOW_CONSOLE: NavItem[] = [
+  { to: '/superadmin/flow/accounts', label: 'flow.accounts', icon: Building2 },
+  { to: '/superadmin/flow/payments', label: 'superadmin.nav.payments', icon: Banknote },
+  { to: '/superadmin/flow/plans', label: 'gravity.nav_plan', icon: Layers },
 ];
 const COMPANY: NavGroup = {
   label: 'hub.nav.group_company',
@@ -72,7 +77,7 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
   const ventures = useVentures();
   const m = /^\/superadmin\/p\/([^/]+)/.exec(pathname);
   // The POS and Gravity console pages belong to their built-in project.
-  const consoleKind = POS_CONSOLE.some((i) => pathname === i.to || pathname.startsWith(`${i.to}/`)) ? 'pos' : pathname.startsWith('/superadmin/gravity/') ? 'gravity' : null;
+  const consoleKind = POS_CONSOLE.some((i) => pathname === i.to || pathname.startsWith(`${i.to}/`)) ? 'pos' : pathname.startsWith('/superadmin/gravity/') ? 'gravity' : pathname.startsWith('/superadmin/flow/') ? 'flow' : null;
   const current = m ? ventures.find((v) => v.id === m[1]) : consoleKind ? ventures.find((v) => v.kind === consoleKind) : undefined;
   const currentId = m?.[1] ?? current?.id;
   if (currentId) {
@@ -89,6 +94,7 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
         },
         ...(kind === 'pos' ? [{ label: 'hub.nav.group_pos_console', items: POS_CONSOLE }] : []),
         ...(kind === 'gravity' ? [{ label: 'gravity.console', items: GRAVITY_CONSOLE }] : []),
+        ...(kind === 'flow' ? [{ label: 'flow.console', items: FLOW_CONSOLE }] : []),
         ...workGroups(base),
         COMPANY,
       ]),
@@ -103,7 +109,7 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
         collapseAfter: 5,
         items: ventures
           .filter((v) => v.isActive)
-          .map((v) => ({ to: `/superadmin/p/${v.id}`, label: v.name, icon: v.kind === 'pos' ? Store : v.kind === 'gravity' ? FileText : FolderKanban })),
+          .map((v) => ({ to: `/superadmin/p/${v.id}`, label: v.name, icon: v.kind === 'pos' ? Store : v.kind === 'gravity' ? FileText : v.kind === 'flow' ? TrendingUp : FolderKanban })),
       },
       ...tr([...workGroups('/superadmin/hub'), COMPANY]),
     ],

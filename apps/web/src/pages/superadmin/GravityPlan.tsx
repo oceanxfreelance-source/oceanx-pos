@@ -32,11 +32,11 @@ function splitTrial(minutes: number): { amount: number; unit: Unit } {
  * Gravity has one plan for everyone: one monthly price in MVR, and a free trial that can be days,
  * hours or minutes long. A new trial length applies to accounts created from then on.
  */
-export default function GravityPlanPage() {
+export default function GravityPlanPage({ product = 'gravity' }: { product?: 'gravity' | 'flow' }) {
   const { t } = useTranslation();
   const f = useFormat();
   const qc = useQueryClient();
-  const q = useQuery({ queryKey: ['sa', 'gravity-plan'], queryFn: () => saApi.get<GravityPlan>('/gravity/plan') });
+  const q = useQuery({ queryKey: ['sa', 'product-plan', product], queryFn: () => saApi.get<GravityPlan>(`/${product}/plan`) });
   const [price, setPrice] = useState('');
   const [amount, setAmount] = useState('');
   const [unit, setUnit] = useState<Unit>('days');
@@ -51,10 +51,10 @@ export default function GravityPlanPage() {
 
   const trialMinutes = Math.round(Number(amount || 0) * UNITS[unit]);
   const save = useMutation({
-    mutationFn: () => saApi.put('/gravity/plan', { priceMonthly: Number(price || 0), trialMinutes }),
+    mutationFn: () => saApi.put(`/${product}/plan`, { priceMonthly: Number(price || 0), trialMinutes }),
     onSuccess: () => {
       toast.success(t('common.saved'));
-      void qc.invalidateQueries({ queryKey: ['sa', 'gravity-plan'] });
+      void qc.invalidateQueries({ queryKey: ['sa', 'product-plan', product] });
       void qc.invalidateQueries({ queryKey: ['sa', 'plans'] });
     },
   });
@@ -62,7 +62,7 @@ export default function GravityPlanPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <PageHeader title={t('gravity.plan_title')} description={t('gravity.plan_subtitle')} />
+      <PageHeader title={t(`${product}.plan_title`)} description={t('gravity.plan_subtitle')} />
       {!q.data ? (
         <Card padded={false}>
           <SkeletonRows rows={4} />

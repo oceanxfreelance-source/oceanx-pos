@@ -5,6 +5,8 @@ import { TabletPosOnly } from '../components/ScreenExit';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
 import {
+  ArrowLeftRight,
+  CalendarRange,
   Banknote,
   BarChart3,
   Boxes,
@@ -43,7 +45,7 @@ import {
 } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, useBiz, useBizSession, type BusinessSession } from '../auth/business';
-import { GRAVITY_HOST, useProductTheme } from '../lib/product';
+import { productPath, useProductTheme } from '../lib/product';
 import { api } from '../lib/api';
 import { useToastError } from '../lib/useApiError';
 import { Shell, type NavGroup } from './Shell';
@@ -91,6 +93,11 @@ export function useBusinessNav(): NavGroup[] {
   if (hasModule('invoices') && can('invoices.view')) sales.push({ to: '/invoices', label: 'nav.invoices', icon: FileSpreadsheet });
 
   const finance: NavGroup['items'] = [];
+  // Gravity Flow: every income and expense, and every month (the money dashboard is the home page).
+  if (hasModule('finance') && can('finance.view')) {
+    finance.push({ to: '/transactions', label: 'flow.nav_transactions', icon: ArrowLeftRight });
+    finance.push({ to: '/months', label: 'flow.nav_months', icon: CalendarRange });
+  }
   if (hasModule('expenses') && can('expenses.view')) finance.push({ to: '/expenses', label: 'nav.expenses', icon: Wallet });
   if (hasModule('reports') && can('reports.view')) finance.push({ to: '/reports', label: 'nav.reports', icon: BarChart3 });
 
@@ -101,7 +108,7 @@ export function useBusinessNav(): NavGroup[] {
   const management: NavGroup['items'] = [];
   if (can('users.view')) management.push({ to: '/users', label: 'nav.users', icon: Users });
   if (can('roles.view')) management.push({ to: '/roles', label: 'nav.roles', icon: ShieldCheck });
-  if (can('outlets.view') && session.business.product !== 'gravity') management.push({ to: '/outlets', label: 'nav.outlets', icon: Store });
+  if (can('outlets.view') && session.business.product === 'pos') management.push({ to: '/outlets', label: 'nav.outlets', icon: Store });
   if (can('addons.view')) management.push({ to: '/addons', label: 'nav.addons', icon: Puzzle });
   if (can('audit.view')) management.push({ to: '/activity', label: 'nav.activity', icon: History });
   if (session.user.isOwner || can('settings.manage')) management.push({ to: '/billing', label: 'nav.billing', icon: CreditCard });
@@ -149,7 +156,7 @@ export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   const { session, isLoading } = useBiz();
   const location = useLocation();
   if (isLoading) return <AppLoader />;
-  if (!session) return <Navigate to={`${lastProduct() === 'gravity' && !GRAVITY_HOST ? '/gravity/login' : '/login'}${location.pathname !== '/' ? `?next=${encodeURIComponent(location.pathname + location.search)}` : ''}`} replace />;
+  if (!session) return <Navigate to={`${productPath(lastProduct(), 'login')}${location.pathname !== '/' ? `?next=${encodeURIComponent(location.pathname + location.search)}` : ''}`} replace />;
   if (session.state !== 'ok') return <StatusScreen />;
   if (session.user.mustChangePassword) return <ForcePasswordChange />;
   // The tablet app is the POS only: the back office stays on computers and phones.
@@ -225,7 +232,8 @@ export function LanguageMenu({ current, languages, onChange }: { current: string
 function BusinessLayout() {
   const { t } = useTranslation();
   const session = useBizSession();
-  useProductTheme(session.business.product === 'gravity');
+  const product = session.business.product;
+  useProductTheme(product);
   const { logout, refresh } = useBiz();
   const navigate = useNavigate();
   const groups = useBusinessNav();
@@ -235,7 +243,8 @@ function BusinessLayout() {
   const pos = allItems.find((i) => i.to === '/pos');
   // Phone tab bar: the four most-used destinations this user can open.
   // Gravity (mostly used on phones): home, quotations, invoices, customers.
-  const bottomNav = (session.business.product === 'gravity' ? ['/', '/quotations', '/invoices', '/customers'] : ['/', '/pos', '/sales', '/products', '/kitchen', '/customers', '/reports'])
+  // Gravity Flow: home, transactions, months.
+  const bottomNav = (product === 'gravity' ? ['/', '/quotations', '/invoices', '/customers'] : product === 'flow' ? ['/', '/transactions', '/months', '/settings'] : ['/', '/pos', '/sales', '/products', '/kitchen', '/customers', '/reports'])
     .map((to) => allItems.find((i) => i.to === to))
     .filter((i): i is NonNullable<typeof i> => !!i)
     .map((i) => (i.to === '/products' ? { ...i, label: 'nav.menu' } : i))
@@ -247,7 +256,7 @@ function BusinessLayout() {
     <Shell
       brand={<span dir="auto">{session.business.name}</span>}
       brandMark={<BusinessMark key={session.business.logoVersion ?? 'none'} name={session.business.name} logoVersion={session.business.hasLogo ? (session.business.logoVersion ?? '1') : null} />}
-      brandSub={session.business.product === 'gravity' ? t('gravity.name') : t(`business_types.${session.business.businessType}`)}
+      brandSub={product !== 'pos' ? t(`${product}.name`) : t(`business_types.${session.business.businessType}`)}
       // POS is reached through the prominent "Open POS" button, so it is not repeated in the list.
       groups={groups.map((g) => ({ ...g, label: g.label ? t(g.label) : undefined, items: pos ? g.items.filter((i) => i.to !== '/pos') : g.items }))}
       primaryAction={pos ? { to: '/pos', label: 'nav.open_pos', icon: MonitorSmartphone } : undefined}
@@ -264,7 +273,7 @@ function BusinessLayout() {
           </div>
           <NotificationBell />
           {/* Gravity on a phone: a clean bar (full screen and theme are PC extras). */}
-          <div className={session.business.product === 'gravity' ? 'hidden items-center gap-2 sm:flex' : 'contents'}>
+          <div className={product !== 'pos' ? 'hidden items-center gap-2 sm:flex' : 'contents'}>
             <FullscreenButton />
             <ThemeToggle value={theme.value} onChange={theme.set} />
           </div>

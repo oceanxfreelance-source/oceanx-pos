@@ -9,13 +9,14 @@ import { useErrorMessage, useFieldErrors } from '../../lib/useApiError';
 import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Form';
 import { Alert } from '../../components/ui/Card';
-import { GRAVITY_HOST } from '../../lib/product';
+import { productPath, type Product } from '../../lib/product';
 import { AuthLayout } from './AuthLayout';
 import { LanguagePicker } from './LanguagePicker';
 
 /** Sign-up for OceanX POS, or for Gravity (quotations & invoices) at /gravity/register. */
-export default function Register({ product = 'pos' }: { product?: 'pos' | 'gravity' }) {
-  const gravity = product === 'gravity';
+export default function Register({ product = 'pos' }: { product?: Product }) {
+  // Gravity and Gravity Flow: a name and an email, nothing about business types.
+  const gravity = product !== 'pos';
   const { t, i18n } = useTranslation();
   const { session, setSession } = useBiz();
   const navigate = useNavigate();
@@ -37,14 +38,14 @@ export default function Register({ product = 'pos' }: { product?: 'pos' | 'gravi
   };
   return (
     <AuthLayout
-      variant={gravity ? 'gravity' : 'business'}
-      title={gravity ? t('gravity.register_title') : t('auth.register_title')}
-      subtitle={gravity ? t('gravity.register_subtitle') : t('auth.register_subtitle')}
+      variant={gravity ? product : 'business'}
+      title={gravity ? t(`${product}.register_title`) : t('auth.register_title')}
+      subtitle={gravity ? t(`${product}.register_subtitle`) : t('auth.register_subtitle')}
       footer={
         <div className="space-y-4">
           <p>
             {t('auth.have_account')}{' '}
-            <Link to={gravity && !GRAVITY_HOST ? '/gravity/login' : '/login'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
+            <Link to={productPath(product, 'login')} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
               {t('auth.sign_in')}
             </Link>
           </p>
@@ -64,8 +65,8 @@ export default function Register({ product = 'pos' }: { product?: 'pos' | 'gravi
           </Select>
         )}
         <Input
-          label={gravity ? t('gravity.business_name') : t('auth.business_name')}
-          hint={gravity ? t('gravity.business_name_hint') : undefined}
+          label={gravity ? t(`${product}.business_name`) : t('auth.business_name')}
+          hint={gravity ? t(`${product}.business_name_hint`) : undefined}
           value={form.businessName}
           onChange={set('businessName')}
           error={fieldErr('businessName')}

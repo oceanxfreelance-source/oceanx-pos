@@ -22,6 +22,9 @@ const envSchema = z.object({
   TRUST_PROXY: z.coerce.number().int().min(0).default(0),
   BUSINESS_SESSION_IDLE_MINUTES: z.coerce.number().int().min(5).default(720),
   BUSINESS_SESSION_ABSOLUTE_HOURS: z.coerce.number().int().min(1).default(168),
+  /** Gravity and Gravity Flow phone apps: sign in once. Ends after this many idle days, or at most this many days. */
+  APP_SESSION_IDLE_DAYS: z.coerce.number().int().min(1).default(90),
+  APP_SESSION_ABSOLUTE_DAYS: z.coerce.number().int().min(1).default(365),
   SUPERADMIN_SESSION_IDLE_MINUTES: z.coerce.number().int().min(5).default(30),
   SUPERADMIN_SESSION_ABSOLUTE_HOURS: z.coerce.number().int().min(1).default(12),
   LOGIN_MAX_FAILURES: z.coerce.number().int().min(1).default(5),

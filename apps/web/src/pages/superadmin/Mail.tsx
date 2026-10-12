@@ -13,7 +13,7 @@ import { Button } from '../../components/ui/Button';
 import { Checkbox, Input, Select, Textarea } from '../../components/ui/Form';
 import { ConfirmDialog } from '../../components/ui/Dialog';
 
-type Product = 'pos' | 'gravity' | 'all';
+type Product = 'pos' | 'gravity' | 'flow' | 'all';
 type Segment = (typeof MAIL_SEGMENTS)[number];
 interface Recipient {
   businessId: string;
@@ -139,7 +139,7 @@ export default function MailPage() {
             <div>
               <p className="mb-2 text-sm font-medium">{t('superadmin.mail.send_to')}</p>
               <div className="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="tablist">
-                {(['pos', 'gravity', 'all'] as const).map((p) => (
+                {(['pos', 'gravity', 'flow', 'all'] as const).map((p) => (
                   <button
                     key={p}
                     type="button"
@@ -269,7 +269,7 @@ export default function MailPage() {
                     </span>
                     <span className="flex shrink-0 items-center gap-2">
                       {r.periodEnd && <span className="text-xs text-slate-500">{f.dateTime(r.periodEnd)}</span>}
-                      <Badge tone={r.product === 'gravity' ? 'violet' : 'blue'}>{r.product === 'gravity' ? 'Gravity' : 'POS'}</Badge>
+                      <Badge tone={r.product === 'gravity' ? 'violet' : r.product === 'flow' ? 'green' : 'blue'}>{r.product === 'gravity' ? 'Gravity' : r.product === 'flow' ? 'Gravity Flow' : 'POS'}</Badge>
                     </span>
                   </li>
                 ))}

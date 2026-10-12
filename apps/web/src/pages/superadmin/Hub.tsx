@@ -24,6 +24,7 @@ import {
   Store,
   Trash2,
   UserPlus,
+  TrendingUp,
   Users,
 } from 'lucide-react';
 import {
@@ -51,7 +52,7 @@ import { DataTable, type Column } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { fmtAmount } from '../business/Billing';
-import { GravityMark } from '../auth/AuthLayout';
+import { FlowMark, GravityMark } from '../auth/AuthLayout';
 import { VENTURE_TONE, useVentures, type Venture } from './hubVentures';
 
 // ---------------------------------------------------------------- shared
@@ -110,6 +111,7 @@ interface Overview {
   posBusinessesActive: number | null;
   posPaymentsPending: number | null;
   gravityAccountsActive: number | null;
+  flowAccountsActive: number | null;
 }
 interface Service {
   id: string;
@@ -350,7 +352,7 @@ export function HubOverviewPage() {
       </section>
       {!ventureId && <VentureGrid />}
       {venture?.kind === 'pos' && <PosConsoleLinks pending={o?.posPaymentsPending ?? 0} />}
-      {venture?.kind === 'gravity' && <GravityConsoleLinks pending={venture.paymentsPending ?? 0} />}
+      {(venture?.kind === 'gravity' || venture?.kind === 'flow') && <ProductConsoleLinks product={venture.kind} pending={venture.paymentsPending ?? 0} />}
       {!o ? (
         <SkeletonRows rows={4} />
       ) : (
@@ -377,6 +379,11 @@ export function HubOverviewPage() {
           {o.gravityAccountsActive !== null && (
             <Link to="/superadmin/gravity/accounts">
               <StatCard label={t('gravity.active_accounts')} value={o.gravityAccountsActive} icon={<FileText className="size-5" />} tone="violet" />
+            </Link>
+          )}
+          {o.flowAccountsActive !== null && (
+            <Link to="/superadmin/flow/accounts">
+              <StatCard label={t('flow.active_accounts')} value={o.flowAccountsActive} icon={<TrendingUp className="size-5" />} tone="green" />
             </Link>
           )}
           {o.posBusinessesActive !== null && (
@@ -467,6 +474,8 @@ function VentureGrid() {
                 <div className="flex items-center gap-3">
                   {v.kind === 'gravity' ? (
                     <GravityMark className="size-10 shrink-0" />
+                  ) : v.kind === 'flow' ? (
+                    <FlowMark className="size-10 shrink-0" />
                   ) : (
                     <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-white', tone.dot)}>{v.kind === 'pos' ? <Store className="size-5" /> : <FolderKanban className="size-5" />}</span>
                   )}
@@ -482,7 +491,7 @@ function VentureGrid() {
                 <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
                   {v.kind !== 'custom' && (
                     <>
-                      <dt className="text-slate-500">{v.kind === 'pos' ? t('hub.stat_pos') : t('gravity.active_accounts')}</dt>
+                      <dt className="text-slate-500">{v.kind === 'pos' ? t('hub.stat_pos') : t(`${v.kind}.active_accounts`)}</dt>
                       <dd className="text-end font-medium">{v.accountsActive ?? 0}</dd>
                     </>
                   )}
@@ -553,21 +562,31 @@ function VentureDialog({ venture, onClose }: { venture: Venture | null; onClose:
   );
 }
 
-/** Inside the Gravity project: its accounts, payments and plans. */
-function GravityConsoleLinks({ pending }: { pending: number }) {
+declare const __APP_URLS__: Record<string, string>;
+/** Where a product's customers sign up: its own address when it has one, else /gravity or /flow here. */
+function signupUrl(product: 'gravity' | 'flow') {
+  const own = (typeof __APP_URLS__ !== 'undefined' && __APP_URLS__[product]) || '';
+  if (own) return `${own.replace(/\/$/, '')}/register`;
+  const main = (typeof __APP_URLS__ !== 'undefined' && __APP_URLS__.pos) || window.location.origin;
+  return `${main.replace(/\/$/, '')}/${product}/register`;
+}
+
+/** Inside the Gravity or Gravity Flow project: its accounts, payments and plan. */
+function ProductConsoleLinks({ product, pending }: { product: 'gravity' | 'flow'; pending: number }) {
   const { t } = useTranslation();
   const links: [string, string, React.ComponentType<{ className?: string }>][] = [
-    ['/superadmin/gravity/accounts', 'gravity.accounts', Building2],
-    ['/superadmin/gravity/payments', 'superadmin.nav.payments', Banknote],
-    ['/superadmin/gravity/plans', 'gravity.nav_plan', Layers],
+    [`/superadmin/${product}/accounts`, `${product}.accounts`, Building2],
+    [`/superadmin/${product}/payments`, 'superadmin.nav.payments', Banknote],
+    [`/superadmin/${product}/plans`, 'gravity.nav_plan', Layers],
   ];
+  const url = signupUrl(product);
   return (
-    <section aria-label={t('gravity.console')}>
-      <h2 className="mb-3 text-lg font-semibold">{t('gravity.console')}</h2>
+    <section aria-label={t(`${product}.console`)}>
+      <h2 className="mb-3 text-lg font-semibold">{t(`${product}.console`)}</h2>
       <p className="-mt-2 mb-3 text-sm text-slate-500">
         {t('gravity.signup_link')}{' '}
-        <a href="/gravity/register" target="_blank" rel="noreferrer" className="font-medium text-brand-700 hover:underline dark:text-brand-300" dir="ltr">
-          {window.location.host}/gravity
+        <a href={url} target="_blank" rel="noreferrer" className="font-medium text-brand-700 hover:underline dark:text-brand-300" dir="ltr">
+          {url.replace(/^https?:\/\//, '')}
         </a>
       </p>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -575,7 +594,7 @@ function GravityConsoleLinks({ pending }: { pending: number }) {
           <Link key={to} to={to} className="flex items-center gap-2 rounded-xl bg-white p-3 text-sm font-medium shadow-sm ring-1 ring-slate-200 hover:ring-brand-500 dark:bg-slate-900 dark:ring-slate-800">
             <Icon className="size-4 shrink-0 text-slate-500" />
             <span className="min-w-0 truncate">{t(label)}</span>
-            {to === '/superadmin/gravity/payments' && pending > 0 && <Badge tone="amber">{pending}</Badge>}
+            {to.endsWith('/payments') && pending > 0 && <Badge tone="amber">{pending}</Badge>}
           </Link>
         ))}
       </div>

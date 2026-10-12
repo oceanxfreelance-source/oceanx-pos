@@ -12,7 +12,7 @@ import { Button } from './components/ui/Button';
 import { AppLoader } from './components/AppLoader';
 
 // Business (tenant) pages
-import { GRAVITY_HOST } from './lib/product';
+import { HOST_PRODUCT } from './lib/product';
 const BusinessLogin = lazy(() => import('./pages/auth/BusinessLogin'));
 const Register = lazy(() => import('./pages/auth/Register'));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
@@ -40,6 +40,8 @@ const Purchasing = lazy(() => import('./pages/business/Purchasing'));
 const Expenses = lazy(() => import('./pages/business/Expenses'));
 const Tables = lazy(() => import('./pages/business/Tables'));
 const Reports = lazy(() => import('./pages/business/Reports'));
+const FlowTransactions = lazy(() => import('./pages/business/Flow').then((m) => ({ default: m.FlowTransactionsPage })));
+const FlowMonths = lazy(() => import('./pages/business/Flow').then((m) => ({ default: m.FlowMonthsPage })));
 const Karaoke = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.KaraokePage })));
 const Reservations = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.ReservationsPage })));
 const OnlineOrders = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.OnlineOrdersPage })));
@@ -161,8 +163,13 @@ const router = createBrowserRouter([
           // Gravity (quotation & invoice generator) console.
           { path: 'gravity/accounts', element: withSuspense(<SaBusinesses product="gravity" />) },
           { path: 'gravity/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
-          { path: 'gravity/plans', element: withSuspense(<SaGravityPlan />) },
+          { path: 'gravity/plans', element: withSuspense(<SaGravityPlan key="gravity" />) },
           { path: 'gravity/payments', element: withSuspense(<SaPayments product="gravity" />) },
+          // Gravity Flow (income, expenses & profit) console.
+          { path: 'flow/accounts', element: withSuspense(<SaBusinesses product="flow" />) },
+          { path: 'flow/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
+          { path: 'flow/plans', element: withSuspense(<SaGravityPlan key="flow" product="flow" />) },
+          { path: 'flow/payments', element: withSuspense(<SaPayments product="flow" />) },
           { path: 'plans', element: withSuspense(<SaPlans />) },
           { path: 'addons', element: withSuspense(<SaAddons />) },
           { path: 'subscriptions', element: withSuspense(<SaSubscriptions />) },
@@ -189,13 +196,17 @@ const router = createBrowserRouter([
     element: <BusinessRoot />,
     errorElement: <RouteError />,
     children: [
-      // On Gravity's own address the plain sign-in and sign-up are Gravity's.
-      { path: 'login', element: <BusinessLogin product={GRAVITY_HOST ? 'gravity' : 'pos'} /> },
-      { path: 'register', element: <Register product={GRAVITY_HOST ? 'gravity' : 'pos'} /> },
+      // On Gravity's or Gravity Flow's own address the plain sign-in and sign-up are that product's.
+      { path: 'login', element: <BusinessLogin product={HOST_PRODUCT} /> },
+      { path: 'register', element: <Register product={HOST_PRODUCT} /> },
       // Gravity (quotation & invoice generator): its own sign-up and sign-in look, same accounts system.
       { path: 'gravity', element: <Navigate to="/gravity/register" replace /> },
       { path: 'gravity/register', element: <Register product="gravity" /> },
       { path: 'gravity/login', element: <BusinessLogin product="gravity" /> },
+      // Gravity Flow (income, expenses & profit): its own sign-up and sign-in.
+      { path: 'flow', element: <Navigate to="/flow/register" replace /> },
+      { path: 'flow/register', element: <Register product="flow" /> },
+      { path: 'flow/login', element: <BusinessLogin product="flow" /> },
       { path: 'forgot-password', element: <ForgotPassword domain="business" /> },
       { path: 'reset-password', element: <ResetPassword domain="business" /> },
       {
@@ -242,6 +253,9 @@ const router = createBrowserRouter([
           { path: 'expenses', element: withSuspense(<Expenses />) },
           { path: 'tables', element: withSuspense(<Tables />) },
           { path: 'reports', element: withSuspense(<Reports />) },
+          // Gravity Flow: every income and expense, and every month.
+          { path: 'transactions', element: withSuspense(<FlowTransactions />) },
+          { path: 'months', element: withSuspense(<FlowMonths />) },
           { path: 'karaoke', element: withSuspense(<Karaoke />) },
           { path: 'reservations', element: withSuspense(<Reservations />) },
           { path: 'online-orders', element: withSuspense(<OnlineOrders />) },

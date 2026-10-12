@@ -8,12 +8,12 @@ import { useErrorMessage } from '../../lib/useApiError';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Form';
 import { Alert } from '../../components/ui/Card';
-import { GRAVITY_HOST } from '../../lib/product';
+import { productPath, type Product } from '../../lib/product';
 import { AuthLayout } from './AuthLayout';
 import { LanguagePicker } from './LanguagePicker';
 
 /** Business sign-in. `/gravity/login` shows the same sign-in with Gravity's look. */
-export default function BusinessLogin({ product = 'pos' }: { product?: 'pos' | 'gravity' }) {
+export default function BusinessLogin({ product = 'pos' }: { product?: Product }) {
   const { t } = useTranslation();
   const { session, setSession } = useBiz();
   const navigate = useNavigate();
@@ -38,15 +38,15 @@ export default function BusinessLogin({ product = 'pos' }: { product?: 'pos' | '
   };
   return (
     <AuthLayout
-      variant={product === 'gravity' ? 'gravity' : 'business'}
+      variant={product === 'pos' ? 'business' : product}
       title={t('auth.login_title')}
       subtitle={t('auth.login_subtitle')}
       footer={
         <div className="space-y-4">
           <p>
-            {product === 'gravity' ? t('gravity.no_account') : t('auth.no_account')}{' '}
-            <Link to={product === 'gravity' && !GRAVITY_HOST ? '/gravity/register' : '/register'} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
-              {product === 'gravity' ? t('gravity.create_account') : t('auth.register_cta')}
+            {product === 'pos' ? t('auth.no_account') : t(`${product}.no_account`)}{' '}
+            <Link to={productPath(product, 'register')} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
+              {product === 'pos' ? t('auth.register_cta') : t('gravity.create_account')}
             </Link>
           </p>
           <LanguagePicker />
