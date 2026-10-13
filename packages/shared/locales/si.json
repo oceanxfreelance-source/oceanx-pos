@@ -2761,6 +2761,13 @@
     "m11": "නොවැම්බර්",
     "mshort11": "නොවැ",
     "m12": "දෙසැම්බර්",
-    "mshort12": "දෙසැ"
+    "mshort12": "දෙසැ",
+    "today": "අද",
+    "vs_yesterday": "ඊයේට සාපේක්ෂව",
+    "same_as_yesterday": "ඊයේ හා සමානයි",
+    "today_records": "අද වාර්තා",
+    "nothing_today": "අද තවම කිසිවක් වාර්තා කර නැත.",
+    "see_month": "මෙම මාසය",
+    "see_records": "{{month}} සියලු වාර්තා"
   }
 }

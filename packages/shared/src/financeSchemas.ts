@@ -48,6 +48,8 @@ export const financeCategorySchema = z.object({
 
 export const financeListQuerySchema = z.object({
   month: monthSchema.optional(),
+  /** One day only ("2026-10-13"). */
+  day: isoDay.optional(),
   kind: z.enum(FINANCE_KINDS).optional(),
   categoryId: z.string().uuid().optional(),
   q: z.string().trim().max(100).optional(),

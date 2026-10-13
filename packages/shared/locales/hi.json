@@ -2761,6 +2761,13 @@
     "m11": "नवंबर",
     "mshort11": "नव",
     "m12": "दिसंबर",
-    "mshort12": "दिस"
+    "mshort12": "दिस",
+    "today": "आज",
+    "vs_yesterday": "कल की तुलना में",
+    "same_as_yesterday": "कल जितना ही",
+    "today_records": "आज के रिकॉर्ड",
+    "nothing_today": "आज अभी तक कुछ दर्ज नहीं हुआ।",
+    "see_month": "यह महीना",
+    "see_records": "{{month}} के सभी रिकॉर्ड"
   }
 }

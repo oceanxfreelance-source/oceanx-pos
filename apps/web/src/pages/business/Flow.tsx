@@ -273,7 +273,7 @@ function MonthSwitcher({ month, current, onChange }: { month: string; current: s
       <button type="button" aria-label={t('flow.prev_month')} onClick={() => onChange(addMonths(month, -1))} className="grid size-10 place-items-center rounded-xl bg-white shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:ring-slate-800">
         <ChevronLeft className="rtl-flip size-5" />
       </button>
-      <h1 className="min-w-36 text-center text-lg font-semibold sm:text-xl">{monthName(month)}</h1>
+      <h2 className="min-w-36 text-center text-lg font-semibold sm:text-xl">{monthName(month)}</h2>
       <button type="button" aria-label={t('flow.next_month')} onClick={() => onChange(addMonths(month, 1))} disabled={month >= current} className="grid size-10 place-items-center rounded-xl bg-white shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-40 dark:bg-slate-900 dark:ring-slate-800">
         <ChevronRight className="rtl-flip size-5" />
       </button>
@@ -286,17 +286,17 @@ function MonthSwitcher({ month, current, onChange }: { month: string; current: s
   );
 }
 
-/** Change against the month before (shown under each KPI). */
-function Change({ now, before, goodWhenUp = true }: { now: number; before: number; goodWhenUp?: boolean }) {
+/** Change against the month (or day) before, shown under each KPI. */
+function Change({ now, before, goodWhenUp = true, vsDay = false }: { now: number; before: number; goodWhenUp?: boolean; vsDay?: boolean }) {
   const { t } = useTranslation();
   const money = useMoney();
-  if (now === before) return <span className="text-slate-500">{t('flow.same_as_last')}</span>;
+  if (now === before) return <span className="text-slate-500">{vsDay ? t('flow.same_as_yesterday') : t('flow.same_as_last')}</span>;
   const up = now > before;
   const good = up === goodWhenUp;
   return (
     <span className={clsx('inline-flex items-center gap-0.5', good ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400')}>
       {up ? <ArrowUpRight className="size-3.5" /> : <ArrowDownRight className="size-3.5" />}
-      {money(Math.abs(now - before))} {t('flow.vs_last')}
+      {money(Math.abs(now - before))} {vsDay ? t('flow.vs_yesterday') : t('flow.vs_last')}
     </span>
   );
 }
@@ -461,152 +461,102 @@ function TxRow({ tx, onOpen }: { tx: Tx; onOpen: () => void }) {
 }
 
 // ---------------------------------------------------------------- home
+interface Today {
+  today: string;
+  currentMonth: string;
+  totals: Totals;
+  yesterday: Totals;
+}
+
+function AddButtons({ onAdd }: { onAdd: (k: Kind) => void }) {
+  const { t } = useTranslation();
+  return (
+    <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto">
+      <button type="button" onClick={() => onAdd('income')} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
+        <Plus className="size-4" /> {t('flow.add_income')}
+      </button>
+      <button type="button" onClick={() => onAdd('expense')} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-rose-700">
+        <Minus className="size-4" /> {t('flow.add_expense')}
+      </button>
+    </div>
+  );
+}
+
 /**
- * Gravity Flow home: one month at a time (this month unless another is chosen). Income, expenses,
- * profit (income − expenses) and margin; a bar for every day's profit and the running monthly profit.
- * A new month starts by itself on the 1st; earlier months stay one tap away.
+ * Gravity Flow home: today only (the account's time zone). Today's income, expenses and profit against yesterday,
+ * and today's records. It moves on to the new day by itself; months and their graphs are on the Months page.
  */
 export function FlowHome() {
   const { t } = useTranslation();
   const money = useMoney();
   const f = useFormat();
   const { can } = useBiz();
-  const monthName = useMonthName();
-  const [params, setParams] = useSearchParams();
-  const month = params.get('month');
-  const setMonth = (m: string | null) => setParams(m ? { month: m } : {}, { replace: true });
-  // No month in the address = this month; checked again every few minutes, so the graph moves on to a new month by itself.
-  const q = useQuery({
-    queryKey: [...FLOW, 'summary', month ?? 'current'],
-    queryFn: () => api.get<Summary>(`/finance/summary${month ? `?month=${month}` : ''}`),
-    placeholderData: keepPreviousData,
-    refetchInterval: month ? false : 5 * 60_000,
-  });
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  // Older links to a month on the home page open that month on the Months page.
+  const oldMonth = params.get('month');
+  useEffect(() => {
+    if (oldMonth) navigate(`/months?month=${oldMonth}`, { replace: true });
+  }, [oldMonth, navigate]);
+  const q = useQuery({ queryKey: [...FLOW, 'today'], queryFn: () => api.get<Today>('/finance/today'), refetchInterval: 60_000 });
   const s = q.data;
-  const months = useQuery({ queryKey: [...FLOW, 'months', s?.month], queryFn: () => api.get<{ items: MonthRow[] }>(`/finance/months?to=${s!.month}&count=6`), enabled: !!s });
-  const latest = useQuery({ queryKey: [...FLOW, 'latest', s?.month], queryFn: () => api.get<{ items: Tx[] }>(`/finance/transactions?month=${s!.month}&pageSize=6`), enabled: !!s });
+  const list = useQuery({
+    queryKey: [...FLOW, 'tx', 'day', s?.today],
+    queryFn: () => api.get<{ items: Tx[]; total: number }>(`/finance/transactions?day=${s!.today}&pageSize=100`),
+    enabled: !!s,
+    placeholderData: keepPreviousData,
+  });
   const [adding, setAdding] = useState<Kind | null>(null);
   const [editing, setEditing] = useState<Tx | null>(null);
-  const [day, setDay] = useState<string | null>(null);
-  useEffect(() => setDay(null), [s?.month]);
-  // A month in the future (typed into the address) goes back to this month.
-  useEffect(() => {
-    if (s && month && month > s.currentMonth) setMonth(null);
-  });
   if (!s) return <SkeletonRows rows={8} />;
   const manage = can('finance.manage');
-  const selected = day ? s.days.find((d) => d.date === day) : null;
-  const tone = s.totals.net < 0 ? 'loss' : 'navy';
+  const { totals, yesterday } = s;
 
   return (
-    <div className="mx-auto max-w-6xl space-y-5">
+    <div className="mx-auto max-w-4xl space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <MonthSwitcher month={s.month} current={s.currentMonth} onChange={setMonth} />
-        {manage && (
-          <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto">
-            <button type="button" onClick={() => setAdding('income')} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
-              <Plus className="size-4" /> {t('flow.add_income')}
-            </button>
-            <button type="button" onClick={() => setAdding('expense')} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-rose-700">
-              <Minus className="size-4" /> {t('flow.add_expense')}
-            </button>
-          </div>
+        <div>
+          <h1 className="text-xl font-semibold sm:text-2xl">{t('flow.today')}</h1>
+          <p className="text-sm text-slate-500">{f.date(s.today)}</p>
+        </div>
+        {manage && <AddButtons onAdd={setAdding} />}
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <Kpi label={t('flow.income')} value={money(totals.income)} tone="green">
+          <Change now={totals.income} before={yesterday.income} vsDay />
+        </Kpi>
+        <Kpi label={t('flow.expenses')} value={money(totals.expense)} tone="red">
+          <Change now={totals.expense} before={yesterday.expense} goodWhenUp={false} vsDay />
+        </Kpi>
+        <div className="col-span-2 sm:col-span-1">
+          <Kpi label={totals.net < 0 ? t('flow.loss') : t('flow.profit')} value={money(totals.net)} tone={totals.net < 0 ? 'loss' : 'navy'}>
+            <Change now={totals.net} before={yesterday.net} vsDay />
+          </Kpi>
+        </div>
+      </div>
+
+      <Card padded={false}>
+        <div className="flex items-center justify-between gap-2 p-4 pb-2">
+          <h2 className="font-semibold">{t('flow.today_records')}</h2>
+          <Link to="/months" className="text-sm font-medium text-brand-700 hover:underline dark:text-brand-300">
+            {t('flow.see_month')}
+          </Link>
+        </div>
+        {!list.data ? (
+          <SkeletonRows rows={3} />
+        ) : list.data.items.length === 0 ? (
+          <p className="px-4 pb-6 pt-2 text-sm text-slate-500">{t('flow.nothing_today')}</p>
+        ) : (
+          <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+            {list.data.items.map((tx) => (
+              <TxRow key={tx.id} tx={tx} onOpen={() => manage && setEditing(tx)} />
+            ))}
+          </ul>
         )}
-      </div>
+      </Card>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Kpi label={t('flow.income')} value={money(s.totals.income)} tone="green">
-          <Change now={s.totals.income} before={s.previous.income} />
-        </Kpi>
-        <Kpi label={t('flow.expenses')} value={money(s.totals.expense)} tone="red">
-          <Change now={s.totals.expense} before={s.previous.expense} goodWhenUp={false} />
-        </Kpi>
-        <Kpi label={s.totals.net < 0 ? t('flow.loss') : t('flow.profit')} value={money(s.totals.net)} tone={tone}>
-          <Change now={s.totals.net} before={s.previous.net} />
-        </Kpi>
-        <Kpi label={t('flow.margin')} value={s.totals.margin === null ? '—' : `${s.totals.margin.toFixed(1)}%`} tone={tone}>
-          {t('flow.margin_hint')}
-        </Kpi>
-      </div>
-
-      <div className="grid gap-5 lg:grid-cols-2">
-        <Card>
-          <div className="mb-2 flex items-baseline justify-between gap-2">
-            <h2 className="font-semibold">{t('flow.daily_profit')}</h2>
-            <span className="text-xs text-slate-500">{t('flow.tap_day')}</span>
-          </div>
-          <DailyProfitChart days={s.days} today={s.today} selected={day} onSelect={setDay} />
-          {selected && (
-            <div className="mt-2 grid grid-cols-3 gap-2 rounded-xl bg-slate-50 p-3 text-center text-sm dark:bg-slate-800/50">
-              <p className="col-span-3 text-start text-xs font-medium text-slate-500">{f.date(selected.date)}</p>
-              <p>
-                <span className="block text-xs text-slate-500">{t('flow.income')}</span>
-                <span className="font-semibold text-emerald-600 tabular-nums dark:text-emerald-400">{money(selected.income)}</span>
-              </p>
-              <p>
-                <span className="block text-xs text-slate-500">{t('flow.expenses')}</span>
-                <span className="font-semibold text-rose-600 tabular-nums dark:text-rose-400">{money(selected.expense)}</span>
-              </p>
-              <p>
-                <span className="block text-xs text-slate-500">{t('flow.profit')}</span>
-                <span className={clsx('font-semibold tabular-nums', selected.profit < 0 && 'text-rose-600')}>{money(selected.profit)}</span>
-              </p>
-            </div>
-          )}
-        </Card>
-        <Card>
-          <div className="mb-2 flex items-baseline justify-between gap-2">
-            <h2 className="font-semibold">{t('flow.month_profit')}</h2>
-            <span className={clsx('text-sm font-semibold tabular-nums', s.totals.net < 0 ? 'text-rose-600' : 'text-emerald-600 dark:text-emerald-400')}>{money(s.totals.net)}</span>
-          </div>
-          <MonthProfitChart days={s.days} today={s.month < s.currentMonth ? s.days[s.days.length - 1]!.date : s.today} />
-          <p className="mt-1 text-xs text-slate-500">{t('flow.month_profit_hint')}</p>
-        </Card>
-      </div>
-
-      <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
-        <Card padded={false}>
-          <div className="flex items-center justify-between gap-2 p-4 pb-2">
-            <h2 className="font-semibold">{t('flow.latest')}</h2>
-            <Link to={`/transactions?month=${s.month}`} className="text-sm font-medium text-brand-700 hover:underline dark:text-brand-300">
-              {t('flow.see_all')}
-            </Link>
-          </div>
-          {!latest.data ? (
-            <SkeletonRows rows={3} />
-          ) : latest.data.items.length === 0 ? (
-            <p className="px-4 pb-6 pt-2 text-sm text-slate-500">{t('flow.nothing_month', { month: monthName(s.month) })}</p>
-          ) : (
-            <ul className="divide-y divide-slate-100 dark:divide-slate-800">
-              {latest.data.items.map((tx) => (
-                <TxRow key={tx.id} tx={tx} onOpen={() => manage && setEditing(tx)} />
-              ))}
-            </ul>
-          )}
-        </Card>
-        <Card>
-          <div className="mb-2 flex items-center justify-between gap-2">
-            <h2 className="font-semibold">{t('flow.previous_months')}</h2>
-            <Link to="/months" className="text-sm font-medium text-brand-700 hover:underline dark:text-brand-300">
-              {t('flow.see_all')}
-            </Link>
-          </div>
-          {months.data ? <MonthsChart months={months.data.items} onPick={(m) => setMonth(m === s.currentMonth ? null : m)} /> : <SkeletonRows rows={3} />}
-          <div className="mt-2 flex flex-wrap gap-3 text-xs text-slate-500">
-            <span className="inline-flex items-center gap-1">
-              <span className="size-2.5 rounded-sm bg-emerald-500" /> {t('flow.income')}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <span className="size-2.5 rounded-sm bg-rose-400" /> {t('flow.expenses')}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <span className="size-2.5 rounded-full bg-brand-700 dark:bg-brand-300" /> {t('flow.profit')}
-            </span>
-          </div>
-        </Card>
-      </div>
-
-      {adding && <TransactionDialog kind={adding} today={s.month === s.currentMonth ? s.today : `${s.month}-01`} onClose={() => setAdding(null)} />}
+      {adding && <TransactionDialog kind={adding} today={s.today} onClose={() => setAdding(null)} />}
       {editing && <TransactionDialog kind={editing.kind} tx={editing} today={s.today} onClose={() => setEditing(null)} />}
     </div>
   );
@@ -810,34 +760,135 @@ function CategoriesDialog({ onClose }: { onClose: () => void }) {
 }
 
 // ---------------------------------------------------------------- months
-/** Every month so far: income, expenses, profit and margin. Open one to see its days. */
+/**
+ * One month at a time (this month unless another is chosen): income, expenses, profit and margin, a bar for every
+ * day's profit and the running monthly profit. A new month starts by itself on the 1st. Below: every month so far.
+ */
 export function FlowMonthsPage() {
   const { t } = useTranslation();
   const money = useMoney();
-  const navigate = useNavigate();
+  const f = useFormat();
+  const { can } = useBiz();
   const monthName = useMonthName();
+  const [params, setParams] = useSearchParams();
+  const month = params.get('month');
+  const setMonth = (m: string | null) => setParams(m ? { month: m } : {}, { replace: true });
+  // No month in the address = this month; checked again every few minutes, so the graph moves on to a new month by itself.
+  const q = useQuery({
+    queryKey: [...FLOW, 'summary', month ?? 'current'],
+    queryFn: () => api.get<Summary>(`/finance/summary${month ? `?month=${month}` : ''}`),
+    placeholderData: keepPreviousData,
+    refetchInterval: month ? false : 5 * 60_000,
+  });
+  const s = q.data;
   const history = useQuery({ queryKey: [...FLOW, 'history'], queryFn: () => api.get<{ items: MonthRow[] }>('/finance/history') });
   const months = useQuery({ queryKey: [...FLOW, 'months', '12'], queryFn: () => api.get<{ items: MonthRow[] }>('/finance/months?count=12') });
-  const current = history.data?.items[0]?.month;
-  const open = (m: string) => navigate(m === current ? '/' : `/?month=${m}`);
+  const [adding, setAdding] = useState<Kind | null>(null);
+  const [day, setDay] = useState<string | null>(null);
+  useEffect(() => setDay(null), [s?.month]);
+  // A month in the future (typed into the address) goes back to this month.
+  useEffect(() => {
+    if (s && month && month > s.currentMonth) setMonth(null);
+  });
+  if (!s) return <SkeletonRows rows={8} />;
+  const open = (m: string) => {
+    setMonth(m === s.currentMonth ? null : m);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const manage = can('finance.manage');
+  const selected = day ? s.days.find((d) => d.date === day) : null;
+  const tone = s.totals.net < 0 ? 'loss' : 'navy';
+
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
+    <div className="mx-auto max-w-6xl space-y-5">
       <PageHeader title={t('flow.nav_months')} description={t('flow.months_subtitle')} />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <MonthSwitcher month={s.month} current={s.currentMonth} onChange={setMonth} />
+        {manage && <AddButtons onAdd={setAdding} />}
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <Kpi label={t('flow.income')} value={money(s.totals.income)} tone="green">
+          <Change now={s.totals.income} before={s.previous.income} />
+        </Kpi>
+        <Kpi label={t('flow.expenses')} value={money(s.totals.expense)} tone="red">
+          <Change now={s.totals.expense} before={s.previous.expense} goodWhenUp={false} />
+        </Kpi>
+        <Kpi label={s.totals.net < 0 ? t('flow.loss') : t('flow.profit')} value={money(s.totals.net)} tone={tone}>
+          <Change now={s.totals.net} before={s.previous.net} />
+        </Kpi>
+        <Kpi label={t('flow.margin')} value={s.totals.margin === null ? '—' : `${s.totals.margin.toFixed(1)}%`} tone={tone}>
+          {t('flow.margin_hint')}
+        </Kpi>
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-2">
+        <Card>
+          <div className="mb-2 flex items-baseline justify-between gap-2">
+            <h2 className="font-semibold">{t('flow.daily_profit')}</h2>
+            <span className="text-xs text-slate-500">{t('flow.tap_day')}</span>
+          </div>
+          <DailyProfitChart days={s.days} today={s.today} selected={day} onSelect={setDay} />
+          {selected && (
+            <div className="mt-2 grid grid-cols-3 gap-2 rounded-xl bg-slate-50 p-3 text-center text-sm dark:bg-slate-800/50">
+              <p className="col-span-3 text-start text-xs font-medium text-slate-500">{f.date(selected.date)}</p>
+              <p>
+                <span className="block text-xs text-slate-500">{t('flow.income')}</span>
+                <span className="font-semibold text-emerald-600 tabular-nums dark:text-emerald-400">{money(selected.income)}</span>
+              </p>
+              <p>
+                <span className="block text-xs text-slate-500">{t('flow.expenses')}</span>
+                <span className="font-semibold text-rose-600 tabular-nums dark:text-rose-400">{money(selected.expense)}</span>
+              </p>
+              <p>
+                <span className="block text-xs text-slate-500">{t('flow.profit')}</span>
+                <span className={clsx('font-semibold tabular-nums', selected.profit < 0 && 'text-rose-600')}>{money(selected.profit)}</span>
+              </p>
+            </div>
+          )}
+        </Card>
+        <Card>
+          <div className="mb-2 flex items-baseline justify-between gap-2">
+            <h2 className="font-semibold">{t('flow.month_profit')}</h2>
+            <span className={clsx('text-sm font-semibold tabular-nums', s.totals.net < 0 ? 'text-rose-600' : 'text-emerald-600 dark:text-emerald-400')}>{money(s.totals.net)}</span>
+          </div>
+          <MonthProfitChart days={s.days} today={s.month < s.currentMonth ? s.days[s.days.length - 1]!.date : s.today} />
+          <p className="mt-1 text-xs text-slate-500">{t('flow.month_profit_hint')}</p>
+        </Card>
+      </div>
+      <div className="text-end">
+        <Link to={`/transactions?month=${s.month}`} className="text-sm font-medium text-brand-700 hover:underline dark:text-brand-300">
+          {t('flow.see_records', { month: monthName(s.month) })}
+        </Link>
+      </div>
+
       <Card>
         <h2 className="mb-2 font-semibold">{t('flow.last_12')}</h2>
         {months.data ? <MonthsChart months={months.data.items} onPick={open} /> : <SkeletonRows rows={4} />}
+        <div className="mt-2 flex flex-wrap gap-3 text-xs text-slate-500">
+          <span className="inline-flex items-center gap-1">
+            <span className="size-2.5 rounded-sm bg-emerald-500" /> {t('flow.income')}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <span className="size-2.5 rounded-sm bg-rose-400" /> {t('flow.expenses')}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <span className="size-2.5 rounded-full bg-brand-700 dark:bg-brand-300" /> {t('flow.profit')}
+          </span>
+        </div>
       </Card>
       <Card padded={false}>
+        <h2 className="p-4 pb-2 font-semibold">{t('flow.previous_months')}</h2>
         {!history.data ? (
           <SkeletonRows rows={5} />
         ) : (
           <ul className="divide-y divide-slate-100 dark:divide-slate-800">
             {history.data.items.map((m) => (
               <li key={m.month}>
-                <button type="button" onClick={() => open(m.month)} className="grid w-full grid-cols-2 items-center gap-x-3 gap-y-1 px-4 py-3 text-start hover:bg-slate-50 sm:grid-cols-[10rem_1fr_1fr_1fr_5rem] dark:hover:bg-slate-800/40">
+                <button type="button" onClick={() => open(m.month)} className={clsx('grid w-full grid-cols-2 items-center gap-x-3 gap-y-1 px-4 py-3 text-start hover:bg-slate-50 sm:grid-cols-[10rem_1fr_1fr_1fr_5rem] dark:hover:bg-slate-800/40', m.month === s.month && 'bg-brand-50/60 dark:bg-brand-950/40')}>
                   <span className="font-medium">
                     {monthName(m.month)}
-                    {m.month === current && <span className="ms-2 rounded-full bg-brand-100 px-2 py-0.5 text-[11px] font-semibold text-brand-800 dark:bg-brand-900 dark:text-brand-200">{t('flow.this_month')}</span>}
+                    {m.month === s.currentMonth && <span className="ms-2 rounded-full bg-brand-100 px-2 py-0.5 text-[11px] font-semibold text-brand-800 dark:bg-brand-900 dark:text-brand-200">{t('flow.this_month')}</span>}
                   </span>
                   <span className="text-end text-sm sm:text-start">
                     <span className="text-xs text-slate-500 sm:hidden">{t('flow.profit')} </span>
@@ -858,6 +909,8 @@ export function FlowMonthsPage() {
           </ul>
         )}
       </Card>
+
+      {adding && <TransactionDialog kind={adding} today={s.month === s.currentMonth ? s.today : `${s.month}-01`} onClose={() => setAdding(null)} />}
     </div>
   );
 }

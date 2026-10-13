@@ -2761,6 +2761,13 @@
     "m11": "November",
     "mshort11": "Nov",
     "m12": "December",
-    "mshort12": "Dec"
+    "mshort12": "Dec",
+    "today": "Today",
+    "vs_yesterday": "vs yesterday",
+    "same_as_yesterday": "Same as yesterday",
+    "today_records": "Today's records",
+    "nothing_today": "Nothing recorded today yet.",
+    "see_month": "This month",
+    "see_records": "All records in {{month}}"
   }
 }

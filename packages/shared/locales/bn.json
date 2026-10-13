@@ -2761,6 +2761,13 @@
     "m11": "নভেম্বর",
     "mshort11": "নভে",
     "m12": "ডিসেম্বর",
-    "mshort12": "ডিসে"
+    "mshort12": "ডিসে",
+    "today": "আজ",
+    "vs_yesterday": "গতকালের তুলনায়",
+    "same_as_yesterday": "গতকালের মতোই",
+    "today_records": "আজকের রেকর্ড",
+    "nothing_today": "আজ এখনো কিছু লেখা হয়নি।",
+    "see_month": "এই মাস",
+    "see_records": "{{month}}-এর সব রেকর্ড"
   }
 }

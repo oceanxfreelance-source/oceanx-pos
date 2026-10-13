@@ -124,6 +124,21 @@ export async function financeRoutes(app: FastifyInstance) {
     };
   });
 
+  /** Today only (account time zone): income, expenses and profit, and yesterday's for comparison. */
+  app.get('/finance/today', { preHandler: requirePermission('finance.view') }, async (req) => {
+    const ctx = bizCtx(req);
+    const today = businessToday(ctx.access.business.timezone);
+    const yesterday = new Date(Date.parse(`${today}T00:00:00Z`) - 86_400_000).toISOString().slice(0, 10);
+    const rows = await dailyTotals(db, ctx.businessId, yesterday, today);
+    const day = (date: string) => {
+      const income = rows.filter((r) => r.day === date && r.kind === 'income').reduce((s, r) => s + n(r.total), 0);
+      const expense = rows.filter((r) => r.day === date && r.kind === 'expense').reduce((s, r) => s + n(r.total), 0);
+      const net = income - expense;
+      return { date, income, expense, net, margin: margin(income, net) };
+    };
+    return { today, currentMonth: today.slice(0, 7), totals: day(today), yesterday: day(yesterday) };
+  });
+
   /** Income, expenses and profit for the `count` months ending with `to` (empty months included). */
   app.get('/finance/months', { preHandler: requirePermission('finance.view') }, async (req) => {
     const ctx = bizCtx(req);
@@ -218,6 +233,7 @@ export async function financeRoutes(app: FastifyInstance) {
       isNull(financeTransactions.deletedAt),
       range ? gte(financeTransactions.occurredOn, range.from) : undefined,
       range ? lte(financeTransactions.occurredOn, range.to) : undefined,
+      q.day ? eq(financeTransactions.occurredOn, q.day) : undefined,
       q.kind ? eq(financeTransactions.kind, q.kind) : undefined,
       q.categoryId ? eq(financeTransactions.categoryId, q.categoryId) : undefined,
       q.q ? or(ilike(financeTransactions.description, `%${q.q}%`), ilike(financeTransactions.reference, `%${q.q}%`), ilike(financeCategories.name, `%${q.q}%`)) : undefined,

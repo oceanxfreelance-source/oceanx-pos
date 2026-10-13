@@ -86,6 +86,26 @@ describe('Gravity Flow (income, expenses, profit)', () => {
     expect(jan.totals).toEqual({ income: 0, expense: 0, net: 0, margin: null });
   });
 
+  it('home: today only (income, expenses, profit) against yesterday, and today\'s records', async () => {
+    const { c } = await flowAccount('Today Only');
+    const empty = (await c.get('/api/finance/today')).json();
+    expect(empty.totals).toMatchObject({ date: empty.today, income: 0, expense: 0, net: 0 });
+    const today: string = empty.today;
+    const yesterday: string = empty.yesterday.date;
+    expect(Date.parse(today) - Date.parse(yesterday)).toBe(86_400_000);
+    await add(c, 'income', '500', today);
+    await add(c, 'expense', '120.25', today);
+    await add(c, 'income', '900', yesterday);
+    await add(c, 'income', '7000', '2025-01-05');
+    const s = (await c.get('/api/finance/today')).json();
+    expect(s.totals).toEqual({ date: today, income: 50000, expense: 12025, net: 37975, margin: 76 });
+    expect(s.yesterday).toMatchObject({ income: 90000, expense: 0, net: 90000 });
+    const list = (await c.get(`/api/finance/transactions?day=${today}`)).json();
+    expect(list.total).toBe(2);
+    expect(list.items.every((x: { occurredOn: string }) => x.occurredOn === today)).toBe(true);
+    expect((await c.get('/api/finance/transactions?day=2026-13-01')).statusCode).toBe(422);
+  });
+
   it('no month asked: this month in the account time zone; months and full history', async () => {
     const { c } = await flowAccount('History');
     const now = (await c.get('/api/finance/summary')).json();

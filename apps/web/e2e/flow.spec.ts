@@ -3,7 +3,8 @@ import { expect, test } from '@playwright/test';
 const SHOTS = 'e2e/screenshots';
 
 /**
- * Gravity Flow: a small business signs up, adds income and expenses, sees profit for each day and the month,
+ * Gravity Flow: a small business signs up, adds income and expenses, sees today's profit on the home page and
+ * each day's and the month's profit on Months,
  * goes back to last month (a loss), sees every month, and finds and changes a record. Phone and PC.
  */
 test('flow: sign up → income & expenses → daily and monthly profit → past months', async ({ page }) => {
@@ -18,13 +19,14 @@ test('flow: sign up → income & expenses → daily and monthly profit → past 
   await page.getByLabel('Password').fill('Flow-Pass-1234');
   await page.getByRole('button', { name: 'Create account' }).click();
 
-  // Home: this month, nothing yet. Only Flow things in the menu.
-  await expect(page.getByRole('button', { name: 'Add income' })).toBeVisible();
+  // Home: today only, nothing yet. Only Flow things in the menu.
+  await expect(page.getByRole('heading', { name: 'Today', level: 1 })).toBeVisible();
+  await expect(page.getByText('Nothing recorded today yet.')).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Profit of each day this month' })).toHaveCount(0);
   const nav = page.locator('aside').first();
   await expect(nav.getByRole('link', { name: 'Transactions' })).toBeVisible();
   await expect(nav.getByRole('link', { name: 'Months' })).toBeVisible();
   await expect(nav.getByRole('link', { name: /POS|Quotations|Invoices/ })).toHaveCount(0);
-  await expect(page.getByRole('img', { name: 'Profit of each day this month' })).toBeVisible();
 
   // Income and an expense today (exact decimals).
   await page.getByRole('button', { name: 'Add income' }).click();
@@ -43,18 +45,21 @@ test('flow: sign up → income & expenses → daily and monthly profit → past 
   await dialog.getByRole('button', { name: 'Save' }).click();
   await expect(dialog).toBeHidden();
 
-  // Profit = income − expenses, margin = profit ÷ income.
+  // Today's profit = income − expenses, with today's records.
   await expect(page.getByText('1,099.50').first()).toBeVisible();
-  await expect(page.getByText('73.3%')).toBeVisible();
   await expect(page.getByText(`Fish sold ${run}`)).toBeVisible();
-  // Every day of the month has a place on the daily graph.
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.screenshot({ path: `${SHOTS}/flow-home.png`, fullPage: true });
+
+  // Months: this month's graphs; margin = profit ÷ income; every day of the month has a place on the daily graph.
+  await nav.getByRole('link', { name: 'Months' }).click();
+  await expect(page.getByRole('heading', { name: 'Months', level: 1 })).toBeVisible();
+  await expect(page.getByText('73.3%').first()).toBeVisible();
   const daysInMonth = await page.evaluate(() => {
     const d = new Date();
     return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
   });
   await expect(page.getByRole('img', { name: 'Profit of each day this month' }).locator('g.cursor-pointer')).toHaveCount(daysInMonth);
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await page.screenshot({ path: `${SHOTS}/flow-home.png`, fullPage: true });
 
   // Last month: an expense only → a loss, shown in red; "This month" brings the current month back.
   await page.getByRole('button', { name: 'Previous month' }).click();
@@ -66,14 +71,17 @@ test('flow: sign up → income & expenses → daily and monthly profit → past 
   await dialog.getByRole('button', { name: 'Save' }).click();
   await expect(dialog).toBeHidden();
   await expect(page.getByText('Loss', { exact: true }).first()).toBeVisible();
-  await page.getByRole('button', { name: 'This month' }).click();
+  await page.getByRole('button', { name: 'This month', exact: true }).click();
   await expect(page.getByText('1,099.50').first()).toBeVisible();
 
   // Every month, newest first.
-  await nav.getByRole('link', { name: 'Months' }).click();
-  await expect(page.getByRole('heading', { name: 'Months', level: 1 })).toBeVisible();
-  await expect(page.getByRole('button', { name: /This month/ })).toContainText('1,099.50');
+  await expect(page.getByRole('button', { name: /This month/ }).last()).toContainText('1,099.50');
   await expect(page.getByRole('button', { name: /200\.00/ }).first()).toBeVisible();
+
+  // The home page still shows only today (last month's loss is not on it).
+  await nav.getByRole('link', { name: /Home|Dashboard/ }).first().click();
+  await expect(page.getByRole('heading', { name: 'Today', level: 1 })).toBeVisible();
+  await expect(page.getByText(`Net repair ${run}`)).toHaveCount(0);
 
   // Find a record and change it: the totals follow.
   await nav.getByRole('link', { name: 'Transactions' }).click();
