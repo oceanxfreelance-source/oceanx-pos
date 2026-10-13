@@ -22,7 +22,7 @@ test('flow: sign up → income & expenses → daily and monthly profit → past 
   // Home: today only, nothing yet. Only Flow things in the menu.
   await expect(page.getByRole('heading', { name: 'Today', level: 1 })).toBeVisible();
   await expect(page.getByText('Nothing recorded today yet.')).toBeVisible();
-  await expect(page.getByRole('img', { name: 'Profit of each day this month' })).toHaveCount(0);
+  await expect(page.getByRole('img', { name: 'Profit of each day this month' })).toBeVisible();
   const nav = page.locator('aside').first();
   await expect(nav.getByRole('link', { name: 'Transactions' })).toBeVisible();
   await expect(nav.getByRole('link', { name: 'Months' })).toBeVisible();
@@ -78,7 +78,7 @@ test('flow: sign up → income & expenses → daily and monthly profit → past 
   await expect(page.getByRole('button', { name: /This month/ }).last()).toContainText('1,099.50');
   await expect(page.getByRole('button', { name: /200\.00/ }).first()).toBeVisible();
 
-  // The home page still shows only today (last month's loss is not on it).
+  // The home page: today, and this month (last month's loss is not on it).
   await nav.getByRole('link', { name: /Home|Dashboard/ }).first().click();
   await expect(page.getByRole('heading', { name: 'Today', level: 1 })).toBeVisible();
   await expect(page.getByText(`Net repair ${run}`)).toHaveCount(0);

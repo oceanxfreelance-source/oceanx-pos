@@ -483,8 +483,9 @@ function AddButtons({ onAdd }: { onAdd: (k: Kind) => void }) {
 }
 
 /**
- * Gravity Flow home: today only (the account's time zone). Today's income, expenses and profit against yesterday,
- * and today's records. It moves on to the new day by itself; months and their graphs are on the Months page.
+ * Gravity Flow home: today first (the account's time zone): today's income, expenses and profit against yesterday,
+ * then this month's totals with a bar for every day's profit, and today's records. Moves on to the new day and
+ * month by itself; earlier months are on the Months page.
  */
 export function FlowHome() {
   const { t } = useTranslation();
@@ -506,11 +507,17 @@ export function FlowHome() {
     enabled: !!s,
     placeholderData: keepPreviousData,
   });
+  // This month so far: its totals and a bar for every day (moves on to the new month by itself).
+  const month = useQuery({ queryKey: [...FLOW, 'summary', 'current'], queryFn: () => api.get<Summary>('/finance/summary'), refetchInterval: 5 * 60_000 });
+  const monthName = useMonthName();
   const [adding, setAdding] = useState<Kind | null>(null);
   const [editing, setEditing] = useState<Tx | null>(null);
+  const [day, setDay] = useState<string | null>(null);
   if (!s) return <SkeletonRows rows={8} />;
   const manage = can('finance.manage');
   const { totals, yesterday } = s;
+  const m = month.data;
+  const picked = day && m ? m.days.find((d) => d.date === day) : null;
 
   return (
     <div className="mx-auto max-w-4xl space-y-5">
@@ -536,12 +543,60 @@ export function FlowHome() {
         </div>
       </div>
 
+      <Card>
+        <div className="mb-3 flex items-baseline justify-between gap-2">
+          <h2 className="font-semibold">{m ? `${t('flow.this_month')} · ${monthName(m.month)}` : t('flow.this_month')}</h2>
+          <Link to="/months" className="text-sm font-medium text-brand-700 hover:underline dark:text-brand-300">
+            {t('flow.see_all')}
+          </Link>
+        </div>
+        {!m ? (
+          <SkeletonRows rows={4} />
+        ) : (
+          <>
+            <div className="mb-3 grid grid-cols-3 gap-2 text-center text-sm">
+              <div className="rounded-xl bg-emerald-50 p-2 dark:bg-emerald-950/40">
+                <span className="block text-xs text-slate-500">{t('flow.income')}</span>
+                <span className="font-semibold text-emerald-700 tabular-nums dark:text-emerald-300">{money(m.totals.income)}</span>
+              </div>
+              <div className="rounded-xl bg-rose-50 p-2 dark:bg-rose-950/40">
+                <span className="block text-xs text-slate-500">{t('flow.expenses')}</span>
+                <span className="font-semibold text-rose-700 tabular-nums dark:text-rose-300">{money(m.totals.expense)}</span>
+              </div>
+              <div className="rounded-xl bg-slate-100 p-2 dark:bg-slate-800">
+                <span className="block text-xs text-slate-500">{m.totals.net < 0 ? t('flow.loss') : t('flow.profit')}</span>
+                <span className={clsx('font-semibold tabular-nums', m.totals.net < 0 && 'text-rose-600')}>{money(m.totals.net)}</span>
+              </div>
+            </div>
+            <div className="mb-1 flex items-baseline justify-between gap-2">
+              <h3 className="text-sm font-medium">{t('flow.daily_profit')}</h3>
+              <span className="text-xs text-slate-500">{t('flow.tap_day')}</span>
+            </div>
+            <DailyProfitChart days={m.days} today={m.today} selected={day} onSelect={setDay} />
+            {picked && (
+              <div className="mt-2 grid grid-cols-3 gap-2 rounded-xl bg-slate-50 p-3 text-center text-sm dark:bg-slate-800/50">
+                <p className="col-span-3 text-start text-xs font-medium text-slate-500">{f.date(picked.date)}</p>
+                <p>
+                  <span className="block text-xs text-slate-500">{t('flow.income')}</span>
+                  <span className="font-semibold text-emerald-600 tabular-nums dark:text-emerald-400">{money(picked.income)}</span>
+                </p>
+                <p>
+                  <span className="block text-xs text-slate-500">{t('flow.expenses')}</span>
+                  <span className="font-semibold text-rose-600 tabular-nums dark:text-rose-400">{money(picked.expense)}</span>
+                </p>
+                <p>
+                  <span className="block text-xs text-slate-500">{t('flow.profit')}</span>
+                  <span className={clsx('font-semibold tabular-nums', picked.profit < 0 && 'text-rose-600')}>{money(picked.profit)}</span>
+                </p>
+              </div>
+            )}
+          </>
+        )}
+      </Card>
+
       <Card padded={false}>
         <div className="flex items-center justify-between gap-2 p-4 pb-2">
           <h2 className="font-semibold">{t('flow.today_records')}</h2>
-          <Link to="/months" className="text-sm font-medium text-brand-700 hover:underline dark:text-brand-300">
-            {t('flow.see_month')}
-          </Link>
         </div>
         {!list.data ? (
           <SkeletonRows rows={3} />
