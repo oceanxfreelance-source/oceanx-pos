@@ -135,6 +135,20 @@
   --color-slate-900: #0b2840;
   --color-slate-950: #04192b;
 }
+:root.dark[data-product='flow'] {
+  /* Gravity Flow in dark mode: deep navy pages like its logo (instead of grey). */
+  --color-slate-50: #eef5f8;
+  --color-slate-100: #dce9ef;
+  --color-slate-200: #bcd2dc;
+  --color-slate-300: #98b5c4;
+  --color-slate-400: #7d9db0;
+  --color-slate-500: #67879b;
+  --color-slate-600: #3f6176;
+  --color-slate-700: #23485f;
+  --color-slate-800: #143650;
+  --color-slate-900: #0b2840;
+  --color-slate-950: #04192b;
+}
 :root[data-palette='navy'] body {
   background: transparent;
 }

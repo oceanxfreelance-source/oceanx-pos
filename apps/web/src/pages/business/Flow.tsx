@@ -965,7 +965,8 @@ export function FlowMonthsPage() {
         )}
       </Card>
 
-      {adding && <TransactionDialog kind={adding} today={s.month === s.currentMonth ? s.today : `${s.month}-01`} onClose={() => setAdding(null)} />}
+      {/* The chosen month (from the address), even while its numbers are still loading. */}
+      {adding && <TransactionDialog kind={adding} today={!month || month === s.currentMonth ? s.today : `${month}-01`} onClose={() => setAdding(null)} />}
     </div>
   );
 }

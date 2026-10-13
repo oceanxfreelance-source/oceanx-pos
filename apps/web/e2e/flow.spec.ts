@@ -109,4 +109,15 @@ test('flow: sign up → income & expenses → daily and monthly profit → past 
   const tabs = page.getByRole('navigation', { name: 'Menu' }).last();
   await expect(tabs.getByRole('link', { name: 'Transactions' })).toBeVisible();
   await expect(tabs.getByRole('link', { name: 'Months' })).toBeVisible();
+
+  // Dark mode on the phone, from the top bar (navy, like the logo).
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Appearance' }).click();
+  await page.getByRole('menuitem', { name: 'Dark' }).click();
+  await expect(page.locator('html')).toHaveClass(/dark/);
+  await page.waitForLoadState('networkidle');
+  await page.screenshot({ path: `${SHOTS}/flow-phone-home-dark.png`, fullPage: true });
+  await page.getByRole('button', { name: 'Appearance' }).click();
+  await page.getByRole('menuitem', { name: 'Light' }).click();
+  await expect(page.locator('html')).not.toHaveClass(/dark/);
 });

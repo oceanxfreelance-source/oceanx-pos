@@ -26,7 +26,7 @@ function render() {
   root.classList.toggle('dark', !!dark);
   root.style.colorScheme = dark ? 'dark' : 'light';
   root.classList.toggle('reduce-motion', current.reduceAnimations);
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#020617' : '#ffffff');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? (root.dataset.product ? '#04192b' : '#020617') : '#ffffff');
 }
 
 /** Apply theme + animation preferences to <html> and remember the theme on this device. */
