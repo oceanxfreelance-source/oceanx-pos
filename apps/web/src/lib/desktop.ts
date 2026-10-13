@@ -1,4 +1,4 @@
-import { GRAVITY_HOST } from './product';
+import { HOST_PRODUCT } from './product';
 
 /** Present only inside the OceanX POS Windows app (see /desktop). */
 interface OceanxDesktop {
@@ -18,9 +18,9 @@ interface OceanxAndroid {
 export const android = (window as unknown as { OceanXAndroid?: OceanxAndroid }).OceanXAndroid ?? null;
 /**
  * The POS tablet app (POS only, sideways, 1280 layout). The Gravity phone app uses the same bridge for
- * printing and saving PDFs, but on Gravity's address it is a normal phone app.
+ * printing and saving PDFs, but on Gravity's or Gravity Flow's address it is a normal phone app.
  */
-export const posTablet = !!android && !GRAVITY_HOST;
+export const posTablet = !!android && HOST_PRODUCT === 'pos';
 
 /** Leave a print page: close the tab, or go back inside the tablet app (it has no tabs). */
 export function closePrintPage() {
