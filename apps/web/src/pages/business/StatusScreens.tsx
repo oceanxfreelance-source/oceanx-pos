@@ -81,8 +81,14 @@ export function StatusScreen() {
           wide
           icon={<CalendarX2 className="size-6" />}
           title={s.subscription?.planCode === 'trial' || s.subscription?.status === 'trialing' ? t('billing.trial_over_title') : t('status.expired_title')}
-          body={t('billing.blocked_body', { plan: s.subscription?.planName ?? '—', date: f.date(s.subscription?.currentPeriodEnd), app: s.business.product === 'gravity' ? 'Gravity' : s.business.product === 'flow' ? 'Gravity Flow' : 'OceanX' })}
+          body={t(s.subscription?.deleteAt ? 'gravity.blocked_body_delete' : 'billing.blocked_body', { plan: s.subscription?.planName ?? '—', date: f.date(s.subscription?.currentPeriodEnd), app: s.business.product === 'gravity' ? 'Gravity' : s.business.product === 'flow' ? 'Gravity Flow' : 'OceanX' })}
         >
+          {/* Gravity: an unpaid trial is deleted soon after it ends. */}
+          {s.subscription?.deleteAt && (
+            <p className="mb-4 rounded-xl bg-rose-50 p-3 text-sm font-medium text-rose-700 ring-1 ring-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:ring-rose-900" role="alert">
+              {t('gravity.delete_warning', { date: f.dateTime(s.subscription.deleteAt) })}
+            </p>
+          )}
           <ExpiredPay />
         </Frame>
       );

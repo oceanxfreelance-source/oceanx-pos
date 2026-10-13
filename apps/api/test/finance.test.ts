@@ -215,12 +215,12 @@ describe('Gravity Flow (income, expenses, profit)', () => {
     expect((await env.app.inject({ method: 'GET', url: '/api/auth/session', headers: { cookie: cookie(web) } })).statusCode).toBe(401);
   });
 
-  it('a Flow owner can start at once, even when sign-ups need approval (POS and Gravity still wait)', async () => {
+  it('Flow and Gravity owners start at once; closed sign-ups are refused', async () => {
     await sa.patch('/api/superadmin/settings', { registrationMode: 'approval' });
     const flow = await new Client(env.app).post('/api/auth/register', { product: 'flow', businessName: 'Quick Start', ownerName: 'Owner', email: 'quick@flow.test', password: 'Flow-Pass-1234', currency: 'MVR' });
     expect(flow.json().state).toBe('ok');
     const gravity = await new Client(env.app).post('/api/auth/register', { product: 'gravity', businessName: 'Waits', ownerName: 'Owner', email: 'waits@gravity.test', password: 'Gravity-Pass-123', currency: 'MVR' });
-    expect(gravity.json().state).toBe('business_pending');
+    expect(gravity.json().state).toBe('ok');
     await sa.patch('/api/superadmin/settings', { registrationMode: 'closed' });
     expect((await new Client(env.app).post('/api/auth/register', { product: 'flow', businessName: 'Closed', ownerName: 'Owner', email: 'closed@flow.test', password: 'Flow-Pass-1234', currency: 'MVR' })).json().error.code).toBe('registration_closed');
   });

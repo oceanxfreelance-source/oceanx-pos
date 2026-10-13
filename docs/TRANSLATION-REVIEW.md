@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 908 · **confirmed**: 148
+Status: **needs_review**: 927 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -271,15 +271,21 @@ review of the whole file is still recommended before launch.
 | `gravity.aside_4` | Track who has paid and what is overdue | ފައިސާ ދެއްކި މީހުންނާއި ލަސްވެފައިވާ ފައިސާ ބަލާ | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.aside_title` | Look professional from day one. Quotations and invoices in minutes. | ފުރަތަމަ ދުވަހުން ފެށިގެން ޕްރޮފެޝަނަލް. މިނެޓުކޮޅެއްގައި ކޯޓޭޝަނާއި އިންވޮއިސް. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.awaiting_reply` | Quotations awaiting reply | ޖަވާބަށް އިންތިޒާރުކުރާ ކޯޓޭޝަން | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.blocked_body_delete` | Your {{plan}} free trial ended on {{date}}. Pay for a plan below to keep using Gravity and keep your data. | ތިޔަ {{plan}} ހިލޭ ޓްރަޔަލް {{date}} ގައި ނިމުނީ. ގްރެވިޓީ ބޭނުންކުރަމުން ގެންދިއުމަށާއި ޑޭޓާ ރައްކާކުރުމަށް ތިރީގައިވާ ޕްލޭނަކަށް ފައިސާ ދައްކަވާ. | needs_review | Gravity: unpaid trial ended (will be deleted). |
 | `gravity.business_name` | Your name or business name | ތިޔަ ނަން ނުވަތަ ވިޔަފާރީގެ ނަން | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.business_name_hint` | Printed at the top of your quotations and invoices. Freelancers can use their own name. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސްގެ މަތީގައި ޕްރިންޓްވާނެ. ފްރީލާންސަރުންނަށް އަމިއްލަ ނަން ބޭނުން ކުރެވޭނެ. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.console` | Gravity console | Gravity ކޮންސޯލް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.create_account` | Create account | އެކައުންޓް ހައްދަވާ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.delete_after` | Delete unpaid trials after (hours) | ފައިސާ ނުދައްކާ ޓްރަޔަލް ޑިލީޓްކުރާނީ (ގަޑިއިރު) | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.delete_after_hint` | When a free trial ends without payment, the owner is emailed, and the account and all its data are deleted after this many hours. 0 = never delete. A payment waiting for review, or an account you activate, is never deleted. | ހިލޭ ޓްރަޔަލް ފައިސާ ނުދައްކާ ނިމުނީމާ، ވެރިފަރާތަށް އީމެއިލް ކުރެވި، މި ގަޑިއިރު ފަހުން އެކައުންޓާއި ހުރިހާ ޑޭޓާއެއް ޑިލީޓް ކުރެވޭނެ. 0 = ނުފޮހެވޭ. ބަލަން ހުރި ޕޭމަންޓެއް ނުވަތަ ތިޔަ އެކްޓިވް ކުރާ އެކައުންޓެއް ނުފޮހެވޭ. | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.delete_warning` | If you do not pay by {{date}}, your account and all its data will be deleted permanently. | {{date}} ގެ ކުރިން ފައިސާ ނުދައްކައިފިނަމަ، ތިޔަ އެކައުންޓާއި ހުރިހާ ޑޭޓާއެއް ދާއިމީކޮށް ޑިލީޓް ކުރެވޭނެ. | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.deletes_at` | Will be deleted {{date}} | ޑިލީޓް ކުރެވޭނީ {{date}} | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
 | `gravity.finish_setup` | Add your logo and payment details so they print on your documents | ތިޔަ ލޯގޯ އަދި ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރައްވާ، ޑޮކިއުމަންޓުތަކުގައި ޕްރިންޓްވާނެ | needs_review | New: Gravity home (phone). |
 | `gravity.home_subtitle` | Your quotations and invoices at a glance. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސް އެއް ނަޒަރަކުން. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.home_title` | Hello, {{name}} | ހަލޯ، {{name}} | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.monthly_price` | Monthly price (MVR) | މަހު އަގު (MVR) | needs_review | New: Gravity one plan and trial. |
 | `gravity.nav_plan` | Plan & trial | ޕްލޭން އަދި ޓްރަޔަލް | needs_review | New: Gravity one plan and trial. |
+| `gravity.nav_signups` | Sign-ups | ސައިން އަޕްތައް | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
 | `gravity.new_account` | New Gravity account | އައު Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.no_account` | New to Gravity? | Gravity އަށް އަލެއްތަ؟ | needs_review | New: Gravity sign-in footer. |
 | `gravity.no_invoices` | No invoices yet | އަދި އިންވޮއިސެއް ނެތް | needs_review | New: Gravity (quotation & invoice generator). |
@@ -305,10 +311,23 @@ review of the whole file is still recommended before launch.
 | `gravity.see_all` | See all | ހުރިހާ އެއްޗެއް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.setup_body` | Add your logo and how customers can pay you. They print on every quotation and invoice. Stamp and signature are optional. | ތިޔަ ލޯގޯ އަދި ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރައްވާ. ހުރިހާ ކޯޓޭޝަނާއި އިންވޮއިސްގައި ޕްރިންޓްވާނެ. ސްޓޭމްޕާއި ސޮއި އިޚްތިޔާރީ. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.setup_title` | Finish your documents' look | ތިޔަ ޑޮކިއުމަންޓްތައް ފުރިހަމަކުރައްވާ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.signed_up` | Signed up | ސައިން އަޕް ކުރި | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signup_contact` | Contact | ގުޅޭނެ | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
 | `gravity.signup_link` | Customers sign up at | ކަސްޓަމަރުން ސައިން އަޕް ކުރާނީ | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.signup_plan` | Gravity sign-up plan | Gravity ސައިން އަޕް ޕްލޭން | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.signup_plan_hint` | New Gravity accounts start on this plan. | އައު Gravity އެކައުންޓްތައް ފަށާނީ މި ޕްލޭނުން. | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.signup_state_active` | Active | އެކްޓިވް | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signup_state_deleted` | Deleted | ޑިލީޓްކުރެވިފައި | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signup_state_paid` | Paid | ދައްކާފައި | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signup_state_payment_review` | Payment to review | ބަލަން ޖެހޭ ޕޭމަންޓެއް | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signup_state_trial` | On free trial | ހިލޭ ޓްރަޔަލްގައި | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signup_state_trial_ended` | Trial ended, not paid | ޓްރަޔަލް ނިމިއްޖެ، ފައިސާ ނުދައްކާ | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signups_empty` | No sign-ups yet. | އަދި ސައިން އަޕެއް ނެތް. | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signups_search` | Search name, email or phone | ނަން، އީމެއިލް ނުވަތަ ފޯނު ހޯދާ | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signups_subtitle` | Everyone who signed up for Gravity. They start at once, no approval needed. Their details stay here even after an unpaid trial is deleted. | ގްރެވިޓީއަށް ސައިން އަޕް ކުރި ހުރިހާ ބަޔަކު. އެޕްރޫވަލެއް ނެތި ވަގުތުން ފަށާނެ. ފައިސާ ނުދައްކާ ޓްރަޔަލް ޑިލީޓް ކުރުމަށްފަހުވެސް މަޢުލޫމާތު މިތާ ހުންނާނެ. | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
+| `gravity.signups_title` | Gravity sign-ups | ގްރެވިޓީ ސައިން އަޕްތައް | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
 | `gravity.tagline` | Quotations & invoices | ކޯޓޭޝަން އަދި އިންވޮއިސް | needs_review | New: Gravity (quotation & invoice generator). |
+| `gravity.trial_ends_at` | Trial ends {{date}} | ޓްރަޔަލް ނިމޭނީ {{date}} | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
 | `gravity.trial_hint` | 0 = no free trial. A new trial length applies to accounts created from now on. | 0 = ހިލޭ ޓްރަޔަލެއް ނެތް. އައު ޓްރަޔަލް މުއްދަތު ހިނގާނީ މިހިން ފެށިގެން ހަދާ އެކައުންޓްތަކަށް. | needs_review | New: Gravity one plan and trial. |
 | `gravity.trial_length` | Free trial | ހިލޭ ޓްރަޔަލް | needs_review | New: Gravity one plan and trial. |
 | `gravity.trial_unit` | Unit | ވަގުތު | needs_review | New: Gravity one plan and trial. |

@@ -8,6 +8,7 @@ import { AppError } from './lib/errors';
 import { createMailer, type Mailer } from './lib/mailer';
 import { DbBackend, FileBackend, Storage } from './lib/storage';
 import { createViberProvider } from './services/viber/provider';
+import { sweepEndedTrials } from './services/trialCleanup';
 import type { AppDeps } from './types';
 import { businessRoutes } from './routes/business';
 import { superAdminRoutes } from './routes/superadmin';
@@ -97,6 +98,22 @@ export async function buildApp(opts: BuildOptions): Promise<FastifyInstance> {
   app.setNotFoundHandler((_req, reply) => reply.status(404).send({ error: { code: 'not_found', message: 'Not found' } }));
 
   app.get('/api/health', async () => ({ status: 'ok' }));
+
+  // Ended free trials: notice to the owner, then deletion when unpaid (services/trialCleanup.ts).
+  const sweep = () => sweepEndedTrials({ db: deps.db, mailer: deps.mailer, config, removeFiles: (id) => deps.storage.removeBusinessFiles(id) });
+  app.get('/api/cron/trials', async (req, reply) => {
+    if (config.CRON_SECRET && req.headers.authorization !== `Bearer ${config.CRON_SECRET}`) return reply.status(401).send({ error: { code: 'unauthorized', message: 'Unauthorized' } });
+    return sweep();
+  });
+  // Between cron runs, the app checks by itself while it is used (never in tests, which run the sweep directly).
+  if (config.NODE_ENV !== 'test' && config.TRIAL_SWEEP_MINUTES > 0) {
+    let next = 0;
+    app.addHook('onRequest', async (req) => {
+      if (Date.now() < next || !req.url.startsWith('/api/')) return;
+      next = Date.now() + config.TRIAL_SWEEP_MINUTES * 60_000;
+      await sweep().catch((err) => req.log.error({ err }, 'trial sweep failed'));
+    });
+  }
 
   const authRateLimit = opts.authRateLimit ?? (config.RATE_LIMIT_DISABLED ? 1_000_000 : 10);
   await app.register(superAdminRoutes, { prefix: '/api/superadmin', authRateLimit });

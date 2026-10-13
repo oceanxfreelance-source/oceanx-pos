@@ -7390,5 +7390,138 @@
     "suggested": "{{month}} ގެ ހުރިހާ ރެކޯޑެއް",
     "status": "needs_review",
     "notes": "Gravity Flow: today-only dashboard."
+  },
+  {
+    "key": "gravity.nav_signups",
+    "english": "Sign-ups",
+    "suggested": "ސައިން އަޕްތައް",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signups_title",
+    "english": "Gravity sign-ups",
+    "suggested": "ގްރެވިޓީ ސައިން އަޕްތައް",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signups_subtitle",
+    "english": "Everyone who signed up for Gravity. They start at once, no approval needed. Their details stay here even after an unpaid trial is deleted.",
+    "suggested": "ގްރެވިޓީއަށް ސައިން އަޕް ކުރި ހުރިހާ ބަޔަކު. އެޕްރޫވަލެއް ނެތި ވަގުތުން ފަށާނެ. ފައިސާ ނުދައްކާ ޓްރަޔަލް ޑިލީޓް ކުރުމަށްފަހުވެސް މަޢުލޫމާތު މިތާ ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signups_search",
+    "english": "Search name, email or phone",
+    "suggested": "ނަން، އީމެއިލް ނުވަތަ ފޯނު ހޯދާ",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signups_empty",
+    "english": "No sign-ups yet.",
+    "suggested": "އަދި ސައިން އަޕެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signup_contact",
+    "english": "Contact",
+    "suggested": "ގުޅޭނެ",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signed_up",
+    "english": "Signed up",
+    "suggested": "ސައިން އަޕް ކުރި",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signup_state_trial",
+    "english": "On free trial",
+    "suggested": "ހިލޭ ޓްރަޔަލްގައި",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signup_state_trial_ended",
+    "english": "Trial ended, not paid",
+    "suggested": "ޓްރަޔަލް ނިމިއްޖެ، ފައިސާ ނުދައްކާ",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signup_state_payment_review",
+    "english": "Payment to review",
+    "suggested": "ބަލަން ޖެހޭ ޕޭމަންޓެއް",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signup_state_paid",
+    "english": "Paid",
+    "suggested": "ދައްކާފައި",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signup_state_active",
+    "english": "Active",
+    "suggested": "އެކްޓިވް",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.signup_state_deleted",
+    "english": "Deleted",
+    "suggested": "ޑިލީޓްކުރެވިފައި",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.trial_ends_at",
+    "english": "Trial ends {{date}}",
+    "suggested": "ޓްރަޔަލް ނިމޭނީ {{date}}",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.deletes_at",
+    "english": "Will be deleted {{date}}",
+    "suggested": "ޑިލީޓް ކުރެވޭނީ {{date}}",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.delete_after",
+    "english": "Delete unpaid trials after (hours)",
+    "suggested": "ފައިސާ ނުދައްކާ ޓްރަޔަލް ޑިލީޓްކުރާނީ (ގަޑިއިރު)",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.delete_after_hint",
+    "english": "When a free trial ends without payment, the owner is emailed, and the account and all its data are deleted after this many hours. 0 = never delete. A payment waiting for review, or an account you activate, is never deleted.",
+    "suggested": "ހިލޭ ޓްރަޔަލް ފައިސާ ނުދައްކާ ނިމުނީމާ، ވެރިފަރާތަށް އީމެއިލް ކުރެވި، މި ގަޑިއިރު ފަހުން އެކައުންޓާއި ހުރިހާ ޑޭޓާއެއް ޑިލީޓް ކުރެވޭނެ. 0 = ނުފޮހެވޭ. ބަލަން ހުރި ޕޭމަންޓެއް ނުވަތަ ތިޔަ އެކްޓިވް ކުރާ އެކައުންޓެއް ނުފޮހެވޭ.",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.delete_warning",
+    "english": "If you do not pay by {{date}}, your account and all its data will be deleted permanently.",
+    "suggested": "{{date}} ގެ ކުރިން ފައިސާ ނުދައްކައިފިނަމަ، ތިޔަ އެކައުންޓާއި ހުރިހާ ޑޭޓާއެއް ދާއިމީކޮށް ޑިލީޓް ކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity: sign-ups and unpaid-trial deletion."
+  },
+  {
+    "key": "gravity.blocked_body_delete",
+    "english": "Your {{plan}} free trial ended on {{date}}. Pay for a plan below to keep using Gravity and keep your data.",
+    "suggested": "ތިޔަ {{plan}} ހިލޭ ޓްރަޔަލް {{date}} ގައި ނިމުނީ. ގްރެވިޓީ ބޭނުންކުރަމުން ގެންދިއުމަށާއި ޑޭޓާ ރައްކާކުރުމަށް ތިރީގައިވާ ޕްލޭނަކަށް ފައިސާ ދައްކަވާ.",
+    "status": "needs_review",
+    "notes": "Gravity: unpaid trial ended (will be deleted)."
   }
 ]

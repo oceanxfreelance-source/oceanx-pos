@@ -53,6 +53,8 @@ writeFileSync(
   JSON.stringify(
     {
       version: 3,
+      // Gravity: ended free trials (notice, then deletion when unpaid) are checked daily; the app also checks while in use.
+      crons: [{ path: '/api/cron/trials', schedule: '15 3 * * *' }],
       routes: [
         // Pages and files: never framed by other sites (stops sign-in page clickjacking), no type sniffing.
         { src: '^/(?!api(?:/|$))(.*)$', headers: { 'x-frame-options': 'SAMEORIGIN', 'x-content-type-options': 'nosniff', 'referrer-policy': 'strict-origin-when-cross-origin' }, continue: true },

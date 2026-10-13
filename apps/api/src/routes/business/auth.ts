@@ -9,7 +9,8 @@ import {
   resetPasswordSchema,
   isSoloProduct,
 } from '@oceanx/shared';
-import { businesses, outlets, platformLanguages, plans, userOutlets, userSessions, users } from '../../db/schema';
+import { businesses, outlets, platformLanguages, plans, signups, userOutlets, userSessions, users } from '../../db/schema';
+import { deletionForBusiness } from '../../services/trialCleanup';
 import { appUrlFor } from '../../config';
 import { audit } from '../../lib/audit';
 import { hashToken, randomToken } from '../../lib/crypto';
@@ -60,7 +61,11 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
       profile: BUSINESS_TYPE_PROFILES[b.businessType],
       suspensionReason: b.status === 'suspended' ? b.suspensionReason : null,
     },
-    subscription: ctx.access.subscription,
+    subscription: ctx.access.subscription && {
+      ...ctx.access.subscription,
+      /** Gravity: an unpaid trial that ended, when the account and its data will be deleted. */
+      deleteAt: await deletionForBusiness(db, b, ctx.access.subscription),
+    },
     limits: ctx.access.limits,
     modules: [...ctx.access.modules],
     addons: [...ctx.access.addons],
@@ -234,11 +239,25 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
         email: body.email,
         phone: body.phone,
         currency: body.currency,
-        // Gravity Flow: the owner starts at once (Super Admin controls it through the plan, trial and payments).
-        status: settings.registrationMode === 'open' || body.product === 'flow' ? 'active' : 'pending',
+        // Gravity and Gravity Flow owners start their free trial at once (no approval); Super Admin sees every
+        // Gravity sign-up and controls plans, trials and payments. An unpaid Gravity trial is deleted 48 hours after it ends.
+        status: settings.registrationMode === 'open' || body.product !== 'pos' ? 'active' : 'pending',
         planId: plan.id,
         owner: { name: body.ownerName, email: body.email, language: body.language, passwordHash, phone: body.phone },
       });
+      // Gravity: Super Admin keeps every sign-up's details, even after an unpaid trial is deleted.
+      if (body.product === 'gravity') {
+        await tx.insert(signups).values({
+          businessId: res.business.id,
+          product: body.product,
+          businessName: body.businessName,
+          ownerName: body.ownerName,
+          email: body.email,
+          phone: body.phone || null,
+          currency: body.currency,
+          language: body.language,
+        });
+      }
       await audit(tx, {
         actorType: 'user',
         actorId: res.owner.id,

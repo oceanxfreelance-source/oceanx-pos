@@ -24,6 +24,7 @@ const POS_CONSOLE: NavItem[] = [
 ];
 const GRAVITY_CONSOLE: NavItem[] = [
   { to: '/superadmin/gravity/accounts', label: 'gravity.accounts', icon: Building2 },
+  { to: '/superadmin/gravity/signups', label: 'gravity.nav_signups', icon: UserPlus },
   { to: '/superadmin/gravity/payments', label: 'superadmin.nav.payments', icon: Banknote },
   { to: '/superadmin/gravity/plans', label: 'gravity.nav_plan', icon: Layers },
 ];

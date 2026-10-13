@@ -1,7 +1,7 @@
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { randomToken } from './crypto';
-import { eq } from 'drizzle-orm';
+import { eq, like } from 'drizzle-orm';
 import { AppError } from './errors';
 import type { DB } from '../db/client';
 import { storedFiles } from '../db/schema';
@@ -35,6 +35,8 @@ export interface StorageBackend {
   write(rel: string, buf: Buffer): Promise<void>;
   read(rel: string): Promise<Buffer>;
   remove(rel: string): Promise<void>;
+  /** Removes every file under a folder (an account's files when the account is deleted). */
+  removeFolder(rel: string): Promise<void>;
 }
 
 /** Local disk / mounted volume (Docker, VM). */
@@ -56,6 +58,9 @@ export class FileBackend implements StorageBackend {
   async remove(rel: string) {
     await rm(this.resolve(rel), { force: true });
   }
+  async removeFolder(rel: string) {
+    await rm(this.resolve(rel), { force: true, recursive: true });
+  }
 }
 
 /** PostgreSQL `stored_files` table — durable storage for serverless hosts without a persistent disk. */
@@ -74,6 +79,9 @@ export class DbBackend implements StorageBackend {
   }
   async remove(rel: string) {
     await this.db.delete(storedFiles).where(eq(storedFiles.path, rel));
+  }
+  async removeFolder(rel: string) {
+    await this.db.delete(storedFiles).where(like(storedFiles.path, `${rel.replace(/[\\%_]/g, '\\$&')}/%`));
   }
 }
 
@@ -108,5 +116,10 @@ export class Storage {
 
   remove(rel: string): Promise<void> {
     return this.backend.remove(rel);
+  }
+
+  /** Every file of one account. */
+  removeBusinessFiles(businessId: string): Promise<void> {
+    return this.backend.removeFolder(path.posix.join('businesses', businessId));
   }
 }

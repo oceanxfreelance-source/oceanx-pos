@@ -202,7 +202,19 @@ test('gravity: trial ends → the payment screen pops up', async ({ browser }) =
     await expect(page.getByText('Upload the transfer slip')).toBeVisible();
     await expect(page.getByRole('link', { name: 'New invoice' })).toHaveCount(0);
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+    // Unpaid trials are deleted: the owner is told when.
+    await expect(page.getByRole('alert').filter({ hasText: /If you do not pay by .*deleted permanently/ })).toBeVisible();
     await page.screenshot({ path: `${SHOTS}/gravity-phone-trial-ended.png`, fullPage: true });
+
+    // Super Admin keeps every Gravity sign-up's details and sees when this one will be deleted.
+    await sa.goto('/superadmin/gravity/signups');
+    await sa.getByLabel('Search name, email or phone').fill(`short-${run}`);
+    const row = sa.getByRole('row').filter({ hasText: `Short Trial ${run}` });
+    await expect(row).toContainText(`short-${run}@gravity.test`);
+    await expect(row).toContainText('Trial ended, not paid');
+    await expect(row).toContainText('Will be deleted');
+    await expect(sa.getByLabel('Delete unpaid trials after (hours)')).toHaveValue('48');
+    await sa.screenshot({ path: `${SHOTS}/gravity-sa-signups.png`, fullPage: true });
   } finally {
     // Back to the usual 14 days for everyone else.
     await setPlan('14', 'days');

@@ -43,6 +43,10 @@ const envSchema = z.object({
   VIBER_API_URL: z.string().url().optional(),
   VIBER_API_KEY: z.string().optional(),
   VIBER_SENDER: z.string().optional(),
+  /** Vercel Cron sends it as "Authorization: Bearer <secret>" to /api/cron/*; when set, other callers are refused. */
+  CRON_SECRET: z.string().optional(),
+  /** Also check ended free trials (notice + deletion) at most this often while the app is in use. 0 = only by cron. */
+  TRIAL_SWEEP_MINUTES: z.coerce.number().int().min(0).default(15),
 });
 
 export type AppConfig = z.infer<typeof envSchema> & { encryptionKey: Buffer };

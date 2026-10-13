@@ -7,6 +7,7 @@ import { platformRoutes } from './platform';
 import { billingAdminRoutes } from './billing';
 import { mailRoutes } from './mail';
 import { hubRoutes } from './hub';
+import { signupRoutes } from './signups';
 
 /**
  * Super Admin API (/api/superadmin/*). A separate security domain:
@@ -30,5 +31,6 @@ export async function superAdminRoutes(app: FastifyInstance, opts: { authRateLim
     await secured.register(billingAdminRoutes);
     await secured.register(hubRoutes);
     await secured.register(mailRoutes);
+    await secured.register(signupRoutes);
   });
 }

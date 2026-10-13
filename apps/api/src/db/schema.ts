@@ -1703,3 +1703,28 @@ export const financeTransactions = pgTable(
     check('finance_transactions_amount_ck', sql`${t.amount} > 0`),
   ],
 );
+
+/**
+ * Every self sign-up, kept for Super Admin even after the account itself is deleted (an unpaid trial is
+ * removed 48 hours after it ends). No foreign key to businesses on purpose: the row outlives the account.
+ */
+export const signups = pgTable(
+  'signups',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    product: text('product').notNull(),
+    businessName: text('business_name').notNull(),
+    ownerName: text('owner_name').notNull(),
+    email: text('email').notNull(),
+    phone: text('phone'),
+    currency: text('currency'),
+    language: text('language'),
+    createdAt: createdAt(),
+    /** When the owner was told their trial ended and the account will be deleted unless they pay. */
+    trialEndedNoticeAt: ts('trial_ended_notice_at'),
+    deletedAt: ts('deleted_at'),
+    deleteReason: text('delete_reason'),
+  },
+  (t) => [uniqueIndex('signups_business_uq').on(t.businessId), index('signups_created_idx').on(t.createdAt)],
+);

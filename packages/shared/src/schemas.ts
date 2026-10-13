@@ -245,6 +245,8 @@ export const platformSettingsSchema = z
     billingNote: z.string().trim().max(500),
     /** Days before the end of a trial/paid period that the owner starts seeing the "pay now" banner. */
     billingReminderDays: z.coerce.number().int().min(0).max(60),
+    /** Gravity: hours after a free trial ends (without payment) before the account and all its data are deleted. 0 = never. */
+    trialDeleteHours: z.coerce.number().int().min(0).max(8760),
     /** OceanX's own details, printed on Hub quotations and invoices. */
     companyAddress: z.string().trim().max(300),
     companyPhone: z.string().trim().max(40),

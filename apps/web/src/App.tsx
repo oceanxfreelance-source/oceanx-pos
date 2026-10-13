@@ -68,6 +68,7 @@ const SaBusinesses = lazy(() => import('./pages/superadmin/Businesses'));
 const SaBusinessDetail = lazy(() => import('./pages/superadmin/BusinessDetail'));
 const SaPlans = lazy(() => import('./pages/superadmin/Catalog').then((m) => ({ default: m.PlansPage })));
 const SaGravityPlan = lazy(() => import('./pages/superadmin/GravityPlan'));
+const SaGravitySignups = lazy(() => import('./pages/superadmin/GravitySignups'));
 const SaMail = lazy(() => import('./pages/superadmin/Mail'));
 const SaPayments = lazy(() => import('./pages/superadmin/Payments'));
 const SaAddons = lazy(() => import('./pages/superadmin/Catalog').then((m) => ({ default: m.AddonCatalogPage })));
@@ -164,6 +165,7 @@ const router = createBrowserRouter([
           { path: 'gravity/accounts', element: withSuspense(<SaBusinesses product="gravity" />) },
           { path: 'gravity/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
           { path: 'gravity/plans', element: withSuspense(<SaGravityPlan key="gravity" />) },
+          { path: 'gravity/signups', element: withSuspense(<SaGravitySignups />) },
           { path: 'gravity/payments', element: withSuspense(<SaPayments product="gravity" />) },
           // Gravity Flow (income, expenses & profit) console.
           { path: 'flow/accounts', element: withSuspense(<SaBusinesses product="flow" />) },

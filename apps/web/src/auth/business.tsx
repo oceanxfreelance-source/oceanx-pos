@@ -37,7 +37,7 @@ export interface BusinessSession {
     profile: { productsLabelKey: string; dashboardWidgets: string[]; tableService: boolean; kitchen: boolean; retail?: boolean };
     suspensionReason: string | null;
   };
-  subscription: { planName: string; planCode: string; status?: string; effectiveStatus: string; currentPeriodEnd: string } | null;
+  subscription: { planName: string; planCode: string; status?: string; effectiveStatus: string; currentPeriodEnd: string; deleteAt?: string | null } | null;
   limits: Record<string, number | null>;
   modules: string[];
   addons: string[];
