@@ -7,12 +7,26 @@ export function Dropdown({ trigger, children, align = 'end' }: { trigger: (open:
   const ref = useRef<HTMLDivElement>(null);
   const menu = useRef<HTMLDivElement>(null);
   // Keep the menu on screen: e.g. in right-to-left languages an "end" menu near the left edge would open off-screen.
+  // On a phone a wide menu may fit on neither side of its button: then it spans the screen just below the button.
+  const [fixed, setFixed] = useState<{ top: number } | null>(null);
   useLayoutEffect(() => {
-    if (!open) return setSide(align);
+    if (!open) {
+      setFixed(null);
+      return setSide(align);
+    }
     const r = menu.current?.getBoundingClientRect();
-    if (!r) return;
-    if (r.left < 8 || r.right > window.innerWidth - 8) setSide((s) => (s === 'end' ? 'start' : 'end'));
-  }, [open, align]);
+    const btn = ref.current?.getBoundingClientRect();
+    if (!r || !btn || fixed) return;
+    const w = menu.current!.offsetWidth;
+    const fits = (left: number) => left >= 8 && left + w <= window.innerWidth - 8;
+    const endLeft = btn.right - w;
+    const startLeft = btn.left;
+    const rtl = document.documentElement.dir === 'rtl';
+    const [first, second] = (side === 'end') !== rtl ? [endLeft, startLeft] : [startLeft, endLeft];
+    if (fits(first)) return;
+    if (fits(second)) return setSide((s) => (s === 'end' ? 'start' : 'end'));
+    setFixed({ top: btn.bottom + 8 });
+  }, [open, align, side, fixed]);
   useEffect(() => {
     if (!open) return;
     const onDoc = (e: MouseEvent) => !ref.current?.contains(e.target as Node) && setOpen(false);
@@ -29,9 +43,10 @@ export function Dropdown({ trigger, children, align = 'end' }: { trigger: (open:
       <div onClick={() => setOpen((o) => !o)}>{trigger(open)}</div>
       {open && (
         <div
+          style={fixed ? { top: fixed.top } : undefined}
           className={clsx(
-            'animate-pop-in absolute z-40 mt-2 min-w-56 rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800',
-            side === 'end' ? 'end-0' : 'start-0',
+            'animate-pop-in z-40 min-w-56 rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800',
+            fixed ? 'fixed inset-x-2 [&>*]:!w-full [&>*]:!max-w-none' : clsx('absolute mt-2', side === 'end' ? 'end-0' : 'start-0'),
           )}
           ref={menu}
           role="menu"

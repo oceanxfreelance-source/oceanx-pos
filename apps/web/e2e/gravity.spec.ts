@@ -124,6 +124,17 @@ test('gravity: sign up → quotation → invoice → who owes → paid', async (
     await fits();
     await page.screenshot({ path: `${SHOTS}/gravity-phone-${shot}.png`, fullPage: true });
   }
+  // Notifications on a phone: the list stays on the screen (the page never scrolls sideways).
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Notifications' }).click();
+  const panel = page.getByRole('menu');
+  await expect(panel).toBeVisible();
+  const box = (await panel.boundingBox())!;
+  expect(box.x).toBeGreaterThanOrEqual(0);
+  expect(box.x + box.width).toBeLessThanOrEqual(391);
+  await fits();
+  await page.screenshot({ path: `${SHOTS}/gravity-phone-notifications.png` });
+  await page.keyboard.press('Escape');
   const tabs = page.getByRole('navigation', { name: 'Menu' }).last();
   await expect(tabs.getByRole('link', { name: 'Quotations' })).toBeVisible();
   await expect(tabs.getByRole('link', { name: 'Invoices' })).toBeVisible();
@@ -238,5 +249,26 @@ test('gravity: sign-in page offers the Android app', async ({ browser }) => {
     await expect(page.getByRole('link', { name: /Get the Android app/ })).toHaveCount(0);
   } finally {
     await phone.close();
+  }
+});
+
+/** Inside the Gravity phone app the screens do not pinch-zoom (A4 documents can); the POS address is untouched. */
+test('gravity: no pinch-zoom inside the phone app', async ({ browser, baseURL }) => {
+  const app = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  await app.addInitScript(() => Object.assign(window, { OceanXAndroid: { print() {} } }));
+  const page = await app.newPage();
+  const viewport = () => page.locator('meta[name="viewport"]').getAttribute('content');
+  try {
+    const port = new URL(baseURL!).port;
+    await page.goto(`http://gravity.localhost:${port}/login`);
+    await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
+    await expect.poll(viewport).toContain('user-scalable=no');
+    // In the app there is no "Get the app" button.
+    await expect(page.getByRole('link', { name: /Get the Android app/ })).toHaveCount(0);
+    await page.goto(`http://localhost:${port}/login`);
+    await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
+    expect(await viewport()).not.toContain('user-scalable=no');
+  } finally {
+    await app.close();
   }
 });

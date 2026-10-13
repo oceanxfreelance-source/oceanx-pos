@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { RouteError } from './components/RouteError';
 import { UpdateNotice } from './components/UpdateNotice';
+import { installPhoneAppZoomLock } from './lib/tabletFit';
 import { createBrowserRouter, Link, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BusinessAuthProvider } from './auth/business';
@@ -276,6 +277,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+installPhoneAppZoomLock(router);
 
 export default function App() {
   return (
