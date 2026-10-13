@@ -8,7 +8,9 @@ import { useErrorMessage } from '../../lib/useApiError';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Form';
 import { Alert } from '../../components/ui/Card';
+import { Smartphone } from 'lucide-react';
 import { productPath, type Product } from '../../lib/product';
+import { android } from '../../lib/desktop';
 import { AuthLayout } from './AuthLayout';
 import { LanguagePicker } from './LanguagePicker';
 
@@ -66,6 +68,21 @@ export default function BusinessLogin({ product = 'pos' }: { product?: Product }
           {t('auth.sign_in')}
         </Button>
       </form>
+      {/* Gravity and Gravity Flow have a phone app (sign in once). Not shown inside the app itself. */}
+      {product !== 'pos' && !android && (
+        <a
+          href={`/download/${product}.apk`}
+          className="mt-4 flex items-center gap-3 rounded-xl p-3 ring-1 ring-slate-200 transition hover:bg-slate-50 dark:ring-slate-700 dark:hover:bg-slate-800/60"
+        >
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300">
+            <Smartphone className="size-5" />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-sm font-semibold">{t('gravity.get_app')}</span>
+            <span className="block text-xs text-slate-500">{t('gravity.get_app_hint')}</span>
+          </span>
+        </a>
+      )}
     </AuthLayout>
   );
 }

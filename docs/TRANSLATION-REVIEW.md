@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 927 · **confirmed**: 148
+Status: **needs_review**: 929 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -281,6 +281,8 @@ review of the whole file is still recommended before launch.
 | `gravity.delete_warning` | If you do not pay by {{date}}, your account and all its data will be deleted permanently. | {{date}} ގެ ކުރިން ފައިސާ ނުދައްކައިފިނަމަ، ތިޔަ އެކައުންޓާއި ހުރިހާ ޑޭޓާއެއް ދާއިމީކޮށް ޑިލީޓް ކުރެވޭނެ. | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
 | `gravity.deletes_at` | Will be deleted {{date}} | ޑިލީޓް ކުރެވޭނީ {{date}} | needs_review | Gravity: sign-ups and unpaid-trial deletion. |
 | `gravity.finish_setup` | Add your logo and payment details so they print on your documents | ތިޔަ ލޯގޯ އަދި ފައިސާ ދައްކާނެ ގޮތް އިތުރުކުރައްވާ، ޑޮކިއުމަންޓުތަކުގައި ޕްރިންޓްވާނެ | needs_review | New: Gravity home (phone). |
+| `gravity.get_app` | Get the Android app | އެންޑްރޮއިޑް އެޕް ލިބިގަންނަވާ | needs_review | Sign-in page: download the phone app. |
+| `gravity.get_app_hint` | For Android phones. Sign in once and stay signed in. | އެންޑްރޮއިޑް ފޯނުތަކަށް. އެއްފަހަރު ސައިން އިން ކުރެއްވުމުން ސައިން އިން ވެފައި ހުންނާނެ. | needs_review | Sign-in page: download the phone app. |
 | `gravity.home_subtitle` | Your quotations and invoices at a glance. | ތިޔަ ކޯޓޭޝަނާއި އިންވޮއިސް އެއް ނަޒަރަކުން. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.home_title` | Hello, {{name}} | ހަލޯ، {{name}} | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.monthly_price` | Monthly price (MVR) | މަހު އަގު (MVR) | needs_review | New: Gravity one plan and trial. |

@@ -222,3 +222,21 @@ test('gravity: trial ends → the payment screen pops up', async ({ browser }) =
     await sa.close();
   }
 });
+
+/** Gravity's sign-in offers its Android app (POS sign-in does not). */
+test('gravity: sign-in page offers the Android app', async ({ browser }) => {
+  const phone = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await phone.newPage();
+  try {
+    await page.goto('/gravity/login');
+    await expect(page.getByRole('link', { name: /Get the Android app/ })).toHaveAttribute('href', '/download/gravity.apk');
+    await page.screenshot({ path: `${SHOTS}/gravity-phone-login.png`, fullPage: true });
+    await page.goto('/flow/login');
+    await expect(page.getByRole('link', { name: /Get the Android app/ })).toHaveAttribute('href', '/download/flow.apk');
+    await page.goto('/login');
+    await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Get the Android app/ })).toHaveCount(0);
+  } finally {
+    await phone.close();
+  }
+});

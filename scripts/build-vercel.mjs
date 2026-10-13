@@ -60,6 +60,8 @@ writeFileSync(
         { src: '^/(?!api(?:/|$))(.*)$', headers: { 'x-frame-options': 'SAMEORIGIN', 'x-content-type-options': 'nosniff', 'referrer-policy': 'strict-origin-when-cross-origin' }, continue: true },
         { src: '^/assets/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
         { src: '^/api(/.*)?$', dest: '/api' },
+        // Phone apps: always the current Android build (the version in android/app/build.gradle, published as a GitHub release).
+        ...appDownloadRoutes(),
         // Super Admin's own address (SUPERADMIN_APP_URL): it opens straight into Super Admin, and
         // /superadmin on the POS or Gravity addresses moves there (its API answers only there).
         ...adminRoutes(),
@@ -156,4 +158,18 @@ function flowShell(html) {
     out = out.replace(re, to);
   }
   return out.replace(/OceanX POS/g, 'Gravity Flow');
+}
+
+/** /download/gravity.apk and /download/flow.apk → the APK of the app version in android/app/build.gradle. */
+function appDownloadRoutes() {
+  const gradle = readFileSync(path.join(root, 'android/app/build.gradle'), 'utf8');
+  const version = (name) => gradle.match(new RegExp(`def ${name}\\s*=\\s*'([^']+)'`))?.[1];
+  const release = 'https://github.com/oceanxfreelance-source/oceanx-pos/releases/download';
+  const apps = [
+    ['gravity', version('gravityVersion'), (v) => `${release}/gravity-android-v${v}/Gravity-${v}.apk`],
+    ['flow', version('flowVersion'), (v) => `${release}/flow-android-v${v}/Gravity-Flow-${v}.apk`],
+  ];
+  return apps
+    .filter(([, v]) => v)
+    .map(([app, v, url]) => ({ src: `^/download/${app}\\.apk$`, status: 302, headers: { location: url(v), 'cache-control': 'no-cache' } }));
 }

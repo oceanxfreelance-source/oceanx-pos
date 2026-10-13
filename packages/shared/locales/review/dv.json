@@ -7523,5 +7523,19 @@
     "suggested": "ތިޔަ {{plan}} ހިލޭ ޓްރަޔަލް {{date}} ގައި ނިމުނީ. ގްރެވިޓީ ބޭނުންކުރަމުން ގެންދިއުމަށާއި ޑޭޓާ ރައްކާކުރުމަށް ތިރީގައިވާ ޕްލޭނަކަށް ފައިސާ ދައްކަވާ.",
     "status": "needs_review",
     "notes": "Gravity: unpaid trial ended (will be deleted)."
+  },
+  {
+    "key": "gravity.get_app",
+    "english": "Get the Android app",
+    "suggested": "އެންޑްރޮއިޑް އެޕް ލިބިގަންނަވާ",
+    "status": "needs_review",
+    "notes": "Sign-in page: download the phone app."
+  },
+  {
+    "key": "gravity.get_app_hint",
+    "english": "For Android phones. Sign in once and stay signed in.",
+    "suggested": "އެންޑްރޮއިޑް ފޯނުތަކަށް. އެއްފަހަރު ސައިން އިން ކުރެއްވުމުން ސައިން އިން ވެފައި ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "Sign-in page: download the phone app."
   }
 ]

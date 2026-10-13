@@ -2679,7 +2679,9 @@
     "delete_after": "Delete unpaid trials after (hours)",
     "delete_after_hint": "When a free trial ends without payment, the owner is emailed, and the account and all its data are deleted after this many hours. 0 = never delete. A payment waiting for review, or an account you activate, is never deleted.",
     "delete_warning": "If you do not pay by {{date}}, your account and all its data will be deleted permanently.",
-    "blocked_body_delete": "Your {{plan}} free trial ended on {{date}}. Pay for a plan below to keep using Gravity and keep your data."
+    "blocked_body_delete": "Your {{plan}} free trial ended on {{date}}. Pay for a plan below to keep using Gravity and keep your data.",
+    "get_app": "Get the Android app",
+    "get_app_hint": "For Android phones. Sign in once and stay signed in."
   },
   "flow": {
     "name": "Gravity Flow",
