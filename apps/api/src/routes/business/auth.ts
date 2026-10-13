@@ -234,7 +234,8 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
         email: body.email,
         phone: body.phone,
         currency: body.currency,
-        status: settings.registrationMode === 'open' ? 'active' : 'pending',
+        // Gravity Flow: the owner starts at once (Super Admin controls it through the plan, trial and payments).
+        status: settings.registrationMode === 'open' || body.product === 'flow' ? 'active' : 'pending',
         planId: plan.id,
         owner: { name: body.ownerName, email: body.email, language: body.language, passwordHash, phone: body.phone },
       });
