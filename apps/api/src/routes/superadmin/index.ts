@@ -17,9 +17,9 @@ export async function superAdminRoutes(app: FastifyInstance, opts: { authRateLim
   // Super Admin has its own address: from the POS or Gravity addresses it does not exist.
   const adminUrl = app.deps.config.SUPERADMIN_APP_URL;
   if (adminUrl) {
-    const adminHost = new URL(adminUrl).hostname.toLowerCase();
+    const hosts = new Set([new URL(adminUrl).hostname, ...(app.deps.config.SUPERADMIN_HOSTS ?? '').split(',')].map((h) => h.trim().toLowerCase()).filter(Boolean));
     app.addHook('onRequest', async (req) => {
-      if (req.hostname.split(':')[0]!.toLowerCase() !== adminHost) throw notFound();
+      if (!hosts.has(req.hostname.split(':')[0]!.toLowerCase())) throw notFound();
     });
   }
   await app.register(async (pub) => superAdminAuthPublicRoutes(pub, opts));

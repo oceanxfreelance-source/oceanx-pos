@@ -85,7 +85,9 @@ console.log('Vercel build output ready at .vercel/output');
 function adminRoutes() {
   const url = (process.env.SUPERADMIN_APP_URL ?? '').replace(/\/$/, '');
   if (!url) return [];
-  const host = new URL(url).hostname.replace(/\./g, '\\.');
+  // Its own address, plus any older addresses that still serve Super Admin (SUPERADMIN_HOSTS).
+  const hosts = [new URL(url).hostname, ...(process.env.SUPERADMIN_HOSTS ?? '').split(',')].map((h) => h.trim()).filter(Boolean);
+  const host = `(?:${hosts.map((h) => h.replace(/\./g, '\\.')).join('|')})`;
   return [
     { src: '^/$', has: [{ type: 'host', value: host }], status: 308, headers: { Location: '/superadmin' } },
     { src: '^/superadmin(/.*)?$', missing: [{ type: 'host', value: host }], status: 308, headers: { Location: `${url}/superadmin$1` } },

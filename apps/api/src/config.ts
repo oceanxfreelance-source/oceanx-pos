@@ -17,6 +17,8 @@ const envSchema = z.object({
   FLOW_APP_URL: z.string().url().optional(),
   /** Super Admin's own web address (optional). When set, the Super Admin API answers only there, and its e-mails link there. */
   SUPERADMIN_APP_URL: z.string().url().optional(),
+  /** Other addresses that also serve Super Admin, comma-separated host names (e.g. an older address the Windows app uses). */
+  SUPERADMIN_HOSTS: z.string().optional(),
   APP_ENCRYPTION_KEY: z.string().optional(),
   COOKIE_SECURE: bool,
   TRUST_PROXY: z.coerce.number().int().min(0).default(0),
