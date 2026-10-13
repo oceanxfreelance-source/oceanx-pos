@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 901 · **confirmed**: 148
+Status: **needs_review**: 908 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -226,6 +226,7 @@ review of the whole file is still recommended before launch.
 | `flow.no_results` | Nothing here. | އެއްވެސް އެއްޗެއް ނެތް. | needs_review | New: Gravity Flow. |
 | `flow.note` | Note (optional) | ނޯޓު (ބޭނުންނަމަ) | needs_review | New: Gravity Flow. |
 | `flow.nothing_month` | Nothing recorded in {{month}} yet. | {{month}} ގައި އަދި އެއްވެސް އެއްޗެއް ނުލިޔެވޭ. | needs_review | New: Gravity Flow. |
+| `flow.nothing_today` | Nothing recorded today yet. | މިއަދު އަދި އެއްވެސް އެއްޗެއް ރެކޯޑުކޮށްފައެއް ނުވޭ. | needs_review | Gravity Flow: today-only dashboard. |
 | `flow.page_of` | Page {{page}} of {{pages}} · {{total}} | {{pages}} ން {{page}} ވަނަ ޞަފްޙާ · {{total}} | needs_review | New: Gravity Flow. |
 | `flow.payments` | Gravity Flow payments | Gravity Flow ޕޭމަންޓްތައް | needs_review | New: Gravity Flow. |
 | `flow.plan_title` | Gravity Flow plan | Gravity Flow ޕްލޭން | needs_review | New: Gravity Flow. |
@@ -238,8 +239,11 @@ review of the whole file is still recommended before launch.
 | `flow.remove_category` | Remove this category? | މި ބާވަތް ފޮހެލަންތަ؟ | needs_review | New: Gravity Flow. |
 | `flow.remove_category_body` | Its records stay, with the same name, in every total. | އޭގެ ރެކޯޑްތައް ހުރިހާ ޖުމްލައެއްގައި އެ ނަމުގައި ހުންނާނެ. | needs_review | New: Gravity Flow. |
 | `flow.same_as_last` | Same as last month | ކުރީ މަހާ އެއްފަދަ | needs_review | New: Gravity Flow. |
+| `flow.same_as_yesterday` | Same as yesterday | އިއްޔާ އެއްވަރު | needs_review | Gravity Flow: today-only dashboard. |
 | `flow.search` | Search notes or categories | ނޯޓު ނުވަތަ ބާވަތް ހޯދާ | needs_review | New: Gravity Flow. |
 | `flow.see_all` | See all | ހުރިހާ އެއްޗެއް | needs_review | New: Gravity Flow. |
+| `flow.see_month` | This month | މި މަސް | needs_review | Gravity Flow: today-only dashboard. |
+| `flow.see_records` | All records in {{month}} | {{month}} ގެ ހުރިހާ ރެކޯޑެއް | needs_review | Gravity Flow: today-only dashboard. |
 | `flow.sort` | Sort | ތަރުތީބު | needs_review | New: Gravity Flow. |
 | `flow.sort_largest` | Largest first | އެންމެ ބޮޑު އަދަދު ކުރިން | needs_review | New: Gravity Flow. |
 | `flow.sort_newest` | Newest first | އެންމެ އައު އެއްޗެއް ކުރިން | needs_review | New: Gravity Flow. |
@@ -248,8 +252,11 @@ review of the whole file is still recommended before launch.
 | `flow.tagline` | Income, expenses & profit | އާމްދަނީ، ޚަރަދާއި ފައިދާ | needs_review | New: Gravity Flow. |
 | `flow.tap_day` | Tap a day to see it | ދުވަހަކަށް ފިތާލައްވާ | needs_review | New: Gravity Flow. |
 | `flow.this_month` | This month | މި މަސް | needs_review | New: Gravity Flow. |
+| `flow.today` | Today | މިއަދު | needs_review | Gravity Flow: today-only dashboard. |
+| `flow.today_records` | Today's records | މިއަދުގެ ރެކޯޑުތައް | needs_review | Gravity Flow: today-only dashboard. |
 | `flow.type` | Type | ބާވަތް | needs_review | New: Gravity Flow. |
 | `flow.vs_last` | vs last month | ކުރީ މަހާ އަޅާބަލާއިރު | needs_review | New: Gravity Flow. |
+| `flow.vs_yesterday` | vs yesterday | އިއްޔެއާ އަޅާބަލާއިރު | needs_review | Gravity Flow: today-only dashboard. |
 | `gravity.accounts` | Gravity accounts | Gravity އެކައުންޓްތައް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.accounts_subtitle` | Businesses using Gravity for quotations and invoices. | ކޯޓޭޝަނާއި އިންވޮއިސްއަށް Gravity ބޭނުންކުރާ ވިޔަފާރިތައް. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.active_accounts` | Active Gravity accounts | ހިނގަމުންދާ Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
