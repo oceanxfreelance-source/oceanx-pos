@@ -858,7 +858,7 @@ export function DocumentDetailPage({ kind }: { kind: DocKind }) {
         onConfirm={() => confirm && act.mutate(confirm.action)}
         loading={act.isPending}
         danger={confirm?.danger}
-        title={confirm ? t(`documents.confirm.${confirm.action}_title`) : ''}
+        title={confirm ? t(`documents.confirm.${confirm.action}_title`, { number: doc.number }) : ''}
         message={confirm ? t(`documents.confirm.${confirm.action}_body`, { number: doc.number, email: d.customer.email || '—' }) : ''}
         confirmLabel={t('common.confirm')}
       />
