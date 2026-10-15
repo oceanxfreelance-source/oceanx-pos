@@ -8314,5 +8314,103 @@
     "suggested": "ރީފަންޑްކުރެވިފައި",
     "status": "needs_review",
     "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "gst.print.tin",
+    "english": "Taxpayer number (TIN)",
+    "suggested": "ޓެކްސް ދައްކާ ފަރާތުގެ ނަންބަރު (TIN)",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.standard_rate",
+    "english": "Standard GST rate",
+    "suggested": "އާންމު ޖީއެސްޓީ ރޭޓް",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.form",
+    "english": "Return",
+    "suggested": "ރިޓާން",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.form_value",
+    "english": "MIRA 205 / 206",
+    "suggested": "MIRA 205 / 206",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.output_title",
+    "english": "1. Output tax (sales)",
+    "suggested": "1. އައުޓްޕުޓް ޓެކްސް (ވިއްކުން)",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.output_total",
+    "english": "Total output tax",
+    "suggested": "ޖުމްލަ އައުޓްޕުޓް ޓެކްސް",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.zero_rated",
+    "english": "Zero-rated and exempt sales in this period: {{amount}}",
+    "suggested": "މި މުއްދަތުގައި ޒީރޯ ރޭޓް އަދި އިސްތިސްނާ ވިއްކުން: {{amount}}",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.input_title",
+    "english": "2. Input tax (bills with GST)",
+    "suggested": "2. އިންޕުޓް ޓެކްސް (ޖީއެސްޓީ ހިމެނޭ ބިލުތައް)",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.input_total",
+    "english": "Total input tax",
+    "suggested": "ޖުމްލަ އިންޕުޓް ޓެކްސް",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.payable",
+    "english": "3. GST to pay",
+    "suggested": "3. ދައްކަންޖެހޭ ޖީއެސްޓީ",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.refundable",
+    "english": "3. GST to claim back",
+    "suggested": "3. އަނބުރާ ލިބެންޖެހޭ ޖީއެސްޓީ",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.payable_formula",
+    "english": "Output tax {{output}} − input tax {{input}}",
+    "suggested": "އައުޓްޕުޓް ޓެކްސް {{output}} − އިންޕުޓް ޓެކްސް {{input}}",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.prepared_by",
+    "english": "Prepared by (name, signature, date)",
+    "suggested": "ތައްޔާރުކުރީ (ނަން، ސޮއި، ތާރީޚު)",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
+  },
+  {
+    "key": "gst.print.checked_by",
+    "english": "Checked by accountant (name, signature, date)",
+    "suggested": "އެކައުންޓެންޓް ބެލީ (ނަން، ސޮއި، ތާރީޚު)",
+    "status": "needs_review",
+    "notes": "GST return print worksheet."
   }
 ]

@@ -2859,7 +2859,23 @@
   },
   "gst": {
     "input_tax": "GST in this bill (input tax)",
-    "input_tax_hint": "From the supplier's tax invoice. Counts as input tax in the GST report."
+    "input_tax_hint": "From the supplier's tax invoice. Counts as input tax in the GST report.",
+    "print": {
+      "tin": "Taxpayer number (TIN)",
+      "standard_rate": "Standard GST rate",
+      "form": "Return",
+      "form_value": "MIRA 205 / 206",
+      "output_title": "1. Output tax (sales)",
+      "output_total": "Total output tax",
+      "zero_rated": "Zero-rated and exempt sales in this period: {{amount}}",
+      "input_title": "2. Input tax (bills with GST)",
+      "input_total": "Total input tax",
+      "payable": "3. GST to pay",
+      "refundable": "3. GST to claim back",
+      "payable_formula": "Output tax {{output}} − input tax {{input}}",
+      "prepared_by": "Prepared by (name, signature, date)",
+      "checked_by": "Checked by accountant (name, signature, date)"
+    }
   },
   "import": {
     "title": "Import",

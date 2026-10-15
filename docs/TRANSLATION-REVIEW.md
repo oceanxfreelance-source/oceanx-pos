@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1040 · **confirmed**: 148
+Status: **needs_review**: 1054 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -348,6 +348,20 @@ review of the whole file is still recommended before launch.
 | `gravity.who_owes_total` | {{amount}} unpaid on issued invoices | ނެރެފައިވާ އިންވޮއިސްތަކުން {{amount}} ނުދައްކާ | needs_review | New: Gravity (quotation & invoice generator). |
 | `gst.input_tax` | GST in this bill (input tax) | މި ބިލުގައިވާ ޖީއެސްޓީ (އިންޕުޓް ޓެކްސް) | needs_review | Refunds, GST report and import add-ons. |
 | `gst.input_tax_hint` | From the supplier's tax invoice. Counts as input tax in the GST report. | ސަޕްލަޔަރުގެ ޓެކްސް އިންވޮއިހުން. ޖީއެސްޓީ ރިޕޯޓުގައި އިންޕުޓް ޓެކްސްގެ ގޮތުގައި ގުނޭ. | needs_review | Refunds, GST report and import add-ons. |
+| `gst.print.checked_by` | Checked by accountant (name, signature, date) | އެކައުންޓެންޓް ބެލީ (ނަން، ސޮއި، ތާރީޚު) | needs_review | GST return print worksheet. |
+| `gst.print.form` | Return | ރިޓާން | needs_review | GST return print worksheet. |
+| `gst.print.form_value` | MIRA 205 / 206 | MIRA 205 / 206 | needs_review | GST return print worksheet. |
+| `gst.print.input_title` | 2. Input tax (bills with GST) | 2. އިންޕުޓް ޓެކްސް (ޖީއެސްޓީ ހިމެނޭ ބިލުތައް) | needs_review | GST return print worksheet. |
+| `gst.print.input_total` | Total input tax | ޖުމްލަ އިންޕުޓް ޓެކްސް | needs_review | GST return print worksheet. |
+| `gst.print.output_title` | 1. Output tax (sales) | 1. އައުޓްޕުޓް ޓެކްސް (ވިއްކުން) | needs_review | GST return print worksheet. |
+| `gst.print.output_total` | Total output tax | ޖުމްލަ އައުޓްޕުޓް ޓެކްސް | needs_review | GST return print worksheet. |
+| `gst.print.payable` | 3. GST to pay | 3. ދައްކަންޖެހޭ ޖީއެސްޓީ | needs_review | GST return print worksheet. |
+| `gst.print.payable_formula` | Output tax {{output}} − input tax {{input}} | އައުޓްޕުޓް ޓެކްސް {{output}} − އިންޕުޓް ޓެކްސް {{input}} | needs_review | GST return print worksheet. |
+| `gst.print.prepared_by` | Prepared by (name, signature, date) | ތައްޔާރުކުރީ (ނަން، ސޮއި، ތާރީޚު) | needs_review | GST return print worksheet. |
+| `gst.print.refundable` | 3. GST to claim back | 3. އަނބުރާ ލިބެންޖެހޭ ޖީއެސްޓީ | needs_review | GST return print worksheet. |
+| `gst.print.standard_rate` | Standard GST rate | އާންމު ޖީއެސްޓީ ރޭޓް | needs_review | GST return print worksheet. |
+| `gst.print.tin` | Taxpayer number (TIN) | ޓެކްސް ދައްކާ ފަރާތުގެ ނަންބަރު (TIN) | needs_review | GST return print worksheet. |
+| `gst.print.zero_rated` | Zero-rated and exempt sales in this period: {{amount}} | މި މުއްދަތުގައި ޒީރޯ ރޭޓް އަދި އިސްތިސްނާ ވިއްކުން: {{amount}} | needs_review | GST return print worksheet. |
 | `hub.active` | Active | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.add_line` | Add line | ލައިނެއް އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.add_task` | Add | އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |

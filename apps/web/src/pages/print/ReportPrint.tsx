@@ -27,7 +27,8 @@ export default function ReportPrint() {
   const outletId = params.get('outletId') || undefined;
   const q = useQuery({
     queryKey: ['biz', 'report-print', type, from, to, outletId],
-    queryFn: () => api.get<{ rows: Record<string, unknown>[]; summary: Record<string, number> }>(`/reports/${type}${qs({ from, to, outletId })}`),
+    queryFn: () =>
+      api.get<{ rows: Record<string, unknown>[]; summary: Record<string, number>; meta?: { taxName: string; taxNumber: string; taxRate: number } }>(`/reports/${type}${qs({ from, to, outletId })}`),
   });
   const rows = q.data?.rows ?? [];
   const cols = rows[0] ? Object.keys(rows[0]) : [];
@@ -68,7 +69,10 @@ export default function ReportPrint() {
           <p className="text-slate-600" data-pdf-block>
             {t(`reports.descriptions.${type}`)}
           </p>
-          {Object.keys(q.data.summary).length > 0 && (
+          {type === 'gst' ? (
+            <GstWorksheet rows={rows} summary={q.data.summary} meta={q.data.meta} cell={cell} />
+          ) : null}
+          {type !== 'gst' && Object.keys(q.data.summary).length > 0 && (
             <section className="grid grid-cols-2 gap-3 sm:grid-cols-4" data-pdf-block>
               {Object.entries(q.data.summary).map(([k, v]) => (
                 <div key={k} className="rounded-lg p-3 ring-1 ring-slate-200">
@@ -79,6 +83,7 @@ export default function ReportPrint() {
             </section>
           )}
           {type !== 'profit' &&
+            type !== 'gst' &&
             (rows.length === 0 ? (
               <p className="py-10 text-center text-slate-500">{t('reports.empty')}</p>
             ) : (
@@ -117,11 +122,119 @@ export default function ReportPrint() {
                 </tbody>
               </table>
             ))}
-          <p className="text-xs text-slate-400" data-pdf-block>
-            {t('reports.rows_count', { count: rows.length })}
-          </p>
+          {type !== 'gst' && (
+            <p className="text-xs text-slate-400" data-pdf-block>
+              {t('reports.rows_count', { count: rows.length })}
+            </p>
+          )}
         </article>
       )}
     </PrintFrame>
+  );
+}
+
+/**
+ * GST return worksheet: output tax (sales), input tax (bills) and the GST to pay, laid out to copy into the
+ * MIRA GST return, with the business's TIN and lines to sign.
+ */
+function GstWorksheet({
+  rows,
+  summary,
+  meta,
+  cell,
+}: {
+  rows: Record<string, unknown>[];
+  summary: Record<string, number>;
+  meta?: { taxName: string; taxNumber: string; taxRate: number };
+  cell: (key: string, v: unknown) => React.ReactNode;
+}) {
+  const { t } = useTranslation();
+  const money = useMoney();
+  const n = (v: unknown) => Number(v ?? 0);
+  const out = rows.filter((r) => r.gst_type === 'output');
+  const inp = rows.filter((r) => r.gst_type === 'input');
+  const payable = summary.gstPayable ?? 0;
+  const section = (title: string, list: Record<string, unknown>[], totalLabel: string) => (
+    <section className="space-y-2" data-pdf-block>
+      <h2 className="text-sm font-bold tracking-wide text-slate-700 uppercase">{title}</h2>
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="border-y border-slate-300 text-xs text-slate-600">
+            <th className="px-2 py-2 text-start font-semibold">{t('reports.columns.source')}</th>
+            <th className="px-2 py-2 text-end font-semibold">{t('reports.columns.rate')}</th>
+            <th className="px-2 py-2 text-end font-semibold">{t('reports.columns.taxable')}</th>
+            <th className="px-2 py-2 text-end font-semibold">{t('reports.columns.tax')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {list.length === 0 ? (
+            <tr>
+              <td colSpan={4} className="px-2 py-3 text-center text-slate-500">
+                —
+              </td>
+            </tr>
+          ) : (
+            list.map((r, i) => (
+              <tr key={i} className="border-b border-slate-100">
+                <td className="px-2 py-1.5">{cell('source', r.source)}</td>
+                <td className="px-2 py-1.5 text-end tabular-nums">{r.rate === null || r.rate === undefined ? '—' : cell('rate', r.rate)}</td>
+                <td className="px-2 py-1.5 text-end tabular-nums">{money(n(r.taxable))}</td>
+                <td className="px-2 py-1.5 text-end tabular-nums">{money(n(r.tax))}</td>
+              </tr>
+            ))
+          )}
+          <tr className="border-t-2 border-slate-300 font-bold">
+            <td className="px-2 py-2" colSpan={2}>
+              {totalLabel}
+            </td>
+            <td className="px-2 py-2 text-end tabular-nums">{money(list.reduce((a, r) => a + n(r.taxable), 0))}</td>
+            <td className="px-2 py-2 text-end tabular-nums">{money(list.reduce((a, r) => a + n(r.tax), 0))}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  );
+  return (
+    <div className="space-y-6">
+      <section className="grid grid-cols-3 gap-3 rounded-lg bg-slate-50 p-4" data-pdf-block>
+        <div>
+          <p className="text-[11px] text-slate-500">{t('gst.print.tin')}</p>
+          <p className="font-semibold tabular-nums" dir="ltr">
+            {meta?.taxNumber || '—'}
+          </p>
+        </div>
+        <div>
+          <p className="text-[11px] text-slate-500">{t('gst.print.standard_rate')}</p>
+          <p className="font-semibold tabular-nums">{meta ? `${meta.taxRate}%` : '—'}</p>
+        </div>
+        <div>
+          <p className="text-[11px] text-slate-500">{t('gst.print.form')}</p>
+          <p className="font-semibold">{t('gst.print.form_value')}</p>
+        </div>
+      </section>
+      {section(t('gst.print.output_title'), out, t('gst.print.output_total'))}
+      <p className="-mt-3 text-xs text-slate-500" data-pdf-block>
+        {t('gst.print.zero_rated', { amount: money(summary.zeroRatedSupplies ?? 0) })}
+      </p>
+      {section(t('gst.print.input_title'), inp, t('gst.print.input_total'))}
+      <section className={`flex items-center justify-between rounded-xl border-2 p-5 ${payable >= 0 ? 'border-slate-900' : 'border-emerald-700'}`} data-pdf-block>
+        <div>
+          <p className="text-base font-bold">{payable >= 0 ? t('gst.print.payable') : t('gst.print.refundable')}</p>
+          <p className="text-xs text-slate-600">{t('gst.print.payable_formula', { output: money(summary.outputTax ?? 0), input: money(summary.inputTax ?? 0) })}</p>
+        </div>
+        <p className="text-3xl font-bold tabular-nums">{money(Math.abs(payable))}</p>
+      </section>
+      <p className="text-xs text-slate-600" data-pdf-block>
+        {t('reports.gst_note')}
+      </p>
+      <section className="grid grid-cols-2 gap-10 pt-8" data-pdf-block>
+        {[t('gst.print.prepared_by'), t('gst.print.checked_by')].map((l) => (
+          <div key={l}>
+            <div className="h-10 border-b border-slate-400" />
+            <p className="mt-1 text-xs text-slate-600">{l}</p>
+          </div>
+        ))}
+      </section>
+    </div>
   );
 }

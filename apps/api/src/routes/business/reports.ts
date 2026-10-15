@@ -411,7 +411,9 @@ export async function reportRoutes(app: FastifyInstance) {
       reply.header('content-type', 'text/csv; charset=utf-8').header('content-disposition', `attachment; filename="${type}_${q.from}_${q.to}.csv"`);
       return reply.send('﻿' + toCsv(rows));
     }
-    return { type, from: q.from, to: q.to, outlets: oids, rows, summary };
+    // GST return: the business's tax registration for the printed worksheet.
+    const meta = type === 'gst' ? await loadBusinessSettings(db, bid).then((st) => ({ taxName: st.tax.taxName, taxNumber: st.tax.taxNumber, taxRate: st.tax.taxRate })) : undefined;
+    return { type, from: q.from, to: q.to, outlets: oids, rows, summary, ...(meta ? { meta } : {}) };
   });
 
   // ---------------------------------------------------------------- dashboard sales widgets
