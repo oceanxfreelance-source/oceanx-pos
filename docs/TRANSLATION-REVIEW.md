@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 929 · **confirmed**: 148
+Status: **needs_review**: 1040 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -14,10 +14,16 @@ review of the whole file is still recommended before launch.
 | `activity.actions.karaoke_no_show` | Karaoke booking no-show | ކަރައޮކޭ ބުކިންގ – ނާދޭ | needs_review | Uses dash '–' between noun and status; see status_labels.no_show. |
 | `addons.cancel_request` | Cancel request | އެދުން ކެންސަލްކުރޭ | needs_review | Plain translation using existing app terms. |
 | `addons.categories.staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
+| `addons.descriptions.data_import` | Bring in products and customers from an Excel or CSV file, for example an export from another POS. | Excel ނުވަތަ CSV ފައިލަކުން ބާވަތްތަކާއި ކަސްޓަމަރުން ގެނޭ، މިސާލަކަށް އެހެން POS އަކުން ނެގި ފައިލެއް. | needs_review | Refunds, GST report and import add-ons. |
+| `addons.descriptions.gst_report` | Output and input GST for any month or quarter, by rate, with sales and purchase lists to fill the MIRA GST return. | ކޮންމެ މަހެއް ނުވަތަ ކުއާޓަރެއްގެ އައުޓްޕުޓް އަދި އިންޕުޓް ޖީއެސްޓީ، ރޭޓާ ގުޅިގެން، MIRA ގެ ޖީއެސްޓީ ރިޓާން ފުރުމަށް ވިއްކި އަދި ގަތް ތަކެތީގެ ލިސްޓާއެކު. | needs_review | Refunds, GST report and import add-ons. |
 | `addons.descriptions.payroll` | Staff list and monthly salary sheets with allowances, overtime, deductions and advances. | ސްޓާފުންގެ ލިސްޓާއި، އެލަވަންސް، އޯވަޓައިމް، ކެނޑުންތަކާއި އެޑްވާންސްއާއެކު މަހުން މަހަށް މުސާރަ ޝީޓް. | needs_review | Allowances = އެލަވަންސް, deductions = ކެނޑުންތައް, advances = އެޑްވާންސް. Check these match the owner's payslip vocabulary. |
+| `addons.descriptions.refunds` | Refund a whole bill or some items, put returned items back in stock, and keep refunds out of sales and GST. | ބިލެއް ފުރިހަމައަށް ނުވަތަ ބައެއް އައިޓަމް ރީފަންޑްކޮށް، އަނބުރާ ގެނައި ތަކެތި ސްޓޮކަށް ލައި، ރީފަންޑްތައް ވިއްކުމާއި ޖީއެސްޓީއިން އުނިކުރޭ. | needs_review | Refunds, GST report and import add-ons. |
 | `addons.descriptions.staff_rota` | Weekly duty rota: shifts, days off and leave for every staff member. | ހަފްތާގެ ޑިއުޓީ ރޯސްޓަރު: ކޮންމެ ސްޓާފަކުގެ ޝިފްޓު، އޯފް ދުވަސްތަކާއި ޗުއްޓީ. | needs_review | "Days off" = އޯފް ދުވަސްތައް; "leave" = ޗުއްޓީ. |
 | `addons.names.credit` | Credit / Customer Due | ކްރެޑިޓް / ކަސްޓަމަރުގެ ދަރަނި | needs_review | Business terminology decision: ދަރަނި (debt) vs ކްރެޑިޓް. Spec requires 'Credit Sale / Customer Due / Outstanding Balance / Credit Payment' wording — please confirm Dhivehi equivalents before Phase 4. |
+| `addons.names.data_import` | Import (Excel / CSV) | އިމްޕޯޓް (Excel / CSV) | needs_review | Refunds, GST report and import add-ons. |
+| `addons.names.gst_report` | GST Report (MIRA) | ޖީއެސްޓީ ރިޕޯޓު (MIRA) | needs_review | Refunds, GST report and import add-ons. |
 | `addons.names.payroll` | Payroll (Salary Sheet) | ޕޭރޯލް (މުސާރަ ޝީޓް) | needs_review | "Payroll" kept as loanword ޕޭރޯލް. |
+| `addons.names.refunds` | Refunds & Returns | ފައިސާ އަނބުރާދިނުމާއި ތަކެތި އަނބުރާ ގެނައުން | needs_review | Refunds, GST report and import add-ons. |
 | `addons.names.staff_rota` | Duty Rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | Plain translation using existing app terms. |
 | `addons.request` | Request | އެދޭ | needs_review | Verb "request" = އެދޭ (as in viber.request). |
 | `addons.request_cancelled` | Request cancelled | އެދުން ކެންސަލްކުރެވިއްޖެ | needs_review | Plain translation using existing app terms. |
@@ -340,6 +346,8 @@ review of the whole file is still recommended before launch.
 | `gravity.unpaid_invoices_other` | {{count}} unpaid invoices | {{count}} ނުދައްކާ އިންވޮއިސް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.who_owes` | Who owes you | ފައިސާ ދައްކަންޖެހޭ ފަރާތްތައް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.who_owes_total` | {{amount}} unpaid on issued invoices | ނެރެފައިވާ އިންވޮއިސްތަކުން {{amount}} ނުދައްކާ | needs_review | New: Gravity (quotation & invoice generator). |
+| `gst.input_tax` | GST in this bill (input tax) | މި ބިލުގައިވާ ޖީއެސްޓީ (އިންޕުޓް ޓެކްސް) | needs_review | Refunds, GST report and import add-ons. |
+| `gst.input_tax_hint` | From the supplier's tax invoice. Counts as input tax in the GST report. | ސަޕްލަޔަރުގެ ޓެކްސް އިންވޮއިހުން. ޖީއެސްޓީ ރިޕޯޓުގައި އިންޕުޓް ޓެކްސްގެ ގޮތުގައި ގުނޭ. | needs_review | Refunds, GST report and import add-ons. |
 | `hub.active` | Active | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.add_line` | Add line | ލައިނެއް އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.add_task` | Add | އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -577,6 +585,53 @@ review of the whole file is still recommended before launch.
 | `hub.ventures.project` | Project | ޕްރޮޖެކްޓް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.ventures.project_subtitle` | Everything for this project: leads, clients, prices, documents, jobs and support. | މި ޕްރޮޖެކްޓާ ގުޅޭ ހުރިހާ ކަމެއް: ލީޑްސް، ކްލައިންޓުން، އަގު، ޑޮކިއުމަންޓް، ޖޮބް އަދި ސަޕޯޓް. | needs_review | New: OceanX Hub projects (each business line) and jobs. |
 | `hub.ventures.title` | Your projects | ތިޔަ ޕްރޮޖެކްޓްތައް | needs_review | New: OceanX Hub projects (each business line) and jobs. |
+| `import.check` | Check the file | ފައިލް ޗެކްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
+| `import.check_first` | Check the file first: nothing is saved until you press Import. | ފުރަތަމަ ފައިލް ޗެކްކުރައްވާ: އިމްޕޯޓް ފިއްތަވަންދެން އެއްވެސް އެއްޗެއް ރައްކާ ނުވާނެ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.choose_file` | Choose a CSV file | CSV ފައިލެއް ހޮއްވަވާ | needs_review | Refunds, GST report and import add-ons. |
+| `import.done_one` | {{count}} record imported | {{count}} ރެކޯޑު އިމްޕޯޓްކުރެވިއްޖެ | needs_review | Refunds, GST report and import add-ons. |
+| `import.done_other` | {{count}} records imported | {{count}} ރެކޯޑު އިމްޕޯޓްކުރެވިއްޖެ | needs_review | Refunds, GST report and import add-ons. |
+| `import.errors.duplicate_in_file` | appears twice in the file | ފައިލުގައި ދެފަހަރު އެބައޮތް | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.address` | Address | އެޑްރެސް | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.category` | Category | ކެޓަގަރީ | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.company` | Company | ކުންފުނި | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.costPrice` | Cost price | ގަތް އަގު | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.creditLimit` | Credit limit | ކްރެޑިޓް ލިމިޓް | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.email` | Email | އީމެއިލް | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.name` | Name | ނަން | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.phone` | Phone | ފޯނު | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.sellingPrice` | Selling price | ވިއްކާ އަގު | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.sku` | SKU / barcode | SKU / ބާކޯޑު | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.stock` | Stock now | މިހާރު ސްޓޮކް | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.taxNumber` | TIN | TIN | needs_review | Refunds, GST report and import add-ons. |
+| `import.fields.unit` | Unit | ޔުނިޓް | needs_review | Refunds, GST report and import add-ons. |
+| `import.file_hint` | From Excel: File → Save as → CSV. Or copy the cells in Excel (with the heading row) and paste them below. | Excel އިން: File → Save as → CSV. ނުވަތަ Excel ގައި ސެލްތައް (ސުރުޚީގެ ލައިނާއެކު) ކޮޕީކޮށް ތިރީގައި ޕޭސްޓްކުރައްވާ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.import_now_one` | Import {{count}} row | {{count}} ލައިން އިމްޕޯޓްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
+| `import.import_now_other` | Import {{count}} rows | {{count}} ލައިން އިމްޕޯޓްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
+| `import.kinds.customers` | Customers | ކަސްޓަމަރުން | needs_review | Refunds, GST report and import add-ons. |
+| `import.kinds.products` | Products | ބާވަތްތައް | needs_review | Refunds, GST report and import add-ons. |
+| `import.match_columns` | Match the columns | ކޮލަމްތައް ގުޅުއްވާ | needs_review | Refunds, GST report and import add-ons. |
+| `import.match_hint_one` | {{count}} row found. Tell us which column is which. | {{count}} ލައިން ފެނިއްޖެ. ކޮން ކޮލަމަކީ ކޮބައިކަން ބުނެދެއްވާ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.match_hint_other` | {{count}} rows found. Tell us which column is which. | {{count}} ލައިން ފެނިއްޖެ. ކޮން ކޮލަމަކީ ކޮބައިކަން ބުނެދެއްވާ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.name_required` | Choose the column with the names. | ނަންތައް ހުރި ކޮލަމް ހޮއްވަވާ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.paste` | Or paste from Excel | ނުވަތަ Excel އިން ޕޭސްޓްކުރައްވާ | needs_review | Refunds, GST report and import add-ons. |
+| `import.paste_placeholder` | Paste here, with the heading row first | މިތާ ޕޭސްޓްކުރައްވާ، ފުރަތަމަ ސުރުޚީގެ ލައިން | needs_review | Refunds, GST report and import add-ons. |
+| `import.preview_ready` | Checked. Nothing is saved yet. Press Import to save. | ޗެކްކުރެވިއްޖެ. އަދި އެއްވެސް އެއްޗެއް ރައްކާ ނުވޭ. ރައްކާކުރެއްވުމަށް އިމްޕޯޓް ފިއްތަވާ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.result.categories` | New categories | އައު ކެޓަގަރީ | needs_review | Refunds, GST report and import add-ons. |
+| `import.result.created` | New | އައު | needs_review | Refunds, GST report and import add-ons. |
+| `import.result.skipped` | Already there (skipped) | ކުރިން ހުރި (ދޫކޮށްލެވުނު) | needs_review | Refunds, GST report and import add-ons. |
+| `import.result.updated` | Updated | އަޕްޑޭޓްކުރެވުނު | needs_review | Refunds, GST report and import add-ons. |
+| `import.row_error` | line {{row}} ({{reason}}) | ލައިން {{row}} ({{reason}}) | needs_review | Refunds, GST report and import add-ons. |
+| `import.row_errors_one` | {{count}} row was left out: | {{count}} ލައިން ދޫކޮށްލެވިއްޖެ: | needs_review | Refunds, GST report and import add-ons. |
+| `import.row_errors_other` | {{count}} rows were left out: | {{count}} ލައިން ދޫކޮށްލެވިއްޖެ: | needs_review | Refunds, GST report and import add-ons. |
+| `import.saved` | Imported and saved. | އިމްޕޯޓްކޮށް ރައްކާކުރެވިއްޖެ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.skip_field` | — Not in my file — | — އަހަރެންގެ ފައިލުގައި ނެތް — | needs_review | Refunds, GST report and import add-ons. |
+| `import.subtitle` | Bring in your products and customers from Excel or from another POS in a few minutes. | ތިޔަ ބާވަތްތަކާއި ކަސްޓަމަރުން Excel އިން ނުވަތަ އެހެން POS އަކުން މިނެޓުކޮޅެއްގައި ގެނެސްލައްވާ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.template` | Download a sample file | މިސާލު ފައިލް ޑައުންލޯޑްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
+| `import.title` | Import | އިމްޕޯޓް | needs_review | Refunds, GST report and import add-ons. |
+| `import.too_many` | Up to {{max}} rows at a time. Split the file into smaller parts. | އެއްފަހަރާ ގިނަވެގެން {{max}} ލައިން. ފައިލް ކުދި ބައިބަޔަށް ބައްލަވާ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.update_existing` | Update ones I already have | ކުރިން ހުރި ތަކެތި އަޕްޑޭޓްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
+| `import.update_existing_hint_customers` | Same phone (or same name when there is no phone): update their details. Off: skip them. | ހަމަ އެ ފޯނު (ފޯނު ނެތްނަމަ ހަމަ އެ ނަން): މަޢުލޫމާތު އަޕްޑޭޓްކުރޭ. ނިއްވާފައި: ދޫކޮށްލާ. | needs_review | Refunds, GST report and import add-ons. |
+| `import.update_existing_hint_products` | Same SKU (or same name when there is no SKU): update its name, prices and category. Off: skip it. | ހަމަ އެ SKU (SKU ނެތްނަމަ ހަމަ އެ ނަން): ނަމާއި އަގުތަކާއި ކެޓަގަރީ އަޕްޑޭޓްކުރޭ. ނިއްވާފައި: ދޫކޮށްލާ. | needs_review | Refunds, GST report and import add-ons. |
 | `inventory.add_shop_product` | Add product | ތަކެތި އިތުރުކުރޭ | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.add_shop_product_hint` | A product for sale, with its stock in the store and on the rack. | ވިއްކާ ތަކެތި، ސްޓޯރާއި ރެކުގައި ހުރި ސްޓޮކާއެކު. | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `inventory.add_supply` | Add stock item | ސްޓޮކް އައިޓަމެއް އިތުރުކުރޭ | needs_review | Loanwords ސްޓޮކް/އައިޓަމް follow existing inventory strings. Alternative: ސްޓޮކަށް ތަކެއްޗެއް އިތުރުކުރޭ. |
@@ -635,6 +690,7 @@ review of the whole file is still recommended before launch.
 | `nav.billing` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `nav.group_catalog_retail` | Products & stock | ތަކެތިއާއި ސްޓޮކް | needs_review | New: retail shops menu section. |
 | `nav.group_staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
+| `nav.import` | Import | އިމްޕޯޓް | needs_review | Refunds, GST report and import add-ons. |
 | `nav.payroll` | Salary sheets | މުސާރަ ޝީޓްތައް | needs_review | "Salary sheet" = މުސާރަ ޝީޓް (މުސާރަ from expenses.categories.salaries). Alternative: މުސާރަ ލިސްޓު. |
 | `nav.products` | Products | ތަކެތި | needs_review | New: retail shops (stock check, barcode). |
 | `nav.rota` | Duty rota | ޑިއުޓީ ރޯސްޓަރު | needs_review | "Rota" rendered as ޑިއުޓީ ރޯސްޓަރު (loanword). Alternatives: ޑިއުޓީ ލިސްޓު, ޑިއުޓީ ޝެޑިއުލް. |
@@ -645,15 +701,19 @@ review of the whole file is still recommended before launch.
 | `onboarding.steps_retail.products` | Add your products | ތަކެތި އިތުރުކުރައްވާ | needs_review | New/updated: shops on the platform. |
 | `onboarding.steps_retail.products_hint` | Barcode, price and stock in store and on rack. | ބާކޯޑް، އަގު، އަދި ސްޓޯރާއި ރެކުގެ ސްޓޮކް. | needs_review | New/updated: shops on the platform. |
 | `onboarding.title` | Get set up | ސެޓްއަޕް ކުރައްވާ | needs_review | 'Get set up' → ސެޓްއަޕް ކުރައްވާ. |
+| `payments.kinds.refund` | Refund | ރީފަންޑް | needs_review | Refunds, GST report and import add-ons. |
 | `payments.reference_pv_hint` | Payment voucher (PV), cheque or transfer number. | ޕޭމަންޓް ވައުޗަރު (ޕީވީ)، ޗެކު ނުވަތަ ޓްރާންސްފަރ ނަންބަރު. | needs_review | New: company and government accounts (PO / PV). |
 | `perm.branding_manage` | Manage the company stamp and document signatures | ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.finance_manage` | Add, change and delete income and expenses | އާމްދަނީއާއި ޚަރަދު ލިޔުން، ބަދަލުކުރުމާއި ފޮހެލުން | needs_review | New: Gravity Flow. |
 | `perm.finance_view` | View income, expenses and profit | އާމްދަނީ، ޚަރަދާއި ފައިދާ ބެލުން | needs_review | New: Gravity Flow. |
+| `perm.gst_view` | View the GST report | ޖީއެސްޓީ ރިޕޯޓު ބަލާ | needs_review | Refunds, GST report and import add-ons. |
+| `perm.import_run` | Import from a file | ފައިލަކުން އިމްޕޯޓްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
 | `perm.loyalty_view` | View loyalty points | ލޮޔަލްޓީ ޕޮއިންޓް ބަލާ | needs_review | ލޮޔަލްޓީ ޕޮއިންޓް — consistent with existing addons.names.loyalty. Native alternative not common. |
 | `perm.payroll_manage` | Make and finalize salary sheets | މުސާރަ ޝީޓް ހަދައި ފައިނަލްކުރޭ | needs_review | "Finalize" rendered as loanword ފައިނަލްކުރޭ. Alternative: ނިންމާ / ކަށަވަރުކުރޭ. |
 | `perm.payroll_view` | View salary sheets and salaries | މުސާރަ ޝީޓްތަކާއި މުސާރަ ބަލާ | needs_review | Plain translation using existing app terms. |
+| `perm.refunds_create` | Give refunds | ފައިސާ އަނބުރާ ދޭ | needs_review | Refunds, GST report and import add-ons. |
 | `perm.rota_manage` | Edit the duty rota and shifts | ޑިއުޓީ ރޯސްޓަރާއި ޝިފްޓުތައް ބަދަލުކުރޭ | needs_review | "Shift" = ޝިފްޓު (loanword). |
 | `perm.rota_view` | View the duty rota | ޑިއުޓީ ރޯސްޓަރު ބަލާ | needs_review | Plain translation using existing app terms. |
 | `pos.only_left_on_rack_one` | Only {{count}} {{name}} left on the rack. | ރެކުގައި {{name}} ހުރީ {{count}} އެކަނި. | needs_review | New: shops cannot sell more than is on the rack. |
@@ -686,23 +746,72 @@ review of the whole file is still recommended before launch.
 | `qr.tab_items` | Menu items | މެނޫގެ އައިޓަމްތައް | needs_review | New: QR Menu → Menu items tab. |
 | `qr.tab_settings` | QR code & settings | ކިއުއާރް ކޯޑާއި ސެޓިންގްސް | needs_review | New: QR Menu → Menu items tab. |
 | `quotations.convert` | Convert to invoice | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ | needs_review | އިންވޮއިސްއަކަށް ބަދަލުކުރޭ follows existing perm.quotations_convert_to_invoice. |
+| `refunds.confirm` | Refund about {{amount}} | ގާތްގަނޑަކަށް {{amount}} ރީފަންޑްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.done` | Refund {{number}}: {{amount}} given back | ރީފަންޑް {{number}}: {{amount}} އަނބުރާ ދެވިއްޖެ | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.method` | Give money back by | ފައިސާ އަނބުރާ ދޭނެ ގޮތް | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.not_restocked` | not put back in stock | ސްޓޮކަށް އަނބުރާ ނުލެވޭ | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.quantity_for` | Quantity to refund: {{name}} | ރީފަންޑްކުރާ އަދަދު: {{name}} | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.reason_hint` | For example: wrong item, damaged, customer changed their mind. | މިސާލަކަށް: ނުބައި އައިޓަމް، ހަލާކުވެފައި، ކަސްޓަމަރު ޚިޔާލު ބަދަލުކުރި. | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.refund` | Refund | ރީފަންޑް | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.refunded` | Refunded | ރީފަންޑްކުރެވުނު | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.restock` | Put the items back in stock | ތަކެތި ސްޓޮކަށް އަނބުރާ ލާ | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.restock_hint` | Turn off for spoiled or damaged items. | ހަލާކުވެފައިވާ ނުވަތަ ފަޅައިގެންފައިވާ ތަކެތި ނަމަ ނިއްވާލާ. | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.sold_left` | Sold {{sold}} · can refund {{left}} | ވިއްކި {{sold}} · ރީފަންޑްކުރެވޭނީ {{left}} | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.subtitle` | Choose what the customer returns. The money back includes its share of tax and service charge. | ކަސްޓަމަރު އަނބުރާ ދޭ ތަކެތި ހޮވާ. އަނބުރާ ދޭ ފައިސާގައި ޓެކްސާއި ސަރވިސް ޗާޖުގެ ބައި ހިމެނޭ. | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.title` | Refunds | ރީފަންޑްތައް | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.title_new` | Refund items | އައިޓަމް ރީފަންޑްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.average` | Average per order | އޯޑަރަކަށް އެވްރެޖް | needs_review | Was "Average"; now says it is the average bill per order. |
 | `reports.columns.cases` | Cases | ކޭސް | needs_review | New: shop store stock in cases. |
 | `reports.columns.gross` | Gross | ގްރޮސް | needs_review | Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން). |
+| `reports.columns.gst_type` | Type | ބާވަތް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.in_store` | In store | ސްޓޯރުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `reports.columns.margin` | Margin | މާޖިން | needs_review | Loanword މާޖިން. Alternative: ފައިދާގެ މިންވަރު. |
+| `reports.columns.net_sales` | Net sales | ސާފު ވިއްކުން | needs_review | Refunds, GST report and import add-ons. |
+| `reports.columns.number` | Number | ނަންބަރު | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.on_rack` | On rack | ރެކުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.columns.payee` | Paid to | ދެއްކީ | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.per_case` | Per case | ކޭހަކަށް | needs_review | New: shop store stock in cases. |
 | `reports.columns.rack_alert_at` | Rack alert at | ރެކު އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.columns.rate` | Rate | ރޭޓް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.columns.reason` | Reason | ސަބަބު | needs_review | Refunds, GST report and import add-ons. |
+| `reports.columns.reference` | Reference | ރެފަރެންސް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.columns.refunds` | Refunds | ރީފަންޑް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.columns.sale_number` | Bill | ބިލު | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.store_alert_at` | Store alert at | ސްޓޯރު އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.columns.tax_number` | TIN | TIN | needs_review | Refunds, GST report and import add-ons. |
+| `reports.columns.taxable` | Taxable value | ޓެކްސް ނަގާ އަގު | needs_review | Refunds, GST report and import add-ons. |
+| `reports.descriptions.gst` | Output tax on sales, invoices and service charge by rate, less refunds; input tax from expense and purchase bills; and the GST to pay. | ވިއްކުމާއި އިންވޮއިސް އަދި ސަރވިސް ޗާޖުގެ އައުޓްޕުޓް ޓެކްސް ރޭޓާ ގުޅިގެން، ރީފަންޑް އުނިކޮށް؛ ޚަރަދާއި ގަތުމުގެ ބިލުތަކުގެ އިންޕުޓް ޓެކްސް؛ އަދި ދައްކަންޖެހޭ ޖީއެސްޓީ. | needs_review | Refunds, GST report and import add-ons. |
+| `reports.descriptions.gst-purchases` | Every expense and purchase bill with GST on it (input tax). | ޖީއެސްޓީ ހިމެނޭ ކޮންމެ ޚަރަދެއްގެ އަދި ގަތުމެއްގެ ބިލެއް (އިންޕުޓް ޓެކްސް). | needs_review | Refunds, GST report and import add-ons. |
+| `reports.descriptions.gst-sales` | Every bill, invoice and refund with its taxable value and GST, with the customer's TIN. | ކޮންމެ ބިލެއް، އިންވޮއިހެއް އަދި ރީފަންޑެއް، ޓެކްސް ނަގާ އަގު، ޖީއެސްޓީ އަދި ކަސްޓަމަރުގެ TIN އާއެކު. | needs_review | Refunds, GST report and import add-ons. |
+| `reports.descriptions.refunds` | Money given back to customers, by refund date. | ކަސްޓަމަރުންނަށް އަނބުރާ ދިން ފައިސާ، ރީފަންޑްކުރި ތާރީޚާ ގުޅިގެން. | needs_review | Refunds, GST report and import add-ons. |
 | `reports.export_csv` | Export CSV | CSV އެކްސްޕޯޓްކުރޭ | needs_review | ސީއެސްވީ transliteration. |
+| `reports.gst_note` | Use these figures to fill your MIRA GST return (MIRA 205, or 206 for tourism GST). Only enter input tax from proper tax invoices. Check the figures with your accountant before filing. | މި އަދަދުތައް ބޭނުންކޮށްގެން MIRA ގެ ޖީއެސްޓީ ރިޓާން ފުރުއްވާ (MIRA 205، ނުވަތަ ޓޫރިޒަމް ޖީއެސްޓީއަށް 206). އިންޕުޓް ޓެކްސް ލިޔުއްވާނީ ރަނގަޅު ޓެކްސް އިންވޮއިހުން އެކަނި. ހުށަހެޅުމުގެ ކުރިން އެކައުންޓެންޓަކާ ބައްލަވާލައްވާ. | needs_review | Refunds, GST report and import add-ons. |
+| `reports.gst_types.input` | Input tax | އިންޕުޓް ޓެކްސް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.gst_types.output` | Output tax | އައުޓްޕުޓް ޓެކްސް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.last_month` | Last month | ފާއިތުވި މަސް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.last_quarter` | Last quarter | ފާއިތުވި ކުއާޓަރ | needs_review | Refunds, GST report and import add-ons. |
 | `reports.rows_count_other` | {{count}} rows | {{count}} ރޯ | needs_review | Loanword ރޯ (row). Dhivehi has no plural inflection after numerals; alternative: {{count}} ލައިން. |
+| `reports.sources.expenses` | Expenses | ޚަރަދުތައް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.sources.purchases` | Purchases | ގަތުން | needs_review | Refunds, GST report and import add-ons. |
+| `reports.sources.refunds` | Refunds | ރީފަންޑް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.sources.service_charge` | Service charge | ސަރވިސް ޗާޖު | needs_review | Refunds, GST report and import add-ons. |
 | `reports.summary.cogs` | Cost of goods | ވިއްކި ތަކެތީގެ ކޮސްޓް | needs_review | Cost of goods: ވިއްކި ތަކެތީގެ ކޮސްޓް. Confirm with accountant. |
 | `reports.summary.grossProfit` | Gross profit | ގްރޮސް ފައިދާ | needs_review | ގްރޮސް ފައިދާ (mixed loanword). Alternative: ޚަރަދު ކުރިން ފައިދާ. |
+| `reports.summary.gstPayable` | GST to pay | ދައްކަންޖެހޭ ޖީއެސްޓީ | needs_review | Refunds, GST report and import add-ons. |
+| `reports.summary.inputTax` | Input tax | އިންޕުޓް ޓެކްސް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.summary.netProfit` | Net profit | ނެޓް ފައިދާ | needs_review | ނެޓް ފައިދާ. Alternative: ޞާފު ފައިދާ. |
+| `reports.summary.outputTax` | Output tax | އައުޓްޕުޓް ޓެކްސް | needs_review | Refunds, GST report and import add-ons. |
+| `reports.summary.refunds` | Refunded | ރީފަންޑްކުރެވުނު | needs_review | Refunds, GST report and import add-ons. |
+| `reports.summary.taxableSupplies` | Taxable sales | ޓެކްސް ނަގާ ވިއްކުން | needs_review | Refunds, GST report and import add-ons. |
+| `reports.summary.zeroRatedSupplies` | Zero-rated / exempt sales | ޒީރޯ ރޭޓް / އިސްތިސްނާ ވިއްކުން | needs_review | Refunds, GST report and import add-ons. |
+| `reports.this_month` | This month | މި މަސް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.types.costing` | Recipe costing | ރެސިޕީގެ ޚަރަދު | needs_review | Recipe costing as ރެސިޕީގެ ޚަރަދު. Existing addons.names.ingredient_costing uses ތަކެތީގެ ޚަރަދު ހިސާބުކުރުން. Note: report columns use loanword ކޮސްޓް for cost of goods while ޚަރަދު is reserved for expenses — confirm this split. |
+| `reports.types.gst` | GST return summary | ޖީއެސްޓީ ރިޓާންގެ ޚުލާޞާ | needs_review | Refunds, GST report and import add-ons. |
+| `reports.types.gst-purchases` | GST purchases list (input tax) | ޖީއެސްޓީ ގަތުމުގެ ލިސްޓު (އިންޕުޓް ޓެކްސް) | needs_review | Refunds, GST report and import add-ons. |
+| `reports.types.gst-sales` | GST sales list (output tax) | ޖީއެސްޓީ ވިއްކުމުގެ ލިސްޓު (އައުޓްޕުޓް ޓެކްސް) | needs_review | Refunds, GST report and import add-ons. |
 | `reports.types.profit` | Profit & loss | ފައިދާއާއި ގެއްލުން | needs_review | Profit & loss: ފައިދާއާއި ގެއްލުން — standard phrase, but please confirm. |
 | `reports.types.rack-low` | Low on rack | ރެކުގައި މަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.types.refunds` | Refunds | ރީފަންޑްތައް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.types.store-stock` | Store stock | ސްޓޯރު ސްޓޮކް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `roles.system_desc_retail.business_admin` | Full control of the shop. | ފިހާރައިގެ ފުރިހަމަ ކޮންޓްރޯލް. | needs_review | New/updated: shops on the platform. |
 | `roles.system_desc_retail.cashier` | Sells at the counter, checks stock, serves customers and makes quotations and invoices. | ކައުންޓަރުގައި ވިއްކައި، ސްޓޮކް ބަލައި، ކަސްޓަމަރުންނަށް ޚިދުމަތްދީ، ކޯޓޭޝަނާއި އިންވޮއިސް ހަދާ. | needs_review | New/updated: shops on the platform. |
@@ -814,6 +923,8 @@ review of the whole file is still recommended before launch.
 | `staff.total_deductions` | Total deductions | ޖުމްލަ ކެނޑުން | needs_review | New: individual payslips. ސްލިޕް = slip. |
 | `staff.total_net_pay` | Total net pay | ޖުމްލަ ނެޓް މުސާރަ | needs_review | Plain translation using existing app terms. |
 | `staff.unsaved` | You have unsaved changes. | ރައްކާނުކުރާ ބަދަލުތައް އެބަހުރި. | needs_review | Literal: "there are unsaved changes". |
+| `status_labels.partly_refunded` | Partly refunded | ބައެއް ރީފަންޑްކުރެވިފައި | needs_review | Refunds, GST report and import add-ons. |
+| `status_labels.refunded` | Refunded | ރީފަންޑްކުރެވިފައި | needs_review | Refunds, GST report and import add-ons. |
 | `stock_check.empty_body` | Scan a barcode or type a name to check the stock instantly. | ސްޓޮކް ވަގުތުން ބެލުމަށް ބާކޯޑް ސްކޭން ކުރައްވާ ނުވަތަ ނަން ލިޔުއްވާ. | needs_review | New: retail shops (stock check, barcode). |
 | `stock_check.empty_title` | Do we have it? | އެ އެއްޗެއް ހުރިތޯ؟ | needs_review | New: retail shops (stock check, barcode). |
 | `stock_check.not_found` | No product found | އެ ތަކެތި ނުފެނުނު | needs_review | New: retail shops (stock check, barcode). |

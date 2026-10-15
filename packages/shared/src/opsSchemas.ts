@@ -187,6 +187,8 @@ export const purchaseSchema = z.object({
   purchaseDate: isoDate,
   reference: text(60),
   notes: text(1000),
+  /** GST included in the bill (input tax, GST Report add-on). */
+  tax: money.default(0),
   items: z
     .array(
       // Either the cost per unit, or the total paid for the whole line (bulk buys) — the server works out the other.
@@ -202,6 +204,8 @@ export const purchasePaymentSchema = z.object({ amount: z.number().gt(0).max(100
 export const expenseSchema = z.object({
   category: z.enum(EXPENSE_CATEGORIES),
   amount: z.number().gt(0).max(100_000_000),
+  /** GST included in the amount (input tax, GST Report add-on). */
+  tax: money.default(0),
   expenseDate: isoDate,
   paymentMethod: z.enum(['cash', 'card', 'bank_transfer', 'other']).default('cash'),
   payee: text(120),
@@ -349,3 +353,56 @@ export const rotaCopySchema = z.object({ from: isoDate, to: isoDate });
 
 /** Add or correct the customer's PO number after an invoice is issued (the PO often arrives later). */
 export const customerRefSchema = z.object({ customerRef: text(60) });
+
+/** Refunds & Returns add-on: give money back for some or all items of a completed bill. */
+export const refundSchema = z.object({
+  items: z
+    .array(z.object({ saleItemId: id, quantity: qty }))
+    .min(1)
+    .max(300),
+  method: z.enum(['cash', 'card', 'bank_transfer', 'other']),
+  reason: z.string().trim().min(3).max(300),
+  /** Put the returned items back in stock. */
+  restock: z.boolean().default(true),
+});
+
+/** Import add-on: rows read from a CSV/Excel file in the browser. Money in major units. */
+const importText = (max: number) => z.string().trim().max(max).optional().default('');
+export const importProductsSchema = z.object({
+  dryRun: z.boolean().default(false),
+  /** Products already in the catalogue (same SKU, or same name when there is no SKU): update them instead of skipping. */
+  updateExisting: z.boolean().default(false),
+  rows: z
+    .array(
+      z.object({
+        name: req(120),
+        sku: importText(40),
+        category: importText(80),
+        sellingPrice: money.default(0),
+        costPrice: money.default(0),
+        unit: importText(20),
+        stock: z.number().min(0).max(1_000_000).nullable().default(null),
+      }),
+    )
+    .min(1)
+    .max(2000),
+});
+export const importCustomersSchema = z.object({
+  dryRun: z.boolean().default(false),
+  /** Customers already saved (same phone, or same name when there is no phone): update them instead of skipping. */
+  updateExisting: z.boolean().default(false),
+  rows: z
+    .array(
+      z.object({
+        name: req(120),
+        phone: importText(32),
+        email: importText(120),
+        company: importText(120),
+        address: importText(500),
+        taxNumber: importText(50),
+        creditLimit: money.nullable().default(null),
+      }),
+    )
+    .min(1)
+    .max(2000),
+});

@@ -21,6 +21,9 @@ const ADDON_INFO: Record<AddonKey, { name: string; category: string; description
   advanced_kitchen: { name: 'Advanced Kitchen', category: 'operations', description: 'Kitchen stations, routing and prep times.' },
   payroll: { name: 'Payroll (Salary Sheet)', category: 'staff', description: 'Staff list and monthly salary sheets with allowances, overtime, deductions and advances.' },
   staff_rota: { name: 'Duty Rota', category: 'staff', description: 'Weekly duty rota: shifts, days off and leave for every staff member.' },
+  gst_report: { name: 'GST Report (MIRA)', category: 'finance', description: 'Output and input GST for any period, by rate, with sales and purchase statements to fill the MIRA GST return.' },
+  refunds: { name: 'Refunds & Returns', category: 'sales', description: 'Refund a whole bill or some items, put returned items back in stock, and keep refunds out of sales and GST.' },
+  data_import: { name: 'Import (Excel / CSV)', category: 'operations', description: 'Bring products and customers in from an Excel/CSV file, such as an export from another POS.' },
 };
 
 // POS plans: every POS module (Gravity Flow's income & expenses module is Flow's own).

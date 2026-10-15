@@ -7,6 +7,7 @@ import { assertPermission, bizCtx, requirePermission } from '../../guards/busine
 import { AppError, notFound } from '../../lib/errors';
 import { businessToday } from '../../lib/tenant';
 import { parse } from '../../lib/validation';
+import { loadBusinessSettings } from '../../services/settings';
 import type { BusinessContext } from '../../types';
 
 export const REPORT_TYPES = [
@@ -26,6 +27,10 @@ export const REPORT_TYPES = [
   'costing',
   'rack-low',
   'store-stock',
+  'gst',
+  'gst-sales',
+  'gst-purchases',
+  'refunds',
 ] as const;
 /** Shop-only reports (rack vs stock room). */
 const RETAIL_REPORTS: ReadonlyArray<string> = ['rack-low', 'store-stock'];
@@ -40,7 +45,14 @@ const REPORT_PERMISSION_EXTRA: Partial<Record<ReportType, string>> = {
   'store-stock': 'inventory.view',
   expenses: 'expenses.view',
   costing: 'costing.view',
+  // Add-on permissions: only held while the add-on is on (GST Report, Refunds & Returns).
+  gst: 'gst.view',
+  'gst-sales': 'gst.view',
+  'gst-purchases': 'gst.view',
+  refunds: 'sales.view',
 };
+/** Reports that belong to an add-on. */
+const REPORT_ADDON: Partial<Record<ReportType, string>> = { gst: 'gst_report', 'gst-sales': 'gst_report', 'gst-purchases': 'gst_report', refunds: 'refunds' };
 
 /** Outlets the user may report on: assigned outlets, or all outlets of the business. */
 async function allowedOutlets(app: FastifyInstance, ctx: BusinessContext, requested?: string): Promise<string[]> {
@@ -81,6 +93,8 @@ export async function reportRoutes(app: FastifyInstance) {
     const type = req.params.type as ReportType;
     if (!REPORT_TYPES.includes(type)) throw notFound();
     if (RETAIL_REPORTS.includes(type) && !isRetailType(ctx.access.business.businessType)) throw notFound();
+    const addon = REPORT_ADDON[type];
+    if (addon && !ctx.access.addons.has(addon)) throw new AppError('addon_not_enabled', 'Add-on not enabled', { details: { addon } });
     const extra = REPORT_PERMISSION_EXTRA[type];
     if (extra) assertPermission(ctx, extra);
     const q = parse(reportQuerySchema, req.query);
@@ -100,6 +114,9 @@ export async function reportRoutes(app: FastifyInstance) {
     const saleDay = sql`(s.completed_at AT TIME ZONE ${tz})::date`;
     const inRange = sql`${saleDay} BETWEEN ${q.from}::date AND ${q.to}::date`;
     const saleScope = sql`s.business_id = ${bid} AND s.status = 'completed' AND ${inList(sql`s.outlet_id`, oids)} AND ${inRange}`;
+    const refundScope = sql`r.business_id = ${bid} AND ${inList(sql`r.outlet_id`, oids)} AND (r.created_at AT TIME ZONE ${tz})::date BETWEEN ${q.from}::date AND ${q.to}::date`;
+    const withRefunds = ctx.access.addons.has('refunds');
+    const invoiceScope = sql`inv.business_id = ${bid} AND inv.status IN ('issued','partially_paid','paid','overdue') AND inv.invoice_date BETWEEN ${q.from} AND ${q.to}`;
 
     let rows: Record<string, unknown>[] = [];
     let summary: Record<string, unknown> = {};
@@ -112,6 +129,19 @@ export async function reportRoutes(app: FastifyInstance) {
                  SUM(s.service_charge)::bigint AS service_charge, SUM(s.tax)::bigint AS tax, SUM(s.total)::bigint AS total,
                  (SUM(s.total) / NULLIF(count(*),0))::bigint AS average
           FROM sales s WHERE ${saleScope} GROUP BY 1 ORDER BY 1`);
+        if (withRefunds) {
+          // Money given back that day (by refund date), and what is left: net sales.
+          const back = await run<{ day: string; refunds: string }>(sql`
+            SELECT to_char((r.created_at AT TIME ZONE ${tz})::date, 'YYYY-MM-DD') AS day, SUM(r.total)::bigint AS refunds
+            FROM sale_refunds r WHERE ${refundScope} GROUP BY 1`);
+          const byDay = new Map(back.map((b) => [b.day, Number(b.refunds)]));
+          for (const b of back) if (!rows.some((r) => r.day === b.day)) rows.push({ day: b.day, orders: 0, gross: 0, discount: 0, service_charge: 0, tax: 0, total: 0, average: 0 });
+          rows.sort((a, b) => String(a.day).localeCompare(String(b.day)));
+          rows = rows.map((r) => {
+            const refunds = byDay.get(String(r.day)) ?? 0;
+            return { ...r, refunds, net_sales: Number(r.total) - refunds };
+          });
+        }
         break;
       }
       case 'products': {
@@ -156,11 +186,14 @@ export async function reportRoutes(app: FastifyInstance) {
         const [e] = await run<{ amount: string }>(sql`
           SELECT COALESCE(SUM(amount),0)::bigint AS amount FROM expenses WHERE business_id = ${bid} AND deleted_at IS NULL
             AND ${inList(sql`outlet_id`, oids)} AND expense_date BETWEEN ${q.from} AND ${q.to}`);
-        const salesRevenue = Number(s?.revenue ?? 0);
+        const [rf] = withRefunds
+          ? await run<{ net: string; tax: string }>(sql`SELECT COALESCE(SUM(r.total - r.tax),0)::bigint AS net, COALESCE(SUM(r.tax),0)::bigint AS tax FROM sale_refunds r WHERE ${refundScope}`)
+          : [{ net: '0', tax: '0' }];
+        const salesRevenue = Number(s?.revenue ?? 0) - Number(rf?.net ?? 0);
         const invoiceRevenue = Number(inv?.revenue ?? 0);
         const cogs = Number(s?.cogs ?? 0);
         const exp = Number(e?.amount ?? 0);
-        summary = { salesRevenue, invoiceRevenue, revenue: salesRevenue + invoiceRevenue, cogs, grossProfit: salesRevenue + invoiceRevenue - cogs, expenses: exp, netProfit: salesRevenue + invoiceRevenue - cogs - exp, taxCollected: Number(s?.tax ?? 0) };
+        summary = { salesRevenue, invoiceRevenue, revenue: salesRevenue + invoiceRevenue, cogs, grossProfit: salesRevenue + invoiceRevenue - cogs, expenses: exp, netProfit: salesRevenue + invoiceRevenue - cogs - exp, taxCollected: Number(s?.tax ?? 0) - Number(rf?.tax ?? 0) };
         rows = [summary];
         break;
       }
@@ -257,6 +290,109 @@ export async function reportRoutes(app: FastifyInstance) {
           WHERE o.business_id = ${bid} AND ${inList(sql`o.id`, oids)} GROUP BY o.id, o.name ORDER BY total DESC`);
         break;
       }
+      case 'gst': {
+        // Output tax: POS sales and invoices by rate, less refunds. Input tax: GST on expense and purchase bills.
+        const bizRate = (await loadBusinessSettings(db, bid)).tax.taxRate;
+        const pos = await run(sql`
+          SELECT 'output' AS gst_type, 'pos' AS source, i.tax_rate::float AS rate, SUM(i.total - i.tax)::bigint AS taxable, SUM(i.tax)::bigint AS tax
+          FROM sale_items i JOIN sales s ON s.id = i.sale_id WHERE ${saleScope} GROUP BY 3`);
+        // Service charge is taxed at the business rate; prices may include tax or not.
+        const sc = await run(sql`
+          WITH x AS (
+            SELECT s.service_charge, s.tax - COALESCE(SUM(i.tax),0) AS sc_tax,
+                   abs(s.total - (COALESCE(SUM(i.total),0) + s.service_charge + s.delivery_fee - s.points_discount)) < 2 AS inclusive
+            FROM sales s LEFT JOIN sale_items i ON i.sale_id = s.id WHERE ${saleScope} AND s.service_charge > 0 GROUP BY s.id)
+          SELECT 'output' AS gst_type, 'service_charge' AS source, ${bizRate}::float AS rate,
+                 SUM(CASE WHEN inclusive THEN service_charge - sc_tax ELSE service_charge END)::bigint AS taxable, SUM(sc_tax)::bigint AS tax
+          FROM x HAVING count(*) > 0`);
+        const inv = await run(sql`
+          SELECT 'output' AS gst_type, 'invoices' AS source,
+                 COALESCE(i.tax_rate, CASE WHEN (inv.tax_config->>'taxEnabled')::boolean THEN (inv.tax_config->>'taxRate')::numeric ELSE 0 END)::float AS rate,
+                 SUM(i.total - i.tax)::bigint AS taxable, SUM(i.tax)::bigint AS tax
+          FROM invoice_items i JOIN invoices inv ON inv.id = i.invoice_id WHERE ${invoiceScope} GROUP BY 3`);
+        const back = withRefunds
+          ? await run(sql`
+          SELECT 'output' AS gst_type, 'refunds' AS source, ri.tax_rate::float AS rate, (-SUM(ri.net))::bigint AS taxable, (-SUM(ri.tax))::bigint AS tax
+          FROM sale_refund_items ri JOIN sale_refunds r ON r.id = ri.refund_id WHERE ${refundScope} GROUP BY 3
+          UNION ALL
+          -- The service charge share of refunds (taxed at the business rate).
+          SELECT 'output', 'refunds', ${bizRate}::float, (-(SUM(r.total - r.tax) - SUM(x.net)))::bigint, (-(SUM(r.tax) - SUM(x.tax)))::bigint
+          FROM sale_refunds r JOIN (SELECT refund_id, SUM(net) AS net, SUM(tax) AS tax FROM sale_refund_items GROUP BY refund_id) x ON x.refund_id = r.id
+          WHERE ${refundScope} HAVING SUM(r.tax) <> SUM(x.tax)`)
+          : [];
+        const input = await run(sql`
+          SELECT 'input' AS gst_type, 'expenses' AS source, NULL::float AS rate, SUM(e.amount - e.tax)::bigint AS taxable, SUM(e.tax)::bigint AS tax
+          FROM expenses e WHERE e.business_id = ${bid} AND e.deleted_at IS NULL AND e.tax > 0 AND ${inList(sql`e.outlet_id`, oids)} AND e.expense_date BETWEEN ${q.from} AND ${q.to}
+          HAVING count(*) > 0
+          UNION ALL
+          SELECT 'input', 'purchases', NULL::float, SUM(p.total - p.tax)::bigint, SUM(p.tax)::bigint
+          FROM purchases p WHERE p.business_id = ${bid} AND p.status <> 'cancelled' AND p.tax > 0 AND ${inList(sql`p.outlet_id`, oids)} AND p.purchase_date BETWEEN ${q.from} AND ${q.to}
+          HAVING count(*) > 0`);
+        // One row per kind, source and rate.
+        const merged = new Map<string, Record<string, unknown>>();
+        for (const r of [...pos, ...sc, ...inv, ...back, ...input]) {
+          const k = `${r.gst_type}|${r.source}|${r.rate}`;
+          const m = merged.get(k);
+          if (m) {
+            m.taxable = Number(m.taxable) + Number(r.taxable ?? 0);
+            m.tax = Number(m.tax) + Number(r.tax ?? 0);
+          } else merged.set(k, { ...r, taxable: Number(r.taxable ?? 0), tax: Number(r.tax ?? 0) });
+        }
+        rows = [...merged.values()];
+        const n = (v: unknown) => Number(v ?? 0);
+        const out = rows.filter((r) => r.gst_type === 'output');
+        const outputTax = out.reduce((a, r) => a + n(r.tax), 0);
+        const inputTax = rows.filter((r) => r.gst_type === 'input').reduce((a, r) => a + n(r.tax), 0);
+        summary = {
+          taxableSupplies: out.filter((r) => n(r.rate) > 0).reduce((a, r) => a + n(r.taxable), 0),
+          zeroRatedSupplies: out.filter((r) => !n(r.rate)).reduce((a, r) => a + n(r.taxable), 0),
+          outputTax,
+          inputTax,
+          gstPayable: outputTax - inputTax,
+        };
+        break;
+      }
+      case 'gst-sales': {
+        // One line per bill / invoice / refund: the sales side of the GST return.
+        rows = await run(sql`
+          SELECT * FROM (
+            SELECT to_char(${saleDay}, 'YYYY-MM-DD') AS day, s.number, COALESCE(c.name, '') AS customer, COALESCE(c.tax_number, '') AS tax_number, 'pos' AS source,
+                   (s.total - s.tax)::bigint AS taxable, s.tax::bigint AS tax, s.total::bigint AS total
+            FROM sales s LEFT JOIN customers c ON c.id = s.customer_id WHERE ${saleScope}
+            UNION ALL
+            SELECT inv.invoice_date, inv.number, c.name, c.tax_number, 'invoices', (inv.total - inv.tax)::bigint, inv.tax::bigint, inv.total::bigint
+            FROM invoices inv JOIN customers c ON c.id = inv.customer_id WHERE ${invoiceScope}
+            ${
+              withRefunds
+                ? sql`UNION ALL
+            SELECT to_char((r.created_at AT TIME ZONE ${tz})::date, 'YYYY-MM-DD'), r.number, COALESCE(c.name, ''), COALESCE(c.tax_number, ''), 'refunds',
+                   (-(r.total - r.tax))::bigint, (-r.tax)::bigint, (-r.total)::bigint
+            FROM sale_refunds r JOIN sales s ON s.id = r.sale_id LEFT JOIN customers c ON c.id = s.customer_id WHERE ${refundScope}`
+                : sql``
+            }
+          ) x ORDER BY day, number LIMIT 10000`);
+        break;
+      }
+      case 'gst-purchases': {
+        // Bills with GST on them: the input tax side of the GST return.
+        rows = await run(sql`
+          SELECT * FROM (
+            SELECT e.expense_date AS day, e.payee, e.reference, 'expenses' AS source, (e.amount - e.tax)::bigint AS taxable, e.tax::bigint AS tax, e.amount::bigint AS total
+            FROM expenses e WHERE e.business_id = ${bid} AND e.deleted_at IS NULL AND e.tax > 0 AND ${inList(sql`e.outlet_id`, oids)} AND e.expense_date BETWEEN ${q.from} AND ${q.to}
+            UNION ALL
+            SELECT p.purchase_date, sp.name, CASE WHEN p.reference <> '' THEN p.reference ELSE p.number END, 'purchases', (p.total - p.tax)::bigint, p.tax::bigint, p.total::bigint
+            FROM purchases p JOIN suppliers sp ON sp.id = p.supplier_id
+            WHERE p.business_id = ${bid} AND p.status <> 'cancelled' AND p.tax > 0 AND ${inList(sql`p.outlet_id`, oids)} AND p.purchase_date BETWEEN ${q.from} AND ${q.to}
+          ) x ORDER BY day LIMIT 10000`);
+        break;
+      }
+      case 'refunds': {
+        rows = await run(sql`
+          SELECT to_char((r.created_at AT TIME ZONE ${tz})::date, 'YYYY-MM-DD') AS day, r.number, s.number AS sale_number, r.reason, r.method, r.tax::bigint AS tax, r.total::bigint AS total
+          FROM sale_refunds r JOIN sales s ON s.id = r.sale_id WHERE ${refundScope} ORDER BY r.created_at`);
+        summary = { refunds: rows.reduce((a, r) => a + Number(r.total ?? 0), 0) };
+        break;
+      }
       case 'costing': {
         rows = await run(sql`
           SELECT p.name AS product, p.selling_price AS price,
@@ -269,7 +405,7 @@ export async function reportRoutes(app: FastifyInstance) {
     }
 
     // Normalise numeric strings from the driver.
-    rows = rows.map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v) && !['day', 'sku', 'phone'].includes(k) ? Number(v) : v])));
+    rows = rows.map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v) && !['day', 'sku', 'phone', 'number', 'sale_number', 'tax_number', 'reference'].includes(k) ? Number(v) : v])));
 
     if (q.format === 'csv') {
       reply.header('content-type', 'text/csv; charset=utf-8').header('content-disposition', `attachment; filename="${type}_${q.from}_${q.to}.csv"`);

@@ -28,6 +28,7 @@ interface Purchase {
   status: string;
   paymentStatus: string;
   total: number;
+  tax: number;
   paidAmount: number;
   reference: string;
   notes: string;
@@ -140,7 +141,8 @@ function PurchaseForm({
   const retail = !!useBizSession().business.profile.retail;
   const editable = !p || p.status === 'draft';
   const [supplier, setSupplier] = useState<{ id: string; name: string } | null>(data ? data.supplier : null);
-  const [form, setForm] = useState({ purchaseDate: p?.purchaseDate ?? new Date().toISOString().slice(0, 10), reference: p?.reference ?? '', notes: p?.notes ?? '' });
+  const [form, setForm] = useState({ purchaseDate: p?.purchaseDate ?? new Date().toISOString().slice(0, 10), reference: p?.reference ?? '', notes: p?.notes ?? '', tax: p?.tax ? String(p.tax / 100) : '' });
+  const gst = useBiz().hasAddon('gst_report');
   // Each line can be entered by unit cost or by the total paid for it (bulk buys); the other is filled in.
   // Shops buy in cases: for products with more than one piece per case, quantity and unit cost are per case here
   // and converted to pieces when saved (the line total stays exactly what was paid).
@@ -172,7 +174,7 @@ function PurchaseForm({
   };
   const save = useMutation({
     mutationFn: () => {
-      const body = { supplierId: supplier?.id, ...form, items: items.map((i) =>
+      const body = { supplierId: supplier?.id, ...form, tax: parseAmount(form.tax), items: items.map((i) =>
           i.packSize > 1
             ? { productId: i.productId, quantity: parseAmount(i.quantity) * i.packSize, lineTotal: i.by === 'total' ? parseAmount(i.lineTotal) : Math.round(parseAmount(i.unitCost) * parseAmount(i.quantity) * 100) / 100 }
             : { productId: i.productId, quantity: parseAmount(i.quantity), ...(i.by === 'total' ? { lineTotal: parseAmount(i.lineTotal) } : { unitCost: parseAmount(i.unitCost) }) },
@@ -246,6 +248,9 @@ function PurchaseForm({
           )}
           <Input type="date" label={t('common.date')} value={form.purchaseDate} disabled={!editable} onChange={(e) => setForm({ ...form, purchaseDate: e.target.value })} />
           <Input label={t('purchases.reference')} value={form.reference} disabled={!editable} onChange={(e) => setForm({ ...form, reference: e.target.value })} />
+          {gst && (
+            <Input type="number" min={0} step="0.01" label={t('gst.input_tax')} hint={t('gst.input_tax_hint')} value={form.tax} disabled={!editable} onChange={(e) => setForm({ ...form, tax: e.target.value })} />
+          )}
         </div>
         <div className="space-y-2">
           {items.map((i, idx) => (

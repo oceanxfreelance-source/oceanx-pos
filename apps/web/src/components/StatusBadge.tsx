@@ -29,6 +29,8 @@ const TONES: Record<string, BadgeTone> = {
   available: 'green',
   occupied: 'amber',
   inactive: 'gray',
+  refunded: 'violet',
+  partly_refunded: 'violet',
 };
 
 /** Translated status badge for any document / order status. */

@@ -159,7 +159,7 @@ export async function operationsRoutes(app: FastifyInstance) {
       const { number } = await allocateDocumentNumber(tx, { businessId: ctx.businessId, docType: 'purchase', numbering: PURCHASE_NUMBERING });
       const [p] = await tx
         .insert(purchases)
-        .values({ businessId: ctx.businessId, outletId, supplierId: body.supplierId, number, purchaseDate: body.purchaseDate, reference: body.reference, notes: body.notes, total, createdBy: ctx.user.id })
+        .values({ businessId: ctx.businessId, outletId, supplierId: body.supplierId, number, purchaseDate: body.purchaseDate, reference: body.reference, notes: body.notes, total, ...inputTax(ctx, body.tax, total), createdBy: ctx.user.id })
         .returning();
       await tx.insert(purchaseItems).values(rows.map((r) => ({ ...r, businessId: ctx.businessId, purchaseId: p!.id })));
       await audit(tx, { ...actor(ctx), action: 'purchase.created', entityType: 'purchase', entityId: p!.id, metadata: { number, total }, req });
@@ -182,7 +182,7 @@ export async function operationsRoutes(app: FastifyInstance) {
       await tx.insert(purchaseItems).values(rows.map((r) => ({ ...r, businessId: ctx.businessId, purchaseId: id })));
       const [u] = await tx
         .update(purchases)
-        .set({ supplierId: body.supplierId, purchaseDate: body.purchaseDate, reference: body.reference, notes: body.notes, total, updatedAt: new Date() })
+        .set({ supplierId: body.supplierId, purchaseDate: body.purchaseDate, reference: body.reference, notes: body.notes, total, ...inputTax(ctx, body.tax, total), updatedAt: new Date() })
         .where(eq(purchases.id, id))
         .returning();
       return u;
@@ -293,12 +293,18 @@ export async function operationsRoutes(app: FastifyInstance) {
     };
   });
 
+  /**
+   * GST included in an expense or purchase bill (input tax). Only stored with the GST Report add-on, so
+   * saving without it never wipes a value entered earlier. Never more than the bill itself.
+   */
+  const inputTax = (ctx: ReturnType<typeof bizCtx>, tax: number, amount: number) => (ctx.access.addons.has('gst_report') ? { tax: Math.min(toMinor(tax), amount) } : {});
+
   app.post('/expenses', { preHandler: requirePermission('expenses.create') }, async (req, reply) => {
     const ctx = bizCtx(req);
     const body = parse(expenseSchema, req.body);
     const [e] = await db
       .insert(expenses)
-      .values({ ...body, amount: toMinor(body.amount), businessId: ctx.businessId, outletId: requireOutlet(ctx), createdBy: ctx.user.id })
+      .values({ ...body, amount: toMinor(body.amount), tax: 0, ...inputTax(ctx, body.tax, toMinor(body.amount)), businessId: ctx.businessId, outletId: requireOutlet(ctx), createdBy: ctx.user.id })
       .returning();
     await audit(db, { ...actor(ctx), action: 'expense.created', entityType: 'expense', entityId: e!.id, metadata: { amount: e!.amount, category: e!.category }, req });
     reply.status(201);
@@ -310,7 +316,7 @@ export async function operationsRoutes(app: FastifyInstance) {
     const body = parse(expenseSchema, req.body);
     const [e] = await db
       .update(expenses)
-      .set({ ...body, amount: toMinor(body.amount), updatedAt: new Date() })
+      .set({ ...body, tax: undefined, amount: toMinor(body.amount), ...inputTax(ctx, body.tax, toMinor(body.amount)), updatedAt: new Date() })
       .where(own(expenses, ctx, idParam(req)))
       .returning();
     if (!e) throw notFound();

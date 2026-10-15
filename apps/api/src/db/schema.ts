@@ -758,6 +758,8 @@ export const sales = pgTable(
     balanceDue: money('balance_due').notNull().default(0),
     pointsRedeemed: integer('points_redeemed').notNull().default(0),
     pointsEarned: integer('points_earned').notNull().default(0),
+    /** Money given back on this bill (Refunds add-on), incl. tax. */
+    refundedTotal: money('refunded_total').notNull().default(0),
     note: text('note').notNull().default(''),
     delivery: jsonb('delivery').$type<{ address: string; phone: string } | null>(),
     onlineCustomer: jsonb('online_customer').$type<{ name: string; phone: string; tableName?: string } | null>(),
@@ -808,6 +810,51 @@ export const saleItems = pgTable(
     index('sale_items_business_product_idx').on(t.businessId, t.productId),
     tenantFk('sale_items_sale_fk', t, t.saleId, sales).onDelete('cascade'),
   ],
+);
+
+/** A refund on a completed bill (Refunds & Returns add-on): some or all items, money back, optional restock. */
+export const saleRefunds = pgTable(
+  'sale_refunds',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    outletId: uuid('outlet_id').notNull(),
+    saleId: uuid('sale_id').notNull(),
+    number: text('number').notNull(),
+    reason: text('reason').notNull().default(''),
+    method: text('method').notNull(),
+    /** Amount given back, incl. tax and service charge. */
+    total: money('total').notNull(),
+    /** Part of `total` that is tax (reduces output GST). */
+    tax: money('tax').notNull().default(0),
+    restocked: boolean('restocked').notNull().default(true),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    unique('sale_refunds_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('sale_refunds_business_number_uq').on(t.businessId, t.number),
+    index('sale_refunds_sale_idx').on(t.saleId),
+    index('sale_refunds_business_created_idx').on(t.businessId, t.createdAt),
+    tenantFk('sale_refunds_sale_fk', t, t.saleId, sales).onDelete('cascade'),
+  ],
+);
+
+export const saleRefundItems = pgTable(
+  'sale_refund_items',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').notNull(),
+    refundId: uuid('refund_id').notNull(),
+    saleItemId: uuid('sale_item_id').notNull(),
+    nameSnapshot: text('name_snapshot').notNull(),
+    quantity: qty('quantity').notNull(),
+    taxRate: numeric('tax_rate', { precision: 6, scale: 3, mode: 'number' }).notNull().default(0),
+    /** Net of tax, before service charge. */
+    net: money('net').notNull(),
+    tax: money('tax').notNull().default(0),
+  },
+  (t) => [index('sale_refund_items_refund_idx').on(t.refundId), index('sale_refund_items_item_idx').on(t.saleItemId), tenantFk('sale_refund_items_refund_fk', t, t.refundId, saleRefunds).onDelete('cascade')],
 );
 
 export const kitchenOrders = pgTable(
@@ -1032,6 +1079,8 @@ export const purchases = pgTable(
     status: text('status').notNull().default('draft'), // draft | received | cancelled
     paymentStatus: text('payment_status').notNull().default('unpaid'),
     total: money('total').notNull().default(0),
+    /** GST included in `total` (input tax), from the supplier's tax invoice. */
+    tax: money('tax').notNull().default(0),
     paidAmount: money('paid_amount').notNull().default(0),
     reference: text('reference').notNull().default(''),
     notes: text('notes').notNull().default(''),
@@ -1076,6 +1125,8 @@ export const expenses = pgTable(
     outletId: uuid('outlet_id').notNull(),
     category: text('category').notNull(),
     amount: money('amount').notNull(),
+    /** GST included in `amount` (input tax), from the supplier's tax invoice. */
+    tax: money('tax').notNull().default(0),
     expenseDate: text('expense_date').notNull(),
     paymentMethod: text('payment_method').notNull(),
     payee: text('payee').notNull().default(''),

@@ -12,6 +12,7 @@ import { operationsRoutes } from './operations';
 import { addonModuleRoutes } from './addonModules';
 import { reportRoutes } from './reports';
 import { staffRoutes } from './staff';
+import { importRoutes } from './importData';
 import { brandingRoutes } from './branding';
 import { billingRoutes } from './billing';
 import { stockCheckRoutes } from './stockCheck';
@@ -41,6 +42,7 @@ export async function businessRoutes(app: FastifyInstance, opts: { authRateLimit
     await secured.register(addonModuleRoutes);
     await secured.register(reportRoutes);
     await secured.register(staffRoutes);
+    await secured.register(importRoutes);
     await secured.register(brandingRoutes);
     await secured.register(billingRoutes);
     await secured.register(stockCheckRoutes);

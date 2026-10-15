@@ -29,9 +29,13 @@ export const REPORTS: { type: string; perm?: string; addon?: string; retail?: bo
   { type: 'staff' },
   { type: 'outlets' },
   { type: 'costing', perm: 'costing.view', addon: 'ingredient_costing' },
+  { type: 'gst', perm: 'gst.view', addon: 'gst_report' },
+  { type: 'gst-sales', perm: 'gst.view', addon: 'gst_report' },
+  { type: 'gst-purchases', perm: 'gst.view', addon: 'gst_report' },
+  { type: 'refunds', perm: 'sales.view', addon: 'refunds' },
 ];
 
-export const MONEY_COLS = new Set(['gross', 'discount', 'service_charge', 'tax', 'total', 'average', 'revenue', 'cost', 'margin', 'amount', 'unit_cost', 'value', 'spent', 'due', 'paid', 'outstanding', 'credit_limit', 'sales_due', 'invoice_due', 'price', 'recipe_cost']);
+export const MONEY_COLS = new Set(['gross', 'discount', 'service_charge', 'tax', 'total', 'average', 'revenue', 'cost', 'margin', 'amount', 'unit_cost', 'value', 'spent', 'due', 'paid', 'outstanding', 'credit_limit', 'sales_due', 'invoice_due', 'price', 'recipe_cost', 'taxable', 'refunds', 'net_sales']);
 
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const daysAgo = (n: number) => {
@@ -53,6 +57,8 @@ export function useReportCell(type: string) {
     if (key === 'kind') return t(`payments.kinds.${v}`);
     if (key === 'status') return t(`status_labels.${v}`);
     if (key === 'source') return t(`reports.sources.${v}`);
+    if (key === 'gst_type') return t(`reports.gst_types.${v}`);
+    if (key === 'rate' && typeof v === 'number') return <Ltr>{f.number(v, Number.isInteger(v) ? 0 : 2)}%</Ltr>;
     if (key === 'category' && type === 'expenses') return t(`expenses.categories.${v}`);
     if (typeof v === 'number') return <Ltr>{f.number(v, Number.isInteger(v) ? 0 : 3)}</Ltr>;
     return <span dir="auto">{String(v)}</span>;
@@ -99,6 +105,13 @@ export default function ReportsPage() {
     setFrom(daysAgo(days - 1));
     setTo(iso(new Date()));
   };
+  /** Whole calendar months (GST returns are monthly or quarterly). */
+  const setMonths = (back: number, months = 1) => {
+    const now = new Date();
+    setFrom(iso(new Date(now.getFullYear(), now.getMonth() - back, 1)));
+    setTo(iso(new Date(now.getFullYear(), now.getMonth() - back + months, 0)));
+  };
+  const gst = type.startsWith('gst');
   const cell = useReportCell(type);
   const rows = q.data?.rows ?? [];
   const cols = rows[0] ? Object.keys(rows[0]) : [];
@@ -151,9 +164,21 @@ export default function ReportsPage() {
               {d === 1 ? t('reports.today') : t('reports.last_days', { count: d })}
             </Button>
           ))}
+          <Button size="sm" variant="ghost" onClick={() => setMonths(0)}>
+            {t('reports.this_month')}
+          </Button>
+          <Button size="sm" variant="ghost" onClick={() => setMonths(1)}>
+            {t('reports.last_month')}
+          </Button>
+          {gst && (
+            <Button size="sm" variant="ghost" onClick={() => setMonths(new Date().getMonth() % 3 + 3, 3)}>
+              {t('reports.last_quarter')}
+            </Button>
+          )}
         </div>
         <p className="mt-2 text-xs text-slate-500">{t(`reports.descriptions.${type}`)}</p>
       </Card>
+      {gst && <Alert tone="blue">{t('reports.gst_note')}</Alert>}
       {q.error ? (
         <Alert tone="red">{errMsg(q.error)}</Alert>
       ) : q.isLoading ? (
@@ -163,7 +188,7 @@ export default function ReportsPage() {
           {q.data && Object.keys(q.data.summary).length > 0 && (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {Object.entries(q.data.summary).map(([k, v]) => (
-                <StatCard key={k} label={t(`reports.summary.${k}`)} value={money(v)} tone={k === 'netProfit' ? (v >= 0 ? 'green' : 'red') : 'blue'} />
+                <StatCard key={k} label={t(`reports.summary.${k}`)} value={money(v)} tone={k === 'netProfit' || k === 'gstPayable' ? (v >= 0 === (k === 'netProfit') ? 'green' : 'red') : 'blue'} />
               ))}
             </div>
           )}
@@ -194,7 +219,7 @@ export default function ReportsPage() {
                         </tr>
                       ))}
                     </tbody>
-                    {totals.length > 0 && rows.length > 1 && (
+                    {totals.length > 0 && rows.length > 1 && type !== 'gst' && (
                       <tfoot className="border-t-2 border-slate-200 font-semibold dark:border-slate-700">
                         <tr>
                           {cols.map((c, idx) => {

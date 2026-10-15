@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { and, asc, count, desc, eq, gte, ilike, inArray, isNull, lte, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
-import { completeOrderSchema, kitchenStatusSchema, paginationQuerySchema, posOrderSchema, recordPaymentSchema, tableSchema, voidSchema } from '@oceanx/shared';
+import { completeOrderSchema, kitchenStatusSchema, paginationQuerySchema, posOrderSchema, recordPaymentSchema, refundSchema, tableSchema, voidSchema } from '@oceanx/shared';
 import { businesses, customers, diningTables, invoices, kitchenOrders, payments, saleItems, sales, users } from '../../db/schema';
 import { assertPermission, bizCtx, requireAnyPermission, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
@@ -12,6 +12,7 @@ import { parse } from '../../lib/validation';
 import { loadBusinessSettings } from '../../services/settings';
 import { sendCreditSaleMessage } from '../../services/viber/creditMessage';
 import { completeSale, createOrder, priceOrder, receiveCreditPayment, updateOpenOrder, voidSale } from '../../services/ops/sales';
+import { listRefunds, refundSale } from '../../services/ops/refunds';
 import { documentBranding } from '../../services/branding';
 
 const salesQuery = paginationQuerySchema.extend({
@@ -141,10 +142,11 @@ export async function saleRoutes(app: FastifyInstance) {
       .leftJoin(diningTables, eq(diningTables.id, sales.tableId))
       .where(own(sales, ctx, id));
     if (!row) throw notFound();
-    const [items, pays, settings] = await Promise.all([
+    const [items, pays, settings, refunds] = await Promise.all([
       db.select().from(saleItems).where(eq(saleItems.saleId, id)).orderBy(asc(saleItems.nameSnapshot)),
       db.select().from(payments).where(and(eq(payments.saleId, id), eq(payments.businessId, ctx.businessId))).orderBy(asc(payments.paidAt)),
       loadBusinessSettings(db, ctx.businessId),
+      row.s.refundedTotal > 0 ? listRefunds(db, ctx.businessId, id) : Promise.resolve([]),
     ]);
     const b = ctx.access.business;
     return {
@@ -152,6 +154,7 @@ export async function saleRoutes(app: FastifyInstance) {
       customer: row.customer,
       items,
       payments: pays,
+      refunds,
       business: { name: b.name, address: b.address, phone: b.phone, email: b.email, hasLogo: !!b.logoPath, currency: b.currency },
       settings: { receipt: settings.receipt, regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber } },
       documentLanguage: settings.receipt.language ?? settings.regional.documentLanguage,
@@ -161,7 +164,18 @@ export async function saleRoutes(app: FastifyInstance) {
   app.post('/sales/:id/void', { preHandler: requirePermission('sales.void') }, async (req) => {
     const ctx = bizCtx(req);
     const { reason } = parse(voidSchema, req.body);
-    return voidSale(db, ctx, idParam(req), reason, req);
+    const id = idParam(req);
+    const [s] = await db.select({ refunded: sales.refundedTotal }).from(sales).where(own(sales, ctx, id));
+    if (s && s.refunded > 0) throw new AppError('invalid_status_transition', 'This bill has refunds');
+    return voidSale(db, ctx, id, reason, req);
+  });
+
+  /** Refunds & Returns add-on: money back for some or all items of a completed bill. */
+  app.post('/sales/:id/refunds', { preHandler: requirePermission('refunds.create') }, async (req, reply) => {
+    const ctx = bizCtx(req);
+    const body = parse(refundSchema, req.body);
+    const refund = await refundSale(db, ctx, idParam(req), body, req);
+    return reply.status(201).send(refund);
   });
 
   // ---------------------------------------------------------------- payments & credit

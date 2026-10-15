@@ -137,6 +137,10 @@ export const PERMISSIONS = [
   p('payroll.manage', 'addons', 'payroll'),
   p('rota.view', 'addons', 'staff_rota'),
   p('rota.manage', 'addons', 'staff_rota'),
+  // MIRA GST report (output / input tax), refunds & returns, and importing products / customers from a file.
+  p('gst.view', 'addons', 'gst_report'),
+  p('refunds.create', 'addons', 'refunds'),
+  p('import.run', 'addons', 'data_import'),
 ] as const satisfies readonly PermissionDef[];
 
 export type PermissionKey = (typeof PERMISSIONS)[number]['key'];

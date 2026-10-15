@@ -51,6 +51,9 @@ export const ADDONS = [
   'advanced_kitchen',
   'payroll',
   'staff_rota',
+  'gst_report',
+  'refunds',
+  'data_import',
 ] as const;
 
 export type AddonKey = (typeof ADDONS)[number];

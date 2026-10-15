@@ -58,6 +58,7 @@ const PayrollPrint = lazy(() => import('./pages/print/PayrollPrint'));
 const PayslipPrint = lazy(() => import('./pages/print/PayslipPrint'));
 const RotaPrint = lazy(() => import('./pages/print/RotaPrint'));
 const Payroll = lazy(() => import('./pages/business/Payroll'));
+const ImportPage = lazy(() => import('./pages/business/Import'));
 const PayrollSheet = lazy(() => import('./pages/business/PayrollSheet'));
 const Rota = lazy(() => import('./pages/business/Rota'));
 const PublicMenu = lazy(() => import('./pages/public/PublicMenu'));
@@ -240,6 +241,7 @@ const router = createBrowserRouter([
           { path: 'credit', element: withSuspense(<Credit />) },
           { path: 'qr-menu', element: withSuspense(<QrMenu />) },
           { path: 'payroll', element: withSuspense(<Payroll />) },
+          { path: 'import', element: withSuspense(<ImportPage />) },
           { path: 'payroll/:id', element: withSuspense(<PayrollSheet />) },
           { path: 'rota', element: withSuspense(<Rota />) },
           { path: 'quotations', element: withSuspense(<DocList kind="quotation" />) },

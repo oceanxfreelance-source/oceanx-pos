@@ -7537,5 +7537,782 @@
     "suggested": "އެންޑްރޮއިޑް ފޯނުތަކަށް. އެއްފަހަރު ސައިން އިން ކުރެއްވުމުން ސައިން އިން ވެފައި ހުންނާނެ.",
     "status": "needs_review",
     "notes": "Sign-in page: download the phone app."
+  },
+  {
+    "key": "addons.descriptions.data_import",
+    "english": "Bring in products and customers from an Excel or CSV file, for example an export from another POS.",
+    "suggested": "Excel ނުވަތަ CSV ފައިލަކުން ބާވަތްތަކާއި ކަސްޓަމަރުން ގެނޭ، މިސާލަކަށް އެހެން POS އަކުން ނެގި ފައިލެއް.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "addons.descriptions.gst_report",
+    "english": "Output and input GST for any month or quarter, by rate, with sales and purchase lists to fill the MIRA GST return.",
+    "suggested": "ކޮންމެ މަހެއް ނުވަތަ ކުއާޓަރެއްގެ އައުޓްޕުޓް އަދި އިންޕުޓް ޖީއެސްޓީ، ރޭޓާ ގުޅިގެން، MIRA ގެ ޖީއެސްޓީ ރިޓާން ފުރުމަށް ވިއްކި އަދި ގަތް ތަކެތީގެ ލިސްޓާއެކު.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "addons.descriptions.refunds",
+    "english": "Refund a whole bill or some items, put returned items back in stock, and keep refunds out of sales and GST.",
+    "suggested": "ބިލެއް ފުރިހަމައަށް ނުވަތަ ބައެއް އައިޓަމް ރީފަންޑްކޮށް، އަނބުރާ ގެނައި ތަކެތި ސްޓޮކަށް ލައި، ރީފަންޑްތައް ވިއްކުމާއި ޖީއެސްޓީއިން އުނިކުރޭ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "addons.names.data_import",
+    "english": "Import (Excel / CSV)",
+    "suggested": "އިމްޕޯޓް (Excel / CSV)",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "addons.names.gst_report",
+    "english": "GST Report (MIRA)",
+    "suggested": "ޖީއެސްޓީ ރިޕޯޓު (MIRA)",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "addons.names.refunds",
+    "english": "Refunds & Returns",
+    "suggested": "ފައިސާ އަނބުރާދިނުމާއި ތަކެތި އަނބުރާ ގެނައުން",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "gst.input_tax",
+    "english": "GST in this bill (input tax)",
+    "suggested": "މި ބިލުގައިވާ ޖީއެސްޓީ (އިންޕުޓް ޓެކްސް)",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "gst.input_tax_hint",
+    "english": "From the supplier's tax invoice. Counts as input tax in the GST report.",
+    "suggested": "ސަޕްލަޔަރުގެ ޓެކްސް އިންވޮއިހުން. ޖީއެސްޓީ ރިޕޯޓުގައި އިންޕުޓް ޓެކްސްގެ ގޮތުގައި ގުނޭ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.check",
+    "english": "Check the file",
+    "suggested": "ފައިލް ޗެކްކުރޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.check_first",
+    "english": "Check the file first: nothing is saved until you press Import.",
+    "suggested": "ފުރަތަމަ ފައިލް ޗެކްކުރައްވާ: އިމްޕޯޓް ފިއްތަވަންދެން އެއްވެސް އެއްޗެއް ރައްކާ ނުވާނެ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.choose_file",
+    "english": "Choose a CSV file",
+    "suggested": "CSV ފައިލެއް ހޮއްވަވާ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.done_one",
+    "english": "{{count}} record imported",
+    "suggested": "{{count}} ރެކޯޑު އިމްޕޯޓްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.done_other",
+    "english": "{{count}} records imported",
+    "suggested": "{{count}} ރެކޯޑު އިމްޕޯޓްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.errors.duplicate_in_file",
+    "english": "appears twice in the file",
+    "suggested": "ފައިލުގައި ދެފަހަރު އެބައޮތް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.address",
+    "english": "Address",
+    "suggested": "އެޑްރެސް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.category",
+    "english": "Category",
+    "suggested": "ކެޓަގަރީ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.company",
+    "english": "Company",
+    "suggested": "ކުންފުނި",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.costPrice",
+    "english": "Cost price",
+    "suggested": "ގަތް އަގު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.creditLimit",
+    "english": "Credit limit",
+    "suggested": "ކްރެޑިޓް ލިމިޓް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.email",
+    "english": "Email",
+    "suggested": "އީމެއިލް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.name",
+    "english": "Name",
+    "suggested": "ނަން",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.phone",
+    "english": "Phone",
+    "suggested": "ފޯނު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.sellingPrice",
+    "english": "Selling price",
+    "suggested": "ވިއްކާ އަގު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.sku",
+    "english": "SKU / barcode",
+    "suggested": "SKU / ބާކޯޑު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.stock",
+    "english": "Stock now",
+    "suggested": "މިހާރު ސްޓޮކް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.taxNumber",
+    "english": "TIN",
+    "suggested": "TIN",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.fields.unit",
+    "english": "Unit",
+    "suggested": "ޔުނިޓް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.file_hint",
+    "english": "From Excel: File → Save as → CSV. Or copy the cells in Excel (with the heading row) and paste them below.",
+    "suggested": "Excel އިން: File → Save as → CSV. ނުވަތަ Excel ގައި ސެލްތައް (ސުރުޚީގެ ލައިނާއެކު) ކޮޕީކޮށް ތިރީގައި ޕޭސްޓްކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.import_now_one",
+    "english": "Import {{count}} row",
+    "suggested": "{{count}} ލައިން އިމްޕޯޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.import_now_other",
+    "english": "Import {{count}} rows",
+    "suggested": "{{count}} ލައިން އިމްޕޯޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.kinds.customers",
+    "english": "Customers",
+    "suggested": "ކަސްޓަމަރުން",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.kinds.products",
+    "english": "Products",
+    "suggested": "ބާވަތްތައް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.match_columns",
+    "english": "Match the columns",
+    "suggested": "ކޮލަމްތައް ގުޅުއްވާ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.match_hint_one",
+    "english": "{{count}} row found. Tell us which column is which.",
+    "suggested": "{{count}} ލައިން ފެނިއްޖެ. ކޮން ކޮލަމަކީ ކޮބައިކަން ބުނެދެއްވާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.match_hint_other",
+    "english": "{{count}} rows found. Tell us which column is which.",
+    "suggested": "{{count}} ލައިން ފެނިއްޖެ. ކޮން ކޮލަމަކީ ކޮބައިކަން ބުނެދެއްވާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.name_required",
+    "english": "Choose the column with the names.",
+    "suggested": "ނަންތައް ހުރި ކޮލަމް ހޮއްވަވާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.paste",
+    "english": "Or paste from Excel",
+    "suggested": "ނުވަތަ Excel އިން ޕޭސްޓްކުރައްވާ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.paste_placeholder",
+    "english": "Paste here, with the heading row first",
+    "suggested": "މިތާ ޕޭސްޓްކުރައްވާ، ފުރަތަމަ ސުރުޚީގެ ލައިން",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.preview_ready",
+    "english": "Checked. Nothing is saved yet. Press Import to save.",
+    "suggested": "ޗެކްކުރެވިއްޖެ. އަދި އެއްވެސް އެއްޗެއް ރައްކާ ނުވޭ. ރައްކާކުރެއްވުމަށް އިމްޕޯޓް ފިއްތަވާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.result.categories",
+    "english": "New categories",
+    "suggested": "އައު ކެޓަގަރީ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.result.created",
+    "english": "New",
+    "suggested": "އައު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.result.skipped",
+    "english": "Already there (skipped)",
+    "suggested": "ކުރިން ހުރި (ދޫކޮށްލެވުނު)",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.result.updated",
+    "english": "Updated",
+    "suggested": "އަޕްޑޭޓްކުރެވުނު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.row_error",
+    "english": "line {{row}} ({{reason}})",
+    "suggested": "ލައިން {{row}} ({{reason}})",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.row_errors_one",
+    "english": "{{count}} row was left out:",
+    "suggested": "{{count}} ލައިން ދޫކޮށްލެވިއްޖެ:",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.row_errors_other",
+    "english": "{{count}} rows were left out:",
+    "suggested": "{{count}} ލައިން ދޫކޮށްލެވިއްޖެ:",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.saved",
+    "english": "Imported and saved.",
+    "suggested": "އިމްޕޯޓްކޮށް ރައްކާކުރެވިއްޖެ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.skip_field",
+    "english": "— Not in my file —",
+    "suggested": "— އަހަރެންގެ ފައިލުގައި ނެތް —",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.subtitle",
+    "english": "Bring in your products and customers from Excel or from another POS in a few minutes.",
+    "suggested": "ތިޔަ ބާވަތްތަކާއި ކަސްޓަމަރުން Excel އިން ނުވަތަ އެހެން POS އަކުން މިނެޓުކޮޅެއްގައި ގެނެސްލައްވާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.template",
+    "english": "Download a sample file",
+    "suggested": "މިސާލު ފައިލް ޑައުންލޯޑްކުރޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.title",
+    "english": "Import",
+    "suggested": "އިމްޕޯޓް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.too_many",
+    "english": "Up to {{max}} rows at a time. Split the file into smaller parts.",
+    "suggested": "އެއްފަހަރާ ގިނަވެގެން {{max}} ލައިން. ފައިލް ކުދި ބައިބަޔަށް ބައްލަވާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.update_existing",
+    "english": "Update ones I already have",
+    "suggested": "ކުރިން ހުރި ތަކެތި އަޕްޑޭޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.update_existing_hint_customers",
+    "english": "Same phone (or same name when there is no phone): update their details. Off: skip them.",
+    "suggested": "ހަމަ އެ ފޯނު (ފޯނު ނެތްނަމަ ހަމަ އެ ނަން): މަޢުލޫމާތު އަޕްޑޭޓްކުރޭ. ނިއްވާފައި: ދޫކޮށްލާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "import.update_existing_hint_products",
+    "english": "Same SKU (or same name when there is no SKU): update its name, prices and category. Off: skip it.",
+    "suggested": "ހަމަ އެ SKU (SKU ނެތްނަމަ ހަމަ އެ ނަން): ނަމާއި އަގުތަކާއި ކެޓަގަރީ އަޕްޑޭޓްކުރޭ. ނިއްވާފައި: ދޫކޮށްލާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "nav.import",
+    "english": "Import",
+    "suggested": "އިމްޕޯޓް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "payments.kinds.refund",
+    "english": "Refund",
+    "suggested": "ރީފަންޑް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "perm.gst_view",
+    "english": "View the GST report",
+    "suggested": "ޖީއެސްޓީ ރިޕޯޓު ބަލާ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "perm.import_run",
+    "english": "Import from a file",
+    "suggested": "ފައިލަކުން އިމްޕޯޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "perm.refunds_create",
+    "english": "Give refunds",
+    "suggested": "ފައިސާ އަނބުރާ ދޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.confirm",
+    "english": "Refund about {{amount}}",
+    "suggested": "ގާތްގަނޑަކަށް {{amount}} ރީފަންޑްކުރޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.done",
+    "english": "Refund {{number}}: {{amount}} given back",
+    "suggested": "ރީފަންޑް {{number}}: {{amount}} އަނބުރާ ދެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.method",
+    "english": "Give money back by",
+    "suggested": "ފައިސާ އަނބުރާ ދޭނެ ގޮތް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.not_restocked",
+    "english": "not put back in stock",
+    "suggested": "ސްޓޮކަށް އަނބުރާ ނުލެވޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.quantity_for",
+    "english": "Quantity to refund: {{name}}",
+    "suggested": "ރީފަންޑްކުރާ އަދަދު: {{name}}",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.reason_hint",
+    "english": "For example: wrong item, damaged, customer changed their mind.",
+    "suggested": "މިސާލަކަށް: ނުބައި އައިޓަމް، ހަލާކުވެފައި، ކަސްޓަމަރު ޚިޔާލު ބަދަލުކުރި.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.refund",
+    "english": "Refund",
+    "suggested": "ރީފަންޑް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.refunded",
+    "english": "Refunded",
+    "suggested": "ރީފަންޑްކުރެވުނު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.restock",
+    "english": "Put the items back in stock",
+    "suggested": "ތަކެތި ސްޓޮކަށް އަނބުރާ ލާ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.restock_hint",
+    "english": "Turn off for spoiled or damaged items.",
+    "suggested": "ހަލާކުވެފައިވާ ނުވަތަ ފަޅައިގެންފައިވާ ތަކެތި ނަމަ ނިއްވާލާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.sold_left",
+    "english": "Sold {{sold}} · can refund {{left}}",
+    "suggested": "ވިއްކި {{sold}} · ރީފަންޑްކުރެވޭނީ {{left}}",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.subtitle",
+    "english": "Choose what the customer returns. The money back includes its share of tax and service charge.",
+    "suggested": "ކަސްޓަމަރު އަނބުރާ ދޭ ތަކެތި ހޮވާ. އަނބުރާ ދޭ ފައިސާގައި ޓެކްސާއި ސަރވިސް ޗާޖުގެ ބައި ހިމެނޭ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.title",
+    "english": "Refunds",
+    "suggested": "ރީފަންޑްތައް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "refunds.title_new",
+    "english": "Refund items",
+    "suggested": "އައިޓަމް ރީފަންޑްކުރޭ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.gst_type",
+    "english": "Type",
+    "suggested": "ބާވަތް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.net_sales",
+    "english": "Net sales",
+    "suggested": "ސާފު ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.number",
+    "english": "Number",
+    "suggested": "ނަންބަރު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.payee",
+    "english": "Paid to",
+    "suggested": "ދެއްކީ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.rate",
+    "english": "Rate",
+    "suggested": "ރޭޓް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.reason",
+    "english": "Reason",
+    "suggested": "ސަބަބު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.reference",
+    "english": "Reference",
+    "suggested": "ރެފަރެންސް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.refunds",
+    "english": "Refunds",
+    "suggested": "ރީފަންޑް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.sale_number",
+    "english": "Bill",
+    "suggested": "ބިލު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.tax_number",
+    "english": "TIN",
+    "suggested": "TIN",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.columns.taxable",
+    "english": "Taxable value",
+    "suggested": "ޓެކްސް ނަގާ އަގު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.descriptions.gst",
+    "english": "Output tax on sales, invoices and service charge by rate, less refunds; input tax from expense and purchase bills; and the GST to pay.",
+    "suggested": "ވިއްކުމާއި އިންވޮއިސް އަދި ސަރވިސް ޗާޖުގެ އައުޓްޕުޓް ޓެކްސް ރޭޓާ ގުޅިގެން، ރީފަންޑް އުނިކޮށް؛ ޚަރަދާއި ގަތުމުގެ ބިލުތަކުގެ އިންޕުޓް ޓެކްސް؛ އަދި ދައްކަންޖެހޭ ޖީއެސްޓީ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.descriptions.gst-purchases",
+    "english": "Every expense and purchase bill with GST on it (input tax).",
+    "suggested": "ޖީއެސްޓީ ހިމެނޭ ކޮންމެ ޚަރަދެއްގެ އަދި ގަތުމެއްގެ ބިލެއް (އިންޕުޓް ޓެކްސް).",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.descriptions.gst-sales",
+    "english": "Every bill, invoice and refund with its taxable value and GST, with the customer's TIN.",
+    "suggested": "ކޮންމެ ބިލެއް، އިންވޮއިހެއް އަދި ރީފަންޑެއް، ޓެކްސް ނަގާ އަގު، ޖީއެސްޓީ އަދި ކަސްޓަމަރުގެ TIN އާއެކު.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.descriptions.refunds",
+    "english": "Money given back to customers, by refund date.",
+    "suggested": "ކަސްޓަމަރުންނަށް އަނބުރާ ދިން ފައިސާ، ރީފަންޑްކުރި ތާރީޚާ ގުޅިގެން.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.gst_note",
+    "english": "Use these figures to fill your MIRA GST return (MIRA 205, or 206 for tourism GST). Only enter input tax from proper tax invoices. Check the figures with your accountant before filing.",
+    "suggested": "މި އަދަދުތައް ބޭނުންކޮށްގެން MIRA ގެ ޖީއެސްޓީ ރިޓާން ފުރުއްވާ (MIRA 205، ނުވަތަ ޓޫރިޒަމް ޖީއެސްޓީއަށް 206). އިންޕުޓް ޓެކްސް ލިޔުއްވާނީ ރަނގަޅު ޓެކްސް އިންވޮއިހުން އެކަނި. ހުށަހެޅުމުގެ ކުރިން އެކައުންޓެންޓަކާ ބައްލަވާލައްވާ.",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.gst_types.input",
+    "english": "Input tax",
+    "suggested": "އިންޕުޓް ޓެކްސް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.gst_types.output",
+    "english": "Output tax",
+    "suggested": "އައުޓްޕުޓް ޓެކްސް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.last_month",
+    "english": "Last month",
+    "suggested": "ފާއިތުވި މަސް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.last_quarter",
+    "english": "Last quarter",
+    "suggested": "ފާއިތުވި ކުއާޓަރ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.sources.expenses",
+    "english": "Expenses",
+    "suggested": "ޚަރަދުތައް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.sources.purchases",
+    "english": "Purchases",
+    "suggested": "ގަތުން",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.sources.refunds",
+    "english": "Refunds",
+    "suggested": "ރީފަންޑް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.sources.service_charge",
+    "english": "Service charge",
+    "suggested": "ސަރވިސް ޗާޖު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.summary.gstPayable",
+    "english": "GST to pay",
+    "suggested": "ދައްކަންޖެހޭ ޖީއެސްޓީ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.summary.inputTax",
+    "english": "Input tax",
+    "suggested": "އިންޕުޓް ޓެކްސް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.summary.outputTax",
+    "english": "Output tax",
+    "suggested": "އައުޓްޕުޓް ޓެކްސް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.summary.refunds",
+    "english": "Refunded",
+    "suggested": "ރީފަންޑްކުރެވުނު",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.summary.taxableSupplies",
+    "english": "Taxable sales",
+    "suggested": "ޓެކްސް ނަގާ ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.summary.zeroRatedSupplies",
+    "english": "Zero-rated / exempt sales",
+    "suggested": "ޒީރޯ ރޭޓް / އިސްތިސްނާ ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.this_month",
+    "english": "This month",
+    "suggested": "މި މަސް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.types.gst",
+    "english": "GST return summary",
+    "suggested": "ޖީއެސްޓީ ރިޓާންގެ ޚުލާޞާ",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.types.gst-purchases",
+    "english": "GST purchases list (input tax)",
+    "suggested": "ޖީއެސްޓީ ގަތުމުގެ ލިސްޓު (އިންޕުޓް ޓެކްސް)",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.types.gst-sales",
+    "english": "GST sales list (output tax)",
+    "suggested": "ޖީއެސްޓީ ވިއްކުމުގެ ލިސްޓު (އައުޓްޕުޓް ޓެކްސް)",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "reports.types.refunds",
+    "english": "Refunds",
+    "suggested": "ރީފަންޑްތައް",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "status_labels.partly_refunded",
+    "english": "Partly refunded",
+    "suggested": "ބައެއް ރީފަންޑްކުރެވިފައި",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
+  },
+  {
+    "key": "status_labels.refunded",
+    "english": "Refunded",
+    "suggested": "ރީފަންޑްކުރެވިފައި",
+    "status": "needs_review",
+    "notes": "Refunds, GST report and import add-ons."
   }
 ]

@@ -99,7 +99,8 @@
     "billing": "Billing",
     "products": "Products",
     "stock_check": "Stock check",
-    "group_catalog_retail": "Products & stock"
+    "group_catalog_retail": "Products & stock",
+    "import": "Import"
   },
   "business_types": {
     "restaurant": "Restaurant",
@@ -403,7 +404,10 @@
     "rota_manage": "Edit the duty rota and shifts",
     "branding_manage": "Manage the company stamp and document signatures",
     "finance_view": "View income, expenses and profit",
-    "finance_manage": "Add, change and delete income and expenses"
+    "finance_manage": "Add, change and delete income and expenses",
+    "gst_view": "View the GST report",
+    "refunds_create": "Give refunds",
+    "import_run": "Import from a file"
   },
   "outlets": {
     "code": "Code",
@@ -447,7 +451,10 @@
       "ingredient_costing": "Food cost and margin analysis.",
       "advanced_kitchen": "Kitchen stations, routing and preparation times.",
       "payroll": "Staff list and monthly salary sheets with allowances, overtime, deductions and advances.",
-      "staff_rota": "Weekly duty rota: shifts, days off and leave for every staff member."
+      "staff_rota": "Weekly duty rota: shifts, days off and leave for every staff member.",
+      "gst_report": "Output and input GST for any month or quarter, by rate, with sales and purchase lists to fill the MIRA GST return.",
+      "refunds": "Refund a whole bill or some items, put returned items back in stock, and keep refunds out of sales and GST.",
+      "data_import": "Bring in products and customers from an Excel or CSV file, for example an export from another POS."
     },
     "enabled": "Enabled for your business",
     "expires": "Expires {{date}}",
@@ -468,7 +475,10 @@
       "ingredient_costing": "Ingredient Costing",
       "advanced_kitchen": "Advanced Kitchen",
       "payroll": "Payroll (Salary Sheet)",
-      "staff_rota": "Duty Rota"
+      "staff_rota": "Duty Rota",
+      "gst_report": "GST Report (MIRA)",
+      "refunds": "Refunds & Returns",
+      "data_import": "Import (Excel / CSV)"
     },
     "none_enabled": "No add-ons enabled yet",
     "none_enabled_body": "Add-ons extend your business with extra features such as credit sales or multiple outlets.",
@@ -1227,7 +1237,9 @@
     "available": "Available",
     "occupied": "Occupied",
     "inactive": "Inactive",
-    "active": "Active"
+    "active": "Active",
+    "refunded": "Refunded",
+    "partly_refunded": "Partly refunded"
   },
   "payment_methods": {
     "cash": "Cash",
@@ -1247,7 +1259,8 @@
       "sale": "Sale",
       "credit_payment": "Credit payment",
       "invoice": "Invoice payment",
-      "booking": "Booking payment"
+      "booking": "Booking payment",
+      "refund": "Refund"
     },
     "reference_pv_hint": "Payment voucher (PV), cheque or transfer number."
   },
@@ -1838,7 +1851,11 @@
       "outlets": "Outlets",
       "costing": "Recipe costing",
       "rack-low": "Low on rack",
-      "store-stock": "Store stock"
+      "store-stock": "Store stock",
+      "gst": "GST return summary",
+      "gst-sales": "GST sales list (output tax)",
+      "gst-purchases": "GST purchases list (input tax)",
+      "refunds": "Refunds"
     },
     "descriptions": {
       "sales-summary": "Orders, discounts, tax and totals per day.",
@@ -1854,7 +1871,11 @@
       "credit": "Customers with outstanding credit sales or invoices.",
       "staff": "Sales and invoices per staff member.",
       "outlets": "Sales per outlet.",
-      "costing": "Recipe cost and margin per item (current costs)."
+      "costing": "Recipe cost and margin per item (current costs).",
+      "gst": "Output tax on sales, invoices and service charge by rate, less refunds; input tax from expense and purchase bills; and the GST to pay.",
+      "gst-sales": "Every bill, invoice and refund with its taxable value and GST, with the customer's TIN.",
+      "gst-purchases": "Every expense and purchase bill with GST on it (input tax).",
+      "refunds": "Money given back to customers, by refund date."
     },
     "columns": {
       "day": "Day",
@@ -1899,11 +1920,26 @@
       "rack_alert_at": "Rack alert at",
       "store_alert_at": "Store alert at",
       "cases": "Cases",
-      "per_case": "Per case"
+      "per_case": "Per case",
+      "gst_type": "Type",
+      "rate": "Rate",
+      "taxable": "Taxable value",
+      "number": "Number",
+      "tax_number": "TIN",
+      "payee": "Paid to",
+      "reference": "Reference",
+      "sale_number": "Bill",
+      "reason": "Reason",
+      "refunds": "Refunds",
+      "net_sales": "Net sales"
     },
     "sources": {
       "pos": "POS",
-      "invoices": "Invoices"
+      "invoices": "Invoices",
+      "service_charge": "Service charge",
+      "refunds": "Refunds",
+      "expenses": "Expenses",
+      "purchases": "Purchases"
     },
     "summary": {
       "salesRevenue": "Sales revenue",
@@ -1917,11 +1953,25 @@
       "stockValue": "Stock value",
       "creditSales": "Credit sales",
       "creditPayments": "Credit payments",
-      "outstanding": "Outstanding"
+      "outstanding": "Outstanding",
+      "taxableSupplies": "Taxable sales",
+      "zeroRatedSupplies": "Zero-rated / exempt sales",
+      "outputTax": "Output tax",
+      "inputTax": "Input tax",
+      "gstPayable": "GST to pay",
+      "refunds": "Refunded"
     },
     "download_pdf": "Download PDF",
     "rows_count_one": "{{count}} row",
-    "rows_count_other": "{{count}} rows"
+    "rows_count_other": "{{count}} rows",
+    "this_month": "This month",
+    "last_month": "Last month",
+    "last_quarter": "Last quarter",
+    "gst_note": "Use these figures to fill your MIRA GST return (MIRA 205, or 206 for tourism GST). Only enter input tax from proper tax invoices. Check the figures with your accountant before filing.",
+    "gst_types": {
+      "output": "Output tax",
+      "input": "Input tax"
+    }
   },
   "karaoke": {
     "title": "Karaoke",
@@ -2790,5 +2840,82 @@
     "nothing_today": "Nothing recorded today yet.",
     "see_month": "This month",
     "see_records": "All records in {{month}}"
+  },
+  "refunds": {
+    "refund": "Refund",
+    "refunded": "Refunded",
+    "title": "Refunds",
+    "title_new": "Refund items",
+    "subtitle": "Choose what the customer returns. The money back includes its share of tax and service charge.",
+    "not_restocked": "not put back in stock",
+    "done": "Refund {{number}}: {{amount}} given back",
+    "confirm": "Refund about {{amount}}",
+    "sold_left": "Sold {{sold}} · can refund {{left}}",
+    "quantity_for": "Quantity to refund: {{name}}",
+    "method": "Give money back by",
+    "reason_hint": "For example: wrong item, damaged, customer changed their mind.",
+    "restock": "Put the items back in stock",
+    "restock_hint": "Turn off for spoiled or damaged items."
+  },
+  "gst": {
+    "input_tax": "GST in this bill (input tax)",
+    "input_tax_hint": "From the supplier's tax invoice. Counts as input tax in the GST report."
+  },
+  "import": {
+    "title": "Import",
+    "subtitle": "Bring in your products and customers from Excel or from another POS in a few minutes.",
+    "kinds": {
+      "products": "Products",
+      "customers": "Customers"
+    },
+    "choose_file": "Choose a CSV file",
+    "template": "Download a sample file",
+    "file_hint": "From Excel: File → Save as → CSV. Or copy the cells in Excel (with the heading row) and paste them below.",
+    "paste": "Or paste from Excel",
+    "paste_placeholder": "Paste here, with the heading row first",
+    "match_columns": "Match the columns",
+    "match_hint_one": "{{count}} row found. Tell us which column is which.",
+    "match_hint_other": "{{count}} rows found. Tell us which column is which.",
+    "skip_field": "— Not in my file —",
+    "fields": {
+      "name": "Name",
+      "sku": "SKU / barcode",
+      "category": "Category",
+      "sellingPrice": "Selling price",
+      "costPrice": "Cost price",
+      "unit": "Unit",
+      "stock": "Stock now",
+      "phone": "Phone",
+      "email": "Email",
+      "company": "Company",
+      "address": "Address",
+      "taxNumber": "TIN",
+      "creditLimit": "Credit limit"
+    },
+    "update_existing": "Update ones I already have",
+    "update_existing_hint_products": "Same SKU (or same name when there is no SKU): update its name, prices and category. Off: skip it.",
+    "update_existing_hint_customers": "Same phone (or same name when there is no phone): update their details. Off: skip them.",
+    "name_required": "Choose the column with the names.",
+    "too_many": "Up to {{max}} rows at a time. Split the file into smaller parts.",
+    "check": "Check the file",
+    "check_first": "Check the file first: nothing is saved until you press Import.",
+    "import_now_one": "Import {{count}} row",
+    "import_now_other": "Import {{count}} rows",
+    "preview_ready": "Checked. Nothing is saved yet. Press Import to save.",
+    "saved": "Imported and saved.",
+    "done_one": "{{count}} record imported",
+    "done_other": "{{count}} records imported",
+    "result": {
+      "created": "New",
+      "updated": "Updated",
+      "skipped": "Already there (skipped)",
+      "categories": "New categories"
+    },
+    "row_errors_one": "{{count}} row was left out:",
+    "row_errors_other": "{{count}} rows were left out:",
+    "row_error": "line {{row}} ({{reason}})",
+    "errors": {
+      "duplicate_in_file": "appears twice in the file"
+    }
   }
 }

@@ -22,6 +22,7 @@ interface Expense {
   id: string;
   category: string;
   amount: number;
+  tax: number;
   expenseDate: string;
   paymentMethod: string;
   payee: string;
@@ -109,7 +110,8 @@ export default function ExpensesPage() {
 
 function ExpenseDialog({ expense, onClose }: { expense: Expense | null; onClose: () => void }) {
   const { t } = useTranslation();
-  const { can } = useBiz();
+  const { can, hasAddon } = useBiz();
+  const gst = hasAddon('gst_report');
   const qc = useQueryClient();
   const toastErr = useToastError();
   const errMsg = useErrorMessage();
@@ -117,6 +119,7 @@ function ExpenseDialog({ expense, onClose }: { expense: Expense | null; onClose:
   const [form, setForm] = useState({
     category: expense?.category ?? 'other',
     amount: expense ? String(expense.amount / 100) : '',
+    tax: expense?.tax ? String(expense.tax / 100) : '',
     expenseDate: expense?.expenseDate ?? new Date().toISOString().slice(0, 10),
     paymentMethod: expense?.paymentMethod ?? 'cash',
     payee: expense?.payee ?? '',
@@ -128,7 +131,7 @@ function ExpenseDialog({ expense, onClose }: { expense: Expense | null; onClose:
   const refresh = () => qc.invalidateQueries({ queryKey: ['biz', 'expenses'] });
   const save = useMutation({
     mutationFn: async () => {
-      const body = { ...form, amount: parseAmount(form.amount) };
+      const body = { ...form, amount: parseAmount(form.amount), tax: parseAmount(form.tax) };
       const saved = expense ? await api.put<{ id: string }>(`/expenses/${expense.id}`, body) : await api.post<{ id: string }>('/expenses', body);
       if (file) await api.upload(`/expenses/${saved.id}/attachment`, file);
       return saved;
@@ -181,6 +184,7 @@ function ExpenseDialog({ expense, onClose }: { expense: Expense | null; onClose:
             ))}
           </Select>
           <Input type="number" min={0} step="0.01" label={t('payments.amount')} value={form.amount} disabled={!editable} onChange={set('amount')} error={fe('amount')} />
+          {gst && <Input type="number" min={0} step="0.01" label={t('gst.input_tax')} hint={t('gst.input_tax_hint')} value={form.tax} disabled={!editable} onChange={set('tax')} error={fe('tax')} />}
           <Input type="date" label={t('common.date')} value={form.expenseDate} disabled={!editable} onChange={set('expenseDate')} error={fe('expenseDate')} />
           <Select label={t('payments.method')} value={form.paymentMethod} disabled={!editable} onChange={set('paymentMethod')}>
             {['cash', 'card', 'bank_transfer', 'other'].map((m) => (

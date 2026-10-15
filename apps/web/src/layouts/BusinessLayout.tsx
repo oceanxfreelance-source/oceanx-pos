@@ -28,6 +28,7 @@ import {
   Mic2,
   MonitorSmartphone,
   PackagePlus,
+  FileUp,
   Puzzle,
   QrCode,
   Receipt,
@@ -109,6 +110,7 @@ export function useBusinessNav(): NavGroup[] {
   if (can('users.view')) management.push({ to: '/users', label: 'nav.users', icon: Users });
   if (can('roles.view')) management.push({ to: '/roles', label: 'nav.roles', icon: ShieldCheck });
   if (can('outlets.view') && session.business.product === 'pos') management.push({ to: '/outlets', label: 'nav.outlets', icon: Store });
+  if (hasAddon('data_import') && can('import.run') && canAny('products.create', 'customers.create')) management.push({ to: '/import', label: 'nav.import', icon: FileUp });
   if (can('addons.view')) management.push({ to: '/addons', label: 'nav.addons', icon: Puzzle });
   if (can('audit.view')) management.push({ to: '/activity', label: 'nav.activity', icon: History });
   if (session.user.isOwner || can('settings.manage')) management.push({ to: '/billing', label: 'nav.billing', icon: CreditCard });
