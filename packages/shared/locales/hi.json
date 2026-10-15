@@ -1397,7 +1397,18 @@
     "photo_hint": "POS और QR मेनू पर दिखती है। फ़ोन या कैमरे की कोई भी फ़ोटो चलेगी; आकार अपने-आप ठीक हो जाता है।",
     "add_photo": "फ़ोटो जोड़ें",
     "change_photo": "फ़ोटो बदलें",
-    "remove_photo": "हटाएँ"
+    "remove_photo": "हटाएँ",
+    "gst_type": "GST प्रकार",
+    "gst_types": {
+      "standard": "सामान्य (GST लगता है)",
+      "zero_rated": "शून्य-दर (0%)",
+      "exempt": "छूट (GST नहीं)"
+    },
+    "gst_type_hints": {
+      "standard": "बिज़नेस की दर (या नीचे की दर) से GST जोड़ा जाता है।",
+      "zero_rated": "0% GST पर बिकता है, जैसे MIRA द्वारा सूचीबद्ध ज़रूरी सामान। इनपुट टैक्स फिर भी क्लेम कर सकते हैं।",
+      "exempt": "GST नहीं लगता, जैसे कुछ स्वास्थ्य या शिक्षा सेवाएँ। इस पर इनपुट टैक्स क्लेम नहीं होता।"
+    }
   },
   "customers": {
     "title": "ग्राहक",
@@ -1931,7 +1942,9 @@
       "sale_number": "बिल",
       "reason": "कारण",
       "refunds": "रिफंड",
-      "net_sales": "शुद्ध बिक्री"
+      "net_sales": "शुद्ध बिक्री",
+      "supply": "सप्लाई प्रकार",
+      "including_gst": "GST सहित"
     },
     "sources": {
       "pos": "POS",
@@ -1954,12 +1967,13 @@
       "creditSales": "उधार बिक्री",
       "creditPayments": "उधार भुगतान",
       "outstanding": "बकाया",
-      "taxableSupplies": "टैक्स योग्य बिक्री",
-      "zeroRatedSupplies": "शून्य-दर / छूट वाली बिक्री",
+      "taxableSupplies": "सामान्य दर की बिक्री",
+      "zeroRatedSupplies": "शून्य-दर बिक्री",
       "outputTax": "आउटपुट टैक्स",
       "inputTax": "इनपुट टैक्स",
       "gstPayable": "देय GST",
-      "refunds": "रिफंड किया गया"
+      "refunds": "रिफंड किया गया",
+      "exemptSupplies": "छूट वाली बिक्री"
     },
     "download_pdf": "PDF डाउनलोड करें",
     "rows_count_one": "{{count}} पंक्ति",
@@ -1971,6 +1985,11 @@
     "gst_types": {
       "output": "आउटपुट टैक्स",
       "input": "इनपुट टैक्स"
+    },
+    "supply_types": {
+      "standard": "सामान्य दर",
+      "zero_rated": "शून्य-दर",
+      "exempt": "छूट"
     }
   },
   "karaoke": {
@@ -2855,11 +2874,12 @@
     "method": "पैसे वापस कैसे दें",
     "reason_hint": "जैसे: ग़लत आइटम, ख़राब, ग्राहक ने मन बदल लिया।",
     "restock": "आइटम स्टॉक में वापस रखें",
-    "restock_hint": "ख़राब या टूटे आइटम के लिए बंद करें।"
+    "restock_hint": "ख़राब या टूटे आइटम के लिए बंद करें।",
+    "print_credit_note": "क्रेडिट नोट प्रिंट करें"
   },
   "gst": {
     "input_tax": "इस बिल में GST (इनपुट टैक्स)",
-    "input_tax_hint": "सप्लायर के टैक्स इनवॉइस से। GST रिपोर्ट में इनपुट टैक्स के रूप में गिना जाता है।",
+    "input_tax_hint": "केवल सप्लायर के टैक्स इनवॉइस पर दिखा GST। छूट वाले बिलों (जैसे बिजली, पानी और अधिकांश यूटिलिटी) पर क्लेम करने को GST नहीं होता।",
     "print": {
       "tin": "करदाता संख्या (TIN)",
       "standard_rate": "सामान्य GST दर",
@@ -2867,15 +2887,16 @@
       "form_value": "MIRA 205 / 206",
       "output_title": "1. आउटपुट टैक्स (बिक्री)",
       "output_total": "कुल आउटपुट टैक्स",
-      "zero_rated": "इस अवधि में शून्य-दर और छूट वाली बिक्री: {{amount}}",
       "input_title": "2. इनपुट टैक्स (GST वाले बिल)",
       "input_total": "कुल इनपुट टैक्स",
       "payable": "3. देय GST",
       "refundable": "3. वापस मिलने वाला GST",
       "payable_formula": "आउटपुट टैक्स {{output}} − इनपुट टैक्स {{input}}",
       "prepared_by": "तैयार किया (नाम, हस्ताक्षर, तारीख़)",
-      "checked_by": "अकाउंटेंट ने जाँचा (नाम, हस्ताक्षर, तारीख़)"
-    }
+      "checked_by": "अकाउंटेंट ने जाँचा (नाम, हस्ताक्षर, तारीख़)",
+      "by_type": "इस अवधि की बिक्री (GST से पहले): सामान्य दर {{standard}} · शून्य-दर {{zero}} · छूट {{exempt}}"
+    },
+    "supplier_tin": "सप्लायर का TIN"
   },
   "import": {
     "title": "इम्पोर्ट",
@@ -2933,5 +2954,24 @@
     "errors": {
       "duplicate_in_file": "फ़ाइल में दो बार है"
     }
+  },
+  "credit_note": {
+    "title": "क्रेडिट नोट",
+    "tin": "TIN",
+    "to": "ग्राहक",
+    "walk_in": "वॉक-इन ग्राहक",
+    "for_bill": "बिल के लिए",
+    "item": "आइटम",
+    "qty": "मात्रा",
+    "rate": "GST दर",
+    "value": "मूल्य",
+    "tax": "GST",
+    "service_charge_share": "सर्विस चार्ज का हिस्सा",
+    "value_excl": "GST से पहले मूल्य",
+    "total": "कुल क्रेडिट",
+    "paid_back_by": "वापसी का तरीका",
+    "reason": "कारण",
+    "issued_by": "जारी किया",
+    "received_by": "प्राप्त किया (ग्राहक)"
   }
 }

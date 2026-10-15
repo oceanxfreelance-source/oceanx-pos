@@ -21,6 +21,9 @@ const email = z.union([z.string().trim().toLowerCase().pipe(z.email()), z.litera
 const isoDate = z.iso.date();
 
 export const PAYMENT_METHODS = ['cash', 'card', 'bank_transfer', 'other', 'credit'] as const;
+/** MIRA GST categories of a product: standard-rated, zero-rated (input tax claimable) or exempt. */
+export const GST_TYPES = ['standard', 'zero_rated', 'exempt'] as const;
+export type GstType = (typeof GST_TYPES)[number];
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 export const ORDER_TYPES = ['dine_in', 'takeaway', 'delivery'] as const;
 export const EXPENSE_CATEGORIES = ['rent', 'electricity', 'internet', 'salaries', 'ingredients', 'transport', 'maintenance', 'other'] as const;
@@ -68,6 +71,8 @@ export const productSchema = z.object({
   costPrice: money.default(0),
   sellingPrice: money.default(0),
   taxRate: z.number().min(0).max(100).nullable().default(null),
+  /** GST type: zero-rated and exempt items are sold without GST (rate forced to 0). */
+  gstType: z.enum(GST_TYPES).default('standard'),
   trackStock: z.boolean().default(false),
   minStock: z.number().min(0).max(1_000_000).default(0),
   /** Shops: stock-room alert level (minStock is the rack alert). */
@@ -177,6 +182,8 @@ export const supplierSchema = z.object({
   name: req(120),
   phone,
   email,
+  /** Supplier's GST TIN (input tax statement). */
+  taxNumber: text(50),
   address: text(500),
   notes: text(1000),
   isActive: z.boolean().default(true),
@@ -206,6 +213,8 @@ export const expenseSchema = z.object({
   amount: z.number().gt(0).max(100_000_000),
   /** GST included in the amount (input tax, GST Report add-on). */
   tax: money.default(0),
+  /** TIN on the supplier's tax invoice. */
+  supplierTin: text(50),
   expenseDate: isoDate,
   paymentMethod: z.enum(['cash', 'card', 'bank_transfer', 'other']).default('cash'),
   payee: text(120),

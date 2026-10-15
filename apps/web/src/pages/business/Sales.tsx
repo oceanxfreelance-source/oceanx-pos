@@ -232,7 +232,18 @@ function SaleDialog({ id, onClose }: { id: string; onClose: () => void }) {
                     <span>
                       <Ltr className="font-medium">{r.number}</Ltr> · {f.dateTime(r.createdAt)}
                     </span>
-                    <span className="font-semibold tabular-nums">− {money(r.total)}</span>
+                    <span className="flex items-center gap-2">
+                      <span className="font-semibold tabular-nums">− {money(r.total)}</span>
+                      <button
+                        type="button"
+                        className="rounded-lg p-1 text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700"
+                        title={t('refunds.print_credit_note')}
+                        aria-label={t('refunds.print_credit_note')}
+                        onClick={() => window.open(`/print/credit-note/${r.id}`, '_blank', 'noopener')}
+                      >
+                        <Printer className="size-4" />
+                      </button>
+                    </span>
                   </div>
                   <p className="text-xs text-slate-500" dir="auto">
                     {r.items.map((i) => `${Number(i.quantity)} × ${i.nameSnapshot}`).join(', ')} · {t(`payment_methods.${r.method}`)}

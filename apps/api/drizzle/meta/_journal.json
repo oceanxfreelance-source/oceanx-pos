@@ -169,6 +169,13 @@
       "when": 1792078103836,
       "tag": "0023_refunds_gst",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1792080348169,
+      "tag": "0024_gst_types",
+      "breakpoints": true
     }
   ]
 }

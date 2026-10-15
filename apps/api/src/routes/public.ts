@@ -167,6 +167,7 @@ export async function publicRoutes(app: FastifyInstance, opts: { authRateLimit: 
           options: l.options,
           discount: l.discount,
           taxRate: l.taxRate,
+          gstType: l.gstType,
           tax: l.tax,
           total: l.total,
           costPrice: l.costPrice,

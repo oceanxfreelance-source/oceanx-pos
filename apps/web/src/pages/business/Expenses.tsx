@@ -23,6 +23,7 @@ interface Expense {
   category: string;
   amount: number;
   tax: number;
+  supplierTin: string;
   expenseDate: string;
   paymentMethod: string;
   payee: string;
@@ -120,6 +121,7 @@ function ExpenseDialog({ expense, onClose }: { expense: Expense | null; onClose:
     category: expense?.category ?? 'other',
     amount: expense ? String(expense.amount / 100) : '',
     tax: expense?.tax ? String(expense.tax / 100) : '',
+    supplierTin: expense?.supplierTin ?? '',
     expenseDate: expense?.expenseDate ?? new Date().toISOString().slice(0, 10),
     paymentMethod: expense?.paymentMethod ?? 'cash',
     payee: expense?.payee ?? '',
@@ -185,6 +187,7 @@ function ExpenseDialog({ expense, onClose }: { expense: Expense | null; onClose:
           </Select>
           <Input type="number" min={0} step="0.01" label={t('payments.amount')} value={form.amount} disabled={!editable} onChange={set('amount')} error={fe('amount')} />
           {gst && <Input type="number" min={0} step="0.01" label={t('gst.input_tax')} hint={t('gst.input_tax_hint')} value={form.tax} disabled={!editable} onChange={set('tax')} error={fe('tax')} />}
+          {gst && <Input label={t('gst.supplier_tin')} dir="ltr" value={form.supplierTin} disabled={!editable} onChange={set('supplierTin')} error={fe('supplierTin')} />}
           <Input type="date" label={t('common.date')} value={form.expenseDate} disabled={!editable} onChange={set('expenseDate')} error={fe('expenseDate')} />
           <Select label={t('payments.method')} value={form.paymentMethod} disabled={!editable} onChange={set('paymentMethod')}>
             {['cash', 'card', 'bank_transfer', 'other'].map((m) => (

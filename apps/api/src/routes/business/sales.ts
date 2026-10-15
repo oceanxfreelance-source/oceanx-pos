@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { and, asc, count, desc, eq, gte, ilike, inArray, isNull, lte, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { completeOrderSchema, kitchenStatusSchema, paginationQuerySchema, posOrderSchema, recordPaymentSchema, refundSchema, tableSchema, voidSchema } from '@oceanx/shared';
-import { businesses, customers, diningTables, invoices, kitchenOrders, payments, saleItems, sales, users } from '../../db/schema';
+import { businesses, customers, diningTables, invoices, kitchenOrders, payments, saleItems, saleRefundItems, saleRefunds, sales, users } from '../../db/schema';
 import { assertPermission, bizCtx, requireAnyPermission, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
@@ -168,6 +168,31 @@ export async function saleRoutes(app: FastifyInstance) {
     const [s] = await db.select({ refunded: sales.refundedTotal }).from(sales).where(own(sales, ctx, id));
     if (s && s.refunded > 0) throw new AppError('invalid_status_transition', 'This bill has refunds');
     return voidSale(db, ctx, id, reason, req);
+  });
+
+  /** A refund as a printable credit note (the bill it corrects, the items, tax, the customer's TIN). */
+  app.get('/refunds/:id', { preHandler: requireAnyPermission('sales.view', 'refunds.create') }, async (req) => {
+    const ctx = bizCtx(req);
+    const id = idParam(req);
+    const [r] = await db.select().from(saleRefunds).where(own(saleRefunds, ctx, id));
+    if (!r) throw notFound();
+    const [row] = await db
+      .select({ s: sales, customer: customers })
+      .from(sales)
+      .leftJoin(customers, eq(customers.id, sales.customerId))
+      .where(own(sales, ctx, r.saleId));
+    const items = await db.select().from(saleRefundItems).where(eq(saleRefundItems.refundId, id));
+    const settings = await loadBusinessSettings(db, ctx.businessId);
+    const b = ctx.access.business;
+    return {
+      refund: r,
+      items,
+      sale: { id: row!.s.id, number: row!.s.number, completedAt: row!.s.completedAt, total: row!.s.total },
+      customer: row!.customer && { name: row!.customer.name, taxNumber: row!.customer.taxNumber, address: row!.customer.address, phone: row!.customer.phone },
+      business: { name: b.name, address: b.address, phone: b.phone, email: b.email, hasLogo: !!b.logoPath },
+      settings: { regional: settings.regional, tax: { taxName: settings.tax.taxName, taxNumber: settings.tax.taxNumber } },
+      documentLanguage: settings.receipt.language ?? settings.regional.documentLanguage,
+    };
   });
 
   /** Refunds & Returns add-on: money back for some or all items of a completed bill. */

@@ -44,6 +44,7 @@ export interface Product {
   costPrice: number;
   sellingPrice: number;
   taxRate: number | null;
+  gstType?: 'standard' | 'zero_rated' | 'exempt';
   trackStock: boolean;
   minStock: number;
   minStoreStock?: number;
@@ -237,6 +238,7 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
     costPrice: product ? (product.costPrice / 100).toString() : '',
     sellingPrice: product ? (product.sellingPrice / 100).toString() : '',
     taxRate: product?.taxRate === null || product?.taxRate === undefined ? '' : String(product.taxRate),
+    gstType: product?.gstType ?? 'standard',
     trackStock: product?.trackStock ?? false,
     minStock: String(product?.minStock ?? 0),
     minStoreStock: String(product?.minStoreStock ?? 0),
@@ -391,7 +393,18 @@ export function ProductDialog({ product, categories, onClose }: { product: Produ
               <Input label={t('products.unit')} value={form.unit} onChange={set('unit')} error={fieldErr('unit')} />
               <Input type="number" step="0.01" min={0} label={t('products.selling_price')} value={form.sellingPrice} onChange={set('sellingPrice')} error={fieldErr('sellingPrice')} />
               <Input type="number" step="0.01" min={0} label={t('products.cost_price')} value={form.costPrice} onChange={set('costPrice')} error={fieldErr('costPrice')} />
-              <Input type="number" step="0.01" min={0} max={100} label={t('products.tax_rate')} placeholder={t('products.tax_default')} value={form.taxRate} onChange={set('taxRate')} hint={t('products.tax_hint')} />
+              {hasAddon('gst_report') && (
+                <Select label={t('products.gst_type')} value={form.gstType} onChange={set('gstType')} hint={t(`products.gst_type_hints.${form.gstType}`)}>
+                  {(['standard', 'zero_rated', 'exempt'] as const).map((g) => (
+                    <option key={g} value={g}>
+                      {t(`products.gst_types.${g}`)}
+                    </option>
+                  ))}
+                </Select>
+              )}
+              {form.gstType === 'standard' && (
+                <Input type="number" step="0.01" min={0} max={100} label={t('products.tax_rate')} placeholder={t('products.tax_default')} value={form.taxRate} onChange={set('taxRate')} hint={t('products.tax_hint')} />
+              )}
             </div>
             <Textarea label={t('common.description')} value={form.description} onChange={set('description')} />
             <TranslationFields value={form.translations} onChange={(v) => setForm((f) => ({ ...f, translations: v }))} withDescription />

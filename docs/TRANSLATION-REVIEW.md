@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1054 · **confirmed**: 148
+Status: **needs_review**: 1086 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -126,6 +126,23 @@ review of the whole file is still recommended before launch.
 | `common.show_all` | Show all ({{count}}) | ހުރިހާ އެއްޗެއް ދައްކާ ({{count}}) | needs_review | New: Super Admin menu (long project list). |
 | `common.show_less` | Show less | މަދުން ދައްކާ | needs_review | New: Super Admin menu (long project list). |
 | `common.update_available` | A new version of OceanX is available. | OceanX ގެ އައު ވަރޝަނެއް ލިބެން އެބައޮތް. | needs_review | Bar shown when an update is published while the app is open. |
+| `credit_note.for_bill` | For bill | ބިލަށް | needs_review | GST types, TINs and credit notes. |
+| `credit_note.issued_by` | Issued by | ނެރުނު ފަރާތް | needs_review | GST types, TINs and credit notes. |
+| `credit_note.item` | Item | އައިޓަމް | needs_review | GST types, TINs and credit notes. |
+| `credit_note.paid_back_by` | Paid back by | އަނބުރާ ދިން ގޮތް | needs_review | GST types, TINs and credit notes. |
+| `credit_note.qty` | Qty | އަދަދު | needs_review | GST types, TINs and credit notes. |
+| `credit_note.rate` | GST rate | ޖީއެސްޓީ ރޭޓް | needs_review | GST types, TINs and credit notes. |
+| `credit_note.reason` | Reason | ސަބަބު | needs_review | GST types, TINs and credit notes. |
+| `credit_note.received_by` | Received by (customer) | ލިބުނު ފަރާތް (ކަސްޓަމަރު) | needs_review | GST types, TINs and credit notes. |
+| `credit_note.service_charge_share` | Service charge share | ސަރވިސް ޗާޖުގެ ބައި | needs_review | GST types, TINs and credit notes. |
+| `credit_note.tax` | GST | ޖީއެސްޓީ | needs_review | GST types, TINs and credit notes. |
+| `credit_note.tin` | TIN | TIN | needs_review | GST types, TINs and credit notes. |
+| `credit_note.title` | Credit note | ކްރެޑިޓް ނޯޓް | needs_review | GST types, TINs and credit notes. |
+| `credit_note.to` | Customer | ކަސްޓަމަރު | needs_review | GST types, TINs and credit notes. |
+| `credit_note.total` | Total credited | ޖުމްލަ ކްރެޑިޓް | needs_review | GST types, TINs and credit notes. |
+| `credit_note.value` | Value | އަގު | needs_review | GST types, TINs and credit notes. |
+| `credit_note.value_excl` | Value before GST | ޖީއެސްޓީގެ ކުރިން އަގު | needs_review | GST types, TINs and credit notes. |
+| `credit_note.walk_in` | Walk-in customer | ވޯކް-އިން ކަސްޓަމަރު | needs_review | GST types, TINs and credit notes. |
 | `credit.amount_paid` | Amount paid | ދެއްކި އަދަދު | needs_review | New: part payments of dues and payment receipt. |
 | `credit.due_label` | Due | ދައްކަންޖެހޭ | needs_review | New: part payments of dues and payment receipt. |
 | `credit.fifo_hint` | The payment is applied to the oldest unpaid bills first (credit sales and invoices). | ފައިސާ އެންމެ ފުރަތަމަ ކަނޑައެޅޭނީ ނުދައްކާ ހުރި އެންމެ ދުވަސްވީ ކްރެޑިޓް ވިއްކުންތަކަށެވެ. | needs_review | English changed: payments now also pay invoices, not only credit sales. Please update the Dhivehi. |
@@ -347,7 +364,8 @@ review of the whole file is still recommended before launch.
 | `gravity.who_owes` | Who owes you | ފައިސާ ދައްކަންޖެހޭ ފަރާތްތައް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.who_owes_total` | {{amount}} unpaid on issued invoices | ނެރެފައިވާ އިންވޮއިސްތަކުން {{amount}} ނުދައްކާ | needs_review | New: Gravity (quotation & invoice generator). |
 | `gst.input_tax` | GST in this bill (input tax) | މި ބިލުގައިވާ ޖީއެސްޓީ (އިންޕުޓް ޓެކްސް) | needs_review | Refunds, GST report and import add-ons. |
-| `gst.input_tax_hint` | From the supplier's tax invoice. Counts as input tax in the GST report. | ސަޕްލަޔަރުގެ ޓެކްސް އިންވޮއިހުން. ޖީއެސްޓީ ރިޕޯޓުގައި އިންޕުޓް ޓެކްސްގެ ގޮތުގައި ގުނޭ. | needs_review | Refunds, GST report and import add-ons. |
+| `gst.input_tax_hint` | Only the GST shown on the supplier's tax invoice. Exempt bills (for example electricity, water and most utilities) have no GST to claim. | ސަޕްލަޔަރުގެ ޓެކްސް އިންވޮއިހުގައި ފެންނަ ޖީއެސްޓީ އެކަނި. އިސްތިސްނާ ބިލުތަކުގައި (މިސާލަކަށް ކަރަންޓު، ފެން އަދި ގިނަ ޔުޓިލިޓީ) ކްލެއިމްކުރާނެ ޖީއެސްޓީއެއް ނެތް. | needs_review | Refunds, GST report and import add-ons. |
+| `gst.print.by_type` | Sales this period (before GST): standard-rated {{standard}} · zero-rated {{zero}} · exempt {{exempt}} | މި މުއްދަތުގެ ވިއްކުން (ޖީއެސްޓީގެ ކުރިން): އާންމު ރޭޓް {{standard}} · ޒީރޯ ރޭޓް {{zero}} · އިސްތިސްނާ {{exempt}} | needs_review | GST types, TINs and credit notes. |
 | `gst.print.checked_by` | Checked by accountant (name, signature, date) | އެކައުންޓެންޓް ބެލީ (ނަން، ސޮއި، ތާރީޚު) | needs_review | GST return print worksheet. |
 | `gst.print.form` | Return | ރިޓާން | needs_review | GST return print worksheet. |
 | `gst.print.form_value` | MIRA 205 / 206 | MIRA 205 / 206 | needs_review | GST return print worksheet. |
@@ -361,7 +379,7 @@ review of the whole file is still recommended before launch.
 | `gst.print.refundable` | 3. GST to claim back | 3. އަނބުރާ ލިބެންޖެހޭ ޖީއެސްޓީ | needs_review | GST return print worksheet. |
 | `gst.print.standard_rate` | Standard GST rate | އާންމު ޖީއެސްޓީ ރޭޓް | needs_review | GST return print worksheet. |
 | `gst.print.tin` | Taxpayer number (TIN) | ޓެކްސް ދައްކާ ފަރާތުގެ ނަންބަރު (TIN) | needs_review | GST return print worksheet. |
-| `gst.print.zero_rated` | Zero-rated and exempt sales in this period: {{amount}} | މި މުއްދަތުގައި ޒީރޯ ރޭޓް އަދި އިސްތިސްނާ ވިއްކުން: {{amount}} | needs_review | GST return print worksheet. |
+| `gst.supplier_tin` | Supplier's TIN | ސަޕްލަޔަރުގެ TIN | needs_review | GST types, TINs and credit notes. |
 | `hub.active` | Active | ހިނގަމުންދާ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.add_line` | Add line | ލައިނެއް އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
 | `hub.add_task` | Add | އިތުރުކުރޭ | needs_review | New: OceanX Hub (Super Admin main office). |
@@ -741,6 +759,13 @@ review of the whole file is still recommended before launch.
 | `print.customer_ref` | PO No. | ޕީއޯ ނަންބަރު | needs_review | New: company and government accounts (PO / PV). |
 | `print.payment_details` | Payment details | ފައިސާ ދައްކާނެ ގޮތް | needs_review | New: Gravity (quotation & invoice generator). |
 | `print.received_by` | Received by | ބަލައިގަތީ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `products.gst_type` | GST type | ޖީއެސްޓީ ބާވަތް | needs_review | GST types, TINs and credit notes. |
+| `products.gst_type_hints.exempt` | Not subject to GST, for example some health or education services. Input tax on it cannot be claimed. | ޖީއެސްޓީ ނުނެގޭ، މިސާލަކަށް ބައެއް ޞިއްޙީ ނުވަތަ ތަޢުލީމީ ޚިދުމަތް. މީގެ އިންޕުޓް ޓެކްސް ކްލެއިމް ނުކުރެވޭނެ. | needs_review | GST types, TINs and credit notes. |
+| `products.gst_type_hints.standard` | GST is added at the business rate (or the rate below). | ވިޔަފާރީގެ ރޭޓުން (ނުވަތަ ތިރީގައިވާ ރޭޓުން) ޖީއެސްޓީ އިތުރުވާނެ. | needs_review | GST types, TINs and credit notes. |
+| `products.gst_type_hints.zero_rated` | Sold at 0% GST, for example essential goods listed by MIRA. You can still claim input tax. | 0% ޖީއެސްޓީއާއެކު ވިއްކާ، މިސާލަކަށް MIRA ގެ ލިސްޓުގައިވާ ބޭނުންތެރި ތަކެތި. އިންޕުޓް ޓެކްސް ކްލެއިމްކުރެވޭނެ. | needs_review | GST types, TINs and credit notes. |
+| `products.gst_types.exempt` | Exempt (no GST) | އިސްތިސްނާ (ޖީއެސްޓީ ނުނެގޭ) | needs_review | GST types, TINs and credit notes. |
+| `products.gst_types.standard` | Standard (GST charged) | އާންމު (ޖީއެސްޓީ ނެގޭ) | needs_review | GST types, TINs and credit notes. |
+| `products.gst_types.zero_rated` | Zero-rated (0%) | ޒީރޯ ރޭޓް (0%) | needs_review | GST types, TINs and credit notes. |
 | `public_menu.menu_title` | Menu | މެނޫ | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.more` | More | އިތުރު | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
 | `public_menu.top` | TOP {{rank}} | ޓޮޕް {{rank}} | needs_review | New: dark QR menu design (big title, best-seller badge, items without a category). |
@@ -764,6 +789,7 @@ review of the whole file is still recommended before launch.
 | `refunds.done` | Refund {{number}}: {{amount}} given back | ރީފަންޑް {{number}}: {{amount}} އަނބުރާ ދެވިއްޖެ | needs_review | Refunds, GST report and import add-ons. |
 | `refunds.method` | Give money back by | ފައިސާ އަނބުރާ ދޭނެ ގޮތް | needs_review | Refunds, GST report and import add-ons. |
 | `refunds.not_restocked` | not put back in stock | ސްޓޮކަށް އަނބުރާ ނުލެވޭ | needs_review | Refunds, GST report and import add-ons. |
+| `refunds.print_credit_note` | Print credit note | ކްރެޑިޓް ނޯޓް ޕްރިންޓްކުރޭ | needs_review | GST types, TINs and credit notes. |
 | `refunds.quantity_for` | Quantity to refund: {{name}} | ރީފަންޑްކުރާ އަދަދު: {{name}} | needs_review | Refunds, GST report and import add-ons. |
 | `refunds.reason_hint` | For example: wrong item, damaged, customer changed their mind. | މިސާލަކަށް: ނުބައި އައިޓަމް، ހަލާކުވެފައި، ކަސްޓަމަރު ޚިޔާލު ބަދަލުކުރި. | needs_review | Refunds, GST report and import add-ons. |
 | `refunds.refund` | Refund | ރީފަންޑް | needs_review | Refunds, GST report and import add-ons. |
@@ -779,6 +805,7 @@ review of the whole file is still recommended before launch.
 | `reports.columns.gross` | Gross | ގްރޮސް | needs_review | Loanword ގްރޮސް; alternative: ޖުމްލަ (ޑިސްކައުންޓް ކުރިން). |
 | `reports.columns.gst_type` | Type | ބާވަތް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.in_store` | In store | ސްޓޯރުގައި | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.columns.including_gst` | Including GST | ޖީއެސްޓީއާއެކު | needs_review | GST types, TINs and credit notes. |
 | `reports.columns.margin` | Margin | މާޖިން | needs_review | Loanword މާޖިން. Alternative: ފައިދާގެ މިންވަރު. |
 | `reports.columns.net_sales` | Net sales | ސާފު ވިއްކުން | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.number` | Number | ނަންބަރު | needs_review | Refunds, GST report and import add-ons. |
@@ -792,6 +819,7 @@ review of the whole file is still recommended before launch.
 | `reports.columns.refunds` | Refunds | ރީފަންޑް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.sale_number` | Bill | ބިލު | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.store_alert_at` | Store alert at | ސްޓޯރު އެލާޓް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `reports.columns.supply` | Supply type | ސަޕްލައި ބާވަތް | needs_review | GST types, TINs and credit notes. |
 | `reports.columns.tax_number` | TIN | TIN | needs_review | Refunds, GST report and import add-ons. |
 | `reports.columns.taxable` | Taxable value | ޓެކްސް ނަގާ އަގު | needs_review | Refunds, GST report and import add-ons. |
 | `reports.descriptions.gst` | Output tax on sales, invoices and service charge by rate, less refunds; input tax from expense and purchase bills; and the GST to pay. | ވިއްކުމާއި އިންވޮއިސް އަދި ސަރވިސް ޗާޖުގެ އައުޓްޕުޓް ޓެކްސް ރޭޓާ ގުޅިގެން، ރީފަންޑް އުނިކޮށް؛ ޚަރަދާއި ގަތުމުގެ ބިލުތަކުގެ އިންޕުޓް ޓެކްސް؛ އަދި ދައްކަންޖެހޭ ޖީއެސްޓީ. | needs_review | Refunds, GST report and import add-ons. |
@@ -810,14 +838,18 @@ review of the whole file is still recommended before launch.
 | `reports.sources.refunds` | Refunds | ރީފަންޑް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.sources.service_charge` | Service charge | ސަރވިސް ޗާޖު | needs_review | Refunds, GST report and import add-ons. |
 | `reports.summary.cogs` | Cost of goods | ވިއްކި ތަކެތީގެ ކޮސްޓް | needs_review | Cost of goods: ވިއްކި ތަކެތީގެ ކޮސްޓް. Confirm with accountant. |
+| `reports.summary.exemptSupplies` | Exempt sales | އިސްތިސްނާ ވިއްކުން | needs_review | GST types, TINs and credit notes. |
 | `reports.summary.grossProfit` | Gross profit | ގްރޮސް ފައިދާ | needs_review | ގްރޮސް ފައިދާ (mixed loanword). Alternative: ޚަރަދު ކުރިން ފައިދާ. |
 | `reports.summary.gstPayable` | GST to pay | ދައްކަންޖެހޭ ޖީއެސްޓީ | needs_review | Refunds, GST report and import add-ons. |
 | `reports.summary.inputTax` | Input tax | އިންޕުޓް ޓެކްސް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.summary.netProfit` | Net profit | ނެޓް ފައިދާ | needs_review | ނެޓް ފައިދާ. Alternative: ޞާފު ފައިދާ. |
 | `reports.summary.outputTax` | Output tax | އައުޓްޕުޓް ޓެކްސް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.summary.refunds` | Refunded | ރީފަންޑްކުރެވުނު | needs_review | Refunds, GST report and import add-ons. |
-| `reports.summary.taxableSupplies` | Taxable sales | ޓެކްސް ނަގާ ވިއްކުން | needs_review | Refunds, GST report and import add-ons. |
-| `reports.summary.zeroRatedSupplies` | Zero-rated / exempt sales | ޒީރޯ ރޭޓް / އިސްތިސްނާ ވިއްކުން | needs_review | Refunds, GST report and import add-ons. |
+| `reports.summary.taxableSupplies` | Standard-rated sales | އާންމު ރޭޓުގެ ވިއްކުން | needs_review | Refunds, GST report and import add-ons. |
+| `reports.summary.zeroRatedSupplies` | Zero-rated sales | ޒީރޯ ރޭޓް ވިއްކުން | needs_review | Refunds, GST report and import add-ons. |
+| `reports.supply_types.exempt` | Exempt | އިސްތިސްނާ | needs_review | GST types, TINs and credit notes. |
+| `reports.supply_types.standard` | Standard-rated | އާންމު ރޭޓް | needs_review | GST types, TINs and credit notes. |
+| `reports.supply_types.zero_rated` | Zero-rated | ޒީރޯ ރޭޓް | needs_review | GST types, TINs and credit notes. |
 | `reports.this_month` | This month | މި މަސް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.types.costing` | Recipe costing | ރެސިޕީގެ ޚަރަދު | needs_review | Recipe costing as ރެސިޕީގެ ޚަރަދު. Existing addons.names.ingredient_costing uses ތަކެތީގެ ޚަރަދު ހިސާބުކުރުން. Note: report columns use loanword ކޮސްޓް for cost of goods while ޚަރަދު is reserved for expenses — confirm this split. |
 | `reports.types.gst` | GST return summary | ޖީއެސްޓީ ރިޓާންގެ ޚުލާޞާ | needs_review | Refunds, GST report and import add-ons. |

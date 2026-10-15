@@ -108,13 +108,13 @@ describe('GST report (MIRA)', () => {
     const p = await product({ name: 'Cake', sellingPrice: 100 });
     const sale = await paidSale(p.id);
     await owner.post(`/api/sales/${sale.id}/refunds`, { items: [{ saleItemId: sale.itemId, quantity: 1 }], method: 'cash', reason: 'stale cake' });
-    const e = await owner.post('/api/expenses', { category: 'electricity', amount: 108, tax: 8, expenseDate: day(0), payee: 'STELCO', reference: 'BILL-9' });
+    const e = await owner.post('/api/expenses', { category: 'other', amount: 108, tax: 8, supplierTin: '1001234GST501', expenseDate: day(0), payee: 'Office Supplies Pvt Ltd', reference: 'BILL-9' });
     expect(e.json().tax).toBe(800);
 
     const r = (await owner.get(`/api/reports/gst?${range}`)).json();
-    expect(r.summary).toEqual({ taxableSupplies: 11000, zeroRatedSupplies: 0, outputTax: 880, inputTax: 800, gstPayable: 80 });
+    expect(r.summary).toEqual({ taxableSupplies: 11000, zeroRatedSupplies: 0, exemptSupplies: 0, outputTax: 880, inputTax: 800, gstPayable: 80 });
     const row = (source: string) => r.rows.find((x: { source: string }) => x.source === source);
-    expect(row('pos')).toMatchObject({ gst_type: 'output', rate: 8, taxable: 20000, tax: 1600 });
+    expect(row('pos')).toMatchObject({ gst_type: 'output', supply: 'standard', rate: 8, taxable: 20000, tax: 1600, including_gst: 21600 });
     expect(row('service_charge')).toMatchObject({ rate: 8, taxable: 2000, tax: 160 });
     expect(row('refunds')).toMatchObject({ rate: 8, taxable: -11000, tax: -880 });
     expect(row('expenses')).toMatchObject({ gst_type: 'input', taxable: 10000, tax: 800 });
@@ -122,7 +122,7 @@ describe('GST report (MIRA)', () => {
     const sales = (await owner.get(`/api/reports/gst-sales?${range}`)).json();
     expect(sales.rows.map((x: { source: string; tax: number }) => [x.source, x.tax])).toEqual(expect.arrayContaining([['pos', 1760], ['refunds', -880]]));
     const buys = (await owner.get(`/api/reports/gst-purchases?${range}`)).json();
-    expect(buys.rows).toEqual([expect.objectContaining({ payee: 'STELCO', reference: 'BILL-9', tax: 800, total: 10800 })]);
+    expect(buys.rows).toEqual([expect.objectContaining({ payee: 'Office Supplies Pvt Ltd', tax_number: '1001234GST501', reference: 'BILL-9', tax: 800, total: 10800 })]);
     const csv = await owner.get(`/api/reports/gst-sales?${range}&format=csv`);
     expect(csv.statusCode).toBe(200);
     expect(csv.body).toContain('tax_number');
@@ -162,5 +162,46 @@ describe('import (Excel / CSV)', () => {
     expect(r).toMatchObject({ created: 1, skipped: 1 });
     const sara = (await owner.get('/api/customers?q=Sara')).json().items[0];
     expect(sara).toMatchObject({ kind: 'company', email: 'sara@x.mv' });
+  });
+});
+
+describe('GST types and credit notes', () => {
+  it('zero-rated and exempt items are sold without GST and reported apart; a refund prints as a credit note', async () => {
+    await grant('gst_report');
+    await grant('refunds');
+    await setTax();
+    const tea = await product({ name: 'Tea', sellingPrice: 20 });
+    const rice = await product({ name: 'Rice 1kg', sellingPrice: 30, gstType: 'zero_rated', taxRate: 8 });
+    const lesson = await product({ name: 'Cooking class', sellingPrice: 100, gstType: 'exempt' });
+    expect((await owner.get('/api/products')).json().items.find((p: { id: string }) => p.id === rice.id)).toMatchObject({ gstType: 'zero_rated', taxRate: 0 });
+    const r = await owner.post('/api/pos/orders', {
+      orderType: 'takeaway',
+      items: [
+        { productId: tea.id, quantity: 1 },
+        { productId: rice.id, quantity: 1 },
+        { productId: lesson.id, quantity: 1 },
+      ],
+      payments: [{ method: 'cash', amount: 500 }],
+    });
+    expect(r.statusCode, r.body).toBe(201);
+    const sale = (await owner.get(`/api/sales/${r.json().id}`)).json();
+    const line = (name: string) => sale.items.find((i: { nameSnapshot: string }) => i.nameSnapshot === name);
+    expect(line('Rice 1kg')).toMatchObject({ gstType: 'zero_rated', tax: 0 });
+    expect(line('Cooking class')).toMatchObject({ gstType: 'exempt', tax: 0 });
+    expect(line('Tea').tax).toBe(160);
+
+    const gst = (await owner.get(`/api/reports/gst?${range}`)).json();
+    expect(gst.summary).toMatchObject({ taxableSupplies: 2000 + 1500, zeroRatedSupplies: 3000, exemptSupplies: 10000 });
+    expect(gst.meta).toMatchObject({ taxNumber: 'GST-1', taxRate: 8 });
+
+    const ref = (await owner.post(`/api/sales/${sale.sale.id}/refunds`, { items: [{ saleItemId: line('Tea').id, quantity: 1 }], method: 'cash', reason: 'cold tea' })).json();
+    const note = (await owner.get(`/api/refunds/${ref.id}`)).json();
+    expect(note).toMatchObject({ refund: { number: ref.number, total: ref.total, tax: ref.tax }, sale: { number: sale.sale.number }, settings: { tax: { taxNumber: 'GST-1' } } });
+    expect(note.items).toEqual([expect.objectContaining({ nameSnapshot: 'Tea', tax: 160 })]);
+  });
+
+  it('suppliers keep a TIN', async () => {
+    const s = (await owner.post('/api/suppliers', { name: 'Island Coffee Traders', taxNumber: '1012345GST501' })).json();
+    expect(s.taxNumber).toBe('1012345GST501');
   });
 });

@@ -1397,7 +1397,18 @@
     "photo_hint": "Shown on the POS and the QR menu. Any phone or camera photo works; it is resized automatically.",
     "add_photo": "Add photo",
     "change_photo": "Change photo",
-    "remove_photo": "Remove"
+    "remove_photo": "Remove",
+    "gst_type": "GST type",
+    "gst_types": {
+      "standard": "Standard (GST charged)",
+      "zero_rated": "Zero-rated (0%)",
+      "exempt": "Exempt (no GST)"
+    },
+    "gst_type_hints": {
+      "standard": "GST is added at the business rate (or the rate below).",
+      "zero_rated": "Sold at 0% GST, for example essential goods listed by MIRA. You can still claim input tax.",
+      "exempt": "Not subject to GST, for example some health or education services. Input tax on it cannot be claimed."
+    }
   },
   "customers": {
     "title": "Customers",
@@ -1931,7 +1942,9 @@
       "sale_number": "Bill",
       "reason": "Reason",
       "refunds": "Refunds",
-      "net_sales": "Net sales"
+      "net_sales": "Net sales",
+      "supply": "Supply type",
+      "including_gst": "Including GST"
     },
     "sources": {
       "pos": "POS",
@@ -1954,12 +1967,13 @@
       "creditSales": "Credit sales",
       "creditPayments": "Credit payments",
       "outstanding": "Outstanding",
-      "taxableSupplies": "Taxable sales",
-      "zeroRatedSupplies": "Zero-rated / exempt sales",
+      "taxableSupplies": "Standard-rated sales",
+      "zeroRatedSupplies": "Zero-rated sales",
       "outputTax": "Output tax",
       "inputTax": "Input tax",
       "gstPayable": "GST to pay",
-      "refunds": "Refunded"
+      "refunds": "Refunded",
+      "exemptSupplies": "Exempt sales"
     },
     "download_pdf": "Download PDF",
     "rows_count_one": "{{count}} row",
@@ -1971,6 +1985,11 @@
     "gst_types": {
       "output": "Output tax",
       "input": "Input tax"
+    },
+    "supply_types": {
+      "standard": "Standard-rated",
+      "zero_rated": "Zero-rated",
+      "exempt": "Exempt"
     }
   },
   "karaoke": {
@@ -2855,11 +2874,12 @@
     "method": "Give money back by",
     "reason_hint": "For example: wrong item, damaged, customer changed their mind.",
     "restock": "Put the items back in stock",
-    "restock_hint": "Turn off for spoiled or damaged items."
+    "restock_hint": "Turn off for spoiled or damaged items.",
+    "print_credit_note": "Print credit note"
   },
   "gst": {
     "input_tax": "GST in this bill (input tax)",
-    "input_tax_hint": "From the supplier's tax invoice. Counts as input tax in the GST report.",
+    "input_tax_hint": "Only the GST shown on the supplier's tax invoice. Exempt bills (for example electricity, water and most utilities) have no GST to claim.",
     "print": {
       "tin": "Taxpayer number (TIN)",
       "standard_rate": "Standard GST rate",
@@ -2867,15 +2887,16 @@
       "form_value": "MIRA 205 / 206",
       "output_title": "1. Output tax (sales)",
       "output_total": "Total output tax",
-      "zero_rated": "Zero-rated and exempt sales in this period: {{amount}}",
       "input_title": "2. Input tax (bills with GST)",
       "input_total": "Total input tax",
       "payable": "3. GST to pay",
       "refundable": "3. GST to claim back",
       "payable_formula": "Output tax {{output}} − input tax {{input}}",
       "prepared_by": "Prepared by (name, signature, date)",
-      "checked_by": "Checked by accountant (name, signature, date)"
-    }
+      "checked_by": "Checked by accountant (name, signature, date)",
+      "by_type": "Sales this period (before GST): standard-rated {{standard}} · zero-rated {{zero}} · exempt {{exempt}}"
+    },
+    "supplier_tin": "Supplier's TIN"
   },
   "import": {
     "title": "Import",
@@ -2933,5 +2954,24 @@
     "errors": {
       "duplicate_in_file": "appears twice in the file"
     }
+  },
+  "credit_note": {
+    "title": "Credit note",
+    "tin": "TIN",
+    "to": "Customer",
+    "walk_in": "Walk-in customer",
+    "for_bill": "For bill",
+    "item": "Item",
+    "qty": "Qty",
+    "rate": "GST rate",
+    "value": "Value",
+    "tax": "GST",
+    "service_charge_share": "Service charge share",
+    "value_excl": "Value before GST",
+    "total": "Total credited",
+    "paid_back_by": "Paid back by",
+    "reason": "Reason",
+    "issued_by": "Issued by",
+    "received_by": "Received by (customer)"
   }
 }

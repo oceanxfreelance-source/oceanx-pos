@@ -7589,8 +7589,8 @@
   },
   {
     "key": "gst.input_tax_hint",
-    "english": "From the supplier's tax invoice. Counts as input tax in the GST report.",
-    "suggested": "ސަޕްލަޔަރުގެ ޓެކްސް އިންވޮއިހުން. ޖީއެސްޓީ ރިޕޯޓުގައި އިންޕުޓް ޓެކްސްގެ ގޮތުގައި ގުނޭ.",
+    "english": "Only the GST shown on the supplier's tax invoice. Exempt bills (for example electricity, water and most utilities) have no GST to claim.",
+    "suggested": "ސަޕްލަޔަރުގެ ޓެކްސް އިންވޮއިހުގައި ފެންނަ ޖީއެސްޓީ އެކަނި. އިސްތިސްނާ ބިލުތަކުގައި (މިސާލަކަށް ކަރަންޓު، ފެން އަދި ގިނަ ޔުޓިލިޓީ) ކްލެއިމްކުރާނެ ޖީއެސްޓީއެއް ނެތް.",
     "status": "needs_review",
     "notes": "Refunds, GST report and import add-ons."
   },
@@ -8254,15 +8254,15 @@
   },
   {
     "key": "reports.summary.taxableSupplies",
-    "english": "Taxable sales",
-    "suggested": "ޓެކްސް ނަގާ ވިއްކުން",
+    "english": "Standard-rated sales",
+    "suggested": "އާންމު ރޭޓުގެ ވިއްކުން",
     "status": "needs_review",
     "notes": "Refunds, GST report and import add-ons."
   },
   {
     "key": "reports.summary.zeroRatedSupplies",
-    "english": "Zero-rated / exempt sales",
-    "suggested": "ޒީރޯ ރޭޓް / އިސްތިސްނާ ވިއްކުން",
+    "english": "Zero-rated sales",
+    "suggested": "ޒީރޯ ރޭޓް ވިއްކުން",
     "status": "needs_review",
     "notes": "Refunds, GST report and import add-ons."
   },
@@ -8358,13 +8358,6 @@
     "notes": "GST return print worksheet."
   },
   {
-    "key": "gst.print.zero_rated",
-    "english": "Zero-rated and exempt sales in this period: {{amount}}",
-    "suggested": "މި މުއްދަތުގައި ޒީރޯ ރޭޓް އަދި އިސްތިސްނާ ވިއްކުން: {{amount}}",
-    "status": "needs_review",
-    "notes": "GST return print worksheet."
-  },
-  {
     "key": "gst.print.input_title",
     "english": "2. Input tax (bills with GST)",
     "suggested": "2. އިންޕުޓް ޓެކްސް (ޖީއެސްޓީ ހިމެނޭ ބިލުތައް)",
@@ -8412,5 +8405,236 @@
     "suggested": "އެކައުންޓެންޓް ބެލީ (ނަން، ސޮއި، ތާރީޚު)",
     "status": "needs_review",
     "notes": "GST return print worksheet."
+  },
+  {
+    "key": "credit_note.for_bill",
+    "english": "For bill",
+    "suggested": "ބިލަށް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.issued_by",
+    "english": "Issued by",
+    "suggested": "ނެރުނު ފަރާތް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.item",
+    "english": "Item",
+    "suggested": "އައިޓަމް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.paid_back_by",
+    "english": "Paid back by",
+    "suggested": "އަނބުރާ ދިން ގޮތް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.qty",
+    "english": "Qty",
+    "suggested": "އަދަދު",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.rate",
+    "english": "GST rate",
+    "suggested": "ޖީއެސްޓީ ރޭޓް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.reason",
+    "english": "Reason",
+    "suggested": "ސަބަބު",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.received_by",
+    "english": "Received by (customer)",
+    "suggested": "ލިބުނު ފަރާތް (ކަސްޓަމަރު)",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.service_charge_share",
+    "english": "Service charge share",
+    "suggested": "ސަރވިސް ޗާޖުގެ ބައި",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.tax",
+    "english": "GST",
+    "suggested": "ޖީއެސްޓީ",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.tin",
+    "english": "TIN",
+    "suggested": "TIN",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.title",
+    "english": "Credit note",
+    "suggested": "ކްރެޑިޓް ނޯޓް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.to",
+    "english": "Customer",
+    "suggested": "ކަސްޓަމަރު",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.total",
+    "english": "Total credited",
+    "suggested": "ޖުމްލަ ކްރެޑިޓް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.value",
+    "english": "Value",
+    "suggested": "އަގު",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.value_excl",
+    "english": "Value before GST",
+    "suggested": "ޖީއެސްޓީގެ ކުރިން އަގު",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "credit_note.walk_in",
+    "english": "Walk-in customer",
+    "suggested": "ވޯކް-އިން ކަސްޓަމަރު",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "gst.print.by_type",
+    "english": "Sales this period (before GST): standard-rated {{standard}} · zero-rated {{zero}} · exempt {{exempt}}",
+    "suggested": "މި މުއްދަތުގެ ވިއްކުން (ޖީއެސްޓީގެ ކުރިން): އާންމު ރޭޓް {{standard}} · ޒީރޯ ރޭޓް {{zero}} · އިސްތިސްނާ {{exempt}}",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "gst.supplier_tin",
+    "english": "Supplier's TIN",
+    "suggested": "ސަޕްލަޔަރުގެ TIN",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "products.gst_type",
+    "english": "GST type",
+    "suggested": "ޖީއެސްޓީ ބާވަތް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "products.gst_type_hints.exempt",
+    "english": "Not subject to GST, for example some health or education services. Input tax on it cannot be claimed.",
+    "suggested": "ޖީއެސްޓީ ނުނެގޭ، މިސާލަކަށް ބައެއް ޞިއްޙީ ނުވަތަ ތަޢުލީމީ ޚިދުމަތް. މީގެ އިންޕުޓް ޓެކްސް ކްލެއިމް ނުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "products.gst_type_hints.standard",
+    "english": "GST is added at the business rate (or the rate below).",
+    "suggested": "ވިޔަފާރީގެ ރޭޓުން (ނުވަތަ ތިރީގައިވާ ރޭޓުން) ޖީއެސްޓީ އިތުރުވާނެ.",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "products.gst_type_hints.zero_rated",
+    "english": "Sold at 0% GST, for example essential goods listed by MIRA. You can still claim input tax.",
+    "suggested": "0% ޖީއެސްޓީއާއެކު ވިއްކާ، މިސާލަކަށް MIRA ގެ ލިސްޓުގައިވާ ބޭނުންތެރި ތަކެތި. އިންޕުޓް ޓެކްސް ކްލެއިމްކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "products.gst_types.exempt",
+    "english": "Exempt (no GST)",
+    "suggested": "އިސްތިސްނާ (ޖީއެސްޓީ ނުނެގޭ)",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "products.gst_types.standard",
+    "english": "Standard (GST charged)",
+    "suggested": "އާންމު (ޖީއެސްޓީ ނެގޭ)",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "products.gst_types.zero_rated",
+    "english": "Zero-rated (0%)",
+    "suggested": "ޒީރޯ ރޭޓް (0%)",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "refunds.print_credit_note",
+    "english": "Print credit note",
+    "suggested": "ކްރެޑިޓް ނޯޓް ޕްރިންޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "reports.columns.including_gst",
+    "english": "Including GST",
+    "suggested": "ޖީއެސްޓީއާއެކު",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "reports.columns.supply",
+    "english": "Supply type",
+    "suggested": "ސަޕްލައި ބާވަތް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "reports.summary.exemptSupplies",
+    "english": "Exempt sales",
+    "suggested": "އިސްތިސްނާ ވިއްކުން",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "reports.supply_types.exempt",
+    "english": "Exempt",
+    "suggested": "އިސްތިސްނާ",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "reports.supply_types.standard",
+    "english": "Standard-rated",
+    "suggested": "އާންމު ރޭޓް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "reports.supply_types.zero_rated",
+    "english": "Zero-rated",
+    "suggested": "ޒީރޯ ރޭޓް",
+    "status": "needs_review",
+    "notes": "GST types, TINs and credit notes."
   }
 ]

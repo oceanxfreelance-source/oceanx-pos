@@ -589,6 +589,8 @@ export const products = pgTable(
     costPrice: money('cost_price').notNull().default(0),
     sellingPrice: money('selling_price').notNull().default(0),
     taxRate: numeric('tax_rate', { precision: 6, scale: 3, mode: 'number' }),
+    /** GST type: standard (taxed), zero_rated (0%, input tax claimable) or exempt (no GST, not claimable). */
+    gstType: text('gst_type').notNull().default('standard'),
     trackStock: boolean('track_stock').notNull().default(false),
     minStock: qty('min_stock').notNull().default(0),
     /** Shops: alert when the stock room falls to this level (minStock is the rack alert). */
@@ -799,6 +801,8 @@ export const saleItems = pgTable(
     options: jsonb('options').$type<{ group: string; choice: string; price: number }[]>().notNull().default([]),
     discount: money('discount').notNull().default(0),
     taxRate: numeric('tax_rate', { precision: 6, scale: 3, mode: 'number' }).notNull().default(0),
+    /** The product's GST type when sold (standard / zero_rated / exempt), for the GST return. */
+    gstType: text('gst_type').notNull().default('standard'),
     tax: money('tax').notNull().default(0),
     total: money('total').notNull(),
     costPrice: money('cost_price').notNull().default(0),
@@ -1058,6 +1062,8 @@ export const suppliers = pgTable(
     name: text('name').notNull(),
     phone: text('phone').notNull().default(''),
     email: text('email').notNull().default(''),
+    /** Supplier's GST TIN, for the input tax statement. */
+    taxNumber: text('tax_number').notNull().default(''),
     address: text('address').notNull().default(''),
     notes: text('notes').notNull().default(''),
     isActive: boolean('is_active').notNull().default(true),
@@ -1127,6 +1133,8 @@ export const expenses = pgTable(
     amount: money('amount').notNull(),
     /** GST included in `amount` (input tax), from the supplier's tax invoice. */
     tax: money('tax').notNull().default(0),
+    /** TIN on the supplier's tax invoice (input tax statement). */
+    supplierTin: text('supplier_tin').notNull().default(''),
     expenseDate: text('expense_date').notNull(),
     paymentMethod: text('payment_method').notNull(),
     payee: text('payee').notNull().default(''),

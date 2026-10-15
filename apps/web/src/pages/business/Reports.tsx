@@ -35,7 +35,7 @@ export const REPORTS: { type: string; perm?: string; addon?: string; retail?: bo
   { type: 'refunds', perm: 'sales.view', addon: 'refunds' },
 ];
 
-export const MONEY_COLS = new Set(['gross', 'discount', 'service_charge', 'tax', 'total', 'average', 'revenue', 'cost', 'margin', 'amount', 'unit_cost', 'value', 'spent', 'due', 'paid', 'outstanding', 'credit_limit', 'sales_due', 'invoice_due', 'price', 'recipe_cost', 'taxable', 'refunds', 'net_sales']);
+export const MONEY_COLS = new Set(['gross', 'discount', 'service_charge', 'tax', 'total', 'average', 'revenue', 'cost', 'margin', 'amount', 'unit_cost', 'value', 'spent', 'due', 'paid', 'outstanding', 'credit_limit', 'sales_due', 'invoice_due', 'price', 'recipe_cost', 'taxable', 'refunds', 'net_sales', 'including_gst']);
 
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const daysAgo = (n: number) => {
@@ -58,6 +58,7 @@ export function useReportCell(type: string) {
     if (key === 'status') return t(`status_labels.${v}`);
     if (key === 'source') return t(`reports.sources.${v}`);
     if (key === 'gst_type') return t(`reports.gst_types.${v}`);
+    if (key === 'supply') return t(`reports.supply_types.${v}`);
     if (key === 'rate' && typeof v === 'number') return <Ltr>{f.number(v, Number.isInteger(v) ? 0 : 2)}%</Ltr>;
     if (key === 'category' && type === 'expenses') return t(`expenses.categories.${v}`);
     if (typeof v === 'number') return <Ltr>{f.number(v, Number.isInteger(v) ? 0 : 3)}</Ltr>;

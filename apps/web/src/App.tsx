@@ -54,6 +54,7 @@ const Credit = lazy(() => import('./pages/business/Credit'));
 const QrMenu = lazy(() => import('./pages/business/QrMenu'));
 const QrCardsPrint = lazy(() => import('./pages/print/QrCardsPrint'));
 const DuePaymentPrint = lazy(() => import('./pages/print/DuePaymentPrint'));
+const CreditNotePrint = lazy(() => import('./pages/print/CreditNotePrint'));
 const PayrollPrint = lazy(() => import('./pages/print/PayrollPrint'));
 const PayslipPrint = lazy(() => import('./pages/print/PayslipPrint'));
 const RotaPrint = lazy(() => import('./pages/print/RotaPrint'));
@@ -225,6 +226,7 @@ const router = createBrowserRouter([
           { path: 'print/credit-dues', element: withSuspense(<CreditDuesPrint />) },
           { path: 'print/qr-cards', element: withSuspense(<QrCardsPrint />) },
           { path: 'print/due-payment/:id', element: withSuspense(<DuePaymentPrint />) },
+          { path: 'print/credit-note/:id', element: withSuspense(<CreditNotePrint />) },
           { path: 'print/payroll/:id', element: withSuspense(<PayrollPrint />) },
           { path: 'print/payroll/:id/slip/:lineId', element: withSuspense(<PayslipPrint />) },
           { path: 'print/rota', element: withSuspense(<RotaPrint />) },

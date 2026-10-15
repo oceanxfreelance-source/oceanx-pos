@@ -37,7 +37,9 @@ function productValues(body: z.output<typeof productSchema>, retail = false) {
     type: retail && body.type === 'ingredient' ? 'item' : body.type,
     costPrice: toMinor(body.costPrice),
     sellingPrice: toMinor(body.sellingPrice),
-    taxRate: body.taxRate,
+    // Zero-rated and exempt items never carry GST.
+    taxRate: body.gstType === 'standard' ? body.taxRate : 0,
+    gstType: body.gstType,
     trackStock: body.trackStock,
     minStock: body.minStock,
     minStoreStock: body.minStoreStock,

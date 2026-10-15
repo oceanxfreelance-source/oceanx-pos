@@ -29,6 +29,7 @@ interface PricedLine {
   options: { group: string; choice: string; price: number }[];
   discount: number;
   taxRate: number;
+  gstType: string;
   tax: number;
   total: number;
   costPrice: number;
@@ -75,7 +76,7 @@ export async function priceOrder(tx: Executor, ctx: BusinessContext, input: Orde
   }
 
   const calc = calculateTotals(
-    draft.map((d) => ({ quantity: d.item.quantity, unitPrice: d.unitPrice, discount: d.discount, taxRate: d.product.taxRate })),
+    draft.map((d) => ({ quantity: d.item.quantity, unitPrice: d.unitPrice, discount: d.discount, taxRate: d.product.gstType !== 'standard' ? 0 : d.product.taxRate })),
     settings.tax,
     orderDiscount + pointsDiscount,
   );
@@ -100,7 +101,8 @@ export async function priceOrder(tx: Executor, ctx: BusinessContext, input: Orde
     unitPrice: d.unitPrice,
     options: d.options,
     discount: calc.lines[i]!.discount,
-    taxRate: d.product.taxRate ?? (settings.tax.taxEnabled ? settings.tax.taxRate : 0),
+    taxRate: d.product.gstType !== 'standard' ? 0 : (d.product.taxRate ?? (settings.tax.taxEnabled ? settings.tax.taxRate : 0)),
+    gstType: d.product.gstType,
     tax: calc.lines[i]!.tax,
     total: calc.lines[i]!.total,
     costPrice: d.product.costPrice,
@@ -191,6 +193,7 @@ async function insertLines(tx: Executor, businessId: string, saleId: string, lin
       options: l.options,
       discount: l.discount,
       taxRate: l.taxRate,
+      gstType: l.gstType,
       tax: l.tax,
       total: l.total,
       costPrice: l.costPrice,

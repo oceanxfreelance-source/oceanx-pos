@@ -38,6 +38,7 @@ interface Supplier {
   name: string;
   phone: string;
   email: string;
+  taxNumber?: string;
   address: string;
   notes: string;
   isActive: boolean;
@@ -327,10 +328,10 @@ function SupplierList() {
   const qc = useQueryClient();
   const [editing, setEditing] = useState<Supplier | 'new' | null>(null);
   const { query, page, setPage, search, setSearch, pageSize } = useList<Supplier>('suppliers', '/suppliers');
-  const [form, setForm] = useState({ name: '', phone: '', email: '', address: '', notes: '', isActive: true });
+  const [form, setForm] = useState({ name: '', phone: '', email: '', taxNumber: '', address: '', notes: '', isActive: true });
   const open = (s: Supplier | 'new') => {
     setEditing(s);
-    setForm(s === 'new' ? { name: '', phone: '', email: '', address: '', notes: '', isActive: true } : { name: s.name, phone: s.phone, email: s.email, address: s.address, notes: s.notes, isActive: s.isActive });
+    setForm(s === 'new' ? { name: '', phone: '', email: '', taxNumber: '', address: '', notes: '', isActive: true } : { name: s.name, phone: s.phone, email: s.email, taxNumber: s.taxNumber ?? '', address: s.address, notes: s.notes, isActive: s.isActive });
   };
   const save = useMutation({
     mutationFn: () => (editing === 'new' ? api.post('/suppliers', form) : api.put(`/suppliers/${(editing as Supplier).id}`, form)),
@@ -385,6 +386,7 @@ function SupplierList() {
             <Input label={t('common.phone')} dir="ltr" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} error={fe('phone')} />
             <Input label={t('common.email')} dir="ltr" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} error={fe('email')} />
           </div>
+          <Input label={t('gst.supplier_tin')} dir="ltr" value={form.taxNumber} onChange={(e) => setForm({ ...form, taxNumber: e.target.value })} error={fe('taxNumber')} />
           <Textarea label={t('common.address')} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
           <Textarea label={t('common.notes')} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
           <Switch checked={form.isActive} onChange={(v) => setForm({ ...form, isActive: v })} label={t('common.active')} />

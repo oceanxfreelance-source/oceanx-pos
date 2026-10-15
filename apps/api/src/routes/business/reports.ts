@@ -294,58 +294,60 @@ export async function reportRoutes(app: FastifyInstance) {
         // Output tax: POS sales and invoices by rate, less refunds. Input tax: GST on expense and purchase bills.
         const bizRate = (await loadBusinessSettings(db, bid)).tax.taxRate;
         const pos = await run(sql`
-          SELECT 'output' AS gst_type, 'pos' AS source, i.tax_rate::float AS rate, SUM(i.total - i.tax)::bigint AS taxable, SUM(i.tax)::bigint AS tax
-          FROM sale_items i JOIN sales s ON s.id = i.sale_id WHERE ${saleScope} GROUP BY 3`);
+          SELECT 'output' AS gst_type, 'pos' AS source, i.gst_type AS supply, i.tax_rate::float AS rate, SUM(i.total - i.tax)::bigint AS taxable, SUM(i.tax)::bigint AS tax
+          FROM sale_items i JOIN sales s ON s.id = i.sale_id WHERE ${saleScope} GROUP BY 3, 4`);
         // Service charge is taxed at the business rate; prices may include tax or not.
         const sc = await run(sql`
           WITH x AS (
             SELECT s.service_charge, s.tax - COALESCE(SUM(i.tax),0) AS sc_tax,
                    abs(s.total - (COALESCE(SUM(i.total),0) + s.service_charge + s.delivery_fee - s.points_discount)) < 2 AS inclusive
             FROM sales s LEFT JOIN sale_items i ON i.sale_id = s.id WHERE ${saleScope} AND s.service_charge > 0 GROUP BY s.id)
-          SELECT 'output' AS gst_type, 'service_charge' AS source, ${bizRate}::float AS rate,
+          SELECT 'output' AS gst_type, 'service_charge' AS source, 'standard' AS supply, ${bizRate}::float AS rate,
                  SUM(CASE WHEN inclusive THEN service_charge - sc_tax ELSE service_charge END)::bigint AS taxable, SUM(sc_tax)::bigint AS tax
           FROM x HAVING count(*) > 0`);
         const inv = await run(sql`
-          SELECT 'output' AS gst_type, 'invoices' AS source,
-                 COALESCE(i.tax_rate, CASE WHEN (inv.tax_config->>'taxEnabled')::boolean THEN (inv.tax_config->>'taxRate')::numeric ELSE 0 END)::float AS rate,
-                 SUM(i.total - i.tax)::bigint AS taxable, SUM(i.tax)::bigint AS tax
-          FROM invoice_items i JOIN invoices inv ON inv.id = i.invoice_id WHERE ${invoiceScope} GROUP BY 3`);
+          SELECT 'output' AS gst_type, 'invoices' AS source, CASE WHEN rate > 0 THEN 'standard' ELSE 'zero_rated' END AS supply, rate, SUM(taxable)::bigint AS taxable, SUM(tax)::bigint AS tax
+          FROM (SELECT COALESCE(i.tax_rate, CASE WHEN (inv.tax_config->>'taxEnabled')::boolean THEN (inv.tax_config->>'taxRate')::numeric ELSE 0 END)::float AS rate,
+                       i.total - i.tax AS taxable, i.tax
+                FROM invoice_items i JOIN invoices inv ON inv.id = i.invoice_id WHERE ${invoiceScope}) x GROUP BY 3, 4`);
         const back = withRefunds
           ? await run(sql`
-          SELECT 'output' AS gst_type, 'refunds' AS source, ri.tax_rate::float AS rate, (-SUM(ri.net))::bigint AS taxable, (-SUM(ri.tax))::bigint AS tax
-          FROM sale_refund_items ri JOIN sale_refunds r ON r.id = ri.refund_id WHERE ${refundScope} GROUP BY 3
+          SELECT 'output' AS gst_type, 'refunds' AS source, COALESCE(si.gst_type, 'standard') AS supply, ri.tax_rate::float AS rate, (-SUM(ri.net))::bigint AS taxable, (-SUM(ri.tax))::bigint AS tax
+          FROM sale_refund_items ri JOIN sale_refunds r ON r.id = ri.refund_id LEFT JOIN sale_items si ON si.id = ri.sale_item_id WHERE ${refundScope} GROUP BY 3, 4
           UNION ALL
           -- The service charge share of refunds (taxed at the business rate).
-          SELECT 'output', 'refunds', ${bizRate}::float, (-(SUM(r.total - r.tax) - SUM(x.net)))::bigint, (-(SUM(r.tax) - SUM(x.tax)))::bigint
+          SELECT 'output', 'refunds', 'standard', ${bizRate}::float, (-(SUM(r.total - r.tax) - SUM(x.net)))::bigint, (-(SUM(r.tax) - SUM(x.tax)))::bigint
           FROM sale_refunds r JOIN (SELECT refund_id, SUM(net) AS net, SUM(tax) AS tax FROM sale_refund_items GROUP BY refund_id) x ON x.refund_id = r.id
           WHERE ${refundScope} HAVING SUM(r.tax) <> SUM(x.tax)`)
           : [];
         const input = await run(sql`
-          SELECT 'input' AS gst_type, 'expenses' AS source, NULL::float AS rate, SUM(e.amount - e.tax)::bigint AS taxable, SUM(e.tax)::bigint AS tax
+          SELECT 'input' AS gst_type, 'expenses' AS source, NULL::text AS supply, NULL::float AS rate, SUM(e.amount - e.tax)::bigint AS taxable, SUM(e.tax)::bigint AS tax
           FROM expenses e WHERE e.business_id = ${bid} AND e.deleted_at IS NULL AND e.tax > 0 AND ${inList(sql`e.outlet_id`, oids)} AND e.expense_date BETWEEN ${q.from} AND ${q.to}
           HAVING count(*) > 0
           UNION ALL
-          SELECT 'input', 'purchases', NULL::float, SUM(p.total - p.tax)::bigint, SUM(p.tax)::bigint
+          SELECT 'input', 'purchases', NULL::text, NULL::float, SUM(p.total - p.tax)::bigint, SUM(p.tax)::bigint
           FROM purchases p WHERE p.business_id = ${bid} AND p.status <> 'cancelled' AND p.tax > 0 AND ${inList(sql`p.outlet_id`, oids)} AND p.purchase_date BETWEEN ${q.from} AND ${q.to}
           HAVING count(*) > 0`);
         // One row per kind, source and rate.
         const merged = new Map<string, Record<string, unknown>>();
         for (const r of [...pos, ...sc, ...inv, ...back, ...input]) {
-          const k = `${r.gst_type}|${r.source}|${r.rate}`;
+          const k = `${r.gst_type}|${r.source}|${r.supply}|${r.rate}`;
           const m = merged.get(k);
           if (m) {
             m.taxable = Number(m.taxable) + Number(r.taxable ?? 0);
             m.tax = Number(m.tax) + Number(r.tax ?? 0);
           } else merged.set(k, { ...r, taxable: Number(r.taxable ?? 0), tax: Number(r.tax ?? 0) });
         }
-        rows = [...merged.values()];
+        // MIRA 205 asks for sales including GST: show both.
+        rows = [...merged.values()].map((r) => ({ ...r, including_gst: Number(r.taxable) + Number(r.tax) }));
         const n = (v: unknown) => Number(v ?? 0);
         const out = rows.filter((r) => r.gst_type === 'output');
         const outputTax = out.reduce((a, r) => a + n(r.tax), 0);
         const inputTax = rows.filter((r) => r.gst_type === 'input').reduce((a, r) => a + n(r.tax), 0);
         summary = {
-          taxableSupplies: out.filter((r) => n(r.rate) > 0).reduce((a, r) => a + n(r.taxable), 0),
-          zeroRatedSupplies: out.filter((r) => !n(r.rate)).reduce((a, r) => a + n(r.taxable), 0),
+          taxableSupplies: out.filter((r) => r.supply === 'standard').reduce((a, r) => a + n(r.taxable), 0),
+          zeroRatedSupplies: out.filter((r) => r.supply === 'zero_rated').reduce((a, r) => a + n(r.taxable), 0),
+          exemptSupplies: out.filter((r) => r.supply === 'exempt').reduce((a, r) => a + n(r.taxable), 0),
           outputTax,
           inputTax,
           gstPayable: outputTax - inputTax,
@@ -377,10 +379,10 @@ export async function reportRoutes(app: FastifyInstance) {
         // Bills with GST on them: the input tax side of the GST return.
         rows = await run(sql`
           SELECT * FROM (
-            SELECT e.expense_date AS day, e.payee, e.reference, 'expenses' AS source, (e.amount - e.tax)::bigint AS taxable, e.tax::bigint AS tax, e.amount::bigint AS total
+            SELECT e.expense_date AS day, e.payee, e.supplier_tin AS tax_number, e.reference, 'expenses' AS source, (e.amount - e.tax)::bigint AS taxable, e.tax::bigint AS tax, e.amount::bigint AS total
             FROM expenses e WHERE e.business_id = ${bid} AND e.deleted_at IS NULL AND e.tax > 0 AND ${inList(sql`e.outlet_id`, oids)} AND e.expense_date BETWEEN ${q.from} AND ${q.to}
             UNION ALL
-            SELECT p.purchase_date, sp.name, CASE WHEN p.reference <> '' THEN p.reference ELSE p.number END, 'purchases', (p.total - p.tax)::bigint, p.tax::bigint, p.total::bigint
+            SELECT p.purchase_date, sp.name, sp.tax_number, CASE WHEN p.reference <> '' THEN p.reference ELSE p.number END, 'purchases', (p.total - p.tax)::bigint, p.tax::bigint, p.total::bigint
             FROM purchases p JOIN suppliers sp ON sp.id = p.supplier_id
             WHERE p.business_id = ${bid} AND p.status <> 'cancelled' AND p.tax > 0 AND ${inList(sql`p.outlet_id`, oids)} AND p.purchase_date BETWEEN ${q.from} AND ${q.to}
           ) x ORDER BY day LIMIT 10000`);

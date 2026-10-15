@@ -161,15 +161,17 @@ function GstWorksheet({
         <thead>
           <tr className="border-y border-slate-300 text-xs text-slate-600">
             <th className="px-2 py-2 text-start font-semibold">{t('reports.columns.source')}</th>
+            <th className="px-2 py-2 text-start font-semibold">{t('reports.columns.supply')}</th>
             <th className="px-2 py-2 text-end font-semibold">{t('reports.columns.rate')}</th>
             <th className="px-2 py-2 text-end font-semibold">{t('reports.columns.taxable')}</th>
             <th className="px-2 py-2 text-end font-semibold">{t('reports.columns.tax')}</th>
+            <th className="px-2 py-2 text-end font-semibold">{t('reports.columns.including_gst')}</th>
           </tr>
         </thead>
         <tbody>
           {list.length === 0 ? (
             <tr>
-              <td colSpan={4} className="px-2 py-3 text-center text-slate-500">
+              <td colSpan={6} className="px-2 py-3 text-center text-slate-500">
                 —
               </td>
             </tr>
@@ -177,18 +179,21 @@ function GstWorksheet({
             list.map((r, i) => (
               <tr key={i} className="border-b border-slate-100">
                 <td className="px-2 py-1.5">{cell('source', r.source)}</td>
+                <td className="px-2 py-1.5">{r.supply ? cell('supply', r.supply) : '—'}</td>
                 <td className="px-2 py-1.5 text-end tabular-nums">{r.rate === null || r.rate === undefined ? '—' : cell('rate', r.rate)}</td>
                 <td className="px-2 py-1.5 text-end tabular-nums">{money(n(r.taxable))}</td>
                 <td className="px-2 py-1.5 text-end tabular-nums">{money(n(r.tax))}</td>
+                <td className="px-2 py-1.5 text-end tabular-nums">{money(n(r.taxable) + n(r.tax))}</td>
               </tr>
             ))
           )}
           <tr className="border-t-2 border-slate-300 font-bold">
-            <td className="px-2 py-2" colSpan={2}>
+            <td className="px-2 py-2" colSpan={3}>
               {totalLabel}
             </td>
             <td className="px-2 py-2 text-end tabular-nums">{money(list.reduce((a, r) => a + n(r.taxable), 0))}</td>
             <td className="px-2 py-2 text-end tabular-nums">{money(list.reduce((a, r) => a + n(r.tax), 0))}</td>
+            <td className="px-2 py-2 text-end tabular-nums">{money(list.reduce((a, r) => a + n(r.taxable) + n(r.tax), 0))}</td>
           </tr>
         </tbody>
       </table>
@@ -214,7 +219,7 @@ function GstWorksheet({
       </section>
       {section(t('gst.print.output_title'), out, t('gst.print.output_total'))}
       <p className="-mt-3 text-xs text-slate-500" data-pdf-block>
-        {t('gst.print.zero_rated', { amount: money(summary.zeroRatedSupplies ?? 0) })}
+        {t('gst.print.by_type', { standard: money(summary.taxableSupplies ?? 0), zero: money(summary.zeroRatedSupplies ?? 0), exempt: money(summary.exemptSupplies ?? 0) })}
       </p>
       {section(t('gst.print.input_title'), inp, t('gst.print.input_total'))}
       <section className={`flex items-center justify-between rounded-xl border-2 p-5 ${payable >= 0 ? 'border-slate-900' : 'border-emerald-700'}`} data-pdf-block>
