@@ -6,7 +6,7 @@ import type { BadgeTone } from '../../components/ui/Card';
 export interface Venture {
   id: string;
   name: string;
-  kind: 'pos' | 'gravity' | 'flow' | 'custom';
+  kind: 'pos' | 'gravity' | 'flow' | 'budget' | 'custom';
   description: string;
   color: string;
   isActive: boolean;

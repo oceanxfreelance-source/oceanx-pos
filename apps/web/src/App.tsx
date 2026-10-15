@@ -43,6 +43,11 @@ const Tables = lazy(() => import('./pages/business/Tables'));
 const Reports = lazy(() => import('./pages/business/Reports'));
 const FlowTransactions = lazy(() => import('./pages/business/Flow').then((m) => ({ default: m.FlowTransactionsPage })));
 const FlowMonths = lazy(() => import('./pages/business/Flow').then((m) => ({ default: m.FlowMonthsPage })));
+const BudgetSpending = lazy(() => import('./pages/business/Budget').then((m) => ({ default: m.BudgetSpendingPage })));
+const BudgetGoals = lazy(() => import('./pages/business/Budget').then((m) => ({ default: m.BudgetGoalsPage })));
+const BudgetPlan = lazy(() => import('./pages/business/Budget').then((m) => ({ default: m.BudgetPlanPage })));
+const BudgetMonths = lazy(() => import('./pages/business/Budget').then((m) => ({ default: m.BudgetMonthsPage })));
+const BudgetReportPrint = lazy(() => import('./pages/print/BudgetReportPrint'));
 const Karaoke = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.KaraokePage })));
 const Reservations = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.ReservationsPage })));
 const OnlineOrders = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.OnlineOrdersPage })));
@@ -175,6 +180,11 @@ const router = createBrowserRouter([
           { path: 'flow/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
           { path: 'flow/plans', element: withSuspense(<SaGravityPlan key="flow" product="flow" />) },
           { path: 'flow/payments', element: withSuspense(<SaPayments product="flow" />) },
+          // Gravity Budget (personal budgets) console.
+          { path: 'budget/accounts', element: withSuspense(<SaBusinesses product="budget" />) },
+          { path: 'budget/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
+          { path: 'budget/plans', element: withSuspense(<SaGravityPlan key="budget" product="budget" />) },
+          { path: 'budget/payments', element: withSuspense(<SaPayments product="budget" />) },
           { path: 'plans', element: withSuspense(<SaPlans />) },
           { path: 'addons', element: withSuspense(<SaAddons />) },
           { path: 'subscriptions', element: withSuspense(<SaSubscriptions />) },
@@ -212,6 +222,10 @@ const router = createBrowserRouter([
       { path: 'flow', element: <Navigate to="/flow/register" replace /> },
       { path: 'flow/register', element: <Register product="flow" /> },
       { path: 'flow/login', element: <BusinessLogin product="flow" /> },
+      // Gravity Budget (personal budgets): its own sign-up and sign-in.
+      { path: 'budget', element: <Navigate to="/budget/register" replace /> },
+      { path: 'budget/register', element: <Register product="budget" /> },
+      { path: 'budget/login', element: <BusinessLogin product="budget" /> },
       { path: 'forgot-password', element: <ForgotPassword domain="business" /> },
       { path: 'reset-password', element: <ResetPassword domain="business" /> },
       {
@@ -230,6 +244,7 @@ const router = createBrowserRouter([
           { path: 'print/payroll/:id', element: withSuspense(<PayrollPrint />) },
           { path: 'print/payroll/:id/slip/:lineId', element: withSuspense(<PayslipPrint />) },
           { path: 'print/rota', element: withSuspense(<RotaPrint />) },
+          { path: 'print/budget/:month', element: withSuspense(<BudgetReportPrint />) },
           { path: 'print/:kind/:id', element: withSuspense(<PrintPage />) },
         ],
       },
@@ -263,6 +278,11 @@ const router = createBrowserRouter([
           // Gravity Flow: every income and expense, and every month.
           { path: 'transactions', element: withSuspense(<FlowTransactions />) },
           { path: 'months', element: withSuspense(<FlowMonths />) },
+          // Gravity Budget: records, goals, the plan (limits and bills) and past months.
+          { path: 'spending', element: withSuspense(<BudgetSpending />) },
+          { path: 'goals', element: withSuspense(<BudgetGoals />) },
+          { path: 'plan', element: withSuspense(<BudgetPlan />) },
+          { path: 'history', element: withSuspense(<BudgetMonths />) },
           { path: 'karaoke', element: withSuspense(<Karaoke />) },
           { path: 'reservations', element: withSuspense(<Reservations />) },
           { path: 'online-orders', element: withSuspense(<OnlineOrders />) },

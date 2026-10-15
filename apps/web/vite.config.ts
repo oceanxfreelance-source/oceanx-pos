@@ -15,6 +15,6 @@ export default defineConfig({
   build: { sourcemap: true },
   // Each product's own address (from the server's settings), for links shown in Super Admin.
   define: {
-    __APP_URLS__: JSON.stringify({ pos: process.env.APP_URL ?? '', gravity: process.env.GRAVITY_APP_URL ?? '', flow: process.env.FLOW_APP_URL ?? '' }),
+    __APP_URLS__: JSON.stringify({ pos: process.env.APP_URL ?? '', gravity: process.env.GRAVITY_APP_URL ?? '', flow: process.env.FLOW_APP_URL ?? '', budget: process.env.BUDGET_APP_URL ?? '' }),
   },
 });

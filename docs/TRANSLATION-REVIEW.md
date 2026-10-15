@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1086 · **confirmed**: 148
+Status: **needs_review**: 1275 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -117,6 +117,192 @@ review of the whole file is still recommended before launch.
 | `branding.stamp_look.red` | Red ink | ރަތް ތަންޑު | needs_review | New: stamp ink look (blue / red). |
 | `branding.stamp_pick_look` | Choose how your stamp looks | ސްޓޭމްޕް ފެންނަންވީ ގޮތް ޚިޔާރުކުރައްވާ | needs_review | New: stamp ink look (blue / red). |
 | `branding.upload` | Upload photo | ފޮޓޯ އަޕްލޯޑްކުރޭ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `budget.accounts` | Budget accounts | ބަޖެޓް އެކައުންޓްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.accounts_subtitle` | People using Gravity Budget, their trial and plan. | Gravity Budget ބޭނުންކުރާ ފަރާތްތައް، އެފަރާތްތަކުގެ ޓްރަޔަލް އަދި ޕްލޭން. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.active_accounts` | Budget accounts | ބަޖެޓް އެކައުންޓްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.add` | Add | އިތުރުކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.add_income` | Income | އާމްދަނީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.add_spending` | Spending | ޚަރަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.advice` | Advice | ލަފާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.after_bills` | Bills still to pay ({{amount}}) are already kept aside. | އަދި ދައްކަންޖެހޭ ބިލުތައް ({{amount}}) ވަކިކޮށް ބަހައްޓާފައިވޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.all_categories` | All categories | ހުރިހާ ބާވަތެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.all_records` | All records | ހުރިހާ ރެކޯޑެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.aside_1` | Write down spending in seconds, on your phone | ފޯނުން، ސިކުންތުކޮޅެއްގައި ޚަރަދު ލިޔެވޭނެ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.aside_2` | A monthly limit for food, rent, bills and more | ކެއުން، ގޭކުލި، ބިލުތަކާއި އެހެން ކަންކަމަށް މަހުގެ ލިމިޓެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.aside_3` | Save for a phone, Umrah, a wedding or a rainy day | ފޯނަކަށް، ޢުމްރާއަށް، ކައިވެންޏަކަށް ނުވަތަ ކުއްލި ހާލަތަކަށް ފައިސާ ރައްކާކުރެވޭނެ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.aside_4` | A monthly report you can download as PDF | PDF ގޮތުގައި ޑައުންލޯޑް ކުރެވޭ މަހުގެ ރިޕޯޓެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.aside_title` | Stop wondering where your salary went. | މުސާރަ ދިޔައީ ކޮންތާކަށްތޯ ދެން ވިސްނަން ނުޖެހޭނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.avg_spent` | On average you spend {{amount}} a month. | އެވްރެޖްކޮށް މަހަކު {{amount}} ޚަރަދުކުރޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.bill_amount` | Usual amount | އާދައިގެ އަދަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.bill_amount_hint` | Change it if this month's bill is different. | މި މަހުގެ ބިލު ތަފާތުނަމަ ބަދަލުކުރައްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.bill_name` | Bill | ބިލު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.bill_name_hint` | e.g. Rent, Dhiraagu, STELCO, Car loan | މިސާލު: ގޭކުލި، Dhiraagu، STELCO، ކާރު ލޯން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.bill_paid` | Bill paid and written down as spending. | ބިލު ދައްކައި، ޚަރަދެއްގެ ގޮތުގައި ލިޔެވިއްޖެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.bills_hint` | Rent, phone, internet, electricity, loans: paid every month. | ގޭކުލި، ފޯނު، އިންޓަނެޓް، ކަރަންޓު، ލޯން: ކޮންމެ މަހަކު ދައްކާ ބިލުތައް. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.bills_this_month` | Bills this month | މި މަހުގެ ބިލުތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.business_name` | Your name | ތިބާގެ ނަން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.business_name_hint` | Shown on your monthly reports. | މަހުގެ ރިޕޯޓްތަކުގައި ފެންނާނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.console` | Gravity Budget console | Gravity Budget ކޮންސޯލް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.daily_spending` | Spending each day | ކޮންމެ ދުވަހެއްގެ ޚަރަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.delete_bill` | Remove this bill? | މި ބިލު ފޮހެލަންތަ؟ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.delete_bill_body` | Bills already paid stay in your records. | ކުރިން ދައްކާފައިވާ ބިލުތައް ރެކޯޑްތަކުގައި ހުންނާނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.delete_category` | Remove this category? | މި ބާވަތް ފޮހެލަންތަ؟ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.delete_category_body` | Its records stay and count as Other. | އޭގެ ރެކޯޑްތައް ހުންނާނެ، އަދި "އެހެނިހެން" ގެ ގޮތުގައި ގުނޭނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.delete_goal` | Delete this goal? | މި އަމާޒު ފޮހެލަންތަ؟ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.delete_goal_body` | Its savings history is removed too. | އޭގެ ރައްކާކުރި ރެކޯޑްތައްވެސް ފޮހެވޭނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.download_month` | Download {{month}} as PDF | {{month}} PDF ގޮތުގައި ޑައުންލޯޑްކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.due_day` | Due day | ދައްކަންޖެހޭ ދުވަސް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.due_in_one` | Due tomorrow ({{date}}) | މާދަމާ ދައްކަންޖެހޭ ({{date}}) | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.due_in_other` | Due in {{count}} days ({{date}}) | {{count}} ދުވަހުން ދައްކަންޖެހޭ ({{date}}) | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.due_on` | Due {{date}} | {{date}} ގައި ދައްކަންޖެހޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.due_today` | Due today | މިއަދު ދައްކަންޖެހޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.edit_bill` | Change bill | ބިލު ބަދަލުކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.edit_budget` | Edit | ބަދަލުކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.edit_category` | Change category | ބާވަތް ބަދަލުކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.edit_goal` | Change goal | އަމާޒު ބަދަލުކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.edit_record` | Change record | ރެކޯޑް ބަދަލުކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.every_month_on` | Every month on day {{day}} | ކޮންމެ މަހެއްގެ {{day}} ވަނަ ދުވަހު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_added` | {{amount}} saved. Well done! | {{amount}} ރައްކާކުރެވިއްޖެ. ވަރަށް ރަނގަޅު! | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_behind` | Put in {{amount}} more this month to stay on track | ރަނގަޅަށް ދިއުމަށް މި މަހު އިތުރަށް {{amount}} ލައްވާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_date` | Needed by | ބޭނުންވާ ތާރީޚު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_date_hint` | Optional. We will tell you how much to save each month. | ބޭނުންނަމަ. ކޮންމެ މަހަކު ރައްކާކުރަންޖެހޭ އަދަދު ބުނެދޭނަން. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_done` | Goal reached! 🎉 | އަމާޒު ހާސިލުވެއްޖެ! 🎉 | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_history` | History | ކުރީގެ ރެކޯޑްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_late` | The date has passed. {{amount}} still needed. | ތާރީޚު ފަހަނައަޅައިފި. އަދި {{amount}} ބޭނުންވޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_name` | Goal | އަމާޒު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_name_hint` | e.g. New phone, Umrah, Emergency fund | މިސާލު: އައު ފޯނެއް، ޢުމްރާ، ކުއްލި ހާލަތަށް ފައިސާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_on_track` | On track this month | މި މަހު ރަނގަޅަށް ދަނީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_per_month` | Save {{amount}} a month to reach it by {{date}}. | {{date}} ގެ ކުރިން ހާސިލުކުރުމަށް މަހަކު {{amount}} ރައްކާކުރައްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_remaining` | {{amount}} still needed. | އަދި {{amount}} ބޭނުންވޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_saved_of` | {{saved}} saved of {{target}} | {{target}} ގެ ތެރެއިން {{saved}} ރައްކާކޮށްފި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goal_target` | Amount needed | ބޭނުންވާ އަދަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goals_note` | Money you put into a goal is kept aside: it is not counted as money left to spend. | އަމާޒަކަށް ލާ ފައިސާ ވަކިކޮށް ބެހެއްޓޭނެ: އެއީ ޚަރަދުކުރަން ބާކީ ފައިސާގެ ގޮތުގައި ނުގުނޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.goals_total` | {{amount}} saved in all goals | ހުރިހާ އަމާޒެއްގައި {{amount}} ރައްކާކޮށްފައި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.hello` | Hi {{name}} | ހަލޯ {{name}} | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.icon` | Icon | އައިކަން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.income` | Income | އާމްދަނީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.income_this_month` | Income this month | މި މަހުގެ އާމްދަނީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.income_types` | Income types | އާމްދަނީގެ ބާވަތްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.bill_overdue` | {{name}} ({{amount}}) is past its due date and not paid. | {{name}} ({{amount}}) ދައްކަންޖެހޭ ތާރީޚު ފަހަނައަޅައިފި، އަދި ނުދައްކާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.bills_soon_one` | 1 bill is due in the next 7 days: {{amount}}. | ދެން އަންނަ 7 ދުވަހު 1 ބިލެއް ދައްކަންޖެހޭ: {{amount}}. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.bills_soon_other` | {{count}} bills are due in the next 7 days: {{amount}}. | ދެން އަންނަ 7 ދުވަހު {{count}} ބިލު ދައްކަންޖެހޭ: {{amount}}. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.budget_over_income` | Your limits add up to {{amount}} more than your income. Lower some of them. | ތިބާގެ ލިމިޓްތައް ޖުމްލަކުރީމާ އާމްދަނީއަށްވުރެ {{amount}} ގިނަ. ބައެއް ލިމިޓް ދަށްކުރައްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.more_than_last` | You spent {{amount}} more on {{name}} than in all of last month. | {{name}} އަށް، ކުރީ މަހު މުޅިން ޚަރަދުކުރިއަށްވުރެ {{amount}} ގިނައިން ޚަރަދުކޮށްފި. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.near_limit` | {{name}} is nearly at its limit: {{amount}} left. | {{name}} ލިމިޓާ ގާތްވެއްޖެ: {{amount}} ބާކީ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.no_income` | No income written down this month yet. Add your salary so we can tell what is left. | މި މަހު އަދި އެއްވެސް އާމްދަނީއެއް ނުލިޔެވޭ. ބާކީ އޮތް މިންވަރު އެނގޭނެހެން މުސާރަ އިތުރުކުރައްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.on_track` | You are on track this month. Keep going! | މި މަހު ރަނގަޅަށް ދަނީ. ކުރިއަށް ގެންދަވާ! | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.over_income` | You have spent and saved {{amount}} more than came in this month. | މި މަހު ލިބުނު ފައިސާއަށްވުރެ {{amount}} ގިނައިން ޚަރަދުކޮށް ރައްކާކޮށްފައިވޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.over_limit` | {{name}} is {{amount}} over its limit. | {{name}} އޭގެ ލިމިޓަށްވުރެ {{amount}} ބޮޑުވެއްޖެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.pace` | At this pace you will spend about {{amount}} this month, more than you earn. | މިގޮތަށް ދިޔައިމާ، މި މަހު ގާތްގަނޑަކަށް {{amount}} ޚަރަދުވާނެ، އެއީ ލިބޭ ފައިސާއަށްވުރެ ގިނަ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.saved` | Well done: {{amount}} put into your goals this month. | ވަރަށް ރަނގަޅު: މި މަހު {{amount}} އަމާޒުތަކަށް ރައްކާކޮށްފި. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.set_limits` | Give your main categories a monthly limit to know when to slow down. | ޚަރަދު ކުޑަކުރަންޖެހޭ ވަގުތު އެނގޭނެހެން، މައި ބާވަތްތަކަށް މަހުގެ ލިމިޓެއް ކަނޑައަޅުއްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.insight.top` | Most of your money went on {{name}} ({{percent}}% of spending). | ތިބާގެ ފައިސާގެ ގިނަ ބައެއް ޚަރަދުވީ {{name}} އަށް (ޚަރަދުގެ {{percent}}%). | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.kind` | Type | ބާވަތް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.last_month` | Last month | ކުރީ މަސް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.latest` | Latest | އެންމެ ފަހުގެ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.left` | Left | ބާކީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.left_in` | {{amount}} left | {{amount}} ބާކީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.left_to_spend` | Left to spend this month | މި މަހު ޚަރަދުކުރަން ބާކީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.limit_for` | Monthly limit for {{name}} | {{name}} ގެ މަހުގެ ލިމިޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.load_more` | Show more | އިތުރަށް ދައްކާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.mark_paid` | Mark as paid | ދެއްކިކަމަށް ލާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.money_in` | Money in | ލިބުނު ފައިސާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.monthly_bills` | Monthly bills | މަހުގެ ބިލުތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.monthly_limit` | Monthly limit | މަހުގެ ލިމިޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.monthly_limit_hint` | The most you want to spend on this in a month. Leave empty for no limit. | މަހަކު މިކަމަށް ޚަރަދުކުރަން ބޭނުންވާ އެންމެ ގިނަ އަދަދު. ލިމިޓެއް ނުބޭނުންނަމަ ހުސްކޮށް ބަހައްޓަވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.months_chart` | Money in and spent, month by month | މަހުން މަހަށް ލިބުނު ފައިސާއާއި ޚަރަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.my_budgets` | My budgets | މަގޭ ބަޖެޓްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.name` | Gravity Budget | Gravity Budget | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nav_goals` | Goals | އަމާޒުތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nav_months` | Months | މަސްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nav_plan` | My budget | މަގޭ ބަޖެޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nav_spending` | Spending | ޚަރަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.new_account` | New Budget account | އައު ބަޖެޓް އެކައުންޓެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.new_bill` | New monthly bill | މަހުގެ އައު ބިލެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.new_category` | New spending category | ޚަރަދުގެ އައު ބާވަތެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.new_goal` | New goal | އައު އަމާޒެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.new_income_category` | New income type | އާމްދަނީގެ އައު ބާވަތެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.no_account` | New to Gravity Budget? | Gravity Budget އަށް އަލެއްތަ؟ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.no_bills` | No bills yet. Add the ones you pay every month so they are never forgotten. | އަދި ބިލެއް ނެތް. ހަނދާން ނައްތާނުލެވޭނެހެން، ކޮންމެ މަހަކު ދައްކާ ބިލުތައް އިތުރުކުރައްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.no_goals` | No goals yet | އަދި އަމާޒެއް ނެތް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.no_goals_hint` | Saving is easier with a goal. Add something you want, and how much it costs. | އަމާޒެއް އޮތުމުން ފައިސާ ރައްކާކުރުން ފަސޭހަ. ބޭނުންވާ އެއްޗަކާއި، އޭގެ އަގު އިތުރުކުރައްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.no_limit` | No limit | ލިމިޓެއް ނެތް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.no_limits_yet` | No monthly limits yet. | އަދި މަހުގެ ލިމިޓެއް ނެތް. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.not_paid` | Not paid | ނުދައްކާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.note_hint` | e.g. lunch, fuel | މިސާލު: މެންދުރު ކެއުން، ތެޔޮ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nothing_safe` | Nothing is left to spend this month after your bills. Spend only on what you must. | ބިލުތައް ދެއްކުމަށްފަހު މި މަހު ޚަރަދުކުރަން އެއްވެސް ފައިސާއެއް ބާކީއެއް ނުވޭ. ހަމަ ކުރަންޖެހޭ ޚަރަދު އެކަނި ކުރައްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nothing_spent` | Nothing spent yet this month. | މި މަހު އަދި އެއްވެސް ޚަރަދެއް ނުކުރޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nothing_yet` | Nothing written down yet. | އަދި އެއްވެސް އެއްޗެއް ނުލިޔެވޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nothing_yet_hint` | Tap Spending or Income to add your first record. | ފުރަތަމަ ރެކޯޑް އިތުރުކުރުމަށް ޚަރަދު ނުވަތަ އާމްދަނީއަށް ފިތާލައްވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.optional` | Optional | ބޭނުންނަމަ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.other` | Other | އެހެނިހެން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.over_by` | {{amount}} over the limit | ލިމިޓަށްވުރެ {{amount}} ބޮޑު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.overdue_since` | Overdue since {{date}} | {{date}} އިން ފެށިގެން ލަސްވެފައި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.overspent` | Spent more than came in | ލިބުނު ފައިސާއަށްވުރެ ގިނައިން ޚަރަދުވެއްޖެ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.paid_on` | Paid {{date}} | {{date}} ގައި ދެއްކި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.paid_with` | Paid with | ދެއްކި ގޮތް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.paid.card` | Card | ކާޑު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.paid.cash` | Cash | ނަގުދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.paid.other` | Other | އެހެނިހެން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.paid.transfer` | Transfer | ޓްރާންސްފަރ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.pay` | Pay | ދައްކާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.pay_bill` | Pay {{name}} | {{name}} ދައްކާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.payments` | Gravity Budget payments | Gravity Budget ޕޭމަންޓްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.plan_hint` | Your monthly limits, your bills and your income types. | ތިބާގެ މަހުގެ ލިމިޓްތައް، ބިލުތަކާއި އާމްދަނީގެ ބާވަތްތައް. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.plan_over_income` | Your limits are {{amount}} more than your income ({{income}}). | ތިބާގެ ލިމިޓްތައް، ތިބާގެ އާމްދަނީއަށްވުރެ ({{income}}) {{amount}} ގިނަ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.plan_title` | Gravity Budget plan | Gravity Budget ޕްލޭން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.plan_under_income` | {{amount}} of your income ({{income}}) is not planned: a good amount to save. | ތިބާގެ އާމްދަނީގެ ({{income}}) ތެރެއިން {{amount}} އަކަށް ރާވާފައެއް ނުވޭ: ރައްކާކުރަން ރަނގަޅު އަދަދެއް. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.planned_spending` | Planned spending a month | މަހަކަށް ރާވާފައިވާ ޚަރަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.put_in` | Put money into {{name}} | {{name}} އަށް ފައިސާ ލާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.put_in_short` | Put in | ލާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.register_subtitle` | 24 hours free. Then MVR 50 a month. | 24 ގަޑިއިރު ހިލޭ. އޭގެ ފަހުން މަހަކު MVR 50. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.register_title` | Start your free trial | ހިލޭ ޓްރަޔަލް ފައްޓަވާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.report_footer` | Gravity Budget · budget.oceanx.app | Gravity Budget · budget.oceanx.app | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.report_made` | Made on {{date}} | {{date}} ގައި ހަދާފައި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.report_title` | Monthly money report | މަހުގެ ފައިސާގެ ރިޕޯޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.safe_per_day_one` | You can spend {{amount}} today (last day of the month). | މިއަދު {{amount}} ޚަރަދުކުރެވޭނެ (މަހުގެ ފަހު ދުވަސް). | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.safe_per_day_other` | You can spend about {{amount}} a day for the next {{count}} days. | ދެން އަންނަ {{count}} ދުވަހު، ދުވާލަކު ގާތްގަނޑަކަށް {{amount}} ޚަރަދުކުރެވޭނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.saved` | Saved | ރައްކާކުރި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.set_limits` | Set limits | ލިމިޓް ކަނޑައަޅާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.setup_body` | Two minutes now, and every month you will know exactly where your money goes. | މިހާރު ދެ މިނެޓް ހޭދަކުރައްވާ، ދެން ކޮންމެ މަހަކު ފައިސާ ދާ ތަން ރަނގަޅަށް އެނގޭނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.setup_done` | Your budget is ready. | ތިބާގެ ބަޖެޓް ތައްޔާރު. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.setup_income` | Your income this month | މި މަހުގެ ތިބާގެ އާމްދަނީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.setup_income_hint` | Salary and any other money you received this month. You can add more later. | މި މަހު ލިބުނު މުސާރައާއި އެހެން ފައިސާ. ފަހުން އިތުރަށް ލިޔެވޭނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.setup_spending` | What do you spend on? | ޚަރަދުކުރަނީ ކޮންކަމަކަށް؟ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.setup_spending_hint` | Untick what you don't need. Give a monthly limit to the ones you want to control (you can change it any time). | ބޭނުން ނުވާ އެއްޗެހިން ޓިކް ނައްޓާލައްވާ. ކޮންޓްރޯލްކުރަން ބޭނުންވާ ބާވަތްތަކަށް މަހުގެ ލިމިޓެއް ދެއްވާ (ކޮންމެ ވަގުތެއްގައި ބަދަލުކުރެވޭނެ). | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.setup_start` | Start my budget | ބަޖެޓް ފަށާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.setup_title` | Let's set up your budget | ތިބާގެ ބަޖެޓް ތައްޔާރުކުރަމާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.spending` | Spending | ޚަރަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.spending_limits` | Spending and limits | ޚަރަދާއި ލިމިޓްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.spent` | Spent | ޚަރަދުވި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.spent_this_month` | {{amount}} spent this month | މި މަހު {{amount}} ޚަރަދުކޮށްފި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.start_trial` | Start my free trial | ހިލޭ ޓްރަޔަލް ފަށާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.eating_out` | Eating out & coffee | ބޭރުގައި ކެއުމާއި ކޮފީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.education` | Education | ތަޢުލީމު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.family` | Family support | އާއިލާއަށް އެހީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.food` | Food & groceries | ކެއުމާއި ގްރޮސަރީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.from_family` | From family | އާއިލާއިން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.fun` | Fun & outings | މަޖާއާއި ދަތުރު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.health` | Health | ޞިއްޙަތު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.loans` | Loans & card payments | ލޯނާއި ކާޑުގެ ފައިސާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.other` | Other | އެހެނިހެން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.phone` | Phone & internet | ފޯނާއި އިންޓަނެޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.rent` | Rent | ގޭކުލި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.salary` | Salary | މުސާރަ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.shopping` | Shopping & clothes | ޝޮޕިންގާއި ހެދުން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.side_income` | Side income | އިތުރު އާމްދަނީ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.transport` | Transport & fuel | ދަތުރުފަތުރާއި ތެޔޮ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.starter.utilities` | Electricity & water | ކަރަންޓާއި ފެން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.status` | Status | ހާލަތު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.still_to_pay` | {{amount}} still to pay | އަދި {{amount}} ދައްކަންޖެހޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.tagline` | Know where your money goes | ތިބާގެ ފައިސާ ދާ ތަން އެނގޭނެ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.take_out` | Take money out of {{name}} | {{name}} އިން ފައިސާ ނަގާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.take_out_short` | Take out | ނަގާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.this_month_title` | This month | މި މަސް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.to_pay` | To pay | ދައްކަންޖެހޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.total` | Total | ޖުމްލަ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.vs_last_month_total` | vs last month | ކުރީ މަހާ އަޅާބަލާއިރު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.where_it_went` | Where your money went | ތިބާގެ ފައިސާ ދިޔަ ތަން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `business_types.retail_shop` | Shop | ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `business_types.supermarket` | Supermarket / big shop | ސުޕަރމާކެޓް / ބޮޑު ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `common.done` | Done | ނިމިއްޖެ | needs_review | Button that closes a finished step. |
@@ -717,6 +903,7 @@ review of the whole file is still recommended before launch.
 | `menu_i18n.message_in` | Welcome message in {{language}} | {{language}} ބަހުން މަރުޙަބާ މެސެޖު | needs_review | New: labels for item names in other languages. |
 | `menu_i18n.more_languages` | More languages | އިތުރު ބަސްތައް | needs_review | New: labels for item names in other languages. |
 | `menu_i18n.name_in` | Name in {{language}} | {{language}} ބަހުން ނަން | needs_review | New: labels for item names in other languages. |
+| `modules.budget` | Budget | ބަޖެޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `modules.finance` | Income & expenses | އާމްދަނީއާއި ޚަރަދު | needs_review | New: Gravity Flow. |
 | `modules.purchases` | Purchases | ގަތުން | needs_review | Alternative loanword: ޕާޗޭސް. |
 | `nav.billing` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
@@ -736,6 +923,8 @@ review of the whole file is still recommended before launch.
 | `payments.kinds.refund` | Refund | ރީފަންޑް | needs_review | Refunds, GST report and import add-ons. |
 | `payments.reference_pv_hint` | Payment voucher (PV), cheque or transfer number. | ޕޭމަންޓް ވައުޗަރު (ޕީވީ)، ޗެކު ނުވަތަ ޓްރާންސްފަރ ނަންބަރު. | needs_review | New: company and government accounts (PO / PV). |
 | `perm.branding_manage` | Manage the company stamp and document signatures | ކުންފުނީގެ ތައްގަނޑާއި ލިޔެކިޔުންތަކުގެ ސޮއި ބެލެހެއްޓުން | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `perm.budget_manage` | Add and change spending, budgets, bills and goals | ޚަރަދު، ބަޖެޓް، ބިލާއި އަމާޒުތައް އިތުރުކުރުމާއި ބަދަލުކުރުން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `perm.budget_view` | View budget, spending and goals | ބަޖެޓް، ޚަރަދާއި އަމާޒުތައް ބެލުން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `perm.credit_create` | Make credit sales | ދަރަންޏަށް ވިއްކާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.finance_manage` | Add, change and delete income and expenses | އާމްދަނީއާއި ޚަރަދު ލިޔުން، ބަދަލުކުރުމާއި ފޮހެލުން | needs_review | New: Gravity Flow. |

@@ -7,9 +7,10 @@ import { FullscreenButton } from '../../components/FullscreenButton';
 import { InstallApp } from '../../components/InstallApp';
 import { useNavyPalette, useProductTheme } from '../../lib/product';
 
-export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' | 'gravity' | 'flow' }) {
+export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' | 'gravity' | 'flow' | 'budget' }) {
   const { t } = useTranslation();
-  useProductTheme(variant === 'gravity' || variant === 'flow' ? variant : 'pos');
+  const gravityFamily = variant === 'gravity' || variant === 'flow' || variant === 'budget';
+  useProductTheme(gravityFamily ? variant : 'pos');
   useNavyPalette(variant === 'superadmin');
   return (
     <div className="relative min-h-dvh">
@@ -22,10 +23,10 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
         <div className="flex flex-col justify-center px-5 py-10 sm:px-10">
           <div className="mx-auto w-full max-w-sm">
             <div className="mb-8 flex items-center gap-3">
-              {variant === 'gravity' ? <GravityMark className="size-10" /> : variant === 'flow' ? <FlowMark className="size-10" /> : <Logo className="size-10" />}
+              {variant === 'gravity' ? <GravityMark className="size-10" /> : variant === 'flow' ? <FlowMark className="size-10" /> : variant === 'budget' ? <BudgetMark className="size-10" /> : <Logo className="size-10" />}
               <div>
-                <p className="text-lg font-semibold tracking-tight">{variant === 'gravity' || variant === 'flow' ? t(`${variant}.name`) : t('app.name')}</p>
-                <p className="text-xs text-slate-500">{variant === 'superadmin' ? t('superadmin.console') : variant === 'gravity' || variant === 'flow' ? t(`${variant}.tagline`) : t('app.tagline')}</p>
+                <p className="text-lg font-semibold tracking-tight">{gravityFamily ? t(`${variant}.name`) : t('app.name')}</p>
+                <p className="text-xs text-slate-500">{variant === 'superadmin' ? t('superadmin.console') : gravityFamily ? t(`${variant}.tagline`) : t('app.tagline')}</p>
               </div>
             </div>
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">{title}</h1>
@@ -43,12 +44,12 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
           className={
             variant === 'superadmin'
               ? 'gravity-surface relative hidden overflow-hidden lg:block'
-              : variant === 'gravity' || variant === 'flow'
+              : gravityFamily
                 ? 'gravity-surface relative hidden overflow-hidden lg:block'
                 : 'relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 lg:block'
           }
         >
-          {aside ?? (variant === 'gravity' ? <GravityAside /> : variant === 'flow' ? <FlowAside /> : <AuthAside />)}
+          {aside ?? (variant === 'gravity' ? <GravityAside /> : variant === 'flow' ? <FlowAside /> : variant === 'budget' ? <BudgetAside /> : <AuthAside />)}
         </div>
       </div>
     </div>
@@ -151,6 +152,50 @@ function FlowAside() {
         <li>✓ {t('flow.aside_1')}</li>
         <li>✓ {t('flow.aside_2')}</li>
         <li>✓ {t('flow.aside_3')}</li>
+      </ul>
+    </div>
+  );
+}
+
+/** Gravity Budget's mark: Gravity's hexagon holding a gold coin with a slice taken (a budget), on the deep-sea tile. */
+export function BudgetMark({ className }: { className?: string }) {
+  const id = useId();
+  return (
+    <svg viewBox="0 0 512 512" className={className} aria-hidden>
+      <defs>
+        <radialGradient id={`${id}a`} cx="45%" cy="42%" r="70%">
+          <stop offset="0" stopColor="#0f3b58" />
+          <stop offset=".55" stopColor="#03213a" />
+          <stop offset="1" stopColor="#010c16" />
+        </radialGradient>
+        <radialGradient id={`${id}b`} cx="0%" cy="100%" r="65%">
+          <stop offset="0" stopColor="#2a7d5e" stopOpacity=".95" />
+          <stop offset="1" stopColor="#2a7d5e" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="512" height="512" rx="112" fill={`url(#${id}a)`} />
+      <rect width="512" height="512" rx="112" fill={`url(#${id}b)`} />
+      <path d="M176 112 H336 L416 256 L336 400 H176 L96 256 Z" fill="none" stroke="#fff" strokeWidth="34" strokeLinejoin="round" />
+      <path d="M256 256 L256 168 A88 88 0 1 0 332 300 Z" fill="#f2c14e" />
+      <path d="M276 236 L276 150 A88 88 0 0 1 352 280 Z" fill="#6fc49f" />
+    </svg>
+  );
+}
+
+function BudgetAside() {
+  const { t } = useTranslation();
+  return (
+    <div className="flex h-full flex-col justify-end p-12 text-white">
+      <svg className="absolute -end-24 -top-24 size-[28rem] opacity-15" viewBox="0 0 512 512" aria-hidden>
+        <path d="M176 112 H336 L416 256 L336 400 H176 L96 256 Z" fill="none" stroke="white" strokeWidth="3" strokeLinejoin="round" />
+        <path d="M256 256 L256 168 A88 88 0 1 0 332 300 Z" fill="none" stroke="white" strokeWidth="3" strokeLinejoin="round" />
+      </svg>
+      <p className="max-w-md text-3xl leading-tight font-semibold">{t('budget.aside_title')}</p>
+      <ul className="mt-4 max-w-md space-y-1.5 text-brand-100">
+        <li>✓ {t('budget.aside_1')}</li>
+        <li>✓ {t('budget.aside_2')}</li>
+        <li>✓ {t('budget.aside_3')}</li>
+        <li>✓ {t('budget.aside_4')}</li>
       </ul>
     </div>
   );

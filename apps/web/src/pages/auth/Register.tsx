@@ -17,6 +17,8 @@ import { LanguagePicker } from './LanguagePicker';
 export default function Register({ product = 'pos' }: { product?: Product }) {
   // Gravity and Gravity Flow: a name and an email, nothing about business types.
   const gravity = product !== 'pos';
+  // Gravity Budget is for a person: their name is the account name.
+  const personal = product === 'budget';
   const { t, i18n } = useTranslation();
   const { session, setSession } = useBiz();
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ export default function Register({ product = 'pos' }: { product?: Product }) {
   const [form, setForm] = useState({ businessName: '', businessType: 'restaurant' as BusinessType, ownerName: '', email: '', phone: '', password: '', currency: 'MVR' });
   const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
   const m = useMutation({
-    mutationFn: () => api.post<BusinessSession>('/auth/register', { ...form, product, businessType: gravity ? 'other' : form.businessType, language: i18n.language }),
+    mutationFn: () => api.post<BusinessSession>('/auth/register', { ...form, businessName: personal ? form.ownerName : form.businessName, product, businessType: gravity ? 'other' : form.businessType, language: i18n.language }),
     onSuccess: (s) => {
       setSession(s);
       navigate('/', { replace: true });
@@ -64,6 +66,7 @@ export default function Register({ product = 'pos' }: { product?: Product }) {
             ))}
           </Select>
         )}
+        {!personal && (
         <Input
           label={gravity ? t(`${product}.business_name`) : t('auth.business_name')}
           hint={gravity ? t(`${product}.business_name_hint`) : undefined}
@@ -72,6 +75,7 @@ export default function Register({ product = 'pos' }: { product?: Product }) {
           error={fieldErr('businessName')}
           required
         />
+        )}
         <Input label={t('auth.your_name')} value={form.ownerName} onChange={set('ownerName')} error={fieldErr('ownerName')} required />
         <div className="grid gap-4 sm:grid-cols-2">
           <Input type="email" autoComplete="username" label={t('auth.email')} value={form.email} onChange={set('email')} error={fieldErr('email')} required />
@@ -90,7 +94,7 @@ export default function Register({ product = 'pos' }: { product?: Product }) {
         />
         <Input label={t('settings.currency')} value={form.currency} maxLength={3} onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value.toUpperCase() }))} error={fieldErr('currency')} dir="ltr" required />
         <Button type="submit" size="lg" className="w-full" loading={m.isPending}>
-          {gravity ? t('gravity.create_account') : t('auth.create_business')}
+          {personal ? t('budget.start_trial') : gravity ? t('gravity.create_account') : t('auth.create_business')}
         </Button>
       </form>
     </AuthLayout>

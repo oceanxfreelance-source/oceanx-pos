@@ -10,7 +10,7 @@ import { FarumaWarning } from '../../components/FarumaWarning';
 import { ChangePasswordForm } from '../../components/ChangePasswordForm';
 import { useFormat } from '../../lib/format';
 import { PayPanel, useBilling } from './Billing';
-import { FlowMark, GravityMark } from '../auth/AuthLayout';
+import { BudgetMark, FlowMark, GravityMark } from '../auth/AuthLayout';
 import { productPath, useProductTheme } from '../../lib/product';
 
 function Frame({ icon, title, body, children, wide }: { icon: React.ReactNode; title: string; body: React.ReactNode; children?: React.ReactNode; wide?: boolean }) {
@@ -26,7 +26,7 @@ function Frame({ icon, title, body, children, wide }: { icon: React.ReactNode; t
       <FarumaWarning />
       <div className={`mx-auto flex min-h-dvh flex-col justify-center px-5 py-10 ${wide ? 'max-w-2xl' : 'max-w-lg'}`}>
         <div className="mb-6 flex items-center gap-2">
-          {product === 'gravity' ? <GravityMark className="size-9" /> : product === 'flow' ? <FlowMark className="size-9" /> : <Logo />}
+          {product === 'gravity' ? <GravityMark className="size-9" /> : product === 'flow' ? <FlowMark className="size-9" /> : product === 'budget' ? <BudgetMark className="size-9" /> : <Logo />}
           <span className="font-semibold">{gravity ? t(`${product}.name`) : t('app.name')}</span>
         </div>
         <Card className="animate-pop-in">
@@ -81,7 +81,7 @@ export function StatusScreen() {
           wide
           icon={<CalendarX2 className="size-6" />}
           title={s.subscription?.planCode === 'trial' || s.subscription?.status === 'trialing' ? t('billing.trial_over_title') : t('status.expired_title')}
-          body={t(s.subscription?.deleteAt ? 'gravity.blocked_body_delete' : 'billing.blocked_body', { plan: s.subscription?.planName ?? '—', date: f.date(s.subscription?.currentPeriodEnd), app: s.business.product === 'gravity' ? 'Gravity' : s.business.product === 'flow' ? 'Gravity Flow' : 'OceanX' })}
+          body={t(s.subscription?.deleteAt ? 'gravity.blocked_body_delete' : 'billing.blocked_body', { plan: s.subscription?.planName ?? '—', date: f.date(s.subscription?.currentPeriodEnd), app: s.business.product === 'gravity' ? 'Gravity' : s.business.product === 'flow' ? 'Gravity Flow' : s.business.product === 'budget' ? 'Gravity Budget' : 'OceanX' })}
         >
           {/* Gravity: an unpaid trial is deleted soon after it ends. */}
           {s.subscription?.deleteAt && (

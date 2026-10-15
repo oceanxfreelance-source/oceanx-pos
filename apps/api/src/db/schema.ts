@@ -1764,6 +1764,138 @@ export const financeTransactions = pgTable(
 );
 
 /**
+ * Gravity Budget: a person's income and spending categories. Spending categories may have a monthly limit
+ * (the budget). Starter categories are added the first time the account opens Budget; the person renames,
+ * adds or removes them.
+ */
+export const budgetCategories = pgTable(
+  'budget_categories',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    /** income | expense */
+    kind: text('kind').notNull(),
+    name: text('name').notNull(),
+    emoji: text('emoji').notNull().default(''),
+    /** The most to spend in this category in a month (minor units); null = no limit. */
+    monthlyLimit: money('monthly_limit'),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    unique('budget_categories_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('budget_categories_name_uq')
+      .on(t.businessId, t.kind, sql`lower(${t.name})`)
+      .where(sql`${t.deletedAt} IS NULL`),
+    check('budget_categories_kind_ck', sql`${t.kind} IN ('income','expense')`),
+    check('budget_categories_limit_ck', sql`${t.monthlyLimit} IS NULL OR ${t.monthlyLimit} > 0`),
+  ],
+);
+
+/** Gravity Budget: a bill paid every month and the day of the month it is due. */
+export const budgetBills = pgTable(
+  'budget_bills',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    amount: money('amount').notNull(),
+    dueDay: integer('due_day').notNull(),
+    categoryId: uuid('category_id'),
+    isActive: boolean('is_active').notNull().default(true),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    unique('budget_bills_business_id_uq').on(t.businessId, t.id),
+    tenantFk('budget_bills_category_fk', t, t.categoryId, budgetCategories),
+    check('budget_bills_amount_ck', sql`${t.amount} > 0`),
+    check('budget_bills_due_day_ck', sql`${t.dueDay} BETWEEN 1 AND 31`),
+  ],
+);
+
+/**
+ * Gravity Budget: one income or spending record. Amounts are whole minor units, always positive; the kind says
+ * which way the money went. occurredOn is the day in the account's time zone. A paid bill links to its bill.
+ * Deleting keeps the row (deleted_at).
+ */
+export const budgetEntries = pgTable(
+  'budget_entries',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    kind: text('kind').notNull(),
+    categoryId: uuid('category_id'),
+    amount: money('amount').notNull(),
+    occurredOn: text('occurred_on').notNull(),
+    note: text('note').notNull().default(''),
+    /** cash | card | transfer | other */
+    paidWith: text('paid_with').notNull().default('cash'),
+    billId: uuid('bill_id'),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    index('budget_entries_business_day_idx').on(t.businessId, t.occurredOn),
+    tenantFk('budget_entries_category_fk', t, t.categoryId, budgetCategories),
+    tenantFk('budget_entries_bill_fk', t, t.billId, budgetBills),
+    check('budget_entries_kind_ck', sql`${t.kind} IN ('income','expense')`),
+    check('budget_entries_amount_ck', sql`${t.amount} > 0`),
+  ],
+);
+
+/** Gravity Budget: something the person is saving for, with an optional date it is needed by. */
+export const budgetGoals = pgTable(
+  'budget_goals',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    emoji: text('emoji').notNull().default(''),
+    target: money('target').notNull(),
+    targetDate: text('target_date'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [unique('budget_goals_business_id_uq').on(t.businessId, t.id), check('budget_goals_target_ck', sql`${t.target} > 0`)],
+);
+
+/** Money put into a goal (positive) or taken out of it (negative). The goal's saved amount is their sum. */
+export const budgetGoalMoves = pgTable(
+  'budget_goal_moves',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    goalId: uuid('goal_id').notNull(),
+    amount: money('amount').notNull(),
+    occurredOn: text('occurred_on').notNull(),
+    note: text('note').notNull().default(''),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('budget_goal_moves_goal_idx').on(t.businessId, t.goalId),
+    tenantFk('budget_goal_moves_goal_fk', t, t.goalId, budgetGoals).onDelete('cascade'),
+    check('budget_goal_moves_amount_ck', sql`${t.amount} <> 0`),
+  ],
+);
+
+/**
  * Every self sign-up, kept for Super Admin even after the account itself is deleted (an unpaid trial is
  * removed 48 hours after it ends). No foreign key to businesses on purpose: the row outlives the account.
  */

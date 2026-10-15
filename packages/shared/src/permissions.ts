@@ -90,6 +90,10 @@ export const PERMISSIONS = [
   p('finance.view', 'finance'),
   p('finance.manage', 'finance'),
 
+  // Gravity Budget: personal spending, budgets, bills and savings goals.
+  p('budget.view', 'budget'),
+  p('budget.manage', 'budget'),
+
   p('users.view', 'users'),
   p('users.create', 'users'),
   p('users.edit', 'users'),

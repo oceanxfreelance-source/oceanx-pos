@@ -69,7 +69,7 @@ export default function BusinessLogin({ product = 'pos' }: { product?: Product }
         </Button>
       </form>
       {/* Gravity and Gravity Flow have a phone app (sign in once). Not shown inside the app itself. */}
-      {product !== 'pos' && !android && (
+      {product !== 'pos' && product !== 'budget' && !android && (
         <a
           href={`/download/${product}.apk`}
           className="mt-4 flex items-center gap-3 rounded-xl p-3 ring-1 ring-slate-200 transition hover:bg-slate-50 dark:ring-slate-700 dark:hover:bg-slate-800/60"

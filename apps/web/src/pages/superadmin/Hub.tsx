@@ -8,23 +8,24 @@ import {
   Banknote,
   Briefcase,
   Building2,
+  CheckCircle2,
   CreditCard,
+  FileText,
   FolderKanban,
   Gauge,
-  Layers,
-  Pencil,
-  Puzzle,
-  CheckCircle2,
-  FileText,
   Headset,
+  Layers,
   ListTodo,
+  Pencil,
+  PiggyBank,
   Plus,
   Printer,
+  Puzzle,
   Receipt,
   Store,
   Trash2,
-  UserPlus,
   TrendingUp,
+  UserPlus,
   Users,
 } from 'lucide-react';
 import {
@@ -52,7 +53,7 @@ import { DataTable, type Column } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { fmtAmount } from '../business/Billing';
-import { FlowMark, GravityMark } from '../auth/AuthLayout';
+import { BudgetMark, FlowMark, GravityMark } from '../auth/AuthLayout';
 import { VENTURE_TONE, useVentures, type Venture } from './hubVentures';
 
 // ---------------------------------------------------------------- shared
@@ -112,6 +113,7 @@ interface Overview {
   posPaymentsPending: number | null;
   gravityAccountsActive: number | null;
   flowAccountsActive: number | null;
+  budgetAccountsActive: number | null;
 }
 interface Service {
   id: string;
@@ -352,7 +354,7 @@ export function HubOverviewPage() {
       </section>
       {!ventureId && <VentureGrid />}
       {venture?.kind === 'pos' && <PosConsoleLinks pending={o?.posPaymentsPending ?? 0} />}
-      {(venture?.kind === 'gravity' || venture?.kind === 'flow') && <ProductConsoleLinks product={venture.kind} pending={venture.paymentsPending ?? 0} />}
+      {(venture?.kind === 'gravity' || venture?.kind === 'flow' || venture?.kind === 'budget') && <ProductConsoleLinks product={venture.kind} pending={venture.paymentsPending ?? 0} />}
       {!o ? (
         <SkeletonRows rows={4} />
       ) : (
@@ -384,6 +386,11 @@ export function HubOverviewPage() {
           {o.flowAccountsActive !== null && (
             <Link to="/superadmin/flow/accounts">
               <StatCard label={t('flow.active_accounts')} value={o.flowAccountsActive} icon={<TrendingUp className="size-5" />} tone="green" />
+            </Link>
+          )}
+          {o.budgetAccountsActive !== null && o.budgetAccountsActive !== undefined && (
+            <Link to="/superadmin/budget/accounts">
+              <StatCard label={t('budget.active_accounts')} value={o.budgetAccountsActive} icon={<PiggyBank className="size-5" />} tone="amber" />
             </Link>
           )}
           {o.posBusinessesActive !== null && (
@@ -476,6 +483,8 @@ function VentureGrid() {
                     <GravityMark className="size-10 shrink-0" />
                   ) : v.kind === 'flow' ? (
                     <FlowMark className="size-10 shrink-0" />
+                  ) : v.kind === 'budget' ? (
+                    <BudgetMark className="size-10 shrink-0" />
                   ) : (
                     <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-white', tone.dot)}>{v.kind === 'pos' ? <Store className="size-5" /> : <FolderKanban className="size-5" />}</span>
                   )}
@@ -564,7 +573,7 @@ function VentureDialog({ venture, onClose }: { venture: Venture | null; onClose:
 
 declare const __APP_URLS__: Record<string, string>;
 /** Where a product's customers sign up: its own address when it has one, else /gravity or /flow here. */
-function signupUrl(product: 'gravity' | 'flow') {
+function signupUrl(product: 'gravity' | 'flow' | 'budget') {
   const own = (typeof __APP_URLS__ !== 'undefined' && __APP_URLS__[product]) || '';
   if (own) return `${own.replace(/\/$/, '')}/register`;
   const main = (typeof __APP_URLS__ !== 'undefined' && __APP_URLS__.pos) || window.location.origin;
@@ -572,7 +581,7 @@ function signupUrl(product: 'gravity' | 'flow') {
 }
 
 /** Inside the Gravity or Gravity Flow project: its accounts, payments and plan. */
-function ProductConsoleLinks({ product, pending }: { product: 'gravity' | 'flow'; pending: number }) {
+function ProductConsoleLinks({ product, pending }: { product: 'gravity' | 'flow' | 'budget'; pending: number }) {
   const { t } = useTranslation();
   const links: [string, string, React.ComponentType<{ className?: string }>][] = [
     [`/superadmin/${product}/accounts`, `${product}.accounts`, Building2],

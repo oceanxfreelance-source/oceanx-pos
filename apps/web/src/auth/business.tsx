@@ -24,7 +24,7 @@ export interface BusinessSession {
     id: string;
     name: string;
     slug: string;
-    /** OceanX product: pos | gravity (quotations & invoices) | flow (income, expenses & profit). */
+    /** OceanX product: pos | gravity (quotations & invoices) | flow (income, expenses & profit) | budget (personal budget). */
     product: Product;
     businessType: string;
     status: string;
@@ -152,7 +152,7 @@ export function lastProduct(): Product {
   if (HOST_PRODUCT !== 'pos') return HOST_PRODUCT;
   try {
     const v = localStorage.getItem(LAST_PRODUCT_KEY);
-    return v === 'gravity' || v === 'flow' ? v : 'pos';
+    return v === 'gravity' || v === 'flow' || v === 'budget' ? v : 'pos';
   } catch {
     return 'pos';
   }

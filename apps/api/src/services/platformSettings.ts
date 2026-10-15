@@ -12,6 +12,7 @@ export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   defaultPlanCode: 'trial',
   gravityPlanCode: 'gravity',
   flowPlanCode: 'flow',
+  budgetPlanCode: 'budget',
   defaultCurrency: 'MVR',
   billingBankDetails: '',
   billingNote: '',

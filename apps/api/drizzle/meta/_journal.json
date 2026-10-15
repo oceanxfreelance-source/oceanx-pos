@@ -176,6 +176,13 @@
       "when": 1792080348169,
       "tag": "0024_gst_types",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1792088215192,
+      "tag": "0025_gravity_budget",
+      "breakpoints": true
     }
   ]
 }

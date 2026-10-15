@@ -4,8 +4,9 @@
  *  - pos:     OceanX POS (restaurants, cafés, shops, supermarkets)
  *  - gravity: Gravity, the quotation & invoice generator (English and Dhivehi documents)
  *  - flow:    Gravity Flow, income, expenses and profit (daily and monthly) for small businesses
+ *  - budget:  Gravity Budget, a personal money manager: where the money goes, monthly budgets, bills and savings goals
  */
-export const PRODUCTS = ['pos', 'gravity', 'flow'] as const;
+export const PRODUCTS = ['pos', 'gravity', 'flow', 'budget'] as const;
 export type Product = (typeof PRODUCTS)[number];
 
 /** What a Gravity account can use (on top of the core: dashboard, users, roles, settings, audit). Lines are typed on each document: no product catalogue, no POS. */
@@ -18,8 +19,14 @@ export const GRAVITY_DOCUMENT_LANGUAGES = ['en', 'dv'] as const;
 /** What a Gravity Flow account can use (on top of the core): income, expenses and profit. */
 export const FLOW_MODULES = ['finance'] as const;
 
-/** One-person products (Gravity, Gravity Flow): no team, roles, activity log or add-ons; documents and money only. */
-export const SOLO_PRODUCTS = ['gravity', 'flow'] as const;
+/** What a Gravity Budget account can use (on top of the core): spending, budgets, bills and goals. */
+export const BUDGET_MODULES = ['budget'] as const;
+
+/** Modules only their own product may use (never in a POS plan). */
+export const PRODUCT_ONLY_MODULES = [...FLOW_MODULES, ...BUDGET_MODULES] as const;
+
+/** One-person products (Gravity, Gravity Flow, Gravity Budget): no team, roles, activity log or add-ons; documents and money only. */
+export const SOLO_PRODUCTS = ['gravity', 'flow', 'budget'] as const;
 export const isSoloProduct = (p: string | null | undefined) => (SOLO_PRODUCTS as readonly string[]).includes(p ?? '');
 /** The modules each one-person product may use, besides the core. */
-export const SOLO_PRODUCT_MODULES: Record<string, readonly string[]> = { gravity: GRAVITY_MODULES, flow: FLOW_MODULES };
+export const SOLO_PRODUCT_MODULES: Record<string, readonly string[]> = { gravity: GRAVITY_MODULES, flow: FLOW_MODULES, budget: BUDGET_MODULES };

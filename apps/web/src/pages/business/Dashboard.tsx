@@ -12,6 +12,7 @@ import { useQuickActions } from '../../layouts/BusinessLayout';
 import { OnboardingCard } from './Onboarding';
 import GravityHome from './GravityHome';
 import { FlowHome } from './Flow';
+import { BudgetHome } from './Budget';
 
 interface DashboardData {
   widgets: {
@@ -32,7 +33,7 @@ interface DashboardData {
 /** Home page: Gravity accounts get the quotations & invoices home; POS businesses the POS dashboard. */
 export default function Dashboard() {
   const session = useBizSession();
-  return session.business.product === 'gravity' ? <GravityHome /> : session.business.product === 'flow' ? <FlowHome /> : <PosDashboard />;
+  return session.business.product === 'gravity' ? <GravityHome /> : session.business.product === 'flow' ? <FlowHome /> : session.business.product === 'budget' ? <BudgetHome /> : <PosDashboard />;
 }
 
 function PosDashboard() {

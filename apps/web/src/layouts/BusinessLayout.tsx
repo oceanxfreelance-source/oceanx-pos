@@ -6,43 +6,45 @@ import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
 import {
   ArrowLeftRight,
-  CalendarRange,
   Banknote,
   BarChart3,
   Boxes,
   CalendarClock,
   CalendarDays,
+  CalendarRange,
   Check,
   ChefHat,
   ChevronDown,
   Contact,
+  CreditCard,
   FileSpreadsheet,
   FileText,
-  HandCoins,
+  FileUp,
   Globe,
+  HandCoins,
   History,
   Languages,
   LayoutDashboard,
   LayoutGrid,
+  ListChecks,
   LogOut,
   Mic2,
   MonitorSmartphone,
+  Package,
   PackagePlus,
-  FileUp,
+  PiggyBank,
   Puzzle,
   QrCode,
   Receipt,
-  ShoppingCart,
+  ScanBarcode,
   Settings,
   ShieldCheck,
+  ShoppingCart,
   Store,
   UserCircle,
   Users,
   UtensilsCrossed,
   Wallet,
-  CreditCard,
-  Package,
-  ScanBarcode,
 } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, useBiz, useBizSession, type BusinessSession } from '../auth/business';
@@ -98,6 +100,13 @@ export function useBusinessNav(): NavGroup[] {
   if (hasModule('finance') && can('finance.view')) {
     finance.push({ to: '/transactions', label: 'flow.nav_transactions', icon: ArrowLeftRight });
     finance.push({ to: '/months', label: 'flow.nav_months', icon: CalendarRange });
+  }
+  // Gravity Budget: every record, savings goals, the plan (limits and bills) and past months.
+  if (hasModule('budget') && can('budget.view')) {
+    finance.push({ to: '/spending', label: 'budget.nav_spending', icon: ArrowLeftRight });
+    finance.push({ to: '/goals', label: 'budget.nav_goals', icon: PiggyBank });
+    finance.push({ to: '/plan', label: 'budget.nav_plan', icon: ListChecks });
+    finance.push({ to: '/history', label: 'budget.nav_months', icon: CalendarRange });
   }
   if (hasModule('expenses') && can('expenses.view')) finance.push({ to: '/expenses', label: 'nav.expenses', icon: Wallet });
   if (hasModule('reports') && can('reports.view')) finance.push({ to: '/reports', label: 'nav.reports', icon: BarChart3 });
@@ -246,7 +255,7 @@ function BusinessLayout() {
   // Phone tab bar: the four most-used destinations this user can open.
   // Gravity (mostly used on phones): home, quotations, invoices, customers.
   // Gravity Flow: home, transactions, months.
-  const bottomNav = (product === 'gravity' ? ['/', '/quotations', '/invoices', '/customers'] : product === 'flow' ? ['/', '/transactions', '/months', '/settings'] : ['/', '/pos', '/sales', '/products', '/kitchen', '/customers', '/reports'])
+  const bottomNav = (product === 'gravity' ? ['/', '/quotations', '/invoices', '/customers'] : product === 'flow' ? ['/', '/transactions', '/months', '/settings'] : product === 'budget' ? ['/', '/spending', '/goals', '/plan'] : ['/', '/pos', '/sales', '/products', '/kitchen', '/customers', '/reports'])
     .map((to) => allItems.find((i) => i.to === to))
     .filter((i): i is NonNullable<typeof i> => !!i)
     .map((i) => (i.to === '/products' ? { ...i, label: 'nav.menu' } : i))
@@ -277,9 +286,9 @@ function BusinessLayout() {
           {/* Gravity on a phone: a clean bar (full screen and theme are PC extras). Gravity Flow keeps light/dark on phones too. */}
           <div className={product !== 'pos' ? 'hidden items-center gap-2 sm:flex' : 'contents'}>
             <FullscreenButton />
-            {product !== 'flow' && <ThemeToggle value={theme.value} onChange={theme.set} />}
+            {product !== 'flow' && product !== 'budget' && <ThemeToggle value={theme.value} onChange={theme.set} />}
           </div>
-          {product === 'flow' && <ThemeToggle value={theme.value} onChange={theme.set} />}
+          {(product === 'flow' || product === 'budget') && <ThemeToggle value={theme.value} onChange={theme.set} />}
           <LanguageMenu current={session.user.language} languages={session.languages} onChange={(c) => setLang.mutate(c)} />
           <Dropdown
             trigger={() => (

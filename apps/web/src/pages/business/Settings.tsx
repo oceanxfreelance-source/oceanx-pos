@@ -38,8 +38,9 @@ export default function SettingsPage() {
   if (q.data?.profile) tabs.push({ value: 'profile', label: t('settings.tabs.profile') });
   // Gravity (quotations & invoices only) has no receipts, POS, loyalty, online ordering or Viber.
   // Gravity Flow (income & expenses) only needs its currency and time zone, and its logo.
-  const flow = useBizSession().business.product === 'flow';
-  const sections = flow ? (['regional', 'branding'] as const) : gravity ? (['regional', 'tax', 'invoice', 'quotation', 'branding'] as const) : (['regional', 'tax', 'receipt', 'invoice', 'quotation', 'branding', 'pos', 'loyalty', 'online'] as const);
+  const product = useBizSession().business.product;
+  const flow = product === 'flow';
+  const sections = product === 'budget' ? (['regional'] as const) : flow ? (['regional', 'branding'] as const) : gravity ? (['regional', 'tax', 'invoice', 'quotation', 'branding'] as const) : (['regional', 'tax', 'receipt', 'invoice', 'quotation', 'branding', 'pos', 'loyalty', 'online'] as const);
   for (const s of sections) if (q.data?.sections[s]) tabs.push({ value: s, label: t(`settings.tabs.${s}`) });
   if (can('settings.view') && !gravity) tabs.push({ value: 'viber', label: t('viber.tab') });
   const active = tab ?? tabs[0]?.value ?? null;

@@ -8636,5 +8636,1328 @@
     "suggested": "ޒީރޯ ރޭޓް",
     "status": "needs_review",
     "notes": "GST types, TINs and credit notes."
+  },
+  {
+    "key": "budget.name",
+    "english": "Gravity Budget",
+    "suggested": "Gravity Budget",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.tagline",
+    "english": "Know where your money goes",
+    "suggested": "ތިބާގެ ފައިސާ ދާ ތަން އެނގޭނެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.register_title",
+    "english": "Start your free trial",
+    "suggested": "ހިލޭ ޓްރަޔަލް ފައްޓަވާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.register_subtitle",
+    "english": "24 hours free. Then MVR 50 a month.",
+    "suggested": "24 ގަޑިއިރު ހިލޭ. އޭގެ ފަހުން މަހަކު MVR 50.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.business_name",
+    "english": "Your name",
+    "suggested": "ތިބާގެ ނަން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.business_name_hint",
+    "english": "Shown on your monthly reports.",
+    "suggested": "މަހުގެ ރިޕޯޓްތަކުގައި ފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.no_account",
+    "english": "New to Gravity Budget?",
+    "suggested": "Gravity Budget އަށް އަލެއްތަ؟",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.start_trial",
+    "english": "Start my free trial",
+    "suggested": "ހިލޭ ޓްރަޔަލް ފަށާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.aside_title",
+    "english": "Stop wondering where your salary went.",
+    "suggested": "މުސާރަ ދިޔައީ ކޮންތާކަށްތޯ ދެން ވިސްނަން ނުޖެހޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.aside_1",
+    "english": "Write down spending in seconds, on your phone",
+    "suggested": "ފޯނުން، ސިކުންތުކޮޅެއްގައި ޚަރަދު ލިޔެވޭނެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.aside_2",
+    "english": "A monthly limit for food, rent, bills and more",
+    "suggested": "ކެއުން، ގޭކުލި، ބިލުތަކާއި އެހެން ކަންކަމަށް މަހުގެ ލިމިޓެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.aside_3",
+    "english": "Save for a phone, Umrah, a wedding or a rainy day",
+    "suggested": "ފޯނަކަށް، ޢުމްރާއަށް، ކައިވެންޏަކަށް ނުވަތަ ކުއްލި ހާލަތަކަށް ފައިސާ ރައްކާކުރެވޭނެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.aside_4",
+    "english": "A monthly report you can download as PDF",
+    "suggested": "PDF ގޮތުގައި ޑައުންލޯޑް ކުރެވޭ މަހުގެ ރިޕޯޓެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.accounts",
+    "english": "Budget accounts",
+    "suggested": "ބަޖެޓް އެކައުންޓްތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.accounts_subtitle",
+    "english": "People using Gravity Budget, their trial and plan.",
+    "suggested": "Gravity Budget ބޭނުންކުރާ ފަރާތްތައް، އެފަރާތްތަކުގެ ޓްރަޔަލް އަދި ޕްލޭން.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.new_account",
+    "english": "New Budget account",
+    "suggested": "އައު ބަޖެޓް އެކައުންޓެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.payments",
+    "english": "Gravity Budget payments",
+    "suggested": "Gravity Budget ޕޭމަންޓްތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.plan_title",
+    "english": "Gravity Budget plan",
+    "suggested": "Gravity Budget ޕްލޭން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.console",
+    "english": "Gravity Budget console",
+    "suggested": "Gravity Budget ކޮންސޯލް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.active_accounts",
+    "english": "Budget accounts",
+    "suggested": "ބަޖެޓް އެކައުންޓްތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nav_spending",
+    "english": "Spending",
+    "suggested": "ޚަރަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nav_goals",
+    "english": "Goals",
+    "suggested": "އަމާޒުތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nav_plan",
+    "english": "My budget",
+    "suggested": "މަގޭ ބަޖެޓް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nav_months",
+    "english": "Months",
+    "suggested": "މަސްތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.hello",
+    "english": "Hi {{name}}",
+    "suggested": "ހަލޯ {{name}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.this_month_title",
+    "english": "This month",
+    "suggested": "މި މަސް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.left_to_spend",
+    "english": "Left to spend this month",
+    "suggested": "މި މަހު ޚަރަދުކުރަން ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.overspent",
+    "english": "Spent more than came in",
+    "suggested": "ލިބުނު ފައިސާއަށްވުރެ ގިނައިން ޚަރަދުވެއްޖެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.left",
+    "english": "Left",
+    "suggested": "ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.money_in",
+    "english": "Money in",
+    "suggested": "ލިބުނު ފައިސާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.spent",
+    "english": "Spent",
+    "suggested": "ޚަރަދުވި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.saved",
+    "english": "Saved",
+    "suggested": "ރައްކާކުރި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.income",
+    "english": "Income",
+    "suggested": "އާމްދަނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.spending",
+    "english": "Spending",
+    "suggested": "ޚަރަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.kind",
+    "english": "Type",
+    "suggested": "ބާވަތް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.total",
+    "english": "Total",
+    "suggested": "ޖުމްލަ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.safe_per_day_one",
+    "english": "You can spend {{amount}} today (last day of the month).",
+    "suggested": "މިއަދު {{amount}} ޚަރަދުކުރެވޭނެ (މަހުގެ ފަހު ދުވަސް).",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.safe_per_day_other",
+    "english": "You can spend about {{amount}} a day for the next {{count}} days.",
+    "suggested": "ދެން އަންނަ {{count}} ދުވަހު، ދުވާލަކު ގާތްގަނޑަކަށް {{amount}} ޚަރަދުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nothing_safe",
+    "english": "Nothing is left to spend this month after your bills. Spend only on what you must.",
+    "suggested": "ބިލުތައް ދެއްކުމަށްފަހު މި މަހު ޚަރަދުކުރަން އެއްވެސް ފައިސާއެއް ބާކީއެއް ނުވޭ. ހަމަ ކުރަންޖެހޭ ޚަރަދު އެކަނި ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.after_bills",
+    "english": "Bills still to pay ({{amount}}) are already kept aside.",
+    "suggested": "އަދި ދައްކަންޖެހޭ ބިލުތައް ({{amount}}) ވަކިކޮށް ބަހައްޓާފައިވޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.add_spending",
+    "english": "Spending",
+    "suggested": "ޚަރަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.add_income",
+    "english": "Income",
+    "suggested": "އާމްދަނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.edit_record",
+    "english": "Change record",
+    "suggested": "ރެކޯޑް ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.note_hint",
+    "english": "e.g. lunch, fuel",
+    "suggested": "މިސާލު: މެންދުރު ކެއުން، ތެޔޮ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.paid_with",
+    "english": "Paid with",
+    "suggested": "ދެއްކި ގޮތް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.paid.cash",
+    "english": "Cash",
+    "suggested": "ނަގުދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.paid.card",
+    "english": "Card",
+    "suggested": "ކާޑު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.paid.transfer",
+    "english": "Transfer",
+    "suggested": "ޓްރާންސްފަރ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.paid.other",
+    "english": "Other",
+    "suggested": "އެހެނިހެން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.advice",
+    "english": "Advice",
+    "suggested": "ލަފާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.no_income",
+    "english": "No income written down this month yet. Add your salary so we can tell what is left.",
+    "suggested": "މި މަހު އަދި އެއްވެސް އާމްދަނީއެއް ނުލިޔެވޭ. ބާކީ އޮތް މިންވަރު އެނގޭނެހެން މުސާރަ އިތުރުކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.over_income",
+    "english": "You have spent and saved {{amount}} more than came in this month.",
+    "suggested": "މި މަހު ލިބުނު ފައިސާއަށްވުރެ {{amount}} ގިނައިން ޚަރަދުކޮށް ރައްކާކޮށްފައިވޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.bill_overdue",
+    "english": "{{name}} ({{amount}}) is past its due date and not paid.",
+    "suggested": "{{name}} ({{amount}}) ދައްކަންޖެހޭ ތާރީޚު ފަހަނައަޅައިފި، އަދި ނުދައްކާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.over_limit",
+    "english": "{{name}} is {{amount}} over its limit.",
+    "suggested": "{{name}} އޭގެ ލިމިޓަށްވުރެ {{amount}} ބޮޑުވެއްޖެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.near_limit",
+    "english": "{{name}} is nearly at its limit: {{amount}} left.",
+    "suggested": "{{name}} ލިމިޓާ ގާތްވެއްޖެ: {{amount}} ބާކީ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.bills_soon_one",
+    "english": "1 bill is due in the next 7 days: {{amount}}.",
+    "suggested": "ދެން އަންނަ 7 ދުވަހު 1 ބިލެއް ދައްކަންޖެހޭ: {{amount}}.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.bills_soon_other",
+    "english": "{{count}} bills are due in the next 7 days: {{amount}}.",
+    "suggested": "ދެން އަންނަ 7 ދުވަހު {{count}} ބިލު ދައްކަންޖެހޭ: {{amount}}.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.pace",
+    "english": "At this pace you will spend about {{amount}} this month, more than you earn.",
+    "suggested": "މިގޮތަށް ދިޔައިމާ، މި މަހު ގާތްގަނޑަކަށް {{amount}} ޚަރަދުވާނެ، އެއީ ލިބޭ ފައިސާއަށްވުރެ ގިނަ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.more_than_last",
+    "english": "You spent {{amount}} more on {{name}} than in all of last month.",
+    "suggested": "{{name}} އަށް، ކުރީ މަހު މުޅިން ޚަރަދުކުރިއަށްވުރެ {{amount}} ގިނައިން ޚަރަދުކޮށްފި.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.top",
+    "english": "Most of your money went on {{name}} ({{percent}}% of spending).",
+    "suggested": "ތިބާގެ ފައިސާގެ ގިނަ ބައެއް ޚަރަދުވީ {{name}} އަށް (ޚަރަދުގެ {{percent}}%).",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.saved",
+    "english": "Well done: {{amount}} put into your goals this month.",
+    "suggested": "ވަރަށް ރަނގަޅު: މި މަހު {{amount}} އަމާޒުތަކަށް ރައްކާކޮށްފި.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.set_limits",
+    "english": "Give your main categories a monthly limit to know when to slow down.",
+    "suggested": "ޚަރަދު ކުޑަކުރަންޖެހޭ ވަގުތު އެނގޭނެހެން، މައި ބާވަތްތަކަށް މަހުގެ ލިމިޓެއް ކަނޑައަޅުއްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.budget_over_income",
+    "english": "Your limits add up to {{amount}} more than your income. Lower some of them.",
+    "suggested": "ތިބާގެ ލިމިޓްތައް ޖުމްލަކުރީމާ އާމްދަނީއަށްވުރެ {{amount}} ގިނަ. ބައެއް ލިމިޓް ދަށްކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.insight.on_track",
+    "english": "You are on track this month. Keep going!",
+    "suggested": "މި މަހު ރަނގަޅަށް ދަނީ. ކުރިއަށް ގެންދަވާ!",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.my_budgets",
+    "english": "My budgets",
+    "suggested": "މަގޭ ބަޖެޓްތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.edit_budget",
+    "english": "Edit",
+    "suggested": "ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.no_limits_yet",
+    "english": "No monthly limits yet.",
+    "suggested": "އަދި މަހުގެ ލިމިޓެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.set_limits",
+    "english": "Set limits",
+    "suggested": "ލިމިޓް ކަނޑައަޅާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.over_by",
+    "english": "{{amount}} over the limit",
+    "suggested": "ލިމިޓަށްވުރެ {{amount}} ބޮޑު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.left_in",
+    "english": "{{amount}} left",
+    "suggested": "{{amount}} ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.bills_this_month",
+    "english": "Bills this month",
+    "suggested": "މި މަހުގެ ބިލުތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.still_to_pay",
+    "english": "{{amount}} still to pay",
+    "suggested": "އަދި {{amount}} ދައްކަންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.pay",
+    "english": "Pay",
+    "suggested": "ދައްކާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.pay_bill",
+    "english": "Pay {{name}}",
+    "suggested": "{{name}} ދައްކާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.mark_paid",
+    "english": "Mark as paid",
+    "suggested": "ދެއްކިކަމަށް ލާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.bill_paid",
+    "english": "Bill paid and written down as spending.",
+    "suggested": "ބިލު ދައްކައި، ޚަރަދެއްގެ ގޮތުގައި ލިޔެވިއްޖެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.bill_amount_hint",
+    "english": "Change it if this month's bill is different.",
+    "suggested": "މި މަހުގެ ބިލު ތަފާތުނަމަ ބަދަލުކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.paid_on",
+    "english": "Paid {{date}}",
+    "suggested": "{{date}} ގައި ދެއްކި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.overdue_since",
+    "english": "Overdue since {{date}}",
+    "suggested": "{{date}} އިން ފެށިގެން ލަސްވެފައި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.due_today",
+    "english": "Due today",
+    "suggested": "މިއަދު ދައްކަންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.due_in_one",
+    "english": "Due tomorrow ({{date}})",
+    "suggested": "މާދަމާ ދައްކަންޖެހޭ ({{date}})",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.due_in_other",
+    "english": "Due in {{count}} days ({{date}})",
+    "suggested": "{{count}} ދުވަހުން ދައްކަންޖެހޭ ({{date}})",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.due_on",
+    "english": "Due {{date}}",
+    "suggested": "{{date}} ގައި ދައްކަންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.not_paid",
+    "english": "Not paid",
+    "suggested": "ނުދައްކާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.to_pay",
+    "english": "To pay",
+    "suggested": "ދައްކަންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.status",
+    "english": "Status",
+    "suggested": "ހާލަތު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.where_it_went",
+    "english": "Where your money went",
+    "suggested": "ތިބާގެ ފައިސާ ދިޔަ ތަން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nothing_spent",
+    "english": "Nothing spent yet this month.",
+    "suggested": "މި މަހު އަދި އެއްވެސް ޚަރަދެއް ނުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.other",
+    "english": "Other",
+    "suggested": "އެހެނިހެން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.daily_spending",
+    "english": "Spending each day",
+    "suggested": "ކޮންމެ ދުވަހެއްގެ ޚަރަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.vs_last_month_total",
+    "english": "vs last month",
+    "suggested": "ކުރީ މަހާ އަޅާބަލާއިރު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.latest",
+    "english": "Latest",
+    "suggested": "އެންމެ ފަހުގެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nothing_yet",
+    "english": "Nothing written down yet.",
+    "suggested": "އަދި އެއްވެސް އެއްޗެއް ނުލިޔެވޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nothing_yet_hint",
+    "english": "Tap Spending or Income to add your first record.",
+    "suggested": "ފުރަތަމަ ރެކޯޑް އިތުރުކުރުމަށް ޚަރަދު ނުވަތަ އާމްދަނީއަށް ފިތާލައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.download_month",
+    "english": "Download {{month}} as PDF",
+    "suggested": "{{month}} PDF ގޮތުގައި ޑައުންލޯޑްކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.all_records",
+    "english": "All records",
+    "suggested": "ހުރިހާ ރެކޯޑެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.all_categories",
+    "english": "All categories",
+    "suggested": "ހުރިހާ ބާވަތެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.load_more",
+    "english": "Show more",
+    "suggested": "އިތުރަށް ދައްކާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.optional",
+    "english": "Optional",
+    "suggested": "ބޭނުންނަމަ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.setup_title",
+    "english": "Let's set up your budget",
+    "suggested": "ތިބާގެ ބަޖެޓް ތައްޔާރުކުރަމާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.setup_body",
+    "english": "Two minutes now, and every month you will know exactly where your money goes.",
+    "suggested": "މިހާރު ދެ މިނެޓް ހޭދަކުރައްވާ، ދެން ކޮންމެ މަހަކު ފައިސާ ދާ ތަން ރަނގަޅަށް އެނގޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.setup_income",
+    "english": "Your income this month",
+    "suggested": "މި މަހުގެ ތިބާގެ އާމްދަނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.setup_income_hint",
+    "english": "Salary and any other money you received this month. You can add more later.",
+    "suggested": "މި މަހު ލިބުނު މުސާރައާއި އެހެން ފައިސާ. ފަހުން އިތުރަށް ލިޔެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.income_this_month",
+    "english": "Income this month",
+    "suggested": "މި މަހުގެ އާމްދަނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.setup_spending",
+    "english": "What do you spend on?",
+    "suggested": "ޚަރަދުކުރަނީ ކޮންކަމަކަށް؟",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.setup_spending_hint",
+    "english": "Untick what you don't need. Give a monthly limit to the ones you want to control (you can change it any time).",
+    "suggested": "ބޭނުން ނުވާ އެއްޗެހިން ޓިކް ނައްޓާލައްވާ. ކޮންޓްރޯލްކުރަން ބޭނުންވާ ބާވަތްތަކަށް މަހުގެ ލިމިޓެއް ދެއްވާ (ކޮންމެ ވަގުތެއްގައި ބަދަލުކުރެވޭނެ).",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.limit_for",
+    "english": "Monthly limit for {{name}}",
+    "suggested": "{{name}} ގެ މަހުގެ ލިމިޓް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.no_limit",
+    "english": "No limit",
+    "suggested": "ލިމިޓެއް ނެތް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.setup_start",
+    "english": "Start my budget",
+    "suggested": "ބަޖެޓް ފަށާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.setup_done",
+    "english": "Your budget is ready.",
+    "suggested": "ތިބާގެ ބަޖެޓް ތައްޔާރު.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.salary",
+    "english": "Salary",
+    "suggested": "މުސާރަ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.side_income",
+    "english": "Side income",
+    "suggested": "އިތުރު އާމްދަނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.from_family",
+    "english": "From family",
+    "suggested": "އާއިލާއިން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.food",
+    "english": "Food & groceries",
+    "suggested": "ކެއުމާއި ގްރޮސަރީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.eating_out",
+    "english": "Eating out & coffee",
+    "suggested": "ބޭރުގައި ކެއުމާއި ކޮފީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.rent",
+    "english": "Rent",
+    "suggested": "ގޭކުލި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.utilities",
+    "english": "Electricity & water",
+    "suggested": "ކަރަންޓާއި ފެން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.phone",
+    "english": "Phone & internet",
+    "suggested": "ފޯނާއި އިންޓަނެޓް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.transport",
+    "english": "Transport & fuel",
+    "suggested": "ދަތުރުފަތުރާއި ތެޔޮ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.family",
+    "english": "Family support",
+    "suggested": "އާއިލާއަށް އެހީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.loans",
+    "english": "Loans & card payments",
+    "suggested": "ލޯނާއި ކާޑުގެ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.shopping",
+    "english": "Shopping & clothes",
+    "suggested": "ޝޮޕިންގާއި ހެދުން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.health",
+    "english": "Health",
+    "suggested": "ޞިއްޙަތު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.education",
+    "english": "Education",
+    "suggested": "ތަޢުލީމު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.fun",
+    "english": "Fun & outings",
+    "suggested": "މަޖާއާއި ދަތުރު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.starter.other",
+    "english": "Other",
+    "suggested": "އެހެނިހެން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.new_goal",
+    "english": "New goal",
+    "suggested": "އައު އަމާޒެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.edit_goal",
+    "english": "Change goal",
+    "suggested": "އަމާޒު ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.icon",
+    "english": "Icon",
+    "suggested": "އައިކަން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_name",
+    "english": "Goal",
+    "suggested": "އަމާޒު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_name_hint",
+    "english": "e.g. New phone, Umrah, Emergency fund",
+    "suggested": "މިސާލު: އައު ފޯނެއް، ޢުމްރާ، ކުއްލި ހާލަތަށް ފައިސާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_target",
+    "english": "Amount needed",
+    "suggested": "ބޭނުންވާ އަދަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_date",
+    "english": "Needed by",
+    "suggested": "ބޭނުންވާ ތާރީޚު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_date_hint",
+    "english": "Optional. We will tell you how much to save each month.",
+    "suggested": "ބޭނުންނަމަ. ކޮންމެ މަހަކު ރައްކާކުރަންޖެހޭ އަދަދު ބުނެދޭނަން.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.delete_goal",
+    "english": "Delete this goal?",
+    "suggested": "މި އަމާޒު ފޮހެލަންތަ؟",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.delete_goal_body",
+    "english": "Its savings history is removed too.",
+    "suggested": "އޭގެ ރައްކާކުރި ރެކޯޑްތައްވެސް ފޮހެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.put_in",
+    "english": "Put money into {{name}}",
+    "suggested": "{{name}} އަށް ފައިސާ ލާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.take_out",
+    "english": "Take money out of {{name}}",
+    "suggested": "{{name}} އިން ފައިސާ ނަގާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.put_in_short",
+    "english": "Put in",
+    "suggested": "ލާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.take_out_short",
+    "english": "Take out",
+    "suggested": "ނަގާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_added",
+    "english": "{{amount}} saved. Well done!",
+    "suggested": "{{amount}} ރައްކާކުރެވިއްޖެ. ވަރަށް ރަނގަޅު!",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_saved_of",
+    "english": "{{saved}} saved of {{target}}",
+    "suggested": "{{target}} ގެ ތެރެއިން {{saved}} ރައްކާކޮށްފި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_history",
+    "english": "History",
+    "suggested": "ކުރީގެ ރެކޯޑްތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goals_total",
+    "english": "{{amount}} saved in all goals",
+    "suggested": "ހުރިހާ އަމާޒެއްގައި {{amount}} ރައްކާކޮށްފައި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.no_goals",
+    "english": "No goals yet",
+    "suggested": "އަދި އަމާޒެއް ނެތް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.no_goals_hint",
+    "english": "Saving is easier with a goal. Add something you want, and how much it costs.",
+    "suggested": "އަމާޒެއް އޮތުމުން ފައިސާ ރައްކާކުރުން ފަސޭހަ. ބޭނުންވާ އެއްޗަކާއި، އޭގެ އަގު އިތުރުކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_done",
+    "english": "Goal reached! 🎉",
+    "suggested": "އަމާޒު ހާސިލުވެއްޖެ! 🎉",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_late",
+    "english": "The date has passed. {{amount}} still needed.",
+    "suggested": "ތާރީޚު ފަހަނައަޅައިފި. އަދި {{amount}} ބޭނުންވޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_per_month",
+    "english": "Save {{amount}} a month to reach it by {{date}}.",
+    "suggested": "{{date}} ގެ ކުރިން ހާސިލުކުރުމަށް މަހަކު {{amount}} ރައްކާކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_remaining",
+    "english": "{{amount}} still needed.",
+    "suggested": "އަދި {{amount}} ބޭނުންވޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_on_track",
+    "english": "On track this month",
+    "suggested": "މި މަހު ރަނގަޅަށް ދަނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goal_behind",
+    "english": "Put in {{amount}} more this month to stay on track",
+    "suggested": "ރަނގަޅަށް ދިއުމަށް މި މަހު އިތުރަށް {{amount}} ލައްވާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.goals_note",
+    "english": "Money you put into a goal is kept aside: it is not counted as money left to spend.",
+    "suggested": "އަމާޒަކަށް ލާ ފައިސާ ވަކިކޮށް ބެހެއްޓޭނެ: އެއީ ޚަރަދުކުރަން ބާކީ ފައިސާގެ ގޮތުގައި ނުގުނޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.plan_hint",
+    "english": "Your monthly limits, your bills and your income types.",
+    "suggested": "ތިބާގެ މަހުގެ ލިމިޓްތައް، ބިލުތަކާއި އާމްދަނީގެ ބާވަތްތައް.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.planned_spending",
+    "english": "Planned spending a month",
+    "suggested": "މަހަކަށް ރާވާފައިވާ ޚަރަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.monthly_bills",
+    "english": "Monthly bills",
+    "suggested": "މަހުގެ ބިލުތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.plan_over_income",
+    "english": "Your limits are {{amount}} more than your income ({{income}}).",
+    "suggested": "ތިބާގެ ލިމިޓްތައް، ތިބާގެ އާމްދަނީއަށްވުރެ ({{income}}) {{amount}} ގިނަ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.plan_under_income",
+    "english": "{{amount}} of your income ({{income}}) is not planned: a good amount to save.",
+    "suggested": "ތިބާގެ އާމްދަނީގެ ({{income}}) ތެރެއިން {{amount}} އަކަށް ރާވާފައެއް ނުވޭ: ރައްކާކުރަން ރަނގަޅު އަދަދެއް.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.spending_limits",
+    "english": "Spending and limits",
+    "suggested": "ޚަރަދާއި ލިމިޓްތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.add",
+    "english": "Add",
+    "suggested": "އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.spent_this_month",
+    "english": "{{amount}} spent this month",
+    "suggested": "މި މަހު {{amount}} ޚަރަދުކޮށްފި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.bills_hint",
+    "english": "Rent, phone, internet, electricity, loans: paid every month.",
+    "suggested": "ގޭކުލި، ފޯނު، އިންޓަނެޓް، ކަރަންޓު، ލޯން: ކޮންމެ މަހަކު ދައްކާ ބިލުތައް.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.no_bills",
+    "english": "No bills yet. Add the ones you pay every month so they are never forgotten.",
+    "suggested": "އަދި ބިލެއް ނެތް. ހަނދާން ނައްތާނުލެވޭނެހެން، ކޮންމެ މަހަކު ދައްކާ ބިލުތައް އިތުރުކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.every_month_on",
+    "english": "Every month on day {{day}}",
+    "suggested": "ކޮންމެ މަހެއްގެ {{day}} ވަނަ ދުވަހު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.income_types",
+    "english": "Income types",
+    "suggested": "އާމްދަނީގެ ބާވަތްތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.edit_category",
+    "english": "Change category",
+    "suggested": "ބާވަތް ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.new_category",
+    "english": "New spending category",
+    "suggested": "ޚަރަދުގެ އައު ބާވަތެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.new_income_category",
+    "english": "New income type",
+    "suggested": "އާމްދަނީގެ އައު ބާވަތެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.monthly_limit",
+    "english": "Monthly limit",
+    "suggested": "މަހުގެ ލިމިޓް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.monthly_limit_hint",
+    "english": "The most you want to spend on this in a month. Leave empty for no limit.",
+    "suggested": "މަހަކު މިކަމަށް ޚަރަދުކުރަން ބޭނުންވާ އެންމެ ގިނަ އަދަދު. ލިމިޓެއް ނުބޭނުންނަމަ ހުސްކޮށް ބަހައްޓަވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.delete_category",
+    "english": "Remove this category?",
+    "suggested": "މި ބާވަތް ފޮހެލަންތަ؟",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.delete_category_body",
+    "english": "Its records stay and count as Other.",
+    "suggested": "އޭގެ ރެކޯޑްތައް ހުންނާނެ، އަދި \"އެހެނިހެން\" ގެ ގޮތުގައި ގުނޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.new_bill",
+    "english": "New monthly bill",
+    "suggested": "މަހުގެ އައު ބިލެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.edit_bill",
+    "english": "Change bill",
+    "suggested": "ބިލު ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.bill_name",
+    "english": "Bill",
+    "suggested": "ބިލު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.bill_name_hint",
+    "english": "e.g. Rent, Dhiraagu, STELCO, Car loan",
+    "suggested": "މިސާލު: ގޭކުލި، Dhiraagu، STELCO، ކާރު ލޯން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.bill_amount",
+    "english": "Usual amount",
+    "suggested": "އާދައިގެ އަދަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.due_day",
+    "english": "Due day",
+    "suggested": "ދައްކަންޖެހޭ ދުވަސް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.delete_bill",
+    "english": "Remove this bill?",
+    "suggested": "މި ބިލު ފޮހެލަންތަ؟",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.delete_bill_body",
+    "english": "Bills already paid stay in your records.",
+    "suggested": "ކުރިން ދައްކާފައިވާ ބިލުތައް ރެކޯޑްތަކުގައި ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.months_chart",
+    "english": "Money in and spent, month by month",
+    "suggested": "މަހުން މަހަށް ލިބުނު ފައިސާއާއި ޚަރަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.avg_spent",
+    "english": "On average you spend {{amount}} a month.",
+    "suggested": "އެވްރެޖްކޮށް މަހަކު {{amount}} ޚަރަދުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.last_month",
+    "english": "Last month",
+    "suggested": "ކުރީ މަސް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.report_title",
+    "english": "Monthly money report",
+    "suggested": "މަހުގެ ފައިސާގެ ރިޕޯޓް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.report_made",
+    "english": "Made on {{date}}",
+    "suggested": "{{date}} ގައި ހަދާފައި",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.report_footer",
+    "english": "Gravity Budget · budget.oceanx.app",
+    "suggested": "Gravity Budget · budget.oceanx.app",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "modules.budget",
+    "english": "Budget",
+    "suggested": "ބަޖެޓް",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "perm.budget_view",
+    "english": "View budget, spending and goals",
+    "suggested": "ބަޖެޓް، ޚަރަދާއި އަމާޒުތައް ބެލުން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "perm.budget_manage",
+    "english": "Add and change spending, budgets, bills and goals",
+    "suggested": "ޚަރަދު، ބަޖެޓް، ބިލާއި އަމާޒުތައް އިތުރުކުރުމާއި ބަދަލުކުރުން",
+    "status": "needs_review",
+    "notes": "Gravity Budget (new product). Machine-suggested; please check."
   }
 ]

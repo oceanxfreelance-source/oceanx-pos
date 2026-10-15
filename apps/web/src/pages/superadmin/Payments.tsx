@@ -266,7 +266,7 @@ export function usePayments(params: { status?: string; businessId?: string; prod
 }
 
 /** Subscription payments of one product (OceanX POS or Gravity). */
-export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'gravity' | 'flow' }) {
+export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'gravity' | 'flow' | 'budget' }) {
   const { t } = useTranslation();
   const [tab, setTab] = useState<'pending' | 'approved' | 'rejected'>('pending');
   const q = usePayments({ status: tab, product });

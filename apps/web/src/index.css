@@ -97,7 +97,8 @@
 
 /* Gravity: navy + green like its logo. Set on <html data-product="gravity"> (Gravity address, sign-in, a Gravity account). */
 :root[data-product='gravity'],
-:root[data-product='flow'] {
+:root[data-product='flow'],
+:root[data-product='budget'] {
   --color-brand-50: #eef5f8;
   --color-brand-100: #d5e7ee;
   --color-brand-200: #acd0dd;
@@ -135,7 +136,8 @@
   --color-slate-900: #0b2840;
   --color-slate-950: #04192b;
 }
-:root.dark[data-product='flow'] {
+:root.dark[data-product='flow'],
+:root.dark[data-product='budget'] {
   /* Gravity Flow in dark mode: deep navy pages like its logo (instead of grey). */
   --color-slate-50: #eef5f8;
   --color-slate-100: #dce9ef;
