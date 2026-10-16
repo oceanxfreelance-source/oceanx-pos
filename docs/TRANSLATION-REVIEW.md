@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1282 · **confirmed**: 148
+Status: **needs_review**: 1288 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -140,6 +140,7 @@ review of the whole file is still recommended before launch.
 | `budget.bill_paid` | Bill paid and written down as spending. | ބިލު ދައްކައި، ޚަރަދެއްގެ ގޮތުގައި ލިޔެވިއްޖެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.bills_hint` | Rent, phone, internet, electricity, loans: paid every month. | ގޭކުލި، ފޯނު، އިންޓަނެޓް، ކަރަންޓު، ލޯން: ކޮންމެ މަހަކު ދައްކާ ބިލުތައް. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.bills_this_month` | Bills this month | މި މަހުގެ ބިލުތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.bills_to_pay` | Bills to pay | ދައްކަންޖެހޭ ބިލުތައް | needs_review | Gravity Budget. Machine-suggested; please check. |
 | `budget.business_name` | Your name | ތިބާގެ ނަން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.business_name_hint` | Shown on your monthly reports. | މަހުގެ ރިޕޯޓްތަކުގައި ފެންނާނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.console` | Gravity Budget console | Gravity Budget ކޮންސޯލް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
@@ -162,6 +163,7 @@ review of the whole file is still recommended before launch.
 | `budget.edit_goal` | Change goal | އަމާޒު ބަދަލުކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.edit_record` | Change record | ރެކޯޑް ބަދަލުކުރޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.every_month_on` | Every month on day {{day}} | ކޮންމެ މަހެއްގެ {{day}} ވަނަ ދުވަހު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.fewer_tips` | Show less | މަދުކޮށް ދައްކާ | needs_review | Gravity Budget. Machine-suggested; please check. |
 | `budget.goal_added` | {{amount}} saved. Well done! | {{amount}} ރައްކާކުރެވިއްޖެ. ވަރަށް ރަނގަޅު! | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.goal_behind` | Put in {{amount}} more this month to stay on track | ރަނގަޅަށް ދިއުމަށް މި މަހު އިތުރަށް {{amount}} ލައްވާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.goal_date` | Needed by | ބޭނުންވާ ތާރީޚު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
@@ -211,9 +213,13 @@ review of the whole file is still recommended before launch.
 | `budget.monthly_limit` | Monthly limit | މަހުގެ ލިމިޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.monthly_limit_hint` | The most you want to spend on this in a month. Leave empty for no limit. | މަހަކު މިކަމަށް ޚަރަދުކުރަން ބޭނުންވާ އެންމެ ގިނަ އަދަދު. ލިމިޓެއް ނުބޭނުންނަމަ ހުސްކޮށް ބަހައްޓަވާ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.months_chart` | Money in and spent, month by month | މަހުން މަހަށް ލިބުނު ފައިސާއާއި ޚަރަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.more_details` | More details | އިތުރު ތަފްޞީލު | needs_review | Gravity Budget. Machine-suggested; please check. |
+| `budget.more_tips_one` | 1 more tip | އިތުރު 1 ލަފާ | needs_review | Gravity Budget. Machine-suggested; please check. |
+| `budget.more_tips_other` | {{count}} more tips | އިތުރު {{count}} ލަފާ | needs_review | Gravity Budget. Machine-suggested; please check. |
 | `budget.my_budgets` | My budgets | މަގޭ ބަޖެޓްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.name` | Gravity Budget | Gravity Budget | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.nav_goals` | Goals | އަމާޒުތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nav_home` | Home | ހޯމް | needs_review | Gravity Budget. Machine-suggested; please check. |
 | `budget.nav_months` | Months | މަސްތައް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.nav_plan` | My budget | މަގޭ ބަޖެޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.nav_spending` | Spending | ޚަރަދު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |

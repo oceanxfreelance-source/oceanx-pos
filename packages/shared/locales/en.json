@@ -3178,6 +3178,12 @@
       "create_account": "Create account",
       "open_account": "Open account",
       "details": "Details"
-    }
+    },
+    "nav_home": "Home",
+    "more_details": "More details",
+    "bills_to_pay": "Bills to pay",
+    "more_tips_one": "1 more tip",
+    "more_tips_other": "{{count}} more tips",
+    "fewer_tips": "Show less"
   }
 }

@@ -4,27 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import {
-  AlertTriangle,
-  ArrowDownRight,
-  ArrowUpRight,
-  CalendarClock,
-  Check,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  Download,
-  Info,
-  Lightbulb,
-  Minus,
-  Pencil,
-  PiggyBank,
-  Plus,
-  Search,
-  Target,
-  Trash2,
-  Wallet,
-} from 'lucide-react';
+import { AlertTriangle, CalendarClock, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Download, Info, Minus, Pencil, PiggyBank, Plus, Search, Target, Trash2, Wallet, X } from 'lucide-react';
 import { addMonths } from '@oceanx/shared';
 import { api } from '../../lib/api';
 import { useBiz, useBizSession } from '../../auth/business';
@@ -44,6 +24,7 @@ const PAID_WITH: PaidWith[] = ['cash', 'card', 'transfer', 'other'];
 interface CategoryLine {
   id: string;
   name: string;
+  key: string | null;
   emoji: string;
   limit: number | null;
   spent: number;
@@ -82,7 +63,7 @@ export interface Overview {
   safePerDay: number | null;
   categories: CategoryLine[];
   other: { spent: number; lastMonth: number };
-  incomeCategories: { id: string; name: string; emoji: string; total: number }[];
+  incomeCategories: { id: string; name: string; key: string | null; emoji: string; total: number }[];
   bills: Bill[];
   paidWith: { paidWith: PaidWith; total: number }[];
   days: { date: string; spent: number }[];
@@ -92,6 +73,7 @@ interface Category {
   id: string;
   kind: Kind;
   name: string;
+  key: string | null;
   emoji: string;
   monthlyLimit: number | null;
 }
@@ -102,6 +84,7 @@ interface Entry {
   occurredOn: string;
   categoryId: string | null;
   categoryName: string;
+  categoryKey: string | null;
   categoryEmoji: string;
   note: string;
   paidWith: PaidWith;
@@ -137,6 +120,15 @@ export function useMonthName() {
   };
 }
 
+/**
+ * A category's name in the person's language: set-up categories (food, rent, salary…) have a key and follow
+ * the app language; a category the person named or renamed shows their own words.
+ */
+export function useCatName() {
+  const { t } = useTranslation();
+  return (c: { name: string; key?: string | null }) => (c.key ? t(`budget.starter.${c.key}`, { defaultValue: c.name }) : c.name);
+}
+
 function useOverview(month: string | null) {
   return useQuery({
     queryKey: [...KEY, 'overview', month ?? 'current'],
@@ -150,23 +142,21 @@ function useCategories() {
 }
 
 // ---------------------------------------------------------------- small pieces
+/** ‹ October 2026 › — a quiet month picker. */
 function MonthSwitcher({ month, current, onChange }: { month: string; current: string; onChange: (m: string | null) => void }) {
   const { t } = useTranslation();
   const monthName = useMonthName();
   return (
-    <div className="flex items-center gap-2">
-      <button type="button" aria-label={t('flow.prev_month')} onClick={() => onChange(addMonths(month, -1))} className="grid size-10 place-items-center rounded-xl bg-white shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:ring-slate-800">
+    <div className="flex items-center gap-1">
+      <button type="button" aria-label={t('flow.prev_month')} onClick={() => onChange(addMonths(month, -1))} className="grid size-9 place-items-center rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
         <ChevronLeft className="rtl-flip size-5" />
       </button>
-      <h2 className="min-w-36 text-center text-base font-semibold sm:text-lg">{monthName(month)}</h2>
-      <button type="button" aria-label={t('flow.next_month')} onClick={() => onChange(addMonths(month, 1))} disabled={month >= current} className="grid size-10 place-items-center rounded-xl bg-white shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-40 dark:bg-slate-900 dark:ring-slate-800">
+      <button type="button" onClick={() => month !== current && onChange(null)} className="min-w-28 text-center text-sm font-semibold">
+        {monthName(month)}
+      </button>
+      <button type="button" aria-label={t('flow.next_month')} onClick={() => onChange(addMonths(month, 1))} disabled={month >= current} className="grid size-9 place-items-center rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800">
         <ChevronRight className="rtl-flip size-5" />
       </button>
-      {month !== current && (
-        <button type="button" onClick={() => onChange(null)} className="rounded-full bg-brand-50 px-3 py-1.5 text-sm font-medium text-brand-800 dark:bg-brand-950 dark:text-brand-200">
-          {t('flow.this_month')}
-        </button>
-      )}
     </div>
   );
 }
@@ -175,19 +165,20 @@ function MonthSwitcher({ month, current, onChange }: { month: string; current: s
 function Meter({ used, limit, className }: { used: number; limit: number; className?: string }) {
   const pct = limit > 0 ? (used * 100) / limit : 0;
   return (
-    <div className={clsx('h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800', className)}>
+    <div className={clsx('h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800', className)}>
       <div className={clsx('h-full rounded-full transition-all', pct > 100 ? 'bg-rose-500' : pct >= 80 ? 'bg-amber-500' : 'bg-emerald-500')} style={{ width: `${Math.min(100, pct)}%` }} />
     </div>
   );
 }
 
-/** One piece of advice in plain words. */
+/** One piece of advice in plain words (category names in the person's language). */
 export function useInsightText() {
   const { t } = useTranslation();
   const money = useMoney();
   return (i: Insight) => {
     const p: Record<string, string | number> = { ...i.params };
     if (typeof p.amount === 'number') p.amount = money(p.amount);
+    if (p.nameKey) p.name = t(`budget.starter.${p.nameKey}`, { defaultValue: String(p.name) });
     return t(`budget.insight.${i.code}`, p);
   };
 }
@@ -210,9 +201,9 @@ function PaidWithPicker({ value, onChange }: { value: PaidWith; onChange: (v: Pa
   return (
     <div>
       <p className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">{t('budget.paid_with')}</p>
-      <div className="grid grid-cols-4 gap-1.5">
+      <div className="grid grid-cols-4 gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
         {PAID_WITH.map((p) => (
-          <button key={p} type="button" onClick={() => onChange(p)} aria-pressed={value === p} className={clsx('rounded-lg px-2 py-2 text-xs font-medium ring-1 transition sm:text-sm', value === p ? 'bg-brand-700 text-white ring-brand-700' : 'bg-white text-slate-700 ring-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-700')}>
+          <button key={p} type="button" onClick={() => onChange(p)} aria-pressed={value === p} className={clsx('rounded-lg px-1 py-1.5 text-xs font-medium transition sm:text-sm', value === p ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-600 dark:text-slate-300')}>
             {t(`budget.paid.${p}`)}
           </button>
         ))}
@@ -222,16 +213,24 @@ function PaidWithPicker({ value, onChange }: { value: PaidWith; onChange: (v: Pa
 }
 
 // ---------------------------------------------------------------- add / change a record
+/**
+ * Add spending or income in two taps: the amount (big), then the category (a grid of icons).
+ * Date, note and how it was paid are tucked under "More details" (today and cash by default).
+ */
 function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind; entry?: Entry; today: string; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const money = useMoney();
+  const f = useFormat();
+  const catName = useCatName();
   const cats = useCategories();
   const [kind, setKind] = useState<Kind>(entry?.kind ?? initialKind);
-  const [amount, setAmount] = useState(entry ? (entry.amount / 100).toFixed(2) : '');
+  const [amount, setAmount] = useState(entry ? toText(entry.amount) : '');
   const [date, setDate] = useState(entry?.occurredOn ?? today);
   const [categoryId, setCategoryId] = useState<string>(entry?.categoryId ?? '');
   const [note, setNote] = useState(entry?.note ?? '');
   const [paidWith, setPaidWith] = useState<PaidWith>(entry?.paidWith ?? 'cash');
+  const [more, setMore] = useState(!!entry && (!!entry.note || entry.occurredOn !== today || entry.paidWith !== 'cash'));
   const [confirmDelete, setConfirmDelete] = useState(false);
   const toastError = useToastError();
   const save = useMutation({
@@ -260,35 +259,24 @@ function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind;
     <Dialog
       open
       onClose={onClose}
-      title={entry ? t('budget.edit_record') : kind === 'income' ? t('budget.add_income') : t('budget.add_spending')}
+      title={entry ? t('budget.edit_record') : t('budget.add')}
       footer={
-        <div className="flex w-full items-center justify-between gap-2">
-          {entry ? (
-            <Button variant="ghost" icon={<Trash2 className="size-4" />} onClick={() => setConfirmDelete(true)}>
-              {t('common.delete')}
-            </Button>
-          ) : (
-            <span />
-          )}
-          <div className="flex gap-2">
-            <Button variant="secondary" onClick={onClose}>
-              {t('common.cancel')}
-            </Button>
-            <Button onClick={() => save.mutate()} loading={save.isPending} disabled={!amount.trim()}>
-              {t('common.save')}
-            </Button>
-          </div>
+        <div className="flex w-full items-center gap-2">
+          {entry && <Button variant="ghost" icon={<Trash2 className="size-4" />} aria-label={t('common.delete')} onClick={() => setConfirmDelete(true)} />}
+          <Button size="lg" className="flex-1" onClick={() => save.mutate()} loading={save.isPending} disabled={!amount.trim()}>
+            {t('common.save')}
+          </Button>
         </div>
       }
     >
       <form
-        className="space-y-4"
+        className="space-y-5"
         onSubmit={(e) => {
           e.preventDefault();
           save.mutate();
         }}
       >
-        <div className="grid grid-cols-2 gap-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="tablist">
+        <div className="mx-auto grid max-w-xs grid-cols-2 gap-1 rounded-full bg-slate-100 p-1 dark:bg-slate-800" role="tablist">
           {(['expense', 'income'] as const).map((k) => (
             <button
               key={k}
@@ -299,37 +287,63 @@ function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind;
                 setKind(k);
                 setCategoryId('');
               }}
-              className={clsx('rounded-lg py-2 text-sm font-semibold transition', kind === k ? (k === 'income' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-rose-600 text-white shadow-sm') : 'text-slate-600 dark:text-slate-300')}
+              className={clsx('rounded-full py-1.5 text-sm font-semibold transition', kind === k ? (k === 'income' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-rose-600 text-white shadow-sm') : 'text-slate-600 dark:text-slate-300')}
             >
               {k === 'income' ? t('budget.income') : t('budget.spending')}
             </button>
           ))}
         </div>
-        <AmountInput label={t('flow.amount')} value={amount} onChange={setAmount} error={fieldErr('amount')} autoFocus />
-        <div>
-          <p className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">{t('flow.category')}</p>
-          <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={t('flow.category')}>
-            {options.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                role="radio"
-                aria-checked={categoryId === c.id}
-                onClick={() => setCategoryId(categoryId === c.id ? '' : c.id)}
-                className={clsx('rounded-full px-3 py-1.5 text-sm ring-1 transition', categoryId === c.id ? 'bg-brand-700 font-medium text-white ring-brand-700' : 'bg-white text-slate-700 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-700')}
-              >
-                {c.emoji && <span className="me-1">{c.emoji}</span>}
-                <span dir="auto">{c.name}</span>
-              </button>
-            ))}
+        <div className="text-center">
+          <label className="sr-only" htmlFor="budget-amount">
+            {t('flow.amount')}
+          </label>
+          <div className="flex items-baseline justify-center gap-2" dir="ltr">
+            <span className="text-lg font-medium text-slate-400">{money.symbol}</span>
+            <input
+              id="budget-amount"
+              aria-label={t('flow.amount')}
+              inputMode="decimal"
+              autoFocus
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0"
+              className="w-44 border-0 bg-transparent p-0 text-center text-4xl font-bold tabular-nums placeholder:text-slate-300 focus:ring-0 dark:placeholder:text-slate-600"
+            />
           </div>
-          {fieldErr('categoryId') && <p className="mt-1 text-sm text-rose-600">{fieldErr('categoryId')}</p>}
+          <div className={clsx('mx-auto mt-1 h-0.5 w-44 rounded-full', kind === 'income' ? 'bg-emerald-500' : 'bg-rose-500')} />
+          {fieldErr('amount') && <p className="mt-1 text-sm text-rose-600">{fieldErr('amount')}</p>}
         </div>
-        {kind === 'expense' && <PaidWithPicker value={paidWith} onChange={setPaidWith} />}
-        <div className="grid grid-cols-2 gap-3">
-          <Input label={t('flow.date')} type="date" value={date} onChange={(e) => setDate(e.target.value)} error={fieldErr('occurredOn')} required />
-          <Input label={t('flow.note')} value={note} onChange={(e) => setNote(e.target.value)} maxLength={300} placeholder={t('budget.note_hint')} />
+        <div role="radiogroup" aria-label={t('flow.category')} className="grid grid-cols-4 gap-2">
+          {options.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              role="radio"
+              aria-checked={categoryId === c.id}
+              onClick={() => setCategoryId(categoryId === c.id ? '' : c.id)}
+              className={clsx('flex min-w-0 flex-col items-center gap-1 rounded-2xl px-1 py-2 text-center transition', categoryId === c.id ? 'bg-brand-50 ring-2 ring-brand-600 dark:bg-brand-950' : 'hover:bg-slate-50 dark:hover:bg-slate-800/60')}
+            >
+              <span className="text-2xl leading-none">{c.emoji || '•'}</span>
+              <span className="line-clamp-2 w-full text-[11px] leading-tight text-slate-600 dark:text-slate-300" dir="auto">
+                {catName(c)}
+              </span>
+            </button>
+          ))}
         </div>
+        {fieldErr('categoryId') && <p className="text-sm text-rose-600">{fieldErr('categoryId')}</p>}
+        {!more ? (
+          <button type="button" onClick={() => setMore(true)} className="mx-auto flex items-center gap-1 text-sm text-slate-500">
+            {f.date(date)} · {t(`budget.paid.${paidWith}`)} <ChevronDown className="size-4" /> <span className="font-medium text-brand-700 dark:text-brand-300">{t('budget.more_details')}</span>
+          </button>
+        ) : (
+          <div className="space-y-4 rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/40">
+            {kind === 'expense' && <PaidWithPicker value={paidWith} onChange={setPaidWith} />}
+            <div className="grid grid-cols-2 gap-3">
+              <Input label={t('flow.date')} type="date" value={date} onChange={(e) => setDate(e.target.value)} error={fieldErr('occurredOn')} />
+              <Input label={t('flow.note')} value={note} onChange={(e) => setNote(e.target.value)} maxLength={300} placeholder={t('budget.note_hint')} />
+            </div>
+          </div>
+        )}
       </form>
       <ConfirmDialog open={confirmDelete} onClose={() => setConfirmDelete(false)} onConfirm={() => remove.mutate()} loading={remove.isPending} danger title={t('flow.delete_title')} message={t('flow.delete_body')} confirmLabel={t('common.delete')} />
     </Dialog>
@@ -340,11 +354,13 @@ function EntryRow({ e, onOpen }: { e: Entry; onOpen: () => void }) {
   const { t } = useTranslation();
   const money = useMoney();
   const f = useFormat();
-  const title = e.note || e.categoryName || (e.kind === 'income' ? t('budget.income') : t('budget.spending'));
+  const catName = useCatName();
+  const cat = e.categoryName ? catName({ name: e.categoryName, key: e.categoryKey }) : '';
+  const title = e.note || cat || (e.kind === 'income' ? t('budget.income') : t('budget.spending'));
   return (
     <li>
       <button type="button" onClick={onOpen} className="flex w-full items-center gap-3 px-4 py-3 text-start hover:bg-slate-50 dark:hover:bg-slate-800/40">
-        <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-lg', e.kind === 'income' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800')}>
+        <span className={clsx('grid size-10 shrink-0 place-items-center rounded-full text-lg', e.kind === 'income' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800')}>
           {e.categoryEmoji || (e.kind === 'income' ? <Plus className="size-4" /> : <Minus className="size-4" />)}
         </span>
         <span className="min-w-0 flex-1">
@@ -352,9 +368,8 @@ function EntryRow({ e, onOpen }: { e: Entry; onOpen: () => void }) {
             {title}
           </span>
           <span className="block truncate text-xs text-slate-500" dir="auto">
+            {cat && e.note ? `${cat} · ` : ''}
             {f.date(e.occurredOn)}
-            {e.categoryName && e.note ? ` · ${e.categoryName}` : ''}
-            {e.kind === 'expense' ? ` · ${t(`budget.paid.${e.paidWith}`)}` : ''}
           </span>
         </span>
         <span className={clsx('shrink-0 text-sm font-semibold tabular-nums', e.kind === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-900 dark:text-slate-100')}>
@@ -366,17 +381,17 @@ function EntryRow({ e, onOpen }: { e: Entry; onOpen: () => void }) {
   );
 }
 
-function AddButtons({ onAdd }: { onAdd: (k: Kind) => void }) {
+/** The one big action, always in reach of the thumb: + Add (spending; income is one tap away inside). */
+function AddFab({ onAdd }: { onAdd: () => void }) {
   const { t } = useTranslation();
   return (
-    <div className="grid grid-cols-2 gap-2">
-      <button type="button" onClick={() => onAdd('expense')} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-rose-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-rose-700">
-        <Minus className="size-4" /> {t('budget.add_spending')}
-      </button>
-      <button type="button" onClick={() => onAdd('income')} className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
-        <Plus className="size-4" /> {t('budget.add_income')}
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={onAdd}
+      className="fixed end-4 bottom-[calc(5rem+var(--safe-bottom,0px))] z-30 inline-flex items-center gap-2 rounded-full bg-brand-700 px-5 py-3.5 text-base font-semibold text-white shadow-lg shadow-brand-900/25 hover:bg-brand-800 lg:bottom-8"
+    >
+      <Plus className="size-5" /> {t('budget.add')}
+    </button>
   );
 }
 
@@ -400,7 +415,7 @@ const STARTER: { kind: Kind; key: string; emoji: string }[] = [
   { kind: 'expense', key: 'other', emoji: '📦' },
 ];
 
-/** First time: pick the spending categories that fit, give the ones that matter a monthly limit, and add this month's income. */
+/** First time: this month's income, the spending categories that fit, and a monthly limit for the ones that matter. */
 function SetupWizard({ today }: { today: string }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
@@ -411,11 +426,11 @@ function SetupWizard({ today }: { today: string }) {
   const toastError = useToastError();
   const start = useMutation({
     mutationFn: async () => {
-      const categories = STARTER.filter((s) => picked[s.key]).map((s) => ({ kind: s.kind, name: t(`budget.starter.${s.key}`), emoji: s.emoji, monthlyLimit: s.kind === 'expense' ? (limits[s.key] ?? '').trim() || null : null }));
+      const categories = STARTER.filter((s) => picked[s.key]).map((s) => ({ kind: s.kind, key: s.key, name: t(`budget.starter.${s.key}`), emoji: s.emoji, monthlyLimit: s.kind === 'expense' ? (limits[s.key] ?? '').trim() || null : null }));
       await api.post('/budget/setup', { categories });
       if (income.trim()) {
         const cats = await api.get<{ items: Category[] }>('/budget/categories');
-        const salary = cats.items.find((c) => c.kind === 'income' && c.name === t('budget.starter.salary'));
+        const salary = cats.items.find((c) => c.kind === 'income' && c.key === 'salary');
         await api.post('/budget/entries', { kind: 'income', amount: income.trim(), occurredOn: today, categoryId: salary?.id ?? null, note: '' });
       }
     },
@@ -427,11 +442,11 @@ function SetupWizard({ today }: { today: string }) {
   });
   const first = session.user.name.split(' ')[0];
   return (
-    <div className="mx-auto max-w-2xl space-y-5">
-      <div className="gravity-surface rounded-2xl p-5 text-white shadow-sm">
-        <p className="text-sm text-white/75">{t('budget.hello', { name: first })}</p>
-        <h1 className="mt-1 text-xl font-semibold sm:text-2xl">{t('budget.setup_title')}</h1>
-        <p className="mt-2 text-sm text-white/85">{t('budget.setup_body')}</p>
+    <div className="mx-auto max-w-xl space-y-5 pb-6">
+      <div className="pt-2">
+        <p className="text-sm text-slate-500">{t('budget.hello', { name: first })}</p>
+        <h1 className="mt-1 text-2xl font-semibold">{t('budget.setup_title')}</h1>
+        <p className="mt-1 text-sm text-slate-500">{t('budget.setup_body')}</p>
       </div>
       <Card>
         <h2 className="font-semibold">{t('budget.setup_income')}</h2>
@@ -440,14 +455,14 @@ function SetupWizard({ today }: { today: string }) {
       </Card>
       <Card>
         <h2 className="font-semibold">{t('budget.setup_spending')}</h2>
-        <p className="mb-3 text-sm text-slate-500">{t('budget.setup_spending_hint')}</p>
+        <p className="mb-2 text-sm text-slate-500">{t('budget.setup_spending_hint')}</p>
         <ul className="divide-y divide-slate-100 dark:divide-slate-800">
           {STARTER.filter((s) => s.kind === 'expense').map((s) => (
-            <li key={s.key} className="flex items-center gap-3 py-2.5">
-              <button type="button" onClick={() => setPicked((p) => ({ ...p, [s.key]: !p[s.key] }))} aria-pressed={picked[s.key]} className={clsx('flex min-w-0 flex-1 items-center gap-2 text-start', !picked[s.key] && 'opacity-40')}>
+            <li key={s.key} className="flex items-center gap-3 py-2">
+              <button type="button" onClick={() => setPicked((p) => ({ ...p, [s.key]: !p[s.key] }))} aria-pressed={picked[s.key]} className={clsx('flex min-w-0 flex-1 items-center gap-2.5 text-start', !picked[s.key] && 'opacity-40')}>
                 <span className={clsx('grid size-5 shrink-0 place-items-center rounded-md ring-1', picked[s.key] ? 'bg-brand-700 text-white ring-brand-700' : 'ring-slate-300 dark:ring-slate-600')}>{picked[s.key] && <Check className="size-3.5" />}</span>
                 <span className="text-lg">{s.emoji}</span>
-                <span className="truncate text-sm font-medium">{t(`budget.starter.${s.key}`)}</span>
+                <span className="truncate text-sm">{t(`budget.starter.${s.key}`)}</span>
               </button>
               <input
                 inputMode="decimal"
@@ -457,7 +472,7 @@ function SetupWizard({ today }: { today: string }) {
                 value={limits[s.key] ?? ''}
                 onChange={(e) => setLimits((l) => ({ ...l, [s.key]: e.target.value }))}
                 placeholder={t('budget.no_limit')}
-                className="w-28 rounded-lg border-0 bg-slate-50 px-3 py-2 text-end text-sm tabular-nums ring-1 ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 disabled:opacity-40 dark:bg-slate-800 dark:ring-slate-700"
+                className="w-24 rounded-lg border-0 bg-slate-50 px-2.5 py-1.5 text-end text-sm tabular-nums ring-1 ring-slate-200 placeholder:text-xs placeholder:text-slate-400 focus:ring-2 focus:ring-brand-500 disabled:opacity-40 dark:bg-slate-800 dark:ring-slate-700"
               />
             </li>
           ))}
@@ -493,14 +508,9 @@ function PayBillDialog({ bill, today, onClose }: { bill: Bill; today: string; on
       title={t('budget.pay_bill', { name: bill.name })}
       size="sm"
       footer={
-        <>
-          <Button variant="secondary" onClick={onClose}>
-            {t('common.cancel')}
-          </Button>
-          <Button onClick={() => pay.mutate()} loading={pay.isPending} disabled={!amount.trim()}>
-            {t('budget.mark_paid')}
-          </Button>
-        </>
+        <Button size="lg" className="w-full" onClick={() => pay.mutate()} loading={pay.isPending} disabled={!amount.trim()}>
+          {t('budget.mark_paid')}
+        </Button>
       }
     >
       <div className="space-y-4">
@@ -512,102 +522,78 @@ function PayBillDialog({ bill, today, onClose }: { bill: Bill; today: string; on
   );
 }
 
-function BillsCard({ o, manage }: { o: Overview; manage: boolean }) {
+/** Bills not paid yet this month (soonest first). Paid ones and the full list live on My budget. */
+function BillsDue({ o, manage }: { o: Overview; manage: boolean }) {
   const { t } = useTranslation();
   const money = useMoney();
   const f = useFormat();
   const [paying, setPaying] = useState<Bill | null>(null);
-  if (!o.bills.length) return null;
-  const sorted = [...o.bills].sort((a, b) => Number(a.paid) - Number(b.paid) || a.dueDate.localeCompare(b.dueDate));
+  const due = o.bills.filter((b) => !b.paid).sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+  if (!due.length) return null;
   return (
-    <Card padded={false}>
-      <div className="flex items-baseline justify-between gap-2 p-4 pb-2">
-        <h2 className="font-semibold">{t('budget.bills_this_month')}</h2>
-        {o.totals.billsUnpaid > 0 && <span className="text-sm text-slate-500">{t('budget.still_to_pay', { amount: money(o.totals.billsUnpaid) })}</span>}
-      </div>
-      <ul className="divide-y divide-slate-100 dark:divide-slate-800">
-        {sorted.map((b) => (
-          <li key={b.id} className="flex items-center gap-3 px-4 py-3">
-            <span className={clsx('grid size-9 shrink-0 place-items-center rounded-xl', b.paid ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : b.overdue ? 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300')}>
-              {b.paid ? <Check className="size-4" /> : <CalendarClock className="size-4" />}
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-medium" dir="auto">
-                {b.name}
-              </span>
-              <span className={clsx('block truncate text-xs', b.overdue ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500')}>
-                {b.paid
-                  ? t('budget.paid_on', { date: f.date(b.paidOn) })
-                  : b.overdue
+    <section>
+      <h2 className="mb-2 px-1 text-sm font-semibold text-slate-500">{t('budget.bills_to_pay')}</h2>
+      <Card padded={false}>
+        <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+          {due.map((b) => (
+            <li key={b.id} className="flex items-center gap-3 px-4 py-3">
+              <CalendarClock className={clsx('size-5 shrink-0', b.overdue ? 'text-rose-500' : 'text-slate-400')} />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-medium" dir="auto">
+                  {b.name} · <span className="tabular-nums">{money(b.amount)}</span>
+                </span>
+                <span className={clsx('block truncate text-xs', b.overdue ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500')}>
+                  {b.overdue
                     ? t('budget.overdue_since', { date: f.date(b.dueDate) })
                     : b.dueInDays === 0
                       ? t('budget.due_today')
                       : b.dueInDays !== null
                         ? t('budget.due_in', { count: b.dueInDays, date: f.date(b.dueDate) })
                         : t('budget.due_on', { date: f.date(b.dueDate) })}
+                </span>
               </span>
-            </span>
-            <span className="shrink-0 text-sm font-semibold tabular-nums">{money(b.paidAmount ?? b.amount)}</span>
-            {!b.paid && manage && (
-              <Button size="sm" variant="subtle" onClick={() => setPaying(b)}>
-                {t('budget.pay')}
-              </Button>
-            )}
-          </li>
-        ))}
-      </ul>
+              {manage && (
+                <Button size="sm" variant="subtle" onClick={() => setPaying(b)}>
+                  {t('budget.pay')}
+                </Button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </Card>
       {paying && <PayBillDialog bill={paying} today={o.today} onClose={() => setPaying(null)} />}
-    </Card>
+    </section>
   );
 }
 
-/** Spending day by day this month (bars); today highlighted. */
-function DailySpendChart({ days, today }: { days: { date: string; spent: number }[]; today: string }) {
+/** Where the money went: each category's share of the month's spending, biggest first. Tap one to see its records. */
+function WhereItWent({ o, onPick, picked }: { o: Overview; onPick?: (id: string) => void; picked?: string }) {
   const { t } = useTranslation();
   const money = useMoney();
-  const max = Math.max(1, ...days.map((d) => d.spent));
+  const catName = useCatName();
+  const rows = [...o.categories.filter((c) => c.spent > 0).map((c) => ({ key: c.id, name: catName(c), emoji: c.emoji, spent: c.spent })), ...(o.other.spent > 0 ? [{ key: '', name: t('budget.other'), emoji: '📦', spent: o.other.spent }] : [])].sort((a, b) => b.spent - a.spent);
+  if (!rows.length) return <p className="py-2 text-sm text-slate-500">{t('budget.nothing_spent')}</p>;
   return (
-    <div>
-      <div className="flex h-24 items-end gap-[2px]" role="img" aria-label={t('budget.daily_spending')}>
-        {days.map((d) => (
-          <div key={d.date} className="flex h-full flex-1 items-end" title={`${d.date}: ${money(d.spent)}`}>
-            <div className={clsx('w-full rounded-t-sm', d.date === today ? 'bg-brand-600 dark:bg-brand-300' : d.date > today ? 'bg-slate-100 dark:bg-slate-800' : 'bg-rose-400/80')} style={{ height: `${Math.max(d.spent > 0 ? 4 : 2, (d.spent * 100) / max)}%` }} />
-          </div>
-        ))}
-      </div>
-      <div className="mt-1 flex justify-between text-[11px] text-slate-500">
-        <span>1</span>
-        <span>{Math.ceil(days.length / 2)}</span>
-        <span>{days.length}</span>
-      </div>
-    </div>
-  );
-}
-
-/** Where the money went: each category's share of the month's spending, biggest first. */
-function WhereItWent({ o }: { o: Overview }) {
-  const { t } = useTranslation();
-  const money = useMoney();
-  const rows = [...o.categories.filter((c) => c.spent > 0).map((c) => ({ key: c.id, name: c.name, emoji: c.emoji, spent: c.spent })), ...(o.other.spent > 0 ? [{ key: 'other', name: t('budget.other'), emoji: '📦', spent: o.other.spent }] : [])].sort((a, b) => b.spent - a.spent);
-  if (!rows.length) return <p className="text-sm text-slate-500">{t('budget.nothing_spent')}</p>;
-  return (
-    <ul className="space-y-2.5">
+    <ul className="space-y-1">
       {rows.map((r) => {
         const pct = o.totals.spent > 0 ? Math.round((r.spent * 100) / o.totals.spent) : 0;
         return (
-          <li key={r.key}>
-            <div className="flex items-baseline justify-between gap-2 text-sm">
-              <span className="min-w-0 truncate" dir="auto">
-                <span className="me-1.5">{r.emoji}</span>
-                {r.name}
-              </span>
-              <span className="shrink-0 tabular-nums">
-                <span className="font-semibold">{money(r.spent)}</span> <span className="text-xs text-slate-500">{pct}%</span>
-              </span>
-            </div>
-            <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-              <div className="h-full rounded-full bg-brand-600 dark:bg-brand-400" style={{ width: `${Math.max(2, pct)}%` }} />
-            </div>
+          <li key={r.key || 'other'}>
+            <button type="button" disabled={!onPick || !r.key} onClick={() => onPick?.(r.key)} className={clsx('w-full rounded-xl px-2 py-2 text-start disabled:cursor-default', picked === r.key ? 'bg-brand-50 dark:bg-brand-950' : onPick && r.key && 'hover:bg-slate-50 dark:hover:bg-slate-800/50')}>
+              <div className="flex items-center justify-between gap-2 text-sm">
+                <span className="flex min-w-0 items-center gap-2" dir="auto">
+                  <span className="text-base">{r.emoji}</span>
+                  <span className="truncate">{r.name}</span>
+                </span>
+                <span className="shrink-0 font-semibold tabular-nums">{money(r.spent)}</span>
+              </div>
+              <div className="mt-1.5 flex items-center gap-2">
+                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                  <div className="h-full rounded-full bg-brand-600 dark:bg-brand-400" style={{ width: `${Math.max(2, pct)}%` }} />
+                </div>
+                <span className="w-9 text-end text-xs text-slate-500 tabular-nums">{pct}%</span>
+              </div>
+            </button>
           </li>
         );
       })}
@@ -617,205 +603,152 @@ function WhereItWent({ o }: { o: Overview }) {
 
 // ---------------------------------------------------------------- home
 /**
- * Gravity Budget home: what is left this month and how much can safely be spent per day, plain advice,
- * every budget against its limit, the month's bills, where the money went, and the latest records.
+ * Gravity Budget home, kept calm for a phone: what is left this month and what can be spent each day, the one most
+ * useful tip, the budgets with a limit, bills still to pay, and the last few records. One "+ Add" button.
  */
 export function BudgetHome() {
   const { t } = useTranslation();
   const money = useMoney();
   const session = useBizSession();
+  const catName = useCatName();
   const { can } = useBiz();
   const [params, setParams] = useSearchParams();
   const month = params.get('month');
   const q = useOverview(month);
   const o = q.data;
   const insightText = useInsightText();
-  const monthName = useMonthName();
   const recent = useQuery({
     queryKey: [...KEY, 'entries', 'recent', o?.month],
-    queryFn: () => api.get<{ items: Entry[]; total: number }>(`/budget/entries?month=${o!.month}&pageSize=6`),
+    queryFn: () => api.get<{ items: Entry[]; total: number }>(`/budget/entries?month=${o!.month}&pageSize=4`),
     enabled: !!o?.setUp,
     placeholderData: keepPreviousData,
   });
-  const [adding, setAdding] = useState<Kind | null>(null);
+  const [adding, setAdding] = useState(false);
   const [editing, setEditing] = useState<Entry | null>(null);
+  const [allTips, setAllTips] = useState(false);
   if (!o) return <SkeletonRows rows={8} />;
   if (!o.setUp) return <SetupWizard today={o.today} />;
   const manage = can('budget.manage');
   const { totals } = o;
-  const spentPct = totals.income > 0 ? Math.min(100, Math.round(((totals.spent + Math.max(0, totals.saved)) * 100) / totals.income)) : 0;
+  const usedPct = totals.income > 0 ? Math.min(100, Math.round(((totals.spent + Math.max(0, totals.saved)) * 100) / totals.income)) : 0;
   const withLimit = o.categories.filter((c) => c.limit !== null);
+  const tips = allTips ? o.insights : o.insights.slice(0, 1);
   const setMonth = (m: string | null) => setParams(m && m !== o.currentMonth ? { month: m } : {}, { replace: true });
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="text-sm text-slate-500">{t('budget.hello', { name: session.user.name.split(' ')[0] })}</p>
-          <h1 className="text-xl font-semibold sm:text-2xl">{o.isCurrent ? t('budget.this_month_title') : monthName(o.month)}</h1>
-        </div>
+    <div className="mx-auto max-w-xl space-y-5 pb-16">
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-sm text-slate-500">{t('budget.hello', { name: session.user.name.split(' ')[0] })}</p>
         <MonthSwitcher month={o.month} current={o.currentMonth} onChange={setMonth} />
       </div>
 
       {/* What is left, and what can be spent each day. */}
-      <section className={clsx('rounded-2xl p-5 text-white shadow-sm', totals.left < 0 ? 'bg-rose-600' : 'gravity-surface')}>
+      <section className={clsx('rounded-3xl p-5 text-white shadow-sm', totals.left < 0 ? 'bg-rose-600' : 'gravity-surface')}>
         <p className="text-sm text-white/75">{totals.left < 0 ? t('budget.overspent') : t('budget.left_to_spend')}</p>
-        <p className="mt-1 text-3xl font-bold tabular-nums sm:text-4xl">{money(Math.abs(totals.left))}</p>
-        <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/20">
-          <div className="h-full rounded-full bg-white" style={{ width: `${spentPct}%` }} />
-        </div>
-        <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
-          <div>
-            <span className="block text-xs text-white/70">{t('budget.money_in')}</span>
-            <span className="font-semibold tabular-nums">{money(totals.income)}</span>
-          </div>
-          <div>
-            <span className="block text-xs text-white/70">{t('budget.spent')}</span>
-            <span className="font-semibold tabular-nums">{money(totals.spent)}</span>
-          </div>
-          <div>
-            <span className="block text-xs text-white/70">{t('budget.saved')}</span>
-            <span className="font-semibold tabular-nums">{money(totals.saved)}</span>
-          </div>
-        </div>
-        {o.safePerDay !== null && (
-          <div className="mt-4 rounded-xl bg-white/10 px-3 py-2.5 text-sm">
-            <Wallet className="me-1.5 inline size-4 align-[-3px]" />
-            {totals.left - totals.billsUnpaid > 0
-              ? t('budget.safe_per_day', { amount: money(o.safePerDay), count: o.daysLeft })
-              : t('budget.nothing_safe')}
-            {totals.billsUnpaid > 0 && <span className="block text-xs text-white/75">{t('budget.after_bills', { amount: money(totals.billsUnpaid) })}</span>}
-          </div>
+        <p className="mt-1 text-4xl font-bold tracking-tight tabular-nums">{money(Math.abs(totals.left))}</p>
+        {o.safePerDay !== null && totals.left > 0 && (
+          <p className="mt-2 text-sm text-white/90">{totals.left - totals.billsUnpaid > 0 ? t('budget.safe_per_day', { amount: money(o.safePerDay), count: o.daysLeft }) : t('budget.nothing_safe')}</p>
         )}
+        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/20">
+          <div className="h-full rounded-full bg-white" style={{ width: `${usedPct}%` }} />
+        </div>
+        <div className="mt-2 flex justify-between text-xs text-white/75">
+          <span>
+            {t('budget.money_in')} <span className="font-semibold text-white tabular-nums">{money(totals.income)}</span>
+          </span>
+          <span>
+            {t('budget.spent')} <span className="font-semibold text-white tabular-nums">{money(totals.spent)}</span>
+          </span>
+        </div>
       </section>
 
-      {manage && <AddButtons onAdd={setAdding} />}
-
-      {o.insights.length > 0 && (
-        <Card>
-          <h2 className="mb-2 flex items-center gap-2 font-semibold">
-            <Lightbulb className="size-4 text-amber-500" /> {t('budget.advice')}
-          </h2>
-          <ul className="space-y-2">
-            {o.insights.map((i, n) => (
-              <li key={`${i.code}-${n}`} className={clsx('flex items-start gap-2 rounded-xl px-3 py-2 text-sm', i.tone === 'bad' ? 'bg-rose-50 dark:bg-rose-950/40' : i.tone === 'warn' ? 'bg-amber-50 dark:bg-amber-950/30' : i.tone === 'good' ? 'bg-emerald-50 dark:bg-emerald-950/30' : 'bg-slate-50 dark:bg-slate-800/50')}>
-                <span className="mt-0.5">
-                  <InsightIcon tone={i.tone} />
-                </span>
-                <span dir="auto">{insightText(i)}</span>
-              </li>
-            ))}
-          </ul>
-        </Card>
+      {tips.length > 0 && (
+        <div className="space-y-2">
+          {tips.map((i, n) => (
+            <p key={`${i.code}-${n}`} className={clsx('flex items-start gap-2 rounded-2xl px-4 py-3 text-sm', i.tone === 'bad' ? 'bg-rose-50 text-rose-900 dark:bg-rose-950/40 dark:text-rose-100' : i.tone === 'warn' ? 'bg-amber-50 text-amber-900 dark:bg-amber-950/30 dark:text-amber-100' : i.tone === 'good' ? 'bg-emerald-50 text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100' : 'bg-white text-slate-700 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-800')}>
+              <span className="mt-0.5">
+                <InsightIcon tone={i.tone} />
+              </span>
+              <span dir="auto">{insightText(i)}</span>
+            </p>
+          ))}
+          {o.insights.length > 1 && (
+            <button type="button" onClick={() => setAllTips((v) => !v)} className="px-1 text-xs font-medium text-brand-700 dark:text-brand-300">
+              {allTips ? t('budget.fewer_tips') : t('budget.more_tips', { count: o.insights.length - 1 })}
+            </button>
+          )}
+        </div>
       )}
 
-      <Card>
-        <div className="mb-3 flex items-baseline justify-between gap-2">
-          <h2 className="font-semibold">{t('budget.my_budgets')}</h2>
-          <Link to="/plan" className="text-sm font-medium text-brand-700 hover:underline dark:text-brand-300">
+      <BillsDue o={o} manage={manage} />
+
+      <section>
+        <div className="mb-2 flex items-baseline justify-between px-1">
+          <h2 className="text-sm font-semibold text-slate-500">{t('budget.my_budgets')}</h2>
+          <Link to="/plan" className="text-xs font-medium text-brand-700 dark:text-brand-300">
             {t('budget.edit_budget')}
           </Link>
         </div>
-        {withLimit.length === 0 ? (
-          <p className="text-sm text-slate-500">
-            {t('budget.no_limits_yet')}{' '}
-            <Link to="/plan" className="font-medium text-brand-700 hover:underline dark:text-brand-300">
-              {t('budget.set_limits')}
-            </Link>
-          </p>
-        ) : (
-          <ul className="space-y-3.5">
-            {withLimit.map((c) => (
-              <li key={c.id}>
-                <div className="flex items-baseline justify-between gap-2 text-sm">
-                  <span className="min-w-0 truncate font-medium" dir="auto">
-                    <span className="me-1.5">{c.emoji}</span>
-                    {c.name}
-                  </span>
-                  <span className="shrink-0 text-xs text-slate-500 tabular-nums">
-                    {money(c.spent)} / {money(c.limit)}
-                  </span>
-                </div>
-                <Meter used={c.spent} limit={c.limit ?? 0} className="mt-1.5" />
-                <p className={clsx('mt-1 text-xs', (c.left ?? 0) < 0 ? 'font-medium text-rose-600 dark:text-rose-400' : 'text-slate-500')}>
-                  {(c.left ?? 0) < 0 ? t('budget.over_by', { amount: money(-(c.left ?? 0)) }) : t('budget.left_in', { amount: money(c.left) })}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Card>
+        <Card>
+          {withLimit.length === 0 ? (
+            <p className="text-sm text-slate-500">
+              {t('budget.no_limits_yet')}{' '}
+              <Link to="/plan" className="font-medium text-brand-700 dark:text-brand-300">
+                {t('budget.set_limits')}
+              </Link>
+            </p>
+          ) : (
+            <ul className="space-y-4">
+              {withLimit.map((c) => (
+                <li key={c.id}>
+                  <div className="flex items-center justify-between gap-2 text-sm">
+                    <span className="flex min-w-0 items-center gap-2" dir="auto">
+                      <span className="text-base">{c.emoji}</span>
+                      <span className="truncate">{catName(c)}</span>
+                    </span>
+                    <span className={clsx('shrink-0 text-xs tabular-nums', (c.left ?? 0) < 0 ? 'font-semibold text-rose-600 dark:text-rose-400' : 'text-slate-500')}>
+                      {(c.left ?? 0) < 0 ? t('budget.over_by', { amount: money(-(c.left ?? 0)) }) : t('budget.left_in', { amount: money(c.left) })}
+                    </span>
+                  </div>
+                  <Meter used={c.spent} limit={c.limit ?? 0} className="mt-2" />
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card>
+      </section>
 
-      <BillsCard o={o} manage={manage} />
-
-      <Card>
-        <h2 className="mb-3 font-semibold">{t('budget.where_it_went')}</h2>
-        <WhereItWent o={o} />
-        {o.paidWith.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-3 text-xs dark:border-slate-800">
-            {o.paidWith.map((p) => (
-              <span key={p.paidWith} className="rounded-full bg-slate-100 px-2.5 py-1 dark:bg-slate-800">
-                {t(`budget.paid.${p.paidWith}`)}: <span className="font-semibold tabular-nums">{money(p.total)}</span>
-              </span>
-            ))}
-          </div>
-        )}
-        {o.totals.spent > 0 && (
-          <div className="mt-4 border-t border-slate-100 pt-3 dark:border-slate-800">
-            <div className="mb-2 flex items-baseline justify-between gap-2">
-              <h3 className="text-sm font-medium">{t('budget.daily_spending')}</h3>
-              {o.previous.spent > 0 && <Compare now={o.totals.spent} before={o.previous.spent} />}
-            </div>
-            <DailySpendChart days={o.days} today={o.today} />
-          </div>
-        )}
-      </Card>
-
-      <Card padded={false}>
-        <div className="flex items-center justify-between gap-2 p-4 pb-2">
-          <h2 className="font-semibold">{t('budget.latest')}</h2>
-          <Link to={`/spending${o.isCurrent ? '' : `?month=${o.month}`}`} className="text-sm font-medium text-brand-700 hover:underline dark:text-brand-300">
+      <section>
+        <div className="mb-2 flex items-baseline justify-between px-1">
+          <h2 className="text-sm font-semibold text-slate-500">{t('budget.latest')}</h2>
+          <Link to={`/spending${o.isCurrent ? '' : `?month=${o.month}`}`} className="text-xs font-medium text-brand-700 dark:text-brand-300">
             {t('flow.see_all')}
           </Link>
         </div>
-        {!recent.data ? (
-          <SkeletonRows rows={3} />
-        ) : recent.data.items.length === 0 ? (
-          <p className="px-4 pb-6 pt-2 text-sm text-slate-500">{t('budget.nothing_yet')}</p>
-        ) : (
-          <ul className="divide-y divide-slate-100 dark:divide-slate-800">
-            {recent.data.items.map((e) => (
-              <EntryRow key={e.id} e={e} onOpen={() => manage && setEditing(e)} />
-            ))}
-          </ul>
-        )}
-      </Card>
+        <Card padded={false}>
+          {!recent.data ? (
+            <SkeletonRows rows={3} />
+          ) : recent.data.items.length === 0 ? (
+            <p className="px-4 py-5 text-sm text-slate-500">{t('budget.nothing_yet_hint')}</p>
+          ) : (
+            <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+              {recent.data.items.map((e) => (
+                <EntryRow key={e.id} e={e} onOpen={() => manage && setEditing(e)} />
+              ))}
+            </ul>
+          )}
+        </Card>
+      </section>
 
-      <Link to={`/print/budget/${o.month}`} className="flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-medium text-brand-700 ring-1 ring-slate-200 hover:bg-white dark:text-brand-300 dark:ring-slate-800 dark:hover:bg-slate-900">
-        <Download className="size-4" /> {t('budget.download_month', { month: monthName(o.month) })}
-      </Link>
-
-      {adding && <EntryDialog kind={adding} today={o.today} onClose={() => setAdding(null)} />}
+      {manage && <AddFab onAdd={() => setAdding(true)} />}
+      {adding && <EntryDialog kind="expense" today={o.today} onClose={() => setAdding(false)} />}
       {editing && <EntryDialog kind={editing.kind} entry={editing} today={o.today} onClose={() => setEditing(null)} />}
     </div>
   );
 }
 
-/** Spending against last month: up is bad, down is good. */
-function Compare({ now, before }: { now: number; before: number }) {
-  const { t } = useTranslation();
-  const money = useMoney();
-  if (now === before) return null;
-  const up = now > before;
-  return (
-    <span className={clsx('inline-flex items-center gap-0.5 text-xs', up ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400')}>
-      {up ? <ArrowUpRight className="size-3.5" /> : <ArrowDownRight className="size-3.5" />}
-      {money(Math.abs(now - before))} {t('budget.vs_last_month_total')}
-    </span>
-  );
-}
-
 // ---------------------------------------------------------------- spending (every record)
+/** Every record of a month, grouped by day. Tap a category in "Where your money went" to see only its records. */
 export function BudgetSpendingPage() {
   const { t } = useTranslation();
   const money = useMoney();
@@ -827,6 +760,7 @@ export function BudgetSpendingPage() {
   const month = o?.month ?? null;
   const [kind, setKind] = useState<'' | Kind>('');
   const [categoryId, setCategoryId] = useState('');
+  const [searching, setSearching] = useState(false);
   const [search, setSearch] = useState('');
   const [q, setQ] = useState('');
   const [pages, setPages] = useState(1);
@@ -835,14 +769,13 @@ export function BudgetSpendingPage() {
     return () => clearTimeout(id);
   }, [search]);
   useEffect(() => setPages(1), [month, kind, categoryId, q]);
-  const cats = useCategories();
   const qs = new URLSearchParams({ pageSize: String(30 * pages) });
   if (month) qs.set('month', month);
   if (kind) qs.set('kind', kind);
   if (categoryId) qs.set('categoryId', categoryId);
   if (q) qs.set('q', q);
   const list = useQuery({ queryKey: [...KEY, 'entries', qs.toString()], queryFn: () => api.get<{ items: Entry[]; total: number }>(`/budget/entries?${qs}`), enabled: !!month, placeholderData: keepPreviousData });
-  const [adding, setAdding] = useState<Kind | null>(null);
+  const [adding, setAdding] = useState(false);
   const [editing, setEditing] = useState<Entry | null>(null);
   const manage = can('budget.manage');
   // Records grouped by day, newest first, with each day's spending.
@@ -852,84 +785,104 @@ export function BudgetSpendingPage() {
     return [...m.entries()];
   }, [list.data]);
   if (!o) return <SkeletonRows rows={8} />;
+  const chip = (active: boolean) => clsx('rounded-full px-3.5 py-1.5 text-sm font-medium transition', active ? 'bg-brand-700 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-800');
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-xl font-semibold sm:text-2xl">{t('budget.nav_spending')}</h1>
+    <div className="mx-auto max-w-xl space-y-5 pb-16">
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="text-xl font-semibold">{t('budget.nav_spending')}</h1>
         <MonthSwitcher month={o.month} current={o.currentMonth} onChange={(m) => setParams(m && m !== o.currentMonth ? { month: m } : {}, { replace: true })} />
       </div>
-      <div className="grid grid-cols-3 gap-2 text-center text-sm">
-        <div className="rounded-xl bg-emerald-50 p-2.5 dark:bg-emerald-950/40">
+      <div className="flex justify-between rounded-2xl bg-white px-4 py-3 text-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+        <span>
           <span className="block text-xs text-slate-500">{t('budget.money_in')}</span>
           <span className="font-semibold text-emerald-700 tabular-nums dark:text-emerald-300">{money(o.totals.income)}</span>
-        </div>
-        <div className="rounded-xl bg-rose-50 p-2.5 dark:bg-rose-950/40">
+        </span>
+        <span className="text-center">
           <span className="block text-xs text-slate-500">{t('budget.spent')}</span>
-          <span className="font-semibold text-rose-700 tabular-nums dark:text-rose-300">{money(o.totals.spent)}</span>
-        </div>
-        <div className="rounded-xl bg-slate-100 p-2.5 dark:bg-slate-800">
+          <span className="font-semibold tabular-nums">{money(o.totals.spent)}</span>
+        </span>
+        <span className="text-end">
           <span className="block text-xs text-slate-500">{t('budget.left')}</span>
           <span className={clsx('font-semibold tabular-nums', o.totals.left < 0 && 'text-rose-600')}>{money(o.totals.left)}</span>
-        </div>
+        </span>
       </div>
-      {manage && <AddButtons onAdd={setAdding} />}
-      <Card>
-        <h2 className="mb-3 font-semibold">{t('budget.where_it_went')}</h2>
-        <WhereItWent o={o} />
-      </Card>
-      <Card padded={false}>
-        <div className="grid gap-2 p-3 sm:grid-cols-3">
-          <div className="relative sm:col-span-1">
-            <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
-            <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('common.search')} aria-label={t('common.search')} className="w-full rounded-xl border-0 bg-slate-50 py-2.5 ps-9 pe-3 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-500 dark:bg-slate-800 dark:ring-slate-700" />
-          </div>
-          <Select aria-label={t('budget.kind')} value={kind} onChange={(e) => setKind(e.target.value as '' | Kind)}>
-            <option value="">{t('budget.all_records')}</option>
-            <option value="expense">{t('budget.spending')}</option>
-            <option value="income">{t('budget.income')}</option>
-          </Select>
-          <Select aria-label={t('flow.category')} value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-            <option value="">{t('budget.all_categories')}</option>
-            {(cats.data?.items ?? []).map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.emoji} {c.name}
-              </option>
-            ))}
-          </Select>
+      <section>
+        <h2 className="mb-2 px-1 text-sm font-semibold text-slate-500">{t('budget.where_it_went')}</h2>
+        <Card className="!p-2">
+          <WhereItWent o={o} picked={categoryId} onPick={(id) => setCategoryId((c) => (c === id ? '' : id))} />
+        </Card>
+      </section>
+      <section>
+        <div className="mb-2 flex items-center gap-2">
+          {!searching ? (
+            <>
+              <button type="button" className={chip(!kind && !categoryId)} onClick={() => (setKind(''), setCategoryId(''))}>
+                {t('budget.all_records')}
+              </button>
+              <button type="button" className={chip(kind === 'expense')} onClick={() => setKind(kind === 'expense' ? '' : 'expense')}>
+                {t('budget.spending')}
+              </button>
+              <button type="button" className={chip(kind === 'income')} onClick={() => setKind(kind === 'income' ? '' : 'income')}>
+                {t('budget.income')}
+              </button>
+              <button type="button" aria-label={t('common.search')} onClick={() => setSearching(true)} className="ms-auto grid size-9 place-items-center rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <Search className="size-5" />
+              </button>
+            </>
+          ) : (
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+              <input autoFocus type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('common.search')} aria-label={t('common.search')} className="w-full rounded-full border-0 bg-white py-2.5 ps-9 pe-10 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-500 dark:bg-slate-900 dark:ring-slate-700" />
+              <button
+                type="button"
+                aria-label={t('common.close')}
+                onClick={() => {
+                  setSearching(false);
+                  setSearch('');
+                }}
+                className="absolute end-2 top-1/2 grid size-7 -translate-y-1/2 place-items-center rounded-full text-slate-400"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+          )}
         </div>
-        {!list.data ? (
-          <SkeletonRows rows={5} />
-        ) : list.data.items.length === 0 ? (
-          <EmptyState icon={<Wallet className="size-6" />} title={t('budget.nothing_yet')} description={t('budget.nothing_yet_hint')} />
-        ) : (
-          <>
-            {groups.map(([day, items]) => {
-              const spent = items.filter((e) => e.kind === 'expense').reduce((s, e) => s + e.amount, 0);
-              return (
-                <div key={day}>
-                  <div className="flex items-baseline justify-between bg-slate-50 px-4 py-1.5 text-xs font-medium text-slate-500 dark:bg-slate-800/50">
-                    <span>{f.date(day)}</span>
-                    {spent > 0 && <span className="tabular-nums">−{money(spent)}</span>}
+        <Card padded={false}>
+          {!list.data ? (
+            <SkeletonRows rows={5} />
+          ) : list.data.items.length === 0 ? (
+            <EmptyState icon={<Wallet className="size-6" />} title={t('budget.nothing_yet')} description={t('budget.nothing_yet_hint')} />
+          ) : (
+            <>
+              {groups.map(([day, items]) => {
+                const spent = items.filter((e) => e.kind === 'expense').reduce((s, e) => s + e.amount, 0);
+                return (
+                  <div key={day}>
+                    <div className="flex items-baseline justify-between px-4 pt-3 pb-1 text-xs font-medium text-slate-500">
+                      <span>{f.date(day)}</span>
+                      {spent > 0 && <span className="tabular-nums">−{money(spent)}</span>}
+                    </div>
+                    <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+                      {items.map((e) => (
+                        <EntryRow key={e.id} e={e} onOpen={() => manage && setEditing(e)} />
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="divide-y divide-slate-100 dark:divide-slate-800">
-                    {items.map((e) => (
-                      <EntryRow key={e.id} e={e} onOpen={() => manage && setEditing(e)} />
-                    ))}
-                  </ul>
+                );
+              })}
+              {list.data.total > list.data.items.length && (
+                <div className="p-3">
+                  <Button variant="secondary" className="w-full" onClick={() => setPages((p) => p + 1)} loading={list.isFetching}>
+                    {t('budget.load_more')}
+                  </Button>
                 </div>
-              );
-            })}
-            {list.data.total > list.data.items.length && (
-              <div className="p-3">
-                <Button variant="secondary" className="w-full" onClick={() => setPages((p) => p + 1)} loading={list.isFetching}>
-                  {t('budget.load_more')}
-                </Button>
-              </div>
-            )}
-          </>
-        )}
-      </Card>
-      {adding && <EntryDialog kind={adding} today={o.today} onClose={() => setAdding(null)} />}
+              )}
+            </>
+          )}
+        </Card>
+      </section>
+      {manage && <AddFab onAdd={() => setAdding(true)} />}
+      {adding && <EntryDialog kind="expense" today={o.today} onClose={() => setAdding(false)} />}
       {editing && <EntryDialog kind={editing.kind} entry={editing} today={o.today} onClose={() => setEditing(null)} />}
     </div>
   );
@@ -1180,7 +1133,9 @@ export function BudgetGoalsPage() {
 function CategoryDialog({ category, kind, onClose }: { category?: Category; kind: Kind; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
-  const [name, setName] = useState(category?.name ?? '');
+  const catName = useCatName();
+  const shownName = category ? catName(category) : '';
+  const [name, setName] = useState(shownName);
   const [emoji, setEmoji] = useState(category?.emoji ?? '');
   const [limit, setLimit] = useState(toText(category?.monthlyLimit));
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -1188,7 +1143,9 @@ function CategoryDialog({ category, kind, onClose }: { category?: Category; kind
   const save = useMutation({
     mutationFn: () => {
       const body = { name, emoji, monthlyLimit: kind === 'expense' ? limit.trim() || null : null };
-      return category ? api.patch(`/budget/categories/${category.id}`, body) : api.post('/budget/categories', { ...body, kind });
+      if (!category) return api.post('/budget/categories', { ...body, kind });
+      // An unchanged name is not sent, so a set-up category keeps following the app language.
+      return api.patch(`/budget/categories/${category.id}`, name.trim() === shownName ? { emoji: body.emoji, monthlyLimit: body.monthlyLimit } : body);
     },
     onSuccess: () => {
       toast.success(t('common.saved'));
@@ -1254,6 +1211,7 @@ interface BillRow {
 
 function BillDialog({ bill, categories, onClose }: { bill?: BillRow; categories: Category[]; onClose: () => void }) {
   const { t } = useTranslation();
+  const catName = useCatName();
   const qc = useQueryClient();
   const [name, setName] = useState(bill?.name ?? '');
   const [amount, setAmount] = useState(toText(bill?.amount));
@@ -1323,7 +1281,7 @@ function BillDialog({ bill, categories, onClose }: { bill?: BillRow; categories:
             .filter((c) => c.kind === 'expense')
             .map((c) => (
               <option key={c.id} value={c.id}>
-                {c.emoji} {c.name}
+                {c.emoji} {catName(c)}
               </option>
             ))}
         </Select>
@@ -1335,6 +1293,7 @@ function BillDialog({ bill, categories, onClose }: { bill?: BillRow; categories:
 
 export function BudgetPlanPage() {
   const { t } = useTranslation();
+  const catName = useCatName();
   const money = useMoney();
   const { can } = useBiz();
   const cats = useCategories();
@@ -1388,7 +1347,7 @@ export function BudgetPlanPage() {
                 <span className="text-xl">{c.emoji || '•'}</span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-medium" dir="auto">
-                    {c.name}
+                    {catName(c)}
                   </span>
                   <span className="block text-xs text-slate-500">{t('budget.spent_this_month', { amount: money(spentBy.get(c.id) ?? 0) })}</span>
                 </span>
@@ -1450,7 +1409,7 @@ export function BudgetPlanPage() {
               <button type="button" disabled={!manage} onClick={() => setEditing({ kind: 'income', category: c })} className="flex w-full items-center gap-3 px-4 py-3 text-start hover:bg-slate-50 disabled:cursor-default dark:hover:bg-slate-800/40">
                 <span className="text-xl">{c.emoji || '•'}</span>
                 <span className="min-w-0 flex-1 truncate text-sm font-medium" dir="auto">
-                  {c.name}
+                  {catName(c)}
                 </span>
                 {manage && <Pencil className="size-4 shrink-0 text-slate-400" />}
               </button>

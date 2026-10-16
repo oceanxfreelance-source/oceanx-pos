@@ -10008,5 +10008,47 @@
     "suggested": "ތަފްޞީލު",
     "status": "needs_review",
     "notes": "Gravity Budget, Super Admin. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.nav_home",
+    "english": "Home",
+    "suggested": "ހޯމް",
+    "status": "needs_review",
+    "notes": "Gravity Budget. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.more_details",
+    "english": "More details",
+    "suggested": "އިތުރު ތަފްޞީލު",
+    "status": "needs_review",
+    "notes": "Gravity Budget. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.bills_to_pay",
+    "english": "Bills to pay",
+    "suggested": "ދައްކަންޖެހޭ ބިލުތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.more_tips_one",
+    "english": "1 more tip",
+    "suggested": "އިތުރު 1 ލަފާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.more_tips_other",
+    "english": "{{count}} more tips",
+    "suggested": "އިތުރު {{count}} ލަފާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.fewer_tips",
+    "english": "Show less",
+    "suggested": "މަދުކޮށް ދައްކާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget. Machine-suggested; please check."
   }
 ]

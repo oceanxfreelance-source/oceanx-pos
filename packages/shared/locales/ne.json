@@ -3178,6 +3178,12 @@
       "create_account": "खाता बनाउनुहोस्",
       "open_account": "खाता खोल्नुहोस्",
       "details": "विवरण"
-    }
+    },
+    "nav_home": "गृह",
+    "more_details": "थप विवरण",
+    "bills_to_pay": "तिर्नुपर्ने बिल",
+    "more_tips_one": "थप १ सुझाव",
+    "more_tips_other": "थप {{count}} सुझाव",
+    "fewer_tips": "कम देखाउनुहोस्"
   }
 }

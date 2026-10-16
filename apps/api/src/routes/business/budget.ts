@@ -7,6 +7,7 @@ import {
   budgetBillSchema,
   budgetCategorySchema,
   budgetCategoryUpdateSchema,
+  budgetSetupCategorySchema,
   budgetEntrySchema,
   budgetGoalMoveSchema,
   budgetGoalSchema,
@@ -120,13 +121,13 @@ export async function budgetOverview(db: Executor, businessId: string, month: st
     .filter((c) => c.kind === 'expense')
     .map((c) => {
       const s = spentBy.get(c.id) ?? 0;
-      return { id: c.id, name: c.name, emoji: c.emoji, limit: c.monthlyLimit, spent: s, lastMonth: prevBy.get(c.id) ?? 0, left: c.monthlyLimit === null ? null : c.monthlyLimit - s };
+      return { id: c.id, name: c.name, key: c.key, emoji: c.emoji, limit: c.monthlyLimit, spent: s, lastMonth: prevBy.get(c.id) ?? 0, left: c.monthlyLimit === null ? null : c.monthlyLimit - s };
     });
   // Spending in a removed category, or with no category, still counts (shown as "Other").
   const known = new Set(categories.map((c) => c.id));
   const otherSpent = [...spentBy.entries()].filter(([id]) => id === null || !known.has(id)).reduce((s, [, v]) => s + v, 0);
   const otherLast = [...prevBy.entries()].filter(([id]) => id === null || !known.has(id)).reduce((s, [, v]) => s + v, 0);
-  const incomeCategories = cats.filter((c) => c.kind === 'income').map((c) => ({ id: c.id, name: c.name, emoji: c.emoji, total: incomeBy.get(c.id) ?? 0 }));
+  const incomeCategories = cats.filter((c) => c.kind === 'income').map((c) => ({ id: c.id, name: c.name, key: c.key, emoji: c.emoji, total: incomeBy.get(c.id) ?? 0 }));
   const budgeted = categories.reduce((s, c) => s + (c.limit ?? 0), 0);
 
   const isCurrent = today.slice(0, 7) === month;
@@ -173,8 +174,8 @@ export async function budgetOverview(db: Executor, businessId: string, month: st
   for (const b of billRows.filter((x) => x.overdue)) insights.push({ code: 'bill_overdue', tone: 'bad', params: { name: b.name, amount: b.amount } });
   for (const c of categories) {
     if (c.limit === null || c.limit <= 0) continue;
-    if (c.spent > c.limit) insights.push({ code: 'over_limit', tone: 'bad', params: { name: c.name, amount: c.spent - c.limit } });
-    else if (c.spent >= c.limit * 0.8) insights.push({ code: 'near_limit', tone: 'warn', params: { name: c.name, amount: c.limit - c.spent } });
+    if (c.spent > c.limit) insights.push({ code: 'over_limit', tone: 'bad', params: { name: c.name, nameKey: c.key ?? '', amount: c.spent - c.limit } });
+    else if (c.spent >= c.limit * 0.8) insights.push({ code: 'near_limit', tone: 'warn', params: { name: c.name, nameKey: c.key ?? '', amount: c.limit - c.spent } });
   }
   const dueSoon = billRows.filter((b) => b.dueInDays !== null && b.dueInDays >= 0 && b.dueInDays <= 7);
   if (dueSoon.length) insights.push({ code: 'bills_soon', tone: 'warn', params: { count: dueSoon.length, amount: dueSoon.reduce((s, b) => s + b.amount, 0) } });
@@ -187,9 +188,9 @@ export async function budgetOverview(db: Executor, businessId: string, month: st
   const grew = categories
     .filter((c) => c.lastMonth > 0 && c.spent > c.lastMonth * 1.2 && c.spent - c.lastMonth >= 50_00)
     .sort((a, b) => b.spent - b.lastMonth - (a.spent - a.lastMonth))[0];
-  if (grew) insights.push({ code: 'more_than_last', tone: 'warn', params: { name: grew.name, amount: grew.spent - grew.lastMonth } });
-  const top = [...categories, { name: '', spent: otherSpent }].sort((a, b) => b.spent - a.spent)[0];
-  if (spent > 0 && top && top.spent > 0 && top.name) insights.push({ code: 'top', tone: 'info', params: { name: top.name, percent: Math.round((top.spent * 100) / spent) } });
+  if (grew) insights.push({ code: 'more_than_last', tone: 'warn', params: { name: grew.name, nameKey: grew.key ?? '', amount: grew.spent - grew.lastMonth } });
+  const top = [...categories, { name: '', key: null, spent: otherSpent }].sort((a, b) => b.spent - a.spent)[0];
+  if (spent > 0 && top && top.spent > 0 && top.name) insights.push({ code: 'top', tone: 'info', params: { name: top.name, nameKey: top.key ?? '', percent: Math.round((top.spent * 100) / spent) } });
   if (savedNet > 0) insights.push({ code: 'saved', tone: 'good', params: { amount: savedNet } });
   if (budgeted === 0 && categories.length) insights.push({ code: 'set_limits', tone: 'info', params: {} });
   if (income > 0 && budgeted > income) insights.push({ code: 'budget_over_income', tone: 'warn', params: { amount: budgeted - income } });
@@ -337,7 +338,7 @@ export async function budgetRoutes(app: FastifyInstance) {
       budgetOverview(db, ctx.businessId, month, t),
       budgetGoalList(db, ctx.businessId, t),
       db
-        .select({ e: budgetEntries, categoryName: budgetCategories.name, categoryEmoji: budgetCategories.emoji })
+        .select({ e: budgetEntries, categoryName: budgetCategories.name, categoryKey: budgetCategories.key, categoryEmoji: budgetCategories.emoji })
         .from(budgetEntries)
         .leftJoin(budgetCategories, and(eq(budgetCategories.id, budgetEntries.categoryId), eq(budgetCategories.businessId, budgetEntries.businessId)))
         .where(and(eq(budgetEntries.businessId, ctx.businessId), isNull(budgetEntries.deletedAt), gte(budgetEntries.occurredOn, from), lte(budgetEntries.occurredOn, to)))
@@ -360,7 +361,7 @@ export async function budgetRoutes(app: FastifyInstance) {
    */
   app.post('/budget/setup', { preHandler: requirePermission('budget.manage') }, async (req) => {
     const ctx = bizCtx(req);
-    const body = parse(z.object({ categories: z.array(budgetCategorySchema).min(1).max(40) }), req.body);
+    const body = parse(z.object({ categories: z.array(budgetSetupCategorySchema).min(1).max(40) }), req.body);
     const [had] = await db.select({ n: count() }).from(budgetCategories).where(eq(budgetCategories.businessId, ctx.businessId));
     if (n(had?.n) > 0) return { ok: true, created: 0 };
     const seen = new Set<string>();
@@ -371,7 +372,7 @@ export async function budgetRoutes(app: FastifyInstance) {
         seen.add(k);
         return true;
       })
-      .map((c, i) => ({ businessId: ctx.businessId, kind: c.kind, name: c.name, emoji: c.emoji, monthlyLimit: c.kind === 'expense' ? c.monthlyLimit : null, sortOrder: i }));
+      .map((c, i) => ({ businessId: ctx.businessId, kind: c.kind, name: c.name, key: c.key ?? null, emoji: c.emoji, monthlyLimit: c.kind === 'expense' ? c.monthlyLimit : null, sortOrder: i }));
     await db.insert(budgetCategories).values(values).onConflictDoNothing();
     await audit(db, { ...actor(ctx), action: 'budget.set_up', entityType: 'business', entityId: ctx.businessId, metadata: { categories: values.length }, req });
     return { ok: true, created: values.length };
@@ -385,7 +386,7 @@ export async function budgetRoutes(app: FastifyInstance) {
       .from(budgetCategories)
       .where(and(eq(budgetCategories.businessId, ctx.businessId), isNull(budgetCategories.deletedAt)))
       .orderBy(asc(budgetCategories.kind), asc(budgetCategories.sortOrder), asc(budgetCategories.name));
-    return { items: rows.map((c) => ({ id: c.id, kind: c.kind, name: c.name, emoji: c.emoji, monthlyLimit: c.monthlyLimit })) };
+    return { items: rows.map((c) => ({ id: c.id, kind: c.kind, name: c.name, key: c.key, emoji: c.emoji, monthlyLimit: c.monthlyLimit })) };
   });
 
   app.post('/budget/categories', { preHandler: requirePermission('budget.manage') }, async (req, reply) => {
@@ -407,7 +408,11 @@ export async function budgetRoutes(app: FastifyInstance) {
     const [cur] = await db.select().from(budgetCategories).where(own(budgetCategories, ctx, idParam(req)));
     if (!cur) throw notFound();
     const set: Partial<typeof budgetCategories.$inferInsert> = { updatedAt: new Date() };
-    if (body.name !== undefined) set.name = body.name;
+    // A renamed set-up category keeps the person's own name from then on.
+    if (body.name !== undefined && body.name !== cur.name) {
+      set.name = body.name;
+      set.key = null;
+    }
     if ('emoji' in raw && body.emoji !== undefined) set.emoji = body.emoji;
     // The limit is changed only when sent (empty or null removes it); income has none.
     if ('monthlyLimit' in raw) set.monthlyLimit = cur.kind === 'expense' ? (body.monthlyLimit ?? null) : null;
@@ -426,7 +431,7 @@ export async function budgetRoutes(app: FastifyInstance) {
   // ---------------------------------------------------------------- income and spending
   const entrySelect = () =>
     db
-      .select({ e: budgetEntries, categoryName: budgetCategories.name, categoryEmoji: budgetCategories.emoji })
+      .select({ e: budgetEntries, categoryName: budgetCategories.name, categoryKey: budgetCategories.key, categoryEmoji: budgetCategories.emoji })
       .from(budgetEntries)
       .leftJoin(budgetCategories, and(eq(budgetCategories.id, budgetEntries.categoryId), eq(budgetCategories.businessId, budgetEntries.businessId)));
   const listWhere = (ctx: Ctx, q: z.infer<typeof budgetListQuerySchema>): SQL | undefined => {
@@ -647,7 +652,7 @@ export async function budgetRoutes(app: FastifyInstance) {
   });
 }
 
-function entryOut(r: { e: typeof budgetEntries.$inferSelect; categoryName: string | null; categoryEmoji: string | null }) {
+function entryOut(r: { e: typeof budgetEntries.$inferSelect; categoryName: string | null; categoryKey: string | null; categoryEmoji: string | null }) {
   return {
     id: r.e.id,
     kind: r.e.kind,
@@ -655,6 +660,7 @@ function entryOut(r: { e: typeof budgetEntries.$inferSelect; categoryName: strin
     occurredOn: r.e.occurredOn,
     categoryId: r.e.categoryId,
     categoryName: r.categoryName ?? '',
+    categoryKey: r.categoryKey,
     categoryEmoji: r.categoryEmoji ?? '',
     note: r.e.note,
     paidWith: r.e.paidWith,

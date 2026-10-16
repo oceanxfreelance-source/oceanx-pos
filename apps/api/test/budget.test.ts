@@ -154,4 +154,23 @@ describe('Gravity Budget (personal budgets, bills, goals)', () => {
     expect((await b.c.post(`/api/budget/goals/${goal.id}/moves`, { direction: 'add', amount: '1' })).statusCode).toBe(404);
     expect((await b.c.post('/api/budget/entries', { kind: 'expense', amount: '1', occurredOn: today(), categoryId: catA.Food })).statusCode).toBe(422);
   });
+  it('set-up categories keep their key (shown in any language) until renamed', async () => {
+    const { c } = await budgetAccount('Key Person');
+    await c.post('/api/budget/setup', { categories: [{ kind: 'expense', key: 'food', name: 'Food & groceries', monthlyLimit: '100' }, { kind: 'income', key: 'salary', name: 'Salary' }] });
+    let cats = (await c.get('/api/budget/categories')).json().items as { id: string; key: string | null; name: string }[];
+    const food = cats.find((x) => x.name === 'Food & groceries')!;
+    expect(food.key).toBe('food');
+    await c.post('/api/budget/entries', { kind: 'expense', amount: '150', occurredOn: today(), categoryId: food.id });
+    const o = (await c.get('/api/budget/overview')).json();
+    expect(o.categories[0]).toMatchObject({ key: 'food' });
+    expect(o.insights.find((i: { code: string }) => i.code === 'over_limit').params).toMatchObject({ nameKey: 'food' });
+    expect((await c.get('/api/budget/entries')).json().items[0].categoryKey).toBe('food');
+    // Changing only the limit keeps the key; a new name drops it.
+    await c.patch(`/api/budget/categories/${food.id}`, { monthlyLimit: '200' });
+    await c.patch(`/api/budget/categories/${food.id}`, { name: 'Food & groceries' });
+    expect((await c.get('/api/budget/categories')).json().items.find((x: { id: string }) => x.id === food.id).key).toBe('food');
+    await c.patch(`/api/budget/categories/${food.id}`, { name: 'Groceries' });
+    cats = (await c.get('/api/budget/categories')).json().items;
+    expect(cats.find((x) => x.id === food.id)).toMatchObject({ name: 'Groceries', key: null });
+  });
 });

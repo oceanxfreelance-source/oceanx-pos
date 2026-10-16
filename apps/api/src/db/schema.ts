@@ -1778,6 +1778,8 @@ export const budgetCategories = pgTable(
     /** income | expense */
     kind: text('kind').notNull(),
     name: text('name').notNull(),
+    /** Set-up category (food, rent, salary…): shown in the person's language until they rename it. */
+    key: text('key'),
     emoji: text('emoji').notNull().default(''),
     /** The most to spend in this category in a month (minor units); null = no limit. */
     monthlyLimit: money('monthly_limit'),

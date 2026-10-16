@@ -3178,6 +3178,12 @@
       "create_account": "ගිණුම සාදන්න",
       "open_account": "ගිණුම විවෘත කරන්න",
       "details": "විස්තර"
-    }
+    },
+    "nav_home": "මුල් පිටුව",
+    "more_details": "තවත් විස්තර",
+    "bills_to_pay": "ගෙවිය යුතු බිල්පත්",
+    "more_tips_one": "තවත් උපදෙසක්",
+    "more_tips_other": "තවත් උපදෙස් {{count}}",
+    "fewer_tips": "අඩුවෙන් පෙන්වන්න"
   }
 }

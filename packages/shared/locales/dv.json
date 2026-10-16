@@ -3178,6 +3178,12 @@
       "create_account": "އެކައުންޓް ހަދާ",
       "open_account": "އެކައުންޓް ހުޅުވާ",
       "details": "ތަފްޞީލު"
-    }
+    },
+    "nav_home": "ހޯމް",
+    "more_details": "އިތުރު ތަފްޞީލު",
+    "bills_to_pay": "ދައްކަންޖެހޭ ބިލުތައް",
+    "more_tips_one": "އިތުރު 1 ލަފާ",
+    "more_tips_other": "އިތުރު {{count}} ލަފާ",
+    "fewer_tips": "މަދުކޮށް ދައްކާ"
   }
 }

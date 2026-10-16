@@ -3178,6 +3178,12 @@
       "create_account": "অ্যাকাউন্ট তৈরি করুন",
       "open_account": "অ্যাকাউন্ট খুলুন",
       "details": "বিস্তারিত"
-    }
+    },
+    "nav_home": "হোম",
+    "more_details": "আরও তথ্য",
+    "bills_to_pay": "যে বিল দিতে হবে",
+    "more_tips_one": "আরও ১টি পরামর্শ",
+    "more_tips_other": "আরও {{count}}টি পরামর্শ",
+    "fewer_tips": "কম দেখান"
   }
 }

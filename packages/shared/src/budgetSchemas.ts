@@ -21,6 +21,12 @@ const optionalMoney = z
   .optional()
   .transform((v) => (typeof v === 'number' ? v : null));
 
+/**
+ * The categories offered at set-up. A category made from one keeps its key, so the app shows its name in the
+ * person's language (changing language changes it too) until they rename it.
+ */
+export const BUDGET_STARTER_KEYS = ['salary', 'side_income', 'from_family', 'food', 'eating_out', 'rent', 'utilities', 'phone', 'transport', 'family', 'loans', 'shopping', 'health', 'education', 'fun', 'other'] as const;
+
 export const budgetCategorySchema = z.object({
   kind: z.enum(BUDGET_KINDS),
   name: z.string().trim().min(1).max(60),
@@ -29,6 +35,7 @@ export const budgetCategorySchema = z.object({
   monthlyLimit: optionalMoney,
 });
 export const budgetCategoryUpdateSchema = budgetCategorySchema.omit({ kind: true }).partial();
+export const budgetSetupCategorySchema = budgetCategorySchema.extend({ key: z.enum(BUDGET_STARTER_KEYS).optional() });
 
 export const budgetEntrySchema = z.object({
   kind: z.enum(BUDGET_KINDS),

@@ -183,6 +183,13 @@
       "when": 1792088215192,
       "tag": "0025_gravity_budget",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1792118042270,
+      "tag": "0026_budget_category_keys",
+      "breakpoints": true
     }
   ]
 }

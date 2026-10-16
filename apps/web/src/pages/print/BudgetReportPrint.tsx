@@ -9,13 +9,13 @@ import { pdfName } from '../../lib/pdf';
 import { useErrorMessage } from '../../lib/useApiError';
 import { Alert, SkeletonRows } from '../../components/ui/Card';
 import { BudgetMark } from '../auth/AuthLayout';
-import { useInsightText, useMonthName, type Goal, type Overview } from '../business/Budget';
+import { useCatName, useInsightText, useMonthName, type Goal, type Overview } from '../business/Budget';
 import { PrintFrame } from './PrintFrame';
 
 interface Report extends Overview {
   person: { name: string; account: string };
   goals: Goal[];
-  entries: { id: string; kind: 'income' | 'expense'; amount: number; occurredOn: string; categoryName: string; categoryEmoji: string; note: string; paidWith: string }[];
+  entries: { id: string; kind: 'income' | 'expense'; amount: number; occurredOn: string; categoryName: string; categoryKey: string | null; categoryEmoji: string; note: string; paidWith: string }[];
 }
 
 /** Gravity Budget: one month on A4 (print or PDF): totals, advice, budgets, bills, goals and every record. */
@@ -44,6 +44,7 @@ function Sheet({ r }: { r: Report }) {
   const f = useFormat();
   const monthName = useMonthName();
   const insightText = useInsightText();
+  const catName = useCatName();
   const thBase = 'px-2 py-1.5 text-[11px] font-semibold text-slate-600';
   const th = `${thBase} text-start`;
   const thEnd = `${thBase} text-end`;
@@ -112,7 +113,7 @@ function Sheet({ r }: { r: Report }) {
             {spentRows.map((c) => (
               <tr key={c.id} className="border-b border-slate-100">
                 <td className={td} dir="auto">
-                  {c.emoji} {c.name}
+                  {c.emoji} {catName(c)}
                 </td>
                 <td className={num}>{c.limit !== null ? money(c.limit) : '—'}</td>
                 <td className={num}>{money(c.spent)}</td>
@@ -209,7 +210,7 @@ function Sheet({ r }: { r: Report }) {
                 <tr key={e.id} className="border-b border-slate-100">
                   <td className={`${td} whitespace-nowrap`}>{f.date(e.occurredOn)}</td>
                   <td className={td} dir="auto">
-                    {e.categoryEmoji} {e.categoryName || '—'}
+                    {e.categoryEmoji} {e.categoryName ? catName({ name: e.categoryName, key: e.categoryKey }) : '—'}
                   </td>
                   <td className={td} dir="auto">
                     {e.note}

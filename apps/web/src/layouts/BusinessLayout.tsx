@@ -258,7 +258,7 @@ function BusinessLayout() {
   const bottomNav = (product === 'gravity' ? ['/', '/quotations', '/invoices', '/customers'] : product === 'flow' ? ['/', '/transactions', '/months', '/settings'] : product === 'budget' ? ['/', '/spending', '/goals', '/plan'] : ['/', '/pos', '/sales', '/products', '/kitchen', '/customers', '/reports'])
     .map((to) => allItems.find((i) => i.to === to))
     .filter((i): i is NonNullable<typeof i> => !!i)
-    .map((i) => (i.to === '/products' ? { ...i, label: 'nav.menu' } : i))
+    .map((i) => (i.to === '/products' ? { ...i, label: 'nav.menu' } : product === 'budget' && i.to === '/' ? { ...i, label: 'budget.nav_home' } : i))
     .slice(0, 4);
   const toastErr = useToastError();
   const setLang = useMutation({ mutationFn: (language: string) => api.patch('/me/preferences', { language }), onSuccess: () => refresh(), onError: toastErr });
@@ -272,7 +272,8 @@ function BusinessLayout() {
       groups={groups.map((g) => ({ ...g, label: g.label ? t(g.label) : undefined, items: pos ? g.items.filter((i) => i.to !== '/pos') : g.items }))}
       primaryAction={pos ? { to: '/pos', label: 'nav.open_pos', icon: MonitorSmartphone } : undefined}
       bottomNav={bottomNav}
-      palette={[
+      // Gravity Budget: a calm phone app — no search.
+      palette={product === 'budget' ? undefined : [
         ...(quick.length ? [{ label: 'palette.actions', items: quick }] : []),
         { label: 'palette.pages', items: groups.flatMap((g) => g.items) },
         { label: 'palette.account', items: [{ to: '/account', label: 'nav.account', icon: UserCircle }] },
@@ -282,7 +283,7 @@ function BusinessLayout() {
           <div className="me-auto">
             <OutletSwitcher session={session} />
           </div>
-          <NotificationBell />
+          {product !== 'budget' && <NotificationBell />}
           {/* Gravity on a phone: a clean bar (full screen and theme are PC extras). Gravity Flow keeps light/dark on phones too. */}
           <div className={product !== 'pos' ? 'hidden items-center gap-2 sm:flex' : 'contents'}>
             <FullscreenButton />
