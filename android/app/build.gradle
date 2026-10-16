@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
 }
 
-// Three apps from one shell. The systems themselves update on their own (the apps open the live sites);
+// Four apps from one shell. The systems themselves update on their own (the apps open the live sites);
 // bump a version only when that app's shell changes.
 // OceanX POS for tablets (restaurants and cafés).
 def appVersion = '1.0.4'
@@ -13,6 +13,9 @@ def gravityVersionCode = 2
 // Gravity Flow for phones (income, expenses & profit).
 def flowVersion = '1.0.0'
 def flowVersionCode = 1
+// Gravity Budget for phones (personal budget).
+def budgetVersion = '1.0.0'
+def budgetVersionCode = 1
 
 android {
     namespace 'app.oceanx.pos'
@@ -52,6 +55,16 @@ android {
             versionName flowVersion
             buildConfigField 'String', 'SERVER_URL', '"https://oceanx-flow.vercel.app"'
             // A phone app like Gravity. Signing in from it lasts until signing out (one-time login).
+            buildConfigField 'String', 'START_PATH', '"/"'
+            buildConfigField 'boolean', 'PHONE_APP', 'true'
+        }
+        budget {
+            dimension 'product'
+            applicationId 'app.oceanx.budget'
+            versionCode budgetVersionCode
+            versionName budgetVersion
+            buildConfigField 'String', 'SERVER_URL', '"https://budget.oceanx.app"'
+            // A phone app like Gravity Flow: sign in once.
             buildConfigField 'String', 'START_PATH', '"/"'
             buildConfigField 'boolean', 'PHONE_APP', 'true'
         }

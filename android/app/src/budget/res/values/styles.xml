@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Gravity Budget (phones): navy bars, white page. -->
+    <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">#03213a</item>
+        <item name="android:navigationBarColor">#03213a</item>
+    </style>
+</resources>
