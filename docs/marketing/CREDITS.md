@@ -21,3 +21,7 @@ Every app screen is the real OceanX POS (QR table cards, QR menu, POS orders and
 ## Posters
 
 App screens are the real Gravity and OceanX POS with sample data.
+
+## gravity-budget-dhivehi-ad.mp4
+
+Every screen is the real Gravity Budget app in Dhivehi with a sample month (made-up figures). Silent: add music in the app you post with.
