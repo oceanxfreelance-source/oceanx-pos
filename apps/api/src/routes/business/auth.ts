@@ -16,7 +16,7 @@ import { audit } from '../../lib/audit';
 import { hashToken, randomToken } from '../../lib/crypto';
 import { AppError } from '../../lib/errors';
 import { hashPassword, verifyPassword } from '../../lib/password';
-import { BUSINESS_COOKIE, businessCookieOptions, clearBusinessCookie } from '../../lib/sessions';
+import { BUSINESS_COOKIE, businessCookieOptions, clearBusinessCookie, fromInstalledApp } from '../../lib/sessions';
 import { parse } from '../../lib/validation';
 import { authenticateBusiness, bizCtx } from '../../guards/business';
 import { loadBusinessAccess } from '../../services/access';
@@ -95,8 +95,6 @@ async function enabledLanguages(req: FastifyRequest) {
     .orderBy(platformLanguages.sortOrder);
 }
 
-/** The OceanX phone app adds "OceanXAndroid/<version>" to its browser identity. */
-const fromPhoneApp = (req: FastifyRequest) => /\bOceanXAndroid\//.test(req.headers['user-agent'] ?? '');
 
 async function startSession(req: FastifyRequest, reply: FastifyReply, user: { id: string; businessId: string; defaultOutletId: string | null }) {
   const { db, config } = req.server.deps;
@@ -104,7 +102,7 @@ async function startSession(req: FastifyRequest, reply: FastifyReply, user: { id
   const csrfToken = randomToken(24);
   // Gravity, Gravity Flow and Gravity Budget phone apps: sign in once (until signing out, or a long time unused). Everything else: the normal limits.
   const [biz] = await db.select({ product: businesses.product }).from(businesses).where(eq(businesses.id, user.businessId));
-  const longLived = fromPhoneApp(req) && isSoloProduct(biz?.product);
+  const longLived = fromInstalledApp(req) && isSoloProduct(biz?.product);
   const absoluteMs = longLived ? config.APP_SESSION_ABSOLUTE_DAYS * 86_400_000 : config.BUSINESS_SESSION_ABSOLUTE_HOURS * 3_600_000;
   await db.insert(userSessions).values({
     userId: user.id,

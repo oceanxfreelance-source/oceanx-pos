@@ -242,6 +242,25 @@ describe('Gravity Budget (personal budgets, bills, goals)', () => {
     const [s1] = (await env.db.execute(sql`SELECT expires_at FROM user_sessions WHERE business_id = ${id}`)).rows as { expires_at: Date }[];
     expect(new Date(s1!.expires_at).getTime()).toBeGreaterThan(Date.now() + 360 * 86_400_000);
   });
+  it('iPhone home-screen icon: signs in once too; plain Safari keeps the normal limits', async () => {
+    await budgetAccount('Home Screen');
+    const iphone = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148';
+    const login = { email: 'homescreen@budget.test', password: 'Budget-Pass-1234' };
+    const icon = await new Client(env.app).request('POST', '/api/auth/login', login, { 'user-agent': iphone, 'x-oceanx-installed': '1' });
+    expect(icon.statusCode).toBe(200);
+    const safari = await new Client(env.app).request('POST', '/api/auth/login', login, { 'user-agent': iphone });
+    expect(safari.statusCode).toBe(200);
+    const rows = (await env.db.execute(sql`SELECT long_lived FROM user_sessions s JOIN users u ON u.id = s.user_id WHERE u.email = 'homescreen@budget.test' ORDER BY s.created_at`)).rows as { long_lived: boolean }[];
+    expect(rows.map((r) => r.long_lived)).toEqual([false, true, false]); // sign-up (plain), icon, Safari
+    // A Safari sign-in carried over to the icon becomes an app sign-in the first time the icon is used.
+    const carried = new Client(env.app);
+    await carried.request('POST', '/api/auth/login', login, { 'user-agent': iphone });
+    expect((await carried.request('GET', '/api/budget/overview', undefined, { 'x-oceanx-installed': '1' })).statusCode).toBe(200);
+    const last = (await env.db.execute(sql`SELECT long_lived, expires_at FROM user_sessions s JOIN users u ON u.id = s.user_id WHERE u.email = 'homescreen@budget.test' ORDER BY s.created_at DESC LIMIT 1`)).rows as { long_lived: boolean; expires_at: Date }[];
+    expect(last[0]!.long_lived).toBe(true);
+    expect(new Date(last[0]!.expires_at).getTime()).toBeGreaterThan(Date.now() + 360 * 86_400_000);
+  });
+
   it('offline records: the phone gives the id, so sending one twice keeps one record', async () => {
     const { c } = await budgetAccount('Offline Person');
     await setUp(c);

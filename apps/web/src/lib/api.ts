@@ -1,5 +1,12 @@
 import type { ApiErrorBody, ErrorCode } from '@oceanx/shared';
 
+/**
+ * Opened from a home-screen icon (iPhone "Add to Home Screen", or an installed web app): Gravity, Gravity Flow and
+ * Gravity Budget then stay signed in like the Android app does.
+ */
+const INSTALLED =
+  typeof window !== 'undefined' && (window.matchMedia?.('(display-mode: standalone)').matches === true || (navigator as Navigator & { standalone?: boolean }).standalone === true);
+
 export class ApiError extends Error {
   constructor(
     readonly status: number,
@@ -27,6 +34,7 @@ export function onUnauthorized(domain: Domain, handler: () => void) {
 
 async function request<T>(domain: Domain, method: string, path: string, body?: unknown, init: { raw?: Blob; contentType?: string } = {}): Promise<T> {
   const headers: Record<string, string> = { accept: 'application/json' };
+  if (INSTALLED) headers['x-oceanx-installed'] = '1';
   const token = csrf[domain];
   if (method !== 'GET' && token) headers['x-csrf-token'] = token;
   let payload: BodyInit | undefined;

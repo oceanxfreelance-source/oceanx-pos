@@ -1,4 +1,4 @@
-import type { FastifyReply } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { CookieSerializeOptions } from '@fastify/cookie';
 import type { AppConfig } from '../config';
 
@@ -29,3 +29,10 @@ export function clearSuperAdminCookie(reply: FastifyReply, config: AppConfig) {
 }
 
 export const LAST_SEEN_WRITE_INTERVAL_MS = 60_000;
+
+/**
+ * Opened as an app: the OceanX Android app adds "OceanXAndroid/<version>" to its browser identity, and the web app
+ * opened from a home-screen icon (e.g. iPhone "Add to Home Screen") sends the x-oceanx-installed header.
+ * Gravity, Gravity Flow and Gravity Budget then sign in once (a long-lived session).
+ */
+export const fromInstalledApp = (req: FastifyRequest) => /\bOceanXAndroid\//.test(req.headers['user-agent'] ?? '') || req.headers['x-oceanx-installed'] === '1';

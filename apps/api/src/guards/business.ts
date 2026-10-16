@@ -1,10 +1,10 @@
 import type { FastifyReply, FastifyRequest, preHandlerHookHandler } from 'fastify';
 import { and, desc, eq } from 'drizzle-orm';
-import { getPermission } from '@oceanx/shared';
+import { getPermission, isSoloProduct } from '@oceanx/shared';
 import { outlets, rolePermissions, userOutlets, userRoles, userSessions, users } from '../db/schema';
 import { hashToken, safeEqual } from '../lib/crypto';
 import { AppError } from '../lib/errors';
-import { BUSINESS_COOKIE, businessCookieOptions, clearBusinessCookie, LAST_SEEN_WRITE_INTERVAL_MS } from '../lib/sessions';
+import { BUSINESS_COOKIE, businessCookieOptions, clearBusinessCookie, fromInstalledApp, LAST_SEEN_WRITE_INTERVAL_MS } from '../lib/sessions';
 import { effectivePermissions, loadBusinessAccess } from '../services/access';
 import type { BusinessContext } from '../types';
 
@@ -72,15 +72,19 @@ export async function authenticateBusiness(
   // Outlet scope: session outlet if still permitted, else default.
   const outletId = await resolveOutlet(req, row.s.businessId, row.u.id, row.s.currentOutletId ?? row.u.defaultOutletId);
 
-  if (now - row.s.lastSeenAt.getTime() > LAST_SEEN_WRITE_INTERVAL_MS || outletId !== row.s.currentOutletId) {
+  // A sign-in made in the browser and then used from the app (an iPhone home-screen icon starts with Safari's
+  // sign-in) becomes an app sign-in from then on.
+  const upgrade = !row.s.longLived && isSoloProduct(access.business.product) && fromInstalledApp(req);
+  const longLived = row.s.longLived || upgrade;
+  if (upgrade || now - row.s.lastSeenAt.getTime() > LAST_SEEN_WRITE_INTERVAL_MS || outletId !== row.s.currentOutletId) {
     // Phone apps (one-time login): every use pushes the end further away, so the app stays signed in
     // until the person signs out (or leaves it unused for APP_SESSION_IDLE_DAYS).
-    const renew = row.s.longLived ? { expiresAt: new Date(now + config.APP_SESSION_ABSOLUTE_DAYS * 86_400_000) } : {};
+    const renew = longLived ? { longLived: true, expiresAt: new Date(now + config.APP_SESSION_ABSOLUTE_DAYS * 86_400_000) } : {};
     await db
       .update(userSessions)
       .set({ lastSeenAt: new Date(), currentOutletId: outletId, ...renew })
       .where(eq(userSessions.id, row.s.id));
-    if (row.s.longLived) reply.setCookie(BUSINESS_COOKIE, token, businessCookieOptions(config, config.APP_SESSION_ABSOLUTE_DAYS * 86_400));
+    if (longLived) reply.setCookie(BUSINESS_COOKIE, token, businessCookieOptions(config, config.APP_SESSION_ABSOLUTE_DAYS * 86_400));
   }
 
   req.biz = {
