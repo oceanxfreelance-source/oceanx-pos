@@ -8647,9 +8647,9 @@
   {
     "key": "budget.tagline",
     "english": "Know where your money goes",
-    "suggested": "ތިބާގެ ފައިސާ ދާ ތަން އެނގޭނެ",
-    "status": "needs_review",
-    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+    "suggested": "ތިބާގެ ފައިސާ ދާ ގޮތް ސާފުކޮށް އެނގޭނެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "budget.register_title",
@@ -8703,23 +8703,23 @@
   {
     "key": "budget.aside_1",
     "english": "Write down spending in seconds, on your phone",
-    "suggested": "ފޯނުން، ސިކުންތުކޮޅެއްގައި ޚަރަދު ލިޔެވޭނެ",
-    "status": "needs_review",
-    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+    "suggested": "ސިކުންތުކޮޅެއްގެ ތެރޭގައި ޚަރަދުތައް ނޯޓުކޮށްލެވޭނެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "budget.aside_2",
     "english": "A monthly limit for food, rent, bills and more",
-    "suggested": "ކެއުން، ގޭކުލި، ބިލުތަކާއި އެހެން ކަންކަމަށް މަހުގެ ލިމިޓެއް",
-    "status": "needs_review",
-    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+    "suggested": "ކެއުމާއި ކުއްޔަށް މަހު ބަޖެޓެއް ކަނޑައެޅޭނެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "budget.aside_3",
     "english": "Save for a phone, Umrah, a wedding or a rainy day",
-    "suggested": "ފޯނަކަށް، ޢުމްރާއަށް، ކައިވެންޏަކަށް ނުވަތަ ކުއްލި ހާލަތަކަށް ފައިސާ ރައްކާކުރެވޭނެ",
-    "status": "needs_review",
-    "notes": "Gravity Budget (new product). Machine-suggested; please check."
+    "suggested": "ފޯނަކަށް، ޢުމްރާއަށް ނުވަތަ ބޭނުމަކަށް ފައިސާ ރައްކާކުރެވޭނެ",
+    "status": "confirmed",
+    "notes": "Translated by the business owner (native speaker)."
   },
   {
     "key": "budget.aside_4",

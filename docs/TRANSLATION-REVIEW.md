@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1288 · **confirmed**: 148
+Status: **needs_review**: 1284 · **confirmed**: 152
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -127,9 +127,6 @@ review of the whole file is still recommended before launch.
 | `budget.after_bills` | Bills still to pay ({{amount}}) are already kept aside. | އަދި ދައްކަންޖެހޭ ބިލުތައް ({{amount}}) ވަކިކޮށް ބަހައްޓާފައިވޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.all_categories` | All categories | ހުރިހާ ބާވަތެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.all_records` | All records | ހުރިހާ ރެކޯޑެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
-| `budget.aside_1` | Write down spending in seconds, on your phone | ފޯނުން، ސިކުންތުކޮޅެއްގައި ޚަރަދު ލިޔެވޭނެ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
-| `budget.aside_2` | A monthly limit for food, rent, bills and more | ކެއުން، ގޭކުލި، ބިލުތަކާއި އެހެން ކަންކަމަށް މަހުގެ ލިމިޓެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
-| `budget.aside_3` | Save for a phone, Umrah, a wedding or a rainy day | ފޯނަކަށް، ޢުމްރާއަށް، ކައިވެންޏަކަށް ނުވަތަ ކުއްލި ހާލަތަކަށް ފައިސާ ރައްކާކުރެވޭނެ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.aside_4` | A monthly report you can download as PDF | PDF ގޮތުގައި ޑައުންލޯޑް ކުރެވޭ މަހުގެ ރިޕޯޓެއް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.aside_title` | Stop wondering where your salary went. | މުސާރަ ދިޔައީ ކޮންތާކަށްތޯ ދެން ވިސްނަން ނުޖެހޭނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.avg_spent` | On average you spend {{amount}} a month. | އެވްރެޖްކޮށް މަހަކު {{amount}} ޚަރަދުކުރޭ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
@@ -308,7 +305,6 @@ review of the whole file is still recommended before launch.
 | `budget.starter.utilities` | Electricity & water | ކަރަންޓާއި ފެން | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.status` | Status | ހާލަތު | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.still_to_pay` | {{amount}} still to pay | އަދި {{amount}} ދައްކަންޖެހޭ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
-| `budget.tagline` | Know where your money goes | ތިބާގެ ފައިސާ ދާ ތަން އެނގޭނެ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.take_out` | Take money out of {{name}} | {{name}} އިން ފައިސާ ނަގާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.take_out_short` | Take out | ނަގާ | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.this_month_title` | This month | މި މަސް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
@@ -1301,6 +1297,10 @@ review of the whole file is still recommended before launch.
 | `viber.status_on` | Viber notifications will be sent for Credit (Pay Later) transactions when the customer has a registered Viber number. | ކަސްޓަމަރުގެ Viber ނަންބަރު ރަޖިސްޓަރީކޮށްފައިވާނަމަ، ދަރަންޏަށް (ފަހުން ދައްކާ) ކުރާ މުޢާމަލާތްތަކަށް Viber ނޯޓިފިކޭޝަން ފޮނުވޭނެ. | needs_review | Loanword ނޯޓިފިކޭޝަން used; alternative: އެންގުން / ހަބަރު. Confirm preferred term. |
 | `account.reduce_animations` | Reduce animations | އެނިމޭޝަންތައް މަދުކުރޭ | confirmed | Translated by the business owner (native speaker). |
 | `account.theme_dark` | Dark | އަނދިރި | confirmed | Translated by the business owner (native speaker). |
+| `budget.aside_1` | Write down spending in seconds, on your phone | ސިކުންތުކޮޅެއްގެ ތެރޭގައި ޚަރަދުތައް ނޯޓުކޮށްލެވޭނެ | confirmed | Translated by the business owner (native speaker). |
+| `budget.aside_2` | A monthly limit for food, rent, bills and more | ކެއުމާއި ކުއްޔަށް މަހު ބަޖެޓެއް ކަނޑައެޅޭނެ | confirmed | Translated by the business owner (native speaker). |
+| `budget.aside_3` | Save for a phone, Umrah, a wedding or a rainy day | ފޯނަކަށް، ޢުމްރާއަށް ނުވަތަ ބޭނުމަކަށް ފައިސާ ރައްކާކުރެވޭނެ | confirmed | Translated by the business owner (native speaker). |
+| `budget.tagline` | Know where your money goes | ތިބާގެ ފައިސާ ދާ ގޮތް ސާފުކޮށް އެނގޭނެ | confirmed | Translated by the business owner (native speaker). |
 | `common.reset` | Reset | އަލުން ފަށާ | confirmed | Translated by the business owner (native speaker). |
 | `common.showing_range` | Showing {{from}}–{{to}} of {{total}} | ދައްކަނީ: {{total}} ގެ ތެރެއިން {{from}} އިން {{to}} އަށް | confirmed | Translated by the business owner (native speaker). |
 | `credit.all_time` | All time | ހުރިހާ ދުވަސްވަރެއް | confirmed | Translated by the business owner (native speaker). |
