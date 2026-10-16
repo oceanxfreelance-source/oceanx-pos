@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { Client, createSuperAdmin, createTestEnv, loginSuperAdmin, resetDb, type TestEnv } from './helpers';
 
@@ -172,5 +173,25 @@ describe('Gravity Budget (personal budgets, bills, goals)', () => {
     await c.patch(`/api/budget/categories/${food.id}`, { name: 'Groceries' });
     cats = (await c.get('/api/budget/categories')).json().items;
     expect(cats.find((x) => x.id === food.id)).toMatchObject({ name: 'Groceries', key: null });
+  });
+  it('after the 24-hour trial: blocked, pays MVR 50 by slip, Super Admin approves, works again (data kept)', async () => {
+    const PNG = Buffer.from('89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000d4944415478da6364f8ff1f0003030200efa6c8f00000000049454e44ae426082', 'hex');
+    const { c, session } = await budgetAccount('Paying Person');
+    await setUp(c);
+    await c.post('/api/budget/entries', { kind: 'expense', amount: '25', occurredOn: today() });
+    await env.db.execute(sql`UPDATE subscriptions SET current_period_end = now() - interval '1 minute' WHERE business_id = ${session.business.id}`);
+    expect((await c.get('/api/budget/overview')).statusCode).toBe(402);
+    const bill = (await c.get('/api/billing')).json();
+    expect(bill.state).toBe('subscription_expired');
+    expect(bill.plans.map((p: { code: string; priceMonthly: number }) => [p.code, p.priceMonthly])).toEqual([['budget', 5000]]);
+    const up = await c.request('POST', `/api/billing/payments?planId=${bill.plans[0].id}&months=1&reference=BML123`, PNG, { 'content-type': 'image/png' });
+    expect(up.statusCode).toBe(201);
+    const pending = (await sa.get('/api/superadmin/billing/payments?status=pending&product=budget')).json().items;
+    expect(pending).toHaveLength(1);
+    expect(pending[0].amount).toBe(5000);
+    expect((await sa.post(`/api/superadmin/billing/payments/${pending[0].id}/approve`, {})).json().status).toBe('approved');
+    const o = await c.get('/api/budget/overview');
+    expect(o.statusCode).toBe(200);
+    expect(o.json().totals.spent).toBe(2500);
   });
 });
