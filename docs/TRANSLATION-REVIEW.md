@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1082 · **confirmed**: 381
+Status: **needs_review**: 1095 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -1058,6 +1058,9 @@ review of the whole file is still recommended before launch.
 | `superadmin.payments.approved_toast` | Payment approved — the business is active. | ފައިސާ ދެއްކުން ޤަބޫލުކުރެވިއްޖެ — ވިޔަފާރި އެކްޓިވް ކުރެވިއްޖެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.payments.business` | Business | ވިޔަފާރި | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.payments.count_month` | Payments this month | މި މަހުގެ ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.inbox_nav` | Payments to approve | ބައްލަވަންޖެހޭ ފައިސާ | needs_review | Super Admin phone app: payments to approve (new). |
+| `superadmin.payments.inbox_subtitle` | Every transfer slip waiting for review, from all projects. Check the slip, then approve or reject. | ހުރިހާ ޕްރޮޖެކްޓަކުން ބައްލަވަން ބާކީ ހުރި ޓްރާންސްފަރ ސްލިޕްތައް. ސްލިޕް ބައްލަވާފައި، ގަބޫލު ނުވަތަ ރިޖެކްޓް ކުރައްވާ. | needs_review | Super Admin phone app: payments to approve (new). |
+| `superadmin.payments.inbox_title` | Payments to approve | ބައްލަވަންޖެހޭ ފައިސާ | needs_review | Super Admin phone app: payments to approve (new). |
 | `superadmin.payments.method` | Method | ފައިސާ ދެއްކި ގޮތް | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.payments.method_bank_transfer` | Bank transfer | ބޭންކް ޓްރާންސްފަރ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.payments.method_card` | Card | ކާޑު | needs_review | New: subscription billing (bank transfer slip upload and review). |
@@ -1077,6 +1080,16 @@ review of the whole file is still recommended before launch.
 | `superadmin.payments.title` | Payments | ފައިސާ ދެއްކުންތައް | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.payments.until` | Until {{date}} | {{date}} އަށް | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.payments.waiting` | Waiting for review | ޗެކްކުރަން ހުރި | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `superadmin.payments.waiting_banner` | Payments waiting for approval: {{count}} | ބައްލަވަން ބާކީ ފައިސާ: {{count}} | needs_review | Super Admin phone app: payments to approve (new). |
+| `superadmin.payments.waiting_open` | Open | ހުޅުވާ | needs_review | Super Admin phone app: payments to approve (new). |
+| `superadmin.phone.active_accounts` | Active accounts | އެކްޓިވް އެކައުންޓުތައް | needs_review | OceanX Admin phone app (new). |
+| `superadmin.phone.alerts_hint` | Get a notification on this phone when a payment is waiting, even when the app is closed. | ފައިސާއެއް ބައްލަވަން ބާކީ ވުމުން، އެޕް ހުޅުވާފައި ނުވިޔަސް މި ފޯނަށް ނޯޓިފިކޭޝަނެއް ލިބޭނެ. | needs_review | OceanX Admin phone app (new). |
+| `superadmin.phone.alerts_on` | Notifications are on | ނޯޓިފިކޭޝަން ހުޅުވާފައި | needs_review | OceanX Admin phone app (new). |
+| `superadmin.phone.alerts_title` | Notifications are off | ނޯޓިފިކޭޝަން ބަންދުކޮށްފައި | needs_review | OceanX Admin phone app (new). |
+| `superadmin.phone.alerts_turn_off` | Turn off | ބަންދުކުރޭ | needs_review | OceanX Admin phone app (new). |
+| `superadmin.phone.alerts_turn_on` | Turn on | ހުޅުވާ | needs_review | OceanX Admin phone app (new). |
+| `superadmin.phone.all_done` | Nothing waiting. Every payment is checked. | ބައްލަވަން ބާކީ އެއްވެސް ފައިސާއެއް ނެތް. | needs_review | OceanX Admin phone app (new). |
+| `superadmin.phone.full_admin_note` | Everything else in Super Admin: use a computer. | ސުޕަރ އެޑްމިންގެ އެހެން ހުރިހާ ކަމެއް: ކޮމްޕިއުޓަރުން. | needs_review | OceanX Admin phone app (new). |
 | `superadmin.security.two_factor` | Two-factor authentication | ދެ ފިޔަވަޅުގެ ވެރިފިކޭޝަން | needs_review | Literal; '2FA' loanword may be clearer to admins. |
 | `superadmin.settings.bank_details` | Bank details for payments | ފައިސާ ދެއްކުމަށް ބޭންކް މަޢުލޫމާތު | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.settings.bank_details_hint` | Shown to businesses on the payment screen: bank, account name and account number(s). | ފައިސާ ދައްކާ ސްކްރީނުގައި ވިޔަފާރިތަކަށް ފެންނާނެ: ބޭންކް، އެކައުންޓުގެ ނަމާއި އެކައުންޓް ނަންބަރު(ތައް). | needs_review | New: subscription billing (bank transfer slip upload and review). |

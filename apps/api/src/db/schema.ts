@@ -79,6 +79,11 @@ export const superAdminSessions = pgTable(
     tokenHash: text('token_hash').notNull(),
     csrfToken: text('csrf_token').notNull(),
     mfaPending: boolean('mfa_pending').notNull().default(false),
+    /**
+     * Signed in from the OceanX Admin phone app: stays signed in (renewed on use), but can only approve or
+     * reject payments and read the phone screen's numbers. Everything else needs a normal sign-in.
+     */
+    phoneApp: boolean('phone_app').notNull().default(false),
     ip: text('ip'),
     userAgent: text('user_agent'),
     createdAt: createdAt(),
@@ -87,6 +92,27 @@ export const superAdminSessions = pgTable(
     revokedAt: ts('revoked_at'),
   },
   (t) => [uniqueIndex('super_admin_sessions_token_uq').on(t.tokenHash), index('super_admin_sessions_admin_idx').on(t.superAdminId)],
+);
+
+/**
+ * OceanX Admin phone app: a key that lets the phone check, in the background, whether payments wait for
+ * approval (so it can show a notification while the app is closed). It can only read that count, never act:
+ * approving still needs a normal Super Admin sign-in. Stored hashed; removable at any time.
+ */
+export const superAdminAlertKeys = pgTable(
+  'super_admin_alert_keys',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    superAdminId: uuid('super_admin_id')
+      .notNull()
+      .references(() => superAdmins.id, { onDelete: 'cascade' }),
+    tokenHash: text('token_hash').notNull(),
+    device: text('device').notNull().default(''),
+    createdAt: createdAt(),
+    lastUsedAt: ts('last_used_at'),
+    revokedAt: ts('revoked_at'),
+  },
+  (t) => [uniqueIndex('super_admin_alert_keys_token_uq').on(t.tokenHash), index('super_admin_alert_keys_admin_idx').on(t.superAdminId)],
 );
 
 export const superAdminTokens = pgTable(

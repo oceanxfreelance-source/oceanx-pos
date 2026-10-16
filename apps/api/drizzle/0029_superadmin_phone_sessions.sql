@@ -1,0 +1,1 @@
+ALTER TABLE "super_admin_sessions" ADD COLUMN "phone_app" boolean DEFAULT false NOT NULL;

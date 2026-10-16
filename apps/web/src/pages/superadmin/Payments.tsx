@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Check, FileText, X } from 'lucide-react';
+import { Check, FileText, ImageIcon, X } from 'lucide-react';
 import { BILLING_METHODS, BILLING_PERIODS } from '@oceanx/shared';
 import { saApi } from '../../lib/api';
 import { useFormat } from '../../lib/format';
@@ -27,6 +27,8 @@ export interface SaPayment {
   method: string;
   reference: string;
   hasSlip: boolean;
+  slipIsImage?: boolean;
+  product?: string;
   status: 'pending' | 'approved' | 'rejected';
   receiptNumber: string | null;
   reviewNote: string;
@@ -44,8 +46,21 @@ const invalidate = (qc: ReturnType<typeof useQueryClient>) => {
   void qc.invalidateQueries({ queryKey: ['sa', 'businesses'] });
 };
 
-/** Payments table with slip link and Approve / Reject for pending ones. Also used on a business's page. */
-export function PaymentsTable({ items, showBusiness = true }: { items: SaPayment[]; showBusiness?: boolean }) {
+export const PRODUCT_NAME: Record<string, string> = { pos: 'OceanX POS', gravity: 'Gravity', flow: 'Gravity Flow', budget: 'Gravity Budget' };
+const slipUrl = (p: SaPayment) => `/api/superadmin/billing/payments/${p.id}/slip`;
+
+/** The transfer slip on the page itself (a photo), so it can be checked and approved on a phone in one place. */
+function SlipDialog({ payment, onClose }: { payment: SaPayment; onClose: () => void }) {
+  const { t } = useTranslation();
+  return (
+    <Dialog open onClose={onClose} title={t('billing.view_slip')} description={`${payment.businessName} · ${fmtAmount(payment.amount, payment.currency)}`}>
+      <img src={slipUrl(payment)} alt={t('billing.view_slip')} className="mx-auto max-h-[70vh] w-auto rounded-xl ring-1 ring-slate-200 dark:ring-slate-700" />
+    </Dialog>
+  );
+}
+
+/** Payments table with slip link and Approve / Reject for pending ones. Also used on a business's page. Phones get one card per payment. */
+export function PaymentsTable({ items, showBusiness = true, showProduct = false, phone = false }: { items: SaPayment[]; showBusiness?: boolean; showProduct?: boolean; phone?: boolean }) {
   const { t } = useTranslation();
   const f = useFormat();
   const qc = useQueryClient();
@@ -53,6 +68,7 @@ export function PaymentsTable({ items, showBusiness = true }: { items: SaPayment
   const [approving, setApproving] = useState<SaPayment | null>(null);
   const [rejecting, setRejecting] = useState<SaPayment | null>(null);
   const [note, setNote] = useState('');
+  const [slip, setSlip] = useState<SaPayment | null>(null);
   const approve = useMutation({
     mutationFn: (p: SaPayment) => saApi.post(`/billing/payments/${p.id}/approve`, {}),
     onSuccess: () => {
@@ -73,9 +89,71 @@ export function PaymentsTable({ items, showBusiness = true }: { items: SaPayment
     onError: toastErr,
   });
   if (!items.length) return <EmptyState title={t('superadmin.payments.none')} />;
+  const slipButton = (p: SaPayment, wide = false) =>
+    p.slipIsImage ? (
+      <button type="button" onClick={() => setSlip(p)} className={`inline-flex items-center justify-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-medium text-brand-700 ring-1 ring-slate-200 hover:bg-slate-50 dark:text-brand-300 dark:ring-slate-700 ${wide ? 'w-full py-2.5' : ''}`}>
+        <ImageIcon className="size-4" /> {t('billing.view_slip')}
+      </button>
+    ) : (
+      <a href={slipUrl(p)} target="_blank" rel="noreferrer" className={`inline-flex items-center justify-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-medium text-brand-700 ring-1 ring-slate-200 hover:bg-slate-50 dark:text-brand-300 dark:ring-slate-700 ${wide ? 'w-full py-2.5' : ''}`}>
+        <FileText className="size-4" /> {t('billing.view_slip')}
+      </a>
+    );
   return (
     <>
-      <div className="overflow-x-auto">
+      {/* Phones: one card per payment, big buttons. */}
+      <ul className="divide-y divide-slate-100 sm:hidden dark:divide-slate-800">
+        {items.map((p) => (
+          <li key={p.id} className="space-y-2 px-4 py-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                {showBusiness &&
+                  (phone ? (
+                    <p className="truncate font-semibold" dir="auto">
+                      {p.businessName}
+                    </p>
+                  ) : (
+                    <Link to={`/superadmin/businesses/${p.businessId}`} className="block truncate font-semibold text-brand-700 dark:text-brand-300" dir="auto">
+                      {p.businessName}
+                    </Link>
+                  ))}
+                {showProduct && p.product && <p className="text-xs font-medium text-slate-500">{PRODUCT_NAME[p.product] ?? p.product}</p>}
+              </div>
+              <p className="shrink-0 text-lg font-semibold tabular-nums">{fmtAmount(p.amount, p.currency)}</p>
+            </div>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              {p.planName} · {t('billing.months', { count: p.months })} · {t(`superadmin.payments.method_${p.method}`, { defaultValue: p.method })}
+            </p>
+            {p.reference && (
+              <p className="text-xs text-slate-500" dir="auto">
+                {p.reference}
+              </p>
+            )}
+            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+              <Badge tone={TONE[p.status]}>{t(`billing.status_${p.status}`)}</Badge>
+              <span>{f.dateTime(p.createdAt)}</span>
+              {p.submittedBy && <span dir="auto">· {p.submittedBy}</span>}
+            </div>
+            {p.status === 'rejected' && p.reviewNote && (
+              <p className="text-xs text-rose-600" dir="auto">
+                {p.reviewNote}
+              </p>
+            )}
+            {p.hasSlip && slipButton(p, true)}
+            {p.status === 'pending' && (
+              <div className="grid grid-cols-2 gap-2">
+                <Button icon={<Check className="size-4" />} onClick={() => setApproving(p)}>
+                  {t('superadmin.payments.approve')}
+                </Button>
+                <Button variant="secondary" className="text-rose-600" icon={<X className="size-4" />} onClick={() => setRejecting(p)}>
+                  {t('superadmin.payments.reject')}
+                </Button>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+      <div className="hidden overflow-x-auto sm:block">
         <table className="min-w-full text-sm">
           <thead className="bg-slate-50 text-xs text-slate-500 dark:bg-slate-800/50">
             <tr>
@@ -100,6 +178,7 @@ export function PaymentsTable({ items, showBusiness = true }: { items: SaPayment
                     <Link to={`/superadmin/businesses/${p.businessId}`} className="font-medium text-brand-700 hover:underline dark:text-brand-300" dir="auto">
                       {p.businessName}
                     </Link>
+                    {showProduct && p.product && <p className="text-xs text-slate-500">{PRODUCT_NAME[p.product] ?? p.product}</p>}
                   </td>
                 )}
                 <td className="px-3 py-3">
@@ -131,11 +210,7 @@ export function PaymentsTable({ items, showBusiness = true }: { items: SaPayment
                 </td>
                 <td className="px-5 py-3">
                   <div className="flex flex-wrap justify-end gap-2">
-                    {p.hasSlip && (
-                      <a href={`/api/superadmin/billing/payments/${p.id}/slip`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-medium text-brand-700 ring-1 ring-slate-200 hover:bg-slate-50 dark:text-brand-300 dark:ring-slate-700">
-                        <FileText className="size-4" /> {t('billing.view_slip')}
-                      </a>
-                    )}
+                    {p.hasSlip && slipButton(p)}
                     {p.status === 'pending' && (
                       <>
                         <Button size="sm" icon={<Check className="size-4" />} onClick={() => setApproving(p)}>
@@ -153,6 +228,7 @@ export function PaymentsTable({ items, showBusiness = true }: { items: SaPayment
           </tbody>
         </table>
       </div>
+      {slip && <SlipDialog payment={slip} onClose={() => setSlip(null)} />}
       <ConfirmDialog
         open={!!approving}
         onClose={() => setApproving(null)}
@@ -296,6 +372,38 @@ export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'g
         onChange={(v) => setTab(v as typeof tab)}
       />
       <Card padded={false}>{q.data ? <PaymentsTable items={q.data.items} /> : <SkeletonRows rows={5} />}</Card>
+    </div>
+  );
+}
+
+/** How many payments wait for approval, in every project (the main page banner and the menu). */
+export function useWaitingPayments() {
+  return useQuery({
+    queryKey: ['sa', 'payments', 'summary', 'all'],
+    queryFn: () => saApi.get<{ pending: number }>('/billing/summary'),
+    refetchInterval: 60_000,
+  }).data?.pending;
+}
+
+/** Every payment waiting for approval, from all projects, in one list: made for checking slips on a phone. */
+export function PaymentsWaitingPage() {
+  const { t } = useTranslation();
+  const q = usePayments({ status: 'pending' });
+  const items = q.data?.items ?? [];
+  const byProduct = Object.entries(items.reduce<Record<string, number>>((a, p) => ((a[p.product ?? 'pos'] = (a[p.product ?? 'pos'] ?? 0) + 1), a), {}));
+  return (
+    <div className="space-y-5">
+      <PageHeader title={t('superadmin.payments.inbox_title')} description={t('superadmin.payments.inbox_subtitle')} />
+      {byProduct.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {byProduct.map(([k, n]) => (
+            <Badge key={k} tone="amber">
+              {PRODUCT_NAME[k] ?? k}: {n}
+            </Badge>
+          ))}
+        </div>
+      )}
+      <Card padded={false}>{q.data ? <PaymentsTable items={items} showProduct /> : <SkeletonRows rows={5} />}</Card>
     </div>
   );
 }

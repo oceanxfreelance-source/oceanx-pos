@@ -42,6 +42,8 @@ export interface SuperAdminContext {
   sessionId: string;
   csrfToken: string;
   mfaPending: boolean;
+  /** Signed in from the OceanX Admin phone app (payments only). */
+  phoneApp: boolean;
   admin: { id: string; name: string; email: string; totpEnabled: boolean };
 }
 

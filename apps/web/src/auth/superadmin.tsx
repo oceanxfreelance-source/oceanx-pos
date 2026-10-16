@@ -9,6 +9,8 @@ export interface SuperAdminSession {
   admin: { id: string; name: string; email: string; totpEnabled: boolean };
   csrfToken: string;
   mfaPending: boolean;
+  /** Signed in from the OceanX Admin phone app: payments only (see /superadmin/phone). */
+  phoneApp?: boolean;
 }
 
 export const SA_SESSION_KEY = ['sa', 'session'] as const;

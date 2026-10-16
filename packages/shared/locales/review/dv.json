@@ -10239,5 +10239,96 @@
     "suggested": "ފައިސާ ނަގާނީ ހަގީގީ ކުއްލި ޙާލަތެއްގައި އެކަނި. ފަހުން ފައިސާ އަނބުރާ ލައްވާ.",
     "status": "needs_review",
     "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "superadmin.payments.inbox_nav",
+    "english": "Payments to approve",
+    "suggested": "ބައްލަވަންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Super Admin phone app: payments to approve (new)."
+  },
+  {
+    "key": "superadmin.payments.inbox_title",
+    "english": "Payments to approve",
+    "suggested": "ބައްލަވަންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Super Admin phone app: payments to approve (new)."
+  },
+  {
+    "key": "superadmin.payments.inbox_subtitle",
+    "english": "Every transfer slip waiting for review, from all projects. Check the slip, then approve or reject.",
+    "suggested": "ހުރިހާ ޕްރޮޖެކްޓަކުން ބައްލަވަން ބާކީ ހުރި ޓްރާންސްފަރ ސްލިޕްތައް. ސްލިޕް ބައްލަވާފައި، ގަބޫލު ނުވަތަ ރިޖެކްޓް ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Super Admin phone app: payments to approve (new)."
+  },
+  {
+    "key": "superadmin.payments.waiting_banner",
+    "english": "Payments waiting for approval: {{count}}",
+    "suggested": "ބައްލަވަން ބާކީ ފައިސާ: {{count}}",
+    "status": "needs_review",
+    "notes": "Super Admin phone app: payments to approve (new)."
+  },
+  {
+    "key": "superadmin.payments.waiting_open",
+    "english": "Open",
+    "suggested": "ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "Super Admin phone app: payments to approve (new)."
+  },
+  {
+    "key": "superadmin.phone.alerts_title",
+    "english": "Notifications are off",
+    "suggested": "ނޯޓިފިކޭޝަން ބަންދުކޮށްފައި",
+    "status": "needs_review",
+    "notes": "OceanX Admin phone app (new)."
+  },
+  {
+    "key": "superadmin.phone.alerts_hint",
+    "english": "Get a notification on this phone when a payment is waiting, even when the app is closed.",
+    "suggested": "ފައިސާއެއް ބައްލަވަން ބާކީ ވުމުން، އެޕް ހުޅުވާފައި ނުވިޔަސް މި ފޯނަށް ނޯޓިފިކޭޝަނެއް ލިބޭނެ.",
+    "status": "needs_review",
+    "notes": "OceanX Admin phone app (new)."
+  },
+  {
+    "key": "superadmin.phone.alerts_turn_on",
+    "english": "Turn on",
+    "suggested": "ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "OceanX Admin phone app (new)."
+  },
+  {
+    "key": "superadmin.phone.alerts_turn_off",
+    "english": "Turn off",
+    "suggested": "ބަންދުކުރޭ",
+    "status": "needs_review",
+    "notes": "OceanX Admin phone app (new)."
+  },
+  {
+    "key": "superadmin.phone.alerts_on",
+    "english": "Notifications are on",
+    "suggested": "ނޯޓިފިކޭޝަން ހުޅުވާފައި",
+    "status": "needs_review",
+    "notes": "OceanX Admin phone app (new)."
+  },
+  {
+    "key": "superadmin.phone.all_done",
+    "english": "Nothing waiting. Every payment is checked.",
+    "suggested": "ބައްލަވަން ބާކީ އެއްވެސް ފައިސާއެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "OceanX Admin phone app (new)."
+  },
+  {
+    "key": "superadmin.phone.active_accounts",
+    "english": "Active accounts",
+    "suggested": "އެކްޓިވް އެކައުންޓުތައް",
+    "status": "needs_review",
+    "notes": "OceanX Admin phone app (new)."
+  },
+  {
+    "key": "superadmin.phone.full_admin_note",
+    "english": "Everything else in Super Admin: use a computer.",
+    "suggested": "ސުޕަރ އެޑްމިންގެ އެހެން ހުރިހާ ކަމެއް: ކޮމްޕިއުޓަރުން.",
+    "status": "needs_review",
+    "notes": "OceanX Admin phone app (new)."
   }
 ]

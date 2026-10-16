@@ -69,6 +69,7 @@ export async function listPayments(db: Executor, where: { businessId?: string; s
     .select({
       p: billingPayments,
       businessName: businesses.name,
+      product: businesses.product,
       planName: plans.name,
       submittedByName: users.name,
       reviewedByName: superAdmins.name,
@@ -93,6 +94,9 @@ export async function listPayments(db: Executor, where: { businessId?: string; s
     method: r.p.method,
     reference: r.p.reference,
     hasSlip: !!r.p.slipPath,
+    /** A photo (shown right on the page) rather than a PDF. */
+    slipIsImage: !!r.p.slipPath && /\.(png|jpe?g|webp|gif|heic)$/i.test(r.p.slipPath),
+    product: r.product,
     status: r.p.status,
     receiptNumber: r.p.receiptNumber,
     reviewNote: r.p.reviewNote,

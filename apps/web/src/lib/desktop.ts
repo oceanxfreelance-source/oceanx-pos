@@ -14,6 +14,10 @@ export const desktop = (window as unknown as { oceanxDesktop?: OceanxDesktop }).
 interface OceanxAndroid {
   print: (jobName: string) => void;
   saveFile: (base64: string, filename: string, mime: string) => void;
+  /** OceanX Admin app only: background checks for payments waiting, with a notification (key from /alerts/keys). */
+  enableAlerts?: (key: string) => void;
+  disableAlerts?: () => void;
+  alertsOn?: () => boolean;
 }
 export const android = (window as unknown as { OceanXAndroid?: OceanxAndroid }).OceanXAndroid ?? null;
 /**

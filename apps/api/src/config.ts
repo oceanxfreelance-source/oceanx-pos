@@ -31,6 +31,9 @@ const envSchema = z.object({
   APP_SESSION_ABSOLUTE_DAYS: z.coerce.number().int().min(1).default(365),
   SUPERADMIN_SESSION_IDLE_MINUTES: z.coerce.number().int().min(5).default(30),
   SUPERADMIN_SESSION_ABSOLUTE_HOURS: z.coerce.number().int().min(1).default(12),
+  /** OceanX Admin phone app (payments only): ends after this long unused; each use pushes the end this far ahead. */
+  SUPERADMIN_PHONE_IDLE_DAYS: z.coerce.number().int().min(1).default(30),
+  SUPERADMIN_PHONE_ABSOLUTE_DAYS: z.coerce.number().int().min(1).default(90),
   LOGIN_MAX_FAILURES: z.coerce.number().int().min(1).default(5),
   LOGIN_LOCK_MINUTES: z.coerce.number().int().min(1).default(15),
   MAIL_TRANSPORT: z.enum(['log', 'smtp', 'memory']).default('log'),

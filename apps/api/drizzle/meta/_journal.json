@@ -197,6 +197,20 @@
       "when": 1792142690768,
       "tag": "0027_budget_emergency_fund",
       "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1792174357949,
+      "tag": "0028_superadmin_alert_keys",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1792174452431,
+      "tag": "0029_superadmin_phone_sessions",
+      "breakpoints": true
     }
   ]
 }

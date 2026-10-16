@@ -1036,7 +1036,12 @@
       "rejected_toast": "Payment rejected. The owner can upload a new slip.",
       "record": "Record payment",
       "record_hint": "For payments taken by the team (cash, card). The plan is extended straight away.",
-      "recorded_toast": "Payment recorded and plan extended."
+      "recorded_toast": "Payment recorded and plan extended.",
+      "inbox_nav": "Payments to approve",
+      "inbox_title": "Payments to approve",
+      "inbox_subtitle": "Every transfer slip waiting for review, from all projects. Check the slip, then approve or reject.",
+      "waiting_banner": "Payments waiting for approval: {{count}}",
+      "waiting_open": "Open"
     },
     "credentials": {
       "title": "Sign-in details to give the owner",
@@ -1104,6 +1109,16 @@
       "delivered": "{{sent}} of {{total}} sent",
       "ok": "Sent",
       "not_sent": "Not sent"
+    },
+    "phone": {
+      "alerts_title": "Notifications are off",
+      "alerts_hint": "Get a notification on this phone when a payment is waiting, even when the app is closed.",
+      "alerts_turn_on": "Turn on",
+      "alerts_turn_off": "Turn off",
+      "alerts_on": "Notifications are on",
+      "all_done": "Nothing waiting. Every payment is checked.",
+      "active_accounts": "Active accounts",
+      "full_admin_note": "Everything else in Super Admin: use a computer."
     }
   },
   "system": {

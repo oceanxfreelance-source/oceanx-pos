@@ -79,6 +79,8 @@ const SaGravityPlan = lazy(() => import('./pages/superadmin/GravityPlan'));
 const SaGravitySignups = lazy(() => import('./pages/superadmin/GravitySignups'));
 const SaMail = lazy(() => import('./pages/superadmin/Mail'));
 const SaPayments = lazy(() => import('./pages/superadmin/Payments'));
+const SaPhone = lazy(() => import('./pages/superadmin/Phone'));
+const SaPaymentsWaiting = lazy(() => import('./pages/superadmin/Payments').then((m) => ({ default: m.PaymentsWaitingPage })));
 const SaAddons = lazy(() => import('./pages/superadmin/Catalog').then((m) => ({ default: m.AddonCatalogPage })));
 const SaSubscriptions = lazy(() => import('./pages/superadmin/Platform').then((m) => ({ default: m.SubscriptionsPage })));
 const SaUsers = lazy(() => import('./pages/superadmin/Platform').then((m) => ({ default: m.PlatformUsersPage })));
@@ -144,7 +146,10 @@ const router = createBrowserRouter([
       { path: 'reset-password', element: <ResetPassword domain="superadmin" /> },
       {
         element: <RequireSuperAdmin bare />,
-        children: [{ path: 'hub/print/:id', element: withSuspense(<HubPrint />) }],
+        children: [
+          { path: 'hub/print/:id', element: withSuspense(<HubPrint />) },
+          { path: 'phone', element: withSuspense(<SaPhone />) },
+        ],
       },
       {
         element: <RequireSuperAdmin />,
@@ -189,6 +194,7 @@ const router = createBrowserRouter([
           { path: 'addons', element: withSuspense(<SaAddons />) },
           { path: 'subscriptions', element: withSuspense(<SaSubscriptions />) },
           { path: 'payments', element: withSuspense(<SaPayments />) },
+          { path: 'waiting-payments', element: withSuspense(<SaPaymentsWaiting />) },
           { path: 'mail', element: withSuspense(<SaMail />) },
           { path: 'users', element: withSuspense(<SaUsers />) },
           { path: 'languages', element: withSuspense(<SaLanguages />) },

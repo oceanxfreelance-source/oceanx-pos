@@ -94,7 +94,17 @@ function adminRoutes() {
   return [
     { src: '^/$', has: [{ type: 'host', value: host }], status: 308, headers: { Location: '/superadmin' } },
     { src: '^/superadmin(/.*)?$', missing: [{ type: 'host', value: host }], status: 308, headers: { Location: `${url}/superadmin$1` } },
+    // OceanX Admin (Super Admin's phone app, payments only): offered only on Super Admin's own address.
+    ...adminApkRoute(host),
   ];
+}
+
+function adminApkRoute(host) {
+  const gradle = readFileSync(path.join(root, 'android/app/build.gradle'), 'utf8');
+  const v = gradle.match(/def adminVersion\s*=\s*'([^']+)'/)?.[1];
+  if (!v) return [];
+  const location = `https://github.com/oceanxfreelance-source/oceanx-pos/releases/download/admin-android-v${v}/OceanX-Admin-${v}.apk`;
+  return [{ src: '^/download/admin\\.apk$', has: [{ type: 'host', value: host }], status: 302, headers: { location, 'cache-control': 'no-cache' } }];
 }
 
 /** Host pattern for Gravity's own address (kept in step with apps/web/src/lib/product.ts). */

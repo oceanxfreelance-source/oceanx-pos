@@ -123,6 +123,13 @@ public class MainActivity extends Activity {
         else web.loadUrl(START);
     }
 
+    /** Tapping a payment notification (OceanX Admin): show the payments screen, fresh. */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null && intent.getBooleanExtra("openPayments", false)) web.loadUrl(START);
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -195,6 +202,26 @@ public class MainActivity extends Activity {
                 PrintAttributes attrs = new PrintAttributes.Builder().setMediaSize(PrintAttributes.MediaSize.ISO_A4).build();
                 pm.print(name, web.createPrintDocumentAdapter(name), attrs);
             });
+        }
+
+        /** OceanX Admin: turn payment notifications on with the read-only key from the server. */
+        @JavascriptInterface
+        public void enableAlerts(String key) {
+            if (!Alerts.SUPPORTED) return;
+            Alerts.enable(getApplicationContext(), key);
+            if (Build.VERSION.SDK_INT >= 33) {
+                runOnUiThread(() -> requestPermissions(new String[] {"android.permission.POST_NOTIFICATIONS"}, 2));
+            }
+        }
+
+        @JavascriptInterface
+        public void disableAlerts() {
+            Alerts.disable(getApplicationContext());
+        }
+
+        @JavascriptInterface
+        public boolean alertsOn() {
+            return Alerts.isOn(getApplicationContext());
         }
 
         @JavascriptInterface

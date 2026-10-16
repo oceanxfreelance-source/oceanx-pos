@@ -46,6 +46,7 @@ import { parseAmount } from '../../lib/money';
 import { useErrorMessage, useFieldErrors, useToastError } from '../../lib/useApiError';
 import { useSuperAdmin } from '../../auth/superadmin';
 import { Alert, Badge, Card, EmptyState, Ltr, PageHeader, SkeletonRows, StatCard, type BadgeTone } from '../../components/ui/Card';
+import { useWaitingPayments } from './Payments';
 import { Button } from '../../components/ui/Button';
 import { Input, Select, Textarea } from '../../components/ui/Form';
 import { ConfirmDialog, Dialog } from '../../components/ui/Dialog';
@@ -319,6 +320,7 @@ export function HubOverviewPage() {
   const o = q.data;
   const cur = o?.currency ?? 'MVR';
   const due = (leads.data?.items ?? []).filter((l) => l.nextFollowUp && l.nextFollowUp <= today());
+  const waitingPayments = useWaitingPayments();
   const f = useFormat();
   const quick: [string, string, typeof UserPlus][] = [
     [`${base}/leads`, 'hub.nav.leads', UserPlus],
@@ -329,6 +331,13 @@ export function HubOverviewPage() {
   ];
   return (
     <div className="space-y-6">
+      {/* Transfer slips waiting in any project: one tap to approve them (handy in the phone app). */}
+      {!venture && !!waitingPayments && (
+        <Link to="/superadmin/waiting-payments" className="flex items-center justify-between gap-3 rounded-2xl bg-amber-50 px-4 py-3 text-amber-900 ring-1 ring-amber-200 hover:bg-amber-100 dark:bg-amber-950/40 dark:text-amber-200 dark:ring-amber-900">
+          <span className="font-medium">{t('superadmin.payments.waiting_banner', { count: waitingPayments })}</span>
+          <span className="shrink-0 text-sm font-semibold">{t('superadmin.payments.waiting_open')} →</span>
+        </Link>
+      )}
       {/* Welcome: today's date and one tap to the pages used every day. */}
       <section className="gravity-surface relative overflow-hidden rounded-3xl p-6 text-white shadow-lg ring-1 ring-white/10 sm:p-8">
         <svg className="pointer-events-none absolute -end-16 -top-20 size-72 opacity-10" viewBox="0 0 200 200" aria-hidden>

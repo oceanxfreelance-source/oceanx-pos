@@ -1,10 +1,11 @@
-name: Android apps (OceanX POS tablet, Gravity, Gravity Flow and Gravity Budget phones)
+name: Android apps (OceanX POS tablet, Gravity, Gravity Flow, Gravity Budget and OceanX Admin phones)
 
 # Builds both Android apps from android/ and publishes each as a GitHub release so it can be downloaded
 # and installed:
 #   - OceanX POS for tablets (restaurants and cafés): release "android-v<version>"
 #   - Gravity for phones (quotations & invoices):     release "gravity-android-v<version>"
 #   - Gravity Flow / Gravity Budget for phones:        releases "flow-android-v<version>", "budget-android-v<version>"
+#   - OceanX Admin (Super Admin) for phones:           release "admin-android-v<version>"
 # A release that already exists is never replaced: a rebuilt APK with another signing key would not
 # install over the copy people already have. Bump the version in android/app/build.gradle to publish.
 on:
@@ -52,7 +53,7 @@ jobs:
           fi
           echo "ANDROID_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
       - name: Build
-        run: gradle -p android assemblePosRelease assembleGravityRelease assembleFlowRelease assembleBudgetRelease --no-daemon
+        run: gradle -p android assemblePosRelease assembleGravityRelease assembleFlowRelease assembleBudgetRelease assembleAdminRelease --no-daemon
       - name: Versions
         id: v
         shell: bash
@@ -61,6 +62,7 @@ jobs:
           echo "gravity=$(grep -oP "def gravityVersion = '\K[^']+" android/app/build.gradle)" >> "$GITHUB_OUTPUT"
           echo "flow=$(grep -oP "def flowVersion = '\K[^']+" android/app/build.gradle)" >> "$GITHUB_OUTPUT"
           echo "budget=$(grep -oP "def budgetVersion = '\K[^']+" android/app/build.gradle)" >> "$GITHUB_OUTPUT"
+          echo "admin=$(grep -oP "def adminVersion = '\K[^']+" android/app/build.gradle)" >> "$GITHUB_OUTPUT"
       - name: Rename
         shell: bash
         run: |
@@ -68,6 +70,7 @@ jobs:
           cp android/app/build/outputs/apk/gravity/release/app-gravity-release.apk "Gravity-${{ steps.v.outputs.gravity }}.apk"
           cp android/app/build/outputs/apk/flow/release/app-flow-release.apk "Gravity-Flow-${{ steps.v.outputs.flow }}.apk"
           cp android/app/build/outputs/apk/budget/release/app-budget-release.apk "Gravity-Budget-${{ steps.v.outputs.budget }}.apk"
+          cp android/app/build/outputs/apk/admin/release/app-admin-release.apk "OceanX-Admin-${{ steps.v.outputs.admin }}.apk"
       - uses: actions/upload-artifact@v4
         with:
           name: android-apps
@@ -97,3 +100,6 @@ jobs:
           publish "budget-android-v${{ steps.v.outputs.budget }}" "Gravity-Budget-${{ steps.v.outputs.budget }}.apk" \
             "Gravity Budget for Android ${{ steps.v.outputs.budget }}" \
             "Gravity Budget (personal budget: spending, monthly budgets, bills and savings goals) for Android phones. Sign in once. Download the APK on the phone, open it and allow installing from this source. Signing: $SIGNING."
+          publish "admin-android-v${{ steps.v.outputs.admin }}" "OceanX-Admin-${{ steps.v.outputs.admin }}.apk" \
+            "OceanX Admin for Android ${{ steps.v.outputs.admin }}" \
+            "Super Admin on a phone: approve payments and see every project. For the OceanX team only. Download the APK on the phone, open it and allow installing from this source. Signing: $SIGNING."

@@ -8,7 +8,7 @@ import { audit } from '../../lib/audit';
 import { decryptSecret, encryptSecret, hashToken, randomToken } from '../../lib/crypto';
 import { AppError, notFound } from '../../lib/errors';
 import { hashPassword, verifyPassword } from '../../lib/password';
-import { clearSuperAdminCookie, superAdminCookieOptions, SUPERADMIN_COOKIE } from '../../lib/sessions';
+import { clearSuperAdminCookie, fromInstalledApp, superAdminCookieOptions, SUPERADMIN_COOKIE } from '../../lib/sessions';
 import { parse } from '../../lib/validation';
 import { idParam } from '../../lib/params';
 import { saCtx } from '../../guards/superadmin';
@@ -36,12 +36,15 @@ async function createSession(req: FastifyRequest, reply: FastifyReply, adminId: 
   const { db, config } = req.server.deps;
   const token = randomToken();
   const csrfToken = randomToken(24);
-  const absoluteMs = config.SUPERADMIN_SESSION_ABSOLUTE_HOURS * 3_600_000;
+  // From the OceanX Admin phone app: a payments-only sign-in that lasts (see superAdminGuard).
+  const phoneApp = fromInstalledApp(req);
+  const absoluteMs = phoneApp ? config.SUPERADMIN_PHONE_ABSOLUTE_DAYS * 86_400_000 : config.SUPERADMIN_SESSION_ABSOLUTE_HOURS * 3_600_000;
   await db.insert(superAdminSessions).values({
     superAdminId: adminId,
     tokenHash: hashToken(token),
     csrfToken,
     mfaPending,
+    phoneApp,
     ip: req.ip,
     userAgent: req.headers['user-agent']?.slice(0, 300) ?? null,
     expiresAt: new Date(Date.now() + absoluteMs),
@@ -50,8 +53,8 @@ async function createSession(req: FastifyRequest, reply: FastifyReply, adminId: 
   return csrfToken;
 }
 
-function sessionPayload(a: { id: string; name: string; email: string; totpEnabled: boolean }, csrfToken: string, mfaPending: boolean) {
-  return { admin: { id: a.id, name: a.name, email: a.email, totpEnabled: a.totpEnabled }, csrfToken, mfaPending };
+function sessionPayload(a: { id: string; name: string; email: string; totpEnabled: boolean }, csrfToken: string, mfaPending: boolean, phoneApp = false) {
+  return { admin: { id: a.id, name: a.name, email: a.email, totpEnabled: a.totpEnabled }, csrfToken, mfaPending, phoneApp };
 }
 
 async function registerFailure(req: FastifyRequest, admin: typeof superAdmins.$inferSelect) {
@@ -89,7 +92,7 @@ export async function superAdminAuthPublicRoutes(app: FastifyInstance, opts: { a
       await db.update(superAdmins).set({ failedLoginCount: 0, lockedUntil: null, lastLoginAt: new Date() }).where(eq(superAdmins.id, admin.id));
       await audit(db, { actorType: 'super_admin', actorId: admin.id, actorName: admin.name, action: 'superadmin.login', req });
     }
-    return sessionPayload(admin, csrfToken, mfaPending);
+    return sessionPayload(admin, csrfToken, mfaPending, fromInstalledApp(req));
   });
 
   app.post('/auth/forgot-password', limited, async (req) => {
@@ -137,7 +140,7 @@ export async function superAdminAuthSessionRoutes(app: FastifyInstance, opts: { 
 
   app.get('/auth/session', { config: { allowMfaPending: true } }, async (req) => {
     const ctx = saCtx(req);
-    return sessionPayload(ctx.admin, ctx.csrfToken, ctx.mfaPending);
+    return sessionPayload(ctx.admin, ctx.csrfToken, ctx.mfaPending, ctx.phoneApp);
   });
 
   app.post(
@@ -163,7 +166,7 @@ export async function superAdminAuthSessionRoutes(app: FastifyInstance, opts: { 
         .set({ totpLastStep: step, failedLoginCount: 0, lockedUntil: null, lastLoginAt: new Date() })
         .where(eq(superAdmins.id, admin.id));
       await audit(db, { actorType: 'super_admin', actorId: admin.id, actorName: admin.name, action: 'superadmin.login', req, metadata: { mfa: true } });
-      return sessionPayload(admin, csrfToken, false);
+      return sessionPayload(admin, csrfToken, false, fromInstalledApp(req));
     },
   );
 
@@ -244,6 +247,7 @@ export async function superAdminAuthSessionRoutes(app: FastifyInstance, opts: { 
         createdAt: superAdminSessions.createdAt,
         lastSeenAt: superAdminSessions.lastSeenAt,
         expiresAt: superAdminSessions.expiresAt,
+        phoneApp: superAdminSessions.phoneApp,
       })
       .from(superAdminSessions)
       .where(

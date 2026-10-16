@@ -752,7 +752,10 @@ test.describe.serial('OceanX operations', () => {
     const row = sap.getByRole('row', { name: /Reef Kitchen/ });
     await expect(row).toContainText('USD 177.00');
     await expect(row).toContainText('BML-998877');
-    await expect(row.getByRole('link', { name: 'View slip' })).toHaveAttribute('href', /\/api\/superadmin\/billing\/payments\/.+\/slip/);
+    // A photo slip opens right on the page.
+    await row.getByRole('button', { name: 'View slip' }).click();
+    await expect(sap.getByRole('dialog').getByRole('img')).toHaveAttribute('src', /\/api\/superadmin\/billing\/payments\/.+\/slip/);
+    await sap.keyboard.press('Escape');
     await sap.screenshot({ path: `${SHOTS}/billing-sa-pending.png`, fullPage: true });
     await row.getByRole('button', { name: 'Reject' }).click();
     await sap.getByLabel('Reason').fill('Amount not received yet');

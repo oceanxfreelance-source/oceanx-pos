@@ -140,7 +140,14 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
   return {
     sub: null,
     groups: [
-      ...tr([{ items: [{ to: '/superadmin/hub', label: 'hub.nav.overview', icon: LayoutGrid, end: true }] }]),
+      ...tr([
+        {
+          items: [
+            { to: '/superadmin/hub', label: 'hub.nav.overview', icon: LayoutGrid, end: true },
+            { to: '/superadmin/waiting-payments', label: 'superadmin.payments.inbox_nav', icon: Banknote },
+          ],
+        },
+      ]),
       {
         label: t('hub.nav.group_projects'),
         collapseAfter: 5,
@@ -155,8 +162,11 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
 
 export function RequireSuperAdmin({ bare }: { bare?: boolean }) {
   const { session, isLoading } = useSuperAdmin();
+  const location = useLocation();
   if (isLoading) return <SkeletonRows rows={6} />;
   if (!session || session.mfaPending) return <Navigate to="/superadmin/login" replace />;
+  // The OceanX Admin phone app is for payments only: its one screen.
+  if (session.phoneApp && !location.pathname.startsWith('/superadmin/phone')) return <Navigate to="/superadmin/phone" replace />;
   return bare ? <Outlet /> : <SuperAdminLayout />;
 }
 
