@@ -194,4 +194,22 @@ describe('Gravity Budget (personal budgets, bills, goals)', () => {
     expect(o.statusCode).toBe(200);
     expect(o.json().totals.spent).toBe(2500);
   });
+  it('phone app: sign in once — the sign-in renews itself every time the app is used', async () => {
+    const c = new Client(env.app);
+    const res = await c.request(
+      'POST',
+      '/api/auth/register',
+      { product: 'budget', businessName: 'App User', ownerName: 'App User', email: 'app@budget.test', password: 'Budget-Pass-1234', currency: 'MVR' },
+      { 'user-agent': 'Mozilla/5.0 (Linux; Android 14) OceanXAndroid/1.0.0' },
+    );
+    expect(res.statusCode).toBe(201);
+    const id = res.json().business.id;
+    const [s0] = (await env.db.execute(sql`SELECT long_lived, expires_at FROM user_sessions WHERE business_id = ${id}`)).rows as { long_lived: boolean; expires_at: Date }[];
+    expect(s0!.long_lived).toBe(true);
+    // Months later (still within the idle limit) the app is opened again: the end moves a year ahead.
+    await env.db.execute(sql`UPDATE user_sessions SET last_seen_at = now() - interval '100 days', expires_at = now() + interval '2 days' WHERE business_id = ${id}`);
+    expect((await c.get('/api/budget/overview')).statusCode).toBe(200);
+    const [s1] = (await env.db.execute(sql`SELECT expires_at FROM user_sessions WHERE business_id = ${id}`)).rows as { expires_at: Date }[];
+    expect(new Date(s1!.expires_at).getTime()).toBeGreaterThan(Date.now() + 360 * 86_400_000);
+  });
 });

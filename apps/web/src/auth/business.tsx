@@ -148,6 +148,15 @@ export function useBizSession(): BusinessSession {
 
 /** Remembers the last product used on this device, so a signed-out Gravity user lands on the Gravity sign-in. */
 export const LAST_PRODUCT_KEY = 'ox.lastProduct';
+/** Has anyone signed in on this device before? (A new Gravity Budget user is greeted with sign-up, not sign-in.) */
+export function signedInBefore(): boolean {
+  try {
+    return !!localStorage.getItem(LAST_PRODUCT_KEY);
+  } catch {
+    return false;
+  }
+}
+
 export function lastProduct(): Product {
   if (HOST_PRODUCT !== 'pos') return HOST_PRODUCT;
   try {

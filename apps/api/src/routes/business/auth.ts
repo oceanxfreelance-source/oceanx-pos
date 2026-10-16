@@ -102,7 +102,7 @@ async function startSession(req: FastifyRequest, reply: FastifyReply, user: { id
   const { db, config } = req.server.deps;
   const token = randomToken();
   const csrfToken = randomToken(24);
-  // Gravity and Gravity Flow phone apps: sign in once (until signing out, or a long time unused). Everything else: the normal limits.
+  // Gravity, Gravity Flow and Gravity Budget phone apps: sign in once (until signing out, or a long time unused). Everything else: the normal limits.
   const [biz] = await db.select({ product: businesses.product }).from(businesses).where(eq(businesses.id, user.businessId));
   const longLived = fromPhoneApp(req) && isSoloProduct(biz?.product);
   const absoluteMs = longLived ? config.APP_SESSION_ABSOLUTE_DAYS * 86_400_000 : config.BUSINESS_SESSION_ABSOLUTE_HOURS * 3_600_000;

@@ -3185,5 +3185,9 @@
     "more_tips_one": "1 और सुझाव",
     "more_tips_other": "{{count}} और सुझाव",
     "fewer_tips": "कम दिखाएँ"
+  },
+  "app_update": {
+    "title": "ऐप का नया संस्करण तैयार है।",
+    "action": "अपडेट करें"
   }
 }

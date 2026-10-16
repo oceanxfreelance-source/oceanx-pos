@@ -47,7 +47,7 @@ import {
   Wallet,
 } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
-import { lastProduct, useBiz, useBizSession, type BusinessSession } from '../auth/business';
+import { lastProduct, signedInBefore, useBiz, useBizSession, type BusinessSession } from '../auth/business';
 import { productPath, useProductTheme } from '../lib/product';
 import { api } from '../lib/api';
 import { useToastError } from '../lib/useApiError';
@@ -61,6 +61,7 @@ import { applyPreferences, type ThemeChoice } from '../lib/theme';
 import { SkeletonRows } from '../components/ui/Card';
 import { StatusScreen, ForcePasswordChange } from '../pages/business/StatusScreens';
 import { BillingBanner } from '../pages/business/Billing';
+import { AppUpdateBanner } from '../components/AppUpdateBanner';
 
 const SETTINGS_VIEW_PERMS = [...new Set(Object.values(SETTINGS_SECTION_PERMISSIONS).flatMap((p) => [p.view, p.manage]))];
 
@@ -167,7 +168,12 @@ export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   const { session, isLoading } = useBiz();
   const location = useLocation();
   if (isLoading) return <AppLoader />;
-  if (!session) return <Navigate to={`${productPath(lastProduct(), 'login')}${location.pathname !== '/' ? `?next=${encodeURIComponent(location.pathname + location.search)}` : ''}`} replace />;
+  if (!session) {
+    // Gravity Budget: someone new (never signed in on this phone) starts on sign-up; sign-in is one tap away there.
+    const product = lastProduct();
+    const page = product === 'budget' && !signedInBefore() ? 'register' : 'login';
+    return <Navigate to={`${productPath(product, page)}${page === 'login' && location.pathname !== '/' ? `?next=${encodeURIComponent(location.pathname + location.search)}` : ''}`} replace />;
+  }
   if (session.state !== 'ok') return <StatusScreen />;
   if (session.user.mustChangePassword) return <ForcePasswordChange />;
   // The tablet app is the POS only: the back office stays on computers and phones.
@@ -339,6 +345,7 @@ function BusinessLayout() {
         </>
       }
     >
+      <AppUpdateBanner />
       <BillingBanner />
       <Outlet />
     </Shell>

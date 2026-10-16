@@ -10050,5 +10050,19 @@
     "suggested": "މަދުން ދައްކާ",
     "status": "confirmed",
     "notes": "Translated by the business owner (native speaker)."
+  },
+  {
+    "key": "app_update.title",
+    "english": "A new version of the app is ready.",
+    "suggested": "އެޕްގެ އާ ވަރޝަނެއް ތައްޔާރުވެއްޖެ.",
+    "status": "needs_review",
+    "notes": "Phone apps: update bar."
+  },
+  {
+    "key": "app_update.action",
+    "english": "Update",
+    "suggested": "އަޕްޑޭޓް ކުރައްވާ",
+    "status": "needs_review",
+    "notes": "Phone apps: update bar."
   }
 ]
