@@ -190,6 +190,13 @@
       "when": 1792118042270,
       "tag": "0026_budget_category_keys",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1792142690768,
+      "tag": "0027_budget_emergency_fund",
+      "breakpoints": true
     }
   ]
 }

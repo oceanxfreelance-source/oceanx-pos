@@ -106,6 +106,14 @@ test('budget: sign up → set up → spending & limits → bill → goal → PDF
   await expect(dialog).toBeHidden();
   await expect(page.getByText('2,000.00').first()).toBeVisible();
   await expect(page.getByText(/10,000\.00\W* still needed/)).toBeVisible();
+  // An emergency fund (optional): suggested from the usual month, shown first.
+  await page.getByRole('button', { name: 'Start emergency fund' }).click();
+  dialog = page.getByRole('dialog');
+  await dialog.getByRole('button', { name: /^3 months/ }).click();
+  await dialog.getByRole('button', { name: 'Save' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole('heading', { name: 'Emergency fund' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start emergency fund' })).toHaveCount(0);
   await page.screenshot({ path: `${SHOTS}/budget-goals.png`, fullPage: true });
 
   // Saved money is kept aside: left goes down by 2000.

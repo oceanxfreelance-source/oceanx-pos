@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1067 · **confirmed**: 381
+Status: **needs_review**: 1082 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -121,6 +121,21 @@ review of the whole file is still recommended before launch.
 | `branding.stamp_look.red` | Red ink | ރަތް ތަންޑު | needs_review | New: stamp ink look (blue / red). |
 | `branding.stamp_pick_look` | Choose how your stamp looks | ސްޓޭމްޕް ފެންނަންވީ ގޮތް ޚިޔާރުކުރައްވާ | needs_review | New: stamp ink look (blue / red). |
 | `branding.upload` | Upload photo | ފޮޓޯ އަޕްލޯޑްކުރޭ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `budget.emergency.aim` | How much to keep | ރައްކާކުރާނެ މިންވަރު | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.covers` | Enough for about {{months}} months of your usual spending. | ތިބާގެ އާންމު ޚަރަދަށް ގާތްގަނޑަކަށް {{months}} މަހަށް ފުދޭ. | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.full` | Your emergency fund is full. Well done! | ކުއްލި ޙާލަތުގެ ފަންޑު ފުރިހަމަވެއްޖެ. ވަރަށް ރަނގަޅު! | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.invite_body` | Money kept aside for sudden needs, like illness, losing work or a broken phone. It gets you through a hard month without a loan. | ބަލިވުން، ވަޒީފާ ގެއްލުން ނުވަތަ ފޯނު ހަލާކުވުން ފަދަ ކުއްލި ބޭނުންތަކަށް އެއްފަރާތްކޮށް ބަހައްޓާ ފައިސާ. ލޯނެއް ނުނަގައި ދަތި މަހެއް ފަހަނައަޅައި ދެވޭނެ. | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.invite_title` | Start an emergency fund | ކުއްލި ޙާލަތުގެ ފަންޑެއް ފައްޓަވާ | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.n_months` | {{n}} months | {{n}} މަސް | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.name` | Emergency fund | ކުއްލި ޙާލަތުގެ ފަންޑު | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.no_spend_yet` | Keep adding your spending and the app will suggest how much to keep. | ޚަރަދުތައް ނޯޓުކުރަމުން ގެންދަވާއިރު، ރައްކާކުރަން ރަނގަޅު މިންވަރު އެޕުން ދައްކާނެ. | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.one_month` | 1 month | 1 މަސް | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.start` | Start emergency fund | ކުއްލި ޙާލަތުގެ ފަންޑު ފައްޓަވާ | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.suggest` | A good aim is {{months}} months of your spending: {{amount}}. | ރަނގަޅު ލަނޑުދަނޑިއަކީ ތިބާގެ {{months}} މަހުގެ ޚަރަދު: {{amount}}. | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.use` | Use emergency fund | ކުއްލި ޙާލަތުގެ ފަންޑުން ބޭނުންކުރައްވާ | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.use_hint` | Take money out only for a real emergency, and put it back when you can. | ފައިސާ ނަގާނީ ހަގީގީ ކުއްލި ޙާލަތެއްގައި އެކަނި. ފަހުން ފައިސާ އަނބުރާ ލައްވާ. | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.use_short` | Use | ބޭނުންކުރައްވާ | needs_review | Emergency fund (new). Please check. |
+| `budget.emergency.usual_month` | You usually spend {{amount}} a month. | އާންމުކޮށް މަހަކު ޚަރަދުކުރައްވަނީ {{amount}}. | needs_review | Emergency fund (new). Please check. |
 | `budget.name` | Gravity Budget | Gravity Budget | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.offline.dropped` | A record of {{amount}} could not be saved. Please add it again. | {{amount}} ގެ ރެކޯޑެއް ރައްކާ ނުކުރެވުނު. އަލުން އިތުރުކުރައްވާ. | needs_review | Gravity Budget offline. |
 | `budget.offline.note` | You're offline. You can still add spending and income. | އިންޓަނެޓް ނެތް. އެހެންނަމަވެސް ޚަރަދާއި އާމްދަނީ އިތުރުކުރެވޭނެ. | needs_review | Gravity Budget offline. |

@@ -73,7 +73,10 @@ export const budgetBillPaySchema = z.object({
 });
 
 /** Something to save for: a phone, Umrah, a wedding, an emergency fund. */
+export const BUDGET_GOAL_KINDS = ['goal', 'emergency'] as const;
 export const budgetGoalSchema = z.object({
+  /** 'emergency': the one emergency fund (money kept for sudden needs); it cannot be changed later. */
+  kind: z.enum(BUDGET_GOAL_KINDS).default('goal'),
   name: z.string().trim().min(1).max(60),
   emoji,
   target: moneyTextSchema,

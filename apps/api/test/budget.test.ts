@@ -1,4 +1,5 @@
 import { sql } from 'drizzle-orm';
+import { addMonths } from '@oceanx/shared';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { Client, createSuperAdmin, createTestEnv, loginSuperAdmin, resetDb, type TestEnv } from './helpers';
 
@@ -142,6 +143,35 @@ describe('Gravity Budget (personal budgets, bills, goals)', () => {
     expect(r.entries).toHaveLength(1);
     expect(r.goals).toHaveLength(1);
     expect(r.person.name).toBe('Ibrahim');
+  });
+
+  it('emergency fund: one per person, suggested from usual spending, shown first with the months it covers', async () => {
+    const { c } = await budgetAccount('Aminath');
+    const cat = await setUp(c);
+    // Nothing spent yet: the suggestion comes from the monthly limits (3000 + 500).
+    let list = (await c.get('/api/budget/goals')).json();
+    expect(list.emergency).toEqual({ monthlySpend: 350_000, months: 3, suggested: 1_050_000 });
+    // Two past months with spending (4000 and 6000): a usual month is 5000; this month does not count then.
+    await c.post('/api/budget/entries', { kind: 'expense', amount: '4000', occurredOn: `${addMonths(month(), -1)}-10`, categoryId: cat.Food });
+    await c.post('/api/budget/entries', { kind: 'expense', amount: '6000', occurredOn: `${addMonths(month(), -2)}-10`, categoryId: cat.Food });
+    await c.post('/api/budget/entries', { kind: 'expense', amount: '999', occurredOn: today(), categoryId: cat.Food });
+    list = (await c.get('/api/budget/goals')).json();
+    expect(list.emergency).toMatchObject({ monthlySpend: 500_000, suggested: 1_500_000 });
+
+    await c.post('/api/budget/goals', { name: 'Trip', target: '1000' });
+    const ef = await c.post('/api/budget/goals', { kind: 'emergency', name: 'Emergency fund', emoji: '🛡️', target: '15000' });
+    expect(ef.statusCode).toBe(201);
+    expect((await c.post('/api/budget/goals', { kind: 'emergency', name: 'Again', target: '1' })).statusCode).toBe(409);
+    await c.post(`/api/budget/goals/${ef.json().id}/moves`, { direction: 'add', amount: '7500' });
+    // A goal stays what it is when edited.
+    await c.put(`/api/budget/goals/${ef.json().id}`, { kind: 'goal', name: 'Emergency fund', target: '20000' });
+    list = (await c.get('/api/budget/goals')).json();
+    expect(list.items.map((g: { kind: string }) => g.kind)).toEqual(['emergency', 'goal']);
+    expect(list.items[0]).toMatchObject({ saved: 750_000, target: 2_000_000, monthsCovered: 1.5 });
+    expect(list.items[1].monthsCovered).toBeNull();
+    // Removed: a new one can be started.
+    await c.delete(`/api/budget/goals/${ef.json().id}`);
+    expect((await c.post('/api/budget/goals', { kind: 'emergency', name: 'Emergency fund', target: '5000' })).statusCode).toBe(201);
   });
 
   it('accounts never see each other', async () => {

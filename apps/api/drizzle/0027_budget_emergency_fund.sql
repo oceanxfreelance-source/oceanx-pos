@@ -1,0 +1,3 @@
+ALTER TABLE "budget_goals" ADD COLUMN "kind" text DEFAULT 'goal' NOT NULL;--> statement-breakpoint
+CREATE UNIQUE INDEX "budget_goals_one_emergency_uq" ON "budget_goals" USING btree ("business_id") WHERE "budget_goals"."kind" = 'emergency' AND "budget_goals"."deleted_at" IS NULL;--> statement-breakpoint
+ALTER TABLE "budget_goals" ADD CONSTRAINT "budget_goals_kind_ck" CHECK ("budget_goals"."kind" IN ('goal','emergency'));

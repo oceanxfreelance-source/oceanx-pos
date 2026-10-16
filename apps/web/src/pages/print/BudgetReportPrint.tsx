@@ -9,7 +9,7 @@ import { pdfName } from '../../lib/pdf';
 import { useErrorMessage } from '../../lib/useApiError';
 import { Alert, SkeletonRows } from '../../components/ui/Card';
 import { BudgetMark } from '../auth/AuthLayout';
-import { useCatName, useInsightText, useMonthName, type Goal, type Overview } from '../business/Budget';
+import { useCatName, useGoalName, useInsightText, useMonthName, type Goal, type Overview } from '../business/Budget';
 import { PrintFrame } from './PrintFrame';
 
 interface Report extends Overview {
@@ -45,6 +45,7 @@ function Sheet({ r }: { r: Report }) {
   const monthName = useMonthName();
   const insightText = useInsightText();
   const catName = useCatName();
+  const goalName = useGoalName();
   const thBase = 'px-2 py-1.5 text-[11px] font-semibold text-slate-600';
   const th = `${thBase} text-start`;
   const thEnd = `${thBase} text-end`;
@@ -177,7 +178,7 @@ function Sheet({ r }: { r: Report }) {
               {r.goals.map((g) => (
                 <tr key={g.id} className="border-b border-slate-100">
                   <td className={td} dir="auto">
-                    {g.emoji} {g.name}
+                    {g.emoji} {goalName(g)}
                   </td>
                   <td className={num}>{money(g.saved)}</td>
                   <td className={num}>{money(g.target)}</td>

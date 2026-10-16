@@ -1867,13 +1867,20 @@ export const budgetGoals = pgTable(
       .references(() => businesses.id, { onDelete: 'cascade' }),
     name: text('name').notNull(),
     emoji: text('emoji').notNull().default(''),
+    /** 'goal', or 'emergency': the person's one emergency fund (money kept for sudden needs). */
+    kind: text('kind').notNull().default('goal'),
     target: money('target').notNull(),
     targetDate: text('target_date'),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
     deletedAt: ts('deleted_at'),
   },
-  (t) => [unique('budget_goals_business_id_uq').on(t.businessId, t.id), check('budget_goals_target_ck', sql`${t.target} > 0`)],
+  (t) => [
+    unique('budget_goals_business_id_uq').on(t.businessId, t.id),
+    check('budget_goals_target_ck', sql`${t.target} > 0`),
+    check('budget_goals_kind_ck', sql`${t.kind} IN ('goal','emergency')`),
+    uniqueIndex('budget_goals_one_emergency_uq').on(t.businessId).where(sql`${t.kind} = 'emergency' AND ${t.deletedAt} IS NULL`),
+  ],
 );
 
 /** Money put into a goal (positive) or taken out of it (negative). The goal's saved amount is their sum. */

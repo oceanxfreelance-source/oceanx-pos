@@ -10134,5 +10134,110 @@
     "suggested": "އަލުން މަސައްކަތް ކުރައްވާ",
     "status": "needs_review",
     "notes": "Payment screen offline."
+  },
+  {
+    "key": "budget.emergency.name",
+    "english": "Emergency fund",
+    "suggested": "ކުއްލި ޙާލަތުގެ ފަންޑު",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.invite_title",
+    "english": "Start an emergency fund",
+    "suggested": "ކުއްލި ޙާލަތުގެ ފަންޑެއް ފައްޓަވާ",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.invite_body",
+    "english": "Money kept aside for sudden needs, like illness, losing work or a broken phone. It gets you through a hard month without a loan.",
+    "suggested": "ބަލިވުން، ވަޒީފާ ގެއްލުން ނުވަތަ ފޯނު ހަލާކުވުން ފަދަ ކުއްލި ބޭނުންތަކަށް އެއްފަރާތްކޮށް ބަހައްޓާ ފައިސާ. ލޯނެއް ނުނަގައި ދަތި މަހެއް ފަހަނައަޅައި ދެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.suggest",
+    "english": "A good aim is {{months}} months of your spending: {{amount}}.",
+    "suggested": "ރަނގަޅު ލަނޑުދަނޑިއަކީ ތިބާގެ {{months}} މަހުގެ ޚަރަދު: {{amount}}.",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.start",
+    "english": "Start emergency fund",
+    "suggested": "ކުއްލި ޙާލަތުގެ ފަންޑު ފައްޓަވާ",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.aim",
+    "english": "How much to keep",
+    "suggested": "ރައްކާކުރާނެ މިންވަރު",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.usual_month",
+    "english": "You usually spend {{amount}} a month.",
+    "suggested": "އާންމުކޮށް މަހަކު ޚަރަދުކުރައްވަނީ {{amount}}.",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.one_month",
+    "english": "1 month",
+    "suggested": "1 މަސް",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.n_months",
+    "english": "{{n}} months",
+    "suggested": "{{n}} މަސް",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.no_spend_yet",
+    "english": "Keep adding your spending and the app will suggest how much to keep.",
+    "suggested": "ޚަރަދުތައް ނޯޓުކުރަމުން ގެންދަވާއިރު، ރައްކާކުރަން ރަނގަޅު މިންވަރު އެޕުން ދައްކާނެ.",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.covers",
+    "english": "Enough for about {{months}} months of your usual spending.",
+    "suggested": "ތިބާގެ އާންމު ޚަރަދަށް ގާތްގަނޑަކަށް {{months}} މަހަށް ފުދޭ.",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.full",
+    "english": "Your emergency fund is full. Well done!",
+    "suggested": "ކުއްލި ޙާލަތުގެ ފަންޑު ފުރިހަމަވެއްޖެ. ވަރަށް ރަނގަޅު!",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.use",
+    "english": "Use emergency fund",
+    "suggested": "ކުއްލި ޙާލަތުގެ ފަންޑުން ބޭނުންކުރައްވާ",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.use_short",
+    "english": "Use",
+    "suggested": "ބޭނުންކުރައްވާ",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
+  },
+  {
+    "key": "budget.emergency.use_hint",
+    "english": "Take money out only for a real emergency, and put it back when you can.",
+    "suggested": "ފައިސާ ނަގާނީ ހަގީގީ ކުއްލި ޙާލަތެއްގައި އެކަނި. ފަހުން ފައިސާ އަނބުރާ ލައްވާ.",
+    "status": "needs_review",
+    "notes": "Emergency fund (new). Please check."
   }
 ]

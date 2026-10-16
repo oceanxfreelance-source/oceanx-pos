@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { AlertTriangle, CalendarClock, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, CloudOff, Download, Info, Minus, Pencil, PiggyBank, Plus, Search, Target, Trash2, Wallet, X } from 'lucide-react';
+import { AlertTriangle, CalendarClock, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, CloudOff, Download, Info, Minus, Pencil, PiggyBank, Plus, Search, ShieldCheck, Target, Trash2, Wallet, X } from 'lucide-react';
 import { addMonths, decimalToMinor } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { addPendingEntry, useOnline, usePendingEntries, type PendingEntry } from '../../lib/budgetOffline';
@@ -95,6 +95,8 @@ interface Entry {
 }
 export interface Goal {
   id: string;
+  /** 'emergency': the person's emergency fund (shown first, in the app's language). */
+  kind: 'goal' | 'emergency';
   name: string;
   emoji: string;
   target: number;
@@ -108,6 +110,20 @@ export interface Goal {
   perMonth: number | null;
   late: boolean;
   onTrack: boolean | null;
+  /** Emergency fund: how many months of usual spending it would pay for. */
+  monthsCovered: number | null;
+}
+/** For starting an emergency fund: a usual month's spending and the suggested amount. */
+interface EmergencyHint {
+  monthlySpend: number;
+  months: number;
+  suggested: number;
+}
+
+/** A goal's name; the emergency fund is named in the app's language. */
+export function useGoalName() {
+  const { t } = useTranslation();
+  return (g: Pick<Goal, 'kind' | 'name'>) => (g.kind === 'emergency' ? t('budget.emergency.name') : g.name);
 }
 
 const KEY = ['biz', 'budget'] as const;
@@ -977,18 +993,22 @@ export function BudgetSpendingPage() {
 }
 
 // ---------------------------------------------------------------- goals
-function GoalDialog({ goal, onClose }: { goal?: Goal; onClose: () => void }) {
+function GoalDialog({ goal, emergency, hint, onClose }: { goal?: Goal; emergency?: boolean; hint?: EmergencyHint; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const money = useMoney();
+  const isEmergency = emergency || goal?.kind === 'emergency';
   const [name, setName] = useState(goal?.name ?? '');
   const [emoji, setEmoji] = useState(goal?.emoji ?? '🎯');
-  const [target, setTarget] = useState(toText(goal?.target));
+  const [target, setTarget] = useState(toText(goal?.target ?? (isEmergency && hint?.suggested ? hint.suggested : undefined)));
   const [targetDate, setTargetDate] = useState(goal?.targetDate ?? '');
   const [confirmDelete, setConfirmDelete] = useState(false);
   const toastError = useToastError();
   const save = useMutation({
     mutationFn: () => {
-      const body = { name, emoji, target: target.trim(), targetDate: targetDate || null };
+      const body = isEmergency
+        ? { kind: 'emergency', name: t('budget.emergency.name'), emoji: '🛡️', target: target.trim(), targetDate: null }
+        : { name, emoji, target: target.trim(), targetDate: targetDate || null };
       return goal ? api.put(`/budget/goals/${goal.id}`, body) : api.post('/budget/goals', body);
     },
     onSuccess: () => {
@@ -1011,7 +1031,7 @@ function GoalDialog({ goal, onClose }: { goal?: Goal; onClose: () => void }) {
     <Dialog
       open
       onClose={onClose}
-      title={goal ? t('budget.edit_goal') : t('budget.new_goal')}
+      title={isEmergency ? t('budget.emergency.name') : goal ? t('budget.edit_goal') : t('budget.new_goal')}
       footer={
         <div className="flex w-full items-center justify-between gap-2">
           {goal ? (
@@ -1025,28 +1045,59 @@ function GoalDialog({ goal, onClose }: { goal?: Goal; onClose: () => void }) {
             <Button variant="secondary" onClick={onClose}>
               {t('common.cancel')}
             </Button>
-            <Button onClick={() => save.mutate()} loading={save.isPending} disabled={!name.trim() || !target.trim()}>
+            <Button onClick={() => save.mutate()} loading={save.isPending} disabled={(!isEmergency && !name.trim()) || !target.trim()}>
               {t('common.save')}
             </Button>
           </div>
         </div>
       }
     >
-      <div className="space-y-4">
-        <div>
-          <p className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">{t('budget.icon')}</p>
-          <div className="flex flex-wrap gap-1.5">
-            {EMOJIS.map((e) => (
-              <button key={e} type="button" onClick={() => setEmoji(e)} aria-pressed={emoji === e} className={clsx('grid size-10 place-items-center rounded-xl text-xl ring-1', emoji === e ? 'bg-brand-50 ring-2 ring-brand-600 dark:bg-brand-950' : 'ring-slate-200 dark:ring-slate-700')}>
-                {e}
-              </button>
-            ))}
-          </div>
+      {isEmergency ? (
+        <div className="space-y-4">
+          <p className="text-sm text-slate-600 dark:text-slate-400">{t('budget.emergency.invite_body')}</p>
+          <AmountInput label={t('budget.emergency.aim')} value={target} onChange={setTarget} error={fieldErr('target')} autoFocus />
+          {hint && hint.monthlySpend > 0 ? (
+            <div>
+              <p className="mb-1.5 text-xs text-slate-500">{t('budget.emergency.usual_month', { amount: money(hint.monthlySpend) })}</p>
+              <div className="grid grid-cols-3 gap-2">
+                {[1, 3, 6].map((m) => {
+                  const v = toText(hint.monthlySpend * m);
+                  return (
+                    <button
+                      key={m}
+                      type="button"
+                      onClick={() => setTarget(v)}
+                      aria-pressed={target === v}
+                      className={clsx('rounded-xl px-2 py-2 text-center ring-1', target === v ? 'bg-brand-50 ring-2 ring-brand-600 dark:bg-brand-950' : 'ring-slate-200 dark:ring-slate-700')}
+                    >
+                      <span className="block text-sm font-medium">{m === 1 ? t('budget.emergency.one_month') : t('budget.emergency.n_months', { n: m })}</span>
+                      <span className="block text-xs tabular-nums text-slate-500">{money(hint.monthlySpend * m)}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <p className="text-xs text-slate-500">{t('budget.emergency.no_spend_yet')}</p>
+          )}
         </div>
-        <Input label={t('budget.goal_name')} value={name} onChange={(e) => setName(e.target.value)} maxLength={60} placeholder={t('budget.goal_name_hint')} error={fieldErr('name')} autoFocus />
-        <AmountInput label={t('budget.goal_target')} value={target} onChange={setTarget} error={fieldErr('target')} />
-        <Input label={t('budget.goal_date')} type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} hint={t('budget.goal_date_hint')} error={fieldErr('targetDate')} />
-      </div>
+      ) : (
+        <div className="space-y-4">
+          <div>
+            <p className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">{t('budget.icon')}</p>
+            <div className="flex flex-wrap gap-1.5">
+              {EMOJIS.map((e) => (
+                <button key={e} type="button" onClick={() => setEmoji(e)} aria-pressed={emoji === e} className={clsx('grid size-10 place-items-center rounded-xl text-xl ring-1', emoji === e ? 'bg-brand-50 ring-2 ring-brand-600 dark:bg-brand-950' : 'ring-slate-200 dark:ring-slate-700')}>
+                  {e}
+                </button>
+              ))}
+            </div>
+          </div>
+          <Input label={t('budget.goal_name')} value={name} onChange={(e) => setName(e.target.value)} maxLength={60} placeholder={t('budget.goal_name_hint')} error={fieldErr('name')} autoFocus />
+          <AmountInput label={t('budget.goal_target')} value={target} onChange={setTarget} error={fieldErr('target')} />
+          <Input label={t('budget.goal_date')} type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} hint={t('budget.goal_date_hint')} error={fieldErr('targetDate')} />
+        </div>
+      )}
       <ConfirmDialog open={confirmDelete} onClose={() => setConfirmDelete(false)} onConfirm={() => remove.mutate()} loading={remove.isPending} danger title={t('budget.delete_goal')} message={t('budget.delete_goal_body')} confirmLabel={t('common.delete')} />
     </Dialog>
   );
@@ -1057,6 +1108,8 @@ function GoalMoveDialog({ goal, direction, today, onClose }: { goal: Goal; direc
   const qc = useQueryClient();
   const money = useMoney();
   const f = useFormat();
+  const goalName = useGoalName();
+  const name = goalName(goal);
   const [amount, setAmount] = useState(direction === 'add' && goal.perMonth ? toText(Math.max(0, goal.perMonth - goal.thisMonth)) : '');
   const [date, setDate] = useState(today);
   const [note, setNote] = useState('');
@@ -1074,7 +1127,7 @@ function GoalMoveDialog({ goal, direction, today, onClose }: { goal: Goal; direc
     <Dialog
       open
       onClose={onClose}
-      title={`${goal.emoji} ${direction === 'add' ? t('budget.put_in', { name: goal.name }) : t('budget.take_out', { name: goal.name })}`}
+      title={`${goal.emoji} ${direction === 'add' ? t('budget.put_in', { name }) : goal.kind === 'emergency' ? t('budget.emergency.use') : t('budget.take_out', { name })}`}
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
@@ -1088,6 +1141,7 @@ function GoalMoveDialog({ goal, direction, today, onClose }: { goal: Goal; direc
     >
       <div className="space-y-4">
         <p className="text-sm text-slate-500">{t('budget.goal_saved_of', { saved: money(goal.saved), target: money(goal.target) })}</p>
+        {goal.kind === 'emergency' && direction === 'take' && <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">{t('budget.emergency.use_hint')}</p>}
         <AmountInput label={t('flow.amount')} value={amount} onChange={setAmount} error={fieldErr('amount')} autoFocus />
         <div className="grid grid-cols-2 gap-3">
           <Input label={t('flow.date')} type="date" value={date} onChange={(e) => setDate(e.target.value)} />
@@ -1122,12 +1176,15 @@ export function BudgetGoalsPage() {
   const money = useMoney();
   const f = useFormat();
   const { can } = useBiz();
-  const q = useQuery({ queryKey: [...KEY, 'goals'], queryFn: () => api.get<{ today: string; items: Goal[] }>('/budget/goals') });
-  const [editing, setEditing] = useState<Goal | 'new' | null>(null);
+  const goalName = useGoalName();
+  const q = useQuery({ queryKey: [...KEY, 'goals'], queryFn: () => api.get<{ today: string; items: Goal[]; emergency?: EmergencyHint }>('/budget/goals') });
+  const [editing, setEditing] = useState<Goal | 'new' | 'emergency' | null>(null);
   const [moving, setMoving] = useState<{ goal: Goal; direction: 'add' | 'take' } | null>(null);
   const manage = can('budget.manage');
   if (!q.data) return <SkeletonRows rows={6} />;
   const goals = q.data.items;
+  const hint = q.data.emergency;
+  const hasEmergency = goals.some((g) => g.kind === 'emergency');
   const total = goals.reduce((s, g) => s + g.saved, 0);
   return (
     <div className="mx-auto max-w-3xl space-y-4">
@@ -1142,6 +1199,23 @@ export function BudgetGoalsPage() {
           </Button>
         )}
       </div>
+      {manage && !hasEmergency && (
+        <Card className="border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/30">
+          <div className="flex items-start gap-3">
+            <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">
+              <ShieldCheck className="size-6" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="font-semibold">{t('budget.emergency.invite_title')}</h2>
+              <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">{t('budget.emergency.invite_body')}</p>
+              {hint && hint.suggested > 0 && <p className="mt-1 text-sm font-medium">{t('budget.emergency.suggest', { months: hint.months, amount: money(hint.suggested) })}</p>}
+              <Button className="mt-3" size="sm" icon={<Plus className="size-4" />} onClick={() => setEditing('emergency')}>
+                {t('budget.emergency.start')}
+              </Button>
+            </div>
+          </div>
+        </Card>
+      )}
       {goals.length === 0 ? (
         <Card>
           <EmptyState
@@ -1160,13 +1234,13 @@ export function BudgetGoalsPage() {
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {goals.map((g) => (
-            <Card key={g.id}>
+            <Card key={g.id} className={clsx(g.kind === 'emergency' && 'border-emerald-200 sm:col-span-2 dark:border-emerald-900')}>
               <div className="flex items-start gap-3">
                 <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-50 text-2xl dark:bg-brand-950">{g.emoji || <Target className="size-5" />}</span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">
                     <h2 className="truncate font-semibold" dir="auto">
-                      {g.name}
+                      {goalName(g)}
                     </h2>
                     {manage && (
                       <button type="button" aria-label={t('common.edit')} onClick={() => setEditing(g)} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800">
@@ -1184,13 +1258,18 @@ export function BudgetGoalsPage() {
               </div>
               <p className="mt-2 text-xs text-slate-500">
                 {g.done
-                  ? t('budget.goal_done')
+                  ? g.kind === 'emergency'
+                    ? t('budget.emergency.full')
+                    : t('budget.goal_done')
                   : g.late
                     ? t('budget.goal_late', { amount: money(g.remaining) })
                     : g.perMonth !== null
                       ? t('budget.goal_per_month', { amount: money(g.perMonth), date: f.date(g.targetDate) })
                       : t('budget.goal_remaining', { amount: money(g.remaining) })}
               </p>
+              {g.monthsCovered !== null && g.saved > 0 && (
+                <p className="mt-1 text-xs font-medium text-emerald-700 dark:text-emerald-400">{t('budget.emergency.covers', { months: f.number(g.monthsCovered, Number.isInteger(g.monthsCovered) ? 0 : 1) })}</p>
+              )}
               {g.onTrack !== null && !g.done && (
                 <p className={clsx('mt-1 text-xs font-medium', g.onTrack ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400')}>
                   {g.onTrack ? t('budget.goal_on_track') : t('budget.goal_behind', { amount: money(Math.max(0, (g.perMonth ?? 0) - g.thisMonth)) })}
@@ -1202,7 +1281,7 @@ export function BudgetGoalsPage() {
                     {t('budget.put_in_short')}
                   </Button>
                   <Button size="sm" variant="secondary" icon={<Minus className="size-4" />} onClick={() => setMoving({ goal: g, direction: 'take' })} disabled={g.saved <= 0}>
-                    {t('budget.take_out_short')}
+                    {g.kind === 'emergency' ? t('budget.emergency.use_short') : t('budget.take_out_short')}
                   </Button>
                 </div>
               )}
@@ -1211,7 +1290,7 @@ export function BudgetGoalsPage() {
         </div>
       )}
       <p className="text-center text-xs text-slate-500">{t('budget.goals_note')}</p>
-      {editing && <GoalDialog goal={editing === 'new' ? undefined : editing} onClose={() => setEditing(null)} />}
+      {editing && <GoalDialog goal={editing === 'new' || editing === 'emergency' ? undefined : editing} emergency={editing === 'emergency'} hint={hint} onClose={() => setEditing(null)} />}
       {moving && <GoalMoveDialog goal={moving.goal} direction={moving.direction} today={q.data.today} onClose={() => setMoving(null)} />}
     </div>
   );

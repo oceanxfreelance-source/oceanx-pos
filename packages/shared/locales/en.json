@@ -3196,6 +3196,23 @@
       "synced_one": "1 record sent.",
       "synced_other": "{{count}} records sent.",
       "dropped": "A record of {{amount}} could not be saved. Please add it again."
+    },
+    "emergency": {
+      "name": "Emergency fund",
+      "invite_title": "Start an emergency fund",
+      "invite_body": "Money kept aside for sudden needs, like illness, losing work or a broken phone. It gets you through a hard month without a loan.",
+      "suggest": "A good aim is {{months}} months of your spending: {{amount}}.",
+      "start": "Start emergency fund",
+      "aim": "How much to keep",
+      "usual_month": "You usually spend {{amount}} a month.",
+      "one_month": "1 month",
+      "n_months": "{{n}} months",
+      "no_spend_yet": "Keep adding your spending and the app will suggest how much to keep.",
+      "covers": "Enough for about {{months}} months of your usual spending.",
+      "full": "Your emergency fund is full. Well done!",
+      "use": "Use emergency fund",
+      "use_short": "Use",
+      "use_hint": "Take money out only for a real emergency, and put it back when you can."
     }
   },
   "app_update": {

@@ -216,15 +216,42 @@ export async function budgetOverview(db: Executor, businessId: string, month: st
   };
 }
 
-/** Every goal with what is saved, what is still needed and, with a date, how much to save each month. */
-export async function budgetGoalList(db: Executor, businessId: string, today: string) {
+/** How many months of spending an emergency fund is usually meant to cover. */
+export const EMERGENCY_MONTHS = 3;
+
+/**
+ * What the person usually spends in a month, for the emergency fund: the average of the last 3 full months
+ * that have spending; with none yet, this month's spending or what they planned (their monthly limits).
+ */
+export async function budgetMonthlySpend(db: Executor, businessId: string, today: string) {
+  const month = today.slice(0, 7);
+  const first = addMonths(month, -3);
+  const m = sql<string>`substr(${budgetEntries.occurredOn}, 1, 7)`;
+  const [rows, [planned]] = await Promise.all([
+    db
+      .select({ month: m, total: sql<string>`sum(${budgetEntries.amount})::text` })
+      .from(budgetEntries)
+      .where(and(eq(budgetEntries.businessId, businessId), eq(budgetEntries.kind, 'expense'), isNull(budgetEntries.deletedAt), gte(budgetEntries.occurredOn, monthRange(first).from), lte(budgetEntries.occurredOn, monthRange(month).to)))
+      .groupBy(m),
+    db
+      .select({ total: sql<string>`coalesce(sum(${budgetCategories.monthlyLimit}),0)::text` })
+      .from(budgetCategories)
+      .where(and(eq(budgetCategories.businessId, businessId), eq(budgetCategories.kind, 'expense'), isNull(budgetCategories.deletedAt))),
+  ]);
+  const past = rows.filter((r) => r.month !== month && n(r.total) > 0);
+  if (past.length) return Math.round(past.reduce((s, r) => s + n(r.total), 0) / past.length);
+  return Math.max(n(rows.find((r) => r.month === month)?.total), n(planned?.total));
+}
+
+/** Every goal with what is saved, what is still needed and, with a date, how much to save each month. The emergency fund comes first. */
+export async function budgetGoalList(db: Executor, businessId: string, today: string, monthlySpend = 0) {
   const month = today.slice(0, 7);
   const { from, to } = monthRange(month);
   const goals = await db
     .select()
     .from(budgetGoals)
     .where(and(eq(budgetGoals.businessId, businessId), isNull(budgetGoals.deletedAt)))
-    .orderBy(asc(budgetGoals.createdAt));
+    .orderBy(sql`${budgetGoals.kind} = 'emergency' desc`, asc(budgetGoals.createdAt));
   if (!goals.length) return [];
   const sums = await db
     .select({
@@ -253,6 +280,7 @@ export async function budgetGoalList(db: Executor, businessId: string, today: st
     const perMonth = remaining > 0 && monthsLeft !== null && monthsLeft > 0 ? Math.ceil((remaining + thisMonth) / monthsLeft) : null;
     return {
       id: g.id,
+      kind: g.kind as 'goal' | 'emergency',
       name: g.name,
       emoji: g.emoji,
       target: g.target,
@@ -266,6 +294,8 @@ export async function budgetGoalList(db: Executor, businessId: string, today: st
       perMonth,
       late: !!g.targetDate && g.targetDate < today && saved < g.target,
       onTrack: perMonth === null ? null : thisMonth >= perMonth,
+      /** Emergency fund: how many months of usual spending it would pay for (one decimal). */
+      monthsCovered: g.kind === 'emergency' && monthlySpend > 0 ? Math.floor((saved * 10) / monthlySpend) / 10 : null,
       createdAt: g.createdAt,
     };
   });
@@ -583,21 +613,36 @@ export async function budgetRoutes(app: FastifyInstance) {
   // ---------------------------------------------------------------- goals
   app.get('/budget/goals', { preHandler: requirePermission('budget.view') }, async (req) => {
     const ctx = bizCtx(req);
-    return { today: today(ctx), items: await budgetGoalList(db, ctx.businessId, today(ctx)) };
+    const t = today(ctx);
+    const monthlySpend = await budgetMonthlySpend(db, ctx.businessId, t);
+    return {
+      today: t,
+      items: await budgetGoalList(db, ctx.businessId, t, monthlySpend),
+      // For starting an emergency fund: a usual month's spending, and the suggested amount (3 months of it).
+      emergency: { monthlySpend, months: EMERGENCY_MONTHS, suggested: monthlySpend * EMERGENCY_MONTHS },
+    };
   });
 
   app.post('/budget/goals', { preHandler: requirePermission('budget.manage') }, async (req, reply) => {
     const ctx = bizCtx(req);
     const body = parse(budgetGoalSchema, req.body);
+    if (body.kind === 'emergency') {
+      const [had] = await db
+        .select({ id: budgetGoals.id })
+        .from(budgetGoals)
+        .where(and(eq(budgetGoals.businessId, ctx.businessId), eq(budgetGoals.kind, 'emergency'), isNull(budgetGoals.deletedAt)));
+      if (had) throw new AppError('conflict', 'There is already an emergency fund', {}, 409);
+    }
     const [g] = await db.insert(budgetGoals).values({ businessId: ctx.businessId, ...body }).returning();
-    await audit(db, { ...actor(ctx), action: 'budget.goal_added', entityType: 'budget_goal', entityId: g!.id, metadata: { target: body.target }, req });
+    await audit(db, { ...actor(ctx), action: 'budget.goal_added', entityType: 'budget_goal', entityId: g!.id, metadata: { target: body.target, kind: body.kind }, req });
     reply.status(201);
     return g;
   });
 
   app.put('/budget/goals/:id', { preHandler: requirePermission('budget.manage') }, async (req) => {
     const ctx = bizCtx(req);
-    const body = parse(budgetGoalSchema, req.body);
+    // A goal stays what it is (a goal or the emergency fund).
+    const { kind: _kind, ...body } = parse(budgetGoalSchema, req.body);
     const [g] = await db
       .update(budgetGoals)
       .set({ ...body, updatedAt: new Date() })
