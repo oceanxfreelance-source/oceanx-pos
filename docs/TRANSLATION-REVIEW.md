@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1275 · **confirmed**: 148
+Status: **needs_review**: 1282 · **confirmed**: 148
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -260,6 +260,13 @@ review of the whole file is still recommended before launch.
 | `budget.report_footer` | Gravity Budget · budget.oceanx.app | Gravity Budget · budget.oceanx.app | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.report_made` | Made on {{date}} | {{date}} ގައި ހަދާފައި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.report_title` | Monthly money report | މަހުގެ ފައިސާގެ ރިޕޯޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.sa.create_account` | Create account | އެކައުންޓް ހަދާ | needs_review | Gravity Budget, Super Admin. Machine-suggested; please check. |
+| `budget.sa.create_hint` | For one person. They sign in with this email and the first password below. | އެކަކު މީހަކަށް. ސައިން އިން ވާނީ މި އީމެއިލާއި ތިރީގައިވާ ފުރަތަމަ ޕާސްވޯޑުން. | needs_review | Gravity Budget, Super Admin. Machine-suggested; please check. |
+| `budget.sa.details` | Details | ތަފްޞީލު | needs_review | Gravity Budget, Super Admin. Machine-suggested; please check. |
+| `budget.sa.email_login` | Email (to sign in) | އީމެއިލް (ސައިން އިން ވުމަށް) | needs_review | Gravity Budget, Super Admin. Machine-suggested; please check. |
+| `budget.sa.full_name` | Full name | ފުރިހަމަ ނަން | needs_review | Gravity Budget, Super Admin. Machine-suggested; please check. |
+| `budget.sa.open_account` | Open account | އެކައުންޓް ހުޅުވާ | needs_review | Gravity Budget, Super Admin. Machine-suggested; please check. |
+| `budget.sa.person` | Person | މީހާ | needs_review | Gravity Budget, Super Admin. Machine-suggested; please check. |
 | `budget.safe_per_day_one` | You can spend {{amount}} today (last day of the month). | މިއަދު {{amount}} ޚަރަދުކުރެވޭނެ (މަހުގެ ފަހު ދުވަސް). | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.safe_per_day_other` | You can spend about {{amount}} a day for the next {{count}} days. | ދެން އަންނަ {{count}} ދުވަހު، ދުވާލަކު ގާތްގަނޑަކަށް {{amount}} ޚަރަދުކުރެވޭނެ. | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `budget.saved` | Saved | ރައްކާކުރި | needs_review | Gravity Budget (new product). Machine-suggested; please check. |

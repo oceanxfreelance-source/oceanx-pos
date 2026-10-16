@@ -79,6 +79,8 @@ export default function BusinessDetailPage() {
       </Card>
     );
   const { business: b, subscription: sub } = q.data;
+  // Gravity Budget accounts are people, not businesses.
+  const personal = b.product === 'budget';
   return (
     <div className="space-y-6">
       <PageHeader
@@ -159,7 +161,7 @@ export default function BusinessDetailPage() {
           )}
         </Card>
         <Card>
-          <CardHeader title={t('superadmin.business.owner')} />
+          <CardHeader title={personal ? t('budget.sa.person') : t('superadmin.business.owner')} />
           {q.data.owner ? (
             <div className="space-y-3 text-sm">
               <p className="font-medium" dir="auto">
@@ -188,13 +190,13 @@ export default function BusinessDetailPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card>
-          <CardHeader title={t('superadmin.business.profile')} />
+          <CardHeader title={personal ? t('budget.sa.details') : t('superadmin.business.profile')} />
           <dl className="space-y-3 text-sm">
             <Info label={t('auth.email')} value={b.email ? <Ltr>{b.email}</Ltr> : '—'} />
             <Info label={t('common.phone')} value={b.phone ? <Ltr>{b.phone}</Ltr> : '—'} />
-            <Info label={t('common.address')} value={<span dir="auto">{b.address || '—'}</span>} />
+            {!personal && <Info label={t('common.address')} value={<span dir="auto">{b.address || '—'}</span>} />}
             <Info label={t('settings.currency')} value={b.currency} />
-            <Info label={t('superadmin.business.users_outlets')} value={`${f.number(q.data.userCount)} / ${f.number(q.data.outletCount)}`} />
+            {!personal && <Info label={t('superadmin.business.users_outlets')} value={`${f.number(q.data.userCount)} / ${f.number(q.data.outletCount)}`} />}
             <Info label={t('common.created')} value={f.date(b.createdAt)} />
           </dl>
         </Card>
@@ -238,6 +240,7 @@ export default function BusinessDetailPage() {
         )}
       </div>
 
+      {!personal && (
       <Card>
         <CardHeader title={t('superadmin.business.features')} description={t('superadmin.business.features_hint')} />
         <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl p-4 ring-1 ring-slate-200 dark:ring-slate-800">
@@ -257,6 +260,7 @@ export default function BusinessDetailPage() {
           </Button>
         </div>
       </Card>
+      )}
 
       <Card>
         <CardHeader title={t('superadmin.business.history')} description={t('superadmin.business.history_hint')} />

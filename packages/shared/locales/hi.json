@@ -3169,6 +3169,15 @@
     "last_month": "पिछला महीना",
     "report_title": "मासिक पैसों की रिपोर्ट",
     "report_made": "{{date}} को बनाई गई",
-    "report_footer": "Gravity Budget · budget.oceanx.app"
+    "report_footer": "Gravity Budget · budget.oceanx.app",
+    "sa": {
+      "person": "व्यक्ति",
+      "full_name": "पूरा नाम",
+      "email_login": "ईमेल (साइन इन के लिए)",
+      "create_hint": "एक व्यक्ति के लिए। वे इस ईमेल और नीचे दिए पहले पासवर्ड से साइन इन करेंगे।",
+      "create_account": "खाता बनाएँ",
+      "open_account": "खाता खोलें",
+      "details": "विवरण"
+    }
   }
 }

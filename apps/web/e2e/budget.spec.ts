@@ -118,3 +118,43 @@ test('budget: sign up → set up → spending & limits → bill → goal → PDF
   await page.setViewportSize({ width: 1000, height: 1400 });
   await page.locator('article').screenshot({ path: `${SHOTS}/budget-report.png` });
 });
+
+/** Super Admin makes a Budget account for a person (no business details), and the person signs in. */
+test('budget: Super Admin creates an account for a person', async ({ page, browser }) => {
+  const { SA_EMAIL, SA_PASSWORD } = await import('./global-setup');
+  const run = Date.now().toString(36);
+  await page.goto('/superadmin/login');
+  await page.getByLabel('Email').fill(SA_EMAIL);
+  await page.getByLabel('Password').fill(SA_PASSWORD);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page).toHaveURL(/superadmin\/hub$/);
+  await page.goto('/superadmin/budget/accounts');
+  await page.getByRole('button', { name: 'New Budget account' }).click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByLabel(/Business name/)).toHaveCount(0);
+  await expect(dialog.getByLabel(/Address/)).toHaveCount(0);
+  await dialog.getByLabel(/^Full name/).fill(`Hawwa Ali ${run}`);
+  await dialog.getByLabel(/^Email \(to sign in\)/).fill(`hawwa-${run}@budget.test`);
+  await dialog.getByLabel('Phone').fill('7771234');
+  const password = await dialog.getByLabel(/First password/).inputValue();
+  await page.screenshot({ path: `${SHOTS}/budget-sa-create.png` });
+  await dialog.getByRole('button', { name: 'Create account' }).click();
+  await dialog.getByRole('button', { name: 'Open account' }).click();
+  await expect(page.getByText('Person', { exact: true })).toBeVisible();
+  await expect(page.getByText(`Hawwa Ali ${run}`).first()).toBeVisible();
+
+  const ctx = await browser.newContext();
+  const p = await ctx.newPage();
+  await p.goto('/budget/login');
+  await p.getByLabel('Email').fill(`hawwa-${run}@budget.test`);
+  await p.getByLabel('Password').fill(password);
+  await p.getByRole('button', { name: 'Sign in' }).click();
+  // The first password is changed on first sign-in, then set-up starts.
+  await expect(p.getByRole('heading', { name: 'Set a new password' })).toBeVisible();
+  await p.getByLabel(/^Current password/).fill(password);
+  await p.getByLabel(/^New password/).fill('Hawwa-Budget-2026');
+  await p.getByLabel(/^Confirm password/).fill('Hawwa-Budget-2026');
+  await p.getByRole('button', { name: 'Change password' }).click();
+  await expect(p.getByRole('heading', { name: "Let's set up your budget" })).toBeVisible();
+  await ctx.close();
+});

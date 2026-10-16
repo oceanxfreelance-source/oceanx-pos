@@ -9959,5 +9959,54 @@
     "suggested": "ޚަރަދު، ބަޖެޓް، ބިލާއި އަމާޒުތައް އިތުރުކުރުމާއި ބަދަލުކުރުން",
     "status": "needs_review",
     "notes": "Gravity Budget (new product). Machine-suggested; please check."
+  },
+  {
+    "key": "budget.sa.person",
+    "english": "Person",
+    "suggested": "މީހާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget, Super Admin. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.sa.full_name",
+    "english": "Full name",
+    "suggested": "ފުރިހަމަ ނަން",
+    "status": "needs_review",
+    "notes": "Gravity Budget, Super Admin. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.sa.email_login",
+    "english": "Email (to sign in)",
+    "suggested": "އީމެއިލް (ސައިން އިން ވުމަށް)",
+    "status": "needs_review",
+    "notes": "Gravity Budget, Super Admin. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.sa.create_hint",
+    "english": "For one person. They sign in with this email and the first password below.",
+    "suggested": "އެކަކު މީހަކަށް. ސައިން އިން ވާނީ މި އީމެއިލާއި ތިރީގައިވާ ފުރަތަމަ ޕާސްވޯޑުން.",
+    "status": "needs_review",
+    "notes": "Gravity Budget, Super Admin. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.sa.create_account",
+    "english": "Create account",
+    "suggested": "އެކައުންޓް ހަދާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget, Super Admin. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.sa.open_account",
+    "english": "Open account",
+    "suggested": "އެކައުންޓް ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget, Super Admin. Machine-suggested; please check."
+  },
+  {
+    "key": "budget.sa.details",
+    "english": "Details",
+    "suggested": "ތަފްޞީލު",
+    "status": "needs_review",
+    "notes": "Gravity Budget, Super Admin. Machine-suggested; please check."
   }
 ]

@@ -3169,6 +3169,15 @@
     "last_month": "Last month",
     "report_title": "Monthly money report",
     "report_made": "Made on {{date}}",
-    "report_footer": "Gravity Budget · budget.oceanx.app"
+    "report_footer": "Gravity Budget · budget.oceanx.app",
+    "sa": {
+      "person": "Person",
+      "full_name": "Full name",
+      "email_login": "Email (to sign in)",
+      "create_hint": "For one person. They sign in with this email and the first password below.",
+      "create_account": "Create account",
+      "open_account": "Open account",
+      "details": "Details"
+    }
   }
 }

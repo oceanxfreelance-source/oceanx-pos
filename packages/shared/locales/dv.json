@@ -3169,6 +3169,15 @@
     "last_month": "ކުރީ މަސް",
     "report_title": "މަހުގެ ފައިސާގެ ރިޕޯޓް",
     "report_made": "{{date}} ގައި ހަދާފައި",
-    "report_footer": "Gravity Budget · budget.oceanx.app"
+    "report_footer": "Gravity Budget · budget.oceanx.app",
+    "sa": {
+      "person": "މީހާ",
+      "full_name": "ފުރިހަމަ ނަން",
+      "email_login": "އީމެއިލް (ސައިން އިން ވުމަށް)",
+      "create_hint": "އެކަކު މީހަކަށް. ސައިން އިން ވާނީ މި އީމެއިލާއި ތިރީގައިވާ ފުރަތަމަ ޕާސްވޯޑުން.",
+      "create_account": "އެކައުންޓް ހަދާ",
+      "open_account": "އެކައުންޓް ހުޅުވާ",
+      "details": "ތަފްޞީލު"
+    }
   }
 }

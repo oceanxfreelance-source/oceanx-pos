@@ -76,13 +76,13 @@ export default function BusinessesPage({ presetType, product = 'pos' }: { preset
   const columns: Column<Row>[] = [
     {
       key: 'name',
-      header: t('superadmin.businesses.business'),
+      header: product === 'budget' ? t('budget.sa.person') : t('superadmin.businesses.business'),
       cell: (b) => (
         <div className="min-w-0">
           <p className="truncate font-medium text-slate-900 dark:text-white" dir="auto">
             {b.name}
           </p>
-          <p className="truncate text-xs text-slate-500">{t(`business_types.${b.businessType}`)}</p>
+          {product !== 'budget' && <p className="truncate text-xs text-slate-500">{t(`business_types.${b.businessType}`)}</p>}
         </div>
       ),
     },
@@ -124,7 +124,7 @@ export default function BusinessesPage({ presetType, product = 'pos' }: { preset
         description={gravity ? t(`${product}.accounts_subtitle`) : t('superadmin.businesses.subtitle')}
         actions={
           <Button icon={<Plus className="size-4" />} onClick={() => setCreating(true)}>
-            {t('superadmin.businesses.create')}
+            {product === 'budget' ? t('budget.new_account') : t('superadmin.businesses.create')}
           </Button>
         }
       />
@@ -187,6 +187,8 @@ export default function BusinessesPage({ presetType, product = 'pos' }: { preset
 function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClose: () => void; defaultType?: string; product?: Product }) {
   // Gravity and Gravity Flow: one-person accounts with one plan (code = product).
   const gravity = product !== 'pos';
+  // Gravity Budget is for a person: their name, email and phone; no business details.
+  const personal = product === 'budget';
   const { t } = useTranslation();
   const qc = useQueryClient();
   const navigate = useNavigate();
@@ -218,9 +220,9 @@ function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClo
     mutationFn: () =>
       saApi.post<{ id: string }>('/businesses', {
         product,
-        name: form.name,
+        name: personal ? form.ownerName : form.name,
         businessType: form.businessType,
-        email: form.email,
+        email: personal ? form.ownerEmail : form.email,
         phone: form.phone,
         address: form.address,
         currency: form.currency,
@@ -242,17 +244,17 @@ function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClo
       onClose={onClose}
       size="lg"
       title={gravity ? t(`${product}.new_account`) : t('superadmin.businesses.create')}
-      description={t('superadmin.businesses.create_hint')}
+      description={personal ? t('budget.sa.create_hint') : t('superadmin.businesses.create_hint')}
       footer={
         created ? (
-          <Button onClick={() => navigate(gravity ? `/superadmin/${product}/accounts/${created.id}` : `/superadmin/businesses/${created.id}`)}>{t('superadmin.credentials.open_business')}</Button>
+          <Button onClick={() => navigate(gravity ? `/superadmin/${product}/accounts/${created.id}` : `/superadmin/businesses/${created.id}`)}>{personal ? t('budget.sa.open_account') : t('superadmin.credentials.open_business')}</Button>
         ) : (
           <>
             <Button variant="secondary" onClick={onClose}>
               {t('common.cancel')}
             </Button>
-            <Button onClick={() => m.mutate()} loading={m.isPending} disabled={!form.name || !form.ownerEmail || !form.planId || form.ownerPassword.length < 8}>
-              {t('superadmin.businesses.create')}
+            <Button onClick={() => m.mutate()} loading={m.isPending} disabled={!(personal ? form.ownerName : form.name) || !form.ownerEmail || !form.planId || form.ownerPassword.length < 8}>
+              {personal ? t('budget.sa.create_account') : t('superadmin.businesses.create')}
             </Button>
           </>
         )
@@ -260,6 +262,47 @@ function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClo
     >
       {created ? (
         <OwnerCredentials email={created.email} password={created.password} />
+      ) : personal ? (
+      <div className="space-y-5">
+        {m.error && !(m.error instanceof ApiError && m.error.code === 'validation_failed') && <Alert tone="red">{errMsg(m.error)}</Alert>}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Input className="sm:col-span-2" label={t('budget.sa.full_name')} value={form.ownerName} onChange={set('ownerName')} error={fieldErr('owner.name') ?? fieldErr('name')} required autoFocus />
+          <Input type="email" label={t('budget.sa.email_login')} value={form.ownerEmail} onChange={set('ownerEmail')} error={fieldErr('owner.email')} required />
+          <Input type="tel" label={t('common.phone')} value={form.phone} onChange={set('phone')} error={fieldErr('phone')} />
+          <Select label={t('users.app_language')} value={form.ownerLanguage} onChange={set('ownerLanguage')}>
+            {LANGUAGES.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.nativeName}
+              </option>
+            ))}
+          </Select>
+          <Input label={t('settings.currency')} value={form.currency} maxLength={3} dir="ltr" onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value.toUpperCase() }))} error={fieldErr('currency')} />
+          <Input label={t('settings.timezone')} value={form.timezone} dir="ltr" onChange={set('timezone')} error={fieldErr('timezone')} />
+          <Select label={t('superadmin.businesses.plan')} value={form.planId} onChange={set('planId')} error={fieldErr('planId')}>
+            {plans.data?.items
+              .filter((p) => p.isActive)
+              .map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name} — {p.currency} {p.priceMonthly}
+                </option>
+              ))}
+          </Select>
+        </div>
+        <div className="flex items-end gap-2">
+          <Input
+            className="flex-1"
+            label={t('superadmin.credentials.first_password')}
+            hint={t('superadmin.credentials.first_password_hint')}
+            value={form.ownerPassword}
+            dir="ltr"
+            onChange={set('ownerPassword')}
+            error={fieldErr('owner.password')}
+          />
+          <Button variant="secondary" icon={<RefreshCcw className="size-4" />} onClick={() => setForm((f) => ({ ...f, ownerPassword: generatePassword() }))}>
+            {t('superadmin.credentials.generate')}
+          </Button>
+        </div>
+      </div>
       ) : (
       <div className="space-y-5">
         {m.error && !(m.error instanceof ApiError && m.error.code === 'validation_failed') && <Alert tone="red">{errMsg(m.error)}</Alert>}
