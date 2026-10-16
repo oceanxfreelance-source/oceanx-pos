@@ -1,0 +1,229 @@
+Start your free trial
+24 hours free. Then MVR 50 a month.
+Your name
+Shown on your monthly reports.
+New to Gravity Budget?
+Start my free trial
+Stop wondering where your salary went.
+A monthly report you can download as PDF
+Spending
+Goals
+My budget
+Months
+Home
+Optional
+Let's set up your budget
+Two minutes now, and every month you will know exactly where your money goes.
+Your income this month
+Salary and any other money you received this month. You can add more later.
+Income this month
+What do you spend on?
+Untick what you don't need. Give a monthly limit to the ones you want to control (you can change it any time).
+Monthly limit for {{name}}
+No limit
+Start my budget
+Your budget is ready.
+Salary
+Side income
+From family
+Food & groceries
+Eating out & coffee
+Rent
+Electricity & water
+Phone & internet
+Transport & fuel
+Family support
+Loans & card payments
+Shopping & clothes
+Health
+Education
+Fun & outings
+Other
+No income written down this month yet. Add your salary so we can tell what is left.
+You have spent and saved {{amount}} more than came in this month.
+{{name}} ({{amount}}) is past its due date and not paid.
+{{name}} is {{amount}} over its limit.
+{{name}} is nearly at its limit: {{amount}} left.
+1 bill is due in the next 7 days: {{amount}}.
+{{count}} bills are due in the next 7 days: {{amount}}.
+At this pace you will spend about {{amount}} this month, more than you earn.
+You spent {{amount}} more on {{name}} than in all of last month.
+Most of your money went on {{name}} ({{percent}}% of spending).
+Well done: {{amount}} put into your goals this month.
+Give your main categories a monthly limit to know when to slow down.
+Your limits add up to {{amount}} more than your income. Lower some of them.
+You are on track this month. Keep going!
+Cash
+Card
+Transfer
+Other
+Bills still to pay ({{amount}}) are already kept aside.
+Bills this month
+{{amount}} still to pay
+Pay
+Pay {{name}}
+Mark as paid
+Bill paid and written down as spending.
+Change it if this month's bill is different.
+Paid {{date}}
+Overdue since {{date}}
+Due today
+Due tomorrow ({{date}})
+Due in {{count}} days ({{date}})
+Due {{date}}
+Not paid
+To pay
+Monthly bills
+Rent, phone, internet, electricity, loans: paid every month.
+No bills yet. Add the ones you pay every month so they are never forgotten.
+Every month on day {{day}}
+New monthly bill
+Change bill
+Bill
+e.g. Rent, Dhiraagu, STELCO, Car loan
+Usual amount
+Due day
+Remove this bill?
+Bills already paid stay in your records.
+Bills to pay
+New goal
+Change goal
+Icon
+Goal
+e.g. New phone, Umrah, Emergency fund
+Amount needed
+Needed by
+Optional. We will tell you how much to save each month.
+Delete this goal?
+Its savings history is removed too.
+Put money into {{name}}
+Take money out of {{name}}
+Put in
+Take out
+{{amount}} saved. Well done!
+{{saved}} saved of {{target}}
+History
+{{amount}} saved in all goals
+No goals yet
+Saving is easier with a goal. Add something you want, and how much it costs.
+Goal reached! 🎉
+The date has passed. {{amount}} still needed.
+Save {{amount}} a month to reach it by {{date}}.
+{{amount}} still needed.
+On track this month
+Put in {{amount}} more this month to stay on track
+Money you put into a goal is kept aside: it is not counted as money left to spend.
+Total
+Status
+Last month
+Monthly money report
+Made on {{date}}
+Gravity Budget · budget.oceanx.app
+Hi {{name}}
+This month
+Left to spend this month
+Spent more than came in
+Left
+Money in
+Spent
+Saved
+Income
+Spending
+Type
+You can spend {{amount}} today (last day of the month).
+You can spend about {{amount}} a day for the next {{count}} days.
+Nothing is left to spend this month after your bills. Spend only on what you must.
+Spending
+Income
+Change record
+e.g. lunch, fuel
+Paid with
+Advice
+My budgets
+Edit
+No monthly limits yet.
+Set limits
+{{amount}} over the limit
+{{amount}} left
+Where your money went
+Nothing spent yet this month.
+Other
+Spending each day
+vs last month
+Latest
+Nothing written down yet.
+Tap Spending or Income to add your first record.
+Download {{month}} as PDF
+All records
+All categories
+Show more
+Your monthly limits, your bills and your income types.
+Planned spending a month
+Your limits are {{amount}} more than your income ({{income}}).
+{{amount}} of your income ({{income}}) is not planned: a good amount to save.
+Spending and limits
+Add
+{{amount}} spent this month
+Income types
+Change category
+New spending category
+New income type
+Monthly limit
+The most you want to spend on this in a month. Leave empty for no limit.
+Remove this category?
+Its records stay and count as Other.
+Money in and spent, month by month
+On average you spend {{amount}} a month.
+More details
+1 more tip
+{{count}} more tips
+Show less
+Amount
+Category
+Date
+Note (optional)
+No category
+See all
+Previous month
+Next month
+Deleted
+Delete this record?
+It leaves every total and graph.
+January
+Jan
+February
+Feb
+March
+Mar
+April
+Apr
+May
+May
+June
+Jun
+July
+Jul
+August
+Aug
+September
+Sep
+October
+Oct
+November
+Nov
+December
+Dec
+Budget accounts
+People using Gravity Budget, their trial and plan.
+New Budget account
+Gravity Budget payments
+Gravity Budget plan
+Gravity Budget console
+Budget accounts
+Person
+Full name
+Email (to sign in)
+For one person. They sign in with this email and the first password below.
+Create account
+Open account
+Details
