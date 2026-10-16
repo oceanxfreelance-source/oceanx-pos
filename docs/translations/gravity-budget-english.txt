@@ -1,0 +1,494 @@
+GRAVITY BUDGET — ENGLISH TEXT FOR DHIVEHI TRANSLATION
+=====================================================
+
+How to fill this in:
+- Write your Dhivehi after the "=" on the line under each English text.
+- Leave the [code] in square brackets as it is (it tells the app where the text goes).
+- Keep anything in {{double braces}} exactly as it is, e.g. {{amount}}, {{name}}, {{count}}, {{date}}.
+  You can move it anywhere in your sentence. {{amount}} becomes a money amount like "Rf 1,250.00".
+- Lines ending in _one are for exactly 1 (e.g. "1 day"); _other is for 2 or more.
+- Leave a line empty to keep the Dhivehi the app shows now.
+- Brand names stay in English: Gravity Budget, PDF, Dhiraagu, STELCO.
+Already done by you (not listed): the headline and the three set-up lines from the poster.
+
+----- Sign-up and sign-in -----
+[budget.register_title] Start your free trial
+= 
+[budget.register_subtitle] 24 hours free. Then MVR 50 a month.
+= 
+[budget.business_name] Your name
+= 
+[budget.business_name_hint] Shown on your monthly reports.
+= 
+[budget.no_account] New to Gravity Budget?
+= 
+[budget.start_trial] Start my free trial
+= 
+[budget.aside_title] Stop wondering where your salary went.
+= 
+[budget.aside_4] A monthly report you can download as PDF
+= 
+
+----- Menu -----
+[budget.nav_spending] Spending
+= 
+[budget.nav_goals] Goals
+= 
+[budget.nav_plan] My budget
+= 
+[budget.nav_months] Months
+= 
+[budget.nav_home] Home
+= 
+
+----- First-time set-up -----
+[budget.optional] Optional
+= 
+[budget.setup_title] Let's set up your budget
+= 
+[budget.setup_body] Two minutes now, and every month you will know exactly where your money goes.
+= 
+[budget.setup_income] Your income this month
+= 
+[budget.setup_income_hint] Salary and any other money you received this month. You can add more later.
+= 
+[budget.income_this_month] Income this month
+= 
+[budget.setup_spending] What do you spend on?
+= 
+[budget.setup_spending_hint] Untick what you don't need. Give a monthly limit to the ones you want to control (you can change it any time).
+= 
+[budget.limit_for] Monthly limit for {{name}}
+= 
+[budget.no_limit] No limit
+= 
+[budget.setup_start] Start my budget
+= 
+[budget.setup_done] Your budget is ready.
+= 
+
+----- Category names -----
+[budget.starter.salary] Salary
+= 
+[budget.starter.side_income] Side income
+= 
+[budget.starter.from_family] From family
+= 
+[budget.starter.food] Food & groceries
+= 
+[budget.starter.eating_out] Eating out & coffee
+= 
+[budget.starter.rent] Rent
+= 
+[budget.starter.utilities] Electricity & water
+= 
+[budget.starter.phone] Phone & internet
+= 
+[budget.starter.transport] Transport & fuel
+= 
+[budget.starter.family] Family support
+= 
+[budget.starter.loans] Loans & card payments
+= 
+[budget.starter.shopping] Shopping & clothes
+= 
+[budget.starter.health] Health
+= 
+[budget.starter.education] Education
+= 
+[budget.starter.fun] Fun & outings
+= 
+[budget.starter.other] Other
+= 
+
+----- Advice (tips) -----
+[budget.insight.no_income] No income written down this month yet. Add your salary so we can tell what is left.
+= 
+[budget.insight.over_income] You have spent and saved {{amount}} more than came in this month.
+= 
+[budget.insight.bill_overdue] {{name}} ({{amount}}) is past its due date and not paid.
+= 
+[budget.insight.over_limit] {{name}} is {{amount}} over its limit.
+= 
+[budget.insight.near_limit] {{name}} is nearly at its limit: {{amount}} left.
+= 
+[budget.insight.bills_soon_one] 1 bill is due in the next 7 days: {{amount}}.
+= 
+[budget.insight.bills_soon_other] {{count}} bills are due in the next 7 days: {{amount}}.
+= 
+[budget.insight.pace] At this pace you will spend about {{amount}} this month, more than you earn.
+= 
+[budget.insight.more_than_last] You spent {{amount}} more on {{name}} than in all of last month.
+= 
+[budget.insight.top] Most of your money went on {{name}} ({{percent}}% of spending).
+= 
+[budget.insight.saved] Well done: {{amount}} put into your goals this month.
+= 
+[budget.insight.set_limits] Give your main categories a monthly limit to know when to slow down.
+= 
+[budget.insight.budget_over_income] Your limits add up to {{amount}} more than your income. Lower some of them.
+= 
+[budget.insight.on_track] You are on track this month. Keep going!
+= 
+
+----- Paid with -----
+[budget.paid.cash] Cash
+= 
+[budget.paid.card] Card
+= 
+[budget.paid.transfer] Transfer
+= 
+[budget.paid.other] Other
+= 
+
+----- Bills -----
+[budget.after_bills] Bills still to pay ({{amount}}) are already kept aside.
+= 
+[budget.bills_this_month] Bills this month
+= 
+[budget.still_to_pay] {{amount}} still to pay
+= 
+[budget.pay] Pay
+= 
+[budget.pay_bill] Pay {{name}}
+= 
+[budget.mark_paid] Mark as paid
+= 
+[budget.bill_paid] Bill paid and written down as spending.
+= 
+[budget.bill_amount_hint] Change it if this month's bill is different.
+= 
+[budget.paid_on] Paid {{date}}
+= 
+[budget.overdue_since] Overdue since {{date}}
+= 
+[budget.due_today] Due today
+= 
+[budget.due_in_one] Due tomorrow ({{date}})
+= 
+[budget.due_in_other] Due in {{count}} days ({{date}})
+= 
+[budget.due_on] Due {{date}}
+= 
+[budget.not_paid] Not paid
+= 
+[budget.to_pay] To pay
+= 
+[budget.monthly_bills] Monthly bills
+= 
+[budget.bills_hint] Rent, phone, internet, electricity, loans: paid every month.
+= 
+[budget.no_bills] No bills yet. Add the ones you pay every month so they are never forgotten.
+= 
+[budget.every_month_on] Every month on day {{day}}
+= 
+[budget.new_bill] New monthly bill
+= 
+[budget.edit_bill] Change bill
+= 
+[budget.bill_name] Bill
+= 
+[budget.bill_name_hint] e.g. Rent, Dhiraagu, STELCO, Car loan
+= 
+[budget.bill_amount] Usual amount
+= 
+[budget.due_day] Due day
+= 
+[budget.delete_bill] Remove this bill?
+= 
+[budget.delete_bill_body] Bills already paid stay in your records.
+= 
+[budget.bills_to_pay] Bills to pay
+= 
+
+----- Goals -----
+[budget.new_goal] New goal
+= 
+[budget.edit_goal] Change goal
+= 
+[budget.icon] Icon
+= 
+[budget.goal_name] Goal
+= 
+[budget.goal_name_hint] e.g. New phone, Umrah, Emergency fund
+= 
+[budget.goal_target] Amount needed
+= 
+[budget.goal_date] Needed by
+= 
+[budget.goal_date_hint] Optional. We will tell you how much to save each month.
+= 
+[budget.delete_goal] Delete this goal?
+= 
+[budget.delete_goal_body] Its savings history is removed too.
+= 
+[budget.put_in] Put money into {{name}}
+= 
+[budget.take_out] Take money out of {{name}}
+= 
+[budget.put_in_short] Put in
+= 
+[budget.take_out_short] Take out
+= 
+[budget.goal_added] {{amount}} saved. Well done!
+= 
+[budget.goal_saved_of] {{saved}} saved of {{target}}
+= 
+[budget.goal_history] History
+= 
+[budget.goals_total] {{amount}} saved in all goals
+= 
+[budget.no_goals] No goals yet
+= 
+[budget.no_goals_hint] Saving is easier with a goal. Add something you want, and how much it costs.
+= 
+[budget.goal_done] Goal reached! 🎉
+= 
+[budget.goal_late] The date has passed. {{amount}} still needed.
+= 
+[budget.goal_per_month] Save {{amount}} a month to reach it by {{date}}.
+= 
+[budget.goal_remaining] {{amount}} still needed.
+= 
+[budget.goal_on_track] On track this month
+= 
+[budget.goal_behind] Put in {{amount}} more this month to stay on track
+= 
+[budget.goals_note] Money you put into a goal is kept aside: it is not counted as money left to spend.
+= 
+
+----- Monthly report (PDF) -----
+[budget.total] Total
+= 
+[budget.status] Status
+= 
+[budget.last_month] Last month
+= 
+[budget.report_title] Monthly money report
+= 
+[budget.report_made] Made on {{date}}
+= 
+[budget.report_footer] Gravity Budget · budget.oceanx.app
+= 
+
+----- Home, spending and my budget -----
+[budget.hello] Hi {{name}}
+= 
+[budget.this_month_title] This month
+= 
+[budget.left_to_spend] Left to spend this month
+= 
+[budget.overspent] Spent more than came in
+= 
+[budget.left] Left
+= 
+[budget.money_in] Money in
+= 
+[budget.spent] Spent
+= 
+[budget.saved] Saved
+= 
+[budget.income] Income
+= 
+[budget.spending] Spending
+= 
+[budget.kind] Type
+= 
+[budget.safe_per_day_one] You can spend {{amount}} today (last day of the month).
+= 
+[budget.safe_per_day_other] You can spend about {{amount}} a day for the next {{count}} days.
+= 
+[budget.nothing_safe] Nothing is left to spend this month after your bills. Spend only on what you must.
+= 
+[budget.add_spending] Spending
+= 
+[budget.add_income] Income
+= 
+[budget.edit_record] Change record
+= 
+[budget.note_hint] e.g. lunch, fuel
+= 
+[budget.paid_with] Paid with
+= 
+[budget.advice] Advice
+= 
+[budget.my_budgets] My budgets
+= 
+[budget.edit_budget] Edit
+= 
+[budget.no_limits_yet] No monthly limits yet.
+= 
+[budget.set_limits] Set limits
+= 
+[budget.over_by] {{amount}} over the limit
+= 
+[budget.left_in] {{amount}} left
+= 
+[budget.where_it_went] Where your money went
+= 
+[budget.nothing_spent] Nothing spent yet this month.
+= 
+[budget.other] Other
+= 
+[budget.daily_spending] Spending each day
+= 
+[budget.vs_last_month_total] vs last month
+= 
+[budget.latest] Latest
+= 
+[budget.nothing_yet] Nothing written down yet.
+= 
+[budget.nothing_yet_hint] Tap Spending or Income to add your first record.
+= 
+[budget.download_month] Download {{month}} as PDF
+= 
+[budget.all_records] All records
+= 
+[budget.all_categories] All categories
+= 
+[budget.load_more] Show more
+= 
+[budget.plan_hint] Your monthly limits, your bills and your income types.
+= 
+[budget.planned_spending] Planned spending a month
+= 
+[budget.plan_over_income] Your limits are {{amount}} more than your income ({{income}}).
+= 
+[budget.plan_under_income] {{amount}} of your income ({{income}}) is not planned: a good amount to save.
+= 
+[budget.spending_limits] Spending and limits
+= 
+[budget.add] Add
+= 
+[budget.spent_this_month] {{amount}} spent this month
+= 
+[budget.income_types] Income types
+= 
+[budget.edit_category] Change category
+= 
+[budget.new_category] New spending category
+= 
+[budget.new_income_category] New income type
+= 
+[budget.monthly_limit] Monthly limit
+= 
+[budget.monthly_limit_hint] The most you want to spend on this in a month. Leave empty for no limit.
+= 
+[budget.delete_category] Remove this category?
+= 
+[budget.delete_category_body] Its records stay and count as Other.
+= 
+[budget.months_chart] Money in and spent, month by month
+= 
+[budget.avg_spent] On average you spend {{amount}} a month.
+= 
+[budget.more_details] More details
+= 
+[budget.more_tips_one] 1 more tip
+= 
+[budget.more_tips_other] {{count}} more tips
+= 
+[budget.fewer_tips] Show less
+= 
+
+----- Shared words (also used in Gravity Flow) -----
+[flow.amount] Amount
+= 
+[flow.category] Category
+= 
+[flow.date] Date
+= 
+[flow.note] Note (optional)
+= 
+[flow.no_category] No category
+= 
+[flow.see_all] See all
+= 
+[flow.prev_month] Previous month
+= 
+[flow.next_month] Next month
+= 
+[flow.deleted] Deleted
+= 
+[flow.delete_title] Delete this record?
+= 
+[flow.delete_body] It leaves every total and graph.
+= 
+[flow.m1] January
+= 
+[flow.mshort1] Jan
+= 
+[flow.m2] February
+= 
+[flow.mshort2] Feb
+= 
+[flow.m3] March
+= 
+[flow.mshort3] Mar
+= 
+[flow.m4] April
+= 
+[flow.mshort4] Apr
+= 
+[flow.m5] May
+= 
+[flow.mshort5] May
+= 
+[flow.m6] June
+= 
+[flow.mshort6] Jun
+= 
+[flow.m7] July
+= 
+[flow.mshort7] Jul
+= 
+[flow.m8] August
+= 
+[flow.mshort8] Aug
+= 
+[flow.m9] September
+= 
+[flow.mshort9] Sep
+= 
+[flow.m10] October
+= 
+[flow.mshort10] Oct
+= 
+[flow.m11] November
+= 
+[flow.mshort11] Nov
+= 
+[flow.m12] December
+= 
+[flow.mshort12] Dec
+= 
+
+----- Super Admin (only you see these) -----
+[budget.accounts] Budget accounts
+= 
+[budget.accounts_subtitle] People using Gravity Budget, their trial and plan.
+= 
+[budget.new_account] New Budget account
+= 
+[budget.payments] Gravity Budget payments
+= 
+[budget.plan_title] Gravity Budget plan
+= 
+[budget.console] Gravity Budget console
+= 
+[budget.active_accounts] Budget accounts
+= 
+[budget.sa.person] Person
+= 
+[budget.sa.full_name] Full name
+= 
+[budget.sa.email_login] Email (to sign in)
+= 
+[budget.sa.create_hint] For one person. They sign in with this email and the first password below.
+= 
+[budget.sa.create_account] Create account
+= 
+[budget.sa.open_account] Open account
+= 
+[budget.sa.details] Details
+= 
