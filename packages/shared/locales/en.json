@@ -2370,7 +2370,9 @@
     "hours_n_one": "{{count}} h",
     "hours_n_other": "{{count}} h",
     "minutes_n_one": "{{count}} min",
-    "minutes_n_other": "{{count}} min"
+    "minutes_n_other": "{{count}} min",
+    "pay_needs_internet": "Connect to the internet to see the payment details and upload your slip.",
+    "try_again": "Try again"
   },
   "stock_check": {
     "title": "Stock check",
@@ -3184,7 +3186,17 @@
     "bills_to_pay": "Bills to pay",
     "more_tips_one": "1 more tip",
     "more_tips_other": "{{count}} more tips",
-    "fewer_tips": "Show less"
+    "fewer_tips": "Show less",
+    "offline": {
+      "note": "You're offline. You can still add spending and income.",
+      "waiting_one": "1 record waiting to be sent.",
+      "waiting_other": "{{count}} records waiting to be sent.",
+      "pending_label": "Waiting to send",
+      "saved": "Saved on your phone. It will be sent when you are online.",
+      "synced_one": "1 record sent.",
+      "synced_other": "{{count}} records sent.",
+      "dropped": "A record of {{amount}} could not be saved. Please add it again."
+    }
   },
   "app_update": {
     "title": "A new version of the app is ready.",

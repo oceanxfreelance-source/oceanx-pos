@@ -2370,7 +2370,9 @@
     "hours_n_one": "{{count}} घंटा",
     "hours_n_other": "{{count}} घंटे",
     "minutes_n_one": "{{count}} मिनट",
-    "minutes_n_other": "{{count}} मिनट"
+    "minutes_n_other": "{{count}} मिनट",
+    "pay_needs_internet": "भुगतान की जानकारी देखने और अपनी स्लिप अपलोड करने के लिए इंटरनेट से जुड़ें।",
+    "try_again": "फिर से कोशिश करें"
   },
   "stock_check": {
     "title": "स्टॉक जाँच",
@@ -3184,7 +3186,17 @@
     "bills_to_pay": "भरने वाले बिल",
     "more_tips_one": "1 और सुझाव",
     "more_tips_other": "{{count}} और सुझाव",
-    "fewer_tips": "कम दिखाएँ"
+    "fewer_tips": "कम दिखाएँ",
+    "offline": {
+      "note": "आप ऑफ़लाइन हैं। आप फिर भी खर्च और आय जोड़ सकते हैं।",
+      "waiting_one": "1 रिकॉर्ड भेजा जाना बाकी है।",
+      "waiting_other": "{{count}} रिकॉर्ड भेजे जाने बाकी हैं।",
+      "pending_label": "भेजा जाना बाकी",
+      "saved": "आपके फ़ोन में सेव हो गया। ऑनलाइन होने पर भेज दिया जाएगा।",
+      "synced_one": "1 रिकॉर्ड भेजा गया।",
+      "synced_other": "{{count}} रिकॉर्ड भेजे गए।",
+      "dropped": "{{amount}} का एक रिकॉर्ड सेव नहीं हो सका। कृपया फिर से जोड़ें।"
+    }
   },
   "app_update": {
     "title": "ऐप का नया संस्करण तैयार है।",

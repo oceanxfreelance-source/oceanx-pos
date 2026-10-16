@@ -212,4 +212,18 @@ describe('Gravity Budget (personal budgets, bills, goals)', () => {
     const [s1] = (await env.db.execute(sql`SELECT expires_at FROM user_sessions WHERE business_id = ${id}`)).rows as { expires_at: Date }[];
     expect(new Date(s1!.expires_at).getTime()).toBeGreaterThan(Date.now() + 360 * 86_400_000);
   });
+  it('offline records: the phone gives the id, so sending one twice keeps one record', async () => {
+    const { c } = await budgetAccount('Offline Person');
+    await setUp(c);
+    const id = '7d3c6c1e-6c1f-4f3b-9b8a-1a2b3c4d5e6f';
+    const body = { id, kind: 'expense', amount: '12.50', occurredOn: today(), note: 'Bus' };
+    expect((await c.post('/api/budget/entries', body)).statusCode).toBe(201);
+    const again = await c.post('/api/budget/entries', body);
+    expect(again.statusCode).toBe(200);
+    expect(again.json().id).toBe(id);
+    expect((await c.get('/api/budget/entries')).json().total).toBe(1);
+    // Another account cannot take over that id.
+    const other = await budgetAccount('Other Person');
+    expect((await other.c.post('/api/budget/entries', body)).statusCode).toBe(409);
+  });
 });

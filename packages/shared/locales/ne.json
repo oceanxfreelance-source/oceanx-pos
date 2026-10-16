@@ -2370,7 +2370,9 @@
     "hours_n_one": "{{count}} घण्टा",
     "hours_n_other": "{{count}} घण्टा",
     "minutes_n_one": "{{count}} मिनेट",
-    "minutes_n_other": "{{count}} मिनेट"
+    "minutes_n_other": "{{count}} मिनेट",
+    "pay_needs_internet": "भुक्तानी विवरण हेर्न र स्लिप अपलोड गर्न इन्टरनेटमा जोडिनुहोस्।",
+    "try_again": "फेरि प्रयास गर्नुहोस्"
   },
   "stock_check": {
     "title": "स्टक जाँच",
@@ -3184,7 +3186,17 @@
     "bills_to_pay": "तिर्नुपर्ने बिल",
     "more_tips_one": "थप १ सुझाव",
     "more_tips_other": "थप {{count}} सुझाव",
-    "fewer_tips": "कम देखाउनुहोस्"
+    "fewer_tips": "कम देखाउनुहोस्",
+    "offline": {
+      "note": "तपाईं अफलाइन हुनुहुन्छ। अझै पनि खर्च र आम्दानी थप्न सक्नुहुन्छ।",
+      "waiting_one": "१ रेकर्ड पठाउन बाँकी छ।",
+      "waiting_other": "{{count}} रेकर्ड पठाउन बाँकी छन्।",
+      "pending_label": "पठाउन बाँकी",
+      "saved": "तपाईंको फोनमा सेभ भयो। अनलाइन हुँदा पठाइनेछ।",
+      "synced_one": "१ रेकर्ड पठाइयो।",
+      "synced_other": "{{count}} रेकर्ड पठाइयो।",
+      "dropped": "{{amount}} को एउटा रेकर्ड सेभ हुन सकेन। फेरि थप्नुहोस्।"
+    }
   },
   "app_update": {
     "title": "एपको नयाँ संस्करण तयार छ।",

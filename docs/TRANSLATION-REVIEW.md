@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1057 · **confirmed**: 381
+Status: **needs_review**: 1067 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -67,6 +67,7 @@ review of the whole file is still recommended before launch.
 | `billing.no_payments` | No payments yet. | އަދި އެއްވެސް ފައިސާއެއް ދައްކާފައެއް ނުވޭ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.no_plans` | No plans are available right now. Please contact the OceanX team. | މިވަގުތު އެއްވެސް ޕްލޭނެއް ނެތް. OceanX ޓީމާ ގުޅުއްވާ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.pay_hint` | Pay by bank transfer and upload the slip. Our team checks it and activates your plan. | ބޭންކް ޓްރާންސްފަރ އިން ފައިސާ ދައްކަވާފައި ސްލިޕް އަޕްލޯޑް ކުރައްވާ. އަހަރެމެންގެ ޓީމުން އެ ޗެކްކޮށް ތިޔަ ޕްލޭން އެކްޓިވް ކޮށްދޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.pay_needs_internet` | Connect to the internet to see the payment details and upload your slip. | ފައިސާ ދައްކާނެ ތަފްޞީލު ބެލުމަށާއި ސްލިޕް އަޕްލޯޑް ކުރުމަށް އިންޓަނެޓާ ގުޅުއްވާ. | needs_review | Payment screen offline. |
 | `billing.pay_now` | Pay now | މިހާރު ފައިސާ ދައްކަވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.pay_title` | Pay for your plan | ޕްލޭނަށް ފައިސާ ދައްކަވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.period` | How many months | ކިތައް މަހަށް | needs_review | New: subscription billing (bank transfer slip upload and review). |
@@ -90,6 +91,7 @@ review of the whole file is still recommended before launch.
 | `billing.subtitle` | Your OceanX plan, payments and receipts. | ތިޔަ OceanX ޕްލޭން، ފައިސާ ދެއްކުންތަކާއި ރަސީދުތައް. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.title` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.trial_over_title` | Your free trial has ended | ތިޔަ ހިލޭ ޓްރަޔަލް ނިމިއްޖެ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.try_again` | Try again | އަލުން މަސައްކަތް ކުރައްވާ | needs_review | Payment screen offline. |
 | `billing.under_review` | Payment under review | ފައިސާ ދެއްކުން ޗެކްކުރަމުން | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.under_review_body` | We received your slip on {{date}}. Your plan is activated as soon as our team confirms the payment. | ތިޔަ ސްލިޕް {{date}} ގައި ލިބިއްޖެ. ފައިސާ ލިބުނުކަން އަހަރެމެންގެ ޓީމުން ކަށަވަރުކުރުމާއެކު ތިޔަ ޕްލޭން އެކްޓިވް ކުރެވޭނެ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.upload_slip` | Upload the transfer slip | ޓްރާންސްފަރ ސްލިޕް އަޕްލޯޑް ކުރައްވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
@@ -120,6 +122,14 @@ review of the whole file is still recommended before launch.
 | `branding.stamp_pick_look` | Choose how your stamp looks | ސްޓޭމްޕް ފެންނަންވީ ގޮތް ޚިޔާރުކުރައްވާ | needs_review | New: stamp ink look (blue / red). |
 | `branding.upload` | Upload photo | ފޮޓޯ އަޕްލޯޑްކުރޭ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `budget.name` | Gravity Budget | Gravity Budget | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.offline.dropped` | A record of {{amount}} could not be saved. Please add it again. | {{amount}} ގެ ރެކޯޑެއް ރައްކާ ނުކުރެވުނު. އަލުން އިތުރުކުރައްވާ. | needs_review | Gravity Budget offline. |
+| `budget.offline.note` | You're offline. You can still add spending and income. | އިންޓަނެޓް ނެތް. އެހެންނަމަވެސް ޚަރަދާއި އާމްދަނީ އިތުރުކުރެވޭނެ. | needs_review | Gravity Budget offline. |
+| `budget.offline.pending_label` | Waiting to send | ފޮނުވަން ބާކީ | needs_review | Gravity Budget offline. |
+| `budget.offline.saved` | Saved on your phone. It will be sent when you are online. | ފޯނުގައި ރައްކާކުރެވިއްޖެ. އިންޓަނެޓް ލިބުމުން ފޮނުވޭނެ. | needs_review | Gravity Budget offline. |
+| `budget.offline.synced_one` | 1 record sent. | 1 ރެކޯޑު ފޮނުވިއްޖެ. | needs_review | Gravity Budget offline. |
+| `budget.offline.synced_other` | {{count}} records sent. | {{count}} ރެކޯޑު ފޮނުވިއްޖެ. | needs_review | Gravity Budget offline. |
+| `budget.offline.waiting_one` | 1 record waiting to be sent. | 1 ރެކޯޑު ފޮނުވަން ބާކީ. | needs_review | Gravity Budget offline. |
+| `budget.offline.waiting_other` | {{count}} records waiting to be sent. | {{count}} ރެކޯޑު ފޮނުވަން ބާކީ. | needs_review | Gravity Budget offline. |
 | `business_types.retail_shop` | Shop | ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `business_types.supermarket` | Supermarket / big shop | ސުޕަރމާކެޓް / ބޮޑު ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `common.done` | Done | ނިމިއްޖެ | needs_review | Button that closes a finished step. |

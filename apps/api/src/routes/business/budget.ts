@@ -469,11 +469,21 @@ export async function budgetRoutes(app: FastifyInstance) {
 
   app.post('/budget/entries', { preHandler: requirePermission('budget.manage') }, async (req, reply) => {
     const ctx = bizCtx(req);
-    const body = parse(budgetEntrySchema, req.body);
+    const body = parse(budgetEntrySchema.extend({ id: z.uuid().optional() }), req.body);
+    // A record written offline comes with the id the phone gave it: sending it again (after a lost answer)
+    // returns the same record instead of a second one.
+    if (body.id) {
+      const [had] = await db.select().from(budgetEntries).where(eq(budgetEntries.id, body.id));
+      if (had) {
+        if (had.businessId !== ctx.businessId) throw new AppError('conflict', 'Record id already used', {}, 409);
+        reply.status(200);
+        return had;
+      }
+    }
     if (body.categoryId) await loadCategory(ctx, body.categoryId, body.kind);
     const [e] = await db
       .insert(budgetEntries)
-      .values({ businessId: ctx.businessId, kind: body.kind, amount: body.amount, occurredOn: body.occurredOn, categoryId: body.categoryId, note: body.note, paidWith: body.paidWith, createdBy: ctx.user.id })
+      .values({ ...(body.id ? { id: body.id } : {}), businessId: ctx.businessId, kind: body.kind, amount: body.amount, occurredOn: body.occurredOn, categoryId: body.categoryId, note: body.note, paidWith: body.paidWith, createdBy: ctx.user.id })
       .returning();
     reply.status(201);
     return e;

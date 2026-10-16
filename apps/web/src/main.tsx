@@ -9,8 +9,9 @@ import { initTheme } from './lib/theme';
 import { ApiError } from './lib/api';
 import { installStaleChunkReload } from './lib/staleChunk';
 import { installTabletFit } from './lib/tabletFit';
-import { applyHostBranding } from './lib/product';
+import { applyHostBranding, HOST_PRODUCT } from './lib/product';
 import { android } from './lib/desktop';
+import { persistBudgetQueries, registerBudgetServiceWorker } from './lib/budgetOffline';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,6 +21,23 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+// Gravity Budget works offline: the data kept on the phone is back before the first screen.
+persistBudgetQueries(queryClient);
+registerBudgetServiceWorker();
+if (HOST_PRODUCT === 'budget') {
+  // Load the Budget screens once while online, so they are on the phone for offline use.
+  window.addEventListener('load', () =>
+    setTimeout(() => {
+      void import('./pages/business/Dashboard').catch(() => undefined);
+      void import('./pages/business/Budget').catch(() => undefined);
+      void import('./pages/print/BudgetReportPrint').catch(() => undefined);
+      void import('./pages/business/Billing').catch(() => undefined);
+      void import('./pages/business/Settings').catch(() => undefined);
+      void import('./pages/business/Account').catch(() => undefined);
+    }, 2500),
+  );
+}
 
 void applyLanguage(readStoredLanguage());
 initTheme();

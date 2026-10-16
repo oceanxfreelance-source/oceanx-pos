@@ -2370,7 +2370,9 @@
     "hours_n_one": "පැය {{count}}",
     "hours_n_other": "පැය {{count}}",
     "minutes_n_one": "මිනිත්තු {{count}}",
-    "minutes_n_other": "මිනිත්තු {{count}}"
+    "minutes_n_other": "මිනිත්තු {{count}}",
+    "pay_needs_internet": "ගෙවීම් විස්තර බැලීමට සහ ඔබේ ස්ලිප් එක උඩුගත කිරීමට අන්තර්ජාලයට සම්බන්ධ වන්න.",
+    "try_again": "නැවත උත්සාහ කරන්න"
   },
   "stock_check": {
     "title": "තොග පරීක්ෂාව",
@@ -3184,7 +3186,17 @@
     "bills_to_pay": "ගෙවිය යුතු බිල්පත්",
     "more_tips_one": "තවත් උපදෙසක්",
     "more_tips_other": "තවත් උපදෙස් {{count}}",
-    "fewer_tips": "අඩුවෙන් පෙන්වන්න"
+    "fewer_tips": "අඩුවෙන් පෙන්වන්න",
+    "offline": {
+      "note": "ඔබ නොබැඳි ය. තවමත් වියදම් සහ ආදායම් එක් කළ හැක.",
+      "waiting_one": "වාර්තා 1ක් යැවීමට ඇත.",
+      "waiting_other": "වාර්තා {{count}}ක් යැවීමට ඇත.",
+      "pending_label": "යැවීමට ඇත",
+      "saved": "ඔබේ දුරකථනයේ සුරැකිණි. සබැඳි වූ විට යවනු ලැබේ.",
+      "synced_one": "වාර්තා 1ක් යැවිණි.",
+      "synced_other": "වාර්තා {{count}}ක් යැවිණි.",
+      "dropped": "{{amount}} වාර්තාවක් සුරැකිය නොහැකි විය. නැවත එක් කරන්න."
+    }
   },
   "app_update": {
     "title": "යෙදුමේ නව අනුවාදය සූදානම්.",

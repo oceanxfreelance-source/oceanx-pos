@@ -10064,5 +10064,75 @@
     "suggested": "އަޕްޑޭޓް ކުރައްވާ",
     "status": "needs_review",
     "notes": "Phone apps: update bar."
+  },
+  {
+    "key": "budget.offline.note",
+    "english": "You're offline. You can still add spending and income.",
+    "suggested": "އިންޓަނެޓް ނެތް. އެހެންނަމަވެސް ޚަރަދާއި އާމްދަނީ އިތުރުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget offline."
+  },
+  {
+    "key": "budget.offline.waiting_one",
+    "english": "1 record waiting to be sent.",
+    "suggested": "1 ރެކޯޑު ފޮނުވަން ބާކީ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget offline."
+  },
+  {
+    "key": "budget.offline.waiting_other",
+    "english": "{{count}} records waiting to be sent.",
+    "suggested": "{{count}} ރެކޯޑު ފޮނުވަން ބާކީ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget offline."
+  },
+  {
+    "key": "budget.offline.pending_label",
+    "english": "Waiting to send",
+    "suggested": "ފޮނުވަން ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget offline."
+  },
+  {
+    "key": "budget.offline.saved",
+    "english": "Saved on your phone. It will be sent when you are online.",
+    "suggested": "ފޯނުގައި ރައްކާކުރެވިއްޖެ. އިންޓަނެޓް ލިބުމުން ފޮނުވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget offline."
+  },
+  {
+    "key": "budget.offline.synced_one",
+    "english": "1 record sent.",
+    "suggested": "1 ރެކޯޑު ފޮނުވިއްޖެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget offline."
+  },
+  {
+    "key": "budget.offline.synced_other",
+    "english": "{{count}} records sent.",
+    "suggested": "{{count}} ރެކޯޑު ފޮނުވިއްޖެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget offline."
+  },
+  {
+    "key": "budget.offline.dropped",
+    "english": "A record of {{amount}} could not be saved. Please add it again.",
+    "suggested": "{{amount}} ގެ ރެކޯޑެއް ރައްކާ ނުކުރެވުނު. އަލުން އިތުރުކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget offline."
+  },
+  {
+    "key": "billing.pay_needs_internet",
+    "english": "Connect to the internet to see the payment details and upload your slip.",
+    "suggested": "ފައިސާ ދައްކާނެ ތަފްޞީލު ބެލުމަށާއި ސްލިޕް އަޕްލޯޑް ކުރުމަށް އިންޓަނެޓާ ގުޅުއްވާ.",
+    "status": "needs_review",
+    "notes": "Payment screen offline."
+  },
+  {
+    "key": "billing.try_again",
+    "english": "Try again",
+    "suggested": "އަލުން މަސައްކަތް ކުރައްވާ",
+    "status": "needs_review",
+    "notes": "Payment screen offline."
   }
 ]

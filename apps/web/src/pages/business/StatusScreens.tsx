@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { CalendarX2, Clock, KeyRound, LogOut, ShieldOff } from 'lucide-react';
+import { CalendarX2, Clock, CloudOff, KeyRound, LogOut, ShieldOff } from 'lucide-react';
 import { useBiz, useBizSession } from '../../auth/business';
 import { api } from '../../lib/api';
 import { Button } from '../../components/ui/Button';
@@ -12,6 +12,7 @@ import { useFormat } from '../../lib/format';
 import { PayPanel, useBilling } from './Billing';
 import { BudgetMark, FlowMark, GravityMark } from '../auth/AuthLayout';
 import { productPath, useProductTheme } from '../../lib/product';
+import { useOnline } from '../../lib/budgetOffline';
 
 function Frame({ icon, title, body, children, wide }: { icon: React.ReactNode; title: string; body: React.ReactNode; children?: React.ReactNode; wide?: boolean }) {
   const { t } = useTranslation();
@@ -106,6 +107,22 @@ export function ForcePasswordChange() {
 }
 
 function ExpiredPay() {
+  const { t } = useTranslation();
   const q = useBilling();
-  return q.data ? <PayPanel info={q.data} /> : null;
+  const online = useOnline();
+  if (q.data) return <PayPanel info={q.data} />;
+  // Offline (Gravity Budget works offline): the bank details and slip upload need the internet.
+  if (!online || q.isError)
+    return (
+      <div className="flex items-start gap-2 rounded-xl bg-slate-100 p-3 text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+        <CloudOff className="mt-0.5 size-4 shrink-0" />
+        <span className="flex-1">{t('billing.pay_needs_internet')}</span>
+        {online && (
+          <button type="button" onClick={() => void q.refetch()} className="shrink-0 font-semibold text-brand-700 dark:text-brand-300">
+            {t('billing.try_again')}
+          </button>
+        )}
+      </div>
+    );
+  return null;
 }

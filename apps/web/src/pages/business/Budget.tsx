@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { AlertTriangle, CalendarClock, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Download, Info, Minus, Pencil, PiggyBank, Plus, Search, Target, Trash2, Wallet, X } from 'lucide-react';
-import { addMonths } from '@oceanx/shared';
-import { api } from '../../lib/api';
+import { AlertTriangle, CalendarClock, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, CloudOff, Download, Info, Minus, Pencil, PiggyBank, Plus, Search, Target, Trash2, Wallet, X } from 'lucide-react';
+import { addMonths, decimalToMinor } from '@oceanx/shared';
+import { api, ApiError } from '../../lib/api';
+import { addPendingEntry, useOnline, usePendingEntries, type PendingEntry } from '../../lib/budgetOffline';
 import { useBiz, useBizSession } from '../../auth/business';
 import { useMoney } from '../../lib/money';
 import { useFormat } from '../../lib/format';
@@ -89,6 +90,8 @@ interface Entry {
   note: string;
   paidWith: PaidWith;
   billId: string | null;
+  /** Written offline, waiting on the phone to be sent. */
+  pending?: boolean;
 }
 export interface Goal {
   id: string;
@@ -108,6 +111,58 @@ export interface Goal {
 }
 
 const KEY = ['biz', 'budget'] as const;
+
+/** A record waiting on the phone, shown like the others. */
+const pendingAsEntry = (p: PendingEntry): Entry => ({
+  id: p.id,
+  kind: p.kind,
+  amount: decimalToMinor(p.amount.replace(/,/g, '')),
+  occurredOn: p.occurredOn,
+  categoryId: p.categoryId,
+  categoryName: p.category?.name ?? '',
+  categoryKey: p.category?.key ?? null,
+  categoryEmoji: p.category?.emoji ?? '',
+  note: p.note,
+  paidWith: p.paidWith as PaidWith,
+  billId: null,
+  pending: true,
+});
+
+/** The month with the records still waiting on the phone already counted in (left, spent, budgets, per day). */
+function withPending(o: Overview, pending: Entry[]): Overview {
+  const mine = pending.filter((p) => p.occurredOn.startsWith(o.month));
+  if (!mine.length) return o;
+  let { income, spent } = o.totals;
+  let other = o.other.spent;
+  const categories = o.categories.map((c) => ({ ...c }));
+  for (const p of mine) {
+    if (p.kind === 'income') income += p.amount;
+    else {
+      spent += p.amount;
+      const c = categories.find((x) => x.id === p.categoryId);
+      if (c) {
+        c.spent += p.amount;
+        c.left = c.limit === null ? null : c.limit - c.spent;
+      } else other += p.amount;
+    }
+  }
+  const left = income - spent - o.totals.saved;
+  const safePerDay = o.isCurrent && o.daysLeft > 0 ? Math.max(0, Math.floor((left - o.totals.billsUnpaid) / o.daysLeft)) : o.safePerDay;
+  return { ...o, totals: { ...o.totals, income, spent, left }, categories, other: { ...o.other, spent: other }, safePerDay };
+}
+
+/** "You're offline" — shown on top of the screens while the phone has no internet. */
+function OfflineNote({ waiting }: { waiting: number }) {
+  const { t } = useTranslation();
+  const online = useOnline();
+  if (online && !waiting) return null;
+  return (
+    <p className="flex items-center gap-2 rounded-2xl bg-slate-100 px-4 py-2.5 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+      <CloudOff className="size-4 shrink-0" />
+      <span>{online ? t('budget.offline.waiting', { count: waiting }) : waiting ? `${t('budget.offline.note')} ${t('budget.offline.waiting', { count: waiting })}` : t('budget.offline.note')}</span>
+    </p>
+  );
+}
 const refresh = (qc: ReturnType<typeof useQueryClient>) => void qc.invalidateQueries({ queryKey: KEY });
 const toText = (minor: number | null | undefined) => (minor ? (minor / 100).toFixed(2).replace(/\.00$/, '') : '');
 
@@ -234,12 +289,28 @@ function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind;
   const [confirmDelete, setConfirmDelete] = useState(false);
   const toastError = useToastError();
   const save = useMutation({
-    mutationFn: () => {
+    // Runs offline too: a new record then waits on the phone and is sent when the phone is online.
+    networkMode: 'always',
+    mutationFn: async () => {
       const body = { kind, amount: amount.trim(), occurredOn: date, categoryId: categoryId || null, note, paidWith };
-      return entry ? api.put(`/budget/entries/${entry.id}`, body) : api.post('/budget/entries', body);
+      if (entry) return api.put(`/budget/entries/${entry.id}`, body);
+      const keepOnPhone = () => {
+        const text = body.amount.replace(/,/g, '');
+        if (!/^\d{1,12}(\.\d{1,2})?$/.test(text) || decimalToMinor(text) <= 0) throw new ApiError(422, 'validation_failed', 'Invalid amount', { amount: { code: 'invalid' } });
+        const cat = options.find((c) => c.id === categoryId);
+        addPendingEntry({ ...body, amount: text, category: cat ? { name: cat.name, key: cat.key, emoji: cat.emoji } : null }, qc);
+        return 'offline' as const;
+      };
+      if (!navigator.onLine) return keepOnPhone();
+      try {
+        return await api.post('/budget/entries', body);
+      } catch (err) {
+        if (err instanceof ApiError && err.code === 'network_error') return keepOnPhone();
+        throw err;
+      }
     },
-    onSuccess: () => {
-      toast.success(t('common.saved'));
+    onSuccess: (r) => {
+      toast.success(r === 'offline' ? t('budget.offline.saved') : t('common.saved'));
       refresh(qc);
       onClose();
     },
@@ -359,7 +430,7 @@ function EntryRow({ e, onOpen }: { e: Entry; onOpen: () => void }) {
   const title = e.note || cat || (e.kind === 'income' ? t('budget.income') : t('budget.spending'));
   return (
     <li>
-      <button type="button" onClick={onOpen} className="flex w-full items-center gap-3 px-4 py-3 text-start hover:bg-slate-50 dark:hover:bg-slate-800/40">
+      <button type="button" onClick={onOpen} disabled={e.pending} className="flex w-full items-center gap-3 px-4 py-3 text-start hover:bg-slate-50 disabled:cursor-default dark:hover:bg-slate-800/40">
         <span className={clsx('grid size-10 shrink-0 place-items-center rounded-full text-lg', e.kind === 'income' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-slate-100 dark:bg-slate-800')}>
           {e.categoryEmoji || (e.kind === 'income' ? <Plus className="size-4" /> : <Minus className="size-4" />)}
         </span>
@@ -368,8 +439,16 @@ function EntryRow({ e, onOpen }: { e: Entry; onOpen: () => void }) {
             {title}
           </span>
           <span className="block truncate text-xs text-slate-500" dir="auto">
-            {cat && e.note ? `${cat} · ` : ''}
-            {f.date(e.occurredOn)}
+            {e.pending ? (
+              <span className="inline-flex items-center gap-1 text-amber-700 dark:text-amber-300">
+                <CloudOff className="size-3" /> {t('budget.offline.pending_label')}
+              </span>
+            ) : (
+              <>
+                {cat && e.note ? `${cat} · ` : ''}
+                {f.date(e.occurredOn)}
+              </>
+            )}
           </span>
         </span>
         <span className={clsx('shrink-0 text-sm font-semibold tabular-nums', e.kind === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-900 dark:text-slate-100')}>
@@ -615,7 +694,10 @@ export function BudgetHome() {
   const [params, setParams] = useSearchParams();
   const month = params.get('month');
   const q = useOverview(month);
-  const o = q.data;
+  const pending = usePendingEntries().map(pendingAsEntry);
+  const o = q.data ? withPending(q.data, pending) : undefined;
+  // Loaded here too, so the categories are on the phone for adding offline.
+  useCategories();
   const insightText = useInsightText();
   const recent = useQuery({
     queryKey: [...KEY, 'entries', 'recent', o?.month],
@@ -641,6 +723,8 @@ export function BudgetHome() {
         <p className="text-sm text-slate-500">{t('budget.hello', { name: session.user.name.split(' ')[0] })}</p>
         <MonthSwitcher month={o.month} current={o.currentMonth} onChange={setMonth} />
       </div>
+
+      <OfflineNote waiting={pending.length} />
 
       {/* What is left, and what can be spent each day. */}
       <section className={clsx('rounded-3xl p-5 text-white shadow-sm', totals.left < 0 ? 'bg-rose-600' : 'gravity-surface')}>
@@ -726,13 +810,13 @@ export function BudgetHome() {
           </Link>
         </div>
         <Card padded={false}>
-          {!recent.data ? (
+          {!recent.data && !pending.length ? (
             <SkeletonRows rows={3} />
-          ) : recent.data.items.length === 0 ? (
+          ) : [...pending, ...(recent.data?.items ?? [])].length === 0 ? (
             <p className="px-4 py-5 text-sm text-slate-500">{t('budget.nothing_yet_hint')}</p>
           ) : (
             <ul className="divide-y divide-slate-100 dark:divide-slate-800">
-              {recent.data.items.map((e) => (
+              {[...pending.filter((p) => p.occurredOn.startsWith(o.month)).reverse(), ...(recent.data?.items ?? [])].slice(0, 4).map((e) => (
                 <EntryRow key={e.id} e={e} onOpen={() => manage && setEditing(e)} />
               ))}
             </ul>
@@ -756,7 +840,8 @@ export function BudgetSpendingPage() {
   const { can } = useBiz();
   const [params, setParams] = useSearchParams();
   const ov = useOverview(params.get('month'));
-  const o = ov.data;
+  const pending = usePendingEntries().map(pendingAsEntry);
+  const o = ov.data ? withPending(ov.data, pending) : undefined;
   const month = o?.month ?? null;
   const [kind, setKind] = useState<'' | Kind>('');
   const [categoryId, setCategoryId] = useState('');
@@ -781,9 +866,12 @@ export function BudgetSpendingPage() {
   // Records grouped by day, newest first, with each day's spending.
   const groups = useMemo(() => {
     const m = new Map<string, Entry[]>();
-    for (const e of list.data?.items ?? []) m.set(e.occurredOn, [...(m.get(e.occurredOn) ?? []), e]);
+    const waiting = pending.filter((p) => !!month && p.occurredOn.startsWith(month) && (!kind || p.kind === kind) && (!categoryId || p.categoryId === categoryId) && !q);
+    const all = [...waiting, ...(list.data?.items ?? [])].sort((a, b) => b.occurredOn.localeCompare(a.occurredOn));
+    for (const e of all) m.set(e.occurredOn, [...(m.get(e.occurredOn) ?? []), e]);
     return [...m.entries()];
-  }, [list.data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [list.data, pending.length, month, kind, categoryId, q]);
   if (!o) return <SkeletonRows rows={8} />;
   const chip = (active: boolean) => clsx('rounded-full px-3.5 py-1.5 text-sm font-medium transition', active ? 'bg-brand-700 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-800');
   return (
@@ -848,9 +936,9 @@ export function BudgetSpendingPage() {
           )}
         </div>
         <Card padded={false}>
-          {!list.data ? (
+          {!list.data && !groups.length ? (
             <SkeletonRows rows={5} />
-          ) : list.data.items.length === 0 ? (
+          ) : !groups.length ? (
             <EmptyState icon={<Wallet className="size-6" />} title={t('budget.nothing_yet')} description={t('budget.nothing_yet_hint')} />
           ) : (
             <>
@@ -870,7 +958,7 @@ export function BudgetSpendingPage() {
                   </div>
                 );
               })}
-              {list.data.total > list.data.items.length && (
+              {!!list.data && list.data.total > list.data.items.length && (
                 <div className="p-3">
                   <Button variant="secondary" className="w-full" onClick={() => setPages((p) => p + 1)} loading={list.isFetching}>
                     {t('budget.load_more')}

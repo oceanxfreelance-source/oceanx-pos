@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, ApiError, onUnauthorized, setCsrfToken } from '../lib/api';
 import { posTablet } from '../lib/desktop';
@@ -6,6 +6,7 @@ import { HOST_PRODUCT, productPath, type Product } from '../lib/product';
 import { applyLanguage } from '../i18n';
 import { applyPreferences } from '../lib/theme';
 import { setRetailRoleNames } from '../lib/labels';
+import { BUDGET_OFFLINE, clearBudgetOffline, syncPendingEntries, useBudgetSync } from '../lib/budgetOffline';
 
 export interface BusinessSession {
   csrfToken: string;
@@ -86,7 +87,20 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => onUnauthorized('business', () => qc.setQueryData(BIZ_SESSION_KEY, null)), [qc]);
 
-  const session = query.data ?? null;
+  // Gravity Budget can run offline on the session kept on the phone: the trial still ends at its time
+  // (checked every minute), so an ended trial locks the app even without internet.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!BUDGET_OFFLINE) return;
+    const id = setInterval(() => setNow(Date.now()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+  const kept = query.data ?? null;
+  const session = useMemo(() => {
+    if (!BUDGET_OFFLINE || !kept || kept.state !== 'ok' || !kept.subscription) return kept;
+    return Date.parse(kept.subscription.currentPeriodEnd) < now ? { ...kept, state: 'subscription_expired' as const } : kept;
+  }, [kept, now]);
+  useBudgetSync(qc, !!session && session.state === 'ok');
   // Set during render (not in an effect) so role names are right on the very first paint.
   setRetailRoleNames(!!session?.business.profile.retail);
   useEffect(() => {
@@ -116,12 +130,15 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
       setSession,
       logout: async () => {
         const product = session?.business.product ?? 'pos';
+        // Records written offline are sent first (if the phone is online), so nothing is lost by signing out.
+        if (BUDGET_OFFLINE) await syncPendingEntries(qc).catch(() => undefined);
         try {
           await api.post('/auth/logout');
         } finally {
           setCsrfToken('business', null);
           qc.setQueryData(BIZ_SESSION_KEY, null);
           qc.clear();
+          clearBudgetOffline();
           // A fresh page load guarantees no screen keeps showing the previous user (shared counter PCs).
           // The tablet app signs back in straight to the POS.
           window.location.replace(posTablet ? '/login?next=%2Fstart' : productPath(product, 'login'));
