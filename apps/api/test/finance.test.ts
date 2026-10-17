@@ -38,7 +38,7 @@ describe('Gravity Flow (income, expenses, profit)', () => {
     expect(cats.filter((x: { kind: string }) => x.kind === 'expense').length).toBeGreaterThan(0);
     // Super Admin sees it as a Flow account, and its one plan.
     expect((await sa.get('/api/superadmin/businesses?product=flow')).json().items.map((b: { name: string }) => b.name)).toEqual(['Ali Fishing']);
-    expect((await sa.get('/api/superadmin/flow/plan')).json()).toMatchObject({ name: 'Gravity Flow', currency: 'MVR', trialMinutes: 14 * 1440, accounts: 1 });
+    expect((await sa.get('/api/superadmin/flow/plan')).json()).toMatchObject({ name: 'Gravity Flow', currency: 'MVR', priceMonthly: '65.00', trialMinutes: 5 * 60, accounts: 1 });
     expect((await sa.put('/api/superadmin/flow/plan', { priceMonthly: 99, trialMinutes: 60 })).statusCode).toBe(200);
     expect((await sa.get('/api/superadmin/flow/plan')).json()).toMatchObject({ priceMonthly: '99.00', trialMinutes: 60 });
   });

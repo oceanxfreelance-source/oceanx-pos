@@ -62,7 +62,7 @@ const DEFAULT_PLANS = [
   // Super Admin sets the price and the trial length (days, hours or minutes).
   { product: 'gravity', code: 'gravity', name: 'Gravity', priceMonthly: '139', currency: 'MVR', trialDays: 0, trialMinutes: 14 * 1440, sortOrder: 10, limits: { max_users: 1, storage_mb: 1000 }, modules: [...GRAVITY_MODULES] },
   // Gravity Flow (income, expenses and profit): one monthly plan for everyone, like Gravity; Super Admin sets price and trial.
-  { product: 'flow', code: 'flow', name: 'Gravity Flow', priceMonthly: '139', currency: 'MVR', trialDays: 0, trialMinutes: 14 * 1440, sortOrder: 20, limits: { max_users: 1, storage_mb: 1000 }, modules: [...FLOW_MODULES] },
+  { product: 'flow', code: 'flow', name: 'Gravity Flow', priceMonthly: '65', currency: 'MVR', trialDays: 0, trialMinutes: 5 * 60, sortOrder: 20, limits: { max_users: 1, storage_mb: 1000 }, modules: [...FLOW_MODULES] },
   // Gravity Budget (personal money manager): one plan, MVR 50 a month, a 24-hour free trial; Super Admin sets both.
   { product: 'budget', code: 'budget', name: 'Gravity Budget', priceMonthly: '50', currency: 'MVR', trialDays: 0, trialMinutes: 24 * 60, sortOrder: 30, limits: { max_users: 1, storage_mb: 200 }, modules: [...BUDGET_MODULES] },
 ];

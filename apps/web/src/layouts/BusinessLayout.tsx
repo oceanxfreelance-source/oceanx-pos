@@ -169,9 +169,9 @@ export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   const location = useLocation();
   if (isLoading) return <AppLoader />;
   if (!session) {
-    // Gravity Budget: someone new (never signed in on this phone) starts on sign-up; sign-in is one tap away there.
+    // Gravity Budget and Gravity Flow: someone new (never signed in on this phone) starts on sign-up; sign-in is one tap away there.
     const product = lastProduct();
-    const page = product === 'budget' && !signedInBefore() ? 'register' : 'login';
+    const page = (product === 'budget' || product === 'flow') && !signedInBefore() ? 'register' : 'login';
     return <Navigate to={`${productPath(product, page)}${page === 'login' && location.pathname !== '/' ? `?next=${encodeURIComponent(location.pathname + location.search)}` : ''}`} replace />;
   }
   if (session.state !== 'ok') return <StatusScreen />;
