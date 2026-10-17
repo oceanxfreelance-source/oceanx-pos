@@ -206,12 +206,13 @@ function budgetShell(html) {
   return out.replace(/OceanX POS/g, 'Gravity Budget');
 }
 
-/** /download/gravity.apk, /download/flow.apk and /download/budget.apk → the APK of the app version in android/app/build.gradle. */
+/** /download/pos.apk, /download/gravity.apk, /download/flow.apk and /download/budget.apk → the APK of the app version in android/app/build.gradle. */
 function appDownloadRoutes() {
   const gradle = readFileSync(path.join(root, 'android/app/build.gradle'), 'utf8');
   const version = (name) => gradle.match(new RegExp(`def ${name}\\s*=\\s*'([^']+)'`))?.[1];
   const release = 'https://github.com/oceanxfreelance-source/oceanx-pos/releases/download';
   const apps = [
+    ['pos', version('appVersion'), (v) => `${release}/android-v${v}/OceanX-POS-Tablet-${v}.apk`],
     ['gravity', version('gravityVersion'), (v) => `${release}/gravity-android-v${v}/Gravity-${v}.apk`],
     ['flow', version('flowVersion'), (v) => `${release}/flow-android-v${v}/Gravity-Flow-${v}.apk`],
     ['budget', version('budgetVersion'), (v) => `${release}/budget-android-v${v}/Gravity-Budget-${v}.apk`],
