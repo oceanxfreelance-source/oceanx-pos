@@ -79,3 +79,15 @@ describe('end-of-day cash closing', () => {
     expect((await other.owner.get('/api/pos/closings')).json().items).toHaveLength(0);
   });
 });
+
+describe('business Viber number', () => {
+  it('is saved in the business profile and given to quotations and invoices for printing', async () => {
+    const profile = (await owner.get('/api/settings')).json().profile;
+    expect((await owner.patch('/api/settings/profile', { ...profile, viberPhone: 'abc' })).statusCode).toBe(422);
+    expect((await owner.patch('/api/settings/profile', { name: profile.name, businessType: profile.businessType, email: profile.email, phone: profile.phone, address: profile.address, viberPhone: '+960 777 1234' })).statusCode).toBe(200);
+    expect((await owner.get('/api/settings')).json().profile.viberPhone).toBe('+960 777 1234');
+    const c = (await owner.post('/api/customers', { name: 'Ali', phone: '7771234' })).json();
+    const q = (await owner.post('/api/quotations', { customerId: c.id, quotationDate: '2026-10-01', validUntil: '2026-10-31', items: [{ name: 'Juice for event', quantity: 20, unitPrice: 25 }] })).json();
+    expect((await owner.get(`/api/quotations/${q.id}`)).json().business.viberPhone).toBe('+960 777 1234');
+  });
+});

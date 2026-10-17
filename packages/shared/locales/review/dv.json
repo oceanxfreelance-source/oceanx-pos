@@ -10624,5 +10624,26 @@
     "suggested": "އައު އޯޑަރުތައް ބަދިގެއަށް އޮޓޮމެޓިކުން ފޮނުވޭނެ. ބަދިގެއެއް ނެތްނަމަ (މިސާލަކަށް ޖޫސް ނުވަތަ ކޮފީ ކައުންޓަރ) ބަންދުކުރައްވާ: ދެން ބަދިގޭ ސްކްރީން ނުފެންނާނެ.",
     "status": "needs_review",
     "notes": "POS settings: takeaway only / no kitchen (new)."
+  },
+  {
+    "key": "settings.viber_phone",
+    "english": "Viber number",
+    "suggested": "ވައިބަރ ނަންބަރު",
+    "status": "needs_review",
+    "notes": "Business Viber number on quotations and invoices (new)."
+  },
+  {
+    "key": "settings.viber_phone_hint",
+    "english": "Printed on quotations and invoices so customers can reach you on Viber.",
+    "suggested": "ކޯޓޭޝަނާއި އިންވޮއިސްގައި ޗާޕުކުރެވޭނެ، ކަސްޓަމަރުންނަށް ވައިބަރުން ގުޅުމަށް.",
+    "status": "needs_review",
+    "notes": "Business Viber number on quotations and invoices (new)."
+  },
+  {
+    "key": "print.viber",
+    "english": "Viber: {{number}}",
+    "suggested": "ވައިބަރ: {{number}}",
+    "status": "needs_review",
+    "notes": "Business Viber number on quotations and invoices (new)."
   }
 ]

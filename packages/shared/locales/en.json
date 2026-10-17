@@ -729,7 +729,9 @@
       "message": "Message shown on the menu"
     },
     "payment_details": "Payment details",
-    "payment_details_hint": "Bank, account name and number, or other ways to pay. Printed on the document."
+    "payment_details_hint": "Bank, account name and number, or other ways to pay. Printed on the document.",
+    "viber_phone": "Viber number",
+    "viber_phone_hint": "Printed on quotations and invoices so customers can reach you on Viber."
   },
   "account": {
     "business": "Business",
@@ -1689,7 +1691,8 @@
     "authorized_signature": "Authorized signature",
     "received_by": "Received by",
     "customer_ref": "PO No.",
-    "payment_details": "Payment details"
+    "payment_details": "Payment details",
+    "viber": "Viber: {{number}}"
   },
   "inventory": {
     "title": "Inventory",

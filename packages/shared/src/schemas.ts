@@ -120,6 +120,8 @@ export const businessProfileSchema = z.object({
   businessType: z.enum(BUSINESS_TYPES),
   email: z.union([emailSchema, z.literal('')]).default(''),
   phone,
+  /** Printed on quotations and invoices. */
+  viberPhone: phone,
   address: optionalText(500),
 });
 

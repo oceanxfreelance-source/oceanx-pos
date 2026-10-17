@@ -1,0 +1,1 @@
+ALTER TABLE "businesses" ADD COLUMN "viber_phone" text DEFAULT '' NOT NULL;

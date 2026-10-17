@@ -729,7 +729,9 @@
       "message": "মেনুতে দেখানো বার্তা"
     },
     "payment_details": "পেমেন্টের তথ্য",
-    "payment_details_hint": "ব্যাংক, অ্যাকাউন্টের নাম ও নম্বর, বা পেমেন্টের অন্য উপায়। ডকুমেন্টে ছাপা হয়।"
+    "payment_details_hint": "ব্যাংক, অ্যাকাউন্টের নাম ও নম্বর, বা পেমেন্টের অন্য উপায়। ডকুমেন্টে ছাপা হয়।",
+    "viber_phone": "Viber নম্বর",
+    "viber_phone_hint": "কোটেশন ও ইনভয়েসে ছাপা হয়, যাতে গ্রাহক Viber-এ যোগাযোগ করতে পারেন।"
   },
   "account": {
     "business": "ব্যবসা",
@@ -1689,7 +1691,8 @@
     "authorized_signature": "অনুমোদিত স্বাক্ষর",
     "received_by": "গ্রহণকারী",
     "customer_ref": "PO নং",
-    "payment_details": "পেমেন্টের তথ্য"
+    "payment_details": "পেমেন্টের তথ্য",
+    "viber": "Viber: {{number}}"
   },
   "inventory": {
     "title": "স্টক",

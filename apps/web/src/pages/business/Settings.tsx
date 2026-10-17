@@ -18,7 +18,7 @@ import { makeStamp } from '../../lib/ink';
 import { ViberCreditSettings } from './ViberCreditSettings';
 
 interface SettingsResponse {
-  profile: { name: string; businessType: string; email: string; phone: string; address: string; hasLogo: boolean } | null;
+  profile: { name: string; businessType: string; email: string; phone: string; viberPhone?: string; address: string; hasLogo: boolean } | null;
   profileEditable: boolean;
   sections: Partial<BusinessSettings>;
   editable: string[];
@@ -86,7 +86,7 @@ function ProfileSection({ profile, editable }: { profile: NonNullable<SettingsRe
   const [logoVersion, setLogoVersion] = useState(Date.now());
   const fileRef = useRef<HTMLInputElement>(null);
   const save = useMutation({
-    mutationFn: () => api.patch('/settings/profile', { name: form.name, businessType: form.businessType, email: form.email, phone: form.phone, address: form.address }),
+    mutationFn: () => api.patch('/settings/profile', { name: form.name, businessType: form.businessType, email: form.email, phone: form.phone, viberPhone: form.viberPhone ?? '', address: form.address }),
     onSuccess: () => {
       toast.success(t('common.saved'));
       void qc.invalidateQueries({ queryKey: ['biz', 'settings'] });
@@ -150,6 +150,7 @@ function ProfileSection({ profile, editable }: { profile: NonNullable<SettingsRe
           )}
           <Input type="email" label={t('auth.email')} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} error={fieldErr('email')} />
           <Input type="tel" label={t('common.phone')} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} error={fieldErr('phone')} />
+          <Input type="tel" label={t('settings.viber_phone')} hint={t('settings.viber_phone_hint')} value={form.viberPhone ?? ''} onChange={(e) => setForm({ ...form, viberPhone: e.target.value })} error={fieldErr('viberPhone')} />
           <Textarea className="sm:col-span-2" label={t('common.address')} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} error={fieldErr('address')} />
         </fieldset>
         {editable && (

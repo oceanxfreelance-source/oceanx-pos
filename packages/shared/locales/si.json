@@ -729,7 +729,9 @@
       "message": "මෙනුවේ පෙන්වන පණිවිඩය"
     },
     "payment_details": "ගෙවීම් විස්තර",
-    "payment_details_hint": "බැංකුව, ගිණුමේ නම සහ අංකය, හෝ ගෙවීමේ වෙනත් ක්‍රම. ලේඛනයේ මුද්‍රණය වේ."
+    "payment_details_hint": "බැංකුව, ගිණුමේ නම සහ අංකය, හෝ ගෙවීමේ වෙනත් ක්‍රම. ලේඛනයේ මුද්‍රණය වේ.",
+    "viber_phone": "Viber අංකය",
+    "viber_phone_hint": "මිල ගණන් සහ ඉන්වොයිස්වල මුද්‍රණය වේ, පාරිභෝගිකයින්ට Viber හරහා සම්බන්ධ වීමට."
   },
   "account": {
     "business": "ව්‍යාපාරය",
@@ -1689,7 +1691,8 @@
     "authorized_signature": "බලයලත් අත්සන",
     "received_by": "ලබාගත්තේ",
     "customer_ref": "PO අංකය",
-    "payment_details": "ගෙවීම් විස්තර"
+    "payment_details": "ගෙවීම් විස්තර",
+    "viber": "Viber: {{number}}"
   },
   "inventory": {
     "title": "තොග",

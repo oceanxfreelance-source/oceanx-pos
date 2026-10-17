@@ -225,6 +225,13 @@
       "when": 1792215914506,
       "tag": "0031_cash_closings",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1792242306008,
+      "tag": "0032_business_viber_phone",
+      "breakpoints": true
     }
   ]
 }

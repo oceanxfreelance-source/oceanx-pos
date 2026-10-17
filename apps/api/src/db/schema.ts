@@ -208,6 +208,8 @@ export const businesses = pgTable(
     status: businessStatusEnum('status').notNull().default('pending'),
     email: text('email').notNull().default(''),
     phone: text('phone').notNull().default(''),
+    /** Shown on quotations and invoices so customers can reach the business on Viber. */
+    viberPhone: text('viber_phone').notNull().default(''),
     address: text('address').notNull().default(''),
     logoPath: text('logo_path'),
     /** Company stamp printed on documents. */

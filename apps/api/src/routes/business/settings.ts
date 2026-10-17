@@ -44,7 +44,7 @@ export async function settingsRoutes(app: FastifyInstance) {
     const canProfile = ctx.permissions.has('settings.view');
     return {
       profile: canProfile
-        ? { name: b.name, businessType: b.businessType, email: b.email, phone: b.phone, address: b.address, hasLogo: !!b.logoPath }
+        ? { name: b.name, businessType: b.businessType, email: b.email, phone: b.phone, viberPhone: b.viberPhone, address: b.address, hasLogo: !!b.logoPath }
         : null,
       profileEditable: ctx.permissions.has('settings.manage'),
       sections,

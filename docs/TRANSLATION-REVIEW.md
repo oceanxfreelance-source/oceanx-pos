@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1137 · **confirmed**: 381
+Status: **needs_review**: 1140 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -794,6 +794,7 @@ review of the whole file is still recommended before launch.
 | `print.customer_ref` | PO No. | ޕީއޯ ނަންބަރު | needs_review | New: company and government accounts (PO / PV). |
 | `print.payment_details` | Payment details | ފައިސާ ދައްކާނެ ގޮތް | needs_review | New: Gravity (quotation & invoice generator). |
 | `print.received_by` | Received by | ބަލައިގަތީ | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `print.viber` | Viber: {{number}} | ވައިބަރ: {{number}} | needs_review | Business Viber number on quotations and invoices (new). |
 | `products.gst_type` | GST type | ޖީއެސްޓީ ބާވަތް | needs_review | GST types, TINs and credit notes. |
 | `products.gst_type_hints.exempt` | Not subject to GST, for example some health or education services. Input tax on it cannot be claimed. | ޖީއެސްޓީ ނުނެގޭ، މިސާލަކަށް ބައެއް ޞިއްޙީ ނުވަތަ ތަޢުލީމީ ޚިދުމަތް. މީގެ އިންޕުޓް ޓެކްސް ކްލެއިމް ނުކުރެވޭނެ. | needs_review | GST types, TINs and credit notes. |
 | `products.gst_type_hints.standard` | GST is added at the business rate (or the rate below). | ވިޔަފާރީގެ ރޭޓުން (ނުވަތަ ތިރީގައިވާ ރޭޓުން) ޖީއެސްޓީ އިތުރުވާނެ. | needs_review | GST types, TINs and credit notes. |
@@ -908,6 +909,8 @@ review of the whole file is still recommended before launch.
 | `settings.pos.takeaway_only` | Takeaway only | ހަމައެކަނި ޓޭކްއެވޭ | needs_review | POS settings: takeaway only / no kitchen (new). |
 | `settings.pos.takeaway_only_hint` | No dine-in and no tables: every sale is takeaway (or delivery). | ތިބެގެން ކެއުމެއް އަދި މޭޒެއް ނެތް: ހުރިހާ ވިއްކުމަކީ ޓޭކްއެވޭ (ނުވަތަ ޑެލިވަރީ). | needs_review | POS settings: takeaway only / no kitchen (new). |
 | `settings.tabs.branding` | Stamp & signature | ތައްގަނޑާއި ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
+| `settings.viber_phone` | Viber number | ވައިބަރ ނަންބަރު | needs_review | Business Viber number on quotations and invoices (new). |
+| `settings.viber_phone_hint` | Printed on quotations and invoices so customers can reach you on Viber. | ކޯޓޭޝަނާއި އިންވޮއިސްގައި ޗާޕުކުރެވޭނެ، ކަސްޓަމަރުންނަށް ވައިބަރުން ގުޅުމަށް. | needs_review | Business Viber number on quotations and invoices (new). |
 | `staff.active_hint` | Inactive staff are left off new salary sheets and the rota. | އިންއެކްޓިވް ސްޓާފުން އާ މުސާރަ ޝީޓްތަކާއި ރޯސްޓަރުގައި ނުހިމެނޭނެ. | needs_review | Inactive = އިންއެކްޓިވް as in users.account_active_hint; common.inactive uses ހަރަކާތްތެރި ނޫން. |
 | `staff.add_missing_staff` | Add missing staff | ނެތް ސްޓާފުން އިތުރުކުރޭ | needs_review | "Missing" = not yet on the sheet; ނެތް ސްޓާފުން may read as "absent staff". Alternative: ހިމެނިފައިނުވާ ސްޓާފުން. |
 | `staff.add_shift` | Add shift | ޝިފްޓު އިތުރުކުރޭ | needs_review | Plain translation using existing app terms. |

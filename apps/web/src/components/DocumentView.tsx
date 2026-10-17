@@ -12,6 +12,8 @@ export interface DocBusiness {
   name: string;
   address: string;
   phone: string;
+  /** Printed on quotations and invoices. */
+  viberPhone?: string;
   email: string;
   hasLogo: boolean;
   /** A fixed logo instead of the business logo (OceanX's own documents in the Hub). */
@@ -88,6 +90,8 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
   const n = (v: number) => `⁦${Number(v).toString()}⁩`;
   const narrow = doc.kind === 'receipt' && doc.paperWidth !== 'a4';
   const title = t(`print.${doc.kind}`);
+  // The business's Viber number, on quotations and invoices.
+  const viber = (doc.kind === 'quotation' || doc.kind === 'invoice') && doc.business.viberPhone ? `\u2066${doc.business.viberPhone}\u2069` : '';
 
   if (narrow) {
     return (
@@ -99,6 +103,7 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
           </p>
           {doc.business.address && <p dir="auto">{doc.business.address}</p>}
           {doc.business.phone && <p dir="ltr">{doc.business.phone}</p>}
+          {viber && <p>{t('print.viber', { number: viber })}</p>}
           {doc.taxNumber && (
             <p>
               {t('print.tax_number', { tax: doc.taxName })}: <span dir="ltr">{doc.taxNumber}</span>
@@ -150,6 +155,7 @@ export function DocumentView({ doc, t }: { doc: DocData; t: TFunction }) {
           <p className="text-slate-600" dir="ltr">
             {[doc.business.phone, doc.business.email].filter(Boolean).join(' · ')}
           </p>
+          {viber && <p className="text-slate-600">{t('print.viber', { number: viber })}</p>}
           {doc.taxNumber && (
             <p className="text-slate-600">
               {t('print.tax_number', { tax: doc.taxName })}: <span dir="ltr">{doc.taxNumber}</span>

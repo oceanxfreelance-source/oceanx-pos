@@ -729,7 +729,9 @@
       "message": "मेनुमा देखाइने सन्देश"
     },
     "payment_details": "भुक्तानी विवरण",
-    "payment_details_hint": "बैंक, खाताको नाम र नम्बर, वा भुक्तानीका अन्य तरिका। कागजातमा छापिन्छ।"
+    "payment_details_hint": "बैंक, खाताको नाम र नम्बर, वा भुक्तानीका अन्य तरिका। कागजातमा छापिन्छ।",
+    "viber_phone": "Viber नम्बर",
+    "viber_phone_hint": "कोटेसन र इनभ्वाइसमा छापिन्छ, ग्राहकले Viber मा सम्पर्क गर्न सक्छन्।"
   },
   "account": {
     "business": "व्यवसाय",
@@ -1689,7 +1691,8 @@
     "authorized_signature": "अधिकृत हस्ताक्षर",
     "received_by": "बुझ्ने",
     "customer_ref": "PO नं.",
-    "payment_details": "भुक्तानी विवरण"
+    "payment_details": "भुक्तानी विवरण",
+    "viber": "Viber: {{number}}"
   },
   "inventory": {
     "title": "इन्भेन्टरी",
