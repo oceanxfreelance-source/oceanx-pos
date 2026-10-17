@@ -364,6 +364,15 @@ export const rotaCopySchema = z.object({ from: isoDate, to: isoDate });
 export const customerRefSchema = z.object({ customerRef: text(60) });
 
 /** Refunds & Returns add-on: give money back for some or all items of a completed bill. */
+/** End-of-day cash closing: the cash counted in the drawer and how much of it stays as tomorrow's float. */
+export const cashClosingSchema = z
+  .object({
+    countedCash: money,
+    keptFloat: money.default(0),
+    note: text(300),
+  })
+  .refine((v) => v.keptFloat <= v.countedCash, { path: ['keptFloat'], message: 'too_big' });
+
 export const refundSchema = z.object({
   items: z
     .array(z.object({ saleItemId: id, quantity: qty }))

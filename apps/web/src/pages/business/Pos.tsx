@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { CheckCircle2, ClipboardList, HandCoins, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, UserPlus, X } from 'lucide-react';
+import { CheckCircle2, ClipboardList, HandCoins, Lock, Minus, PauseCircle, Plus, Printer, Search, ShoppingCart, SlidersHorizontal, Trash2, User, UserPlus, X } from 'lucide-react';
 import { ScreenExit } from '../../components/ScreenExit';
 import { ItemAvatar, tintAt, tintFor } from '../../components/ItemAvatar';
 import { ThemeToggle } from '../../components/ThemeToggle';
@@ -20,6 +20,7 @@ import { Input, Select, Switch, Textarea } from '../../components/ui/Form';
 import { Alert, Badge } from '../../components/ui/Card';
 import { CustomerPicker, type CustomerLite } from '../../components/Pickers';
 import { CreditPaymentDialog } from './Customers';
+import { CloseDayDialog } from './CashClosing';
 import { FarumaWarning } from '../../components/FarumaWarning';
 
 interface PosProduct {
@@ -94,8 +95,10 @@ export default function PosPage() {
   const [cart, setCart] = useState<CartLine[]>([]);
   // Shops have no dine-in: sales are in-store (takeaway) or delivery.
   const retail = !!session.business.profile.retail;
+  // A takeaway shop has no seats either: takeaway (or delivery) only, no tables.
+  const noDineIn = retail || session.business.businessType === 'takeaway';
   const [orderType, setOrderType] = useState<'dine_in' | 'takeaway' | 'delivery'>(
-    (session.pos.defaultOrderType === 'delivery' && !hasAddon('delivery')) || (retail && session.pos.defaultOrderType === 'dine_in') ? 'takeaway' : session.pos.defaultOrderType,
+    (session.pos.defaultOrderType === 'delivery' && !hasAddon('delivery')) || (noDineIn && session.pos.defaultOrderType === 'dine_in') ? 'takeaway' : session.pos.defaultOrderType,
   );
   const [tableId, setTableId] = useState<string | null>(null);
   const [customer, setCustomer] = useState<CustomerLite | null>(null);
@@ -110,6 +113,7 @@ export default function PosPage() {
   const [paying, setPaying] = useState(false);
   const [completed, setCompleted] = useState<{ id: string; number: string; change: number; total: number } | null>(null);
   const [showOrders, setShowOrders] = useState(false);
+  const [closingDay, setClosingDay] = useState(false);
   const [showCart, setShowCart] = useState(false);
 
   const products = useMemo(() => {
@@ -243,7 +247,7 @@ export default function PosPage() {
         <div className="flex gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="radiogroup" aria-label={t('pos.order_type')}>
           {(['dine_in', 'takeaway', 'delivery'] as const)
             .filter((ot) => ot !== 'delivery' || (hasAddon('delivery') && can('delivery.manage')))
-            .filter((ot) => !retail || ot !== 'dine_in')
+            .filter((ot) => !noDineIn || ot !== 'dine_in')
             .map((ot) => (
               <button
                 key={ot}
@@ -430,6 +434,11 @@ export default function PosPage() {
           <FullscreenButton />
           <ThemeToggle value={theme.value} onChange={theme.set} />
           {editingOrderId && <Badge tone="amber">{t('pos.editing_order')}</Badge>}
+          {can('pos.close_day') && (
+            <Button variant="secondary" size="sm" icon={<Lock className="size-4" />} onClick={() => setClosingDay(true)} title={t('closing.title')}>
+              <span className="hidden sm:inline">{t('closing.button')}</span>
+            </Button>
+          )}
           <Button variant="secondary" size="sm" icon={<ClipboardList className="size-4" />} onClick={() => setShowOrders(true)}>
             {t('pos.open_orders')}
             {(openOrders.data?.items.length ?? 0) > 0 && <Badge tone={onlineCount ? 'red' : 'amber'}>{openOrders.data!.items.length}</Badge>}
@@ -620,6 +629,7 @@ export default function PosPage() {
         </Dialog>
       )}
 
+      {closingDay && <CloseDayDialog onClose={() => setClosingDay(false)} />}
       {showOrders && (
         <Dialog open onClose={() => setShowOrders(false)} title={t('pos.open_orders')} size="lg">
           {!openOrders.data?.items.length ? (

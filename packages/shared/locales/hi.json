@@ -100,7 +100,8 @@
     "products": "उत्पाद",
     "stock_check": "स्टॉक जाँच",
     "group_catalog_retail": "उत्पाद और स्टॉक",
-    "import": "इम्पोर्ट"
+    "import": "इम्पोर्ट",
+    "closings": "दिन का हिसाब"
   },
   "business_types": {
     "restaurant": "रेस्टोरेंट",
@@ -410,7 +411,8 @@
     "refunds_create": "रिफंड दें",
     "import_run": "फ़ाइल से इम्पोर्ट करें",
     "budget_view": "बजट, खर्च और लक्ष्य देखें",
-    "budget_manage": "खर्च, बजट, बिल और लक्ष्य जोड़ें और बदलें"
+    "budget_manage": "खर्च, बजट, बिल और लक्ष्य जोड़ें और बदलें",
+    "pos_close_day": "दिन बंद करना (नकद गिनती)"
   },
   "outlets": {
     "code": "कोड",
@@ -3235,5 +3237,42 @@
   "app_update": {
     "title": "ऐप का नया संस्करण तैयार है।",
     "action": "अपडेट करें"
+  },
+  "closing": {
+    "button": "दिन बंद करें",
+    "title": "दिन बंद करें",
+    "period": "{{from}} से {{to}} तक",
+    "sales": "बिक्री",
+    "sales_total": "कुल बिक्री",
+    "money_in": "मिला पैसा",
+    "nothing_yet": "अभी तक कुछ नहीं मिला।",
+    "cash_drawer": "कैश दराज़",
+    "opening_float": "पिछली बार छोड़ा फ़्लोट",
+    "cash_taken": "मिला नकद",
+    "change_given": "दिया गया छुट्टा",
+    "cash_refunds": "नकद रिफ़ंड",
+    "expected_cash": "दराज़ में होना चाहिए नकद",
+    "counted_cash": "गिना गया नकद",
+    "counted_hint": "दराज़ के सारे नोट और सिक्के गिनें।",
+    "difference": "अंतर",
+    "exact": "बराबर",
+    "short": "{{amount}} कम",
+    "over": "{{amount}} ज़्यादा",
+    "kept_float": "कल के लिए छोड़ा फ़्लोट",
+    "kept_hint": "कल छुट्टे के लिए दराज़ में छोड़ा नकद (वैकल्पिक)।",
+    "note": "नोट",
+    "close_now": "दिन बंद करें",
+    "closed_toast": "दिन बंद हुआ (#{{number}})।",
+    "list_title": "दिन का हिसाब",
+    "list_subtitle": "हर दिन के अंत की नकद गिनती: कितना होना चाहिए, कितना गिना, और कितना कम।",
+    "short_total": "इस सूची में कुल कमी: {{amount}}",
+    "none": "अभी तक कोई दिन बंद नहीं हुआ।",
+    "none_hint": "दिन के अंत में POS पर \"दिन बंद करें\" दबाएँ।",
+    "sales_n": "{{n}} बिक्री · {{amount}}",
+    "expected_short": "होना चाहिए",
+    "counted_short": "गिना",
+    "print_title": "दिन का हिसाब",
+    "sign_cashier": "कैशियर",
+    "sign_manager": "मैनेजर"
   }
 }

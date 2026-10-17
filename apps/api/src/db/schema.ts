@@ -842,6 +842,46 @@ export const saleItems = pgTable(
   ],
 );
 
+/**
+ * End-of-day cash closing at one outlet: what came in since the last closing (by payment method), the cash that
+ * should be in the drawer, what was counted, and the difference. The float kept starts the next closing.
+ */
+export const cashClosings = pgTable(
+  'cash_closings',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    outletId: uuid('outlet_id').notNull(),
+    number: integer('number').notNull(),
+    periodStart: ts('period_start').notNull(),
+    periodEnd: ts('period_end').notNull(),
+    salesCount: integer('sales_count').notNull().default(0),
+    salesTotal: money('sales_total').notNull().default(0),
+    /** Money received at this outlet in the period, by method (cash is what was handed over, before change). */
+    byMethod: jsonb('by_method').$type<Record<string, number>>().notNull().default({}),
+    openingFloat: money('opening_float').notNull().default(0),
+    cashIn: money('cash_in').notNull().default(0),
+    changeGiven: money('change_given').notNull().default(0),
+    cashRefunds: money('cash_refunds').notNull().default(0),
+    expectedCash: money('expected_cash').notNull().default(0),
+    countedCash: money('counted_cash').notNull().default(0),
+    /** counted − expected: below zero is a shortage. */
+    difference: money('difference').notNull().default(0),
+    /** Cash left in the drawer for the next day (the next closing's opening float). */
+    keptFloat: money('kept_float').notNull().default(0),
+    note: text('note').notNull().default(''),
+    closedBy: uuid('closed_by'),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    unique('cash_closings_business_id_uq').on(t.businessId, t.id),
+    uniqueIndex('cash_closings_outlet_number_uq').on(t.businessId, t.outletId, t.number),
+    index('cash_closings_outlet_end_idx').on(t.businessId, t.outletId, t.periodEnd),
+  ],
+);
+
 /** A refund on a completed bill (Refunds & Returns add-on): some or all items, money back, optional restock. */
 export const saleRefunds = pgTable(
   'sale_refunds',

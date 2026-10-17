@@ -4,48 +4,7 @@ import { posTablet } from '../lib/desktop';
 import { TabletPosOnly } from '../components/ScreenExit';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
-import {
-  ArrowLeftRight,
-  Banknote,
-  BarChart3,
-  Boxes,
-  CalendarClock,
-  CalendarDays,
-  CalendarRange,
-  Check,
-  ChefHat,
-  ChevronDown,
-  Contact,
-  CreditCard,
-  FileSpreadsheet,
-  FileText,
-  FileUp,
-  Globe,
-  HandCoins,
-  History,
-  Languages,
-  LayoutDashboard,
-  LayoutGrid,
-  ListChecks,
-  LogOut,
-  Mic2,
-  MonitorSmartphone,
-  Package,
-  PackagePlus,
-  PiggyBank,
-  Puzzle,
-  QrCode,
-  Receipt,
-  ScanBarcode,
-  Settings,
-  ShieldCheck,
-  ShoppingCart,
-  Store,
-  UserCircle,
-  Users,
-  UtensilsCrossed,
-  Wallet,
-} from 'lucide-react';
+import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, CreditCard, FileSpreadsheet, FileText, FileUp, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, PiggyBank, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, ShoppingCart, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, signedInBefore, useBiz, useBizSession, type BusinessSession } from '../auth/business';
 import { productPath, useProductTheme } from '../lib/product';
@@ -78,8 +37,11 @@ export function useBusinessNav(): NavGroup[] {
   // Shops: "do we have it?" stock lookup right after the POS.
   if (session.business.profile.retail && canAny('pos.access', 'inventory.view', 'products.view')) operations.push({ to: '/stock-check', label: 'nav.stock_check', icon: ScanBarcode });
   if (hasModule('sales') && canAny('sales.view', 'payments.view')) operations.push({ to: '/sales', label: 'nav.sales', icon: Receipt });
+  // End-of-day cash closings (count the drawer, over / short).
+  if (hasModule('pos') && canAny('pos.close_day', 'reports.view')) operations.push({ to: '/closings', label: 'nav.closings', icon: Lock });
   if (hasModule('kitchen') && can('kitchen.view')) operations.push({ to: '/kitchen', label: 'nav.kitchen', icon: ChefHat });
-  if (hasModule('tables') && can('tables.view')) operations.push({ to: '/tables', label: 'nav.tables', icon: LayoutGrid });
+  // A takeaway shop has no tables.
+  if (hasModule('tables') && can('tables.view') && session.business.businessType !== 'takeaway') operations.push({ to: '/tables', label: 'nav.tables', icon: LayoutGrid });
   if (hasAddon('online_ordering') && can('online_orders.manage')) operations.push({ to: '/online-orders', label: 'nav.online_orders', icon: Globe });
   if (hasAddon('reservations') && can('reservations.view')) operations.push({ to: '/reservations', label: 'nav.reservations', icon: CalendarClock });
   if (hasAddon('karaoke') && can('karaoke.view')) operations.push({ to: '/karaoke', label: 'nav.karaoke', icon: Mic2 });

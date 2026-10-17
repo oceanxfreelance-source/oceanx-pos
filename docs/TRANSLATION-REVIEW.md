@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1097 · **confirmed**: 381
+Status: **needs_review**: 1134 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -147,6 +147,41 @@ review of the whole file is still recommended before launch.
 | `budget.offline.waiting_other` | {{count}} records waiting to be sent. | {{count}} ރެކޯޑު ފޮނުވަން ބާކީ. | needs_review | Gravity Budget offline. |
 | `business_types.retail_shop` | Shop | ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `business_types.supermarket` | Supermarket / big shop | ސުޕަރމާކެޓް / ބޮޑު ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
+| `closing.button` | Close day | ދުވަސް ނިންމާ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.cash_drawer` | Cash drawer | ކޭޝް ޑްރޯވަރ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.cash_refunds` | Cash refunds | ކޭޝް ރީފަންޑް | needs_review | POS: end-of-day cash closing (new). |
+| `closing.cash_taken` | Cash taken | ލިބުނު ކޭޝް | needs_review | POS: end-of-day cash closing (new). |
+| `closing.change_given` | Change given | ދިން ބާކީ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.close_now` | Close the day | ދުވަސް ނިންމާ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.closed_toast` | Day closed (#{{number}}). | ދުވަސް ނިންމައިފި (#{{number}}). | needs_review | POS: end-of-day cash closing (new). |
+| `closing.counted_cash` | Cash counted | ގުނި ކޭޝް | needs_review | POS: end-of-day cash closing (new). |
+| `closing.counted_hint` | Count all the notes and coins in the drawer. | ޑްރޯވަރުގައިވާ ހުރިހާ ނޯޓާއި ފައިސާ ގުނާލައްވާ. | needs_review | POS: end-of-day cash closing (new). |
+| `closing.counted_short` | Counted | ގުނި | needs_review | POS: end-of-day cash closing (new). |
+| `closing.difference` | Difference | ތަފާތު | needs_review | POS: end-of-day cash closing (new). |
+| `closing.exact` | Exact | ހަމަ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.expected_cash` | Cash that should be in the drawer | ޑްރޯވަރުގައި ހުންނަންޖެހޭ ކޭޝް | needs_review | POS: end-of-day cash closing (new). |
+| `closing.expected_short` | Expected | ހުންނަންޖެހޭ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.kept_float` | Float left for tomorrow | މާދަމާއަށް ބާއްވާ ފްލޯޓް | needs_review | POS: end-of-day cash closing (new). |
+| `closing.kept_hint` | Cash you leave in the drawer for change tomorrow (optional). | މާދަމާ ބާކީ ދޭން ޑްރޯވަރުގައި ބާއްވާ ކޭޝް (ބޭނުންނަމަ). | needs_review | POS: end-of-day cash closing (new). |
+| `closing.list_subtitle` | Every end-of-day cash count: what should be in the drawer, what was counted, and any shortage. | ކޮންމެ ދުވަހެއްގެ ކޭޝް ގުނުން: ހުންނަންޖެހޭ ވަރު، ގުނި ވަރު، އަދި މަދުވި ވަރު. | needs_review | POS: end-of-day cash closing (new). |
+| `closing.list_title` | Day closing | ދުވަސް ނިންމުން | needs_review | POS: end-of-day cash closing (new). |
+| `closing.money_in` | Money received | ލިބުނު ފައިސާ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.none` | No day closed yet. | އަދި އެއްވެސް ދުވަހެއް ނިންމާފައެއް ނުވޭ. | needs_review | POS: end-of-day cash closing (new). |
+| `closing.none_hint` | At the end of the day, tap Close day on the POS. | ދުވަސް ނިމުމުން POS ގައި "ދުވަސް ނިންމާ" ފިއްތަވާ. | needs_review | POS: end-of-day cash closing (new). |
+| `closing.note` | Note | ނޯޓް | needs_review | POS: end-of-day cash closing (new). |
+| `closing.nothing_yet` | Nothing received yet. | އަދި އެއްވެސް ފައިސާއެއް ނުލިބޭ. | needs_review | POS: end-of-day cash closing (new). |
+| `closing.opening_float` | Float from last closing | ކުރީ ފަހަރު ބޭއްވި ފްލޯޓް | needs_review | POS: end-of-day cash closing (new). |
+| `closing.over` | {{amount}} over | {{amount}} ގިނަ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.period` | From {{from}} to {{to}} | {{from}} އިން {{to}} އަށް | needs_review | POS: end-of-day cash closing (new). |
+| `closing.print_title` | Day closing | ދުވަސް ނިންމުން | needs_review | POS: end-of-day cash closing (new). |
+| `closing.sales` | Sales | ވިއްކުން | needs_review | POS: end-of-day cash closing (new). |
+| `closing.sales_n` | {{n}} sales · {{amount}} | {{n}} ވިއްކުން · {{amount}} | needs_review | POS: end-of-day cash closing (new). |
+| `closing.sales_total` | Sales total | ޖުމްލަ ވިއްކުން | needs_review | POS: end-of-day cash closing (new). |
+| `closing.short` | {{amount}} short | {{amount}} މަދު | needs_review | POS: end-of-day cash closing (new). |
+| `closing.short_total` | Total short in this list: {{amount}} | މި ލިސްޓުގައި ޖުމްލަ މަދުވި ވަރު: {{amount}} | needs_review | POS: end-of-day cash closing (new). |
+| `closing.sign_cashier` | Cashier | ކޭޝިއަރ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.sign_manager` | Manager | މެނޭޖަރ | needs_review | POS: end-of-day cash closing (new). |
+| `closing.title` | Close the day | ދުވަސް ނިންމުން | needs_review | POS: end-of-day cash closing (new). |
 | `common.done` | Done | ނިމިއްޖެ | needs_review | Button that closes a finished step. |
 | `common.exit_fullscreen` | Exit full screen | ފުލް ސްކްރީނުން ނިކުމެވޭ | needs_review | New: full screen button in the top bar and POS. |
 | `common.fullscreen` | Full screen | ފުލް ސްކްރީން | needs_review | New: full screen button in the top bar and POS. |
@@ -716,6 +751,7 @@ review of the whole file is still recommended before launch.
 | `modules.finance` | Income & expenses | އާމްދަނީއާއި ޚަރަދު | needs_review | New: Gravity Flow. |
 | `modules.purchases` | Purchases | ގަތުން | needs_review | Alternative loanword: ޕާޗޭސް. |
 | `nav.billing` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `nav.closings` | Day closing | ދުވަސް ނިންމުން | needs_review | POS: end-of-day cash closing (new). |
 | `nav.group_catalog_retail` | Products & stock | ތަކެތިއާއި ސްޓޮކް | needs_review | New: retail shops menu section. |
 | `nav.group_staff` | Staff | ސްޓާފުން | needs_review | Plain translation using existing app terms. |
 | `nav.import` | Import | އިމްޕޯޓް | needs_review | Refunds, GST report and import add-ons. |
@@ -743,6 +779,7 @@ review of the whole file is still recommended before launch.
 | `perm.loyalty_view` | View loyalty points | ލޮޔަލްޓީ ޕޮއިންޓް ބަލާ | needs_review | ލޮޔަލްޓީ ޕޮއިންޓް — consistent with existing addons.names.loyalty. Native alternative not common. |
 | `perm.payroll_manage` | Make and finalize salary sheets | މުސާރަ ޝީޓް ހަދައި ފައިނަލްކުރޭ | needs_review | "Finalize" rendered as loanword ފައިނަލްކުރޭ. Alternative: ނިންމާ / ކަށަވަރުކުރޭ. |
 | `perm.payroll_view` | View salary sheets and salaries | މުސާރަ ޝީޓްތަކާއި މުސާރަ ބަލާ | needs_review | Plain translation using existing app terms. |
+| `perm.pos_close_day` | Close the day (cash count) | ދުވަސް ނިންމުން (ކޭޝް ގުނުން) | needs_review | POS: end-of-day cash closing (new). |
 | `perm.refunds_create` | Give refunds | ފައިސާ އަނބުރާ ދޭ | needs_review | Refunds, GST report and import add-ons. |
 | `perm.rota_manage` | Edit the duty rota and shifts | ޑިއުޓީ ރޯސްޓަރާއި ޝިފްޓުތައް ބަދަލުކުރޭ | needs_review | "Shift" = ޝިފްޓު (loanword). |
 | `perm.rota_view` | View the duty rota | ޑިއުޓީ ރޯސްޓަރު ބަލާ | needs_review | Plain translation using existing app terms. |

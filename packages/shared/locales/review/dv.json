@@ -10344,5 +10344,264 @@
     "suggested": "Gravity Flow އަށް ސައިން އަޕްވި ހުރިހާ ފަރާތެއް. އެޕްރޫވަލެއް ނެތި ވަގުތުން ފެށޭނެ. ފައިސާ ނުދައްކާ ޓްރަޔަލް ފޮހެލުމަށްފަހުވެސް މަޢުލޫމާތު މިތާ ހުންނާނެ.",
     "status": "needs_review",
     "notes": "Super Admin: Flow sign-ups page (new)."
+  },
+  {
+    "key": "nav.closings",
+    "english": "Day closing",
+    "suggested": "ދުވަސް ނިންމުން",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.button",
+    "english": "Close day",
+    "suggested": "ދުވަސް ނިންމާ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.title",
+    "english": "Close the day",
+    "suggested": "ދުވަސް ނިންމުން",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.period",
+    "english": "From {{from}} to {{to}}",
+    "suggested": "{{from}} އިން {{to}} އަށް",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.sales",
+    "english": "Sales",
+    "suggested": "ވިއްކުން",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.sales_total",
+    "english": "Sales total",
+    "suggested": "ޖުމްލަ ވިއްކުން",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.money_in",
+    "english": "Money received",
+    "suggested": "ލިބުނު ފައިސާ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.nothing_yet",
+    "english": "Nothing received yet.",
+    "suggested": "އަދި އެއްވެސް ފައިސާއެއް ނުލިބޭ.",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.cash_drawer",
+    "english": "Cash drawer",
+    "suggested": "ކޭޝް ޑްރޯވަރ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.opening_float",
+    "english": "Float from last closing",
+    "suggested": "ކުރީ ފަހަރު ބޭއްވި ފްލޯޓް",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.cash_taken",
+    "english": "Cash taken",
+    "suggested": "ލިބުނު ކޭޝް",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.change_given",
+    "english": "Change given",
+    "suggested": "ދިން ބާކީ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.cash_refunds",
+    "english": "Cash refunds",
+    "suggested": "ކޭޝް ރީފަންޑް",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.expected_cash",
+    "english": "Cash that should be in the drawer",
+    "suggested": "ޑްރޯވަރުގައި ހުންނަންޖެހޭ ކޭޝް",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.counted_cash",
+    "english": "Cash counted",
+    "suggested": "ގުނި ކޭޝް",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.counted_hint",
+    "english": "Count all the notes and coins in the drawer.",
+    "suggested": "ޑްރޯވަރުގައިވާ ހުރިހާ ނޯޓާއި ފައިސާ ގުނާލައްވާ.",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.difference",
+    "english": "Difference",
+    "suggested": "ތަފާތު",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.exact",
+    "english": "Exact",
+    "suggested": "ހަމަ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.short",
+    "english": "{{amount}} short",
+    "suggested": "{{amount}} މަދު",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.over",
+    "english": "{{amount}} over",
+    "suggested": "{{amount}} ގިނަ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.kept_float",
+    "english": "Float left for tomorrow",
+    "suggested": "މާދަމާއަށް ބާއްވާ ފްލޯޓް",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.kept_hint",
+    "english": "Cash you leave in the drawer for change tomorrow (optional).",
+    "suggested": "މާދަމާ ބާކީ ދޭން ޑްރޯވަރުގައި ބާއްވާ ކޭޝް (ބޭނުންނަމަ).",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.note",
+    "english": "Note",
+    "suggested": "ނޯޓް",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.close_now",
+    "english": "Close the day",
+    "suggested": "ދުވަސް ނިންމާ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.closed_toast",
+    "english": "Day closed (#{{number}}).",
+    "suggested": "ދުވަސް ނިންމައިފި (#{{number}}).",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.list_title",
+    "english": "Day closing",
+    "suggested": "ދުވަސް ނިންމުން",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.list_subtitle",
+    "english": "Every end-of-day cash count: what should be in the drawer, what was counted, and any shortage.",
+    "suggested": "ކޮންމެ ދުވަހެއްގެ ކޭޝް ގުނުން: ހުންނަންޖެހޭ ވަރު، ގުނި ވަރު، އަދި މަދުވި ވަރު.",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.short_total",
+    "english": "Total short in this list: {{amount}}",
+    "suggested": "މި ލިސްޓުގައި ޖުމްލަ މަދުވި ވަރު: {{amount}}",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.none",
+    "english": "No day closed yet.",
+    "suggested": "އަދި އެއްވެސް ދުވަހެއް ނިންމާފައެއް ނުވޭ.",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.none_hint",
+    "english": "At the end of the day, tap Close day on the POS.",
+    "suggested": "ދުވަސް ނިމުމުން POS ގައި \"ދުވަސް ނިންމާ\" ފިއްތަވާ.",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.sales_n",
+    "english": "{{n}} sales · {{amount}}",
+    "suggested": "{{n}} ވިއްކުން · {{amount}}",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.expected_short",
+    "english": "Expected",
+    "suggested": "ހުންނަންޖެހޭ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.counted_short",
+    "english": "Counted",
+    "suggested": "ގުނި",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.print_title",
+    "english": "Day closing",
+    "suggested": "ދުވަސް ނިންމުން",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.sign_cashier",
+    "english": "Cashier",
+    "suggested": "ކޭޝިއަރ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "closing.sign_manager",
+    "english": "Manager",
+    "suggested": "މެނޭޖަރ",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "perm.pos_close_day",
+    "english": "Close the day (cash count)",
+    "suggested": "ދުވަސް ނިންމުން (ކޭޝް ގުނުން)",
+    "status": "needs_review",
+    "notes": "POS: end-of-day cash closing (new)."
   }
 ]

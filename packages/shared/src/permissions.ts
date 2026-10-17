@@ -22,6 +22,8 @@ export const PERMISSIONS = [
   p('pos.access', 'pos'),
   p('pos.discount', 'pos'),
   p('pos.refund', 'pos'),
+  /** End-of-day cash closing (count the drawer, see over / short). */
+  p('pos.close_day', 'pos'),
 
   p('sales.view', 'sales'),
   p('sales.create', 'sales'),
@@ -198,6 +200,7 @@ export const SYSTEM_ROLE_TEMPLATES: Record<SystemRoleKey, readonly PermissionKey
   cashier: [
     'dashboard.view',
     'pos.access',
+    'pos.close_day',
     'sales.view',
     'sales.create',
     'customers.view',

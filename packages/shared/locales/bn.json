@@ -100,7 +100,8 @@
     "products": "পণ্য",
     "stock_check": "স্টক যাচাই",
     "group_catalog_retail": "পণ্য ও স্টক",
-    "import": "ইমপোর্ট"
+    "import": "ইমপোর্ট",
+    "closings": "দিনের হিসাব"
   },
   "business_types": {
     "restaurant": "রেস্টুরেন্ট",
@@ -410,7 +411,8 @@
     "refunds_create": "রিফান্ড দিন",
     "import_run": "ফাইল থেকে ইমপোর্ট করুন",
     "budget_view": "বাজেট, খরচ ও লক্ষ্য দেখুন",
-    "budget_manage": "খরচ, বাজেট, বিল ও লক্ষ্য যোগ ও পরিবর্তন করুন"
+    "budget_manage": "খরচ, বাজেট, বিল ও লক্ষ্য যোগ ও পরিবর্তন করুন",
+    "pos_close_day": "দিন বন্ধ করা (নগদ গণনা)"
   },
   "outlets": {
     "code": "কোড",
@@ -3235,5 +3237,42 @@
   "app_update": {
     "title": "অ্যাপের নতুন সংস্করণ প্রস্তুত।",
     "action": "আপডেট করুন"
+  },
+  "closing": {
+    "button": "দিন বন্ধ করুন",
+    "title": "দিন বন্ধ করুন",
+    "period": "{{from}} থেকে {{to}} পর্যন্ত",
+    "sales": "বিক্রি",
+    "sales_total": "মোট বিক্রি",
+    "money_in": "পাওয়া টাকা",
+    "nothing_yet": "এখনও কিছু পাওয়া যায়নি।",
+    "cash_drawer": "ক্যাশ ড্রয়ার",
+    "opening_float": "আগের বার রাখা ফ্লোট",
+    "cash_taken": "পাওয়া নগদ",
+    "change_given": "দেওয়া খুচরা",
+    "cash_refunds": "নগদ ফেরত",
+    "expected_cash": "ড্রয়ারে থাকার কথা নগদ",
+    "counted_cash": "গোনা নগদ",
+    "counted_hint": "ড্রয়ারের সব নোট ও কয়েন গুনুন।",
+    "difference": "পার্থক্য",
+    "exact": "ঠিক আছে",
+    "short": "{{amount}} কম",
+    "over": "{{amount}} বেশি",
+    "kept_float": "আগামীকালের জন্য রাখা ফ্লোট",
+    "kept_hint": "আগামীকাল খুচরার জন্য ড্রয়ারে রাখা নগদ (ঐচ্ছিক)।",
+    "note": "নোট",
+    "close_now": "দিন বন্ধ করুন",
+    "closed_toast": "দিন বন্ধ হয়েছে (#{{number}})।",
+    "list_title": "দিনের হিসাব",
+    "list_subtitle": "প্রতিদিন শেষের নগদ গণনা: কত থাকার কথা, কত গোনা হলো, আর কত কম।",
+    "short_total": "এই তালিকায় মোট কম: {{amount}}",
+    "none": "এখনও কোনো দিন বন্ধ হয়নি।",
+    "none_hint": "দিনের শেষে POS-এ \"দিন বন্ধ করুন\" চাপুন।",
+    "sales_n": "{{n}} বিক্রি · {{amount}}",
+    "expected_short": "থাকার কথা",
+    "counted_short": "গোনা",
+    "print_title": "দিনের হিসাব",
+    "sign_cashier": "ক্যাশিয়ার",
+    "sign_manager": "ম্যানেজার"
   }
 }

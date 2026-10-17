@@ -218,6 +218,13 @@
       "when": 1792204220711,
       "tag": "0030_flow_plan_65_5h",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1792215914506,
+      "tag": "0031_cash_closings",
+      "breakpoints": true
     }
   ]
 }

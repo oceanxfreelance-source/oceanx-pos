@@ -100,7 +100,8 @@
     "products": "Products",
     "stock_check": "Stock check",
     "group_catalog_retail": "Products & stock",
-    "import": "Import"
+    "import": "Import",
+    "closings": "Day closing"
   },
   "business_types": {
     "restaurant": "Restaurant",
@@ -410,7 +411,8 @@
     "refunds_create": "Give refunds",
     "import_run": "Import from a file",
     "budget_view": "View budget, spending and goals",
-    "budget_manage": "Add and change spending, budgets, bills and goals"
+    "budget_manage": "Add and change spending, budgets, bills and goals",
+    "pos_close_day": "Close the day (cash count)"
   },
   "outlets": {
     "code": "Code",
@@ -3235,5 +3237,42 @@
   "app_update": {
     "title": "A new version of the app is ready.",
     "action": "Update"
+  },
+  "closing": {
+    "button": "Close day",
+    "title": "Close the day",
+    "period": "From {{from}} to {{to}}",
+    "sales": "Sales",
+    "sales_total": "Sales total",
+    "money_in": "Money received",
+    "nothing_yet": "Nothing received yet.",
+    "cash_drawer": "Cash drawer",
+    "opening_float": "Float from last closing",
+    "cash_taken": "Cash taken",
+    "change_given": "Change given",
+    "cash_refunds": "Cash refunds",
+    "expected_cash": "Cash that should be in the drawer",
+    "counted_cash": "Cash counted",
+    "counted_hint": "Count all the notes and coins in the drawer.",
+    "difference": "Difference",
+    "exact": "Exact",
+    "short": "{{amount}} short",
+    "over": "{{amount}} over",
+    "kept_float": "Float left for tomorrow",
+    "kept_hint": "Cash you leave in the drawer for change tomorrow (optional).",
+    "note": "Note",
+    "close_now": "Close the day",
+    "closed_toast": "Day closed (#{{number}}).",
+    "list_title": "Day closing",
+    "list_subtitle": "Every end-of-day cash count: what should be in the drawer, what was counted, and any shortage.",
+    "short_total": "Total short in this list: {{amount}}",
+    "none": "No day closed yet.",
+    "none_hint": "At the end of the day, tap Close day on the POS.",
+    "sales_n": "{{n}} sales · {{amount}}",
+    "expected_short": "Expected",
+    "counted_short": "Counted",
+    "print_title": "Day closing",
+    "sign_cashier": "Cashier",
+    "sign_manager": "Manager"
   }
 }
