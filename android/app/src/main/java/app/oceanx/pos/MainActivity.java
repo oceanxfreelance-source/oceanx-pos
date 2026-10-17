@@ -54,11 +54,17 @@ public class MainActivity extends Activity {
 
     private WebView web;
     private ValueCallback<Uri[]> fileCallback;
+    /**
+     * POS app on a phone, signed in to a takeaway shop: a normal upright phone app with the whole system
+     * (the page says so through the bridge). Cafés, restaurants and shops keep the sideways tablet POS.
+     */
+    private boolean phoneTill;
 
     @Override
     @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        phoneTill = !PHONE && isPhone() && getPreferences(MODE_PRIVATE).getBoolean("phoneTill", false);
         // A till or kitchen screen should stay on during service (a phone app lets the screen sleep).
         if (!PHONE) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (!PHONE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -133,7 +139,34 @@ public class MainActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && !PHONE) goFullScreen();
+        if (hasFocus && !PHONE && !phoneTill) goFullScreen();
+    }
+
+    /** A phone (short side under 600 dp), not a tablet. */
+    private boolean isPhone() {
+        return getResources().getConfiguration().smallestScreenWidthDp < 600;
+    }
+
+    /** Switches between the sideways tablet POS and the upright phone app for a takeaway shop. */
+    private void setPhoneTill(boolean on) {
+        boolean want = on && !PHONE && isPhone();
+        getPreferences(MODE_PRIVATE).edit().putBoolean("phoneTill", want).apply();
+        if (want == phoneTill) return;
+        phoneTill = want;
+        if (want) showBars();
+        else goFullScreen();
+        orientationFor(web.getUrl());
+    }
+
+    /** The status bar and navigation buttons back, as in any phone app. */
+    @SuppressWarnings("deprecation")
+    private void showBars() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsController c = getWindow().getInsetsController();
+            if (c != null) c.show(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        }
     }
 
     /** Phones: the app draws under the bars on every Android version and pads itself (no double spacing). */
@@ -166,6 +199,10 @@ public class MainActivity extends Activity {
     /** Sign-in pages turn any way; once signed in the app stays sideways (landscape) for the POS. */
     private void orientationFor(String url) {
         if (PHONE) return; // the phone app turns with the phone
+        if (phoneTill) {
+            if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            return;
+        }
         String path = url == null ? "" : Uri.parse(url).getPath();
         if (path == null) path = "";
         boolean signIn = path.startsWith("/login") || path.startsWith("/register") || path.startsWith("/forgot-password") || path.startsWith("/reset-password");
@@ -212,6 +249,12 @@ public class MainActivity extends Activity {
             if (Build.VERSION.SDK_INT >= 33) {
                 runOnUiThread(() -> requestPermissions(new String[] {"android.permission.POST_NOTIFICATIONS"}, 2));
             }
+        }
+
+        /** POS app: the signed-in business is a takeaway shop (true) or not; on a phone that picks the phone app. */
+        @JavascriptInterface
+        public void phoneTill(boolean takeaway) {
+            runOnUiThread(() -> setPhoneTill(takeaway));
         }
 
         @JavascriptInterface

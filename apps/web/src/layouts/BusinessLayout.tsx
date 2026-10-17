@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { posTablet } from '../lib/desktop';
+import { posTabletFor } from '../lib/desktop';
 import { TabletPosOnly } from '../components/ScreenExit';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
@@ -140,7 +140,7 @@ export function RequireBusinessAuth({ bare = false }: { bare?: boolean }) {
   if (session.state !== 'ok') return <StatusScreen />;
   if (session.user.mustChangePassword) return <ForcePasswordChange />;
   // The tablet app is the POS only: the back office stays on computers and phones.
-  if (posTablet && !bare) return <Navigate to="/start" replace />;
+  if (posTabletFor(session.business.businessType) && !bare) return <Navigate to="/start" replace />;
   return bare ? <Outlet /> : <BusinessLayout />;
 }
 
@@ -341,10 +341,10 @@ function BusinessMark({ name, logoVersion }: { name: string; logoVersion: string
  * for the kitchen, otherwise the dashboard.
  */
 export function StartScreen() {
-  const { can, hasModule } = useBiz();
+  const { can, hasModule, session } = useBiz();
   if (hasModule('pos') && can('pos.access')) return <Navigate to="/pos" replace />;
   if (hasModule('kitchen') && can('kitchen.view')) return <Navigate to="/kitchen" replace />;
-  if (posTablet) return <TabletPosOnly />;
+  if (posTabletFor(session?.business.businessType)) return <TabletPosOnly />;
   return <Navigate to="/" replace />;
 }
 

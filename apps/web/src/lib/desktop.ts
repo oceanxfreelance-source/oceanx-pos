@@ -18,6 +18,8 @@ interface OceanxAndroid {
   enableAlerts?: (key: string) => void;
   disableAlerts?: () => void;
   alertsOn?: () => boolean;
+  /** POS app 1.0.5+: the signed-in business is a takeaway shop; on a phone the app becomes a normal upright phone app. */
+  phoneTill?: (takeaway: boolean) => void;
 }
 export const android = (window as unknown as { OceanXAndroid?: OceanxAndroid }).OceanXAndroid ?? null;
 /**
@@ -25,6 +27,17 @@ export const android = (window as unknown as { OceanXAndroid?: OceanxAndroid }).
  * printing and saving PDFs, but on Gravity's or Gravity Flow's address it is a normal phone app.
  */
 export const posTablet = !!android && HOST_PRODUCT === 'pos';
+
+/** The POS app on a phone (short side under 600 points), not a tablet. */
+const posPhone = posTablet && Math.min(window.screen.width, window.screen.height) < 600;
+
+/**
+ * The POS-only tablet app, for this business. A takeaway shop on a phone uses the app as a phone app with
+ * the whole system (POS, customers, invoices…); cafés, restaurants and shops keep the POS-only tablet app.
+ */
+export function posTabletFor(businessType: string | undefined) {
+  return posTablet && !(posPhone && businessType === 'takeaway');
+}
 
 /** Leave a print page: close the tab, or go back inside the tablet app (it has no tabs). */
 export function closePrintPage() {

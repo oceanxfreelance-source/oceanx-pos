@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, LogOut } from 'lucide-react';
 import { useBiz } from '../auth/business';
-import { posTablet } from '../lib/desktop';
+import { posTabletFor } from '../lib/desktop';
 import { ConfirmDialog } from './ui/Dialog';
 
 /**
@@ -12,12 +12,12 @@ import { ConfirmDialog } from './ui/Dialog';
  */
 export function ScreenExit() {
   const { t } = useTranslation();
-  const { logout } = useBiz();
+  const { logout, session } = useBiz();
   const navigate = useNavigate();
   const [confirm, setConfirm] = useState(false);
   const [busy, setBusy] = useState(false);
   const cls = 'rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800';
-  if (!posTablet) {
+  if (!posTabletFor(session?.business.businessType)) {
     return (
       <Link to="/" className={cls} aria-label={t('nav.dashboard')}>
         <ArrowLeft className="rtl-flip size-5" />

@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api, ApiError, onUnauthorized, setCsrfToken } from '../lib/api';
-import { posTablet } from '../lib/desktop';
+import { android, posTablet, posTabletFor } from '../lib/desktop';
 import { HOST_PRODUCT, productPath, type Product } from '../lib/product';
 import { applyLanguage } from '../i18n';
 import { applyPreferences } from '../lib/theme';
@@ -108,6 +108,8 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
     setCsrfToken('business', session.csrfToken);
     void applyLanguage(session.user.language);
     applyPreferences(session.user.preferences);
+    // The POS app on a phone: upright with the whole system for a takeaway shop, the sideways POS otherwise.
+    if (posTablet) android?.phoneTill?.(session.business.businessType === 'takeaway');
     try {
       localStorage.setItem(LAST_PRODUCT_KEY, session.business.product);
     } catch {
@@ -141,7 +143,7 @@ export function BusinessAuthProvider({ children }: { children: ReactNode }) {
           clearBudgetOffline();
           // A fresh page load guarantees no screen keeps showing the previous user (shared counter PCs).
           // The tablet app signs back in straight to the POS.
-          window.location.replace(posTablet ? '/login?next=%2Fstart' : productPath(product, 'login'));
+          window.location.replace(posTabletFor(session?.business.businessType) ? '/login?next=%2Fstart' : productPath(product, 'login'));
         }
       },
     };
