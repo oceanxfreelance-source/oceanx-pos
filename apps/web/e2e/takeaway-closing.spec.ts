@@ -27,6 +27,7 @@ test('takeaway shop: sell, close the day, count the cash, see over / short', asy
   await expect(page.getByRole('table').getByText('Chicken Burger')).toBeVisible();
 
   await expect(page.locator('aside').first().getByRole('link', { name: 'Tables' })).toHaveCount(0);
+  await expect(page.locator('aside').first().getByRole('link', { name: 'Kitchen' })).toHaveCount(0);
 
   // Two burgers, paid in cash. A takeaway shop has no dine-in or tables.
   await page.goto('/pos');
@@ -68,13 +69,14 @@ test('takeaway shop: sell, close the day, count the cash, see over / short', asy
   await expect(page.getByRole('dialog').getByText('Float from last closing').locator('..')).toContainText('20.00');
   await page.keyboard.press('Escape');
 
-  // A juice / coffee counter has no kitchen: turn off sending orders to the kitchen and the Kitchen screen goes.
+  // A takeaway shop has no kitchen screen; it can be switched on in Settings > POS if one is needed.
   const nav = page.locator('aside').first();
-  await expect(nav.getByRole('link', { name: 'Kitchen' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Kitchen' })).toHaveCount(0);
   await page.goto('/settings');
   await page.getByRole('tab', { name: 'POS' }).click();
   await expect(page.getByRole('switch', { name: 'Takeaway only' })).toBeChecked();
+  await expect(page.getByRole('switch', { name: 'Send orders to the kitchen display' })).not.toBeChecked();
   await page.getByRole('switch', { name: 'Send orders to the kitchen display' }).click();
   await page.getByRole('button', { name: 'Save' }).click();
-  await expect(nav.getByRole('link', { name: 'Kitchen' })).toHaveCount(0);
+  await expect(nav.getByRole('link', { name: 'Kitchen' })).toBeVisible();
 });

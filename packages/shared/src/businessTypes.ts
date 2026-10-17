@@ -91,7 +91,7 @@ export const BUSINESS_TYPE_PROFILES: Record<BusinessType, BusinessTypeProfile> =
     productsLabelKey: 'nav.menu',
     dashboardWidgets: ['today_sales', 'orders', 'average_order_value', 'top_products', 'recent_orders'],
     tableService: false,
-    kitchen: true,
+    kitchen: false,
     suggestedCategoryKeys: ['mains', 'sides', 'drinks'],
   },
   retail_shop: {

@@ -16,6 +16,9 @@ import type { Executor } from '../db/client';
 import { businesses, businessSettings, outlets, plans, rolePermissions, roles, subscriptions, userRoles, users } from '../db/schema';
 import { AppError } from '../lib/errors';
 
+/** POS settings a Takeaway shop starts with (and gets when it becomes one). */
+export const TAKEAWAY_POS = { takeawayOnly: true, sendToKitchen: false, defaultOrderType: 'takeaway' as const };
+
 export const SYSTEM_ROLE_NAMES: Record<SystemRoleKey, string> = {
   business_admin: 'Business Admin',
   manager: 'Manager',
@@ -127,15 +130,22 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
     .values({ businessId: business.id, name: 'Main', code: 'MAIN', isDefault: true, address: input.address ?? '', phone: input.phone ?? '' })
     .returning();
 
-  await tx.insert(businessSettings).values({
-    businessId: business.id,
-    settings: defaultBusinessSettings({ currency: input.currency, timezone: input.timezone }),
-  });
+  const settings = defaultBusinessSettings({ currency: input.currency, timezone: input.timezone });
+  // A takeaway shop: takeaway only, no kitchen screen (both can be switched on in Settings > POS).
+  if (input.businessType === 'takeaway') settings.pos = { ...settings.pos, ...TAKEAWAY_POS };
+  await tx.insert(businessSettings).values({ businessId: business.id, settings });
 
   const roleIds: Partial<Record<SystemRoleKey, string>> = {};
   const retail = isRetailType(input.businessType);
   // Gravity (quotations & invoices only) is one person: just the owner's admin role, no POS roles.
-  const roleKeys = isSoloProduct(product) ? GRAVITY_SYSTEM_ROLE_KEYS : retail ? RETAIL_SYSTEM_ROLE_KEYS : SYSTEM_ROLE_KEYS;
+  // A takeaway shop has no kitchen or waiters: owner, manager and cashier.
+  const roleKeys = isSoloProduct(product)
+    ? GRAVITY_SYSTEM_ROLE_KEYS
+    : retail
+      ? RETAIL_SYSTEM_ROLE_KEYS
+      : input.businessType === 'takeaway'
+        ? (['business_admin', 'manager', 'cashier'] as const)
+        : SYSTEM_ROLE_KEYS;
   for (const key of roleKeys) {
     const [role] = await tx
       .insert(roles)

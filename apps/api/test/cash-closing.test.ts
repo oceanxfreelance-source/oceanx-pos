@@ -71,8 +71,9 @@ describe('end-of-day cash closing', () => {
     const s = await sell(owner, burger.id, 1, [{ method: 'cash', amount: 45 }]);
     expect((await owner.post(`/api/sales/${s.id}/void`, { reason: 'wrong order' })).statusCode).toBe(200);
     expect((await owner.get('/api/pos/closing')).json()).toMatchObject({ salesCount: 0, cashIn: 0, expectedCash: 0 });
-    const cook = await createStaff(env, owner, 'cook@burgerbox.test', 'kitchen_staff');
-    expect((await cook.client.get('/api/pos/closing')).statusCode).toBe(403);
+    const viewer = (await owner.post('/api/roles', { name: 'Viewer', permissions: ['dashboard.view'] })).json();
+    const helper = await createStaff(env, owner, 'helper@burgerbox.test', [viewer.id]);
+    expect((await helper.client.get('/api/pos/closing')).statusCode).toBe(403);
     const c = (await owner.post('/api/pos/closing', { countedCash: 0 })).json();
     const other = await setupBusiness(env, sa, 'Other Shop', { type: 'takeaway' });
     expect((await other.owner.get(`/api/pos/closings/${c.id}`)).statusCode).toBe(404);
@@ -89,5 +90,20 @@ describe('business Viber number', () => {
     const c = (await owner.post('/api/customers', { name: 'Ali', phone: '7771234' })).json();
     const q = (await owner.post('/api/quotations', { customerId: c.id, quotationDate: '2026-10-01', validUntil: '2026-10-31', items: [{ name: 'Juice for event', quantity: 20, unitPrice: 25 }] })).json();
     expect((await owner.get(`/api/quotations/${q.id}`)).json().business.viberPhone).toBe('+960 777 1234');
+  });
+});
+
+describe('takeaway shops', () => {
+  it('start takeaway only with no kitchen screen and no kitchen or waiter roles; a business that becomes takeaway gets the same', async () => {
+    const pos = (await owner.get('/api/settings')).json().sections.pos;
+    expect(pos).toMatchObject({ takeawayOnly: true, sendToKitchen: false, defaultOrderType: 'takeaway' });
+    const roles = (await owner.get('/api/roles')).json().items.map((r: { systemKey: string | null }) => r.systemKey).filter(Boolean).sort();
+    expect(roles).toEqual(['business_admin', 'cashier', 'manager']);
+    // Another food business switching to Takeaway.
+    const cafe = await setupBusiness(env, sa, 'Juice Corner', { type: 'cafe' });
+    expect((await cafe.owner.get('/api/settings')).json().sections.pos).toMatchObject({ sendToKitchen: true, defaultOrderType: 'dine_in' });
+    const p = (await cafe.owner.get('/api/settings')).json().profile;
+    expect((await cafe.owner.patch('/api/settings/profile', { name: p.name, businessType: 'takeaway', email: p.email, phone: p.phone, address: p.address })).statusCode).toBe(200);
+    expect((await cafe.owner.get('/api/settings')).json().sections.pos).toMatchObject({ takeawayOnly: true, sendToKitchen: false, defaultOrderType: 'takeaway' });
   });
 });

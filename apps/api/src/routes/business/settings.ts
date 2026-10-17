@@ -21,6 +21,7 @@ import { parse } from '../../lib/validation';
 import { actor } from '../../lib/tenant';
 import { withinLimit } from '../../services/access';
 import { loadBusinessSettings, saveSettingsSection } from '../../services/settings';
+import { TAKEAWAY_POS } from '../../services/provisioning';
 
 const LOGO_MAX_BYTES = 1_048_576;
 
@@ -56,6 +57,11 @@ export async function settingsRoutes(app: FastifyInstance) {
     const ctx = bizCtx(req);
     const body = parse(businessProfileSchema, req.body);
     await db.update(businesses).set({ ...body, updatedAt: new Date() }).where(eq(businesses.id, ctx.businessId));
+    // Becoming a takeaway shop: takeaway only, no kitchen screen (can be switched back in Settings > POS).
+    if (body.businessType === 'takeaway' && ctx.access.business.businessType !== 'takeaway') {
+      const current = await loadBusinessSettings(db, ctx.businessId);
+      await saveSettingsSection(db, ctx.businessId, 'pos', { ...current.pos, ...TAKEAWAY_POS }, ctx.user.id);
+    }
     await audit(db, {
       actorType: 'user',
       actorId: ctx.user.id,

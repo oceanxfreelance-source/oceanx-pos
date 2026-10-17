@@ -232,6 +232,13 @@
       "when": 1792242306008,
       "tag": "0032_business_viber_phone",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1792243976318,
+      "tag": "0033_takeaway_no_kitchen",
+      "breakpoints": true
     }
   ]
 }
