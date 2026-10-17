@@ -5,8 +5,8 @@ plugins {
 // Four apps from one shell. The systems themselves update on their own (the apps open the live sites);
 // bump a version only when that app's shell changes.
 // OceanX POS for tablets (restaurants and cafés).
-def appVersion = '1.0.5'
-def appVersionCode = 6
+def appVersion = '1.0.6'
+def appVersionCode = 7
 // Gravity for phones (quotations & invoices).
 def gravityVersion = '1.0.1'
 def gravityVersionCode = 2

@@ -1,4 +1,4 @@
-import { android, posTablet } from './desktop';
+import { android, posPhone, posTablet } from './desktop';
 import { HOST_PRODUCT } from './product';
 
 /** Tablets show the system as a 1280-wide screen when sideways, scaled to fit: the POS fits without big tiles. */
@@ -34,11 +34,11 @@ export function installTabletFit() {
 }
 
 /**
- * Gravity and Gravity Flow phone apps: the screens are made for the phone, so pinch-zoom is off (no accidental
+ * Gravity, Gravity Flow and the POS app on a phone: the screens are made for the phone, so pinch-zoom is off (no accidental
  * zooming or sideways scrolling). Only an A4 document (/print/...) can be zoomed, to read it in detail.
  */
 export function installPhoneAppZoomLock(router: { state: { location: { pathname: string } }; subscribe: (fn: (s: { location: { pathname: string } }) => void) => unknown }) {
-  if (!android || HOST_PRODUCT === 'pos') return;
+  if (!android || (HOST_PRODUCT === 'pos' && !posPhone)) return;
   const meta = document.querySelector<HTMLMetaElement>('meta[name="viewport"]');
   if (!meta) return;
   const apply = (pathname: string) => {

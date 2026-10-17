@@ -29,7 +29,7 @@ export const android = (window as unknown as { OceanXAndroid?: OceanxAndroid }).
 export const posTablet = !!android && HOST_PRODUCT === 'pos';
 
 /** The POS app on a phone (short side under 600 points), not a tablet. */
-const posPhone = posTablet && Math.min(window.screen.width, window.screen.height) < 600;
+export const posPhone = posTablet && Math.min(window.screen.width, window.screen.height) < 600;
 
 /**
  * The POS-only tablet app, for this business. A takeaway shop on a phone uses the app as a phone app with

@@ -59,12 +59,14 @@ public class MainActivity extends Activity {
      * (the page says so through the bridge). Cafés, restaurants and shops keep the sideways tablet POS.
      */
     private boolean phoneTill;
+    private FrameLayout root;
 
     @Override
     @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        phoneTill = !PHONE && isPhone() && getPreferences(MODE_PRIVATE).getBoolean("phoneTill", false);
+        // On a phone the app starts upright; it turns sideways only once the page says it is not a takeaway shop.
+        phoneTill = !PHONE && isPhone() && getPreferences(MODE_PRIVATE).getBoolean("phoneTill", true);
         // A till or kitchen screen should stay on during service (a phone app lets the screen sleep).
         if (!PHONE) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (!PHONE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -73,27 +75,28 @@ public class MainActivity extends Activity {
 
         web = new WebView(this);
         web.setBackgroundColor(PHONE ? Color.WHITE : Color.BLACK);
-        if (PHONE) {
-            // Phones keep the status and navigation bars: the page sits between them and above the keyboard.
-            // The app draws edge to edge on every Android version (15 does it anyway) and adds that space here.
-            FrameLayout root = new FrameLayout(this);
-            root.setBackgroundColor(Color.parseColor("#03213a"));
-            root.addView(web, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-            root.setOnApplyWindowInsetsListener((v, insets) -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    android.graphics.Insets i = insets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.ime() | WindowInsets.Type.displayCutout());
-                    v.setPadding(i.left, i.top, i.right, i.bottom);
-                } else {
-                    v.setPadding(insets.getSystemWindowInsetLeft(), insets.getSystemWindowInsetTop(), insets.getSystemWindowInsetRight(), insets.getSystemWindowInsetBottom());
-                }
-                // Used up here: the page must not add the same space again (it would make the bottom bar twice as tall).
-                return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ? WindowInsets.CONSUMED : insets.consumeSystemWindowInsets();
-            });
-            setContentView(root);
-            drawEdgeToEdge();
-        } else {
-            setContentView(web);
-        }
+        // Phones (and the POS app as a takeaway shop's phone app) keep the status and navigation bars: the page
+        // sits between them and above the keyboard. The app draws edge to edge on every Android version
+        // (15 does it anyway) and adds that space here. The tablet POS is full screen and needs none.
+        root = new FrameLayout(this);
+        root.setBackgroundColor(PHONE || phoneTill ? Color.parseColor("#03213a") : Color.BLACK);
+        root.addView(web, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        root.setOnApplyWindowInsetsListener((v, insets) -> {
+            if (!PHONE && !phoneTill) {
+                v.setPadding(0, 0, 0, 0);
+                return insets;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                android.graphics.Insets i = insets.getInsets(WindowInsets.Type.systemBars() | WindowInsets.Type.ime() | WindowInsets.Type.displayCutout());
+                v.setPadding(i.left, i.top, i.right, i.bottom);
+            } else {
+                v.setPadding(insets.getSystemWindowInsetLeft(), insets.getSystemWindowInsetTop(), insets.getSystemWindowInsetRight(), insets.getSystemWindowInsetBottom());
+            }
+            // Used up here: the page must not add the same space again (it would make the bottom bar twice as tall).
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ? WindowInsets.CONSUMED : insets.consumeSystemWindowInsets();
+        });
+        setContentView(root);
+        if (PHONE || phoneTill) drawEdgeToEdge();
 
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
@@ -153,8 +156,10 @@ public class MainActivity extends Activity {
         getPreferences(MODE_PRIVATE).edit().putBoolean("phoneTill", want).apply();
         if (want == phoneTill) return;
         phoneTill = want;
+        root.setBackgroundColor(want ? Color.parseColor("#03213a") : Color.BLACK);
         if (want) showBars();
         else goFullScreen();
+        root.requestApplyInsets();
         orientationFor(web.getUrl());
     }
 
@@ -164,9 +169,8 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             WindowInsetsController c = getWindow().getInsetsController();
             if (c != null) c.show(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
-        } else {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
+        drawEdgeToEdge();
     }
 
     /** Phones: the app draws under the bars on every Android version and pads itself (no double spacing). */
@@ -200,7 +204,8 @@ public class MainActivity extends Activity {
     private void orientationFor(String url) {
         if (PHONE) return; // the phone app turns with the phone
         if (phoneTill) {
-            if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            // Upright or sideways, as the phone is held (the phone's rotation lock still applies).
+            if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_FULL_USER) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_USER);
             return;
         }
         String path = url == null ? "" : Uri.parse(url).getPath();

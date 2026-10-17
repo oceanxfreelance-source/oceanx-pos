@@ -31,12 +31,17 @@ test('takeaway shop on a phone: the whole system in the POS app', async ({ page 
   await register(page, 'takeaway', 'Juice Bar');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Aisha');
   expect(await calls(page)).toContain(true);
-  for (const path of ['/customers', '/invoices', '/quotations']) {
+  // Every screen fits the phone's width: nothing sticks out sideways.
+  for (const path of ['/', '/customers', '/invoices', '/quotations', '/sales', '/reports', '/closings', '/products', '/settings']) {
     await page.goto(path);
     await expect(page).toHaveURL(new RegExp(`${path}$`));
+    await page.waitForLoadState('networkidle');
+    const wide = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(wide, `${path} is wider than the phone`).toBeLessThanOrEqual(1);
   }
   await page.goto('/pos');
   await expect(page.getByRole('textbox', { name: 'Search items…' })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
   // Back goes to the dashboard (the tablet app has a sign-out button there instead).
   await expect(page.getByRole('link', { name: 'Dashboard' }).first()).toBeVisible();
   await expect(page.getByRole('button', { name: 'Sign out' })).toHaveCount(0);
