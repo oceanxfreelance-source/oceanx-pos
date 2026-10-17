@@ -49,7 +49,7 @@ export interface BusinessSession {
   regional: { currencySymbol: string; currencyDecimals: number; dateFormat: string; timeFormat: string };
   tax: import('@oceanx/shared').BusinessSettings['tax'];
   viberCredit: { available: boolean; active: boolean };
-  pos: { defaultOrderType: 'dine_in' | 'takeaway' | 'delivery'; allowNegativeStock: boolean; sendToKitchen: boolean; requireTableForDineIn: boolean; maxDiscountPercent: number };
+  pos: { defaultOrderType: 'dine_in' | 'takeaway' | 'delivery'; allowNegativeStock: boolean; sendToKitchen: boolean; requireTableForDineIn: boolean; maxDiscountPercent: number; takeawayOnly?: boolean | null };
 }
 
 export const BIZ_SESSION_KEY = ['biz', 'session'] as const;
@@ -182,4 +182,9 @@ export function lastProduct(): Product {
   } catch {
     return 'pos';
   }
+}
+
+/** Takeaway only (no dine-in, no tables): the POS setting, or by default a Takeaway shop. */
+export function takeawayOnlyOf(session: { business: { businessType: string }; pos: { takeawayOnly?: boolean | null } }) {
+  return session.pos.takeawayOnly ?? session.business.businessType === 'takeaway';
 }

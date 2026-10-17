@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1134 · **confirmed**: 381
+Status: **needs_review**: 1137 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -904,6 +904,9 @@ review of the whole file is still recommended before launch.
 | `settings.payment_details` | Payment details | ފައިސާ ދައްކާނެ ގޮތް | needs_review | New: Gravity (quotation & invoice generator). |
 | `settings.payment_details_hint` | Bank, account name and number, or other ways to pay. Printed on the document. | ބޭންކް، އެކައުންޓްގެ ނަމާއި ނަންބަރު، ނުވަތަ ފައިސާ ދެއްކޭނެ އެހެން ގޮތްތައް. ޑޮކިއުމަންޓުގައި ޕްރިންޓްވާނެ. | needs_review | New: Gravity (quotation & invoice generator). |
 | `settings.pos.allow_negative_stock` | Allow selling when out of stock | ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ | needs_review | Check phrasing: ސްޓޮކް ނެތްއިރުވެސް ވިއްކުމުގެ ހުއްދަ. |
+| `settings.pos.send_to_kitchen_hint` | New orders create kitchen tickets automatically. Turn off if there is no kitchen (e.g. a juice or coffee counter): the Kitchen screen is then hidden. | އައު އޯޑަރުތައް ބަދިގެއަށް އޮޓޮމެޓިކުން ފޮނުވޭނެ. ބަދިގެއެއް ނެތްނަމަ (މިސާލަކަށް ޖޫސް ނުވަތަ ކޮފީ ކައުންޓަރ) ބަންދުކުރައްވާ: ދެން ބަދިގޭ ސްކްރީން ނުފެންނާނެ. | needs_review | POS settings: takeaway only / no kitchen (new). |
+| `settings.pos.takeaway_only` | Takeaway only | ހަމައެކަނި ޓޭކްއެވޭ | needs_review | POS settings: takeaway only / no kitchen (new). |
+| `settings.pos.takeaway_only_hint` | No dine-in and no tables: every sale is takeaway (or delivery). | ތިބެގެން ކެއުމެއް އަދި މޭޒެއް ނެތް: ހުރިހާ ވިއްކުމަކީ ޓޭކްއެވޭ (ނުވަތަ ޑެލިވަރީ). | needs_review | POS settings: takeaway only / no kitchen (new). |
 | `settings.tabs.branding` | Stamp & signature | ތައްގަނޑާއި ސޮއި | needs_review | New: stamp and signature on documents. ތައްގަނޑު = stamp/seal; ސޮއި = signature. |
 | `staff.active_hint` | Inactive staff are left off new salary sheets and the rota. | އިންއެކްޓިވް ސްޓާފުން އާ މުސާރަ ޝީޓްތަކާއި ރޯސްޓަރުގައި ނުހިމެނޭނެ. | needs_review | Inactive = އިންއެކްޓިވް as in users.account_active_hint; common.inactive uses ހަރަކާތްތެރި ނޫން. |
 | `staff.add_missing_staff` | Add missing staff | ނެތް ސްޓާފުން އިތުރުކުރޭ | needs_review | "Missing" = not yet on the sheet; ނެތް ސްޓާފުން may read as "absent staff". Alternative: ހިމެނިފައިނުވާ ސްޓާފުން. |

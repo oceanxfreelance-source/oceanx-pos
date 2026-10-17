@@ -10603,5 +10603,26 @@
     "suggested": "ދުވަސް ނިންމުން (ކޭޝް ގުނުން)",
     "status": "needs_review",
     "notes": "POS: end-of-day cash closing (new)."
+  },
+  {
+    "key": "settings.pos.takeaway_only",
+    "english": "Takeaway only",
+    "suggested": "ހަމައެކަނި ޓޭކްއެވޭ",
+    "status": "needs_review",
+    "notes": "POS settings: takeaway only / no kitchen (new)."
+  },
+  {
+    "key": "settings.pos.takeaway_only_hint",
+    "english": "No dine-in and no tables: every sale is takeaway (or delivery).",
+    "suggested": "ތިބެގެން ކެއުމެއް އަދި މޭޒެއް ނެތް: ހުރިހާ ވިއްކުމަކީ ޓޭކްއެވޭ (ނުވަތަ ޑެލިވަރީ).",
+    "status": "needs_review",
+    "notes": "POS settings: takeaway only / no kitchen (new)."
+  },
+  {
+    "key": "settings.pos.send_to_kitchen_hint",
+    "english": "New orders create kitchen tickets automatically. Turn off if there is no kitchen (e.g. a juice or coffee counter): the Kitchen screen is then hidden.",
+    "suggested": "އައު އޯޑަރުތައް ބަދިގެއަށް އޮޓޮމެޓިކުން ފޮނުވޭނެ. ބަދިގެއެއް ނެތްނަމަ (މިސާލަކަށް ޖޫސް ނުވަތަ ކޮފީ ކައުންޓަރ) ބަންދުކުރައްވާ: ދެން ބަދިގޭ ސްކްރީން ނުފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "POS settings: takeaway only / no kitchen (new)."
   }
 ]

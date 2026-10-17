@@ -66,4 +66,15 @@ test('takeaway shop: sell, close the day, count the cash, see over / short', asy
   await page.screenshot({ path: `${SHOTS}/closings.png`, fullPage: true });
   await page.getByRole('button', { name: 'Close the day' }).click();
   await expect(page.getByRole('dialog').getByText('Float from last closing').locator('..')).toContainText('20.00');
+  await page.keyboard.press('Escape');
+
+  // A juice / coffee counter has no kitchen: turn off sending orders to the kitchen and the Kitchen screen goes.
+  const nav = page.locator('aside').first();
+  await expect(nav.getByRole('link', { name: 'Kitchen' })).toBeVisible();
+  await page.goto('/settings');
+  await page.getByRole('tab', { name: 'POS' }).click();
+  await expect(page.getByRole('switch', { name: 'Takeaway only' })).toBeChecked();
+  await page.getByRole('switch', { name: 'Send orders to the kitchen display' }).click();
+  await page.getByRole('button', { name: 'Save' }).click();
+  await expect(nav.getByRole('link', { name: 'Kitchen' })).toHaveCount(0);
 });

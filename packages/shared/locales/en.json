@@ -703,10 +703,12 @@
       "max_discount": "Maximum discount (%)",
       "max_discount_hint": "Discounts above this need a manager with the discount permission.",
       "send_to_kitchen": "Send orders to the kitchen display",
-      "send_to_kitchen_hint": "New orders create kitchen tickets automatically.",
+      "send_to_kitchen_hint": "New orders create kitchen tickets automatically. Turn off if there is no kitchen (e.g. a juice or coffee counter): the Kitchen screen is then hidden.",
       "require_table": "Require a table for dine-in orders",
       "allow_negative_stock": "Allow selling when out of stock",
-      "allow_negative_stock_hint": "If off, sales are blocked when stock would go below zero."
+      "allow_negative_stock_hint": "If off, sales are blocked when stock would go below zero.",
+      "takeaway_only": "Takeaway only",
+      "takeaway_only_hint": "No dine-in and no tables: every sale is takeaway (or delivery)."
     },
     "loyalty": {
       "points_per_unit": "Points per 1 currency unit spent",

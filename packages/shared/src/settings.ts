@@ -84,6 +84,8 @@ export const settingsSectionSchemas = {
     sendToKitchen: z.boolean(),
     requireTableForDineIn: z.boolean(),
     maxDiscountPercent: z.number().min(0).max(100),
+    /** Takeaway only: no dine-in and no tables. null = by business type (Takeaway shops yes, others no). */
+    takeawayOnly: z.boolean().nullable().default(null),
   }),
   loyalty: z.object({
     pointsPerUnit: z.number().min(0).max(1000),
@@ -172,7 +174,7 @@ export function defaultBusinessSettings(opts: { currency?: string; timezone?: st
       paymentDetails: '',
       language: null,
     },
-    pos: { defaultOrderType: 'dine_in', allowNegativeStock: true, sendToKitchen: true, requireTableForDineIn: false, maxDiscountPercent: 100 },
+    pos: { defaultOrderType: 'dine_in', allowNegativeStock: true, sendToKitchen: true, requireTableForDineIn: false, maxDiscountPercent: 100, takeawayOnly: null },
     loyalty: { pointsPerUnit: 1, pointValue: 1, minRedeemPoints: 100 },
     online: { menuEnabled: true, ordersEnabled: false, showPrices: true, message: '', messageTranslations: {} },
     branding: { showStamp: true, showSignature: true },

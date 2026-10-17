@@ -169,7 +169,8 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
   const docLangs = useDocLanguages();
   const qc = useQueryClient();
   const { refresh } = useBiz();
-  const retail = !!useBizSession().business.profile.retail;
+  const bizSession = useBizSession();
+  const retail = !!bizSession.business.profile.retail;
   const [value, setValue] = useState<BusinessSettings[S]>(initial);
   useEffect(() => setValue(initial), [initial]);
   const save = useMutation({
@@ -263,6 +264,12 @@ function SectionForm<S extends keyof BusinessSettings>({ section, initial, edita
         {/* Shops: no kitchen or tables, and nothing is sold that isn't on the rack. */}
         {!retail && (
           <>
+            <Switch
+              checked={x.takeawayOnly ?? bizSession.business.businessType === 'takeaway'}
+              onChange={(c) => set({ takeawayOnly: c, ...(c && x.defaultOrderType === 'dine_in' ? { defaultOrderType: 'takeaway' } : {}) } as never)}
+              label={t('settings.pos.takeaway_only')}
+              description={t('settings.pos.takeaway_only_hint')}
+            />
             <Switch checked={x.sendToKitchen} onChange={(c) => set({ sendToKitchen: c } as never)} label={t('settings.pos.send_to_kitchen')} description={t('settings.pos.send_to_kitchen_hint')} />
             <Switch checked={x.requireTableForDineIn} onChange={(c) => set({ requireTableForDineIn: c } as never)} label={t('settings.pos.require_table')} />
             <Switch checked={x.allowNegativeStock} onChange={(c) => set({ allowNegativeStock: c } as never)} label={t('settings.pos.allow_negative_stock')} description={t('settings.pos.allow_negative_stock_hint')} />

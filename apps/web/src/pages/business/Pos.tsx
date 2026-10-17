@@ -21,6 +21,7 @@ import { Alert, Badge } from '../../components/ui/Card';
 import { CustomerPicker, type CustomerLite } from '../../components/Pickers';
 import { CreditPaymentDialog } from './Customers';
 import { CloseDayDialog } from './CashClosing';
+import { takeawayOnlyOf } from '../../auth/business';
 import { FarumaWarning } from '../../components/FarumaWarning';
 
 interface PosProduct {
@@ -95,8 +96,8 @@ export default function PosPage() {
   const [cart, setCart] = useState<CartLine[]>([]);
   // Shops have no dine-in: sales are in-store (takeaway) or delivery.
   const retail = !!session.business.profile.retail;
-  // A takeaway shop has no seats either: takeaway (or delivery) only, no tables.
-  const noDineIn = retail || session.business.businessType === 'takeaway';
+  // Takeaway only (a setting; Takeaway shops by default): takeaway (or delivery), no dine-in, no tables.
+  const noDineIn = retail || takeawayOnlyOf(session);
   const [orderType, setOrderType] = useState<'dine_in' | 'takeaway' | 'delivery'>(
     (session.pos.defaultOrderType === 'delivery' && !hasAddon('delivery')) || (noDineIn && session.pos.defaultOrderType === 'dine_in') ? 'takeaway' : session.pos.defaultOrderType,
   );
