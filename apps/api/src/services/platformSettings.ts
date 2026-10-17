@@ -18,6 +18,7 @@ export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   billingNote: '',
   billingReminderDays: 7,
   trialDeleteHours: 48,
+  flowTrialDeleteHours: 24,
   companyAddress: '',
   companyPhone: '',
   companyTaxNumber: '',

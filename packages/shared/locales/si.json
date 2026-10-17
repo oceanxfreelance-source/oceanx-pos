@@ -2878,7 +2878,9 @@
     "today_records": "අද වාර්තා",
     "nothing_today": "අද තවම කිසිවක් වාර්තා කර නැත.",
     "see_month": "මෙම මාසය",
-    "see_records": "{{month}} සියලු වාර්තා"
+    "see_records": "{{month}} සියලු වාර්තා",
+    "signups_title": "Gravity Flow ලියාපදිංචි",
+    "signups_subtitle": "Gravity Flow සඳහා ලියාපදිංචි වූ සියලු දෙනා. අනුමැතියකින් තොරව වහාම ආරම්භ වේ. නොගෙවූ අත්හදා බැලීම මැකූ පසුවත් විස්තර මෙහි රැඳේ."
   },
   "refunds": {
     "refund": "ආපසු ගෙවන්න",

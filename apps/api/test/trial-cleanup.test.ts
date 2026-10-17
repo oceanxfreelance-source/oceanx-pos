@@ -33,7 +33,7 @@ beforeEach(async () => {
 
 async function signUp(
   name: string,
-  product: "pos" | "gravity" | "flow" = "gravity",
+  product: "pos" | "gravity" | "flow" | "budget" = "gravity",
 ) {
   const c = new Client(env.app);
   const email = `${name.toLowerCase().replace(/\W/g, "")}@trial.test`;
@@ -212,12 +212,42 @@ describe("Gravity free trials: no approval, then deleted 48 hours after an unpai
     expect((await sweep(new Date(now.getTime() + 49 * HOUR))).deleted).toBe(1);
   });
 
-  it("never deleted: POS and Gravity Flow trials, payment waiting for review, activated by Super Admin, or the rule switched off", async () => {
+  it("Gravity Flow: an unpaid trial is deleted 24 hours after it ends (its own setting); paying in time keeps it", async () => {
+    const flow = await signUp("Flow Shop", "flow");
+    const paying = await signUp("Flow Payer", "flow");
+    await endTrial(flow.id);
+    await endTrial(paying.id);
+    const now = new Date();
+    expect(await sweep(now)).toEqual({ noticed: 2, deleted: 0 });
+    expect(env.mailer.outbox.filter((m) => m.subject.startsWith("Your free trial has ended")).length).toBe(2);
+    // The owner sees when it will be deleted: 24 hours from the notice.
+    const deleteAt = (await flow.c.get("/api/auth/session")).json().subscription.deleteAt;
+    expect(Math.round((new Date(deleteAt).getTime() - now.getTime()) / HOUR)).toBe(24);
+    // One of them sends a slip in time.
+    const plan = (await paying.c.get("/api/billing")).json().plans[0].id;
+    expect((await paying.c.request("POST", `/api/billing/payments?planId=${plan}&months=1&reference=FL1`, PNG, { "content-type": "image/png" })).statusCode).toBe(201);
+    expect((await sweep(new Date(now.getTime() + 23 * HOUR))).deleted).toBe(0);
+    expect((await sweep(new Date(now.getTime() + 25 * HOUR))).deleted).toBe(1);
+    expect(await rowsLeft(flow.id)).toBe(0);
+    expect(await rowsLeft(paying.id)).toBeGreaterThan(0);
+    // Super Admin's Flow sign-ups list keeps the record, marked deleted, with Flow's 24 hours.
+    const list = (await sa.get("/api/superadmin/signups?product=flow")).json();
+    expect(list.flowTrialDeleteHours).toBe(24);
+    expect(list.items.find((r: { businessName: string }) => r.businessName === "Flow Shop").state).toBe("deleted");
+    // Gravity keeps its own 48 hours; Flow's can be changed (0 = never).
+    expect((await sa.patch("/api/superadmin/settings", { flowTrialDeleteHours: 0 })).statusCode).toBe(200);
+    const kept = await signUp("Flow Kept", "flow");
+    await endTrial(kept.id);
+    expect(await sweep(new Date(now.getTime() + 100 * HOUR))).toEqual({ noticed: 0, deleted: 0 });
+    expect(await rowsLeft(kept.id)).toBeGreaterThan(0);
+  });
+
+  it("never deleted: POS and Gravity Budget trials, payment waiting for review, activated by Super Admin, or the rule switched off", async () => {
     await sa.patch("/api/superadmin/settings", { registrationMode: "open" });
     const pos = await signUp("Pos Cafe", "pos");
-    const flow = await signUp("Flow Shop", "flow");
+    const budget = await signUp("Budget Person", "budget");
     await endTrial(pos.id);
-    await endTrial(flow.id);
+    await endTrial(budget.id);
     const reviewing = await signUp("Paying Studio");
     const activated = await signUp("Friend Studio");
     const off = await signUp("Kept Studio");
@@ -253,7 +283,7 @@ describe("Gravity free trials: no approval, then deleted 48 hours after an unpai
     expect(await rowsLeft(reviewing.id)).toBeGreaterThan(0);
     expect(await rowsLeft(activated.id)).toBeGreaterThan(0);
     expect(await rowsLeft(pos.id)).toBeGreaterThan(0);
-    expect(await rowsLeft(flow.id)).toBeGreaterThan(0);
+    expect(await rowsLeft(budget.id)).toBeGreaterThan(0);
     expect(
       (await pos.c.get("/api/auth/session")).json().subscription.deleteAt,
     ).toBeNull();

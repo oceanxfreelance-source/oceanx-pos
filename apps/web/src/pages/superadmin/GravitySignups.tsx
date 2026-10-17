@@ -28,10 +28,11 @@ const TONE: Record<Row['state'], BadgeTone> = { trial: 'blue', trial_ended: 'red
 const PAGE = 50;
 
 /**
- * Every Gravity sign-up with the owner's details. Accounts start at once (no approval); an unpaid trial is deleted
- * the set number of hours after it ends, but its sign-up details stay here.
+ * Every Gravity (or Gravity Flow) sign-up with the owner's details. Accounts start at once (no approval); an unpaid
+ * trial is deleted the set number of hours after it ends (each product its own hours), but its sign-up details stay here.
  */
-export default function GravitySignupsPage() {
+export default function GravitySignupsPage({ product = 'gravity' }: { product?: 'gravity' | 'flow' }) {
+  const hoursKey = product === 'flow' ? 'flowTrialDeleteHours' : 'trialDeleteHours';
   const { t } = useTranslation();
   const f = useFormat();
   const qc = useQueryClient();
@@ -44,15 +45,15 @@ export default function GravitySignupsPage() {
     return () => clearTimeout(id);
   }, [search]);
   const list = useQuery({
-    queryKey: ['sa', 'signups', q, page],
-    queryFn: () => saApi.get<{ items: Row[]; total: number; trialDeleteHours: number }>(`/signups${qs({ product: 'gravity', q, page, pageSize: PAGE })}`),
+    queryKey: ['sa', 'signups', product, q, page],
+    queryFn: () => saApi.get<{ items: Row[]; total: number; trialDeleteHours: number; flowTrialDeleteHours: number }>(`/signups${qs({ product, q, page, pageSize: PAGE })}`),
     placeholderData: keepPreviousData,
   });
   useEffect(() => {
-    if (list.data && hours === '') setHours(String(list.data.trialDeleteHours));
+    if (list.data && hours === '') setHours(String(list.data[hoursKey]));
   }, [list.data, hours]);
   const save = useMutation({
-    mutationFn: () => saApi.patch('/settings', { trialDeleteHours: Number(hours || 0) }),
+    mutationFn: () => saApi.patch('/settings', { [hoursKey]: Number(hours || 0) }),
     onSuccess: () => {
       toast.success(t('common.saved'));
       void qc.invalidateQueries({ queryKey: ['sa', 'signups'] });
@@ -100,7 +101,7 @@ export default function GravitySignupsPage() {
 
   return (
     <div>
-      <PageHeader title={t('gravity.signups_title')} description={t('gravity.signups_subtitle')} />
+      <PageHeader title={t(`${product}.signups_title`)} description={t(`${product}.signups_subtitle`)} />
       <Card className="mb-4">
         <form
           className="flex flex-wrap items-end gap-3"

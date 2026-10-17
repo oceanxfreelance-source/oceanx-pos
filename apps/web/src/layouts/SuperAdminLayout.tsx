@@ -60,6 +60,7 @@ const GRAVITY_CONSOLE: NavItem[] = [
 ];
 const FLOW_CONSOLE: NavItem[] = [
   { to: '/superadmin/flow/accounts', label: 'flow.accounts', icon: Building2 },
+  { to: '/superadmin/flow/signups', label: 'gravity.nav_signups', icon: UserPlus },
   { to: '/superadmin/flow/payments', label: 'superadmin.nav.payments', icon: Banknote },
   { to: '/superadmin/flow/plans', label: 'gravity.nav_plan', icon: Layers },
 ];

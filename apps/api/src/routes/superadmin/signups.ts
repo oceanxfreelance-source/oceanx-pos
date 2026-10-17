@@ -6,7 +6,7 @@ import { businesses, signups, subscriptions } from "../../db/schema";
 import { parse } from "../../lib/validation";
 import { getPlatformSettings } from "../../services/platformSettings";
 import {
-  AUTO_DELETE_PRODUCT,
+  trialDeleteHoursFor,
   trialDeletionAt,
 } from "../../services/trialCleanup";
 
@@ -80,11 +80,11 @@ export async function signupRoutes(app: FastifyInstance) {
       else {
         state = "trial_ended";
         deleteAt =
-          r.periodEnd && r.s.product === AUTO_DELETE_PRODUCT
+          r.periodEnd && trialDeleteHoursFor(r.s.product, settings) > 0
             ? trialDeletionAt(
                 r.periodEnd,
                 r.s.trialEndedNoticeAt,
-                settings.trialDeleteHours,
+                trialDeleteHoursFor(r.s.product, settings),
                 now,
               )
             : null;
@@ -111,6 +111,7 @@ export async function signupRoutes(app: FastifyInstance) {
       page: q.page,
       pageSize: q.pageSize,
       trialDeleteHours: settings.trialDeleteHours,
+      flowTrialDeleteHours: settings.flowTrialDeleteHours,
     };
   });
 }

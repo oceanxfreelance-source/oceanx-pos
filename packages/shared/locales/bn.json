@@ -2878,7 +2878,9 @@
     "today_records": "আজকের রেকর্ড",
     "nothing_today": "আজ এখনো কিছু লেখা হয়নি।",
     "see_month": "এই মাস",
-    "see_records": "{{month}}-এর সব রেকর্ড"
+    "see_records": "{{month}}-এর সব রেকর্ড",
+    "signups_title": "Gravity Flow সাইন-আপ",
+    "signups_subtitle": "Gravity Flow-এ সাইন আপ করা সবাই। অনুমোদন ছাড়াই সঙ্গে সঙ্গে শুরু করেন। টাকা না দেওয়া ট্রায়াল মুছে গেলেও তথ্য এখানে থাকে।"
   },
   "refunds": {
     "refund": "রিফান্ড",

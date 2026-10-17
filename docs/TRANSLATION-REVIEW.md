@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1095 · **confirmed**: 381
+Status: **needs_review**: 1097 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -260,6 +260,8 @@ review of the whole file is still recommended before launch.
 | `flow.search` | Search notes or categories | ނޯޓު ނުވަތަ ބާވަތް ހޯދާ | needs_review | New: Gravity Flow. |
 | `flow.see_month` | This month | މި މަސް | needs_review | Gravity Flow: today-only dashboard. |
 | `flow.see_records` | All records in {{month}} | {{month}} ގެ ހުރިހާ ރެކޯޑެއް | needs_review | Gravity Flow: today-only dashboard. |
+| `flow.signups_subtitle` | Everyone who signed up for Gravity Flow. They start at once, no approval needed. Their details stay here even after an unpaid trial is deleted. | Gravity Flow އަށް ސައިން އަޕްވި ހުރިހާ ފަރާތެއް. އެޕްރޫވަލެއް ނެތި ވަގުތުން ފެށޭނެ. ފައިސާ ނުދައްކާ ޓްރަޔަލް ފޮހެލުމަށްފަހުވެސް މަޢުލޫމާތު މިތާ ހުންނާނެ. | needs_review | Super Admin: Flow sign-ups page (new). |
+| `flow.signups_title` | Gravity Flow sign-ups | Gravity Flow ސައިން އަޕްތައް | needs_review | Super Admin: Flow sign-ups page (new). |
 | `flow.sort` | Sort | ތަރުތީބު | needs_review | New: Gravity Flow. |
 | `flow.sort_largest` | Largest first | އެންމެ ބޮޑު އަދަދު ކުރިން | needs_review | New: Gravity Flow. |
 | `flow.sort_newest` | Newest first | އެންމެ އައު އެއްޗެއް ކުރިން | needs_review | New: Gravity Flow. |

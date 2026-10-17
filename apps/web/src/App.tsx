@@ -179,6 +179,7 @@ const router = createBrowserRouter([
           { path: 'gravity/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
           { path: 'gravity/plans', element: withSuspense(<SaGravityPlan key="gravity" />) },
           { path: 'gravity/signups', element: withSuspense(<SaGravitySignups />) },
+          { path: 'flow/signups', element: withSuspense(<SaGravitySignups product="flow" />) },
           { path: 'gravity/payments', element: withSuspense(<SaPayments product="gravity" />) },
           // Gravity Flow (income, expenses & profit) console.
           { path: 'flow/accounts', element: withSuspense(<SaBusinesses product="flow" />) },

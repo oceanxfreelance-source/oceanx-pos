@@ -10330,5 +10330,19 @@
     "suggested": "ސުޕަރ އެޑްމިންގެ އެހެން ހުރިހާ ކަމެއް: ކޮމްޕިއުޓަރުން.",
     "status": "needs_review",
     "notes": "OceanX Admin phone app (new)."
+  },
+  {
+    "key": "flow.signups_title",
+    "english": "Gravity Flow sign-ups",
+    "suggested": "Gravity Flow ސައިން އަޕްތައް",
+    "status": "needs_review",
+    "notes": "Super Admin: Flow sign-ups page (new)."
+  },
+  {
+    "key": "flow.signups_subtitle",
+    "english": "Everyone who signed up for Gravity Flow. They start at once, no approval needed. Their details stay here even after an unpaid trial is deleted.",
+    "suggested": "Gravity Flow އަށް ސައިން އަޕްވި ހުރިހާ ފަރާތެއް. އެޕްރޫވަލެއް ނެތި ވަގުތުން ފެށޭނެ. ފައިސާ ނުދައްކާ ޓްރަޔަލް ފޮހެލުމަށްފަހުވެސް މަޢުލޫމާތު މިތާ ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "Super Admin: Flow sign-ups page (new)."
   }
 ]

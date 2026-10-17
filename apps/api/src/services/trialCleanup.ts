@@ -14,8 +14,21 @@ import { appUrlFor, type AppConfig } from "../config";
 import { getPlatformSettings } from "./platformSettings";
 
 const HOUR = 3_600_000;
-/** Only Gravity accounts are deleted when their free trial ends unpaid (POS and Gravity Flow are never auto-deleted). */
-export const AUTO_DELETE_PRODUCT = "gravity";
+/**
+ * Gravity and Gravity Flow accounts are deleted when their free trial ends unpaid (POS and Gravity Budget never are),
+ * each after its own number of hours (Super Admin settings: Gravity 48, Flow 24 by default).
+ */
+export const AUTO_DELETE_PRODUCTS = ["gravity", "flow"] as const;
+
+/** Hours after an unpaid trial ends before the account is deleted (0 = never, also for products not deleted). */
+export function trialDeleteHoursFor(
+  product: string,
+  settings: { trialDeleteHours: number; flowTrialDeleteHours: number },
+) {
+  if (product === "gravity") return settings.trialDeleteHours;
+  if (product === "flow") return settings.flowTrialDeleteHours;
+  return 0;
+}
 
 /** Never emptied when an account is deleted: the account row itself (last), the sign-up record and Super Admin's Hub. */
 const KEEP_TABLES = new Set([
@@ -63,25 +76,19 @@ export async function deletionForBusiness(
 ) {
   const businessId = business.id;
   if (
-    business.product !== AUTO_DELETE_PRODUCT ||
     !sub ||
     sub.status !== "trialing" ||
     sub.currentPeriodEnd > now
   )
     return null;
   const settings = await getPlatformSettings(db);
-  if (settings.trialDeleteHours <= 0 || (await hasPayment(db, businessId)))
-    return null;
+  const hours = trialDeleteHoursFor(business.product, settings);
+  if (hours <= 0 || (await hasPayment(db, businessId))) return null;
   const [s] = await db
     .select({ noticeAt: signups.trialEndedNoticeAt })
     .from(signups)
     .where(eq(signups.businessId, businessId));
-  return trialDeletionAt(
-    sub.currentPeriodEnd,
-    s?.noticeAt ?? null,
-    settings.trialDeleteHours,
-    now,
-  );
+  return trialDeletionAt(sub.currentPeriodEnd, s?.noticeAt ?? null, hours, now);
 }
 
 /**
@@ -156,15 +163,16 @@ export interface SweepDeps {
 }
 
 /**
- * Unpaid Gravity free trials: when one ends, the owner is emailed that the account will be deleted unless they pay
- * within the set hours (48 by default); after that the account and all its data are deleted. Accounts that
+ * Unpaid Gravity and Gravity Flow free trials: when one ends, the owner is emailed that the account will be deleted
+ * unless they pay within the set hours (Gravity 48, Flow 24 by default); after that the account and all its data are deleted. Accounts that
  * paid, sent a payment for review, or were activated by Super Admin are never touched. Safe to run often.
  */
 export async function sweepEndedTrials(deps: SweepDeps, now = new Date()) {
   const { db, mailer, config } = deps;
   const settings = await getPlatformSettings(db);
   const result = { noticed: 0, deleted: 0 };
-  if (settings.trialDeleteHours <= 0) return result;
+  const products = AUTO_DELETE_PRODUCTS.filter((p) => trialDeleteHoursFor(p, settings) > 0);
+  if (!products.length) return result;
   const ended = await db
     .select({
       id: businesses.id,
@@ -180,7 +188,7 @@ export async function sweepEndedTrials(deps: SweepDeps, now = new Date()) {
     .where(
       and(
         isNull(businesses.deletedAt),
-        eq(businesses.product, AUTO_DELETE_PRODUCT),
+        inArray(businesses.product, [...products]),
         eq(subscriptions.status, "trialing"),
         lt(subscriptions.currentPeriodEnd, now),
       ),
@@ -188,6 +196,7 @@ export async function sweepEndedTrials(deps: SweepDeps, now = new Date()) {
 
   for (const b of ended) {
     if (await hasPayment(db, b.id)) continue;
+    const hours = trialDeleteHoursFor(b.product, settings);
     let noticeAt = b.noticeAt;
     if (!noticeAt) {
       const [owner] = await db
@@ -224,7 +233,7 @@ export async function sweepEndedTrials(deps: SweepDeps, now = new Date()) {
       const deleteAt = trialDeletionAt(
         b.trialEnd,
         noticeAt,
-        settings.trialDeleteHours,
+        hours,
         now,
       )!;
       if (owner) {
@@ -251,7 +260,7 @@ export async function sweepEndedTrials(deps: SweepDeps, now = new Date()) {
     const deleteAt = trialDeletionAt(
       b.trialEnd,
       noticeAt,
-      settings.trialDeleteHours,
+      hours,
       now,
     )!;
     if (now < deleteAt) continue;

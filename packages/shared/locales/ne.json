@@ -2878,7 +2878,9 @@
     "today_records": "आजका रेकर्ड",
     "nothing_today": "आज अहिलेसम्म केही लेखिएको छैन।",
     "see_month": "यो महिना",
-    "see_records": "{{month}} का सबै रेकर्ड"
+    "see_records": "{{month}} का सबै रेकर्ड",
+    "signups_title": "Gravity Flow साइन-अप",
+    "signups_subtitle": "Gravity Flow मा साइन अप गर्ने सबै। उनीहरू तुरुन्तै सुरु गर्छन्, स्वीकृति चाहिँदैन। भुक्तानी नगरिएको ट्रायल मेटिएपछि पनि विवरण यहाँ रहन्छ।"
   },
   "refunds": {
     "refund": "रिफन्ड",
