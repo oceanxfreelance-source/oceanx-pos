@@ -1125,6 +1125,37 @@
       "all_done": "Nothing waiting. Every payment is checked.",
       "active_accounts": "Active accounts",
       "full_admin_note": "Everything else in Super Admin: use a computer."
+    },
+    "reviews": {
+      "nav": "Reviews",
+      "title": "Reviews",
+      "subtitle": "Ask your users for a review and read what they say.",
+      "ask_title": "Ask for a review",
+      "ask_hint": "A review popup appears in the app for each account owner. They can send a review or choose Later (asked again after 3 days). Accounts that start after you send it are not asked.",
+      "app": "App",
+      "all_apps": "All apps",
+      "message": "Message (optional)",
+      "message_hint": "Shown above the stars.",
+      "send": "Send request",
+      "sent": "Review request sent",
+      "requests": "Requests",
+      "no_requests": "No requests sent yet.",
+      "asking": "Asking now",
+      "stopped": "Stopped",
+      "answered_one": "{{count}} answered",
+      "answered_other": "{{count}} answered",
+      "later_one": "{{count}} said later",
+      "later_other": "{{count}} said later",
+      "stop": "Stop asking",
+      "stop_confirm": "The review popup will no longer show. Reviews already sent stay.",
+      "average": "Average rating",
+      "count_one": "{{count}} review",
+      "count_other": "{{count}} reviews",
+      "rating": "Rating",
+      "all_ratings": "All ratings",
+      "none": "No reviews yet.",
+      "from_request": "Answered your request",
+      "own": "Written on their own"
     }
   },
   "system": {
@@ -3279,5 +3310,25 @@
     "print_title": "Day closing",
     "sign_cashier": "Cashier",
     "sign_manager": "Manager"
+  },
+  "review": {
+    "pos_name": "OceanX POS",
+    "title": "How do you like {{app}}?",
+    "subtitle": "Your review helps us make it better.",
+    "stars_label": "Your rating",
+    "star_n_one": "{{count}} star",
+    "star_n_other": "{{count}} stars",
+    "word_1": "Poor",
+    "word_2": "Fair",
+    "word_3": "Good",
+    "word_4": "Very good",
+    "word_5": "Excellent",
+    "pick_stars": "Choose 1 to 5 stars",
+    "comment": "Tell us more (optional)",
+    "comment_placeholder": "What do you like? What should we improve?",
+    "send": "Send review",
+    "later": "Later",
+    "thanks": "Thank you for your review!",
+    "write": "Write a review"
   }
 }

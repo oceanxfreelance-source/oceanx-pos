@@ -10645,5 +10645,327 @@
     "suggested": "ވައިބަރ: {{number}}",
     "status": "needs_review",
     "notes": "Business Viber number on quotations and invoices (new)."
+  },
+  {
+    "key": "review.title",
+    "english": "How do you like {{app}}?",
+    "suggested": "{{app}} ކިހިނެއް؟",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.subtitle",
+    "english": "Your review helps us make it better.",
+    "suggested": "ތިބާގެ ރިވިއުއިން މިއަށް ރަނގަޅު ކުރަން އެހީވޭ.",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.stars_label",
+    "english": "Your rating",
+    "suggested": "ތިބާގެ ރޭޓިންގ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.star_n_one",
+    "english": "{{count}} star",
+    "suggested": "{{count}} ތަރި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.star_n_other",
+    "english": "{{count}} stars",
+    "suggested": "{{count}} ތަރި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.word_1",
+    "english": "Poor",
+    "suggested": "ނުބައި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.word_2",
+    "english": "Fair",
+    "suggested": "މަދުން",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.word_3",
+    "english": "Good",
+    "suggested": "ރަނގަޅު",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.word_4",
+    "english": "Very good",
+    "suggested": "ވަރަށް ރަނގަޅު",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.word_5",
+    "english": "Excellent",
+    "suggested": "މޮޅު",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.pick_stars",
+    "english": "Choose 1 to 5 stars",
+    "suggested": "1 އިން 5 އަށް ތަރި ޚިޔާރުކުރައްވާ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.comment",
+    "english": "Tell us more (optional)",
+    "suggested": "އިތުރަށް ކިޔައިދެއްވާ (ބޭނުންނަމަ)",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.comment_placeholder",
+    "english": "What do you like? What should we improve?",
+    "suggested": "ކަމުދާ ކަމަކީ ކޮބާ؟ ރަނގަޅު ކުރަންޖެހޭ ކަމަކީ ކޮބާ؟",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.send",
+    "english": "Send review",
+    "suggested": "ރިވިއު ފޮނުވާ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.later",
+    "english": "Later",
+    "suggested": "ފަހުން",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.thanks",
+    "english": "Thank you for your review!",
+    "suggested": "ރިވިއު ދެއްވީތީ ޝުކުރިއްޔާ!",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "review.write",
+    "english": "Write a review",
+    "suggested": "ރިވިއުއެއް ލިޔުއްވާ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.nav",
+    "english": "Reviews",
+    "suggested": "ރިވިއުތައް",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.title",
+    "english": "Reviews",
+    "suggested": "ރިވިއުތައް",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.subtitle",
+    "english": "Ask your users for a review and read what they say.",
+    "suggested": "ބޭނުންކުރާ މީހުންގެ ކިބައިން ރިވިއު އެދި، އެމީހުން ބުނާ އެއްޗެއް ކިޔާ.",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.ask_title",
+    "english": "Ask for a review",
+    "suggested": "ރިވިއުއަށް އެދޭ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.ask_hint",
+    "english": "A review popup appears in the app for each account owner. They can send a review or choose Later (asked again after 3 days). Accounts that start after you send it are not asked.",
+    "suggested": "ކޮންމެ އެކައުންޓެއްގެ ވެރިޔާއަށް އެޕްގައި ރިވިއު ޕޮޕްއަޕެއް ފެންނާނެ. ރިވިއު ފޮނުވުން ނުވަތަ \"ފަހުން\" ޚިޔާރުކުރެވޭނެ (3 ދުވަސް ފަހުން އަލުން ސުވާލުކުރާނެ). މިއީ ފޮނުވުމަށް ފަހު ފެށޭ އެކައުންޓުތަކަށް ނުފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.app",
+    "english": "App",
+    "suggested": "އެޕް",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.all_apps",
+    "english": "All apps",
+    "suggested": "ހުރިހާ އެޕްތައް",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.message",
+    "english": "Message (optional)",
+    "suggested": "މެސެޖް (ބޭނުންނަމަ)",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.message_hint",
+    "english": "Shown above the stars.",
+    "suggested": "ތަރިތަކުގެ މަތީގައި ފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.send",
+    "english": "Send request",
+    "suggested": "ރިކުއެސްޓް ފޮނުވާ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.sent",
+    "english": "Review request sent",
+    "suggested": "ރިވިއު ރިކުއެސްޓް ފޮނުވައިފި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.requests",
+    "english": "Requests",
+    "suggested": "ރިކުއެސްޓްތައް",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.no_requests",
+    "english": "No requests sent yet.",
+    "suggested": "އަދި ރިކުއެސްޓެއް ނުފޮނުވޭ.",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.asking",
+    "english": "Asking now",
+    "suggested": "މިހާރު އަހަމުން",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.stopped",
+    "english": "Stopped",
+    "suggested": "ހުއްޓާލެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.answered_one",
+    "english": "{{count}} answered",
+    "suggested": "{{count}} ޖަވާބުދީފި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.answered_other",
+    "english": "{{count}} answered",
+    "suggested": "{{count}} ޖަވާބުދީފި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.later_one",
+    "english": "{{count}} said later",
+    "suggested": "{{count}} ފަހުން ބުނެފި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.later_other",
+    "english": "{{count}} said later",
+    "suggested": "{{count}} ފަހުން ބުނެފި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.stop",
+    "english": "Stop asking",
+    "suggested": "އެހުން ހުއްޓާ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.stop_confirm",
+    "english": "The review popup will no longer show. Reviews already sent stay.",
+    "suggested": "ރިވިއު ޕޮޕްއަޕް އިތުރަށް ނުފެންނާނެ. ފޮނުވިފައިވާ ރިވިއުތައް ބާކީ ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.average",
+    "english": "Average rating",
+    "suggested": "އެވްރެޖް ރޭޓިންގ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.count_one",
+    "english": "{{count}} review",
+    "suggested": "{{count}} ރިވިއު",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.count_other",
+    "english": "{{count}} reviews",
+    "suggested": "{{count}} ރިވިއު",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.rating",
+    "english": "Rating",
+    "suggested": "ރޭޓިންގ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.all_ratings",
+    "english": "All ratings",
+    "suggested": "ހުރިހާ ރޭޓިންގ",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.none",
+    "english": "No reviews yet.",
+    "suggested": "އަދި ރިވިއުއެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.from_request",
+    "english": "Answered your request",
+    "suggested": "ރިކުއެސްޓަށް ޖަވާބުދީފި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "superadmin.reviews.own",
+    "english": "Written on their own",
+    "suggested": "އަމިއްލައަށް ލިޔެފައި",
+    "status": "needs_review",
+    "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
   }
 ]

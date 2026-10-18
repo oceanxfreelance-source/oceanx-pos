@@ -17,6 +17,7 @@ import {
   ListTodo,
   LogOut,
   Mail,
+  MessageSquareHeart,
   Package,
   PiggyBank,
   Puzzle,
@@ -73,6 +74,7 @@ const COMPANY: NavGroup = {
   label: 'hub.nav.group_company',
   items: [
     { to: '/superadmin/mail', label: 'superadmin.mail.nav', icon: Mail },
+    { to: '/superadmin/reviews', label: 'superadmin.reviews.nav', icon: MessageSquareHeart },
     { to: '/superadmin/users', label: 'hub.nav.team', icon: UserCog },
     { to: '/superadmin/languages', label: 'superadmin.nav.languages', icon: Languages },
     { to: '/superadmin/settings', label: 'superadmin.nav.settings', icon: Settings },

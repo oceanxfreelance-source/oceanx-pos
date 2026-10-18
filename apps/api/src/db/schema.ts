@@ -1996,3 +1996,65 @@ export const signups = pgTable(
   },
   (t) => [uniqueIndex('signups_business_uq').on(t.businessId), index('signups_created_idx').on(t.createdAt)],
 );
+
+/**
+ * Super Admin asks the users of one app (or every app) for a review: a popup in the app, with "Later".
+ * Stopping a request (closed_at) ends the popup; the reviews already written stay.
+ */
+export const reviewRequests = pgTable(
+  'review_requests',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    /** pos, gravity, flow or budget; null = every app. */
+    product: text('product'),
+    /** Shown above the stars; null = the app's own wording. */
+    message: text('message'),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+    closedAt: ts('closed_at'),
+  },
+  (t) => [index('review_requests_open_idx').on(t.closedAt)],
+);
+
+/**
+ * A review: stars and words from a user, answering a request or written on their own.
+ * Kept with the business and person's names, so it stays after an account is deleted.
+ */
+export const reviews = pgTable(
+  'reviews',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id').references(() => businesses.id, { onDelete: 'set null' }),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'set null' }),
+    product: text('product').notNull(),
+    businessName: text('business_name').notNull(),
+    userName: text('user_name').notNull(),
+    rating: integer('rating').notNull(),
+    comment: text('comment'),
+    /** The request it answers; null = written by the user on their own. */
+    requestId: uuid('request_id').references(() => reviewRequests.id, { onDelete: 'set null' }),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('reviews_created_idx').on(t.createdAt),
+    index('reviews_product_idx').on(t.product),
+    check('reviews_rating_ck', sql`${t.rating} BETWEEN 1 AND 5`),
+  ],
+);
+
+/** Where a user stands with a review request: answered, or "later" (asked again after remind_at). */
+export const reviewPromptStates = pgTable(
+  'review_prompt_states',
+  {
+    requestId: uuid('request_id')
+      .notNull()
+      .references(() => reviewRequests.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    status: text('status').notNull(),
+    remindAt: ts('remind_at'),
+    updatedAt: ts('updated_at').notNull().defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.requestId, t.userId] })],
+);

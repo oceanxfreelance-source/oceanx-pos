@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { LANGUAGE_CODES } from './languages';
+import { PRODUCTS } from './products';
 
 /**
  * Request schemas for operational modules. Money is entered in MAJOR units (e.g. 12.50)
@@ -423,4 +424,17 @@ export const importCustomersSchema = z.object({
     )
     .min(1)
     .max(2000),
+});
+
+/** A review of the app: 1–5 stars and optional words; requestId when it answers Super Admin's request. */
+export const reviewSchema = z.object({
+  rating: z.number().int().min(1).max(5),
+  comment: text(1000),
+  requestId: z.string().uuid().optional(),
+});
+
+/** Super Admin asks for reviews: one app (or null for every app), with an optional message above the stars. */
+export const reviewRequestSchema = z.object({
+  product: z.enum(PRODUCTS).nullable().default(null),
+  message: text(300),
 });

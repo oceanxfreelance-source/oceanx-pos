@@ -4,7 +4,7 @@ import { posTabletFor } from '../lib/desktop';
 import { TabletPosOnly } from '../components/ScreenExit';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, CreditCard, FileSpreadsheet, FileText, FileUp, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, PiggyBank, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, ShoppingCart, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
+import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, CreditCard, FileSpreadsheet, FileText, FileUp, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, PiggyBank, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, ShoppingCart, Star, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, signedInBefore, takeawayOnlyOf, useBiz, useBizSession, type BusinessSession } from '../auth/business';
 import { productPath, useProductTheme } from '../lib/product';
@@ -12,6 +12,7 @@ import { api } from '../lib/api';
 import { useToastError } from '../lib/useApiError';
 import { Shell, type NavGroup } from './Shell';
 import { Dropdown, DropdownItem } from '../components/Dropdown';
+import { ReviewPrompt, WriteReviewDialog } from '../components/ReviewDialog';
 import { NotificationBell } from '../components/NotificationBell';
 import { AppLoader } from '../components/AppLoader';
 import { ThemeToggle } from '../components/ThemeToggle';
@@ -231,6 +232,7 @@ function BusinessLayout() {
     .slice(0, 4);
   const toastErr = useToastError();
   const setLang = useMutation({ mutationFn: (language: string) => api.patch('/me/preferences', { language }), onSuccess: () => refresh(), onError: toastErr });
+  const [writeReview, setWriteReview] = useState(false);
 
   return (
     <Shell
@@ -293,6 +295,15 @@ function BusinessLayout() {
                   {t('nav.account')}
                 </DropdownItem>
                 <DropdownItem
+                  icon={<Star className="size-4" />}
+                  onClick={() => {
+                    close();
+                    setWriteReview(true);
+                  }}
+                >
+                  {t('review.write')}
+                </DropdownItem>
+                <DropdownItem
                   danger
                   icon={<LogOut className="rtl-flip size-4" />}
                   onClick={async () => {
@@ -311,6 +322,8 @@ function BusinessLayout() {
       <AppUpdateBanner />
       <BillingBanner />
       <Outlet />
+      <ReviewPrompt />
+      <WriteReviewDialog open={writeReview} onClose={() => setWriteReview(false)} />
     </Shell>
   );
 }

@@ -239,6 +239,13 @@
       "when": 1792243976318,
       "tag": "0033_takeaway_no_kitchen",
       "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1792308868832,
+      "tag": "0034_reviews",
+      "breakpoints": true
     }
   ]
 }

@@ -80,6 +80,7 @@ const SaPlans = lazy(() => import('./pages/superadmin/Catalog').then((m) => ({ d
 const SaGravityPlan = lazy(() => import('./pages/superadmin/GravityPlan'));
 const SaGravitySignups = lazy(() => import('./pages/superadmin/GravitySignups'));
 const SaMail = lazy(() => import('./pages/superadmin/Mail'));
+const SaReviews = lazy(() => import('./pages/superadmin/Reviews'));
 const SaPayments = lazy(() => import('./pages/superadmin/Payments'));
 const SaPhone = lazy(() => import('./pages/superadmin/Phone'));
 const SaPaymentsWaiting = lazy(() => import('./pages/superadmin/Payments').then((m) => ({ default: m.PaymentsWaitingPage })));
@@ -199,6 +200,7 @@ const router = createBrowserRouter([
           { path: 'payments', element: withSuspense(<SaPayments />) },
           { path: 'waiting-payments', element: withSuspense(<SaPaymentsWaiting />) },
           { path: 'mail', element: withSuspense(<SaMail />) },
+          { path: 'reviews', element: withSuspense(<SaReviews />) },
           { path: 'users', element: withSuspense(<SaUsers />) },
           { path: 'languages', element: withSuspense(<SaLanguages />) },
           { path: 'settings', element: withSuspense(<SaSettings />) },
