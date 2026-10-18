@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1140 · **confirmed**: 381
+Status: **needs_review**: 1186 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -895,6 +895,23 @@ review of the whole file is still recommended before launch.
 | `reports.types.rack-low` | Low on rack | ރެކުގައި މަދު | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
 | `reports.types.refunds` | Refunds | ރީފަންޑްތައް | needs_review | Refunds, GST report and import add-ons. |
 | `reports.types.store-stock` | Store stock | ސްޓޯރު ސްޓޮކް | needs_review | New: shops — rack (ރެކު) vs store (ސްޓޯރު) stock. |
+| `review.comment` | Tell us more (optional) | އިތުރަށް ކިޔައިދެއްވާ (ބޭނުންނަމަ) | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.comment_placeholder` | What do you like? What should we improve? | ކަމުދާ ކަމަކީ ކޮބާ؟ ރަނގަޅު ކުރަންޖެހޭ ކަމަކީ ކޮބާ؟ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.later` | Later | ފަހުން | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.pick_stars` | Choose 1 to 5 stars | 1 އިން 5 އަށް ތަރި ޚިޔާރުކުރައްވާ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.send` | Send review | ރިވިއު ފޮނުވާ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.star_n_one` | {{count}} star | {{count}} ތަރި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.star_n_other` | {{count}} stars | {{count}} ތަރި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.stars_label` | Your rating | ތިބާގެ ރޭޓިންގ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.subtitle` | Your review helps us make it better. | ތިބާގެ ރިވިއުއިން މިއަށް ރަނގަޅު ކުރަން އެހީވޭ. | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.thanks` | Thank you for your review! | ރިވިއު ދެއްވީތީ ޝުކުރިއްޔާ! | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.title` | How do you like {{app}}? | {{app}} ކިހިނެއް؟ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.word_1` | Poor | ނުބައި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.word_2` | Fair | މަދުން | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.word_3` | Good | ރަނގަޅު | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.word_4` | Very good | ވަރަށް ރަނގަޅު | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.word_5` | Excellent | މޮޅު | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `review.write` | Write a review | ރިވިއުއެއް ލިޔުއްވާ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
 | `roles.system_desc_retail.business_admin` | Full control of the shop. | ފިހާރައިގެ ފުރިހަމަ ކޮންޓްރޯލް. | needs_review | New/updated: shops on the platform. |
 | `roles.system_desc_retail.cashier` | Sells at the counter, checks stock, serves customers and makes quotations and invoices. | ކައުންޓަރުގައި ވިއްކައި، ސްޓޮކް ބަލައި، ކަސްޓަމަރުންނަށް ޚިދުމަތްދީ، ކޯޓޭޝަނާއި އިންވޮއިސް ހަދާ. | needs_review | New/updated: shops on the platform. |
 | `roles.system_retail.business_admin` | Owner | ވެރިފަރާތް | needs_review | New/updated: shops on the platform. |
@@ -1135,6 +1152,35 @@ review of the whole file is still recommended before launch.
 | `superadmin.phone.alerts_turn_on` | Turn on | ހުޅުވާ | needs_review | OceanX Admin phone app (new). |
 | `superadmin.phone.all_done` | Nothing waiting. Every payment is checked. | ބައްލަވަން ބާކީ އެއްވެސް ފައިސާއެއް ނެތް. | needs_review | OceanX Admin phone app (new). |
 | `superadmin.phone.full_admin_note` | Everything else in Super Admin: use a computer. | ސުޕަރ އެޑްމިންގެ އެހެން ހުރިހާ ކަމެއް: ކޮމްޕިއުޓަރުން. | needs_review | OceanX Admin phone app (new). |
+| `superadmin.reviews.all_apps` | All apps | ހުރިހާ އެޕްތައް | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.all_ratings` | All ratings | ހުރިހާ ރޭޓިންގ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.answered_one` | {{count}} answered | {{count}} ޖަވާބުދީފި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.answered_other` | {{count}} answered | {{count}} ޖަވާބުދީފި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.app` | App | އެޕް | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.ask_hint` | A review popup appears in the app for each account owner. They can send a review or choose Later (asked again after 3 days). Accounts that start after you send it are not asked. | ކޮންމެ އެކައުންޓެއްގެ ވެރިޔާއަށް އެޕްގައި ރިވިއު ޕޮޕްއަޕެއް ފެންނާނެ. ރިވިއު ފޮނުވުން ނުވަތަ "ފަހުން" ޚިޔާރުކުރެވޭނެ (3 ދުވަސް ފަހުން އަލުން ސުވާލުކުރާނެ). މިއީ ފޮނުވުމަށް ފަހު ފެށޭ އެކައުންޓުތަކަށް ނުފެންނާނެ. | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.ask_title` | Ask for a review | ރިވިއުއަށް އެދޭ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.asking` | Asking now | މިހާރު އަހަމުން | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.average` | Average rating | އެވްރެޖް ރޭޓިންގ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.count_one` | {{count}} review | {{count}} ރިވިއު | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.count_other` | {{count}} reviews | {{count}} ރިވިއު | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.from_request` | Answered your request | ރިކުއެސްޓަށް ޖަވާބުދީފި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.later_one` | {{count}} said later | {{count}} ފަހުން ބުނެފި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.later_other` | {{count}} said later | {{count}} ފަހުން ބުނެފި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.message` | Message (optional) | މެސެޖް (ބޭނުންނަމަ) | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.message_hint` | Shown above the stars. | ތަރިތަކުގެ މަތީގައި ފެންނާނެ. | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.nav` | Reviews | ރިވިއުތައް | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.no_requests` | No requests sent yet. | އަދި ރިކުއެސްޓެއް ނުފޮނުވޭ. | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.none` | No reviews yet. | އަދި ރިވިއުއެއް ނެތް. | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.own` | Written on their own | އަމިއްލައަށް ލިޔެފައި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.rating` | Rating | ރޭޓިންގ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.requests` | Requests | ރިކުއެސްޓްތައް | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.send` | Send request | ރިކުއެސްޓް ފޮނުވާ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.sent` | Review request sent | ރިވިއު ރިކުއެސްޓް ފޮނުވައިފި | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.stop` | Stop asking | އެހުން ހުއްޓާ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.stop_confirm` | The review popup will no longer show. Reviews already sent stay. | ރިވިއު ޕޮޕްއަޕް އިތުރަށް ނުފެންނާނެ. ފޮނުވިފައިވާ ރިވިއުތައް ބާކީ ހުންނާނެ. | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.stopped` | Stopped | ހުއްޓާލެވިއްޖެ | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.subtitle` | Ask your users for a review and read what they say. | ބޭނުންކުރާ މީހުންގެ ކިބައިން ރިވިއު އެދި، އެމީހުން ބުނާ އެއްޗެއް ކިޔާ. | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
+| `superadmin.reviews.title` | Reviews | ރިވިއުތައް | needs_review | Reviews: popup asking for a review, and Super Admin reviews page (new). |
 | `superadmin.security.two_factor` | Two-factor authentication | ދެ ފިޔަވަޅުގެ ވެރިފިކޭޝަން | needs_review | Literal; '2FA' loanword may be clearer to admins. |
 | `superadmin.settings.bank_details` | Bank details for payments | ފައިސާ ދެއްކުމަށް ބޭންކް މަޢުލޫމާތު | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `superadmin.settings.bank_details_hint` | Shown to businesses on the payment screen: bank, account name and account number(s). | ފައިސާ ދައްކާ ސްކްރީނުގައި ވިޔަފާރިތަކަށް ފެންނާނެ: ބޭންކް، އެކައުންޓުގެ ނަމާއި އެކައުންޓް ނަންބަރު(ތައް). | needs_review | New: subscription billing (bank transfer slip upload and review). |
