@@ -1,8 +1,8 @@
 import type { FastifyInstance } from 'fastify';
-import { and, count, eq, gte, sql } from 'drizzle-orm';
+import { and, count, desc, eq, gte, isNotNull, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { billingRecordSchema, billingRejectSchema, billingReviewSchema, PRODUCTS } from '@oceanx/shared';
-import { billingPayments, businesses } from '../../db/schema';
+import { billingPayments, businesses, subscriptions, users } from '../../db/schema';
 import { saCtx } from '../../guards/superadmin';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
@@ -19,6 +19,30 @@ export async function billingAdminRoutes(app: FastifyInstance) {
   app.get('/billing/payments', async (req) => {
     const q = parse(z.object({ status: z.enum(['pending', 'approved', 'rejected']).optional(), businessId: z.uuid().optional(), product: z.enum(PRODUCTS).optional() }), req.query);
     return { items: await listPayments(db, q) };
+  });
+
+  /** Gravity Budget customers who chose "pay on salary day": their date, contact, and whether they have paid. */
+  app.get('/billing/payday', async () => {
+    const items = await db
+      .select({
+        businessId: businesses.id,
+        businessName: businesses.name,
+        ownerName: users.name,
+        email: users.email,
+        phone: users.phone,
+        paydayDate: subscriptions.paydayDate,
+        chosenAt: subscriptions.paydayChosenAt,
+        status: subscriptions.status,
+        paid: sql<boolean>`EXISTS (SELECT 1 FROM ${billingPayments} p WHERE p.business_id = ${businesses.id} AND p.status = 'approved' AND p.reviewed_at > ${subscriptions.paydayChosenAt})`,
+        slipWaiting: sql<boolean>`EXISTS (SELECT 1 FROM ${billingPayments} p WHERE p.business_id = ${businesses.id} AND p.status = 'pending')`,
+      })
+      .from(subscriptions)
+      .innerJoin(businesses, eq(businesses.id, subscriptions.businessId))
+      .leftJoin(users, and(eq(users.businessId, businesses.id), eq(users.isOwner, true)))
+      .where(isNotNull(subscriptions.paydayDate))
+      .orderBy(subscriptions.paydayDate, desc(subscriptions.paydayChosenAt))
+      .limit(500);
+    return { items };
   });
 
   app.get('/billing/summary', async (req) => {

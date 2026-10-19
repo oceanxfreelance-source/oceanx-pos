@@ -1,16 +1,16 @@
 import type { FastifyInstance } from 'fastify';
-import { and, asc, eq, gt } from 'drizzle-orm';
-import { billingSubmitSchema } from '@oceanx/shared';
-import { billingPayments, plans } from '../../db/schema';
+import { and, asc, eq, gt, sql } from 'drizzle-orm';
+import { billingSubmitSchema, PAYDAY_OF_MONTH } from '@oceanx/shared';
+import { billingPayments, plans, subscriptions } from '../../db/schema';
 import { bizCtx } from '../../guards/business';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
 import { idParam } from '../../lib/params';
 import { contentTypeFor } from '../../lib/storage';
-import { actor } from '../../lib/tenant';
+import { actor, businessToday } from '../../lib/tenant';
 import { parse } from '../../lib/validation';
 import { listPayments, payablePlan } from '../../services/billing';
-import { getPlatformSettings } from '../../services/platformSettings';
+import { getPlatformSettings, type PlatformSettings } from '../../services/platformSettings';
 
 /**
  * The business's own subscription billing: plan, end date, the platform's bank details, and "I've paid"
@@ -20,6 +20,36 @@ export async function billingRoutes(app: FastifyInstance) {
   const { db, storage } = app.deps;
   const open = { config: { sessionOnly: true } };
   const canPay = (ctx: ReturnType<typeof bizCtx>) => ctx.user.isOwner || ctx.permissions.has('settings.manage');
+
+  /** The next salary day from today (YYYY-MM-DD): the 30th, or the month's last day when it is shorter. */
+  function nextPayday(today: string) {
+    const [y, m, d] = today.split('-').map(Number) as [number, number, number];
+    const payday = (year: number, month: number) => {
+      const last = new Date(Date.UTC(year, month, 0)).getUTCDate();
+      return `${year}-${String(month).padStart(2, '0')}-${String(Math.min(PAYDAY_OF_MONTH, last)).padStart(2, '0')}`;
+    };
+    const thisMonth = payday(y, m);
+    return today <= thisMonth ? thisMonth : m === 12 ? payday(y + 1, 1) : payday(y, m + 1);
+  }
+
+  /**
+   * Gravity Budget "pay on salary day" (an offer Super Admin turns on and off): any customer may choose, once,
+   * to keep using the app until salary day (the 30th) and pay then. "chosen" is that date while the payment is still to come.
+   */
+  async function paydayInfo(ctx: ReturnType<typeof bizCtx>, settings: PlatformSettings) {
+    const [row] = await db
+      .select({
+        date: subscriptions.paydayDate,
+        status: subscriptions.status,
+        paidSince: sql<boolean>`EXISTS (SELECT 1 FROM ${billingPayments} p WHERE p.business_id = ${ctx.businessId} AND p.status = 'approved' AND p.reviewed_at > ${subscriptions.paydayChosenAt})`,
+      })
+      .from(subscriptions)
+      .where(eq(subscriptions.businessId, ctx.businessId));
+    const offerOn = ctx.access.business.product === 'budget' && settings.budgetPaydayOn;
+    const available = offerOn && !!row && row.status !== 'cancelled' && !row.date && canPay(ctx);
+    const today = businessToday(ctx.access.business.timezone);
+    return { available, today, date: nextPayday(today), chosen: row?.date && !row.paidSince ? row.date : null };
+  }
 
   app.get('/billing', open, async (req) => {
     const ctx = bizCtx(req);
@@ -32,6 +62,7 @@ export async function billingRoutes(app: FastifyInstance) {
         .orderBy(asc(plans.sortOrder)),
       listPayments(db, { businessId: ctx.businessId }, 50),
     ]);
+    const payday = await paydayInfo(ctx, settings);
     const sub = ctx.access.subscription;
     const msLeft = sub ? sub.currentPeriodEnd.getTime() - Date.now() : 0;
     const daysLeft = sub ? Math.ceil(msLeft / 86_400_000) : null;
@@ -46,7 +77,29 @@ export async function billingRoutes(app: FastifyInstance) {
       note: settings.billingNote,
       plans: planRows.map((p) => ({ ...p, priceMonthly: Math.round(Number(p.priceMonthly) * 100) })),
       payments: payments.map(({ businessName: _b, ...p }) => p),
+      payday,
     };
+  });
+
+  /** "I'll pay on salary day": the app keeps working until two days after the 30th. Once per account. */
+  app.post('/billing/payday', open, async (req) => {
+    const ctx = bizCtx(req);
+    const info = await paydayInfo(ctx, await getPlatformSettings(db));
+    if (!info.available) throw new AppError('forbidden', 'Pay on salary day is not available');
+    const date = info.date;
+    const tz = ctx.access.business.timezone;
+    // Until the end of the second day after salary day, in the customer's time zone.
+    const [r] = await db.execute<{ end: Date }>(sql`SELECT ((${date}::date + 3)::timestamp AT TIME ZONE ${tz}) AS end`).then((x) => x.rows);
+    const end = new Date(r!.end);
+    // A paid month that already lasts beyond salary day is not shortened.
+    const [u] = await db
+      .update(subscriptions)
+      .set({ paydayDate: date, paydayChosenAt: new Date(), currentPeriodEnd: sql`GREATEST(${subscriptions.currentPeriodEnd}, ${end})`, updatedAt: new Date() })
+      .where(and(eq(subscriptions.businessId, ctx.businessId), sql`${subscriptions.status} <> 'cancelled'`, sql`${subscriptions.paydayDate} IS NULL`))
+      .returning({ id: subscriptions.id });
+    if (!u) throw new AppError('conflict', 'Already chosen');
+    await audit(db, { ...actor(ctx), action: 'billing.payday_chosen', entityType: 'subscription', entityId: u.id, metadata: { date }, req });
+    return { date, currentPeriodEnd: end };
   });
 
   // "I've paid": plan + months + reference in the query, the slip (JPG/PNG/WebP/PDF) as the raw body.

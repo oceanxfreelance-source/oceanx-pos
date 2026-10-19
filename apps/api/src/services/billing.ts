@@ -1,4 +1,4 @@
-import { and, desc, eq, sql } from 'drizzle-orm';
+import { and, desc, eq, gt, sql } from 'drizzle-orm';
 import type { Executor } from '../db/client';
 import { billingPayments, businesses, plans, subscriptions, superAdmins, users } from '../db/schema';
 import { AppError, notFound } from '../lib/errors';
@@ -43,7 +43,15 @@ export async function approvePayment(tx: Executor, paymentId: string, adminId: s
   if (p.status !== 'pending') throw new AppError('invalid_status_transition', 'Payment already reviewed');
   const now = new Date();
   const [sub] = await tx.select().from(subscriptions).where(eq(subscriptions.businessId, p.businessId)).for('update');
-  const start = sub && sub.currentPeriodEnd > now && sub.status !== 'cancelled' ? sub.currentPeriodEnd : now;
+  // "Pay on salary day" (Gravity Budget): the days until salary day were a favour, so the paid month starts today.
+  const payday =
+    !!sub?.paydayChosenAt &&
+    !(await tx
+      .select({ id: billingPayments.id })
+      .from(billingPayments)
+      .where(and(eq(billingPayments.businessId, p.businessId), eq(billingPayments.status, 'approved'), gt(billingPayments.reviewedAt, sub.paydayChosenAt)))
+      .limit(1)).length;
+  const start = sub && !payday && sub.currentPeriodEnd > now && sub.status !== 'cancelled' ? sub.currentPeriodEnd : now;
   const end = addMonths(start, p.months);
   if (sub) {
     await tx.update(subscriptions).set({ planId: p.planId, status: 'active', currentPeriodEnd: end, updatedAt: now }).where(eq(subscriptions.id, sub.id));

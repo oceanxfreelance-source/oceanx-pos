@@ -10967,5 +10967,152 @@
     "suggested": "އަމިއްލައަށް ލިޔެފައި",
     "status": "needs_review",
     "notes": "Reviews: popup asking for a review, and Super Admin reviews page (new)."
+  },
+  {
+    "key": "billing.payday_title",
+    "english": "Pay on salary day",
+    "suggested": "މުސާރަ ލިބޭ ދުވަހު ފައިސާ ދައްކާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "billing.payday_body",
+    "english": "Waiting for your salary? Keep using the app now and pay {{price}} on salary day, {{date}}.",
+    "suggested": "މުސާރައަށް މަޑުކުރަނީތަ؟ މިހާރު ބޭނުންކުރައްވައިގެން މުސާރަ ލިބޭ ދުވަހު، {{date}} ގައި {{price}} ދައްކަވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "billing.payday_button",
+    "english": "Pay on {{date}}",
+    "suggested": "{{date}} ގައި ދައްކާނަން",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "billing.payday_once",
+    "english": "You can choose this once. The app keeps working until 2 days after your salary day.",
+    "suggested": "މިއީ އެއްފަހަރު ޚިޔާރުކުރެވޭ ކަމެއް. މުސާރަ ލިބޭ ދުވަހުގެ 2 ދުވަސް ފަހުން ހަމައަށް އެޕް ބޭނުންކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "billing.payday_done",
+    "english": "Done! Pay on {{date}}, when your salary comes.",
+    "suggested": "ހަމަޖެހިއްޖެ! މުސާރަ ލިބުމުން {{date}} ގައި ދައްކަވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "billing.payday_chosen_title",
+    "english": "Salary day: {{date}}",
+    "suggested": "މުސާރަ ލިބޭ ދުވަސް: {{date}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "billing.payday_chosen_body",
+    "english": "When your salary comes, pay here to keep using the app.",
+    "suggested": "މުސާރަ ލިބުމުން، އެޕް ބޭނުންކުރުން ކުރިއަށް ގެންދަން މިތަނުން ފައިސާ ދައްކަވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "billing.banner_payday",
+    "english": "Salary day {{date}}: pay {{price}} then to keep using the app.",
+    "suggested": "{{date}} މުސާރަ ލިބޭ ދުވަސް: އެދުވަހު {{price}} ދައްކަވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "billing.banner_payday_today",
+    "english": "Your salary day is here! Pay {{price}} to keep using the app.",
+    "suggested": "މުސާރަ ލިބޭ ދުވަސް އައީ! އެޕް ބޭނުންކުރުން ކުރިއަށް ގެންދަން {{price}} ދައްކަވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_title",
+    "english": "Pay on salary day",
+    "suggested": "މުސާރަ ލިބޭ ދުވަހު ފައިސާ ދެއްކުން",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_hint",
+    "english": "While this is on, any Gravity Budget customer can choose (once) to keep using the app now and pay on salary day, the 30th. Turn it off when the offer ends.",
+    "suggested": "މިއީ ހުޅުވާލެވިފައި އޮތްއިރު ކޮންމެ Gravity Budget ކަސްޓަމަރަކަށް (އެއްފަހަރު) މިހާރު އެޕް ބޭނުންކޮށް މުސާރަ ލިބޭ ދުވަހު، 30 ވަނަ ދުވަހު ފައިސާ ދެއްކުން ޚިޔާރުކުރެވޭނެ. އޮފަރ ނިމުމުން ބަންދުކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_switch",
+    "english": "Offer pay on salary day",
+    "suggested": "މުސާރަ ލިބޭ ދުވަހު ދެއްކުމުގެ އޮފަރ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_on",
+    "english": "On: customers see it on the payment screen.",
+    "suggested": "ހުޅުވާލެވިފައި: ފައިސާ ދައްކާ ސްކްރީނުގައި ފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_off",
+    "english": "Off: not offered. Customers who already chose it keep their date.",
+    "suggested": "ބަންދު: ނުދައްކާ. ކުރިން ޚިޔާރުކުރި މީހުންގެ ތާރީޚު ބާކީ ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_list_one",
+    "english": "{{count}} customer chose it",
+    "suggested": "{{count}} ކަސްޓަމަރަކު ޚިޔާރުކޮށްފި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_list_other",
+    "english": "{{count}} customers chose it",
+    "suggested": "{{count}} ކަސްޓަމަރުން ޚިޔާރުކޮށްފި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_none",
+    "english": "Nobody has chosen it yet.",
+    "suggested": "އަދި އެއްވެސް މީހަކު ޚިޔާރުކޮށްފައެއް ނުވޭ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_date",
+    "english": "Salary day {{date}}",
+    "suggested": "މުސާރަ ދުވަސް {{date}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_paid",
+    "english": "Paid",
+    "suggested": "ދައްކާފައި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_slip",
+    "english": "Slip waiting",
+    "suggested": "ސްލިޕް މަޑުކުރަނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "budget.payday_admin_unpaid",
+    "english": "Not paid yet",
+    "suggested": "އަދި ނުދައްކާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: pay on salary day offer (new)."
   }
 ]

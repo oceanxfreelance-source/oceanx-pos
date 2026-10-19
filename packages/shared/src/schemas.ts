@@ -253,6 +253,8 @@ export const platformSettingsSchema = z
     trialDeleteHours: z.coerce.number().int().min(0).max(8760),
     /** Gravity Flow: the same, for Flow accounts (24 hours by default). 0 = never. */
     flowTrialDeleteHours: z.coerce.number().int().min(0).max(8760),
+    /** Gravity Budget: customers may choose to pay on salary day, the 30th (an offer Super Admin turns on, e.g. for one month). */
+    budgetPaydayOn: z.boolean(),
     /** OceanX's own details, printed on Hub quotations and invoices. */
     companyAddress: z.string().trim().max(300),
     companyPhone: z.string().trim().max(40),
@@ -262,6 +264,8 @@ export const platformSettingsSchema = z
   .partial();
 
 export const BILLING_PERIODS = [1, 3, 6, 12] as const;
+/** Gravity Budget "pay on salary day": salary comes on the 30th (or the month's last day, in February). */
+export const PAYDAY_OF_MONTH = 30;
 export const BILLING_METHODS = ['bank_transfer', 'cash', 'card', 'other'] as const;
 /** Owner: "I've paid" — plan, number of months and the transfer reference (the slip is uploaded next). */
 export const billingSubmitSchema = z.object({

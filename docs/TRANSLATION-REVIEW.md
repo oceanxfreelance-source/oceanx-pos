@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1186 · **confirmed**: 381
+Status: **needs_review**: 1207 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -44,6 +44,8 @@ review of the whole file is still recommended before launch.
 | `billing.bank_details_missing` | Bank details will be shared by the OceanX team. Please contact them. | ބޭންކް މަޢުލޫމާތު OceanX ޓީމުން ދެއްވާނެ. އެ ޓީމާ ގުޅުއްވާ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.banner_paid_one` | Your {{plan}} plan ends in {{count}} day. | ތިޔަ {{plan}} ޕްލޭން ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.banner_paid_other` | Your {{plan}} plan ends in {{count}} days. | ތިޔަ {{plan}} ޕްލޭން ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.banner_payday` | Salary day {{date}}: pay {{price}} then to keep using the app. | {{date}} މުސާރަ ލިބޭ ދުވަސް: އެދުވަހު {{price}} ދައްކަވާ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `billing.banner_payday_today` | Your salary day is here! Pay {{price}} to keep using the app. | މުސާރަ ލިބޭ ދުވަސް އައީ! އެޕް ބޭނުންކުރުން ކުރިއަށް ގެންދަން {{price}} ދައްކަވާ. | needs_review | Gravity Budget: pay on salary day offer (new). |
 | `billing.banner_pending` | Your payment slip is being reviewed by the OceanX team. | ތިޔަ ފައިސާ ދެއްކި ސްލިޕް OceanX ޓީމުން ޗެކްކުރަމުން. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.banner_trial_one` | Your free trial ends in {{count}} day. | ތިޔަ ހިލޭ ޓްރަޔަލް ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.banner_trial_other` | Your free trial ends in {{count}} days. | ތިޔަ ހިލޭ ޓްރަޔަލް ނިމެން {{count}} ދުވަސް ބާކީ. | needs_review | New: subscription billing (bank transfer slip upload and review). |
@@ -70,6 +72,13 @@ review of the whole file is still recommended before launch.
 | `billing.pay_needs_internet` | Connect to the internet to see the payment details and upload your slip. | ފައިސާ ދައްކާނެ ތަފްޞީލު ބެލުމަށާއި ސްލިޕް އަޕްލޯޑް ކުރުމަށް އިންޓަނެޓާ ގުޅުއްވާ. | needs_review | Payment screen offline. |
 | `billing.pay_now` | Pay now | މިހާރު ފައިސާ ދައްކަވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.pay_title` | Pay for your plan | ޕްލޭނަށް ފައިސާ ދައްކަވާ | needs_review | New: subscription billing (bank transfer slip upload and review). |
+| `billing.payday_body` | Waiting for your salary? Keep using the app now and pay {{price}} on salary day, {{date}}. | މުސާރައަށް މަޑުކުރަނީތަ؟ މިހާރު ބޭނުންކުރައްވައިގެން މުސާރަ ލިބޭ ދުވަހު، {{date}} ގައި {{price}} ދައްކަވާ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `billing.payday_button` | Pay on {{date}} | {{date}} ގައި ދައްކާނަން | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `billing.payday_chosen_body` | When your salary comes, pay here to keep using the app. | މުސާރަ ލިބުމުން، އެޕް ބޭނުންކުރުން ކުރިއަށް ގެންދަން މިތަނުން ފައިސާ ދައްކަވާ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `billing.payday_chosen_title` | Salary day: {{date}} | މުސާރަ ލިބޭ ދުވަސް: {{date}} | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `billing.payday_done` | Done! Pay on {{date}}, when your salary comes. | ހަމަޖެހިއްޖެ! މުސާރަ ލިބުމުން {{date}} ގައި ދައްކަވާ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `billing.payday_once` | You can choose this once. The app keeps working until 2 days after your salary day. | މިއީ އެއްފަހަރު ޚިޔާރުކުރެވޭ ކަމެއް. މުސާރަ ލިބޭ ދުވަހުގެ 2 ދުވަސް ފަހުން ހަމައަށް އެޕް ބޭނުންކުރެވޭނެ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `billing.payday_title` | Pay on salary day | މުސާރަ ލިބޭ ދުވަހު ފައިސާ ދައްކާ | needs_review | Gravity Budget: pay on salary day offer (new). |
 | `billing.period` | How many months | ކިތައް މަހަށް | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.plan` | Plan | ޕްލޭން | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `billing.receipt` | Receipt | ރަސީދު | needs_review | New: subscription billing (bank transfer slip upload and review). |
@@ -145,6 +154,18 @@ review of the whole file is still recommended before launch.
 | `budget.offline.synced_other` | {{count}} records sent. | {{count}} ރެކޯޑު ފޮނުވިއްޖެ. | needs_review | Gravity Budget offline. |
 | `budget.offline.waiting_one` | 1 record waiting to be sent. | 1 ރެކޯޑު ފޮނުވަން ބާކީ. | needs_review | Gravity Budget offline. |
 | `budget.offline.waiting_other` | {{count}} records waiting to be sent. | {{count}} ރެކޯޑު ފޮނުވަން ބާކީ. | needs_review | Gravity Budget offline. |
+| `budget.payday_admin_date` | Salary day {{date}} | މުސާރަ ދުވަސް {{date}} | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_hint` | While this is on, any Gravity Budget customer can choose (once) to keep using the app now and pay on salary day, the 30th. Turn it off when the offer ends. | މިއީ ހުޅުވާލެވިފައި އޮތްއިރު ކޮންމެ Gravity Budget ކަސްޓަމަރަކަށް (އެއްފަހަރު) މިހާރު އެޕް ބޭނުންކޮށް މުސާރަ ލިބޭ ދުވަހު، 30 ވަނަ ދުވަހު ފައިސާ ދެއްކުން ޚިޔާރުކުރެވޭނެ. އޮފަރ ނިމުމުން ބަންދުކުރައްވާ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_list_one` | {{count}} customer chose it | {{count}} ކަސްޓަމަރަކު ޚިޔާރުކޮށްފި | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_list_other` | {{count}} customers chose it | {{count}} ކަސްޓަމަރުން ޚިޔާރުކޮށްފި | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_none` | Nobody has chosen it yet. | އަދި އެއްވެސް މީހަކު ޚިޔާރުކޮށްފައެއް ނުވޭ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_off` | Off: not offered. Customers who already chose it keep their date. | ބަންދު: ނުދައްކާ. ކުރިން ޚިޔާރުކުރި މީހުންގެ ތާރީޚު ބާކީ ހުންނާނެ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_on` | On: customers see it on the payment screen. | ހުޅުވާލެވިފައި: ފައިސާ ދައްކާ ސްކްރީނުގައި ފެންނާނެ. | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_paid` | Paid | ދައްކާފައި | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_slip` | Slip waiting | ސްލިޕް މަޑުކުރަނީ | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_switch` | Offer pay on salary day | މުސާރަ ލިބޭ ދުވަހު ދެއްކުމުގެ އޮފަރ | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_title` | Pay on salary day | މުސާރަ ލިބޭ ދުވަހު ފައިސާ ދެއްކުން | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.payday_admin_unpaid` | Not paid yet | އަދި ނުދައްކާ | needs_review | Gravity Budget: pay on salary day offer (new). |
 | `business_types.retail_shop` | Shop | ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `business_types.supermarket` | Supermarket / big shop | ސުޕަރމާކެޓް / ބޮޑު ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `closing.button` | Close day | ދުވަސް ނިންމާ | needs_review | POS: end-of-day cash closing (new). |

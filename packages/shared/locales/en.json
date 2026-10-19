@@ -2425,7 +2425,16 @@
     "minutes_n_one": "{{count}} min",
     "minutes_n_other": "{{count}} min",
     "pay_needs_internet": "Connect to the internet to see the payment details and upload your slip.",
-    "try_again": "Try again"
+    "try_again": "Try again",
+    "payday_title": "Pay on salary day",
+    "payday_body": "Waiting for your salary? Keep using the app now and pay {{price}} on salary day, {{date}}.",
+    "payday_button": "Pay on {{date}}",
+    "payday_once": "You can choose this once. The app keeps working until 2 days after your salary day.",
+    "payday_done": "Done! Pay on {{date}}, when your salary comes.",
+    "payday_chosen_title": "Salary day: {{date}}",
+    "payday_chosen_body": "When your salary comes, pay here to keep using the app.",
+    "banner_payday": "Salary day {{date}}: pay {{price}} then to keep using the app.",
+    "banner_payday_today": "Your salary day is here! Pay {{price}} to keep using the app."
   },
   "stock_check": {
     "title": "Stock check",
@@ -3268,7 +3277,19 @@
       "use": "Use emergency fund",
       "use_short": "Use",
       "use_hint": "Take money out only for a real emergency, and put it back when you can."
-    }
+    },
+    "payday_admin_title": "Pay on salary day",
+    "payday_admin_hint": "While this is on, any Gravity Budget customer can choose (once) to keep using the app now and pay on salary day, the 30th. Turn it off when the offer ends.",
+    "payday_admin_switch": "Offer pay on salary day",
+    "payday_admin_on": "On: customers see it on the payment screen.",
+    "payday_admin_off": "Off: not offered. Customers who already chose it keep their date.",
+    "payday_admin_list_one": "{{count}} customer chose it",
+    "payday_admin_list_other": "{{count}} customers chose it",
+    "payday_admin_none": "Nobody has chosen it yet.",
+    "payday_admin_date": "Salary day {{date}}",
+    "payday_admin_paid": "Paid",
+    "payday_admin_slip": "Slip waiting",
+    "payday_admin_unpaid": "Not paid yet"
   },
   "app_update": {
     "title": "A new version of the app is ready.",

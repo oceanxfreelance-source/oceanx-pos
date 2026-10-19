@@ -4,6 +4,7 @@ import {
   check,
   customType,
   bigint,
+  date,
   bigserial,
   boolean,
   foreignKey,
@@ -255,6 +256,9 @@ export const subscriptions = pgTable(
     /** Per-business limit overrides (Custom plans / negotiated deals). */
     customLimits: jsonb('custom_limits').$type<Record<string, number | null>>(),
     notes: text('notes').notNull().default(''),
+    /** Gravity Budget "pay on salary day": the salary date the customer chose (once); the app keeps working until just after it. */
+    paydayDate: date('payday_date', { mode: 'string' }),
+    paydayChosenAt: ts('payday_chosen_at'),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },

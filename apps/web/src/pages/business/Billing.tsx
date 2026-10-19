@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { CalendarClock, Check, Clock, FileUp, Landmark, Receipt } from 'lucide-react';
+import { CalendarClock, CalendarHeart, Check, Clock, FileUp, Landmark, Receipt } from 'lucide-react';
 import { BILLING_PERIODS } from '@oceanx/shared';
 import { api } from '../../lib/api';
 import { useBiz } from '../../auth/business';
@@ -38,6 +38,8 @@ export interface BillingInfo {
   note: string;
   plans: { id: string; code: string; name: string; description: string; priceMonthly: number; currency: string }[];
   payments: BillingPayment[];
+  /** Gravity Budget "pay on salary day": offered (once) while Super Admin has it on; chosen = the salary date still to pay on. */
+  payday?: { available: boolean; today: string; date: string; chosen: string | null };
 }
 
 export const BILLING_KEY = ['biz', 'billing'] as const;
@@ -47,6 +49,38 @@ export const useBilling = (enabled = true) => useQuery({ queryKey: BILLING_KEY, 
 export const fmtAmount = (minor: number, currency: string) => `⁦${currency} ${(minor / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}⁩`;
 
 const statusTone = { pending: 'amber', approved: 'green', rejected: 'red' } as const;
+
+/** "I'll pay on salary day": keep using the app until salary day (the 30th) and pay then. */
+function PaydayCard({ info }: { info: BillingInfo }) {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const { refresh } = useBiz();
+  const toastErr = useToastError();
+  const f = useFormat();
+  const date = f.date(info.payday!.date);
+  const price = info.plans[0] ? fmtAmount(info.plans[0].priceMonthly, info.plans[0].currency) : '';
+  const choose = useMutation({
+    mutationFn: () => api.post('/billing/payday'),
+    onSuccess: () => {
+      toast.success(t('billing.payday_done', { date }));
+      void qc.invalidateQueries({ queryKey: BILLING_KEY });
+      void refresh();
+    },
+    onError: toastErr,
+  });
+  return (
+    <div className="rounded-2xl bg-emerald-50 p-4 ring-1 ring-emerald-200 dark:bg-emerald-950/40 dark:ring-emerald-800">
+      <p className="flex items-center gap-2 font-semibold text-emerald-900 dark:text-emerald-100">
+        <CalendarHeart className="size-5" /> {t('billing.payday_title')}
+      </p>
+      <p className="mt-1 text-sm text-emerald-900/80 dark:text-emerald-100/80">{t('billing.payday_body', { price, date })}</p>
+      <Button className="mt-3" loading={choose.isPending} onClick={() => choose.mutate()}>
+        {t('billing.payday_button', { date })}
+      </Button>
+      <p className="mt-2 text-xs text-emerald-900/70 dark:text-emerald-100/70">{t('billing.payday_once')}</p>
+    </div>
+  );
+}
 
 /**
  * Pay for the subscription: choose plan and period, see the bank details, upload the transfer slip.
@@ -99,6 +133,12 @@ export function PayPanel({ info }: { info: BillingInfo }) {
 
   return (
     <div className="space-y-5">
+      {info.payday?.available && <PaydayCard info={info} />}
+      {info.payday?.chosen && (
+        <Alert tone="green" icon={<CalendarHeart className="size-5" />} title={t('billing.payday_chosen_title', { date: f.date(info.payday.chosen) })}>
+          {t('billing.payday_chosen_body')}
+        </Alert>
+      )}
       {lastRejected && (
         <Alert tone="red" title={t('billing.rejected_title')}>
           <p dir="auto">{lastRejected.reviewNote}</p>
@@ -199,13 +239,16 @@ export function PayPanel({ info }: { info: BillingInfo }) {
 /** Small banner shown to owners/managers when the trial or paid period ends soon. */
 export function BillingBanner() {
   const { t } = useTranslation();
+  const f = useFormat();
   const { session, can } = useBiz();
   const allowed = !!session && (session.user.isOwner || can('settings.manage'));
   const q = useBilling(allowed);
   const info = q.data;
   const sub = info?.subscription;
-  if (!info || !sub || sub.daysLeft > info.reminderDays) return null;
+  const payday = info?.payday?.chosen;
+  if (!info || !sub || (sub.daysLeft > info.reminderDays && !payday)) return null;
   const pending = info.payments.some((p) => p.status === 'pending');
+  const price = info.plans[0] ? fmtAmount(info.plans[0].priceMonthly, info.plans[0].currency) : '';
   // Gravity trials can be hours or minutes long: under a day, say how much time is left.
   const short = !!session && session.business.product !== 'pos' && sub.minutesLeft > 0 && sub.minutesLeft < 1440;
   return (
@@ -214,11 +257,15 @@ export function BillingBanner() {
       <span>
         {pending
           ? t('billing.banner_pending')
-          : sub.effectiveStatus === 'trialing'
-            ? short
-              ? t('billing.banner_trial_time', { time: timeLeft(t, sub.minutesLeft) })
-              : t('billing.banner_trial', { count: Math.max(sub.daysLeft, 0) })
-            : t('billing.banner_paid', { count: Math.max(sub.daysLeft, 0), plan: sub.planName })}
+          : payday
+            ? payday <= info.payday!.today
+              ? t('billing.banner_payday_today', { price })
+              : t('billing.banner_payday', { date: f.date(payday), price })
+            : sub.effectiveStatus === 'trialing'
+              ? short
+                ? t('billing.banner_trial_time', { time: timeLeft(t, sub.minutesLeft) })
+                : t('billing.banner_trial', { count: Math.max(sub.daysLeft, 0) })
+              : t('billing.banner_paid', { count: Math.max(sub.daysLeft, 0), plan: sub.planName })}
       </span>
       {!pending && (
         <Link to="/billing" className="rounded-full bg-amber-600 px-3 py-1 font-semibold text-white hover:bg-amber-700">
