@@ -52,7 +52,7 @@ export async function resetDb(db: DB) {
   await db.execute(sql`
     TRUNCATE activity_logs, document_sequences, user_tokens, user_sessions, user_outlets, user_roles, role_permissions, roles,
       users, business_settings, outlets, business_addons, subscriptions, businesses,
-      super_admin_tokens, super_admin_sessions, platform_settings, super_admins, plans, addons, platform_languages, stored_files, message_log, signups CASCADE`);
+      super_admin_tokens, super_admin_sessions, platform_settings, super_admins, plans, addons, platform_languages, stored_files, message_log, signups, trial_uses CASCADE`);
   await syncReferenceData(db);
 }
 

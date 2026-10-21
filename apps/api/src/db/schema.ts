@@ -2109,3 +2109,17 @@ export const budgetLoanEntries = pgTable(
   },
   (t) => [index('budget_loan_entries_person_idx').on(t.personId), index('budget_loan_entries_business_idx').on(t.businessId), check('budget_loan_entries_amount_ck', sql`${t.amount} > 0`)],
 );
+
+/**
+ * Every email that has had a free trial, per app. Kept after an account is deleted, so signing up again with
+ * the same email starts without a new free trial (pay to use).
+ */
+export const trialUses = pgTable(
+  'trial_uses',
+  {
+    email: text('email').notNull(),
+    product: text('product').notNull(),
+    firstAt: createdAt(),
+  },
+  (t) => [primaryKey({ columns: [t.email, t.product] })],
+);

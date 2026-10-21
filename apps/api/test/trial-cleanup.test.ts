@@ -199,8 +199,8 @@ describe("Gravity free trials: no approval, then deleted 48 hours after an unpai
       state: "deleted",
       businessId: null,
     });
-    // The same email can sign up again.
-    expect((await signUp("Busy Studio")).session.state).toBe("ok");
+    // The same email can sign up again, but the free trial was already used: it has to pay to use it.
+    expect((await signUp("Busy Studio")).session.state).toBe("subscription_expired");
   });
 
   it("a trial that ended before this rule gets the full 48 hours from the notice", async () => {

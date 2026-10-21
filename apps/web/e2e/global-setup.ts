@@ -12,7 +12,7 @@ export default async function globalSetup() {
   const env = { ...process.env, DATABASE_URL: DB };
   execSync('npx tsx src/db/migrate.ts', { cwd: api, env, stdio: 'inherit' });
   execSync(
-    `psql "${DB}" -q -c "TRUNCATE activity_logs, document_sequences, user_tokens, user_sessions, user_outlets, user_roles, role_permissions, roles, users, business_settings, outlets, business_addons, subscriptions, businesses, super_admin_tokens, super_admin_sessions, platform_settings, super_admins CASCADE; INSERT INTO platform_settings(key, value) VALUES ('registrationMode', '\\"open\\"');"`,
+    `psql "${DB}" -q -c "TRUNCATE activity_logs, document_sequences, user_tokens, user_sessions, user_outlets, user_roles, role_permissions, roles, users, business_settings, outlets, business_addons, subscriptions, businesses, super_admin_tokens, super_admin_sessions, platform_settings, super_admins, trial_uses CASCADE; INSERT INTO platform_settings(key, value) VALUES ('registrationMode', '\\"open\\"');"`,
     { stdio: 'inherit' },
   );
   execSync(`npx tsx src/cli/create-superadmin.ts --email ${SA_EMAIL} --name "E2E Root"`, { cwd: api, env: { ...env, SUPERADMIN_PASSWORD: SA_PASSWORD }, stdio: 'inherit' });

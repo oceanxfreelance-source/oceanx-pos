@@ -9,8 +9,8 @@ import {
   resetPasswordSchema,
   isSoloProduct,
 } from '@oceanx/shared';
-import { businesses, outlets, platformLanguages, plans, signups, userOutlets, userSessions, users } from '../../db/schema';
-import { deletionForBusiness } from '../../services/trialCleanup';
+import { billingPayments, businesses, outlets, platformLanguages, plans, signups, subscriptions, trialUses, userOutlets, userSessions, users } from '../../db/schema';
+import { deleteBusinessCompletely, deletionForBusiness } from '../../services/trialCleanup';
 import { appUrlFor } from '../../config';
 import { audit } from '../../lib/audit';
 import { hashToken, randomToken } from '../../lib/crypto';
@@ -231,6 +231,24 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
       .limit(1);
     if (!plan) throw new AppError('registration_closed', 'Registration is not configured');
 
+    const email = body.email.toLowerCase();
+    if (body.product !== 'pos') {
+      // The same email again for this app: an account whose free trial ended without paying is replaced by the
+      // new one. An account in its trial, or paid, stays: one email, one account.
+      const [old] = await db
+        .select({ id: businesses.id, status: subscriptions.status, end: subscriptions.currentPeriodEnd })
+        .from(users)
+        .innerJoin(businesses, eq(businesses.id, users.businessId))
+        .leftJoin(subscriptions, eq(subscriptions.businessId, businesses.id))
+        .where(and(sql`lower(${users.email}) = ${email}`, isNull(users.deletedAt), eq(businesses.product, body.product)));
+      if (old && old.status === 'trialing' && old.end && old.end.getTime() < Date.now()) {
+        const [paid] = await db.select({ id: billingPayments.id }).from(billingPayments).where(and(eq(billingPayments.businessId, old.id), eq(billingPayments.status, 'approved'))).limit(1);
+        if (!paid) await deleteBusinessCompletely(db, old.id, 'signed_up_again');
+      }
+    }
+    // A free trial once per email and app: signing up again starts with the trial already used (pay to use).
+    const [usedTrial] = body.product === 'pos' ? [] : await db.select({ email: trialUses.email }).from(trialUses).where(and(eq(trialUses.email, email), eq(trialUses.product, body.product)));
+
     const passwordHash = await hashPassword(body.password);
     const { business, owner } = await db.transaction(async (tx) => {
       const res = await provisionBusiness(tx, {
@@ -246,6 +264,10 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
         planId: plan.id,
         owner: { name: body.ownerName, email: body.email, language: body.language, passwordHash, phone: body.phone },
       });
+      if (body.product !== 'pos') {
+        if (usedTrial) await tx.update(subscriptions).set({ currentPeriodEnd: new Date(), updatedAt: new Date() }).where(eq(subscriptions.businessId, res.business.id));
+        await tx.insert(trialUses).values({ email, product: body.product }).onConflictDoNothing();
+      }
       // Gravity: Super Admin keeps every sign-up's details, even after an unpaid trial is deleted.
       if (body.product === 'gravity') {
         await tx.insert(signups).values({

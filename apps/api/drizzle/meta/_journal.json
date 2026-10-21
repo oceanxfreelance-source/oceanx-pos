@@ -260,6 +260,13 @@
       "when": 1792594227640,
       "tag": "0036_budget_loans",
       "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1792595711409,
+      "tag": "0037_trial_uses",
+      "breakpoints": true
     }
   ]
 }

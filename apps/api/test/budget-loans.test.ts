@@ -123,7 +123,7 @@ describe('Gravity Budget loans', () => {
     expect((await c.get('/api/budget/loans')).json().owesMe).toBe(0);
     expect((await c.request('DELETE', `/api/budget/loans/people/${a.personId}`)).statusCode).toBe(200);
     expect((await c.get('/api/budget/loans')).json().people).toEqual([]);
-    const [{ n }] = (await env.db.execute(sql`SELECT count(*)::int AS n FROM budget_loan_entries`)).rows as { n: number }[];
-    expect(n).toBe(0);
+    const rows = (await env.db.execute(sql`SELECT count(*)::int AS n FROM budget_loan_entries`)).rows as { n: number }[];
+    expect(rows[0]?.n).toBe(0);
   });
 });
