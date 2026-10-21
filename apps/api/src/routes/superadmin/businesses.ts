@@ -2,6 +2,7 @@ import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { and, count, desc, eq, ilike, inArray, isNull, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import {
+  BUDGET_FEATURES,
   BUSINESS_TYPES,
   PRODUCTS,
   changePlanSchema,
@@ -372,6 +373,20 @@ export async function businessAdminRoutes(app: FastifyInstance) {
       requestedAt: b.viberCreditRequestedAt,
       active: b.superadminViberCreditEnabled && b.managerViberCreditEnabled,
     };
+  });
+
+  /** Gravity Budget: turn a new feature (e.g. loans) on or off early for this one account. */
+  app.post('/businesses/:id/features', async (req) => {
+    const ctx = saCtx(req);
+    const id = idParam(req);
+    const body = parse(z.object({ feature: z.enum(BUDGET_FEATURES), on: z.boolean() }), req.body);
+    const [b] = await db.select({ product: businesses.product, betaFeatures: businesses.betaFeatures }).from(businesses).where(eq(businesses.id, id));
+    if (!b) throw notFound();
+    if (b.product !== 'budget') throw new AppError('validation_failed', 'Only for Gravity Budget accounts');
+    const next = body.on ? [...new Set([...b.betaFeatures, body.feature])] : b.betaFeatures.filter((f) => f !== body.feature);
+    await db.update(businesses).set({ betaFeatures: next, updatedAt: new Date() }).where(eq(businesses.id, id));
+    await audit(db, { actorType: 'super_admin', actorId: ctx.admin.id, actorName: ctx.admin.name, businessId: id, action: body.on ? 'superadmin.feature_on' : 'superadmin.feature_off', entityType: 'business', entityId: id, metadata: { feature: body.feature }, req });
+    return { betaFeatures: next };
   });
 
   app.post<{ Params: { id: string; code: string } }>('/businesses/:id/addons/:code/grant', async (req) => {

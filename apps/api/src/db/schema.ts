@@ -211,6 +211,8 @@ export const businesses = pgTable(
     phone: text('phone').notNull().default(''),
     /** Shown on quotations and invoices so customers can reach the business on Viber. */
     viberPhone: text('viber_phone').notNull().default(''),
+    /** New features Super Admin has turned on early for this account (e.g. Gravity Budget 'loans'). */
+    betaFeatures: text('beta_features').array().notNull().default(sql`'{}'::text[]`),
     address: text('address').notNull().default(''),
     logoPath: text('logo_path'),
     /** Company stamp printed on documents. */
@@ -2061,4 +2063,49 @@ export const reviewPromptStates = pgTable(
     updatedAt: ts('updated_at').notNull().defaultNow(),
   },
   (t) => [primaryKey({ columns: [t.requestId, t.userId] })],
+);
+
+/**
+ * Gravity Budget loans: a person the user lent money to, or borrowed from. Their loans and repayments are
+ * budget_loan_entries; what is still owed is worked out from those (never stored).
+ */
+export const budgetLoanPeople = pgTable(
+  'budget_loan_people',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    phone: text('phone').notNull().default(''),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [index('budget_loan_people_business_idx').on(t.businessId)],
+);
+
+/**
+ * One movement with a person: gave (lent to them), received (they paid back), took (borrowed from them) or
+ * repaid (paid them back). Loans are kept apart from spending and income, so the monthly budget is not changed.
+ */
+export const budgetLoanEntries = pgTable(
+  'budget_loan_entries',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    personId: uuid('person_id')
+      .notNull()
+      .references(() => budgetLoanPeople.id, { onDelete: 'cascade' }),
+    kind: text('kind').notNull(),
+    amount: money('amount').notNull(),
+    occurredOn: text('occurred_on').notNull(),
+    /** Gave / took: the day it should be returned (optional). */
+    dueOn: text('due_on'),
+    note: text('note').notNull().default(''),
+    createdBy: uuid('created_by'),
+    createdAt: createdAt(),
+  },
+  (t) => [index('budget_loan_entries_person_idx').on(t.personId), index('budget_loan_entries_business_idx').on(t.businessId), check('budget_loan_entries_amount_ck', sql`${t.amount} > 0`)],
 );

@@ -69,6 +69,8 @@ export function useBusinessNav(): NavGroup[] {
   // Gravity Budget: every record, savings goals, the plan (limits and bills) and past months.
   if (hasModule('budget') && can('budget.view')) {
     finance.push({ to: '/spending', label: 'budget.nav_spending', icon: ArrowLeftRight });
+    // Loans: a new feature, for accounts Super Admin turned it on for (or for everyone).
+    if (session.features?.includes('loans')) finance.push({ to: '/loans', label: 'loans.nav', icon: HandCoins });
     finance.push({ to: '/goals', label: 'budget.nav_goals', icon: PiggyBank });
     finance.push({ to: '/plan', label: 'budget.nav_plan', icon: ListChecks });
     finance.push({ to: '/history', label: 'budget.nav_months', icon: CalendarRange });
@@ -225,7 +227,7 @@ function BusinessLayout() {
   // Phone tab bar: the four most-used destinations this user can open.
   // Gravity (mostly used on phones): home, quotations, invoices, customers.
   // Gravity Flow: home, transactions, months.
-  const bottomNav = (product === 'gravity' ? ['/', '/quotations', '/invoices', '/customers'] : product === 'flow' ? ['/', '/transactions', '/months', '/settings'] : product === 'budget' ? ['/', '/spending', '/goals', '/plan'] : ['/', '/pos', '/sales', '/products', '/kitchen', '/customers', '/reports'])
+  const bottomNav = (product === 'gravity' ? ['/', '/quotations', '/invoices', '/customers'] : product === 'flow' ? ['/', '/transactions', '/months', '/settings'] : product === 'budget' ? (session.features?.includes('loans') ? ['/', '/spending', '/loans', '/goals'] : ['/', '/spending', '/goals', '/plan']) : ['/', '/pos', '/sales', '/products', '/kitchen', '/customers', '/reports'])
     .map((to) => allItems.find((i) => i.to === to))
     .filter((i): i is NonNullable<typeof i> => !!i)
     .map((i) => (i.to === '/products' ? { ...i, label: 'nav.menu' } : product === 'budget' && i.to === '/' ? { ...i, label: 'budget.nav_home' } : i))

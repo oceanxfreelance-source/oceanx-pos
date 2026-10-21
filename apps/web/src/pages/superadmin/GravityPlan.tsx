@@ -8,7 +8,7 @@ import { useFieldErrors } from '../../lib/useApiError';
 import { Card, CardHeader, Ltr, PageHeader, SkeletonRows } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Form';
-import { BudgetPaydayCard } from './BudgetPayday';
+import { BudgetLoansForAllCard, BudgetPaydayCard } from './BudgetPayday';
 
 interface GravityPlan {
   id: string;
@@ -128,6 +128,7 @@ export default function GravityPlanPage({ product = 'gravity' }: { product?: 'gr
         </Card>
       )}
       {product === 'budget' && <BudgetPaydayCard />}
+      {product === 'budget' && <BudgetLoansForAllCard />}
     </div>
   );
 }

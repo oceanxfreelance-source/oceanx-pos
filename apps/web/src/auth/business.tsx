@@ -42,6 +42,8 @@ export interface BusinessSession {
   limits: Record<string, number | null>;
   modules: string[];
   addons: string[];
+  /** Gravity Budget features turned on for this account (early access or for everyone), e.g. 'loans'. */
+  features?: string[];
   permissions: string[];
   outlet: { id: string; name: string } | null;
   outlets: { id: string; name: string; isDefault: boolean }[];

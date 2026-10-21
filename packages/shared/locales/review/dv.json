@@ -11114,5 +11114,530 @@
     "suggested": "އަދި ނުދައްކާ",
     "status": "needs_review",
     "notes": "Gravity Budget: pay on salary day offer (new)."
+  },
+  {
+    "key": "loans.nav",
+    "english": "Loans",
+    "suggested": "ދަރަނި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.title",
+    "english": "Loans",
+    "suggested": "ދަރަނި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.people_owe_me",
+    "english": "People owe me",
+    "suggested": "އަހަރެންނަށް ދޭންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.i_owe",
+    "english": "I owe",
+    "suggested": "އަހަރެން ދޭންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.tab_gave",
+    "english": "I gave",
+    "suggested": "އަހަރެން ދިން",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.tab_took",
+    "english": "I took",
+    "suggested": "އަހަރެން ނެގި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.empty_gave",
+    "english": "No money lent yet",
+    "suggested": "އަދި އެއްވެސް ފައިސާއެއް ދަރަންޏަށް ނުދޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.empty_took",
+    "english": "No money borrowed",
+    "suggested": "ދަރަންޏަށް ނަގާފައިވާ ފައިސާއެއް ނެތް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.empty_hint",
+    "english": "Tap \"New loan\" to note money you lent or borrowed. You will be reminded on salary day.",
+    "suggested": "ދިން ނުވަތަ ނެގި ފައިސާ ނޯޓުކުރަން \"އާ ދަރަންޏެއް\" އަށް ފިއްތަވާ. މުސާރަ ލިބޭ ދުވަހު ހަނދާންކޮށްދޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.took_reminder_note",
+    "english": "You will be reminded on salary day (the 30th) every month until it is all paid back.",
+    "suggested": "ހުރިހާ ފައިސާއެއް ދައްކައި ނިމެންދެން ކޮންމެ މަހެއްގެ މުސާރަ ލިބޭ ދުވަހު (30) ހަނދާންކޮށްދޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.paid_back",
+    "english": "Paid back",
+    "suggested": "އަނބުރާ ދައްކާފައި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.new",
+    "english": "New loan",
+    "suggested": "އާ ދަރަންޏެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.new_with",
+    "english": "New loan with {{name}}",
+    "suggested": "{{name}} އާއެކު އާ ދަރަންޏެއް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.save",
+    "english": "Save loan",
+    "suggested": "ދަރަނި ރައްކާކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.saved",
+    "english": "Loan saved",
+    "suggested": "ދަރަނި ރައްކާކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.type",
+    "english": "Type",
+    "suggested": "ބާވަތް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.i_gave_money",
+    "english": "💚 I gave money",
+    "suggested": "💚 އަހަރެން ފައިސާ ދިނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.i_took_money",
+    "english": "🔴 I took money",
+    "suggested": "🔴 އަހަރެން ފައިސާ ނެގީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.person",
+    "english": "Person",
+    "suggested": "މީހާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.phone_optional",
+    "english": "Phone (optional)",
+    "suggested": "ފޯނު (ބޭނުންނަމަ)",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.return_by",
+    "english": "Return by",
+    "suggested": "އަނބުރާ ދޭންވީ ތާރީޚު",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.optional",
+    "english": "Optional",
+    "suggested": "ބޭނުންނަމަ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.reminder_hint",
+    "english": "You will be reminded on salary day (the 30th) every month until it is paid back.",
+    "suggested": "ދައްކައި ނިމެންދެން ކޮންމެ މަހެއްގެ މުސާރަ ލިބޭ ދުވަހު (30) ހަނދާންކޮށްދޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.got_back_from",
+    "english": "Money back from {{name}}",
+    "suggested": "{{name}} ގެ ފަރާތުން އަނބުރާ ލިބުނު ފައިސާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.paid_back_to",
+    "english": "Paid back to {{name}}",
+    "suggested": "{{name}} އަށް އަނބުރާ ދެއްކި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.still_owes",
+    "english": "{{name}} still owes you {{amount}}",
+    "suggested": "{{name}} ތިބާއަށް އަދިވެސް {{amount}} ދޭންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.you_still_owe",
+    "english": "You still owe {{name}} {{amount}}",
+    "suggested": "ތިބާ {{name}} އަށް އަދިވެސް {{amount}} ދޭންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.all_of_it",
+    "english": "All of it ({{amount}})",
+    "suggested": "ހުރިހާ ފައިސާ ({{amount}})",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.save_part",
+    "english": "Save this amount",
+    "suggested": "މި އަދަދު ރައްކާކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.amount_back",
+    "english": "Amount",
+    "suggested": "އަދަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.paid_back_on",
+    "english": "Paid back {{date}}",
+    "suggested": "{{date}} ގައި އަނބުރާ ދައްކާފައި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.count_since_one",
+    "english": "{{count}} loan · {{date}}",
+    "suggested": "{{count}} ދަރަނި · {{date}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.count_since_other",
+    "english": "{{count}} loans · last {{date}}",
+    "suggested": "{{count}} ދަރަނި · ފަހު {{date}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.overdue",
+    "english": "Overdue",
+    "suggested": "ތާރީޚު ފަހަނައަޅައިފި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.due_on",
+    "english": "Due {{date}}",
+    "suggested": "{{date}} ގައި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.salary_day",
+    "english": "Salary day",
+    "suggested": "މުސާރަ ދުވަސް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.still_owes_you",
+    "english": "{{name}} still owes you",
+    "suggested": "{{name}} ތިބާއަށް އަދިވެސް ދޭންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.you_owe_name",
+    "english": "You owe {{name}}",
+    "suggested": "ތިބާ {{name}} އަށް ދޭންޖެހޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.due_reminder",
+    "english": "Due {{date}} · reminder on salary day",
+    "suggested": "{{date}} ގައި · މުސާރަ ދުވަހު ހަނދާންކޮށްދޭނެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.salary_day_reminder",
+    "english": "Reminder every salary day (the 30th)",
+    "suggested": "ކޮންމެ މުސާރަ ދުވަހަކު (30) ހަނދާންކޮށްދޭނެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.fully_paid",
+    "english": "Fully paid",
+    "suggested": "ފުރިހަމައަށް ދައްކާފައި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.got_money_back",
+    "english": "Got money back",
+    "suggested": "ފައިސާ އަނބުރާ ލިބުނު",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.i_paid_back",
+    "english": "I paid back",
+    "suggested": "އަހަރެން އަނބުރާ ދެއްކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.gave_more",
+    "english": "Gave more",
+    "suggested": "އިތުރަށް ދިނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.took_more",
+    "english": "Took more",
+    "suggested": "އިތުރަށް ނެގީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.send_reminder",
+    "english": "Send a polite reminder",
+    "suggested": "ފަސޭހަ ހަނދާންކޮށްދިނުމެއް ފޮނުވާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.copied",
+    "english": "Reminder copied. Paste it in Viber or SMS.",
+    "suggested": "ހަނދާންކޮށްދިނުމުގެ މެސެޖް ކޮޕީކުރެވިއްޖެ. ވައިބަރު ނުވަތަ އެސްއެމްއެސްގައި ޕޭސްޓް ކުރައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.history",
+    "english": "History",
+    "suggested": "ތާރީޚު",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.kind_gave",
+    "english": "Gave {{amount}}",
+    "suggested": "{{amount}} ދިނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.kind_took",
+    "english": "Took {{amount}}",
+    "suggested": "{{amount}} ނެގީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.kind_received",
+    "english": "Got back {{amount}}",
+    "suggested": "{{amount}} އަނބުރާ ލިބުނު",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.kind_repaid",
+    "english": "Paid back {{amount}}",
+    "suggested": "{{amount}} އަނބުރާ ދެއްކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.remove_person",
+    "english": "Remove {{name}}",
+    "suggested": "{{name}} ފޮހެލާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.remove_entry",
+    "english": "Remove this line",
+    "suggested": "މި ލައިން ފޮހެލާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.remove_person_body",
+    "english": "This removes the person and every loan and payment with them.",
+    "suggested": "މިއިން އެ މީހާއާއި، އެމީހަކާ ގުޅޭ ހުރިހާ ދަރަންޏާއި ފައިސާ ދެއްކުމެއް ފޮހެލެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.remove_entry_body",
+    "english": "Remove this loan or payment if it was added by mistake.",
+    "suggested": "ކުށުން އިތުރުކުރެވުނު ދަރަންޏެއް ނުވަތަ ފައިސާ ދެއްކުމެއްނަމަ ފޮހެލާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.reminder_text",
+    "english": "Hi {{name}}, a friendly reminder about the {{amount}} I lent you. Thank you! 🙂",
+    "suggested": "{{name}}، އަހަރެން ދިން {{amount}} އާ ބެހޭގޮތުން ހަނދާންކޮށްދިނުމެއް. ޝުކުރިއްޔާ! 🙂",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.card_collect_title",
+    "english": "Salary day: money to collect",
+    "suggested": "މުސާރަ ދުވަސް: ލިބެންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.card_due_title",
+    "english": "Money to collect today",
+    "suggested": "މިއަދު ލިބެންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.card_collect_body",
+    "english": "Owes you: {{list}}",
+    "suggested": "ތިބާއަށް ދޭންޖެހޭ: {{list}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.remind_name",
+    "english": "Remind {{name}}",
+    "suggested": "{{name}} އަށް ހަނދާންކޮށްދޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.open_loans",
+    "english": "Open loans",
+    "suggested": "ދަރަނި ބައްލަވާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.card_return_title",
+    "english": "Salary day: money to return",
+    "suggested": "މުސާރަ ދުވަސް: އަނބުރާ ދޭންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.card_return_due_title",
+    "english": "Money to return today",
+    "suggested": "މިއަދު އަނބުރާ ދޭންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.card_return_body",
+    "english": "You owe: {{list}}",
+    "suggested": "ތިބާ ދޭންޖެހޭ: {{list}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.later",
+    "english": "Later",
+    "suggested": "ފަހުން",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_title",
+    "english": "New features (early access)",
+    "suggested": "އާ ފީޗަރތައް (ކުރިއްސުރެ)",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_hint",
+    "english": "Turn a new feature on for this account only, to try it before everyone gets it.",
+    "suggested": "ހުރިހާ އެންމެނަށް ދިނުމުގެ ކުރިން ޓެސްޓްކުރުމަށް، މި އެކައުންޓަށް އެކަނި އާ ފީޗަރެއް ހުޅުވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_switch",
+    "english": "Loans",
+    "suggested": "ދަރަނި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_switch_hint",
+    "english": "A Loans tab: money lent and borrowed, with a reminder every salary day.",
+    "suggested": "ދަރަނީގެ ޓެބެއް: ދިން އަދި ނެގި ފައިސާ، ކޮންމެ މުސާރަ ދުވަހަކު ހަނދާންކޮށްދިނުމާއެކު.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_all_title",
+    "english": "Loans for everyone",
+    "suggested": "ހުރިހާ އެންމެނަށް ދަރަނި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_all_hint",
+    "english": "Until this is on, only accounts you turn it on for (in their page) see the Loans tab.",
+    "suggested": "މިއީ ހުޅުވާލަންދެން، ދަރަނީގެ ޓެބް ފެންނާނީ ތިބާ (އެ އެކައުންޓުގެ ޕޭޖުން) ހުޅުވާދޭ އެކައުންޓުތަކަށް އެކަނި.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_all_switch",
+    "english": "Loans for all Budget accounts",
+    "suggested": "ހުރިހާ ބަޖެޓް އެކައުންޓުތަކަށް ދަރަނި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_all_on",
+    "english": "On: every Gravity Budget account has the Loans tab.",
+    "suggested": "ހުޅުވާލެވިފައި: ހުރިހާ Gravity Budget އެކައުންޓެއްގައި ދަރަނީގެ ޓެބް އެބައޮތް.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "loans.sa_all_off",
+    "english": "Off: only accounts turned on one by one.",
+    "suggested": "ބަންދު: އެކިއެކި ހުޅުވާދީފައިވާ އެކައުންޓުތަކަށް އެކަނި.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: Loans tab (new)."
   }
 ]

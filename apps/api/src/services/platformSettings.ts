@@ -20,6 +20,7 @@ export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   trialDeleteHours: 48,
   flowTrialDeleteHours: 24,
   budgetPaydayOn: false,
+  budgetLoansForAll: false,
   companyAddress: '',
   companyPhone: '',
   companyTaxNumber: '',

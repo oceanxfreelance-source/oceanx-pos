@@ -10,14 +10,14 @@ import { actionLabel, addonLabel } from '../../lib/labels';
 import { useToastError } from '../../lib/useApiError';
 import { Badge, Card, CardHeader, Ltr, PageHeader, SkeletonRows } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { Input, Select, Textarea } from '../../components/ui/Form';
+import { Input, Select, Switch, Textarea } from '../../components/ui/Form';
 import { ConfirmDialog, Dialog } from '../../components/ui/Dialog';
 import { STATUS_TONE, SUB_TONE, type Plan } from './Businesses';
 import { PaymentsTable, RecordPaymentDialog, usePayments } from './Payments';
 import { OwnerCredentials, generatePassword } from '../../components/OwnerCredentials';
 
 interface Detail {
-  business: { id: string; name: string; slug: string; product: 'pos' | 'gravity' | 'flow' | 'budget'; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null };
+  business: { id: string; name: string; slug: string; product: 'pos' | 'gravity' | 'flow' | 'budget'; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null; betaFeatures?: string[] };
   subscription: { status: string; effectiveStatus: string; currentPeriodEnd: string; startsAt: string; plan: Plan } | null;
   addons: { code: string; name: string; isActive: boolean; status: string | null; grantedAt: string | null; revokedAt: string | null; expiresAt: string | null; requestedAt: string | null; requestNote: string | null }[];
   userCount: number;
@@ -200,6 +200,8 @@ export default function BusinessDetailPage() {
             <Info label={t('common.created')} value={f.date(b.createdAt)} />
           </dl>
         </Card>
+        {/* Gravity Budget: new features turned on early for this account (try them before everyone gets them). */}
+        {b.product === 'budget' && <BudgetFeaturesCard id={b.id} features={b.betaFeatures ?? []} />}
         {/* Add-ons are POS extras: Gravity accounts have none. */}
         {b.product === 'pos' && (
         <Card className="lg:col-span-2">
@@ -482,5 +484,26 @@ function OwnerPasswordDialog({ businessId, onClose, onDone }: { businessId: stri
         </div>
       )}
     </Dialog>
+  );
+}
+
+/** Early access for one Gravity Budget account: turn a new feature (Loans) on before everyone gets it. */
+function BudgetFeaturesCard({ id, features }: { id: string; features: string[] }) {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const toastErr = useToastError();
+  const set = useMutation({
+    mutationFn: (on: boolean) => saApi.post(`/businesses/${id}/features`, { feature: 'loans', on }),
+    onSuccess: () => {
+      toast.success(t('common.saved'));
+      void qc.invalidateQueries({ queryKey: ['sa', 'business', id] });
+    },
+    onError: toastErr,
+  });
+  return (
+    <Card className="lg:col-span-2">
+      <CardHeader title={t('loans.sa_title')} description={t('loans.sa_hint')} />
+      <Switch checked={features.includes('loans')} disabled={set.isPending} onChange={(v) => set.mutate(v)} label={t('loans.sa_switch')} description={t('loans.sa_switch_hint')} />
+    </Card>
   );
 }

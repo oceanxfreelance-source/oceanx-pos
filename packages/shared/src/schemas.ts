@@ -255,6 +255,8 @@ export const platformSettingsSchema = z
     flowTrialDeleteHours: z.coerce.number().int().min(0).max(8760),
     /** Gravity Budget: customers may choose to pay on salary day, the 30th (an offer Super Admin turns on, e.g. for one month). */
     budgetPaydayOn: z.boolean(),
+    /** Gravity Budget: the Loans tab for every account (otherwise only accounts Super Admin turned it on for). */
+    budgetLoansForAll: z.boolean(),
     /** OceanX's own details, printed on Hub quotations and invoices. */
     companyAddress: z.string().trim().max(300),
     companyPhone: z.string().trim().max(40),

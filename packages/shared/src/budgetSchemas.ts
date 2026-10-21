@@ -91,3 +91,41 @@ export const budgetGoalMoveSchema = z.object({
   occurredOn: isoDay.optional(),
   note: z.string().trim().max(200).default(''),
 });
+
+/** Gravity Budget features Super Admin can turn on early for one account, or for every account. */
+export const BUDGET_FEATURES = ['loans'] as const;
+export type BudgetFeature = (typeof BUDGET_FEATURES)[number];
+
+/** Loans: money the person lent (gave) or borrowed (took), and money coming back (received) or paid back (repaid). */
+export const BUDGET_LOAN_SIDES = ['gave', 'took'] as const;
+export type BudgetLoanSide = (typeof BUDGET_LOAN_SIDES)[number];
+export const BUDGET_LOAN_KINDS = ['gave', 'took', 'received', 'repaid'] as const;
+export type BudgetLoanKind = (typeof BUDGET_LOAN_KINDS)[number];
+
+const personName = z.string().trim().min(1).max(60);
+const personPhone = z.string().trim().max(30).default('');
+
+/** A new loan: to someone already in the list (personId) or a new person (name, phone). */
+export const budgetLoanSchema = z
+  .object({
+    side: z.enum(BUDGET_LOAN_SIDES),
+    personId: z.string().uuid().optional(),
+    name: personName.optional(),
+    phone: personPhone,
+    amount: moneyTextSchema,
+    occurredOn: isoDay,
+    dueOn: isoDay.nullable().default(null),
+    note: z.string().trim().max(300).default(''),
+  })
+  .refine((v) => v.personId || v.name, { path: ['name'], message: 'required' });
+
+/** Money coming back (gave side) or paid back (took side): an amount, or everything still owed. */
+export const budgetLoanPaymentSchema = z.object({
+  side: z.enum(BUDGET_LOAN_SIDES),
+  amount: moneyTextSchema.optional(),
+  all: z.boolean().default(false),
+  occurredOn: isoDay,
+  note: z.string().trim().max(300).default(''),
+});
+
+export const budgetLoanPersonSchema = z.object({ name: personName, phone: personPhone });

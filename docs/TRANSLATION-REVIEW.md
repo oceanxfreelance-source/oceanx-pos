@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1207 · **confirmed**: 381
+Status: **needs_review**: 1282 · **confirmed**: 381
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -763,6 +763,81 @@ review of the whole file is still recommended before launch.
 | `inventory.types.transfer_in` | Transfer in | ޓްރާންސްފަރ (ލިބުނު) | needs_review | Rendered with parenthetical (ލިބުނު); alternative: ވަދެފައިވާ ޓްރާންސްފަރ. |
 | `inventory.types.wastage` | Wastage | ގެއްލުނު / ހަލާކުވި | needs_review | See inventory.modes.wastage. |
 | `invoices.issue` | Issue invoice | އިންވޮއިސް ނެރޭ | needs_review | 'Issue invoice' as އިންވޮއިސް ނެރޭ (lit. 'release/publish'). Alternatives: އިންވޮއިސް ފައިނަލްކުރޭ, އިޝޫކުރޭ. Also status_labels.issued (ނެރެފައި), documents.actions_done.issue, activity.actions.invoice_issued, documents.confirm.issue_title. |
+| `loans.all_of_it` | All of it ({{amount}}) | ހުރިހާ ފައިސާ ({{amount}}) | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.amount_back` | Amount | އަދަދު | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.card_collect_body` | Owes you: {{list}} | ތިބާއަށް ދޭންޖެހޭ: {{list}} | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.card_collect_title` | Salary day: money to collect | މުސާރަ ދުވަސް: ލިބެންޖެހޭ ފައިސާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.card_due_title` | Money to collect today | މިއަދު ލިބެންޖެހޭ ފައިސާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.card_return_body` | You owe: {{list}} | ތިބާ ދޭންޖެހޭ: {{list}} | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.card_return_due_title` | Money to return today | މިއަދު އަނބުރާ ދޭންޖެހޭ ފައިސާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.card_return_title` | Salary day: money to return | މުސާރަ ދުވަސް: އަނބުރާ ދޭންޖެހޭ ފައިސާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.copied` | Reminder copied. Paste it in Viber or SMS. | ހަނދާންކޮށްދިނުމުގެ މެސެޖް ކޮޕީކުރެވިއްޖެ. ވައިބަރު ނުވަތަ އެސްއެމްއެސްގައި ޕޭސްޓް ކުރައްވާ. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.count_since_one` | {{count}} loan · {{date}} | {{count}} ދަރަނި · {{date}} | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.count_since_other` | {{count}} loans · last {{date}} | {{count}} ދަރަނި · ފަހު {{date}} | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.due_on` | Due {{date}} | {{date}} ގައި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.due_reminder` | Due {{date}} · reminder on salary day | {{date}} ގައި · މުސާރަ ދުވަހު ހަނދާންކޮށްދޭނެ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.empty_gave` | No money lent yet | އަދި އެއްވެސް ފައިސާއެއް ދަރަންޏަށް ނުދޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.empty_hint` | Tap "New loan" to note money you lent or borrowed. You will be reminded on salary day. | ދިން ނުވަތަ ނެގި ފައިސާ ނޯޓުކުރަން "އާ ދަރަންޏެއް" އަށް ފިއްތަވާ. މުސާރަ ލިބޭ ދުވަހު ހަނދާންކޮށްދޭނެ. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.empty_took` | No money borrowed | ދަރަންޏަށް ނަގާފައިވާ ފައިސާއެއް ނެތް | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.fully_paid` | Fully paid | ފުރިހަމައަށް ދައްކާފައި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.gave_more` | Gave more | އިތުރަށް ދިނީ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.got_back_from` | Money back from {{name}} | {{name}} ގެ ފަރާތުން އަނބުރާ ލިބުނު ފައިސާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.got_money_back` | Got money back | ފައިސާ އަނބުރާ ލިބުނު | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.history` | History | ތާރީޚު | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.i_gave_money` | 💚 I gave money | 💚 އަހަރެން ފައިސާ ދިނީ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.i_owe` | I owe | އަހަރެން ދޭންޖެހޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.i_paid_back` | I paid back | އަހަރެން އަނބުރާ ދެއްކީ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.i_took_money` | 🔴 I took money | 🔴 އަހަރެން ފައިސާ ނެގީ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.kind_gave` | Gave {{amount}} | {{amount}} ދިނީ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.kind_received` | Got back {{amount}} | {{amount}} އަނބުރާ ލިބުނު | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.kind_repaid` | Paid back {{amount}} | {{amount}} އަނބުރާ ދެއްކީ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.kind_took` | Took {{amount}} | {{amount}} ނެގީ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.later` | Later | ފަހުން | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.nav` | Loans | ދަރަނި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.new` | New loan | އާ ދަރަންޏެއް | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.new_with` | New loan with {{name}} | {{name}} އާއެކު އާ ދަރަންޏެއް | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.open_loans` | Open loans | ދަރަނި ބައްލަވާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.optional` | Optional | ބޭނުންނަމަ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.overdue` | Overdue | ތާރީޚު ފަހަނައަޅައިފި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.paid_back` | Paid back | އަނބުރާ ދައްކާފައި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.paid_back_on` | Paid back {{date}} | {{date}} ގައި އަނބުރާ ދައްކާފައި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.paid_back_to` | Paid back to {{name}} | {{name}} އަށް އަނބުރާ ދެއްކި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.people_owe_me` | People owe me | އަހަރެންނަށް ދޭންޖެހޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.person` | Person | މީހާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.phone_optional` | Phone (optional) | ފޯނު (ބޭނުންނަމަ) | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.remind_name` | Remind {{name}} | {{name}} އަށް ހަނދާންކޮށްދޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.reminder_hint` | You will be reminded on salary day (the 30th) every month until it is paid back. | ދައްކައި ނިމެންދެން ކޮންމެ މަހެއްގެ މުސާރަ ލިބޭ ދުވަހު (30) ހަނދާންކޮށްދޭނެ. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.reminder_text` | Hi {{name}}, a friendly reminder about the {{amount}} I lent you. Thank you! 🙂 | {{name}}، އަހަރެން ދިން {{amount}} އާ ބެހޭގޮތުން ހަނދާންކޮށްދިނުމެއް. ޝުކުރިއްޔާ! 🙂 | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.remove_entry` | Remove this line | މި ލައިން ފޮހެލާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.remove_entry_body` | Remove this loan or payment if it was added by mistake. | ކުށުން އިތުރުކުރެވުނު ދަރަންޏެއް ނުވަތަ ފައިސާ ދެއްކުމެއްނަމަ ފޮހެލާ. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.remove_person` | Remove {{name}} | {{name}} ފޮހެލާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.remove_person_body` | This removes the person and every loan and payment with them. | މިއިން އެ މީހާއާއި، އެމީހަކާ ގުޅޭ ހުރިހާ ދަރަންޏާއި ފައިސާ ދެއްކުމެއް ފޮހެލެވޭނެ. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.return_by` | Return by | އަނބުރާ ދޭންވީ ތާރީޚު | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_all_hint` | Until this is on, only accounts you turn it on for (in their page) see the Loans tab. | މިއީ ހުޅުވާލަންދެން، ދަރަނީގެ ޓެބް ފެންނާނީ ތިބާ (އެ އެކައުންޓުގެ ޕޭޖުން) ހުޅުވާދޭ އެކައުންޓުތަކަށް އެކަނި. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_all_off` | Off: only accounts turned on one by one. | ބަންދު: އެކިއެކި ހުޅުވާދީފައިވާ އެކައުންޓުތަކަށް އެކަނި. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_all_on` | On: every Gravity Budget account has the Loans tab. | ހުޅުވާލެވިފައި: ހުރިހާ Gravity Budget އެކައުންޓެއްގައި ދަރަނީގެ ޓެބް އެބައޮތް. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_all_switch` | Loans for all Budget accounts | ހުރިހާ ބަޖެޓް އެކައުންޓުތަކަށް ދަރަނި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_all_title` | Loans for everyone | ހުރިހާ އެންމެނަށް ދަރަނި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_hint` | Turn a new feature on for this account only, to try it before everyone gets it. | ހުރިހާ އެންމެނަށް ދިނުމުގެ ކުރިން ޓެސްޓްކުރުމަށް، މި އެކައުންޓަށް އެކަނި އާ ފީޗަރެއް ހުޅުވާ. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_switch` | Loans | ދަރަނި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_switch_hint` | A Loans tab: money lent and borrowed, with a reminder every salary day. | ދަރަނީގެ ޓެބެއް: ދިން އަދި ނެގި ފައިސާ، ކޮންމެ މުސާރަ ދުވަހަކު ހަނދާންކޮށްދިނުމާއެކު. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.sa_title` | New features (early access) | އާ ފީޗަރތައް (ކުރިއްސުރެ) | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.salary_day` | Salary day | މުސާރަ ދުވަސް | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.salary_day_reminder` | Reminder every salary day (the 30th) | ކޮންމެ މުސާރަ ދުވަހަކު (30) ހަނދާންކޮށްދޭނެ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.save` | Save loan | ދަރަނި ރައްކާކުރޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.save_part` | Save this amount | މި އަދަދު ރައްކާކުރޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.saved` | Loan saved | ދަރަނި ރައްކާކުރެވިއްޖެ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.send_reminder` | Send a polite reminder | ފަސޭހަ ހަނދާންކޮށްދިނުމެއް ފޮނުވާ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.still_owes` | {{name}} still owes you {{amount}} | {{name}} ތިބާއަށް އަދިވެސް {{amount}} ދޭންޖެހޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.still_owes_you` | {{name}} still owes you | {{name}} ތިބާއަށް އަދިވެސް ދޭންޖެހޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.tab_gave` | I gave | އަހަރެން ދިން | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.tab_took` | I took | އަހަރެން ނެގި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.title` | Loans | ދަރަނި | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.took_more` | Took more | އިތުރަށް ނެގީ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.took_reminder_note` | You will be reminded on salary day (the 30th) every month until it is all paid back. | ހުރިހާ ފައިސާއެއް ދައްކައި ނިމެންދެން ކޮންމެ މަހެއްގެ މުސާރަ ލިބޭ ދުވަހު (30) ހަނދާންކޮށްދޭނެ. | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.type` | Type | ބާވަތް | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.you_owe_name` | You owe {{name}} | ތިބާ {{name}} އަށް ދޭންޖެހޭ | needs_review | Gravity Budget: Loans tab (new). |
+| `loans.you_still_owe` | You still owe {{name}} {{amount}} | ތިބާ {{name}} އަށް އަދިވެސް {{amount}} ދޭންޖެހޭ | needs_review | Gravity Budget: Loans tab (new). |
 | `menu_i18n.description_in` | Description in {{language}} | {{language}} ބަހުން ތަފްޞީލު | needs_review | New: labels for item names in other languages. |
 | `menu_i18n.hint` | Shown on the QR menu when a customer picks this language. Leave empty to show the main name. | ކަސްޓަމަރަކު މި ބަސް ޚިޔާރުކުރުމުން ކިއުއާރް މެނޫގައި ފެންނާނީ މިއެވެ. ހުސްކޮށް ބަހައްޓައިފިނަމަ މައި ނަން ފެންނާނެއެވެ. | needs_review | New: labels for item names in other languages. |
 | `menu_i18n.message_in` | Welcome message in {{language}} | {{language}} ބަހުން މަރުޙަބާ މެސެޖު | needs_review | New: labels for item names in other languages. |

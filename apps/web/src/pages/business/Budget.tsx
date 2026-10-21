@@ -16,6 +16,7 @@ import { Card, EmptyState, SkeletonRows } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input, Select } from '../../components/ui/Form';
 import { ConfirmDialog, Dialog } from '../../components/ui/Dialog';
+import { LoanReminderCard } from './BudgetLoans';
 
 // ---------------------------------------------------------------- types
 type Kind = 'income' | 'expense';
@@ -741,6 +742,8 @@ export function BudgetHome() {
       </div>
 
       <OfflineNote waiting={pending.length} />
+
+      {o.isCurrent && <LoanReminderCard />}
 
       {/* What is left, and what can be spent each day. */}
       <section className={clsx('rounded-3xl p-5 text-white shadow-sm', totals.left < 0 ? 'bg-rose-600' : 'gravity-surface')}>

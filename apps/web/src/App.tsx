@@ -47,6 +47,8 @@ const BudgetSpending = lazy(() => import('./pages/business/Budget').then((m) => 
 const BudgetGoals = lazy(() => import('./pages/business/Budget').then((m) => ({ default: m.BudgetGoalsPage })));
 const BudgetPlan = lazy(() => import('./pages/business/Budget').then((m) => ({ default: m.BudgetPlanPage })));
 const BudgetMonths = lazy(() => import('./pages/business/Budget').then((m) => ({ default: m.BudgetMonthsPage })));
+const BudgetLoans = lazy(() => import('./pages/business/BudgetLoans').then((m) => ({ default: m.BudgetLoansPage })));
+const LoanPerson = lazy(() => import('./pages/business/BudgetLoans').then((m) => ({ default: m.LoanPersonPage })));
 const BudgetReportPrint = lazy(() => import('./pages/print/BudgetReportPrint'));
 const Karaoke = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.KaraokePage })));
 const Reservations = lazy(() => import('./pages/business/AddonPages').then((m) => ({ default: m.ReservationsPage })));
@@ -294,6 +296,8 @@ const router = createBrowserRouter([
           // Gravity Budget: records, goals, the plan (limits and bills) and past months.
           { path: 'spending', element: withSuspense(<BudgetSpending />) },
           { path: 'goals', element: withSuspense(<BudgetGoals />) },
+          { path: 'loans', element: withSuspense(<BudgetLoans />) },
+          { path: 'loans/:id', element: withSuspense(<LoanPerson />) },
           { path: 'plan', element: withSuspense(<BudgetPlan />) },
           { path: 'history', element: withSuspense(<BudgetMonths />) },
           { path: 'karaoke', element: withSuspense(<Karaoke />) },

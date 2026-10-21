@@ -20,6 +20,7 @@ import { BUSINESS_COOKIE, businessCookieOptions, clearBusinessCookie, fromInstal
 import { parse } from '../../lib/validation';
 import { authenticateBusiness, bizCtx } from '../../guards/business';
 import { loadBusinessAccess } from '../../services/access';
+import { budgetFeaturesFor } from '../../services/budgetFeatures';
 import { getPlatformSettings } from '../../services/platformSettings';
 import { loadBusinessSettings } from '../../services/settings';
 import { provisionBusiness } from '../../services/provisioning';
@@ -69,6 +70,8 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
     limits: ctx.access.limits,
     modules: [...ctx.access.modules],
     addons: [...ctx.access.addons],
+    /** Gravity Budget: new features turned on for this account (early access, or for everyone). */
+    features: await budgetFeaturesFor(db, b),
     permissions: [...ctx.permissions].sort(),
     outlet: accessibleOutlets.find((o) => o.id === ctx.outletId) ?? null,
     outlets: accessibleOutlets,

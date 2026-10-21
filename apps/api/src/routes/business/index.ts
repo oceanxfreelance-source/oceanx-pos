@@ -20,6 +20,7 @@ import { financeRoutes } from './finance';
 import { budgetRoutes } from './budget';
 import { cashClosingRoutes } from './cashClosing';
 import { reviewRoutes } from './reviews';
+import { budgetLoanRoutes } from './budgetLoans';
 import { IMAGE_TYPES } from '../../lib/storage';
 
 /**
@@ -53,5 +54,6 @@ export async function businessRoutes(app: FastifyInstance, opts: { authRateLimit
     await secured.register(cashClosingRoutes);
     await secured.register(budgetRoutes);
     await secured.register(reviewRoutes);
+    await secured.register(budgetLoanRoutes);
   });
 }

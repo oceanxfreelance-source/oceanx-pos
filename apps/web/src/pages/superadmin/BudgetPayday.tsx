@@ -73,3 +73,26 @@ export function BudgetPaydayCard() {
     </Card>
   );
 }
+
+/** Gravity Budget Loans for every account (until then, only accounts turned on one by one in their page). */
+export function BudgetLoansForAllCard() {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const toastErr = useToastError();
+  const settings = useQuery({ queryKey: ['sa', 'settings'], queryFn: () => saApi.get<{ budgetLoansForAll: boolean }>('/settings') });
+  const save = useMutation({
+    mutationFn: (v: boolean) => saApi.patch('/settings', { budgetLoansForAll: v }),
+    onSuccess: () => {
+      toast.success(t('common.saved'));
+      void qc.invalidateQueries({ queryKey: ['sa', 'settings'] });
+    },
+    onError: toastErr,
+  });
+  const on = !!settings.data?.budgetLoansForAll;
+  return (
+    <Card className="mt-6">
+      <CardHeader title={t('loans.sa_all_title')} description={t('loans.sa_all_hint')} />
+      <Switch checked={on} disabled={!settings.data || save.isPending} onChange={(v) => save.mutate(v)} label={t('loans.sa_all_switch')} description={on ? t('loans.sa_all_on') : t('loans.sa_all_off')} />
+    </Card>
+  );
+}
