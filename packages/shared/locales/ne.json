@@ -3065,7 +3065,7 @@
     "console": "Gravity Budget कन्सोल",
     "active_accounts": "Budget खाताहरू",
     "nav_spending": "खर्च",
-    "nav_goals": "लक्ष्य",
+    "nav_goals": "बचत",
     "nav_plan": "मेरो बजेट",
     "nav_months": "महिना",
     "hello": "नमस्ते {{name}}",
@@ -3289,7 +3289,29 @@
     "payday_admin_date": "तलबको दिन {{date}}",
     "payday_admin_paid": "तिरिएको",
     "payday_admin_slip": "स्लिप पर्खिँदै",
-    "payday_admin_unpaid": "अहिलेसम्म तिरिएको छैन"
+    "payday_admin_unpaid": "अहिलेसम्म तिरिएको छैन",
+    "wallet": {
+      "which": "कुन पैसा?",
+      "dollars_too": "डलर पनि",
+      "dollars_too_hint": "डलरलाई छुट्टै पैसाको रूपमा राख्नुहोस्: आफ्नै बजेट, बचत र जम्मासहित। {{currency}} सँग कहिल्यै मिसाइँदैन।",
+      "dollars_on": "डलर सुरु भयो",
+      "dollars_off": "डलर बन्द भयो",
+      "signup_question": "तपाईं कुन पैसा प्रयोग गर्नुहुन्छ?",
+      "signup_rf": "Rf मात्र",
+      "signup_usd": "$ मात्र",
+      "signup_both": "Rf र $",
+      "signup_hint": "Rf र $ दुवैको आफ्नै बजेट र बचत हुन्छ। पछि बदल्न सकिन्छ।"
+    },
+    "savings": {
+      "title": "मेरो बचत",
+      "usd_title": "डलर बचत",
+      "hint": "छुट्याएर राखेको पैसा। लक्ष्य चाहिँदैन।",
+      "total": "जम्मा बचत",
+      "save": "बचत गर्नुहोस्",
+      "saved_now": "बचत: {{amount}}",
+      "this_month": "यो महिना {{amount}} बचत",
+      "goals": "लक्ष्य"
+    }
   },
   "app_update": {
     "title": "एपको नयाँ संस्करण तयार छ।",

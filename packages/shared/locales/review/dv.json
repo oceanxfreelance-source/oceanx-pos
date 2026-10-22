@@ -8786,10 +8786,10 @@
   },
   {
     "key": "budget.nav_goals",
-    "english": "Goals",
-    "suggested": "ލަނޑުދަނޑިތައް",
-    "status": "confirmed",
-    "notes": "Translated by the business owner (native speaker)."
+    "english": "Savings",
+    "suggested": "ސޭވިންގްސް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: the Goals tab is now called Savings."
   },
   {
     "key": "budget.nav_plan",
@@ -11639,5 +11639,131 @@
     "suggested": "ބަންދު: އެކިއެކި ހުޅުވާދީފައިވާ އެކައުންޓުތަކަށް އެކަނި.",
     "status": "needs_review",
     "notes": "Gravity Budget: Loans tab (new)."
+  },
+  {
+    "key": "budget.wallet.which",
+    "english": "Which money?",
+    "suggested": "ކޮން ފައިސާ؟",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.dollars_too",
+    "english": "Dollars too",
+    "suggested": "ޑޮލަރުވެސް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.dollars_too_hint",
+    "english": "Keep dollars as their own money, with their own budgets, savings and totals. Never mixed with {{currency}}.",
+    "suggested": "ޑޮލަރު ވަކިން ބަލަހައްޓާ: އަމިއްލަ ބަޖެޓާއި، ސޭވިންގްސާއި، ޖުމްލަ. {{currency}} އާ ނުގުޅޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.dollars_on",
+    "english": "Dollars turned on",
+    "suggested": "ޑޮލަރު ހުޅުވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.dollars_off",
+    "english": "Dollars turned off",
+    "suggested": "ޑޮލަރު ބަންދުކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.signup_question",
+    "english": "Which money do you use?",
+    "suggested": "ބޭނުންކުރައްވަނީ ކޮން ފައިސާއެއް؟",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.signup_rf",
+    "english": "Rf only",
+    "suggested": "ރުފިޔާ އެކަނި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.signup_usd",
+    "english": "$ only",
+    "suggested": "ޑޮލަރު އެކަނި",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.signup_both",
+    "english": "Rf and $",
+    "suggested": "ރުފިޔާ އާއި ޑޮލަރު",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.wallet.signup_hint",
+    "english": "Rf and $ each get their own budgets and savings. You can change this later.",
+    "suggested": "ރުފިޔާއަށާއި ޑޮލަރަށް ވަކިވަކި ބަޖެޓާއި ސޭވިންގްސް. ފަހުން ބަދަލުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.savings.title",
+    "english": "My savings",
+    "suggested": "އަހަރެންގެ ސޭވިންގްސް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.savings.usd_title",
+    "english": "Dollar savings",
+    "suggested": "ޑޮލަރު ސޭވިންގްސް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.savings.hint",
+    "english": "Money put aside. No goal needed.",
+    "suggested": "ވަކިކޮށް ބެހެއްޓި ފައިސާ. ލަނޑުދަނޑިއެއް ބޭނުމެއް ނޫން.",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.savings.total",
+    "english": "Saved in all",
+    "suggested": "ޖުމްލަ ސޭވްކުރެވުނީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.savings.save",
+    "english": "Save",
+    "suggested": "ސޭވްކުރައްވާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.savings.saved_now",
+    "english": "Saved: {{amount}}",
+    "suggested": "ސޭވްކުރެވިފައި: {{amount}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.savings.this_month",
+    "english": "{{amount}} saved this month",
+    "suggested": "މި މަހު {{amount}} ސޭވްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "budget.savings.goals",
+    "english": "Goals",
+    "suggested": "ލަނޑުދަނޑިތައް",
+    "status": "needs_review",
+    "notes": "Gravity Budget: dollars and savings (new)."
   }
 ]

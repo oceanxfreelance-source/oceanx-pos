@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1282 · **confirmed**: 381
+Status: **needs_review**: 1301 · **confirmed**: 380
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -146,6 +146,7 @@ review of the whole file is still recommended before launch.
 | `budget.emergency.use_short` | Use | ބޭނުންކުރައްވާ | needs_review | Emergency fund (new). Please check. |
 | `budget.emergency.usual_month` | You usually spend {{amount}} a month. | އާންމުކޮށް މަހަކު ޚަރަދުކުރައްވަނީ {{amount}}. | needs_review | Emergency fund (new). Please check. |
 | `budget.name` | Gravity Budget | Gravity Budget | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
+| `budget.nav_goals` | Savings | ސޭވިންގްސް | needs_review | Gravity Budget: the Goals tab is now called Savings. |
 | `budget.offline.dropped` | A record of {{amount}} could not be saved. Please add it again. | {{amount}} ގެ ރެކޯޑެއް ރައްކާ ނުކުރެވުނު. އަލުން އިތުރުކުރައްވާ. | needs_review | Gravity Budget offline. |
 | `budget.offline.note` | You're offline. You can still add spending and income. | އިންޓަނެޓް ނެތް. އެހެންނަމަވެސް ޚަރަދާއި އާމްދަނީ އިތުރުކުރެވޭނެ. | needs_review | Gravity Budget offline. |
 | `budget.offline.pending_label` | Waiting to send | ފޮނުވަން ބާކީ | needs_review | Gravity Budget offline. |
@@ -166,6 +167,24 @@ review of the whole file is still recommended before launch.
 | `budget.payday_admin_switch` | Offer pay on salary day | މުސާރަ ލިބޭ ދުވަހު ދެއްކުމުގެ އޮފަރ | needs_review | Gravity Budget: pay on salary day offer (new). |
 | `budget.payday_admin_title` | Pay on salary day | މުސާރަ ލިބޭ ދުވަހު ފައިސާ ދެއްކުން | needs_review | Gravity Budget: pay on salary day offer (new). |
 | `budget.payday_admin_unpaid` | Not paid yet | އަދި ނުދައްކާ | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.savings.goals` | Goals | ލަނޑުދަނޑިތައް | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.savings.hint` | Money put aside. No goal needed. | ވަކިކޮށް ބެހެއްޓި ފައިސާ. ލަނޑުދަނޑިއެއް ބޭނުމެއް ނޫން. | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.savings.save` | Save | ސޭވްކުރައްވާ | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.savings.saved_now` | Saved: {{amount}} | ސޭވްކުރެވިފައި: {{amount}} | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.savings.this_month` | {{amount}} saved this month | މި މަހު {{amount}} ސޭވްކުރެވިއްޖެ | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.savings.title` | My savings | އަހަރެންގެ ސޭވިންގްސް | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.savings.total` | Saved in all | ޖުމްލަ ސޭވްކުރެވުނީ | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.savings.usd_title` | Dollar savings | ޑޮލަރު ސޭވިންގްސް | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.dollars_off` | Dollars turned off | ޑޮލަރު ބަންދުކުރެވިއްޖެ | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.dollars_on` | Dollars turned on | ޑޮލަރު ހުޅުވިއްޖެ | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.dollars_too` | Dollars too | ޑޮލަރުވެސް | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.dollars_too_hint` | Keep dollars as their own money, with their own budgets, savings and totals. Never mixed with {{currency}}. | ޑޮލަރު ވަކިން ބަލަހައްޓާ: އަމިއްލަ ބަޖެޓާއި، ސޭވިންގްސާއި، ޖުމްލަ. {{currency}} އާ ނުގުޅޭނެ. | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.signup_both` | Rf and $ | ރުފިޔާ އާއި ޑޮލަރު | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.signup_hint` | Rf and $ each get their own budgets and savings. You can change this later. | ރުފިޔާއަށާއި ޑޮލަރަށް ވަކިވަކި ބަޖެޓާއި ސޭވިންގްސް. ފަހުން ބަދަލުކުރެވޭނެ. | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.signup_question` | Which money do you use? | ބޭނުންކުރައްވަނީ ކޮން ފައިސާއެއް؟ | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.signup_rf` | Rf only | ރުފިޔާ އެކަނި | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.signup_usd` | $ only | ޑޮލަރު އެކަނި | needs_review | Gravity Budget: dollars and savings (new). |
+| `budget.wallet.which` | Which money? | ކޮން ފައިސާ؟ | needs_review | Gravity Budget: dollars and savings (new). |
 | `business_types.retail_shop` | Shop | ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `business_types.supermarket` | Supermarket / big shop | ސުޕަރމާކެޓް / ބޮޑު ފިހާރަ | needs_review | New: retail shops (stock check, barcode). |
 | `closing.button` | Close day | ދުވަސް ނިންމާ | needs_review | POS: end-of-day cash closing (new). |
@@ -1395,7 +1414,6 @@ review of the whole file is still recommended before launch.
 | `budget.more_tips_one` | 1 more tip | އިތުރު 1 އިރުޝާދު | confirmed | Translated by the business owner (native speaker). |
 | `budget.more_tips_other` | {{count}} more tips | އިތުރު {{count}} އިރުޝާދު | confirmed | Translated by the business owner (native speaker). |
 | `budget.my_budgets` | My budgets | މަގޭ ބަޖެޓްތައް | confirmed | Translated by the business owner (native speaker). |
-| `budget.nav_goals` | Goals | ލަނޑުދަނޑިތައް | confirmed | Translated by the business owner (native speaker). |
 | `budget.nav_home` | Home | ފުރަތަމަ ޞަފްޙާ | confirmed | Translated by the business owner (native speaker). |
 | `budget.nav_months` | Months | މަސްތައް | confirmed | Translated by the business owner (native speaker). |
 | `budget.nav_plan` | My budget | މަގޭ ބަޖެޓް | confirmed | Translated by the business owner (native speaker). |

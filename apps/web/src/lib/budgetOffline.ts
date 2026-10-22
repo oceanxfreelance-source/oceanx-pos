@@ -93,6 +93,8 @@ export interface PendingEntry {
   categoryId: string | null;
   note: string;
   paidWith: string;
+  /** Which money: the main currency, or dollars kept apart. Older waiting records have none (main). */
+  wallet?: 'main' | 'usd';
   /** Shown while waiting (the category as it was when written). */
   category: { name: string; key: string | null; emoji: string } | null;
   createdAt: number;
@@ -151,7 +153,7 @@ export async function syncPendingEntries(qc: QueryClient) {
   try {
     for (const p of [...read()]) {
       try {
-        await api.post('/budget/entries', { id: p.id, kind: p.kind, amount: p.amount, occurredOn: p.occurredOn, categoryId: p.categoryId, note: p.note, paidWith: p.paidWith });
+        await api.post('/budget/entries', { id: p.id, kind: p.kind, amount: p.amount, occurredOn: p.occurredOn, categoryId: p.categoryId, note: p.note, paidWith: p.paidWith, wallet: p.wallet ?? 'main' });
         write(read().filter((x) => x.id !== p.id));
         sent++;
       } catch (err) {

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -9,12 +9,13 @@ import { addMonths, decimalToMinor } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { addPendingEntry, useOnline, usePendingEntries, type PendingEntry } from '../../lib/budgetOffline';
 import { useBiz, useBizSession } from '../../auth/business';
-import { useMoney } from '../../lib/money';
+import { MoneySymbolContext, useMoney } from '../../lib/money';
+import { useBudgetWallet, type BudgetWallet } from '../../lib/budgetWallet';
 import { useFormat } from '../../lib/format';
 import { useFieldErrors, useToastError } from '../../lib/useApiError';
 import { Card, EmptyState, SkeletonRows } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { Input, Select } from '../../components/ui/Form';
+import { Input, Select, Switch } from '../../components/ui/Form';
 import { ConfirmDialog, Dialog } from '../../components/ui/Dialog';
 import { LoanReminderCard } from './BudgetLoans';
 
@@ -54,6 +55,7 @@ interface Insight {
 }
 export interface Overview {
   month: string;
+  wallet: BudgetWallet;
   today: string;
   currentMonth: string;
   isCurrent: boolean;
@@ -74,6 +76,7 @@ export interface Overview {
 interface Category {
   id: string;
   kind: Kind;
+  wallet: BudgetWallet;
   name: string;
   key: string | null;
   emoji: string;
@@ -82,6 +85,7 @@ interface Category {
 interface Entry {
   id: string;
   kind: Kind;
+  wallet: BudgetWallet;
   amount: number;
   occurredOn: string;
   categoryId: string | null;
@@ -96,15 +100,17 @@ interface Entry {
 }
 export interface Goal {
   id: string;
-  /** 'emergency': the person's emergency fund (shown first, in the app's language). */
-  kind: 'goal' | 'emergency';
+  /** 'savings': "My savings", money put aside with no target (one per money). 'emergency': the person's emergency fund. */
+  kind: 'goal' | 'emergency' | 'savings';
+  wallet: BudgetWallet;
   name: string;
   emoji: string;
-  target: number;
+  /** null only for "My savings". */
+  target: number | null;
   targetDate: string | null;
   saved: number;
   remaining: number;
-  percent: number;
+  percent: number | null;
   done: boolean;
   thisMonth: number;
   monthsLeft: number | null;
@@ -124,7 +130,7 @@ interface EmergencyHint {
 /** A goal's name; the emergency fund is named in the app's language. */
 export function useGoalName() {
   const { t } = useTranslation();
-  return (g: Pick<Goal, 'kind' | 'name'>) => (g.kind === 'emergency' ? t('budget.emergency.name') : g.name);
+  return (g: Pick<Goal, 'kind' | 'name'> & { wallet?: BudgetWallet }) => (g.kind === 'emergency' ? t('budget.emergency.name') : g.kind === 'savings' ? (g.wallet === 'usd' ? t('budget.savings.usd_title') : t('budget.savings.title')) : g.name);
 }
 
 const KEY = ['biz', 'budget'] as const;
@@ -133,6 +139,7 @@ const KEY = ['biz', 'budget'] as const;
 const pendingAsEntry = (p: PendingEntry): Entry => ({
   id: p.id,
   kind: p.kind,
+  wallet: p.wallet ?? 'main',
   amount: decimalToMinor(p.amount.replace(/,/g, '')),
   occurredOn: p.occurredOn,
   categoryId: p.categoryId,
@@ -147,7 +154,7 @@ const pendingAsEntry = (p: PendingEntry): Entry => ({
 
 /** The month with the records still waiting on the phone already counted in (left, spent, budgets, per day). */
 function withPending(o: Overview, pending: Entry[]): Overview {
-  const mine = pending.filter((p) => p.occurredOn.startsWith(o.month));
+  const mine = pending.filter((p) => p.occurredOn.startsWith(o.month) && p.wallet === o.wallet);
   if (!mine.length) return o;
   let { income, spent } = o.totals;
   let other = o.other.spent;
@@ -201,16 +208,49 @@ export function useCatName() {
   return (c: { name: string; key?: string | null }) => (c.key ? t(`budget.starter.${c.key}`, { defaultValue: c.name }) : c.name);
 }
 
-function useOverview(month: string | null) {
+function useOverview(month: string | null, wallet: BudgetWallet = 'main') {
+  const qs = new URLSearchParams();
+  if (month) qs.set('month', month);
+  if (wallet !== 'main') qs.set('wallet', wallet);
   return useQuery({
-    queryKey: [...KEY, 'overview', month ?? 'current'],
-    queryFn: () => api.get<Overview & { currency: string }>(`/budget/overview${month ? `?month=${month}` : ''}`),
+    queryKey: [...KEY, 'overview', month ?? 'current', wallet],
+    queryFn: () => api.get<Overview & { currency: string }>(`/budget/overview${qs.size ? `?${qs}` : ''}`),
     placeholderData: keepPreviousData,
     refetchInterval: 5 * 60_000,
   });
 }
 function useCategories() {
   return useQuery({ queryKey: [...KEY, 'categories'], queryFn: () => api.get<{ items: Category[] }>('/budget/categories') });
+}
+
+function useGoals() {
+  return useQuery({ queryKey: [...KEY, 'goals'], queryFn: () => api.get<{ today: string; items: Goal[]; emergency?: EmergencyHint }>('/budget/goals') });
+}
+
+/** Money shown inside it is in this money's currency (dollars are "$"). */
+function WalletMoney({ wallet, children }: { wallet: BudgetWallet; children: ReactNode }) {
+  return <MoneySymbolContext.Provider value={wallet === 'usd' ? '$' : null}>{children}</MoneySymbolContext.Provider>;
+}
+
+/** The main currency's symbol, whatever money is on screen. */
+function useMainSymbol() {
+  const session = useBizSession();
+  return session.regional.currencySymbol || session.business.currency;
+}
+
+/** Rf | $ — which money is on screen. Only for people who keep dollars too. */
+function WalletSwitch({ value, onChange, className }: { value: BudgetWallet; onChange: (w: BudgetWallet) => void; className?: string }) {
+  const { t } = useTranslation();
+  const main = useMainSymbol();
+  return (
+    <div role="tablist" aria-label={t('budget.wallet.which')} className={clsx('inline-grid grid-cols-2 gap-1 rounded-full bg-slate-100 p-1 dark:bg-slate-800', className)}>
+      {(['main', 'usd'] as const).map((w) => (
+        <button key={w} type="button" role="tab" aria-selected={value === w} onClick={() => onChange(w)} className={clsx('min-w-14 rounded-full px-3 py-1 text-sm font-semibold transition', value === w ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-500 dark:text-slate-400')}>
+          {w === 'usd' ? '$' : main}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 // ---------------------------------------------------------------- small pieces
@@ -289,14 +329,16 @@ function PaidWithPicker({ value, onChange }: { value: PaidWith; onChange: (v: Pa
  * Add spending or income in two taps: the amount (big), then the category (a grid of icons).
  * Date, note and how it was paid are tucked under "More details" (today and cash by default).
  */
-function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind; entry?: Entry; today: string; onClose: () => void }) {
+function EntryDialog({ kind: initialKind, wallet: initialWallet = 'main', entry, today, onClose }: { kind: Kind; wallet?: BudgetWallet; entry?: Entry; today: string; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
-  const money = useMoney();
+  const { usdOn } = useBudgetWallet();
+  const mainSymbol = useMainSymbol();
   const f = useFormat();
   const catName = useCatName();
   const cats = useCategories();
   const [kind, setKind] = useState<Kind>(entry?.kind ?? initialKind);
+  const [wallet, setWallet] = useState<BudgetWallet>(entry?.wallet ?? initialWallet);
   const [amount, setAmount] = useState(entry ? toText(entry.amount) : '');
   const [date, setDate] = useState(entry?.occurredOn ?? today);
   const [categoryId, setCategoryId] = useState<string>(entry?.categoryId ?? '');
@@ -309,7 +351,7 @@ function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind;
     // Runs offline too: a new record then waits on the phone and is sent when the phone is online.
     networkMode: 'always',
     mutationFn: async () => {
-      const body = { kind, amount: amount.trim(), occurredOn: date, categoryId: categoryId || null, note, paidWith };
+      const body = { kind, wallet, amount: amount.trim(), occurredOn: date, categoryId: categoryId || null, note, paidWith };
       if (entry) return api.put(`/budget/entries/${entry.id}`, body);
       const keepOnPhone = () => {
         const text = body.amount.replace(/,/g, '');
@@ -342,7 +384,7 @@ function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind;
     onError: toastError,
   });
   const fieldErr = useFieldErrors(save.error);
-  const options = (cats.data?.items ?? []).filter((c) => c.kind === kind);
+  const options = (cats.data?.items ?? []).filter((c) => c.kind === kind && (c.wallet ?? 'main') === wallet);
   return (
     <Dialog
       open
@@ -386,7 +428,7 @@ function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind;
             {t('flow.amount')}
           </label>
           <div className="flex items-baseline justify-center gap-2" dir="ltr">
-            <span className="text-lg font-medium text-slate-400">{money.symbol}</span>
+            <span className="text-lg font-medium text-slate-400">{wallet === 'usd' ? '$' : mainSymbol}</span>
             <input
               id="budget-amount"
               aria-label={t('flow.amount')}
@@ -401,6 +443,18 @@ function EntryDialog({ kind: initialKind, entry, today, onClose }: { kind: Kind;
           <div className={clsx('mx-auto mt-1 h-0.5 w-44 rounded-full', kind === 'income' ? 'bg-emerald-500' : 'bg-rose-500')} />
           {fieldErr('amount') && <p className="mt-1 text-sm text-rose-600">{fieldErr('amount')}</p>}
         </div>
+        {usdOn && (
+          <div className="flex items-center justify-center gap-3">
+            <span className="text-sm text-slate-500">{t('budget.wallet.which')}</span>
+            <WalletSwitch
+              value={wallet}
+              onChange={(w) => {
+                setWallet(w);
+                setCategoryId('');
+              }}
+            />
+          </div>
+        )}
         <div role="radiogroup" aria-label={t('flow.category')} className="grid grid-cols-4 gap-2">
           {options.map((c) => (
             <button
@@ -526,7 +580,7 @@ function SetupWizard({ today }: { today: string }) {
       await api.post('/budget/setup', { categories });
       if (income.trim()) {
         const cats = await api.get<{ items: Category[] }>('/budget/categories');
-        const salary = cats.items.find((c) => c.kind === 'income' && c.key === 'salary');
+        const salary = cats.items.find((c) => c.kind === 'income' && c.key === 'salary' && (c.wallet ?? 'main') === 'main');
         await api.post('/budget/entries', { kind: 'income', amount: income.trim(), occurredOn: today, categoryId: salary?.id ?? null, note: '' });
       }
     },
@@ -698,52 +752,98 @@ function WhereItWent({ o, onPick, picked }: { o: Overview; onPick?: (id: string)
 }
 
 // ---------------------------------------------------------------- home
+/** "My savings" on the home screen: what is put aside in this money, and + Save. */
+function SavingsCard({ wallet, today, manage }: { wallet: BudgetWallet; today: string; manage: boolean }) {
+  const { t } = useTranslation();
+  const money = useMoney();
+  const goals = useGoals();
+  const [saving, setSaving] = useState(false);
+  if (!goals.data) return null;
+  const mine = goals.data.items.filter((g) => g.wallet === wallet);
+  const pot = mine.find((g) => g.kind === 'savings');
+  const total = mine.reduce((s, g) => s + g.saved, 0);
+  return (
+    <section className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-emerald-50 text-xl dark:bg-emerald-950">{wallet === 'usd' ? '💵' : '🐷'}</span>
+      <Link to="/goals" className="min-w-0 flex-1">
+        <span className="block text-xs text-slate-500">{t('budget.savings.total')}</span>
+        <span className="block text-lg font-semibold tabular-nums">{money(total)}</span>
+      </Link>
+      {manage && (
+        <Button size="sm" icon={<Plus className="size-4" />} onClick={() => setSaving(true)}>
+          {t('budget.savings.save')}
+        </Button>
+      )}
+      {saving && <SavingsMoveDialog wallet={wallet} direction="add" saved={pot?.saved ?? 0} today={today} onClose={() => setSaving(false)} />}
+    </section>
+  );
+}
+
 /**
- * Gravity Budget home, kept calm for a phone: what is left this month and what can be spent each day, the one most
- * useful tip, the budgets with a limit, bills still to pay, and the last few records. One "+ Add" button.
+ * Gravity Budget home, kept simple and clean for a phone: what is left this month and what can be spent each day,
+ * one warning (if any), savings, the three budgets closest to their limit, bills still to pay, and the last records.
+ * People who keep dollars too switch between the two moneys at the top; each has its own numbers.
  */
 export function BudgetHome() {
   const { t } = useTranslation();
-  const money = useMoney();
   const session = useBizSession();
-  const catName = useCatName();
-  const { can } = useBiz();
+  const { wallet, usdOn, setWallet } = useBudgetWallet();
   const [params, setParams] = useSearchParams();
   const month = params.get('month');
-  const q = useOverview(month);
-  const pending = usePendingEntries().map(pendingAsEntry);
-  const o = q.data ? withPending(q.data, pending) : undefined;
+  const q = useOverview(month, wallet);
   // Loaded here too, so the categories are on the phone for adding offline.
   useCategories();
+  if (!q.data) return <SkeletonRows rows={8} />;
+  if (!q.data.setUp) return <SetupWizard today={q.data.today} />;
+  const setMonth = (m: string | null) => setParams(m && m !== q.data.currentMonth ? { month: m } : {}, { replace: true });
+  return (
+    <WalletMoney wallet={wallet}>
+      <div className="mx-auto max-w-xl space-y-5 pb-16">
+        <div className="flex items-center justify-between gap-2">
+          <p className="truncate text-sm text-slate-500">{t('budget.hello', { name: session.user.name.split(' ')[0] })}</p>
+          <MonthSwitcher month={q.data.month} current={q.data.currentMonth} onChange={setMonth} />
+        </div>
+        {usdOn && (
+          <div className="flex justify-center">
+            <WalletSwitch value={wallet} onChange={setWallet} />
+          </div>
+        )}
+        <HomeBody data={q.data} wallet={wallet} />
+      </div>
+    </WalletMoney>
+  );
+}
+
+function HomeBody({ data, wallet }: { data: Overview; wallet: BudgetWallet }) {
+  const { t } = useTranslation();
+  const money = useMoney();
+  const catName = useCatName();
+  const { can } = useBiz();
+  const pending = usePendingEntries().map(pendingAsEntry);
+  const o = withPending(data, pending);
   const insightText = useInsightText();
   const recent = useQuery({
-    queryKey: [...KEY, 'entries', 'recent', o?.month],
-    queryFn: () => api.get<{ items: Entry[]; total: number }>(`/budget/entries?month=${o!.month}&pageSize=4`),
-    enabled: !!o?.setUp,
+    queryKey: [...KEY, 'entries', 'recent', o.month, wallet],
+    queryFn: () => api.get<{ items: Entry[]; total: number }>(`/budget/entries?month=${o.month}&wallet=${wallet}&pageSize=3`),
     placeholderData: keepPreviousData,
   });
   const [adding, setAdding] = useState(false);
   const [editing, setEditing] = useState<Entry | null>(null);
-  const [allTips, setAllTips] = useState(false);
-  if (!o) return <SkeletonRows rows={8} />;
-  if (!o.setUp) return <SetupWizard today={o.today} />;
   const manage = can('budget.manage');
   const { totals } = o;
   const usedPct = totals.income > 0 ? Math.min(100, Math.round(((totals.spent + Math.max(0, totals.saved)) * 100) / totals.income)) : 0;
-  const withLimit = o.categories.filter((c) => c.limit !== null);
-  const tips = allTips ? o.insights : o.insights.slice(0, 1);
-  const setMonth = (m: string | null) => setParams(m && m !== o.currentMonth ? { month: m } : {}, { replace: true });
+  // The three budgets closest to (or over) their limit.
+  const topBudgets = o.categories
+    .filter((c) => c.limit !== null && c.limit > 0)
+    .sort((a, b) => b.spent / (b.limit ?? 1) - a.spent / (a.limit ?? 1))
+    .slice(0, 3);
+  // Only one warning, the most important one; the rest stay out of the way.
+  const alert = o.insights.find((i) => i.tone === 'bad' || i.tone === 'warn');
+  const latest = [...pending.filter((p) => p.occurredOn.startsWith(o.month) && p.wallet === wallet).reverse(), ...(recent.data?.items ?? [])].slice(0, 3);
 
   return (
-    <div className="mx-auto max-w-xl space-y-5 pb-16">
-      <div className="flex items-center justify-between gap-2">
-        <p className="text-sm text-slate-500">{t('budget.hello', { name: session.user.name.split(' ')[0] })}</p>
-        <MonthSwitcher month={o.month} current={o.currentMonth} onChange={setMonth} />
-      </div>
-
+    <>
       <OfflineNote waiting={pending.length} />
-
-      {o.isCurrent && <LoanReminderCard />}
 
       {/* What is left, and what can be spent each day. */}
       <section className={clsx('rounded-3xl p-5 text-white shadow-sm', totals.left < 0 ? 'bg-rose-600' : 'gravity-surface')}>
@@ -765,23 +865,18 @@ export function BudgetHome() {
         </div>
       </section>
 
-      {tips.length > 0 && (
-        <div className="space-y-2">
-          {tips.map((i, n) => (
-            <p key={`${i.code}-${n}`} className={clsx('flex items-start gap-2 rounded-2xl px-4 py-3 text-sm', i.tone === 'bad' ? 'bg-rose-50 text-rose-900 dark:bg-rose-950/40 dark:text-rose-100' : i.tone === 'warn' ? 'bg-amber-50 text-amber-900 dark:bg-amber-950/30 dark:text-amber-100' : i.tone === 'good' ? 'bg-emerald-50 text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100' : 'bg-white text-slate-700 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-800')}>
-              <span className="mt-0.5">
-                <InsightIcon tone={i.tone} />
-              </span>
-              <span dir="auto">{insightText(i)}</span>
-            </p>
-          ))}
-          {o.insights.length > 1 && (
-            <button type="button" onClick={() => setAllTips((v) => !v)} className="px-1 text-xs font-medium text-brand-700 dark:text-brand-300">
-              {allTips ? t('budget.fewer_tips') : t('budget.more_tips', { count: o.insights.length - 1 })}
-            </button>
-          )}
-        </div>
+      {alert && (
+        <p className={clsx('flex items-start gap-2 rounded-2xl px-4 py-3 text-sm', alert.tone === 'bad' ? 'bg-rose-50 text-rose-900 dark:bg-rose-950/40 dark:text-rose-100' : 'bg-amber-50 text-amber-900 dark:bg-amber-950/30 dark:text-amber-100')}>
+          <span className="mt-0.5">
+            <InsightIcon tone={alert.tone} />
+          </span>
+          <span dir="auto">{insightText(alert)}</span>
+        </p>
       )}
+
+      {o.isCurrent && wallet === 'main' && <LoanReminderCard />}
+
+      <SavingsCard wallet={wallet} today={o.today} manage={manage} />
 
       <BillsDue o={o} manage={manage} />
 
@@ -789,11 +884,11 @@ export function BudgetHome() {
         <div className="mb-2 flex items-baseline justify-between px-1">
           <h2 className="text-sm font-semibold text-slate-500">{t('budget.my_budgets')}</h2>
           <Link to="/plan" className="text-xs font-medium text-brand-700 dark:text-brand-300">
-            {t('budget.edit_budget')}
+            {t('flow.see_all')}
           </Link>
         </div>
         <Card>
-          {withLimit.length === 0 ? (
+          {topBudgets.length === 0 ? (
             <p className="text-sm text-slate-500">
               {t('budget.no_limits_yet')}{' '}
               <Link to="/plan" className="font-medium text-brand-700 dark:text-brand-300">
@@ -802,7 +897,7 @@ export function BudgetHome() {
             </p>
           ) : (
             <ul className="space-y-4">
-              {withLimit.map((c) => (
+              {topBudgets.map((c) => (
                 <li key={c.id}>
                   <div className="flex items-center justify-between gap-2 text-sm">
                     <span className="flex min-w-0 items-center gap-2" dir="auto">
@@ -829,13 +924,13 @@ export function BudgetHome() {
           </Link>
         </div>
         <Card padded={false}>
-          {!recent.data && !pending.length ? (
+          {!recent.data && !latest.length ? (
             <SkeletonRows rows={3} />
-          ) : [...pending, ...(recent.data?.items ?? [])].length === 0 ? (
+          ) : latest.length === 0 ? (
             <p className="px-4 py-5 text-sm text-slate-500">{t('budget.nothing_yet_hint')}</p>
           ) : (
             <ul className="divide-y divide-slate-100 dark:divide-slate-800">
-              {[...pending.filter((p) => p.occurredOn.startsWith(o.month)).reverse(), ...(recent.data?.items ?? [])].slice(0, 4).map((e) => (
+              {latest.map((e) => (
                 <EntryRow key={e.id} e={e} onOpen={() => manage && setEditing(e)} />
               ))}
             </ul>
@@ -844,21 +939,31 @@ export function BudgetHome() {
       </section>
 
       {manage && <AddFab onAdd={() => setAdding(true)} />}
-      {adding && <EntryDialog kind="expense" today={o.today} onClose={() => setAdding(false)} />}
+      {adding && <EntryDialog kind="expense" wallet={wallet} today={o.today} onClose={() => setAdding(false)} />}
       {editing && <EntryDialog kind={editing.kind} entry={editing} today={o.today} onClose={() => setEditing(null)} />}
-    </div>
+    </>
   );
 }
 
 // ---------------------------------------------------------------- spending (every record)
 /** Every record of a month, grouped by day. Tap a category in "Where your money went" to see only its records. */
 export function BudgetSpendingPage() {
+  const { wallet } = useBudgetWallet();
+  return (
+    <WalletMoney wallet={wallet}>
+      <SpendingBody key={wallet} wallet={wallet} />
+    </WalletMoney>
+  );
+}
+
+function SpendingBody({ wallet }: { wallet: BudgetWallet }) {
   const { t } = useTranslation();
   const money = useMoney();
   const f = useFormat();
   const { can } = useBiz();
+  const { usdOn, setWallet } = useBudgetWallet();
   const [params, setParams] = useSearchParams();
-  const ov = useOverview(params.get('month'));
+  const ov = useOverview(params.get('month'), wallet);
   const pending = usePendingEntries().map(pendingAsEntry);
   const o = ov.data ? withPending(ov.data, pending) : undefined;
   const month = o?.month ?? null;
@@ -873,7 +978,7 @@ export function BudgetSpendingPage() {
     return () => clearTimeout(id);
   }, [search]);
   useEffect(() => setPages(1), [month, kind, categoryId, q]);
-  const qs = new URLSearchParams({ pageSize: String(30 * pages) });
+  const qs = new URLSearchParams({ pageSize: String(30 * pages), wallet });
   if (month) qs.set('month', month);
   if (kind) qs.set('kind', kind);
   if (categoryId) qs.set('categoryId', categoryId);
@@ -885,7 +990,7 @@ export function BudgetSpendingPage() {
   // Records grouped by day, newest first, with each day's spending.
   const groups = useMemo(() => {
     const m = new Map<string, Entry[]>();
-    const waiting = pending.filter((p) => !!month && p.occurredOn.startsWith(month) && (!kind || p.kind === kind) && (!categoryId || p.categoryId === categoryId) && !q);
+    const waiting = pending.filter((p) => !!month && p.wallet === wallet && p.occurredOn.startsWith(month) && (!kind || p.kind === kind) && (!categoryId || p.categoryId === categoryId) && !q);
     const all = [...waiting, ...(list.data?.items ?? [])].sort((a, b) => b.occurredOn.localeCompare(a.occurredOn));
     for (const e of all) m.set(e.occurredOn, [...(m.get(e.occurredOn) ?? []), e]);
     return [...m.entries()];
@@ -899,6 +1004,11 @@ export function BudgetSpendingPage() {
         <h1 className="text-xl font-semibold">{t('budget.nav_spending')}</h1>
         <MonthSwitcher month={o.month} current={o.currentMonth} onChange={(m) => setParams(m && m !== o.currentMonth ? { month: m } : {}, { replace: true })} />
       </div>
+      {usdOn && (
+        <div className="flex justify-center">
+          <WalletSwitch value={wallet} onChange={setWallet} />
+        </div>
+      )}
       <div className="flex justify-between rounded-2xl bg-white px-4 py-3 text-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
         <span>
           <span className="block text-xs text-slate-500">{t('budget.money_in')}</span>
@@ -989,7 +1099,7 @@ export function BudgetSpendingPage() {
         </Card>
       </section>
       {manage && <AddFab onAdd={() => setAdding(true)} />}
-      {adding && <EntryDialog kind="expense" today={o.today} onClose={() => setAdding(false)} />}
+      {adding && <EntryDialog kind="expense" wallet={wallet} today={o.today} onClose={() => setAdding(false)} />}
       {editing && <EntryDialog kind={editing.kind} entry={editing} today={o.today} onClose={() => setEditing(null)} />}
     </div>
   );
@@ -1000,7 +1110,10 @@ function GoalDialog({ goal, emergency, hint, onClose }: { goal?: Goal; emergency
   const { t } = useTranslation();
   const qc = useQueryClient();
   const money = useMoney();
+  const { usdOn } = useBudgetWallet();
+  const mainSymbol = useMainSymbol();
   const isEmergency = emergency || goal?.kind === 'emergency';
+  const [wallet, setWallet] = useState<BudgetWallet>(goal?.wallet ?? 'main');
   const [name, setName] = useState(goal?.name ?? '');
   const [emoji, setEmoji] = useState(goal?.emoji ?? '🎯');
   const [target, setTarget] = useState(toText(goal?.target ?? (isEmergency && hint?.suggested ? hint.suggested : undefined)));
@@ -1011,7 +1124,7 @@ function GoalDialog({ goal, emergency, hint, onClose }: { goal?: Goal; emergency
     mutationFn: () => {
       const body = isEmergency
         ? { kind: 'emergency', name: t('budget.emergency.name'), emoji: '🛡️', target: target.trim(), targetDate: null }
-        : { name, emoji, target: target.trim(), targetDate: targetDate || null };
+        : { name, emoji, wallet, target: target.trim(), targetDate: targetDate || null };
       return goal ? api.put(`/budget/goals/${goal.id}`, body) : api.post('/budget/goals', body);
     },
     onSuccess: () => {
@@ -1097,7 +1210,13 @@ function GoalDialog({ goal, emergency, hint, onClose }: { goal?: Goal; emergency
             </div>
           </div>
           <Input label={t('budget.goal_name')} value={name} onChange={(e) => setName(e.target.value)} maxLength={60} placeholder={t('budget.goal_name_hint')} error={fieldErr('name')} autoFocus />
-          <AmountInput label={t('budget.goal_target')} value={target} onChange={setTarget} error={fieldErr('target')} />
+          {usdOn && !goal && (
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('budget.wallet.which')}</span>
+              <WalletSwitch value={wallet} onChange={setWallet} />
+            </div>
+          )}
+          <Input label={`${t('budget.goal_target')} (${wallet === 'usd' ? '$' : mainSymbol})`} inputMode="decimal" value={target} onChange={(e) => setTarget(e.target.value)} error={fieldErr('target')} placeholder="0.00" dir="ltr" />
           <Input label={t('budget.goal_date')} type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} hint={t('budget.goal_date_hint')} error={fieldErr('targetDate')} />
         </div>
       )}
@@ -1114,11 +1233,13 @@ function GoalMoveDialog({ goal, direction, today, onClose }: { goal: Goal; direc
   const goalName = useGoalName();
   const name = goalName(goal);
   const [amount, setAmount] = useState(direction === 'add' && goal.perMonth ? toText(Math.max(0, goal.perMonth - goal.thisMonth)) : '');
+  // "My savings" exists only once something is put in: it is saved by its money, not by id.
   const [date, setDate] = useState(today);
   const [note, setNote] = useState('');
-  const moves = useQuery({ queryKey: [...KEY, 'goal-moves', goal.id], queryFn: () => api.get<{ items: { id: string; amount: number; occurredOn: string; note: string }[] }>(`/budget/goals/${goal.id}/moves`) });
+  const moves = useQuery({ queryKey: [...KEY, 'goal-moves', goal.id], queryFn: () => api.get<{ items: { id: string; amount: number; occurredOn: string; note: string }[] }>(`/budget/goals/${goal.id}/moves`), enabled: !!goal.id });
   const save = useMutation({
-    mutationFn: () => api.post(`/budget/goals/${goal.id}/moves`, { direction, amount: amount.trim(), occurredOn: date, note }),
+    mutationFn: () =>
+      goal.kind === 'savings' ? api.post('/budget/savings/moves', { wallet: goal.wallet, direction, amount: amount.trim(), occurredOn: date, note }) : api.post(`/budget/goals/${goal.id}/moves`, { direction, amount: amount.trim(), occurredOn: date, note }),
     onSuccess: () => {
       toast.success(direction === 'add' ? t('budget.goal_added', { amount: money(Math.round(Number(amount) * 100) || 0) }) : t('common.saved'));
       refresh(qc);
@@ -1143,7 +1264,7 @@ function GoalMoveDialog({ goal, direction, today, onClose }: { goal: Goal; direc
       }
     >
       <div className="space-y-4">
-        <p className="text-sm text-slate-500">{t('budget.goal_saved_of', { saved: money(goal.saved), target: money(goal.target) })}</p>
+        <p className="text-sm text-slate-500">{goal.target === null ? t('budget.savings.saved_now', { amount: money(goal.saved) }) : t('budget.goal_saved_of', { saved: money(goal.saved), target: money(goal.target) })}</p>
         {goal.kind === 'emergency' && direction === 'take' && <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">{t('budget.emergency.use_hint')}</p>}
         <AmountInput label={t('flow.amount')} value={amount} onChange={setAmount} error={fieldErr('amount')} autoFocus />
         <div className="grid grid-cols-2 gap-3">
@@ -1174,34 +1295,96 @@ function GoalMoveDialog({ goal, direction, today, onClose }: { goal: Goal; direc
   );
 }
 
-export function BudgetGoalsPage() {
+/** Save to (or take from) "My savings" of one money; made the first time something is put in. */
+function SavingsMoveDialog({ wallet, direction, saved, today, onClose }: { wallet: BudgetWallet; direction: 'add' | 'take'; saved: number; today: string; onClose: () => void }) {
+  const goals = useGoals();
+  const pot = goals.data?.items.find((g) => g.kind === 'savings' && g.wallet === wallet);
+  const goal: Goal = pot ?? { id: '', kind: 'savings', wallet, name: '', emoji: wallet === 'usd' ? '💵' : '🐷', target: null, targetDate: null, saved, remaining: 0, percent: null, done: false, thisMonth: 0, monthsLeft: null, perMonth: null, late: false, onTrack: null, monthsCovered: null };
+  return (
+    <WalletMoney wallet={wallet}>
+      <GoalMoveDialog goal={goal} direction={direction} today={today} onClose={onClose} />
+    </WalletMoney>
+  );
+}
+
+/** "My savings" of one money: a big number, Save and Take out. No goal needed. */
+function SavingsPot({ wallet, pot, today, manage }: { wallet: BudgetWallet; pot?: Goal; today: string; manage: boolean }) {
   const { t } = useTranslation();
   const money = useMoney();
+  const [moving, setMoving] = useState<'add' | 'take' | null>(null);
+  const saved = pot?.saved ?? 0;
+  return (
+    <Card className="border-emerald-200 dark:border-emerald-900">
+      <div className="flex items-center gap-3">
+        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-2xl dark:bg-emerald-950">{wallet === 'usd' ? '💵' : '🐷'}</span>
+        <div className="min-w-0 flex-1">
+          <h2 className="font-semibold">{wallet === 'usd' ? t('budget.savings.usd_title') : t('budget.savings.title')}</h2>
+          <p className="text-xs text-slate-500">{t('budget.savings.hint')}</p>
+        </div>
+      </div>
+      <p className="mt-3 text-3xl font-bold tracking-tight tabular-nums">{money(saved)}</p>
+      {!!pot?.thisMonth && <p className="mt-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">{t('budget.savings.this_month', { amount: money(pot.thisMonth) })}</p>}
+      {manage && (
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          <Button size="sm" icon={<Plus className="size-4" />} onClick={() => setMoving('add')}>
+            {t('budget.savings.save')}
+          </Button>
+          <Button size="sm" variant="secondary" icon={<Minus className="size-4" />} onClick={() => setMoving('take')} disabled={saved <= 0}>
+            {t('budget.take_out_short')}
+          </Button>
+        </div>
+      )}
+      {moving && <SavingsMoveDialog wallet={wallet} direction={moving} saved={saved} today={today} onClose={() => setMoving(null)} />}
+    </Card>
+  );
+}
+
+/** Savings: "My savings" for each money, the emergency fund, and goals (each in its own money). */
+export function BudgetGoalsPage() {
+  const { t } = useTranslation();
   const f = useFormat();
   const { can } = useBiz();
+  const { usdOn } = useBudgetWallet();
+  const mainSymbol = useMainSymbol();
   const goalName = useGoalName();
-  const q = useQuery({ queryKey: [...KEY, 'goals'], queryFn: () => api.get<{ today: string; items: Goal[]; emergency?: EmergencyHint }>('/budget/goals') });
+  const q = useGoals();
   const [editing, setEditing] = useState<Goal | 'new' | 'emergency' | null>(null);
   const [moving, setMoving] = useState<{ goal: Goal; direction: 'add' | 'take' } | null>(null);
   const manage = can('budget.manage');
+  const mainMoney = useMoney();
   if (!q.data) return <SkeletonRows rows={6} />;
-  const goals = q.data.items;
+  const all = q.data.items;
+  const goals = all.filter((g) => g.kind !== 'savings');
   const hint = q.data.emergency;
   const hasEmergency = goals.some((g) => g.kind === 'emergency');
-  const total = goals.reduce((s, g) => s + g.saved, 0);
+  const wallets: BudgetWallet[] = usdOn || all.some((g) => g.wallet === 'usd') ? ['main', 'usd'] : ['main'];
+  const totalIn = (w: BudgetWallet) => all.filter((g) => g.wallet === w).reduce((s, g) => s + g.saved, 0);
+  const usdText = (minor: number) => `⁦$ ${f.number(minor / 100, 2)}⁩`;
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold sm:text-2xl">{t('budget.nav_goals')}</h1>
-          {goals.length > 0 && <p className="text-sm text-slate-500">{t('budget.goals_total', { amount: money(total) })}</p>}
+          <p className="text-sm text-slate-500 tabular-nums">
+            {t('budget.savings.total')}: {mainMoney(totalIn('main'))}
+            {wallets.includes('usd') && ` · ${usdText(totalIn('usd'))}`}
+          </p>
         </div>
         {manage && (
-          <Button icon={<Plus className="size-4" />} onClick={() => setEditing('new')}>
+          <Button variant="secondary" icon={<Plus className="size-4" />} onClick={() => setEditing('new')}>
             {t('budget.new_goal')}
           </Button>
         )}
       </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        {wallets.map((w) => (
+          <WalletMoney key={w} wallet={w}>
+            <SavingsPot wallet={w} pot={all.find((g) => g.kind === 'savings' && g.wallet === w)} today={q.data.today} manage={manage} />
+          </WalletMoney>
+        ))}
+      </div>
+
       {manage && !hasEmergency && (
         <Card className="border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/30">
           <div className="flex items-start gap-3">
@@ -1211,7 +1394,7 @@ export function BudgetGoalsPage() {
             <div className="min-w-0 flex-1">
               <h2 className="font-semibold">{t('budget.emergency.invite_title')}</h2>
               <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">{t('budget.emergency.invite_body')}</p>
-              {hint && hint.suggested > 0 && <p className="mt-1 text-sm font-medium">{t('budget.emergency.suggest', { months: hint.months, amount: money(hint.suggested) })}</p>}
+              {hint && hint.suggested > 0 && <p className="mt-1 text-sm font-medium">{t('budget.emergency.suggest', { months: hint.months, amount: mainMoney(hint.suggested) })}</p>}
               <Button className="mt-3" size="sm" icon={<Plus className="size-4" />} onClick={() => setEditing('emergency')}>
                 {t('budget.emergency.start')}
               </Button>
@@ -1219,6 +1402,8 @@ export function BudgetGoalsPage() {
           </div>
         </Card>
       )}
+
+      {goals.length > 0 && <h2 className="px-1 pt-2 text-sm font-semibold text-slate-500">{t('budget.savings.goals')}</h2>}
       {goals.length === 0 ? (
         <Card>
           <EmptyState
@@ -1237,70 +1422,86 @@ export function BudgetGoalsPage() {
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {goals.map((g) => (
-            <Card key={g.id} className={clsx(g.kind === 'emergency' && 'border-emerald-200 sm:col-span-2 dark:border-emerald-900')}>
-              <div className="flex items-start gap-3">
-                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-50 text-2xl dark:bg-brand-950">{g.emoji || <Target className="size-5" />}</span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-start justify-between gap-2">
-                    <h2 className="truncate font-semibold" dir="auto">
-                      {goalName(g)}
-                    </h2>
-                    {manage && (
-                      <button type="button" aria-label={t('common.edit')} onClick={() => setEditing(g)} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800">
-                        <Pencil className="size-4" />
-                      </button>
-                    )}
-                  </div>
-                  <p className="text-sm tabular-nums">
-                    <span className="font-semibold">{money(g.saved)}</span> <span className="text-slate-500">/ {money(g.target)}</span>
-                  </p>
-                </div>
-              </div>
-              <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-                <div className={clsx('h-full rounded-full', g.done ? 'bg-emerald-500' : 'bg-brand-600 dark:bg-brand-400')} style={{ width: `${Math.max(g.saved > 0 ? 3 : 0, g.percent)}%` }} />
-              </div>
-              <p className="mt-2 text-xs text-slate-500">
-                {g.done
-                  ? g.kind === 'emergency'
-                    ? t('budget.emergency.full')
-                    : t('budget.goal_done')
-                  : g.late
-                    ? t('budget.goal_late', { amount: money(g.remaining) })
-                    : g.perMonth !== null
-                      ? t('budget.goal_per_month', { amount: money(g.perMonth), date: f.date(g.targetDate) })
-                      : t('budget.goal_remaining', { amount: money(g.remaining) })}
-              </p>
-              {g.monthsCovered !== null && g.saved > 0 && (
-                <p className="mt-1 text-xs font-medium text-emerald-700 dark:text-emerald-400">{t('budget.emergency.covers', { months: f.number(g.monthsCovered, Number.isInteger(g.monthsCovered) ? 0 : 1) })}</p>
-              )}
-              {g.onTrack !== null && !g.done && (
-                <p className={clsx('mt-1 text-xs font-medium', g.onTrack ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400')}>
-                  {g.onTrack ? t('budget.goal_on_track') : t('budget.goal_behind', { amount: money(Math.max(0, (g.perMonth ?? 0) - g.thisMonth)) })}
-                </p>
-              )}
-              {manage && (
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <Button size="sm" icon={<Plus className="size-4" />} onClick={() => setMoving({ goal: g, direction: 'add' })}>
-                    {t('budget.put_in_short')}
-                  </Button>
-                  <Button size="sm" variant="secondary" icon={<Minus className="size-4" />} onClick={() => setMoving({ goal: g, direction: 'take' })} disabled={g.saved <= 0}>
-                    {g.kind === 'emergency' ? t('budget.emergency.use_short') : t('budget.take_out_short')}
-                  </Button>
-                </div>
-              )}
-            </Card>
+            <WalletMoney key={g.id} wallet={g.wallet}>
+              <GoalCard g={g} manage={manage} name={goalName(g)} showMoney={usdOn ? (g.wallet === 'usd' ? '$' : mainSymbol) : null} onEdit={() => setEditing(g)} onMove={(direction) => setMoving({ goal: g, direction })} />
+            </WalletMoney>
           ))}
         </div>
       )}
       <p className="text-center text-xs text-slate-500">{t('budget.goals_note')}</p>
       {editing && <GoalDialog goal={editing === 'new' || editing === 'emergency' ? undefined : editing} emergency={editing === 'emergency'} hint={hint} onClose={() => setEditing(null)} />}
-      {moving && <GoalMoveDialog goal={moving.goal} direction={moving.direction} today={q.data.today} onClose={() => setMoving(null)} />}
+      {moving && (
+        <WalletMoney wallet={moving.goal.wallet}>
+          <GoalMoveDialog goal={moving.goal} direction={moving.direction} today={q.data.today} onClose={() => setMoving(null)} />
+        </WalletMoney>
+      )}
     </div>
   );
 }
 
+function GoalCard({ g, manage, name, showMoney, onEdit, onMove }: { g: Goal; manage: boolean; name: string; showMoney: string | null; onEdit: () => void; onMove: (d: 'add' | 'take') => void }) {
+  const { t } = useTranslation();
+  const money = useMoney();
+  const f = useFormat();
+  return (
+    <Card className={clsx(g.kind === 'emergency' && 'border-emerald-200 sm:col-span-2 dark:border-emerald-900')}>
+      <div className="flex items-start gap-3">
+        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-50 text-2xl dark:bg-brand-950">{g.emoji || <Target className="size-5" />}</span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <h2 className="truncate font-semibold" dir="auto">
+              {name}
+              {showMoney && <span className="ms-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{showMoney}</span>}
+            </h2>
+            {manage && (
+              <button type="button" aria-label={t('common.edit')} onClick={onEdit} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800">
+                <Pencil className="size-4" />
+              </button>
+            )}
+          </div>
+          <p className="text-sm tabular-nums">
+            <span className="font-semibold">{money(g.saved)}</span> <span className="text-slate-500">/ {money(g.target)}</span>
+          </p>
+        </div>
+      </div>
+      <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+        <div className={clsx('h-full rounded-full', g.done ? 'bg-emerald-500' : 'bg-brand-600 dark:bg-brand-400')} style={{ width: `${Math.max(g.saved > 0 ? 3 : 0, g.percent ?? 0)}%` }} />
+      </div>
+      <p className="mt-2 text-xs text-slate-500">
+        {g.done
+          ? g.kind === 'emergency'
+            ? t('budget.emergency.full')
+            : t('budget.goal_done')
+          : g.late
+            ? t('budget.goal_late', { amount: money(g.remaining) })
+            : g.perMonth !== null
+              ? t('budget.goal_per_month', { amount: money(g.perMonth), date: f.date(g.targetDate) })
+              : t('budget.goal_remaining', { amount: money(g.remaining) })}
+      </p>
+      {g.monthsCovered !== null && g.saved > 0 && (
+        <p className="mt-1 text-xs font-medium text-emerald-700 dark:text-emerald-400">{t('budget.emergency.covers', { months: f.number(g.monthsCovered, Number.isInteger(g.monthsCovered) ? 0 : 1) })}</p>
+      )}
+      {g.onTrack !== null && !g.done && (
+        <p className={clsx('mt-1 text-xs font-medium', g.onTrack ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400')}>
+          {g.onTrack ? t('budget.goal_on_track') : t('budget.goal_behind', { amount: money(Math.max(0, (g.perMonth ?? 0) - g.thisMonth)) })}
+        </p>
+      )}
+      {manage && (
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          <Button size="sm" icon={<Plus className="size-4" />} onClick={() => onMove('add')}>
+            {t('budget.put_in_short')}
+          </Button>
+          <Button size="sm" variant="secondary" icon={<Minus className="size-4" />} onClick={() => onMove('take')} disabled={g.saved <= 0}>
+            {g.kind === 'emergency' ? t('budget.emergency.use_short') : t('budget.take_out_short')}
+          </Button>
+        </div>
+      )}
+    </Card>
+  );
+}
+
 // ---------------------------------------------------------------- my budget (categories, limits, bills)
-function CategoryDialog({ category, kind, onClose }: { category?: Category; kind: Kind; onClose: () => void }) {
+function CategoryDialog({ category, kind, wallet = 'main', onClose }: { category?: Category; kind: Kind; wallet?: BudgetWallet; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const catName = useCatName();
@@ -1313,7 +1514,7 @@ function CategoryDialog({ category, kind, onClose }: { category?: Category; kind
   const save = useMutation({
     mutationFn: () => {
       const body = { name, emoji, monthlyLimit: kind === 'expense' ? limit.trim() || null : null };
-      if (!category) return api.post('/budget/categories', { ...body, kind });
+      if (!category) return api.post('/budget/categories', { ...body, kind, wallet });
       // An unchanged name is not sent, so a set-up category keeps following the app language.
       return api.patch(`/budget/categories/${category.id}`, name.trim() === shownName ? { emoji: body.emoji, monthlyLimit: body.monthlyLimit } : body);
     },
@@ -1461,22 +1662,60 @@ function BillDialog({ bill, categories, onClose }: { bill?: BillRow; categories:
   );
 }
 
+/** "Dollars too": keep dollars as their own money (own budgets, savings and totals), never mixed with the main money. */
+function DollarsCard() {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const { session, setSession } = useBiz();
+  const { usdOn, setWallet } = useBudgetWallet();
+  const mainSymbol = useMainSymbol();
+  const toastError = useToastError();
+  const save = useMutation({
+    mutationFn: (usd: boolean) => api.post<{ usd: boolean }>('/budget/wallets', { usd }),
+    onSuccess: (r) => {
+      if (session) setSession({ ...session, budgetUsdWallet: r.usd });
+      if (!r.usd) setWallet('main');
+      toast.success(r.usd ? t('budget.wallet.dollars_on') : t('budget.wallet.dollars_off'));
+      refresh(qc);
+    },
+    onError: toastError,
+  });
+  if (session?.business.currency === 'USD') return null;
+  return (
+    <Card>
+      <Switch checked={usdOn} disabled={save.isPending} onChange={(v) => save.mutate(v)} label={`💵 ${t('budget.wallet.dollars_too')}`} description={t('budget.wallet.dollars_too_hint', { currency: mainSymbol })} />
+    </Card>
+  );
+}
+
 export function BudgetPlanPage() {
+  const { wallet } = useBudgetWallet();
+  return (
+    <WalletMoney wallet={wallet}>
+      <PlanBody key={wallet} wallet={wallet} />
+    </WalletMoney>
+  );
+}
+
+function PlanBody({ wallet }: { wallet: BudgetWallet }) {
   const { t } = useTranslation();
   const catName = useCatName();
   const money = useMoney();
   const { can } = useBiz();
+  const { usdOn, setWallet } = useBudgetWallet();
   const cats = useCategories();
-  const ov = useOverview(null);
+  const ov = useOverview(null, wallet);
   const bills = useQuery({ queryKey: [...KEY, 'bills'], queryFn: () => api.get<{ items: BillRow[] }>('/budget/bills') });
   const [editing, setEditing] = useState<{ kind: Kind; category?: Category } | null>(null);
   const [billEditing, setBillEditing] = useState<BillRow | 'new' | null>(null);
   const manage = can('budget.manage');
   if (!cats.data || !ov.data) return <SkeletonRows rows={8} />;
-  const spending = cats.data.items.filter((c) => c.kind === 'expense');
-  const income = cats.data.items.filter((c) => c.kind === 'income');
+  const mine = cats.data.items.filter((c) => (c.wallet ?? 'main') === wallet);
+  const spending = mine.filter((c) => c.kind === 'expense');
+  const income = mine.filter((c) => c.kind === 'income');
   const budgeted = spending.reduce((s, c) => s + (c.monthlyLimit ?? 0), 0);
-  const billTotal = (bills.data?.items ?? []).filter((b) => b.isActive).reduce((s, b) => s + b.amount, 0);
+  // Bills are in the main money.
+  const billTotal = wallet === 'main' ? (bills.data?.items ?? []).filter((b) => b.isActive).reduce((s, b) => s + b.amount, 0) : 0;
   const spentBy = new Map(ov.data.categories.map((c) => [c.id, c.spent]));
   const incomeRef = Math.max(ov.data.totals.income, ov.data.previous.income);
   return (
@@ -1485,6 +1724,12 @@ export function BudgetPlanPage() {
         <h1 className="text-xl font-semibold sm:text-2xl">{t('budget.nav_plan')}</h1>
         <p className="text-sm text-slate-500">{t('budget.plan_hint')}</p>
       </div>
+      {manage && <DollarsCard />}
+      {usdOn && (
+        <div className="flex justify-center">
+          <WalletSwitch value={wallet} onChange={setWallet} />
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-2 text-sm">
         <div className="rounded-xl bg-white p-3 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
           <span className="block text-xs text-slate-500">{t('budget.planned_spending')}</span>
@@ -1529,6 +1774,7 @@ export function BudgetPlanPage() {
         </ul>
       </Card>
 
+      {wallet === 'main' && (
       <Card padded={false}>
         <div className="flex items-center justify-between gap-2 p-4 pb-2">
           <div>
@@ -1563,6 +1809,7 @@ export function BudgetPlanPage() {
           </ul>
         )}
       </Card>
+      )}
 
       <Card padded={false}>
         <div className="flex items-center justify-between gap-2 p-4 pb-2">
@@ -1587,7 +1834,7 @@ export function BudgetPlanPage() {
           ))}
         </ul>
       </Card>
-      {editing && <CategoryDialog kind={editing.kind} category={editing.category} onClose={() => setEditing(null)} />}
+      {editing && <CategoryDialog kind={editing.kind} wallet={wallet} category={editing.category} onClose={() => setEditing(null)} />}
       {billEditing && <BillDialog bill={billEditing === 'new' ? undefined : billEditing} categories={cats.data.items} onClose={() => setBillEditing(null)} />}
     </div>
   );

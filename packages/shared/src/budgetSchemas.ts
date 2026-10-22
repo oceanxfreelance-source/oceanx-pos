@@ -12,6 +12,15 @@ export type BudgetKind = (typeof BUDGET_KINDS)[number];
 /** How a payment was made: lets people see how much went on the card or by transfer. */
 export const PAID_WITH = ['cash', 'card', 'transfer', 'other'] as const;
 
+/**
+ * Which money a record, category or saving is in: 'main' (the account's currency) or 'usd' (dollars kept as
+ * their own money next to it: own budgets, own savings, never exchanged).
+ */
+export const BUDGET_WALLETS = ['main', 'usd'] as const;
+export type BudgetWallet = (typeof BUDGET_WALLETS)[number];
+const wallet = z.enum(BUDGET_WALLETS).default('main');
+export const budgetWalletQuerySchema = z.object({ wallet });
+
 const isoDay = z.iso.date();
 /** A short emoji or symbol shown on the category / goal (optional). */
 const emoji = z.string().trim().max(8).default('');
@@ -29,16 +38,18 @@ export const BUDGET_STARTER_KEYS = ['salary', 'side_income', 'from_family', 'foo
 
 export const budgetCategorySchema = z.object({
   kind: z.enum(BUDGET_KINDS),
+  wallet,
   name: z.string().trim().min(1).max(60),
   emoji,
   /** Spending categories: the most to spend on it in a month (empty = no limit). */
   monthlyLimit: optionalMoney,
 });
-export const budgetCategoryUpdateSchema = budgetCategorySchema.omit({ kind: true }).partial();
+export const budgetCategoryUpdateSchema = budgetCategorySchema.omit({ kind: true, wallet: true }).partial();
 export const budgetSetupCategorySchema = budgetCategorySchema.extend({ key: z.enum(BUDGET_STARTER_KEYS).optional() });
 
 export const budgetEntrySchema = z.object({
   kind: z.enum(BUDGET_KINDS),
+  wallet,
   amount: moneyTextSchema,
   occurredOn: isoDay,
   categoryId: z.string().uuid().nullable().default(null),
@@ -47,6 +58,7 @@ export const budgetEntrySchema = z.object({
 });
 
 export const budgetListQuerySchema = z.object({
+  wallet,
   month: monthSchema.optional(),
   day: isoDay.optional(),
   kind: z.enum(BUDGET_KINDS).optional(),
@@ -77,12 +89,26 @@ export const BUDGET_GOAL_KINDS = ['goal', 'emergency'] as const;
 export const budgetGoalSchema = z.object({
   /** 'emergency': the one emergency fund (money kept for sudden needs); it cannot be changed later. */
   kind: z.enum(BUDGET_GOAL_KINDS).default('goal'),
+  /** Goals can be in dollars too; the emergency fund is in the main currency. */
+  wallet,
   name: z.string().trim().min(1).max(60),
   emoji,
   target: moneyTextSchema,
   /** When the money is needed (optional): shows how much to save each month. */
   targetDate: z.union([isoDay, z.literal(''), z.null()]).optional().transform((v) => v || null),
 });
+
+/** Put money into savings with no goal ("My savings", one per wallet), or take some out. */
+export const budgetSavingsMoveSchema = z.object({
+  wallet,
+  direction: z.enum(['add', 'take']),
+  amount: moneyTextSchema,
+  occurredOn: isoDay.optional(),
+  note: z.string().trim().max(200).default(''),
+});
+
+/** Gravity Budget: keep dollars as their own money too (own records, budgets and savings). */
+export const budgetWalletsSchema = z.object({ usd: z.boolean() });
 
 /** Put money into a goal, or take some out. */
 export const budgetGoalMoveSchema = z.object({

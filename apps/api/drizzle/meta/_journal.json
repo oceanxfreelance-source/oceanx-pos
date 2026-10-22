@@ -267,6 +267,13 @@
       "when": 1792595711409,
       "tag": "0037_trial_uses",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1792644349034,
+      "tag": "0038_budget_wallets",
+      "breakpoints": true
     }
   ]
 }

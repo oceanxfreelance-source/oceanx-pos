@@ -3065,7 +3065,7 @@
     "console": "Gravity Budget කොන්සෝලය",
     "active_accounts": "Budget ගිණුම්",
     "nav_spending": "වියදම්",
-    "nav_goals": "ඉලක්ක",
+    "nav_goals": "ඉතුරුම්",
     "nav_plan": "මගේ අයවැය",
     "nav_months": "මාස",
     "hello": "ආයුබෝවන් {{name}}",
@@ -3289,7 +3289,29 @@
     "payday_admin_date": "වැටුප් දිනය {{date}}",
     "payday_admin_paid": "ගෙවා ඇත",
     "payday_admin_slip": "ස්ලිප් එක බලාපොරොත්තුවෙන්",
-    "payday_admin_unpaid": "තවම ගෙවා නැත"
+    "payday_admin_unpaid": "තවම ගෙවා නැත",
+    "wallet": {
+      "which": "කුමන මුදල?",
+      "dollars_too": "ඩොලර්ද",
+      "dollars_too_hint": "ඩොලර් වෙනම මුදලක් ලෙස තබන්න: තමන්ගේම අයවැය, ඉතුරුම් සහ එකතු සමඟ. {{currency}} සමඟ කිසිදා මිශ්‍ර නොවේ.",
+      "dollars_on": "ඩොලර් සක්‍රිය කළා",
+      "dollars_off": "ඩොලර් අක්‍රිය කළා",
+      "signup_question": "ඔබ භාවිත කරන්නේ කුමන මුදලද?",
+      "signup_rf": "Rf පමණි",
+      "signup_usd": "$ පමණි",
+      "signup_both": "Rf සහ $",
+      "signup_hint": "Rf සහ $ දෙකටම වෙනම අයවැය සහ ඉතුරුම්. පසුව වෙනස් කළ හැක."
+    },
+    "savings": {
+      "title": "මගේ ඉතුරුම්",
+      "usd_title": "ඩොලර් ඉතුරුම්",
+      "hint": "පසෙකට තැබූ මුදල්. ඉලක්කයක් අවශ්‍ය නැත.",
+      "total": "මුළු ඉතුරුම්",
+      "save": "ඉතුරු කරන්න",
+      "saved_now": "ඉතුරු කළ: {{amount}}",
+      "this_month": "මේ මාසයේ {{amount}} ඉතුරු කළා",
+      "goals": "ඉලක්ක"
+    }
   },
   "app_update": {
     "title": "යෙදුමේ නව අනුවාදය සූදානම්.",

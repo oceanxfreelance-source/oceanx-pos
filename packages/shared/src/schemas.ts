@@ -70,6 +70,8 @@ export const registerBusinessSchema = z.object({
   phone,
   currency: z.string().trim().length(3).toUpperCase().default('MVR'),
   language: z.enum(LANGUAGE_CODES).default('en'),
+  /** Gravity Budget: "Rf and $": dollars kept as their own money next to the main currency. */
+  usdWallet: z.boolean().default(false),
 });
 
 // ---------------------------------------------------------------- business: me / users / roles

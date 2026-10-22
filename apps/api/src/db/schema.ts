@@ -213,6 +213,8 @@ export const businesses = pgTable(
     viberPhone: text('viber_phone').notNull().default(''),
     /** New features Super Admin has turned on early for this account (e.g. Gravity Budget 'loans'). */
     betaFeatures: text('beta_features').array().notNull().default(sql`'{}'::text[]`),
+    /** Gravity Budget: dollars kept as their own money (records, budgets, savings), next to the main currency. */
+    budgetUsdWallet: boolean('budget_usd_wallet').notNull().default(false),
     address: text('address').notNull().default(''),
     logoPath: text('logo_path'),
     /** Company stamp printed on documents. */
@@ -1858,6 +1860,8 @@ export const budgetCategories = pgTable(
     /** The most to spend in this category in a month (minor units); null = no limit. */
     monthlyLimit: money('monthly_limit'),
     sortOrder: integer('sort_order').notNull().default(0),
+    /** Which money: 'main' (the account's currency) or 'usd' (dollars kept apart, never exchanged). */
+    wallet: text('wallet').notNull().default('main'),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
     deletedAt: ts('deleted_at'),
@@ -1865,7 +1869,7 @@ export const budgetCategories = pgTable(
   (t) => [
     unique('budget_categories_business_id_uq').on(t.businessId, t.id),
     uniqueIndex('budget_categories_name_uq')
-      .on(t.businessId, t.kind, sql`lower(${t.name})`)
+      .on(t.businessId, t.wallet, t.kind, sql`lower(${t.name})`)
       .where(sql`${t.deletedAt} IS NULL`),
     check('budget_categories_kind_ck', sql`${t.kind} IN ('income','expense')`),
     check('budget_categories_limit_ck', sql`${t.monthlyLimit} IS NULL OR ${t.monthlyLimit} > 0`),
@@ -1917,6 +1921,8 @@ export const budgetEntries = pgTable(
     /** cash | card | transfer | other */
     paidWith: text('paid_with').notNull().default('cash'),
     billId: uuid('bill_id'),
+    /** Which money: 'main' (the account's currency) or 'usd' (dollars kept apart, never exchanged). */
+    wallet: text('wallet').notNull().default('main'),
     createdBy: uuid('created_by'),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
@@ -1941,9 +1947,14 @@ export const budgetGoals = pgTable(
       .references(() => businesses.id, { onDelete: 'cascade' }),
     name: text('name').notNull(),
     emoji: text('emoji').notNull().default(''),
-    /** 'goal', or 'emergency': the person's one emergency fund (money kept for sudden needs). */
+    /**
+     * 'goal', 'emergency' (the person's one emergency fund, money kept for sudden needs) or 'savings'
+     * (money put aside with no goal: one per wallet, no target).
+     */
     kind: text('kind').notNull().default('goal'),
-    target: money('target').notNull(),
+    /** Which money: 'main' (the account's currency) or 'usd' (dollars kept apart, never exchanged). */
+    wallet: text('wallet').notNull().default('main'),
+    target: money('target'),
     targetDate: text('target_date'),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
@@ -1951,8 +1962,9 @@ export const budgetGoals = pgTable(
   },
   (t) => [
     unique('budget_goals_business_id_uq').on(t.businessId, t.id),
-    check('budget_goals_target_ck', sql`${t.target} > 0`),
-    check('budget_goals_kind_ck', sql`${t.kind} IN ('goal','emergency')`),
+    check('budget_goals_target_ck', sql`${t.kind} = 'savings' OR ${t.target} > 0`),
+    check('budget_goals_kind_ck', sql`${t.kind} IN ('goal','emergency','savings')`),
+    uniqueIndex('budget_goals_one_savings_uq').on(t.businessId, t.wallet).where(sql`${t.kind} = 'savings' AND ${t.deletedAt} IS NULL`),
     uniqueIndex('budget_goals_one_emergency_uq').on(t.businessId).where(sql`${t.kind} = 'emergency' AND ${t.deletedAt} IS NULL`),
   ],
 );

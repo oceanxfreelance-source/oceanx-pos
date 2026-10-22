@@ -3065,7 +3065,7 @@
     "console": "Gravity Budget কনসোল",
     "active_accounts": "Budget অ্যাকাউন্ট",
     "nav_spending": "খরচ",
-    "nav_goals": "লক্ষ্য",
+    "nav_goals": "সঞ্চয়",
     "nav_plan": "আমার বাজেট",
     "nav_months": "মাস",
     "hello": "হ্যালো {{name}}",
@@ -3289,7 +3289,29 @@
     "payday_admin_date": "বেতনের দিন {{date}}",
     "payday_admin_paid": "পরিশোধিত",
     "payday_admin_slip": "স্লিপ অপেক্ষায়",
-    "payday_admin_unpaid": "এখনও পরিশোধ হয়নি"
+    "payday_admin_unpaid": "এখনও পরিশোধ হয়নি",
+    "wallet": {
+      "which": "কোন টাকা?",
+      "dollars_too": "ডলারও",
+      "dollars_too_hint": "ডলার আলাদা টাকা হিসেবে রাখুন: নিজস্ব বাজেট, সঞ্চয় ও মোট সহ। {{currency}}-এর সাথে কখনো মেশানো হয় না।",
+      "dollars_on": "ডলার চালু হয়েছে",
+      "dollars_off": "ডলার বন্ধ হয়েছে",
+      "signup_question": "আপনি কোন টাকা ব্যবহার করেন?",
+      "signup_rf": "শুধু Rf",
+      "signup_usd": "শুধু $",
+      "signup_both": "Rf ও $",
+      "signup_hint": "Rf ও $ প্রত্যেকের নিজস্ব বাজেট ও সঞ্চয়। পরে বদলাতে পারবেন।"
+    },
+    "savings": {
+      "title": "আমার সঞ্চয়",
+      "usd_title": "ডলার সঞ্চয়",
+      "hint": "আলাদা করে রাখা টাকা। কোনো লক্ষ্য লাগবে না।",
+      "total": "মোট সঞ্চয়",
+      "save": "জমান",
+      "saved_now": "জমা: {{amount}}",
+      "this_month": "এই মাসে {{amount}} জমা",
+      "goals": "লক্ষ্য"
+    }
   },
   "app_update": {
     "title": "অ্যাপের নতুন সংস্করণ প্রস্তুত।",

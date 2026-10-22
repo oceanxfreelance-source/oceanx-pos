@@ -12,13 +12,17 @@ import {
   budgetGoalMoveSchema,
   budgetGoalSchema,
   budgetListQuerySchema,
+  budgetSavingsMoveSchema,
+  budgetWalletQuerySchema,
+  budgetWalletsSchema,
   daysInMonth,
   monthSchema,
   PAID_WITH,
   type BudgetKind,
+  type BudgetWallet,
 } from '@oceanx/shared';
 import type { Executor } from '../../db/client';
-import { budgetBills, budgetCategories, budgetEntries, budgetGoalMoves, budgetGoals } from '../../db/schema';
+import { budgetBills, budgetCategories, budgetEntries, budgetGoalMoves, budgetGoals, businesses } from '../../db/schema';
 import { bizCtx, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
@@ -54,17 +58,18 @@ export interface Insight {
  * every spending category against its monthly limit and last month; the month's bills (paid or not); spending
  * day by day; and plain-language advice. For the current month also the safe amount to spend per day.
  */
-export async function budgetOverview(db: Executor, businessId: string, month: string, today: string) {
+export async function budgetOverview(db: Executor, businessId: string, month: string, today: string, wallet: BudgetWallet = 'main') {
   const { from, to } = monthRange(month);
   const prev = addMonths(month, -1);
   const prevRange = monthRange(prev);
-  const live = and(eq(budgetEntries.businessId, businessId), isNull(budgetEntries.deletedAt));
+  // One money at a time: the main currency, or the dollars kept apart (never mixed, never exchanged).
+  const live = and(eq(budgetEntries.businessId, businessId), isNull(budgetEntries.deletedAt), eq(budgetEntries.wallet, wallet));
 
   const [cats, sums, prevSums, daily, paidWith, saved, bills, paidBills] = await Promise.all([
     db
       .select()
       .from(budgetCategories)
-      .where(and(eq(budgetCategories.businessId, businessId), isNull(budgetCategories.deletedAt)))
+      .where(and(eq(budgetCategories.businessId, businessId), isNull(budgetCategories.deletedAt), eq(budgetCategories.wallet, wallet)))
       .orderBy(asc(budgetCategories.sortOrder), asc(budgetCategories.name)),
     db
       .select({ kind: budgetEntries.kind, categoryId: budgetEntries.categoryId, total: sql<string>`sum(${budgetEntries.amount})::text`, n: count() })
@@ -89,12 +94,13 @@ export async function budgetOverview(db: Executor, businessId: string, month: st
     db
       .select({ total: sql<string>`coalesce(sum(${budgetGoalMoves.amount}),0)::text` })
       .from(budgetGoalMoves)
-      .innerJoin(budgetGoals, and(eq(budgetGoals.id, budgetGoalMoves.goalId), isNull(budgetGoals.deletedAt)))
+      .innerJoin(budgetGoals, and(eq(budgetGoals.id, budgetGoalMoves.goalId), isNull(budgetGoals.deletedAt), eq(budgetGoals.wallet, wallet)))
       .where(and(eq(budgetGoalMoves.businessId, businessId), gte(budgetGoalMoves.occurredOn, from), lte(budgetGoalMoves.occurredOn, to))),
     db
       .select()
       .from(budgetBills)
-      .where(and(eq(budgetBills.businessId, businessId), isNull(budgetBills.deletedAt), eq(budgetBills.isActive, true)))
+      // Bills are in the main currency.
+      .where(and(eq(budgetBills.businessId, businessId), isNull(budgetBills.deletedAt), eq(budgetBills.isActive, true), sql`${wallet} = 'main'`))
       .orderBy(asc(budgetBills.dueDay), asc(budgetBills.name)),
     db
       .select({ id: budgetEntries.id, billId: budgetEntries.billId, amount: budgetEntries.amount, occurredOn: budgetEntries.occurredOn })
@@ -198,6 +204,7 @@ export async function budgetOverview(db: Executor, businessId: string, month: st
 
   return {
     month,
+    wallet,
     today,
     currentMonth: today.slice(0, 7),
     isCurrent,
@@ -231,12 +238,12 @@ export async function budgetMonthlySpend(db: Executor, businessId: string, today
     db
       .select({ month: m, total: sql<string>`sum(${budgetEntries.amount})::text` })
       .from(budgetEntries)
-      .where(and(eq(budgetEntries.businessId, businessId), eq(budgetEntries.kind, 'expense'), isNull(budgetEntries.deletedAt), gte(budgetEntries.occurredOn, monthRange(first).from), lte(budgetEntries.occurredOn, monthRange(month).to)))
+      .where(and(eq(budgetEntries.businessId, businessId), eq(budgetEntries.kind, 'expense'), isNull(budgetEntries.deletedAt), eq(budgetEntries.wallet, 'main'), gte(budgetEntries.occurredOn, monthRange(first).from), lte(budgetEntries.occurredOn, monthRange(month).to)))
       .groupBy(m),
     db
       .select({ total: sql<string>`coalesce(sum(${budgetCategories.monthlyLimit}),0)::text` })
       .from(budgetCategories)
-      .where(and(eq(budgetCategories.businessId, businessId), eq(budgetCategories.kind, 'expense'), isNull(budgetCategories.deletedAt))),
+      .where(and(eq(budgetCategories.businessId, businessId), eq(budgetCategories.kind, 'expense'), isNull(budgetCategories.deletedAt), eq(budgetCategories.wallet, 'main'))),
   ]);
   const past = rows.filter((r) => r.month !== month && n(r.total) > 0);
   if (past.length) return Math.round(past.reduce((s, r) => s + n(r.total), 0) / past.length);
@@ -251,7 +258,7 @@ export async function budgetGoalList(db: Executor, businessId: string, today: st
     .select()
     .from(budgetGoals)
     .where(and(eq(budgetGoals.businessId, businessId), isNull(budgetGoals.deletedAt)))
-    .orderBy(sql`${budgetGoals.kind} = 'emergency' desc`, asc(budgetGoals.createdAt));
+    .orderBy(sql`${budgetGoals.kind} = 'savings' desc`, sql`${budgetGoals.kind} = 'emergency' desc`, asc(budgetGoals.createdAt));
   if (!goals.length) return [];
   const sums = await db
     .select({
@@ -274,25 +281,28 @@ export async function budgetGoalList(db: Executor, businessId: string, today: st
     const s = sums.find((x) => x.goalId === g.id);
     const saved = n(s?.saved);
     const thisMonth = n(s?.thisMonth);
-    const remaining = Math.max(0, g.target - saved);
+    // "My savings" has no target: just what is in it.
+    const target = g.target ?? 0;
+    const remaining = g.target === null ? 0 : Math.max(0, target - saved);
     const monthsLeft = g.targetDate ? monthsUntil(today, g.targetDate) : null;
     // Saving needed each month from now on (this month included, less what is already in this month).
     const perMonth = remaining > 0 && monthsLeft !== null && monthsLeft > 0 ? Math.ceil((remaining + thisMonth) / monthsLeft) : null;
     return {
       id: g.id,
-      kind: g.kind as 'goal' | 'emergency',
+      kind: g.kind as 'goal' | 'emergency' | 'savings',
+      wallet: g.wallet as BudgetWallet,
       name: g.name,
       emoji: g.emoji,
       target: g.target,
       targetDate: g.targetDate,
       saved,
       remaining,
-      percent: Math.min(100, Math.floor((saved * 100) / g.target)),
-      done: saved >= g.target,
+      percent: g.target === null ? null : Math.min(100, Math.floor((saved * 100) / target)),
+      done: g.target !== null && saved >= target,
       thisMonth,
       monthsLeft,
       perMonth,
-      late: !!g.targetDate && g.targetDate < today && saved < g.target,
+      late: !!g.targetDate && g.targetDate < today && saved < target,
       onTrack: perMonth === null ? null : thisMonth >= perMonth,
       /** Emergency fund: how many months of usual spending it would pay for (one decimal). */
       monthsCovered: g.kind === 'emergency' && monthlySpend > 0 ? Math.floor((saved * 10) / monthlySpend) / 10 : null,
@@ -305,10 +315,14 @@ export async function budgetRoutes(app: FastifyInstance) {
   const { db } = app.deps;
   const today = (ctx: Ctx) => businessToday(ctx.access.business.timezone);
 
-  const loadCategory = async (ctx: Ctx, id: string, kind: BudgetKind) => {
+  const loadCategory = async (ctx: Ctx, id: string, kind: BudgetKind, wallet: BudgetWallet = 'main') => {
     const [c] = await db.select().from(budgetCategories).where(own(budgetCategories, ctx, id));
-    if (!c || c.kind !== kind) throw new AppError('validation_failed', 'Unknown category', { fields: { categoryId: { code: 'invalid_option' } } });
+    if (!c || c.kind !== kind || c.wallet !== wallet) throw new AppError('validation_failed', 'Unknown category', { fields: { categoryId: { code: 'invalid_option' } } });
     return c;
+  };
+  /** Dollars can be used only after the person turned them on ("Rf and $"). */
+  const checkWallet = (ctx: Ctx, wallet: BudgetWallet) => {
+    if (wallet === 'usd' && !ctx.access.business.budgetUsdWallet) throw new AppError('validation_failed', 'Dollars are not turned on', { fields: { wallet: { code: 'invalid_option' } } });
   };
   const nameTaken = (e: unknown): never => {
     const code = (e as { code?: string })?.code ?? (e as { cause?: { code?: string } })?.cause?.code;
@@ -319,11 +333,12 @@ export async function budgetRoutes(app: FastifyInstance) {
   // ---------------------------------------------------------------- overview
   app.get('/budget/overview', { preHandler: requirePermission('budget.view') }, async (req) => {
     const ctx = bizCtx(req);
-    const q = parse(z.object({ month: monthSchema.optional() }), req.query);
+    const q = parse(budgetWalletQuerySchema.extend({ month: monthSchema.optional() }), req.query);
+    checkWallet(ctx, q.wallet);
     const t = today(ctx);
-    const [hasCategories] = await db.select({ n: count() }).from(budgetCategories).where(eq(budgetCategories.businessId, ctx.businessId));
-    const overview = await budgetOverview(db, ctx.businessId, q.month ?? t.slice(0, 7), t);
-    return { ...overview, setUp: n(hasCategories?.n) > 0, currency: ctx.access.business.currency };
+    const [hasCategories] = await db.select({ n: count() }).from(budgetCategories).where(and(eq(budgetCategories.businessId, ctx.businessId), eq(budgetCategories.wallet, 'main')));
+    const overview = await budgetOverview(db, ctx.businessId, q.month ?? t.slice(0, 7), t, q.wallet);
+    return { ...overview, setUp: n(hasCategories?.n) > 0, currency: q.wallet === 'usd' ? 'USD' : ctx.access.business.currency, usdWallet: ctx.access.business.budgetUsdWallet };
   });
 
   /** Money in, money out and money saved for the `count` months ending with `to` (empty months included). */
@@ -338,12 +353,12 @@ export async function budgetRoutes(app: FastifyInstance) {
       db
         .select({ month: m, kind: budgetEntries.kind, total: sql<string>`sum(${budgetEntries.amount})::text` })
         .from(budgetEntries)
-        .where(and(eq(budgetEntries.businessId, ctx.businessId), isNull(budgetEntries.deletedAt), gte(budgetEntries.occurredOn, monthRange(first).from), lte(budgetEntries.occurredOn, monthRange(to).to)))
+        .where(and(eq(budgetEntries.businessId, ctx.businessId), isNull(budgetEntries.deletedAt), eq(budgetEntries.wallet, 'main'), gte(budgetEntries.occurredOn, monthRange(first).from), lte(budgetEntries.occurredOn, monthRange(to).to)))
         .groupBy(m, budgetEntries.kind),
       db
         .select({ month: gm, total: sql<string>`sum(${budgetGoalMoves.amount})::text` })
         .from(budgetGoalMoves)
-        .innerJoin(budgetGoals, and(eq(budgetGoals.id, budgetGoalMoves.goalId), isNull(budgetGoals.deletedAt)))
+        .innerJoin(budgetGoals, and(eq(budgetGoals.id, budgetGoalMoves.goalId), isNull(budgetGoals.deletedAt), eq(budgetGoals.wallet, 'main')))
         .where(and(eq(budgetGoalMoves.businessId, ctx.businessId), gte(budgetGoalMoves.occurredOn, monthRange(first).from), lte(budgetGoalMoves.occurredOn, monthRange(to).to)))
         .groupBy(gm),
     ]);
@@ -366,12 +381,12 @@ export async function budgetRoutes(app: FastifyInstance) {
     const { from, to } = monthRange(month);
     const [overview, goals, entries] = await Promise.all([
       budgetOverview(db, ctx.businessId, month, t),
-      budgetGoalList(db, ctx.businessId, t),
+      budgetGoalList(db, ctx.businessId, t).then((gs) => gs.filter((g) => g.wallet === 'main')),
       db
         .select({ e: budgetEntries, categoryName: budgetCategories.name, categoryKey: budgetCategories.key, categoryEmoji: budgetCategories.emoji })
         .from(budgetEntries)
         .leftJoin(budgetCategories, and(eq(budgetCategories.id, budgetEntries.categoryId), eq(budgetCategories.businessId, budgetEntries.businessId)))
-        .where(and(eq(budgetEntries.businessId, ctx.businessId), isNull(budgetEntries.deletedAt), gte(budgetEntries.occurredOn, from), lte(budgetEntries.occurredOn, to)))
+        .where(and(eq(budgetEntries.businessId, ctx.businessId), isNull(budgetEntries.deletedAt), eq(budgetEntries.wallet, 'main'), gte(budgetEntries.occurredOn, from), lte(budgetEntries.occurredOn, to)))
         .orderBy(asc(budgetEntries.occurredOn), asc(budgetEntries.createdAt))
         .limit(2000),
     ]);
@@ -392,7 +407,7 @@ export async function budgetRoutes(app: FastifyInstance) {
   app.post('/budget/setup', { preHandler: requirePermission('budget.manage') }, async (req) => {
     const ctx = bizCtx(req);
     const body = parse(z.object({ categories: z.array(budgetSetupCategorySchema).min(1).max(40) }), req.body);
-    const [had] = await db.select({ n: count() }).from(budgetCategories).where(eq(budgetCategories.businessId, ctx.businessId));
+    const [had] = await db.select({ n: count() }).from(budgetCategories).where(and(eq(budgetCategories.businessId, ctx.businessId), eq(budgetCategories.wallet, 'main')));
     if (n(had?.n) > 0) return { ok: true, created: 0 };
     const seen = new Set<string>();
     const values = body.categories
@@ -416,15 +431,16 @@ export async function budgetRoutes(app: FastifyInstance) {
       .from(budgetCategories)
       .where(and(eq(budgetCategories.businessId, ctx.businessId), isNull(budgetCategories.deletedAt)))
       .orderBy(asc(budgetCategories.kind), asc(budgetCategories.sortOrder), asc(budgetCategories.name));
-    return { items: rows.map((c) => ({ id: c.id, kind: c.kind, name: c.name, key: c.key, emoji: c.emoji, monthlyLimit: c.monthlyLimit })) };
+    return { items: rows.map((c) => ({ id: c.id, kind: c.kind, wallet: c.wallet as BudgetWallet, name: c.name, key: c.key, emoji: c.emoji, monthlyLimit: c.monthlyLimit })) };
   });
 
   app.post('/budget/categories', { preHandler: requirePermission('budget.manage') }, async (req, reply) => {
     const ctx = bizCtx(req);
     const body = parse(budgetCategorySchema, req.body);
+    checkWallet(ctx, body.wallet);
     const [c] = await db
       .insert(budgetCategories)
-      .values({ businessId: ctx.businessId, kind: body.kind, name: body.name, emoji: body.emoji, monthlyLimit: body.kind === 'expense' ? body.monthlyLimit : null, sortOrder: 100 })
+      .values({ businessId: ctx.businessId, kind: body.kind, wallet: body.wallet, name: body.name, emoji: body.emoji, monthlyLimit: body.kind === 'expense' ? body.monthlyLimit : null, sortOrder: 100 })
       .returning()
       .catch(nameTaken);
     reply.status(201);
@@ -469,6 +485,7 @@ export async function budgetRoutes(app: FastifyInstance) {
     return and(
       eq(budgetEntries.businessId, ctx.businessId),
       isNull(budgetEntries.deletedAt),
+      eq(budgetEntries.wallet, q.wallet),
       range ? gte(budgetEntries.occurredOn, range.from) : undefined,
       range ? lte(budgetEntries.occurredOn, range.to) : undefined,
       q.day ? eq(budgetEntries.occurredOn, q.day) : undefined,
@@ -510,10 +527,11 @@ export async function budgetRoutes(app: FastifyInstance) {
         return had;
       }
     }
-    if (body.categoryId) await loadCategory(ctx, body.categoryId, body.kind);
+    checkWallet(ctx, body.wallet);
+    if (body.categoryId) await loadCategory(ctx, body.categoryId, body.kind, body.wallet);
     const [e] = await db
       .insert(budgetEntries)
-      .values({ ...(body.id ? { id: body.id } : {}), businessId: ctx.businessId, kind: body.kind, amount: body.amount, occurredOn: body.occurredOn, categoryId: body.categoryId, note: body.note, paidWith: body.paidWith, createdBy: ctx.user.id })
+      .values({ ...(body.id ? { id: body.id } : {}), businessId: ctx.businessId, kind: body.kind, wallet: body.wallet, amount: body.amount, occurredOn: body.occurredOn, categoryId: body.categoryId, note: body.note, paidWith: body.paidWith, createdBy: ctx.user.id })
       .returning();
     reply.status(201);
     return e;
@@ -522,10 +540,11 @@ export async function budgetRoutes(app: FastifyInstance) {
   app.put('/budget/entries/:id', { preHandler: requirePermission('budget.manage') }, async (req) => {
     const ctx = bizCtx(req);
     const body = parse(budgetEntrySchema, req.body);
-    if (body.categoryId) await loadCategory(ctx, body.categoryId, body.kind);
+    checkWallet(ctx, body.wallet);
+    if (body.categoryId) await loadCategory(ctx, body.categoryId, body.kind, body.wallet);
     const [e] = await db
       .update(budgetEntries)
-      .set({ kind: body.kind, amount: body.amount, occurredOn: body.occurredOn, categoryId: body.categoryId, note: body.note, paidWith: body.paidWith, updatedAt: new Date() })
+      .set({ kind: body.kind, wallet: body.wallet, amount: body.amount, occurredOn: body.occurredOn, categoryId: body.categoryId, note: body.note, paidWith: body.paidWith, updatedAt: new Date() })
       .where(own(budgetEntries, ctx, idParam(req)))
       .returning();
     if (!e) throw notFound();
@@ -626,6 +645,8 @@ export async function budgetRoutes(app: FastifyInstance) {
   app.post('/budget/goals', { preHandler: requirePermission('budget.manage') }, async (req, reply) => {
     const ctx = bizCtx(req);
     const body = parse(budgetGoalSchema, req.body);
+    checkWallet(ctx, body.wallet);
+    if (body.kind === 'emergency') body.wallet = 'main';
     if (body.kind === 'emergency') {
       const [had] = await db
         .select({ id: budgetGoals.id })
@@ -642,7 +663,7 @@ export async function budgetRoutes(app: FastifyInstance) {
   app.put('/budget/goals/:id', { preHandler: requirePermission('budget.manage') }, async (req) => {
     const ctx = bizCtx(req);
     // A goal stays what it is (a goal or the emergency fund).
-    const { kind: _kind, ...body } = parse(budgetGoalSchema, req.body);
+    const { kind: _kind, wallet: _wallet, ...body } = parse(budgetGoalSchema, req.body);
     const [g] = await db
       .update(budgetGoals)
       .set({ ...body, updatedAt: new Date() })
@@ -696,6 +717,52 @@ export async function budgetRoutes(app: FastifyInstance) {
     return m;
   });
 
+  /** "My savings": money put aside with no goal, one per money (Rf and $). Made the first time it is used. */
+  app.post('/budget/savings/moves', { preHandler: requirePermission('budget.manage') }, async (req, reply) => {
+    const ctx = bizCtx(req);
+    const body = parse(budgetSavingsMoveSchema, req.body);
+    checkWallet(ctx, body.wallet);
+    const m = await db.transaction(async (tx) => {
+      await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext(${`budget-savings:${ctx.businessId}:${body.wallet}`}))`);
+      const [had] = await tx
+        .select({ id: budgetGoals.id })
+        .from(budgetGoals)
+        .where(and(eq(budgetGoals.businessId, ctx.businessId), eq(budgetGoals.kind, 'savings'), eq(budgetGoals.wallet, body.wallet), isNull(budgetGoals.deletedAt)));
+      const goalId =
+        had?.id ??
+        (await tx
+          .insert(budgetGoals)
+          .values({ businessId: ctx.businessId, kind: 'savings', wallet: body.wallet, name: body.wallet === 'usd' ? 'Dollar savings' : 'My savings', emoji: body.wallet === 'usd' ? '💵' : '🐷', target: null })
+          .returning({ id: budgetGoals.id }))[0]!.id;
+      if (body.direction === 'take') {
+        const [s] = await tx
+          .select({ saved: sql<string>`coalesce(sum(${budgetGoalMoves.amount}),0)::text` })
+          .from(budgetGoalMoves)
+          .where(and(eq(budgetGoalMoves.businessId, ctx.businessId), eq(budgetGoalMoves.goalId, goalId)));
+        if (body.amount > n(s?.saved)) throw new AppError('validation_failed', 'More than is saved', { fields: { amount: { code: 'too_big', params: { max: n(s?.saved) / 100 } } } });
+      }
+      const [row] = await tx
+        .insert(budgetGoalMoves)
+        .values({ businessId: ctx.businessId, goalId, amount: body.direction === 'add' ? body.amount : -body.amount, occurredOn: body.occurredOn ?? today(ctx), note: body.note })
+        .returning();
+      return row!;
+    });
+    reply.status(201);
+    return m;
+  });
+
+  /** Keep dollars as their own money too ("Rf and $"), or stop. Turning them on adds a few dollar categories. */
+  app.post('/budget/wallets', { preHandler: requirePermission('budget.manage') }, async (req) => {
+    const ctx = bizCtx(req);
+    const body = parse(budgetWalletsSchema, req.body);
+    await db.transaction(async (tx) => {
+      await tx.update(businesses).set({ budgetUsdWallet: body.usd, updatedAt: new Date() }).where(eq(businesses.id, ctx.businessId));
+      if (body.usd) await addDollarCategories(tx, ctx.businessId);
+    });
+    await audit(db, { ...actor(ctx), action: body.usd ? 'budget.dollars_on' : 'budget.dollars_off', entityType: 'business', entityId: ctx.businessId, req });
+    return { usd: body.usd };
+  });
+
   app.delete('/budget/goals/:goalId/moves/:id', { preHandler: requirePermission('budget.manage') }, async (req) => {
     const ctx = bizCtx(req);
     const [m] = await db
@@ -711,6 +778,7 @@ function entryOut(r: { e: typeof budgetEntries.$inferSelect; categoryName: strin
   return {
     id: r.e.id,
     kind: r.e.kind,
+    wallet: r.e.wallet,
     amount: r.e.amount,
     occurredOn: r.e.occurredOn,
     categoryId: r.e.categoryId,
@@ -722,4 +790,22 @@ function entryOut(r: { e: typeof budgetEntries.$inferSelect; categoryName: strin
     billId: r.e.billId,
     createdAt: r.e.createdAt,
   };
+}
+
+/** Starter categories for dollars (made once, the first time dollars are turned on): names show in the person's language. */
+export async function addDollarCategories(db: Executor, businessId: string) {
+  const [had] = await db.select({ n: count() }).from(budgetCategories).where(and(eq(budgetCategories.businessId, businessId), eq(budgetCategories.wallet, 'usd')));
+  if (n(had?.n) > 0) return;
+  const starters: { kind: BudgetKind; key: string; name: string; emoji: string }[] = [
+    { kind: 'income', key: 'salary', name: 'Salary', emoji: '💼' },
+    { kind: 'income', key: 'side_income', name: 'Side income', emoji: '💵' },
+    { kind: 'expense', key: 'shopping', name: 'Shopping', emoji: '🛍️' },
+    { kind: 'expense', key: 'family', name: 'Family support', emoji: '👪' },
+    { kind: 'expense', key: 'fun', name: 'Fun & outings', emoji: '🎉' },
+    { kind: 'expense', key: 'other', name: 'Other', emoji: '📦' },
+  ];
+  await db
+    .insert(budgetCategories)
+    .values(starters.map((c, i) => ({ businessId, wallet: 'usd', kind: c.kind, key: c.key, name: c.name, emoji: c.emoji, monthlyLimit: null, sortOrder: i })))
+    .onConflictDoNothing();
 }

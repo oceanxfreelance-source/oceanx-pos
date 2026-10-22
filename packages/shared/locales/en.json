@@ -3065,7 +3065,7 @@
     "console": "Gravity Budget console",
     "active_accounts": "Budget accounts",
     "nav_spending": "Spending",
-    "nav_goals": "Goals",
+    "nav_goals": "Savings",
     "nav_plan": "My budget",
     "nav_months": "Months",
     "hello": "Hi {{name}}",
@@ -3289,7 +3289,29 @@
     "payday_admin_date": "Salary day {{date}}",
     "payday_admin_paid": "Paid",
     "payday_admin_slip": "Slip waiting",
-    "payday_admin_unpaid": "Not paid yet"
+    "payday_admin_unpaid": "Not paid yet",
+    "wallet": {
+      "which": "Which money?",
+      "dollars_too": "Dollars too",
+      "dollars_too_hint": "Keep dollars as their own money, with their own budgets, savings and totals. Never mixed with {{currency}}.",
+      "dollars_on": "Dollars turned on",
+      "dollars_off": "Dollars turned off",
+      "signup_question": "Which money do you use?",
+      "signup_rf": "Rf only",
+      "signup_usd": "$ only",
+      "signup_both": "Rf and $",
+      "signup_hint": "Rf and $ each get their own budgets and savings. You can change this later."
+    },
+    "savings": {
+      "title": "My savings",
+      "usd_title": "Dollar savings",
+      "hint": "Money put aside. No goal needed.",
+      "total": "Saved in all",
+      "save": "Save",
+      "saved_now": "Saved: {{amount}}",
+      "this_month": "{{amount}} saved this month",
+      "goals": "Goals"
+    }
   },
   "app_update": {
     "title": "A new version of the app is ready.",

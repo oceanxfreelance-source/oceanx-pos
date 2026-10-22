@@ -20,6 +20,7 @@ import { BUSINESS_COOKIE, businessCookieOptions, clearBusinessCookie, fromInstal
 import { parse } from '../../lib/validation';
 import { authenticateBusiness, bizCtx } from '../../guards/business';
 import { loadBusinessAccess } from '../../services/access';
+import { addDollarCategories } from './budget';
 import { budgetFeaturesFor } from '../../services/budgetFeatures';
 import { getPlatformSettings } from '../../services/platformSettings';
 import { loadBusinessSettings } from '../../services/settings';
@@ -72,6 +73,8 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
     addons: [...ctx.access.addons],
     /** Gravity Budget: new features turned on for this account (early access, or for everyone). */
     features: await budgetFeaturesFor(db, b),
+    /** Gravity Budget: dollars kept as their own money too (own budgets, savings and totals). */
+    budgetUsdWallet: b.product === 'budget' && b.budgetUsdWallet,
     permissions: [...ctx.permissions].sort(),
     outlet: accessibleOutlets.find((o) => o.id === ctx.outletId) ?? null,
     outlets: accessibleOutlets,
@@ -267,6 +270,11 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
       if (body.product !== 'pos') {
         if (usedTrial) await tx.update(subscriptions).set({ currentPeriodEnd: new Date(), updatedAt: new Date() }).where(eq(subscriptions.businessId, res.business.id));
         await tx.insert(trialUses).values({ email, product: body.product }).onConflictDoNothing();
+      }
+      // Gravity Budget "Rf and $": dollars kept as their own money too.
+      if (body.product === 'budget' && body.usdWallet && body.currency !== 'USD') {
+        await tx.update(businesses).set({ budgetUsdWallet: true }).where(eq(businesses.id, res.business.id));
+        await addDollarCategories(tx, res.business.id);
       }
       // Gravity: Super Admin keeps every sign-up's details, even after an unpaid trial is deleted.
       if (body.product === 'gravity') {

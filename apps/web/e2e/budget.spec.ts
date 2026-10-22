@@ -59,9 +59,6 @@ test('budget: sign up → set up → spending & limits → bill → goal → PDF
   // Left = 15000 − 1250.50 − 620; advice says coffee is over its limit.
   await expect(page.getByText('13,129.50').first()).toBeVisible();
   await expect(page.getByText(/Eating out & coffee is .*120\.00\W* over its limit/)).toBeVisible();
-  // Only the main tip shows; the rest are one tap away.
-  await page.getByRole('button', { name: /more tip/ }).click();
-  await expect(page.getByText(/120\.00\W* over the limit/)).toBeVisible();
   await expect(page.getByText(`Weekly shopping ${run}`)).toBeVisible();
   await page.screenshot({ path: `${SHOTS}/budget-home.png`, fullPage: true });
 
@@ -89,8 +86,8 @@ test('budget: sign up → set up → spending & limits → bill → goal → PDF
   await expect(page.getByText('Bills to pay')).toHaveCount(0);
   await expect(page.getByText('12,679.50').first()).toBeVisible();
 
-  // Goals: save for a phone.
-  await page.getByRole('link', { name: 'Goals' }).last().click();
+  // Savings: save for a phone.
+  await page.getByRole('link', { name: 'Savings' }).last().click();
   await expect(page.getByText('No goals yet')).toBeVisible();
   await page.getByRole('button', { name: 'New goal' }).first().click();
   dialog = page.getByRole('dialog');
@@ -119,8 +116,7 @@ test('budget: sign up → set up → spending & limits → bill → goal → PDF
   // Saved money is kept aside: left goes down by 2000.
   await page.goto('/');
   await expect(page.getByText('10,679.50').first()).toBeVisible();
-  await page.getByRole('button', { name: /more tip/ }).click();
-  await expect(page.getByText(/2,000\.00\W* put into your goals/)).toBeVisible();
+  await expect(page.getByText('Saved in all')).toBeVisible();
 
   // The month's report (PDF).
   // Months: download this month as PDF.

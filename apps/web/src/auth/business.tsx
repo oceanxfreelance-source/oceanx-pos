@@ -44,6 +44,8 @@ export interface BusinessSession {
   addons: string[];
   /** Gravity Budget features turned on for this account (early access or for everyone), e.g. 'loans'. */
   features?: string[];
+  /** Gravity Budget: dollars kept as their own money too ("Rf and $"). */
+  budgetUsdWallet?: boolean;
   permissions: string[];
   outlet: { id: string; name: string } | null;
   outlets: { id: string; name: string; isDefault: boolean }[];

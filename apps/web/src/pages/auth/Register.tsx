@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { BUSINESS_TYPES, type BusinessType } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { useBiz, type BusinessSession } from '../../auth/business';
@@ -24,9 +25,19 @@ export default function Register({ product = 'pos' }: { product?: Product }) {
   const navigate = useNavigate();
   const errMsg = useErrorMessage();
   const [form, setForm] = useState({ businessName: '', businessType: 'restaurant' as BusinessType, ownerName: '', email: '', phone: '', password: '', currency: 'MVR' });
+  // Gravity Budget: rufiyaa only, dollars only, or both (each with its own budgets and savings, never mixed).
+  const [money, setMoney] = useState<'rf' | 'usd' | 'both'>('rf');
   const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
   const m = useMutation({
-    mutationFn: () => api.post<BusinessSession>('/auth/register', { ...form, businessName: personal ? form.ownerName : form.businessName, product, businessType: gravity ? 'other' : form.businessType, language: i18n.language }),
+    mutationFn: () =>
+      api.post<BusinessSession>('/auth/register', {
+        ...form,
+        ...(personal ? { currency: money === 'usd' ? 'USD' : 'MVR', usdWallet: money === 'both' } : {}),
+        businessName: personal ? form.ownerName : form.businessName,
+        product,
+        businessType: gravity ? 'other' : form.businessType,
+        language: i18n.language,
+      }),
     onSuccess: (s) => {
       setSession(s);
       navigate('/', { replace: true });
@@ -92,7 +103,28 @@ export default function Register({ product = 'pos' }: { product?: Product }) {
           minLength={8}
           required
         />
-        <Input label={t('settings.currency')} value={form.currency} maxLength={3} onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value.toUpperCase() }))} error={fieldErr('currency')} dir="ltr" required />
+        {personal ? (
+          <div role="radiogroup" aria-label={t('budget.wallet.signup_question')}>
+            <p className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">{t('budget.wallet.signup_question')}</p>
+            <div className="grid grid-cols-3 gap-2">
+              {(['rf', 'usd', 'both'] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  role="radio"
+                  aria-checked={money === m}
+                  onClick={() => setMoney(m)}
+                  className={clsx('rounded-xl px-2 py-2.5 text-center text-sm font-medium ring-1 transition', money === m ? 'bg-brand-50 text-brand-800 ring-2 ring-brand-600 dark:bg-brand-950 dark:text-brand-200' : 'text-slate-700 ring-slate-200 dark:text-slate-300 dark:ring-slate-700')}
+                >
+                  {t(`budget.wallet.signup_${m}`)}
+                </button>
+              ))}
+            </div>
+            <p className="mt-1.5 text-xs text-slate-500">{t('budget.wallet.signup_hint')}</p>
+          </div>
+        ) : (
+          <Input label={t('settings.currency')} value={form.currency} maxLength={3} onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value.toUpperCase() }))} error={fieldErr('currency')} dir="ltr" required />
+        )}
         <Button type="submit" size="lg" className="w-full" loading={m.isPending}>
           {personal ? t('budget.start_trial') : gravity ? t('gravity.create_account') : t('auth.create_business')}
         </Button>
