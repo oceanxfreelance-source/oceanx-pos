@@ -4,7 +4,7 @@ import { posTabletFor } from '../lib/desktop';
 import { TabletPosOnly } from '../components/ScreenExit';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, CreditCard, FileSpreadsheet, FileText, FileUp, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, PiggyBank, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, ShoppingCart, Star, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
+import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, CreditCard, FileSpreadsheet, FileText, FileUp, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, ShoppingCart, Star, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, signedInBefore, takeawayOnlyOf, useBiz, useBizSession, type BusinessSession } from '../auth/business';
 import { productPath, useProductTheme } from '../lib/product';
@@ -71,7 +71,7 @@ export function useBusinessNav(): NavGroup[] {
     finance.push({ to: '/spending', label: 'budget.nav_spending', icon: ArrowLeftRight });
     // Loans: a new feature, for accounts Super Admin turned it on for (or for everyone).
     if (session.features?.includes('loans')) finance.push({ to: '/loans', label: 'loans.nav', icon: HandCoins });
-    finance.push({ to: '/goals', label: 'budget.nav_goals', icon: PiggyBank });
+    finance.push({ to: '/goals', label: 'budget.nav_goals', icon: Banknote });
     finance.push({ to: '/plan', label: 'budget.nav_plan', icon: ListChecks });
     finance.push({ to: '/history', label: 'budget.nav_months', icon: CalendarRange });
   }

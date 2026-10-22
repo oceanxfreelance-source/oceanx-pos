@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import clsx from 'clsx';
-import { AlertTriangle, CalendarClock, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, CloudOff, Download, Info, Minus, Pencil, PiggyBank, Plus, Search, ShieldCheck, Target, Trash2, Wallet, X } from 'lucide-react';
+import { AlertTriangle, CalendarClock, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, CloudOff, Download, Info, Minus, Pencil, Banknote, Plus, Search, ShieldCheck, Target, Trash2, Wallet, X } from 'lucide-react';
 import { addMonths, decimalToMinor } from '@oceanx/shared';
 import { api, ApiError } from '../../lib/api';
 import { addPendingEntry, useOnline, usePendingEntries, type PendingEntry } from '../../lib/budgetOffline';
@@ -764,7 +764,7 @@ function SavingsCard({ wallet, today, manage }: { wallet: BudgetWallet; today: s
   const total = mine.reduce((s, g) => s + g.saved, 0);
   return (
     <section className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
-      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-emerald-50 text-xl dark:bg-emerald-950">{wallet === 'usd' ? '💵' : '🐷'}</span>
+      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-emerald-50 text-xl dark:bg-emerald-950">{wallet === 'usd' ? '💵' : '💰'}</span>
       <Link to="/goals" className="min-w-0 flex-1">
         <span className="block text-xs text-slate-500">{t('budget.savings.total')}</span>
         <span className="block text-lg font-semibold tabular-nums">{money(total)}</span>
@@ -1251,7 +1251,7 @@ function GoalMoveDialog({ goal, direction, today, onClose }: { goal: Goal; direc
     <Dialog
       open
       onClose={onClose}
-      title={`${goal.emoji} ${direction === 'add' ? t('budget.put_in', { name }) : goal.kind === 'emergency' ? t('budget.emergency.use') : t('budget.take_out', { name })}`}
+      title={`${goal.kind === 'savings' ? (goal.wallet === 'usd' ? '💵' : '💰') : goal.emoji} ${direction === 'add' ? t('budget.put_in', { name }) : goal.kind === 'emergency' ? t('budget.emergency.use') : t('budget.take_out', { name })}`}
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
@@ -1299,7 +1299,7 @@ function GoalMoveDialog({ goal, direction, today, onClose }: { goal: Goal; direc
 function SavingsMoveDialog({ wallet, direction, saved, today, onClose }: { wallet: BudgetWallet; direction: 'add' | 'take'; saved: number; today: string; onClose: () => void }) {
   const goals = useGoals();
   const pot = goals.data?.items.find((g) => g.kind === 'savings' && g.wallet === wallet);
-  const goal: Goal = pot ?? { id: '', kind: 'savings', wallet, name: '', emoji: wallet === 'usd' ? '💵' : '🐷', target: null, targetDate: null, saved, remaining: 0, percent: null, done: false, thisMonth: 0, monthsLeft: null, perMonth: null, late: false, onTrack: null, monthsCovered: null };
+  const goal: Goal = pot ?? { id: '', kind: 'savings', wallet, name: '', emoji: wallet === 'usd' ? '💵' : '💰', target: null, targetDate: null, saved, remaining: 0, percent: null, done: false, thisMonth: 0, monthsLeft: null, perMonth: null, late: false, onTrack: null, monthsCovered: null };
   return (
     <WalletMoney wallet={wallet}>
       <GoalMoveDialog goal={goal} direction={direction} today={today} onClose={onClose} />
@@ -1316,7 +1316,7 @@ function SavingsPot({ wallet, pot, today, manage }: { wallet: BudgetWallet; pot?
   return (
     <Card className="border-emerald-200 dark:border-emerald-900">
       <div className="flex items-center gap-3">
-        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-2xl dark:bg-emerald-950">{wallet === 'usd' ? '💵' : '🐷'}</span>
+        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-2xl dark:bg-emerald-950">{wallet === 'usd' ? '💵' : '💰'}</span>
         <div className="min-w-0 flex-1">
           <h2 className="font-semibold">{wallet === 'usd' ? t('budget.savings.usd_title') : t('budget.savings.title')}</h2>
           <p className="text-xs text-slate-500">{t('budget.savings.hint')}</p>
@@ -1407,7 +1407,7 @@ export function BudgetGoalsPage() {
       {goals.length === 0 ? (
         <Card>
           <EmptyState
-            icon={<PiggyBank className="size-6" />}
+            icon={<Banknote className="size-6" />}
             title={t('budget.no_goals')}
             description={t('budget.no_goals_hint')}
             action={

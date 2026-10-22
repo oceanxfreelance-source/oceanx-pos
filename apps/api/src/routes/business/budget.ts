@@ -732,7 +732,7 @@ export async function budgetRoutes(app: FastifyInstance) {
         had?.id ??
         (await tx
           .insert(budgetGoals)
-          .values({ businessId: ctx.businessId, kind: 'savings', wallet: body.wallet, name: body.wallet === 'usd' ? 'Dollar savings' : 'My savings', emoji: body.wallet === 'usd' ? '💵' : '🐷', target: null })
+          .values({ businessId: ctx.businessId, kind: 'savings', wallet: body.wallet, name: body.wallet === 'usd' ? 'Dollar savings' : 'My savings', emoji: body.wallet === 'usd' ? '💵' : '💰', target: null })
           .returning({ id: budgetGoals.id }))[0]!.id;
       if (body.direction === 'take') {
         const [s] = await tx
