@@ -70,3 +70,14 @@ correct GST handling for fuel; need accurate tank charts.
 - Day close (optional, daily or weekly): meter reading → litres and money expected → minus credit/transfer/card/QR/unpaid/expenses → count cash → over/short.
 - Hidden when off: shift numbers, attendant names, by-staff reports, shift tolerance/notes.
 - Smallest version: 1 person · 1 nozzle · no shifts.
+
+## Quotations and invoices (government / big customers) (agreed)
+- Reuse Gravity quotations & invoices (PDF English/Dhivehi, logo, send by email/Viber, print).
+- Quotation: customer (council, school, health centre, office, company), litres × price per product,
+  delivery charge, validity, terms; status Draft → Sent → Approved (+ PO/approval number).
+- Fills at the till linked to customer + quotation: date, vehicle/boat/generator, litres, staff,
+  signed delivery note (photo/signature); quotation shows litres used vs approved; warn when near limit.
+- Invoice: one click from quotation, or monthly from all fills; includes PO/quotation number,
+  each fill, totals, GST as configured, bank account, terms; delivery notes attached.
+- Payment later: Unpaid → Part paid → Paid, due date, overdue alert; shows in receivables ageing and statements.
+- Customer type option: "Needs quotation & invoice".
