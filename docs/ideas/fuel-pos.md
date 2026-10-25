@@ -37,3 +37,13 @@ MVR 599–999/month per shed (by pumps/tanks), free setup, 30-day trial. Pay by 
 ## Risks
 Small market; owners used to paper; credit customers resist; internet on islands (offline helps);
 correct GST handling for fuel; need accurate tank charts.
+
+## Till: customer + payment (agreed with owner)
+- Step 1 customer: "Walk-in" (default, no name) or a credit customer picked from the list
+  (credit customers are added beforehand in Credit accounts; names are only for them).
+- Step 2 payment: Cash · Card · QR/transfer · Unpaid (pay later) · On account (credit customers only, within limit).
+- Walk-in + Unpaid: no name; the sale keeps time served, pump, litres, amount, staff (+ optional short note).
+- Unpaid list sorted by time; when money arrives staff match by time + amount (app suggests same-amount sales),
+  Mark paid (cash/transfer/QR, optional screenshot). An unpaid walk-in sale can be moved to a credit customer later.
+- Shift close counts each payment type separately (Unpaid walk-in and On account apart from cash).
+- No OTP, ID card, signature or photo (too slow for island sheds).
