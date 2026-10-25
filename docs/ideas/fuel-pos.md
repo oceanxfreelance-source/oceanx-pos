@@ -88,5 +88,8 @@ correct GST handling for fuel; need accurate tank charts.
   until paid. Invoice customers' fills are credit; quotation/invoice is paperwork on top:
   quotation → approved → fills on credit → invoice from fills → unpaid → paid.
 - One Credit list shows everyone who owes (credit accounts + invoice customers), with balances and ageing.
-- OPEN QUESTION: walk-in "will send later" (no name) — keep as unnamed pay-later by time in Credit, or
-  require adding them as a credit customer?
+- DECIDED: no unnamed unpaid sales. If a walk-in will pay later, the salesperson quick-adds them at the till
+  (name required; phone and vehicle/boat optional) and the sale goes on credit under that name.
+  Owner sees new customers added today and by whom; optional limit for quick-added customers
+  (e.g. MVR 500 until approved) and a warning if the name already owes money.
+  (This replaces the earlier "Walk-in + Unpaid by time" idea.)
