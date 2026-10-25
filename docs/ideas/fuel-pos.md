@@ -56,3 +56,10 @@ correct GST handling for fuel; need accurate tank charts.
 - Fuel purchases are NOT expenses here — they come from Deliveries (fuel cost).
 - Profit report: fuel sales − fuel cost = fuel margin; + shop margin; − expenses = net profit;
   expenses by category; running cost per litre; GST on bills shown separately. Reuse Gravity Flow expenses.
+
+## Small sheds (agreed)
+- Setup decides the screens: any number of dispensers/nozzles/tanks, including 1 dispenser · 1 nozzle · 1 tank.
+- 1 nozzle: till has no pump choice; shift close has one meter reading; overview/reports simplified.
+- No working meter: staff enter litres (or amount) per sale; shift check uses stock (start − end).
+- Drums instead of a tank: stock as full drums + litres in the open drum; deliveries recorded in drums.
+- Smaller plan for 1 nozzle / 1 tank (idea: MVR 299–399/month).
