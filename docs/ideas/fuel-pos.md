@@ -81,3 +81,12 @@ correct GST handling for fuel; need accurate tank charts.
   each fill, totals, GST as configured, bank account, terms; delivery notes attached.
 - Payment later: Unpaid → Part paid → Paid, due date, overdue alert; shows in receivables ageing and statements.
 - Customer type option: "Needs quotation & invoice".
+
+## Customer types (final, agreed)
+- Walk-in: pays on the spot (cash, card, QR, transfer). No name.
+- Credit customer: boats, companies, councils/government (invoice customers). Sales go to credit (unpaid)
+  until paid. Invoice customers' fills are credit; quotation/invoice is paperwork on top:
+  quotation → approved → fills on credit → invoice from fills → unpaid → paid.
+- One Credit list shows everyone who owes (credit accounts + invoice customers), with balances and ageing.
+- OPEN QUESTION: walk-in "will send later" (no name) — keep as unnamed pay-later by time in Credit, or
+  require adding them as a credit customer?
