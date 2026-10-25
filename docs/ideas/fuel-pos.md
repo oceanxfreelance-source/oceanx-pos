@@ -47,3 +47,12 @@ correct GST handling for fuel; need accurate tank charts.
   Mark paid (cash/transfer/QR, optional screenshot). An unpaid walk-in sale can be moved to a credit customer later.
 - Shift close counts each payment type separately (Unpaid walk-in and On account apart from cash).
 - No OTP, ID card, signature or photo (too slow for island sheds).
+
+## Expenses (agreed)
+- From shift cash (petty cash): "Expense" at the till — amount, category, note, optional bill photo;
+  deducted from cash expected at shift close; owner limit per expense (e.g. MVR 500, above needs owner).
+- Owner/office expenses: salaries, electricity/water/internet, rent/licence, pump & tank maintenance,
+  generator/transport, bank charges; paid by cash/transfer/card; bill photo; repeat monthly option.
+- Fuel purchases are NOT expenses here — they come from Deliveries (fuel cost).
+- Profit report: fuel sales − fuel cost = fuel margin; + shop margin; − expenses = net profit;
+  expenses by category; running cost per litre; GST on bills shown separately. Reuse Gravity Flow expenses.
