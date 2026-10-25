@@ -1,7 +1,7 @@
-# Fuel shed POS (name not chosen yet) — plan
+# Theyo Fihaara (ތެޔޮ ފިހާރަ) — fuel shed POS plan
 
 Status: plan + demo pictures (docs/marketing/fuel-demo/fuel-v3-*.jpg). Not built.
-Name options: Hakatha (ހަކަތަ), Theyo (ތެޔޮ), Furihama, OceanX Fuel, Octane, Litre.
+Name: Theyo Fihaara (ތެޔޮ ފިހާރަ), by OceanX. Logo: docs/marketing/fuel-demo/logo/fuel-logo.png (product logo, not a shed logo).
 
 ## Who it's for
 Private and council-run island fuel sheds, harbour fuel sellers (fishing boats, speedboats),
