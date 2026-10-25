@@ -63,3 +63,10 @@ correct GST handling for fuel; need accurate tank charts.
 - No working meter: staff enter litres (or amount) per sale; shift check uses stock (start − end).
 - Drums instead of a tank: stock as full drums + litres in the open drum; deliveries recorded in drums.
 - Smaller plan for 1 nozzle / 1 tank (idea: MVR 299–399/month).
+
+## One-person sheds, no shifts (agreed)
+- Setting: "One person, no shifts" (day close) or "Shifts with staff" (shift close); can switch later.
+- No shifts: just sell all day; every sale keeps time, litres, amount, payment, customer.
+- Day close (optional, daily or weekly): meter reading → litres and money expected → minus credit/transfer/card/QR/unpaid/expenses → count cash → over/short.
+- Hidden when off: shift numbers, attendant names, by-staff reports, shift tolerance/notes.
+- Smallest version: 1 person · 1 nozzle · no shifts.
