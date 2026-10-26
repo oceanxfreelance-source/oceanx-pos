@@ -98,3 +98,4 @@ correct GST handling for fuel; need accurate tank charts.
 - Address: theyo.oceanx.app
 - Printing is optional (off by default); digital receipts / PDF always available; 80 mm thermal supported when present.
 - App icon: two-word logo, white on black (docs/marketing/fuel-demo/logo/icons/theyofihaara-icon-black-*.png).
+- Delivery charge: optional; each shed turns it on and adjusts the amount itself (separate line on the bill).

@@ -37,6 +37,7 @@ Set in onboarding and **Settings**; screens hide what a shed doesn't use.
 | Credit | On · Off | Credit customers, statements, reminders |
 | Quotations & invoices | On · Off | For government / big customers |
 | Printing | Off (default) · Receipt printer · A4 | Print buttons show only when a printer is set up; digital receipts and PDFs always available |
+| Delivery charge | Off (default) · On with the shed's own default amount (fixed or per litre) | Shows a "Delivery" line at the till; staff can change or remove the amount on each sale |
 | Tolerances | Cash (e.g. MVR 100), tank variance (e.g. 1%), quick-add credit limit (e.g. MVR 500) | Alerts and approvals |
 
 ## 4. Sidebar (full; items hide by setup)
@@ -196,5 +197,5 @@ Free setup, 30-day trial, bank-transfer billing (existing).
 1. GST treatment of fuel sales (rate / zero-rated / exempt) and what the GST report must show. — **parked: discuss last**; the GST setting stays configurable (rate per item, can be 0%) so nothing blocks the build.
 2. ~~Web address~~ — decided: `theyo.oceanx.app`.
 3. ~~Printing~~ — decided: optional (off by default); support 80 mm thermal when a shed has one.
-4. Do sheds need delivery (bowser/drums to boats) as a separate charge/flow?
+4. ~~Delivery~~ — decided: optional delivery charge; each shed turns it on and sets/adjusts its own amount. It appears as a separate line on the sale, receipt and invoice, and in reports as delivery income.
 5. ~~App icon~~ — decided: the two-word logo in white on **black** (files: `docs/marketing/fuel-demo/logo/icons/theyofihaara-icon-black-*.png`).
