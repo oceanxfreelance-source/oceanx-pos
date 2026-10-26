@@ -172,6 +172,17 @@ storedFiles (photos), messageLog (reminders), billing.
 - Profit: fuel sales − (litres × average delivered cost) = fuel margin; + shop margin; − expenses; − fuel loss at cost.
 - GST: **to confirm with MIRA / an accountant how GST applies to fuel** before building this report.
 
+### Tank and drum animation (in the app)
+- Tanks & dips shows each tank as a drawing with a moving fuel level (gentle wave), not just numbers.
+- On opening the screen the level rises to the current amount; numbers count up with it.
+- Level = last dip − sales since the dip + deliveries, so it drops as nozzles sell.
+- Dashed **reorder line**; below it the fuel turns red and the tank shows "Below reorder".
+- During a delivery the tank fills live with a flow line and "x of y L received"; at the end it shows received vs invoiced and the shortage.
+- Beside each tank: litres now, % full, space left, reorder level, "lasts about N days".
+- Small sheds with ފީފާ: a row of drums (full / open / empty); the open drum level moves down with each sale.
+- Animations are light (SVG), stop when the tab is hidden, and respect "reduce motion".
+- Demo: `docs/marketing/fuel-demo/live/tanks-live.html` (SAMPLE DATA).
+
 ## 10. Plans (idea)
 
 | Plan | For | MVR / month |
