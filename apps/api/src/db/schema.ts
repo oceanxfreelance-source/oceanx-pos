@@ -2135,3 +2135,68 @@ export const trialUses = pgTable(
   },
   (t) => [primaryKey({ columns: [t.email, t.product] })],
 );
+
+// ============================================================ THEYO FIHAARA (FUEL SHEDS)
+/**
+ * A shed's own set-up: how it works, what it sells and at what price, and the extras it uses
+ * (credit, quotations, delivery charge, printer, tolerances). One row per shed; set up by the shed itself.
+ */
+export const fuelSheds = pgTable('fuel_sheds', {
+  businessId: uuid('business_id')
+    .primaryKey()
+    .references(() => businesses.id, { onDelete: 'cascade' }),
+  config: jsonb('config').notNull().default({}),
+  /** When the shed finished its first set-up (null: the set-up wizard is shown). */
+  setupDoneAt: ts('setup_done_at'),
+  updatedAt: updatedAt(),
+  updatedBy: uuid('updated_by'),
+});
+
+/** Where a shed keeps one fuel: an underground tank, or drums (ފީފާ). Litres to two decimals. */
+export const fuelTanks = pgTable(
+  'fuel_tanks',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    /** petrol | diesel */
+    fuel: text('fuel').notNull(),
+    /** tank | drums */
+    storage: text('storage').notNull().default('tank'),
+    capacityL: numeric('capacity_l', { precision: 12, scale: 2, mode: 'number' }).notNull(),
+    reorderL: numeric('reorder_l', { precision: 12, scale: 2, mode: 'number' }).notNull().default(0),
+    drumSizeL: integer('drum_size_l').notNull().default(200),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    index('fuel_tanks_business_idx').on(t.businessId),
+    check('fuel_tanks_fuel_ck', sql`${t.fuel} IN ('petrol','diesel')`),
+    check('fuel_tanks_storage_ck', sql`${t.storage} IN ('tank','drums')`),
+  ],
+);
+
+/** A nozzle (pump hose) drawing from one tank, with its meter reading when the shed started. */
+export const fuelNozzles = pgTable(
+  'fuel_nozzles',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    tankId: uuid('tank_id')
+      .notNull()
+      .references(() => fuelTanks.id),
+    name: text('name').notNull(),
+    openingMeter: numeric('opening_meter', { precision: 14, scale: 2, mode: 'number' }).notNull().default(0),
+    sortOrder: integer('sort_order').notNull().default(0),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [index('fuel_nozzles_business_idx').on(t.businessId)],
+);

@@ -17,6 +17,7 @@ import { HOST_PRODUCT } from './lib/product';
 const BusinessLogin = lazy(() => import('./pages/auth/BusinessLogin'));
 const Register = lazy(() => import('./pages/auth/Register'));
 const FuelRegister = lazy(() => import('./pages/auth/FuelAuth'));
+const FuelSettings = lazy(() => import('./pages/business/FuelSetup'));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
 const Dashboard = lazy(() => import('./pages/business/Dashboard'));
@@ -304,6 +305,8 @@ const router = createBrowserRouter([
           { path: 'transactions', element: withSuspense(<FlowTransactions />) },
           { path: 'months', element: withSuspense(<FlowMonths />) },
           // Gravity Budget: records, goals, the plan (limits and bills) and past months.
+          // Theyo Fihaara: the shed's own settings (how it works, prices, tanks or drums, nozzles, extras).
+          { path: 'shed-settings', element: withSuspense(<FuelSettings />) },
           { path: 'spending', element: withSuspense(<BudgetSpending />) },
           { path: 'goals', element: withSuspense(<BudgetGoals />) },
           { path: 'loans', element: withSuspense(<BudgetLoans />) },

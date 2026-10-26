@@ -4,7 +4,7 @@ import { posTabletFor } from '../lib/desktop';
 import { TabletPosOnly } from '../components/ScreenExit';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, CreditCard, FileSpreadsheet, FileText, FileUp, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, ShoppingCart, Star, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
+import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, CreditCard, FileSpreadsheet, FileText, FileUp, Fuel, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, ShoppingCart, Star, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, signedInBefore, takeawayOnlyOf, useBiz, useBizSession, type BusinessSession } from '../auth/business';
 import { productPath, useProductTheme } from '../lib/product';
@@ -66,6 +66,8 @@ export function useBusinessNav(): NavGroup[] {
     finance.push({ to: '/transactions', label: 'flow.nav_transactions', icon: ArrowLeftRight });
     finance.push({ to: '/months', label: 'flow.nav_months', icon: CalendarRange });
   }
+  // Theyo Fihaara: the shed's own settings.
+  if (hasModule('fuel') && can('fuel.manage')) operations.push({ to: '/shed-settings', label: 'fuel.nav_settings', icon: Fuel });
   // Gravity Budget: every record, savings goals, the plan (limits and bills) and past months.
   if (hasModule('budget') && can('budget.view')) {
     finance.push({ to: '/spending', label: 'budget.nav_spending', icon: ArrowLeftRight });

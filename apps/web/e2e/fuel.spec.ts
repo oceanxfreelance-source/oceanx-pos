@@ -49,8 +49,7 @@ test('fuel: Super Admin opens a fuel shed and the owner signs in', async ({ page
   await p.getByLabel(/^New password/).fill('Harbour-Fuel-2026');
   await p.getByLabel(/^Confirm password/).fill('Harbour-Fuel-2026');
   await p.getByRole('button', { name: 'Change password' }).click();
-  await expect(p.getByRole('heading', { name: 'Your Theyo Fihaara account is ready' })).toBeVisible();
-  await p.screenshot({ path: `${SHOTS}/fuel-owner-home.png` });
+  await expect(p.getByRole('heading', { name: 'Set up your shed' })).toBeVisible();
   await ctx.close();
 });
 
@@ -79,7 +78,37 @@ test('fuel: a shed signs up and gets in at once', async ({ page, browser }) => {
   await page.getByLabel(/^Password/).fill('Island-Fuel-2026');
   await page.screenshot({ path: `${SHOTS}/fuel-register.png`, fullPage: true });
   await page.getByRole('button', { name: 'Create my shed account' }).click();
-  await expect(page.getByRole('heading', { name: 'Your Theyo Fihaara account is ready' })).toBeVisible();
+  // The shed sets itself up: one person, petrol only, drums, one nozzle, delivery charge.
+  await expect(page.getByRole('heading', { name: 'Set up your shed' })).toBeVisible();
+  await page.getByRole('radio', { name: /One person/ }).click();
+  await page.screenshot({ path: `${SHOTS}/fuel-setup-1.png` });
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByRole('switch', { name: 'Diesel' }).click();
+  await page.getByRole('button', { name: 'Next' }).click();
+  await expect(page.getByText('Enter a price for each fuel.')).toBeVisible();
+  await page.getByLabel('Price per litre (MVR)').fill('17.21');
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByRole('radio', { name: 'Drums' }).click();
+  await page.getByLabel(/All drums hold/).fill('1600');
+  await page.getByLabel(/Order more at/).fill('400');
+  await page.screenshot({ path: `${SHOTS}/fuel-setup-3.png` });
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByLabel('Meter reading now').fill('58214.6');
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByRole('switch', { name: 'Delivery charge' }).click();
+  await page.getByLabel('Amount (MVR)').fill('150');
+  await page.screenshot({ path: `${SHOTS}/fuel-setup-5.png` });
+  await page.getByRole('button', { name: 'Finish set-up' }).click();
+  await expect(page.getByRole('heading', { name: 'Your shed is set up' })).toBeVisible();
+  await expect(page.getByText('Petrol 17.21')).toBeVisible();
+  await page.screenshot({ path: `${SHOTS}/fuel-home-ready.png` });
+  // Changes later in Shed settings: add diesel with its own tank.
+  await page.getByRole('link', { name: 'Shed settings' }).first().click();
+  await expect(page.getByRole('heading', { name: 'Shed settings' })).toBeVisible();
+  await page.getByRole('radio', { name: /Shifts/ }).click();
+  await page.screenshot({ path: `${SHOTS}/fuel-shed-settings.png`, fullPage: true });
+  await page.getByRole('button', { name: 'Save changes' }).click();
+  await expect(page.getByText('Shed settings saved')).toBeVisible();
   const phone = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const p = await phone.newPage();
   await p.goto('/fuel/register');

@@ -12115,5 +12115,460 @@
     "suggested": "ތިބާގެ ފިހާރައަށް ސައިން އިން ކުރައްވާ.",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.petrol",
+    "english": "Petrol",
+    "suggested": "ޕެޓްރޯލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.diesel",
+    "english": "Diesel",
+    "suggested": "ޑީސަލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.nav_settings",
+    "english": "Shed settings",
+    "suggested": "ފިހާރައިގެ ސެޓިންގްސް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.settings_title",
+    "english": "Shed settings",
+    "suggested": "ފިހާރައިގެ ސެޓިންގްސް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.settings_subtitle",
+    "english": "How your shed works, prices, tanks, nozzles and extras.",
+    "suggested": "ފިހާރަ ހިންގާ ގޮތް، އަގުތައް، ޓޭންކު، ނޮޒަލް އަދި އެހެނިހެން.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.title",
+    "english": "Set up your shed",
+    "suggested": "ފިހާރަ ސެޓްކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.subtitle",
+    "english": "Five quick steps. You can change everything later in Shed settings.",
+    "suggested": "ފަސް ކުރު ފިޔަވަޅު. ފަހުން ފިހާރައިގެ ސެޓިންގްސްއިން ހުރިހާ އެއްޗެއް ބަދަލުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.step",
+    "english": "Step {{n}} of {{total}}",
+    "suggested": "{{total}} ގެ ތެރެއިން {{n}} ވަނަ ފިޔަވަޅު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.back",
+    "english": "Back",
+    "suggested": "ފަހަތަށް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.next",
+    "english": "Next",
+    "suggested": "ކުރިއަށް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.finish",
+    "english": "Finish set-up",
+    "suggested": "ސެޓްކުރުން ނިންމާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.save",
+    "english": "Save changes",
+    "suggested": "ބަދަލުތައް ސޭވްކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.saved",
+    "english": "Shed settings saved",
+    "suggested": "ފިހާރައިގެ ސެޓިންގްސް ސޭވްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.mode_title",
+    "english": "How does your shed work?",
+    "suggested": "ފިހާރަ ހިންގަނީ ކިހިނެއް؟",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.mode_one",
+    "english": "One person",
+    "suggested": "އެއް މީހާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.mode_one_hint",
+    "english": "One person sells. Close the day at night.",
+    "suggested": "އެއް މީހަކު ވިއްކަނީ. ރޭގަނޑު ދުވަސް ބަންދުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.mode_shifts",
+    "english": "Shifts",
+    "suggested": "ޝިފްޓު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.mode_shifts_hint",
+    "english": "Staff take turns. Each shift is closed with its cash and meters.",
+    "suggested": "މުވައްޒަފުން ބަދަލުވެ މަސައްކަތްކުރޭ. ކޮންމެ ޝިފްޓެއް ނަގުދާއި މީޓަރާއެކު ބަންދުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.fuels_title",
+    "english": "What do you sell, and at what price?",
+    "suggested": "ވިއްކަނީ ކޮންތެޔޮ، ކިހާ އަގެއްގައި؟",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.price",
+    "english": "Price per litre (MVR)",
+    "suggested": "ލީޓަރެއްގެ އަގު (ރ.)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.storage_title",
+    "english": "Where is the fuel kept?",
+    "suggested": "ތެޔޮ ބަހައްޓަނީ ކޮންތާކު؟",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.storage_hint",
+    "english": "Add each tank, or the drums for a fuel.",
+    "suggested": "ކޮންމެ ޓޭންކެއް، ނުވަތަ ތެލަކަށް ބޭނުންކުރާ ފީފާ އިތުރުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.default_tank",
+    "english": "{{fuel}} tank",
+    "suggested": "{{fuel}} ޓޭންކް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.tank_name",
+    "english": "Name",
+    "suggested": "ނަން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.tank",
+    "english": "Tank",
+    "suggested": "ޓޭންކް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.capacity",
+    "english": "Holds (litres)",
+    "suggested": "ހިފާ މިންވަރު (ލީޓަރު)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.capacity_drums",
+    "english": "All drums hold (litres)",
+    "suggested": "ހުރިހާ ފީފާއެއް ހިފާ މިންވަރު (ލީޓަރު)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.reorder",
+    "english": "Order more at (litres)",
+    "suggested": "މިހާ ލީޓަރަށް ދަށްވުމުން އޯޑަރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.drum_size",
+    "english": "One drum (litres)",
+    "suggested": "އެއް ފީފާ (ލީޓަރު)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.add_tank",
+    "english": "Add a tank or drums",
+    "suggested": "ޓޭންކެއް ނުވަތަ ފީފާ އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.remove",
+    "english": "Remove",
+    "suggested": "ފޮހެލާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.nozzles_title",
+    "english": "Nozzles",
+    "suggested": "ނޮޒަލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.nozzles_hint",
+    "english": "How many nozzles draw from each tank, and each meter reading today.",
+    "suggested": "ކޮންމެ ޓޭންކަކުން ތެޔޮ ނަގާ ނޮޒަލް ކިތައް، އަދި މިއަދުގެ މީޓަރު ރީޑިންގް.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.nozzle_name",
+    "english": "Nozzle",
+    "suggested": "ނޮޒަލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.nozzle_count",
+    "english": "Number of nozzles",
+    "suggested": "ނޮޒަލްގެ އަދަދު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.add_nozzle",
+    "english": "Add a nozzle",
+    "suggested": "ނޮޒަލެއް އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.meter",
+    "english": "Meter reading now",
+    "suggested": "މިހާރުގެ މީޓަރު ރީޑިންގް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.extras_title",
+    "english": "What else do you use?",
+    "suggested": "އިތުރަށް ބޭނުންކުރަނީ ކޮން އެއްޗެއް؟",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.credit",
+    "english": "Credit customers",
+    "suggested": "ދަރަނި ކަސްޓަމަރުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.credit_hint",
+    "english": "Sell now, they pay later.",
+    "suggested": "މިހާރު ވިއްކާ، ފަހުން ފައިސާ ދައްކާނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.till_limit",
+    "english": "Limit for customers added at the till (MVR)",
+    "suggested": "ކައުންޓަރުން އިތުރުކުރާ ކަސްޓަމަރުންގެ ލިމިޓް (ރ.)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.quotations",
+    "english": "Quotations and invoices",
+    "suggested": "ކޯޓޭޝަން އަދި އިންވޮއިސް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.quotations_hint",
+    "english": "For councils, schools and companies.",
+    "suggested": "ކައުންސިލް، ސްކޫލް އަދި ކުންފުނިތަކަށް.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.delivery",
+    "english": "Delivery charge",
+    "suggested": "ޑެލިވަރީ ފީ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.delivery_hint",
+    "english": "Its own line on the bill. Staff can change it on each sale.",
+    "suggested": "ބިލުގައި ވަކި ލައިނެއް. ކޮންމެ ވިއްކުމެއްގައި މުވައްޒަފުންނަށް ބަދަލުކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.delivery_fixed",
+    "english": "Fixed",
+    "suggested": "ފިކްސް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.delivery_per_litre",
+    "english": "Per litre",
+    "suggested": "ލީޓަރަކަށް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.delivery_amount",
+    "english": "Amount (MVR)",
+    "suggested": "އަދަދު (ރ.)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.printer",
+    "english": "Printer",
+    "suggested": "ޕްރިންޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.printer_off",
+    "english": "No printer",
+    "suggested": "ޕްރިންޓަރެއް ނެތް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.printer_80",
+    "english": "Receipt 80 mm",
+    "suggested": "ރަސީދު 80 މ.މ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.receipt",
+    "english": "Receipt at the till",
+    "suggested": "ކައުންޓަރުގައި ރަސީދު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.receipt_none",
+    "english": "None",
+    "suggested": "ނެތް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.cash_tol",
+    "english": "Cash difference allowed (MVR)",
+    "suggested": "ހުއްދަ ނަގުދު ތަފާތު (ރ.)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.variance",
+    "english": "Tank loss alert above (%)",
+    "suggested": "ޓޭންކުގެ ގެއްލުން މިއަށްވުރެ ގިނަނަމަ އިންޒާރު (%)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.need_fuel",
+    "english": "Choose at least one fuel.",
+    "suggested": "މަދުވެގެން އެއް ތެލެއް ހޮވާ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.need_price",
+    "english": "Enter a price for each fuel.",
+    "suggested": "ކޮންމެ ތެލަކަށް އަގެއް ލިޔޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.need_tank",
+    "english": "Add a tank or drums for each fuel you sell.",
+    "suggested": "ވިއްކާ ކޮންމެ ތެލަކަށް ޓޭންކެއް ނުވަތަ ފީފާ އިތުރުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.need_capacity",
+    "english": "Give each tank a name and how much it holds.",
+    "suggested": "ކޮންމެ ޓޭންކަކަށް ނަމާއި ހިފާ މިންވަރު ލިޔޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.need_nozzle",
+    "english": "Each tank needs at least one nozzle.",
+    "suggested": "ކޮންމެ ޓޭންކަކަށް މަދުވެގެން އެއް ނޮޒަލް ބޭނުންވޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.ready_title",
+    "english": "Your shed is set up",
+    "suggested": "ތިބާގެ ފިހާރަ ސެޓްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.ready_body",
+    "english": "Selling at the till comes next. Your prices, tanks and nozzles are ready for it.",
+    "suggested": "ކައުންޓަރުން ވިއްކުން އަންނަނީ ދެން. އަގުތަކާއި ޓޭންކާއި ނޮޒަލް އޭގެ ކުރިން ތައްޔާރު.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.nozzles_n_one",
+    "english": "{{count}} nozzle",
+    "suggested": "{{count}} ނޮޒަލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.nozzles_n_other",
+    "english": "{{count}} nozzles",
+    "suggested": "{{count}} ނޮޒަލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.setup.default_drums",
+    "english": "{{fuel}} drums",
+    "suggested": "{{fuel}} ފީފާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
   }
 ]

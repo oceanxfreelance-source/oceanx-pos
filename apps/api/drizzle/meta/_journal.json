@@ -281,6 +281,13 @@
       "when": 1792993885154,
       "tag": "0039_theyo_fihaara",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1793002662111,
+      "tag": "0040_theyo_fihaara_setup",
+      "breakpoints": true
     }
   ]
 }

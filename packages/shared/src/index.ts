@@ -11,3 +11,4 @@ export * from './hubSchemas';
 export * from './products';
 export * from './financeSchemas';
 export * from './budgetSchemas';
+export * from './fuelSchemas';

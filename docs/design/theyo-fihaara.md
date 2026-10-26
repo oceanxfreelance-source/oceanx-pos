@@ -193,6 +193,7 @@ storedFiles (photos), messageLog (reminders), billing.
 - One plan to start: MVR 599 a month, 14-day free trial; Super Admin changes both under Plan & trial. The Small / Standard / Pro idea below can be added later.
 - Own address: **https://theyo.oceanx.app**, with its own sign-in and sign-up: a night harbour scene (lit shed, pump display counting litres, dhoni at the jetty) and the form on a glass card.
 - Sheds sign up themselves at **https://theyo.oceanx.app/register** (shed name, island, nozzles, tanks or drums, owner, Viber phone) and get in at once on the free trial. Super Admin sees every shed under Fuel sheds (address shows island, nozzles, tanks or drums) and controls plan, trial and payments; it can also open a shed directly.
+- **The shed sets itself up** (no OceanX step): on first sign-in a 5-step wizard — how it works (one person / shifts), fuels and price per litre, tanks or drums (holds, order more at, drum size), nozzles per tank with today's meter reading, and extras (credit customers and till-added limit, quotations & invoices, delivery charge fixed or per litre, printer, receipt default, cash difference allowed, tank loss alert %). Everything can be changed later under **Shed settings**. Stored in `fuel_sheds` (config), `fuel_tanks`, `fuel_nozzles`; removed tanks and nozzles are retired, not erased.
 - A shed account gets the shed only (team, roles, activity log), never POS features or add-ons. Until Phase 1 is built, the owner's home says the account is ready and lists what is coming.
 
 ## 10. Plans (idea)
