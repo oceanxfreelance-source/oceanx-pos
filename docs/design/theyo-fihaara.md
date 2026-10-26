@@ -181,7 +181,7 @@ storedFiles (photos), messageLog (reminders), billing.
 - Beside each tank: litres now, % full, space left, reorder level, "lasts about N days".
 - Small sheds with ފީފާ: a row of drums (full / open / empty); the open drum level moves down with each sale.
 - Animations are light (SVG), stop when the tab is hidden, and respect "reduce motion".
-- Demo: `docs/marketing/fuel-demo/live/tanks-live.html` (SAMPLE DATA).
+- Demo: `docs/marketing/fuel-demo/live/tanks-live.html`, Dhivehi: `tanks-live-dhivehi.html` (SAMPLE DATA).
 
 ## 10. Plans (idea)
 
