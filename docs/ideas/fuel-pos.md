@@ -93,3 +93,7 @@ correct GST handling for fuel; need accurate tank charts.
   Owner sees new customers added today and by whom; optional limit for quick-added customers
   (e.g. MVR 500 until approved) and a warning if the name already owes money.
   (This replaces the earlier "Walk-in + Unpaid by time" idea.)
+
+## Decided (26 Oct 2026)
+- Address: theyofihaara.oceanx.app
+- Printing is optional (off by default); digital receipts / PDF always available; 80 mm thermal supported when present.

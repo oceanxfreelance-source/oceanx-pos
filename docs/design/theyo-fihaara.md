@@ -17,7 +17,7 @@ quotations and invoices for government, expenses and profit.
 ## 2. How it ships
 
 - A new product **`fuel`** next to `pos`, `gravity`, `flow`, `budget`: own sign-up, sign-in, address
-  (`theyo.oceanx.app` — to confirm), plan and Super Admin console.
+  **`theyofihaara.oceanx.app`**, plan and Super Admin console.
 - **Same backend as OceanX POS.** Fuel adds tables and screens; it reuses sales, customers, cash closing,
   quotations, invoices, payments, suppliers, purchases, expenses, products, staff, roles, billing, languages,
   offline, printing.
@@ -36,6 +36,7 @@ Set in onboarding and **Settings**; screens hide what a shed doesn't use.
 | Products | Petrol, Diesel (+ others) | Prices, price lists |
 | Credit | On · Off | Credit customers, statements, reminders |
 | Quotations & invoices | On · Off | For government / big customers |
+| Printing | Off (default) · Receipt printer · A4 | Print buttons show only when a printer is set up; digital receipts and PDFs always available |
 | Tolerances | Cash (e.g. MVR 100), tank variance (e.g. 1%), quick-add credit limit (e.g. MVR 500) | Alerts and approvals |
 
 ## 4. Sidebar (full; items hide by setup)
@@ -56,7 +57,7 @@ Set in onboarding and **Settings**; screens hide what a shed doesn't use.
 5. **Payment:**
    - Walk-in: Cash · Card · QR / transfer (paid now).
    - Credit customer: **On credit** (checked against limit; owner approval above it) or pay now.
-6. Save → print receipt (80 mm) or none.
+6. Save. **Printing is optional**: print a receipt (if a printer is set up), send it digitally (Viber / SMS / share as PDF), or no receipt.
 - Price used = the customer's **price list** price at that moment.
 - Credit customer with an **approved quotation**: the sale links to it; till warns near the approved litres.
 - Offline: sales queue on the device and sync later (same as Budget).
@@ -193,7 +194,7 @@ Free setup, 30-day trial, bank-transfer billing (existing).
 ## 12. Open questions
 
 1. GST treatment of fuel sales (rate / zero-rated / exempt) and what the GST report must show.
-2. Web address: `theyo.oceanx.app` or `theyofihaara.oceanx.app`.
-3. Receipt printer models used by sheds (80 mm thermal assumed).
+2. ~~Web address~~ — decided: `theyofihaara.oceanx.app`.
+3. ~~Printing~~ — decided: optional (off by default); support 80 mm thermal when a shed has one.
 4. Do sheds need delivery (bowser/drums to boats) as a separate charge/flow?
 5. Short logo for small app icon.
