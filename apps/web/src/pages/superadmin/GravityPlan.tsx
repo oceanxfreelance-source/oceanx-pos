@@ -33,7 +33,7 @@ function splitTrial(minutes: number): { amount: number; unit: Unit } {
  * Gravity has one plan for everyone: one monthly price in MVR, and a free trial that can be days,
  * hours or minutes long. A new trial length applies to accounts created from then on.
  */
-export default function GravityPlanPage({ product = 'gravity' }: { product?: 'gravity' | 'flow' | 'budget' }) {
+export default function GravityPlanPage({ product = 'gravity' }: { product?: 'gravity' | 'flow' | 'budget' | 'fuel' }) {
   const { t } = useTranslation();
   const f = useFormat();
   const qc = useQueryClient();

@@ -1,0 +1,14 @@
+{
+  "name": "Theyo Fihaara: fuel shed system",
+  "short_name": "Theyo Fihaara",
+  "description": "Pumps, tanks, shifts, credit customers, quotations and invoices for fuel sheds.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f0f10",
+  "theme_color": "#0f0f10",
+  "icons": [
+    { "src": "/fuel/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/fuel/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

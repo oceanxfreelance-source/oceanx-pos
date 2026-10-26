@@ -17,6 +17,8 @@ const envSchema = z.object({
   FLOW_APP_URL: z.string().url().optional(),
   /** Gravity Budget's own web address (optional). Budget e-mails link there; without it they use APP_URL. */
   BUDGET_APP_URL: z.string().url().optional(),
+  /** Theyo Fihaara's own web address (optional, e.g. https://theyo.oceanx.app). Its e-mails link there; without it they use APP_URL. */
+  FUEL_APP_URL: z.string().url().optional(),
   /** Super Admin's own web address (optional). When set, the Super Admin API answers only there, and its e-mails link there. */
   SUPERADMIN_APP_URL: z.string().url().optional(),
   /** Other addresses that also serve Super Admin, comma-separated host names (e.g. an older address the Windows app uses). */
@@ -82,10 +84,11 @@ export function loadConfig(overrides: Record<string, string | undefined> = {}): 
 }
 
 /** Where a product's customers use the app: Gravity has its own address when GRAVITY_APP_URL is set. */
-export function appUrlFor(config: { APP_URL: string; GRAVITY_APP_URL?: string; FLOW_APP_URL?: string; BUDGET_APP_URL?: string }, product: string | null | undefined) {
+export function appUrlFor(config: { APP_URL: string; GRAVITY_APP_URL?: string; FLOW_APP_URL?: string; BUDGET_APP_URL?: string; FUEL_APP_URL?: string }, product: string | null | undefined) {
   if (product === 'gravity' && config.GRAVITY_APP_URL) return config.GRAVITY_APP_URL;
   if (product === 'flow' && config.FLOW_APP_URL) return config.FLOW_APP_URL;
   if (product === 'budget' && config.BUDGET_APP_URL) return config.BUDGET_APP_URL;
+  if (product === 'fuel' && config.FUEL_APP_URL) return config.FUEL_APP_URL;
   return config.APP_URL;
 }
 

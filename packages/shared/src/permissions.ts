@@ -96,6 +96,10 @@ export const PERMISSIONS = [
   p('budget.view', 'budget'),
   p('budget.manage', 'budget'),
 
+  // Theyo Fihaara: the fuel shed system.
+  p('fuel.view', 'fuel'),
+  p('fuel.manage', 'fuel'),
+
   p('users.view', 'users'),
   p('users.create', 'users'),
   p('users.edit', 'users'),

@@ -46,7 +46,7 @@ export const SUB_TONE: Record<string, BadgeTone> = { active: 'green', trialing: 
 
 /** Business accounts of one product: OceanX POS (optionally one business type) or Gravity. */
 export default function BusinessesPage({ presetType, product = 'pos' }: { presetType?: string; product?: Product }) {
-  // Gravity and Gravity Flow: one-person accounts with one plan (code = product).
+  // Gravity, Gravity Flow, Gravity Budget and Theyo Fihaara: their own console, one plan (code = product).
   const gravity = product !== 'pos';
   const { t } = useTranslation();
   const f = useFormat();
@@ -82,7 +82,7 @@ export default function BusinessesPage({ presetType, product = 'pos' }: { preset
           <p className="truncate font-medium text-slate-900 dark:text-white" dir="auto">
             {b.name}
           </p>
-          {product !== 'budget' && <p className="truncate text-xs text-slate-500">{t(`business_types.${b.businessType}`)}</p>}
+          {product === 'pos' && <p className="truncate text-xs text-slate-500">{t(`business_types.${b.businessType}`)}</p>}
         </div>
       ),
     },
@@ -124,7 +124,7 @@ export default function BusinessesPage({ presetType, product = 'pos' }: { preset
         description={gravity ? t(`${product}.accounts_subtitle`) : t('superadmin.businesses.subtitle')}
         actions={
           <Button icon={<Plus className="size-4" />} onClick={() => setCreating(true)}>
-            {product === 'budget' ? t('budget.new_account') : t('superadmin.businesses.create')}
+            {product === 'budget' || product === 'fuel' ? t(`${product}.new_account`) : t('superadmin.businesses.create')}
           </Button>
         }
       />
@@ -254,7 +254,7 @@ function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClo
               {t('common.cancel')}
             </Button>
             <Button onClick={() => m.mutate()} loading={m.isPending} disabled={!(personal ? form.ownerName : form.name) || !form.ownerEmail || !form.planId || form.ownerPassword.length < 8}>
-              {personal ? t('budget.sa.create_account') : t('superadmin.businesses.create')}
+              {personal ? t('budget.sa.create_account') : product === 'fuel' ? t('fuel.sa.create') : t('superadmin.businesses.create')}
             </Button>
           </>
         )
@@ -307,7 +307,7 @@ function CreateBusinessDialog({ onClose, defaultType, product = 'pos' }: { onClo
       <div className="space-y-5">
         {m.error && !(m.error instanceof ApiError && m.error.code === 'validation_failed') && <Alert tone="red">{errMsg(m.error)}</Alert>}
         <div className="grid gap-4 sm:grid-cols-2">
-          <Input label={t('auth.business_name')} value={form.name} onChange={set('name')} error={fieldErr('name')} required />
+          <Input label={product === 'fuel' ? t('fuel.sa.shed_name') : t('auth.business_name')} value={form.name} onChange={set('name')} error={fieldErr('name')} required />
           {!gravity && (
             <Select label={t('auth.business_type')} value={form.businessType} onChange={set('businessType')}>
               {BUSINESS_TYPES.map((b) => (

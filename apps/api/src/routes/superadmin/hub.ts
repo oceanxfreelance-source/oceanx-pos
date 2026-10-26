@@ -121,9 +121,10 @@ export async function hubRoutes(app: FastifyInstance) {
     const showGravity = !v || v.kind === 'gravity';
     const showFlow = !v || v.kind === 'flow';
     const showBudget = !v || v.kind === 'budget';
+    const showFuel = !v || v.kind === 'fuel';
     const d = today();
     const monthStart = `${d.slice(0, 8)}01`;
-    const [leads, followUps, clients, projects, myTasks, openTasks, tickets, urgent, unpaid, paidMonth, pos, posPending, gravity, flow, budget] = await Promise.all([
+    const [leads, followUps, clients, projects, myTasks, openTasks, tickets, urgent, unpaid, paidMonth, pos, posPending, gravity, flow, budget, fuel] = await Promise.all([
       db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), by(hubLeads.ventureId))),
       db.select({ n: count() }).from(hubLeads).where(and(notInArray(hubLeads.status, ['won', 'lost']), lte(hubLeads.nextFollowUp, d), by(hubLeads.ventureId))),
       db.select({ n: count() }).from(hubClients).where(v ? clientInVenture(v.id, v.kind === 'pos') : undefined),
@@ -150,6 +151,7 @@ export async function hubRoutes(app: FastifyInstance) {
       db.select({ n: count() }).from(businesses).where(and(eq(businesses.status, 'active'), eq(businesses.product, 'gravity'))),
       db.select({ n: count() }).from(businesses).where(and(eq(businesses.status, 'active'), eq(businesses.product, 'flow'))),
       db.select({ n: count() }).from(businesses).where(and(eq(businesses.status, 'active'), eq(businesses.product, 'budget'))),
+      db.select({ n: count() }).from(businesses).where(and(eq(businesses.status, 'active'), eq(businesses.product, 'fuel'))),
     ]);
     const settings = await getPlatformSettings(db);
     return {
@@ -170,6 +172,7 @@ export async function hubRoutes(app: FastifyInstance) {
       gravityAccountsActive: showGravity ? (gravity[0]?.n ?? 0) : null,
       flowAccountsActive: showFlow ? (flow[0]?.n ?? 0) : null,
       budgetAccountsActive: showBudget ? (budget[0]?.n ?? 0) : null,
+      fuelAccountsActive: showFuel ? (fuel[0]?.n ?? 0) : null,
       venture: v,
     };
   });

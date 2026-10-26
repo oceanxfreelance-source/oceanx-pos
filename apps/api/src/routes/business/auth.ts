@@ -226,7 +226,9 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
     const settings = await getPlatformSettings(db);
     if (settings.registrationMode === 'closed') throw new AppError('registration_closed', 'Registration is closed');
     const body = parse(registerBusinessSchema, req.body);
-    const planCode = { pos: settings.defaultPlanCode, gravity: settings.gravityPlanCode, flow: settings.flowPlanCode, budget: settings.budgetPlanCode }[body.product];
+    // Theyo Fihaara has no public sign-up yet: Super Admin opens each shed's account.
+    if (body.product === 'fuel') throw new AppError('registration_closed', 'Registration is closed');
+    const planCode = { pos: settings.defaultPlanCode, gravity: settings.gravityPlanCode, flow: settings.flowPlanCode, budget: settings.budgetPlanCode, fuel: settings.fuelPlanCode }[body.product];
     const [plan] = await db
       .select()
       .from(plans)

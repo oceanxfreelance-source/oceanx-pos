@@ -46,7 +46,7 @@ const invalidate = (qc: ReturnType<typeof useQueryClient>) => {
   void qc.invalidateQueries({ queryKey: ['sa', 'businesses'] });
 };
 
-export const PRODUCT_NAME: Record<string, string> = { pos: 'OceanX POS', gravity: 'Gravity', flow: 'Gravity Flow', budget: 'Gravity Budget' };
+export const PRODUCT_NAME: Record<string, string> = { pos: 'OceanX POS', gravity: 'Gravity', flow: 'Gravity Flow', budget: 'Gravity Budget', fuel: 'Theyo Fihaara' };
 const slipUrl = (p: SaPayment) => `/api/superadmin/billing/payments/${p.id}/slip`;
 
 /** The transfer slip on the page itself (a photo), so it can be checked and approved on a phone in one place. */
@@ -342,7 +342,7 @@ export function usePayments(params: { status?: string; businessId?: string; prod
 }
 
 /** Subscription payments of one product (OceanX POS or Gravity). */
-export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'gravity' | 'flow' | 'budget' }) {
+export default function PaymentsPage({ product = 'pos' }: { product?: 'pos' | 'gravity' | 'flow' | 'budget' | 'fuel' }) {
   const { t } = useTranslation();
   const [tab, setTab] = useState<'pending' | 'approved' | 'rejected'>('pending');
   const q = usePayments({ status: tab, product });

@@ -154,11 +154,11 @@ export async function platformRoutes(app: FastifyInstance) {
   });
 
   // ------------------------------------------------------------ Gravity's and Gravity Flow's one plan
-  // Each one-person product has one plan for everyone: an MVR price and a free trial of any length.
-  for (const product of ['gravity', 'flow', 'budget'] as const) {
+  // Each one-person product (and Theyo Fihaara, for now) has one plan for everyone: an MVR price and a free trial of any length.
+  for (const product of ['gravity', 'flow', 'budget', 'fuel'] as const) {
     const productPlan = async () => {
       const settings = await getPlatformSettings(db);
-      const code = { gravity: settings.gravityPlanCode, flow: settings.flowPlanCode, budget: settings.budgetPlanCode }[product];
+      const code = { gravity: settings.gravityPlanCode, flow: settings.flowPlanCode, budget: settings.budgetPlanCode, fuel: settings.fuelPlanCode }[product];
       const [plan] = await db
         .select()
         .from(plans)
@@ -299,6 +299,7 @@ export async function platformRoutes(app: FastifyInstance) {
       ['gravityPlanCode', 'gravity'],
       ['flowPlanCode', 'flow'],
       ['budgetPlanCode', 'budget'],
+      ['fuelPlanCode', 'fuel'],
     ] as const) {
       const code = body[field];
       if (!code) continue;

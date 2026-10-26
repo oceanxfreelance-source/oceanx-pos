@@ -11765,5 +11765,187 @@
     "suggested": "ލަނޑުދަނޑިތައް",
     "status": "needs_review",
     "notes": "Gravity Budget: dollars and savings (new)."
+  },
+  {
+    "key": "fuel.name",
+    "english": "Theyo Fihaara",
+    "suggested": "ތެޔޮ ފިހާރަ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.tagline",
+    "english": "Fuel shed system",
+    "suggested": "ތެޔޮ ފިހާރައިގެ ސިސްޓަމް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.no_account",
+    "english": "Your account is opened by the OceanX team. Contact us to get started.",
+    "suggested": "ތިބާގެ އެކައުންޓް ހުޅުވައިދެނީ OceanX ޓީމުން. ފެށުމަށް އަޅުގަނޑުމެންނާ ގުޅުއްވާ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.accounts",
+    "english": "Fuel sheds",
+    "suggested": "ތެޔޮ ފިހާރަތައް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.accounts_subtitle",
+    "english": "Sheds using Theyo Fihaara, their trial and plan.",
+    "suggested": "ތެޔޮ ފިހާރަ ބޭނުންކުރާ ފިހާރަތައް، އެމީހުންގެ ޓްރަޔަލް އަދި ޕްލޭން.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.new_account",
+    "english": "New fuel shed",
+    "suggested": "އައު ތެޔޮ ފިހާރައެއް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.payments",
+    "english": "Theyo Fihaara payments",
+    "suggested": "ތެޔޮ ފިހާރަ ފައިސާ ދެއްކުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.plan_title",
+    "english": "Theyo Fihaara plan",
+    "suggested": "ތެޔޮ ފިހާރަ ޕްލޭން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.console",
+    "english": "Theyo Fihaara console",
+    "suggested": "ތެޔޮ ފިހާރަ ކޮންސޯލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.active_accounts",
+    "english": "Fuel sheds",
+    "suggested": "ތެޔޮ ފިހާރަތައް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.sa.shed_name",
+    "english": "Shed name",
+    "suggested": "ފިހާރައިގެ ނަން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.sa.no_signup",
+    "english": "No public sign-up yet: open each shed's account here.",
+    "suggested": "އަދި ޕަބްލިކް ސައިން އަޕެއް ނެތް: ކޮންމެ ފިހާރައެއްގެ އެކައުންޓް މިތާނގައި ހުޅުވާ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.title",
+    "english": "Your Theyo Fihaara account is ready",
+    "suggested": "ތިބާގެ ތެޔޮ ފިހާރަ އެކައުންޓް ތައްޔާރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.body",
+    "english": "We are setting up the system for your shed. The OceanX team will contact you before it starts.",
+    "suggested": "ތިބާގެ ފިހާރައަށް ސިސްޓަމް ތައްޔާރުކުރަމުން. ފެށުމުގެ ކުރިން OceanX ޓީމުން ގުޅާނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.plan",
+    "english": "Plan: {{plan}} · until {{date}}",
+    "suggested": "ޕްލޭން: {{plan}} · {{date}} އާ ހަމައަށް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.coming",
+    "english": "What you will use",
+    "suggested": "ތިބާ ބޭނުންކުރާނެ އެއްޗެހި",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.step_till",
+    "english": "Sell fuel at the till: walk-in, credit and new customers",
+    "suggested": "ކައުންޓަރުން ތެޔޮ ވިއްކުން: އާންމު، ދަރަނި އަދި އައު ކަސްޓަމަރުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.step_tanks",
+    "english": "Tanks, dips and deliveries, or drums for small sheds",
+    "suggested": "ޓޭންކު، ޑިޕް އަދި ޑެލިވަރީ، ނުވަތަ ކުދި ފިހާރަތަކަށް ފީފާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.step_credit",
+    "english": "Credit customers and money owed",
+    "suggested": "ދަރަނި ކަސްޓަމަރުން އަދި ލިބެންޖެހޭ ފައިސާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.step_quotes",
+    "english": "Quotations and invoices for government offices",
+    "suggested": "ސަރުކާރު އޮފީސްތަކަށް ކޯޓޭޝަން އަދި އިންވޮއިސް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.home.step_reports",
+    "english": "Shift close, daily sales and profit reports",
+    "suggested": "ޝިފްޓް ބަންދުކުރުން، ދުވަހުގެ ވިއްކުން އަދި ފައިދާގެ ރިޕޯޓު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "modules.fuel",
+    "english": "Fuel shed",
+    "suggested": "ތެޔޮ ފިހާރަ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "perm.fuel_view",
+    "english": "View the fuel shed (sales, tanks, customers)",
+    "suggested": "ތެޔޮ ފިހާރަ ބަލާ (ވިއްކުން، ޓޭންކު، ކަސްޓަމަރުން)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "perm.fuel_manage",
+    "english": "Sell fuel and manage tanks, customers and prices",
+    "suggested": "ތެޔޮ ވިއްކައި ޓޭންކު، ކަސްޓަމަރުން އަދި އަގުތައް ބެލެހެއްޓުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "superadmin.mail.product_fuel",
+    "english": "Fuel sheds",
+    "suggested": "ތެޔޮ ފިހާރަތައް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.sa.create",
+    "english": "Open shed account",
+    "suggested": "ފިހާރައިގެ އެކައުންޓް ހުޅުވާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
   }
 ]

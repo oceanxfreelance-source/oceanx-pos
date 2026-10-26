@@ -17,7 +17,7 @@ import { PaymentsTable, RecordPaymentDialog, usePayments } from './Payments';
 import { OwnerCredentials, generatePassword } from '../../components/OwnerCredentials';
 
 interface Detail {
-  business: { id: string; name: string; slug: string; product: 'pos' | 'gravity' | 'flow' | 'budget'; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null; betaFeatures?: string[] };
+  business: { id: string; name: string; slug: string; product: 'pos' | 'gravity' | 'flow' | 'budget' | 'fuel'; businessType: string; status: string; email: string; phone: string; address: string; currency: string; timezone: string; createdAt: string; approvedAt: string | null; suspensionReason: string | null; superadminViberCreditEnabled: boolean; managerViberCreditEnabled: boolean; viberCreditRequestedAt: string | null; betaFeatures?: string[] };
   subscription: { status: string; effectiveStatus: string; currentPeriodEnd: string; startsAt: string; plan: Plan } | null;
   addons: { code: string; name: string; isActive: boolean; status: string | null; grantedAt: string | null; revokedAt: string | null; expiresAt: string | null; requestedAt: string | null; requestNote: string | null }[];
   userCount: number;

@@ -26,6 +26,7 @@ export const PLAN_MODULES = [
   'reports',
   'finance',
   'budget',
+  'fuel',
 ] as const;
 
 export const MODULES = [...CORE_MODULES, ...PLAN_MODULES] as const;

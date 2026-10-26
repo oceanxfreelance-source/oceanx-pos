@@ -1,5 +1,5 @@
 import { notInArray, sql } from 'drizzle-orm';
-import { ADDONS, BUDGET_MODULES, FLOW_MODULES, GRAVITY_MODULES, PRODUCT_ONLY_MODULES, LANGUAGES, PERMISSIONS, PLAN_MODULES, SYSTEM_ROLE_TEMPLATES, type AddonKey } from '@oceanx/shared';
+import { ADDONS, BUDGET_MODULES, FLOW_MODULES, FUEL_MODULES, GRAVITY_MODULES, PRODUCT_ONLY_MODULES, LANGUAGES, PERMISSIONS, PLAN_MODULES, SYSTEM_ROLE_TEMPLATES, type AddonKey } from '@oceanx/shared';
 import type { Executor } from './client';
 import { addons, permissions, platformLanguages, plans } from './schema';
 
@@ -65,6 +65,8 @@ const DEFAULT_PLANS = [
   { product: 'flow', code: 'flow', name: 'Gravity Flow', priceMonthly: '65', currency: 'MVR', trialDays: 0, trialMinutes: 5 * 60, sortOrder: 20, limits: { max_users: 1, storage_mb: 1000 }, modules: [...FLOW_MODULES] },
   // Gravity Budget (personal money manager): one plan, MVR 50 a month, a 24-hour free trial; Super Admin sets both.
   { product: 'budget', code: 'budget', name: 'Gravity Budget', priceMonthly: '50', currency: 'MVR', trialDays: 0, trialMinutes: 24 * 60, sortOrder: 30, limits: { max_users: 1, storage_mb: 200 }, modules: [...BUDGET_MODULES] },
+  // Theyo Fihaara (fuel sheds): one plan to start, MVR 599 a month with a 14-day free trial; Super Admin sets both.
+  { product: 'fuel', code: 'fuel', name: 'Theyo Fihaara', priceMonthly: '599', currency: 'MVR', trialDays: 0, trialMinutes: 14 * 1440, sortOrder: 40, limits: { max_users: 10, storage_mb: 2000 }, modules: [...FUEL_MODULES] },
 ];
 
 /**

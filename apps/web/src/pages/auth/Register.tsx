@@ -45,6 +45,8 @@ export default function Register({ product = 'pos' }: { product?: Product }) {
   });
   const fieldErr = useFieldErrors(m.error);
   if (session) return <Navigate to="/" replace />;
+  // Theyo Fihaara has no public sign-up: Super Admin opens each shed's account.
+  if (product === 'fuel') return <Navigate to={productPath('fuel', 'login')} replace />;
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     m.mutate();

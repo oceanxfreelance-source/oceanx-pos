@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { forceDark } from './theme';
 
-export type Product = 'pos' | 'gravity' | 'flow' | 'budget';
+export type Product = 'pos' | 'gravity' | 'flow' | 'budget' | 'fuel';
 
 const hostList = (v: unknown) =>
   String(v ?? '')
@@ -24,6 +24,12 @@ export function isBudgetHost(hostname: string): boolean {
   return host.includes('budget') || hostList(import.meta.env.VITE_BUDGET_HOSTS).includes(host);
 }
 
+/** Theyo Fihaara's own address (any host with "theyo" in it, e.g. theyo.oceanx.app, or one listed in VITE_FUEL_HOSTS). */
+export function isFuelHost(hostname: string): boolean {
+  const host = hostname.toLowerCase();
+  return host.includes('theyo') || hostList(import.meta.env.VITE_FUEL_HOSTS).includes(host);
+}
+
 /**
  * Which product this web address serves. Gravity can have its own address (any host with "gravity" in it,
  * e.g. gravity.example.com or oceanx-gravity.vercel.app, or one listed in VITE_GRAVITY_HOSTS). There the app is
@@ -31,7 +37,7 @@ export function isBudgetHost(hostname: string): boolean {
  */
 export function isGravityHost(hostname: string): boolean {
   const host = hostname.toLowerCase();
-  if (isFlowHost(host) || isBudgetHost(host)) return false;
+  if (isFlowHost(host) || isBudgetHost(host) || isFuelHost(host)) return false;
   return host.includes('gravity') || hostList(import.meta.env.VITE_GRAVITY_HOSTS).includes(host);
 }
 
@@ -44,9 +50,10 @@ export function isAdminHost(hostname: string): boolean {
 export const ADMIN_HOST = typeof window !== 'undefined' && isAdminHost(window.location.hostname);
 export const FLOW_HOST = typeof window !== 'undefined' && isFlowHost(window.location.hostname);
 export const BUDGET_HOST = typeof window !== 'undefined' && !FLOW_HOST && isBudgetHost(window.location.hostname);
+export const FUEL_HOST = typeof window !== 'undefined' && !FLOW_HOST && !BUDGET_HOST && isFuelHost(window.location.hostname);
 export const GRAVITY_HOST = typeof window !== 'undefined' && isGravityHost(window.location.hostname);
 /** The product this address belongs to ('pos' on the main address). */
-export const HOST_PRODUCT: Product = FLOW_HOST ? 'flow' : BUDGET_HOST ? 'budget' : GRAVITY_HOST ? 'gravity' : 'pos';
+export const HOST_PRODUCT: Product = FLOW_HOST ? 'flow' : BUDGET_HOST ? 'budget' : FUEL_HOST ? 'fuel' : GRAVITY_HOST ? 'gravity' : 'pos';
 
 /** Where a product's sign-in and sign-up are: on its own address /login and /register, elsewhere /gravity/login, /flow/login. */
 export const productPath = (product: Product, page: 'login' | 'register') => (product === 'pos' || product === HOST_PRODUCT ? `/${page}` : `/${product}/${page}`);
@@ -55,6 +62,7 @@ const BRANDING: Record<Exclude<Product, 'pos'>, { title: string; dir: string }> 
   gravity: { title: 'Gravity: quotations & invoices', dir: 'gravity' },
   flow: { title: 'Gravity Flow: income, expenses & profit', dir: 'flow' },
   budget: { title: 'Gravity Budget: know where your money goes', dir: 'budget' },
+  fuel: { title: 'Theyo Fihaara: fuel shed system', dir: 'fuel' },
 };
 
 /** On a Gravity or Flow address: that product's title, icon, colour and install manifest (crawlers get them from gravity.html / flow.html). */

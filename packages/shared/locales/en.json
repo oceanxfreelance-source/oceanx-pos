@@ -310,7 +310,8 @@
     "kitchen": "Kitchen",
     "reports": "Reports",
     "finance": "Income & expenses",
-    "budget": "Budget"
+    "budget": "Budget",
+    "fuel": "Fuel shed"
   },
   "perm": {
     "dashboard_view": "View dashboard",
@@ -412,7 +413,9 @@
     "import_run": "Import from a file",
     "budget_view": "View budget, spending and goals",
     "budget_manage": "Add and change spending, budgets, bills and goals",
-    "pos_close_day": "Close the day (cash count)"
+    "pos_close_day": "Close the day (cash count)",
+    "fuel_view": "View the fuel shed (sales, tanks, customers)",
+    "fuel_manage": "Sell fuel and manage tanks, customers and prices"
   },
   "outlets": {
     "code": "Code",
@@ -1114,7 +1117,8 @@
       "history_empty": "Nothing sent yet.",
       "delivered": "{{sent}} of {{total}} sent",
       "ok": "Sent",
-      "not_sent": "Not sent"
+      "not_sent": "Not sent",
+      "product_fuel": "Fuel sheds"
     },
     "phone": {
       "alerts_title": "Notifications are off",
@@ -3450,5 +3454,33 @@
     "sa_all_switch": "Loans for all Budget accounts",
     "sa_all_on": "On: every Gravity Budget account has the Loans tab.",
     "sa_all_off": "Off: only accounts turned on one by one."
+  },
+  "fuel": {
+    "name": "Theyo Fihaara",
+    "tagline": "Fuel shed system",
+    "no_account": "Your account is opened by the OceanX team. Contact us to get started.",
+    "accounts": "Fuel sheds",
+    "accounts_subtitle": "Sheds using Theyo Fihaara, their trial and plan.",
+    "new_account": "New fuel shed",
+    "payments": "Theyo Fihaara payments",
+    "plan_title": "Theyo Fihaara plan",
+    "console": "Theyo Fihaara console",
+    "active_accounts": "Fuel sheds",
+    "sa": {
+      "shed_name": "Shed name",
+      "no_signup": "No public sign-up yet: open each shed's account here.",
+      "create": "Open shed account"
+    },
+    "home": {
+      "title": "Your Theyo Fihaara account is ready",
+      "body": "We are setting up the system for your shed. The OceanX team will contact you before it starts.",
+      "plan": "Plan: {{plan}} · until {{date}}",
+      "coming": "What you will use",
+      "step_till": "Sell fuel at the till: walk-in, credit and new customers",
+      "step_tanks": "Tanks, dips and deliveries, or drums for small sheds",
+      "step_credit": "Credit customers and money owed",
+      "step_quotes": "Quotations and invoices for government offices",
+      "step_reports": "Shift close, daily sales and profit reports"
+    }
   }
 }

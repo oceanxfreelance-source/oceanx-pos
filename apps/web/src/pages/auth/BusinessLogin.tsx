@@ -45,12 +45,16 @@ export default function BusinessLogin({ product = 'pos' }: { product?: Product }
       subtitle={t('auth.login_subtitle')}
       footer={
         <div className="space-y-4">
-          <p>
-            {product === 'pos' ? t('auth.no_account') : t(`${product}.no_account`)}{' '}
-            <Link to={productPath(product, 'register')} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
-              {product === 'pos' ? t('auth.register_cta') : t('gravity.create_account')}
-            </Link>
-          </p>
+          {product === 'fuel' ? (
+            <p>{t('fuel.no_account')}</p>
+          ) : (
+            <p>
+              {product === 'pos' ? t('auth.no_account') : t(`${product}.no_account`)}{' '}
+              <Link to={productPath(product, 'register')} className="font-medium text-brand-700 hover:underline dark:text-brand-300">
+                {product === 'pos' ? t('auth.register_cta') : t('gravity.create_account')}
+              </Link>
+            </p>
+          )}
           <LanguagePicker />
         </div>
       }

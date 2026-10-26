@@ -8,6 +8,7 @@ import {
   CreditCard,
   FileText,
   FolderKanban,
+  Fuel,
   Gauge,
   Headset,
   History,
@@ -70,6 +71,11 @@ const BUDGET_CONSOLE: NavItem[] = [
   { to: '/superadmin/budget/payments', label: 'superadmin.nav.payments', icon: Banknote },
   { to: '/superadmin/budget/plans', label: 'gravity.nav_plan', icon: Layers },
 ];
+const FUEL_CONSOLE: NavItem[] = [
+  { to: '/superadmin/fuel/accounts', label: 'fuel.accounts', icon: Building2 },
+  { to: '/superadmin/fuel/payments', label: 'superadmin.nav.payments', icon: Banknote },
+  { to: '/superadmin/fuel/plans', label: 'gravity.nav_plan', icon: Layers },
+];
 const COMPANY: NavGroup = {
   label: 'hub.nav.group_company',
   items: [
@@ -116,7 +122,7 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
   const ventures = useVentures();
   const m = /^\/superadmin\/p\/([^/]+)/.exec(pathname);
   // The POS and Gravity console pages belong to their built-in project.
-  const consoleKind = POS_CONSOLE.some((i) => pathname === i.to || pathname.startsWith(`${i.to}/`)) ? 'pos' : pathname.startsWith('/superadmin/gravity/') ? 'gravity' : pathname.startsWith('/superadmin/flow/') ? 'flow' : pathname.startsWith('/superadmin/budget/') ? 'budget' : null;
+  const consoleKind = POS_CONSOLE.some((i) => pathname === i.to || pathname.startsWith(`${i.to}/`)) ? 'pos' : pathname.startsWith('/superadmin/gravity/') ? 'gravity' : pathname.startsWith('/superadmin/flow/') ? 'flow' : pathname.startsWith('/superadmin/budget/') ? 'budget' : pathname.startsWith('/superadmin/fuel/') ? 'fuel' : null;
   const current = m ? ventures.find((v) => v.id === m[1]) : consoleKind ? ventures.find((v) => v.kind === consoleKind) : undefined;
   const currentId = m?.[1] ?? current?.id;
   if (currentId) {
@@ -135,6 +141,7 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
         ...(kind === 'gravity' ? [{ label: 'gravity.console', items: GRAVITY_CONSOLE }] : []),
         ...(kind === 'flow' ? [{ label: 'flow.console', items: FLOW_CONSOLE }] : []),
         ...(kind === 'budget' ? [{ label: 'budget.console', items: BUDGET_CONSOLE }] : []),
+        ...(kind === 'fuel' ? [{ label: 'fuel.console', items: FUEL_CONSOLE }] : []),
         ...workGroups(base),
         COMPANY,
       ]),
@@ -156,7 +163,7 @@ function useNav(): { groups: NavGroup[]; sub: string | null } {
         collapseAfter: 5,
         items: ventures
           .filter((v) => v.isActive)
-          .map((v) => ({ to: `/superadmin/p/${v.id}`, label: v.name, icon: v.kind === 'pos' ? Store : v.kind === 'gravity' ? FileText : v.kind === 'flow' ? TrendingUp : v.kind === 'budget' ? PiggyBank : FolderKanban })),
+          .map((v) => ({ to: `/superadmin/p/${v.id}`, label: v.name, icon: v.kind === 'pos' ? Store : v.kind === 'gravity' ? FileText : v.kind === 'flow' ? TrendingUp : v.kind === 'budget' ? PiggyBank : v.kind === 'fuel' ? Fuel : FolderKanban })),
       },
       ...tr([...workGroups('/superadmin/hub'), COMPANY]),
     ],

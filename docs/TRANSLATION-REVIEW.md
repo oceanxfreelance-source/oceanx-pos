@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1301 · **confirmed**: 380
+Status: **needs_review**: 1327 · **confirmed**: 380
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -350,6 +350,28 @@ review of the whole file is still recommended before launch.
 | `flow.type` | Type | ބާވަތް | needs_review | New: Gravity Flow. |
 | `flow.vs_last` | vs last month | ކުރީ މަހާ އަޅާބަލާއިރު | needs_review | New: Gravity Flow. |
 | `flow.vs_yesterday` | vs yesterday | އިއްޔެއާ އަޅާބަލާއިރު | needs_review | Gravity Flow: today-only dashboard. |
+| `fuel.accounts` | Fuel sheds | ތެޔޮ ފިހާރަތައް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.accounts_subtitle` | Sheds using Theyo Fihaara, their trial and plan. | ތެޔޮ ފިހާރަ ބޭނުންކުރާ ފިހާރަތައް، އެމީހުންގެ ޓްރަޔަލް އަދި ޕްލޭން. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.active_accounts` | Fuel sheds | ތެޔޮ ފިހާރަތައް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.console` | Theyo Fihaara console | ތެޔޮ ފިހާރަ ކޮންސޯލް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.body` | We are setting up the system for your shed. The OceanX team will contact you before it starts. | ތިބާގެ ފިހާރައަށް ސިސްޓަމް ތައްޔާރުކުރަމުން. ފެށުމުގެ ކުރިން OceanX ޓީމުން ގުޅާނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.coming` | What you will use | ތިބާ ބޭނުންކުރާނެ އެއްޗެހި | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.plan` | Plan: {{plan}} · until {{date}} | ޕްލޭން: {{plan}} · {{date}} އާ ހަމައަށް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.step_credit` | Credit customers and money owed | ދަރަނި ކަސްޓަމަރުން އަދި ލިބެންޖެހޭ ފައިސާ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.step_quotes` | Quotations and invoices for government offices | ސަރުކާރު އޮފީސްތަކަށް ކޯޓޭޝަން އަދި އިންވޮއިސް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.step_reports` | Shift close, daily sales and profit reports | ޝިފްޓް ބަންދުކުރުން، ދުވަހުގެ ވިއްކުން އަދި ފައިދާގެ ރިޕޯޓު | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.step_tanks` | Tanks, dips and deliveries, or drums for small sheds | ޓޭންކު، ޑިޕް އަދި ޑެލިވަރީ، ނުވަތަ ކުދި ފިހާރަތަކަށް ފީފާ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.step_till` | Sell fuel at the till: walk-in, credit and new customers | ކައުންޓަރުން ތެޔޮ ވިއްކުން: އާންމު، ދަރަނި އަދި އައު ކަސްޓަމަރުން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.home.title` | Your Theyo Fihaara account is ready | ތިބާގެ ތެޔޮ ފިހާރަ އެކައުންޓް ތައްޔާރު | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.name` | Theyo Fihaara | ތެޔޮ ފިހާރަ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.new_account` | New fuel shed | އައު ތެޔޮ ފިހާރައެއް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.no_account` | Your account is opened by the OceanX team. Contact us to get started. | ތިބާގެ އެކައުންޓް ހުޅުވައިދެނީ OceanX ޓީމުން. ފެށުމަށް އަޅުގަނޑުމެންނާ ގުޅުއްވާ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.payments` | Theyo Fihaara payments | ތެޔޮ ފިހާރަ ފައިސާ ދެއްކުން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.plan_title` | Theyo Fihaara plan | ތެޔޮ ފިހާރަ ޕްލޭން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.sa.create` | Open shed account | ފިހާރައިގެ އެކައުންޓް ހުޅުވާ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.sa.no_signup` | No public sign-up yet: open each shed's account here. | އަދި ޕަބްލިކް ސައިން އަޕެއް ނެތް: ކޮންމެ ފިހާރައެއްގެ އެކައުންޓް މިތާނގައި ހުޅުވާ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.sa.shed_name` | Shed name | ފިހާރައިގެ ނަން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.tagline` | Fuel shed system | ތެޔޮ ފިހާރައިގެ ސިސްޓަމް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `gravity.accounts` | Gravity accounts | Gravity އެކައުންޓްތައް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.accounts_subtitle` | Businesses using Gravity for quotations and invoices. | ކޯޓޭޝަނާއި އިންވޮއިސްއަށް Gravity ބޭނުންކުރާ ވިޔަފާރިތައް. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.active_accounts` | Active Gravity accounts | ހިނގަމުންދާ Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
@@ -864,6 +886,7 @@ review of the whole file is still recommended before launch.
 | `menu_i18n.name_in` | Name in {{language}} | {{language}} ބަހުން ނަން | needs_review | New: labels for item names in other languages. |
 | `modules.budget` | Budget | ބަޖެޓް | needs_review | Gravity Budget (new product). Machine-suggested; please check. |
 | `modules.finance` | Income & expenses | އާމްދަނީއާއި ޚަރަދު | needs_review | New: Gravity Flow. |
+| `modules.fuel` | Fuel shed | ތެޔޮ ފިހާރަ | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `modules.purchases` | Purchases | ގަތުން | needs_review | Alternative loanword: ޕާޗޭސް. |
 | `nav.billing` | Billing | ބިލިންގ | needs_review | New: subscription billing (bank transfer slip upload and review). |
 | `nav.closings` | Day closing | ދުވަސް ނިންމުން | needs_review | POS: end-of-day cash closing (new). |
@@ -889,6 +912,8 @@ review of the whole file is still recommended before launch.
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.finance_manage` | Add, change and delete income and expenses | އާމްދަނީއާއި ޚަރަދު ލިޔުން، ބަދަލުކުރުމާއި ފޮހެލުން | needs_review | New: Gravity Flow. |
 | `perm.finance_view` | View income, expenses and profit | އާމްދަނީ، ޚަރަދާއި ފައިދާ ބެލުން | needs_review | New: Gravity Flow. |
+| `perm.fuel_manage` | Sell fuel and manage tanks, customers and prices | ތެޔޮ ވިއްކައި ޓޭންކު، ކަސްޓަމަރުން އަދި އަގުތައް ބެލެހެއްޓުން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `perm.fuel_view` | View the fuel shed (sales, tanks, customers) | ތެޔޮ ފިހާރަ ބަލާ (ވިއްކުން، ޓޭންކު، ކަސްޓަމަރުން) | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `perm.gst_view` | View the GST report | ޖީއެސްޓީ ރިޕޯޓު ބަލާ | needs_review | Refunds, GST report and import add-ons. |
 | `perm.import_run` | Import from a file | ފައިލަކުން އިމްޕޯޓްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
 | `perm.loyalty_view` | View loyalty points | ލޮޔަލްޓީ ޕޮއިންޓް ބަލާ | needs_review | ލޮޔަލްޓީ ޕޮއިންޓް — consistent with existing addons.names.loyalty. Native alternative not common. |
@@ -1199,6 +1224,7 @@ review of the whole file is still recommended before launch.
 | `superadmin.mail.preview` | Preview | ޕްރިވިއު | needs_review | New: Super Admin office mail. |
 | `superadmin.mail.preview_for` | As {{email}} will see it | {{email}} އަށް ފެންނާނެ ގޮތް | needs_review | New: Super Admin office mail. |
 | `superadmin.mail.product_all` | Everyone | އެންމެންނަށް | needs_review | New: Super Admin office mail. |
+| `superadmin.mail.product_fuel` | Fuel sheds | ތެޔޮ ފިހާރަތައް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `superadmin.mail.product_gravity` | Gravity accounts | Gravity އެކައުންޓްތައް | needs_review | New: Super Admin office mail. |
 | `superadmin.mail.product_pos` | POS businesses | POS ވިޔަފާރިތައް | needs_review | New: Super Admin office mail. |
 | `superadmin.mail.recipients_one` | {{count}} person gets this | {{count}} މީހަކަށް މި ލިބޭނެ | needs_review | New: Super Admin office mail. |

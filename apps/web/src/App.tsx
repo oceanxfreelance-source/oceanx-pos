@@ -196,6 +196,11 @@ const router = createBrowserRouter([
           { path: 'budget/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
           { path: 'budget/plans', element: withSuspense(<SaGravityPlan key="budget" product="budget" />) },
           { path: 'budget/payments', element: withSuspense(<SaPayments product="budget" />) },
+          // Theyo Fihaara (fuel sheds) console.
+          { path: 'fuel/accounts', element: withSuspense(<SaBusinesses product="fuel" />) },
+          { path: 'fuel/accounts/:id', element: withSuspense(<SaBusinessDetail />) },
+          { path: 'fuel/plans', element: withSuspense(<SaGravityPlan key="fuel" product="fuel" />) },
+          { path: 'fuel/payments', element: withSuspense(<SaPayments product="fuel" />) },
           { path: 'plans', element: withSuspense(<SaPlans />) },
           { path: 'addons', element: withSuspense(<SaAddons />) },
           { path: 'subscriptions', element: withSuspense(<SaSubscriptions />) },
@@ -239,6 +244,10 @@ const router = createBrowserRouter([
       { path: 'budget', element: <Navigate to="/budget/register" replace /> },
       { path: 'budget/register', element: <Register product="budget" /> },
       { path: 'budget/login', element: <BusinessLogin product="budget" /> },
+      // Theyo Fihaara (fuel sheds): sign-in only; Super Admin opens each shed's account.
+      { path: 'fuel', element: <Navigate to="/fuel/login" replace /> },
+      { path: 'fuel/register', element: <Navigate to="/fuel/login" replace /> },
+      { path: 'fuel/login', element: <BusinessLogin product="fuel" /> },
       { path: 'forgot-password', element: <ForgotPassword domain="business" /> },
       { path: 'reset-password', element: <ResetPassword domain="business" /> },
       {

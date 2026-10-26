@@ -71,7 +71,7 @@ export async function superAdminPhoneRoutes(app: FastifyInstance) {
     return {
       pending: pending.pending,
       receivedThisMonth: received.map((r) => ({ currency: r.currency, total: Number(r.total), count: r.n })),
-      activeAccounts: ['pos', 'gravity', 'flow', 'budget'].map((product) => ({ product, active: active.find((a) => a.product === product)?.n ?? 0 })),
+      activeAccounts: ['pos', 'gravity', 'flow', 'budget', 'fuel'].map((product) => ({ product, active: active.find((a) => a.product === product)?.n ?? 0 })),
     };
   });
 

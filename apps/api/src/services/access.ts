@@ -1,5 +1,5 @@
 import { and, eq, inArray } from 'drizzle-orm';
-import { CORE_MODULES, FOOD_ONLY_ADDONS, FOOD_ONLY_MODULES, PRODUCT_ONLY_MODULES, GRAVITY_EXCLUDED_CORE, SOLO_PRODUCT_MODULES, getPermission, isSoloProduct, isRetailType, type PlanLimits } from '@oceanx/shared';
+import { CORE_MODULES, FOOD_ONLY_ADDONS, FOOD_ONLY_MODULES, PRODUCT_ONLY_MODULES, GRAVITY_EXCLUDED_CORE, SOLO_PRODUCT_MODULES, TEAM_PRODUCT_MODULES, getPermission, isSoloProduct, isRetailType, type PlanLimits } from '@oceanx/shared';
 import type { Executor } from '../db/client';
 import { addons, businessAddons, businesses, plans, subscriptions } from '../db/schema';
 
@@ -64,7 +64,7 @@ export async function loadBusinessAccess(db: Executor, businessId: string): Prom
     for (const a of FOOD_ONLY_ADDONS) addonSet.delete(a);
   }
 
-  // POS businesses never get Gravity Flow's or Gravity Budget's modules, whatever a plan says.
+  // POS businesses never get Gravity Flow's, Gravity Budget's or Theyo Fihaara's modules, whatever a plan says.
   if (row.business.product === 'pos') for (const m of PRODUCT_ONLY_MODULES) modules.delete(m);
 
   // One-person products only ever get their own modules (plus the core), never POS features or add-ons:
@@ -72,6 +72,15 @@ export async function loadBusinessAccess(db: Executor, businessId: string): Prom
   if (isSoloProduct(row.business.product)) {
     const allowed = new Set<string>([...CORE_MODULES, ...(SOLO_PRODUCT_MODULES[row.business.product] ?? [])]);
     for (const m of GRAVITY_EXCLUDED_CORE) allowed.delete(m);
+    for (const m of [...modules]) if (!allowed.has(m)) modules.delete(m);
+    addonSet.clear();
+  }
+
+  // Theyo Fihaara (fuel sheds): its own modules plus the core (team, roles, activity log), never POS features or add-ons.
+  const teamOnly = TEAM_PRODUCT_MODULES[row.business.product];
+  if (teamOnly) {
+    const allowed = new Set<string>([...CORE_MODULES, ...teamOnly]);
+    allowed.delete('addons');
     for (const m of [...modules]) if (!allowed.has(m)) modules.delete(m);
     addonSet.clear();
   }

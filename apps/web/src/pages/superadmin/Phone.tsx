@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Bell, BellOff, FileText, LogOut, PiggyBank, Store, TrendingUp } from 'lucide-react';
+import { Bell, BellOff, FileText, Fuel, LogOut, PiggyBank, Store, TrendingUp } from 'lucide-react';
 import { saApi } from '../../lib/api';
 import { android } from '../../lib/desktop';
 import { useSuperAdmin } from '../../auth/superadmin';
@@ -18,7 +18,7 @@ interface PhoneSummary {
   receivedThisMonth: { currency: string; total: number; count: number }[];
   activeAccounts: { product: string; active: number }[];
 }
-const ICON = { pos: Store, gravity: FileText, flow: TrendingUp, budget: PiggyBank } as const;
+const ICON = { pos: Store, gravity: FileText, flow: TrendingUp, budget: PiggyBank, fuel: Fuel } as const;
 const ALERT_KEY_ID = 'ox_sa_alert_key_id';
 
 /** Notifications on this phone (OceanX Admin app only): a read-only key the app uses to check in the background. */

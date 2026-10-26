@@ -7,7 +7,7 @@ import { FullscreenButton } from '../../components/FullscreenButton';
 import { InstallApp } from '../../components/InstallApp';
 import { useNavyPalette, useProductTheme } from '../../lib/product';
 
-export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' | 'gravity' | 'flow' | 'budget' }) {
+export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' | 'gravity' | 'flow' | 'budget' | 'fuel' }) {
   const { t } = useTranslation();
   const gravityFamily = variant === 'gravity' || variant === 'flow' || variant === 'budget';
   useProductTheme(gravityFamily ? variant : 'pos');
@@ -23,10 +23,10 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
         <div className="flex flex-col justify-center px-5 py-10 sm:px-10">
           <div className="mx-auto w-full max-w-sm">
             <div className="mb-8 flex items-center gap-3">
-              {variant === 'gravity' ? <GravityMark className="size-10" /> : variant === 'flow' ? <FlowMark className="size-10" /> : variant === 'budget' ? <BudgetMark className="size-10" /> : <Logo className="size-10" />}
+              {variant === 'gravity' ? <GravityMark className="size-10" /> : variant === 'flow' ? <FlowMark className="size-10" /> : variant === 'budget' ? <BudgetMark className="size-10" /> : variant === 'fuel' ? <FuelMark className="size-10" /> : <Logo className="size-10" />}
               <div>
-                <p className="text-lg font-semibold tracking-tight">{gravityFamily ? t(`${variant}.name`) : t('app.name')}</p>
-                <p className="text-xs text-slate-500">{variant === 'superadmin' ? t('superadmin.console') : gravityFamily ? t(`${variant}.tagline`) : t('app.tagline')}</p>
+                <p className="text-lg font-semibold tracking-tight">{gravityFamily || variant === 'fuel' ? t(`${variant}.name`) : t('app.name')}</p>
+                <p className="text-xs text-slate-500">{variant === 'superadmin' ? t('superadmin.console') : gravityFamily || variant === 'fuel' ? t(`${variant}.tagline`) : t('app.tagline')}</p>
               </div>
             </div>
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">{title}</h1>
@@ -199,4 +199,9 @@ function BudgetAside() {
       </ul>
     </div>
   );
+}
+
+/** Theyo Fihaara's mark: its two-word logo in white on black (the app icon). */
+export function FuelMark({ className }: { className?: string }) {
+  return <img src="/fuel/icon-192.png" alt="" aria-hidden className={`rounded-[22%] ${className ?? ''}`} />;
 }

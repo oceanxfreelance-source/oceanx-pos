@@ -245,6 +245,8 @@ export const platformSettingsSchema = z
     flowPlanCode: z.string().trim().max(40),
     /** Plan new Gravity Budget sign-ups start on. */
     budgetPlanCode: z.string().trim().max(40),
+    /** Plan new Theyo Fihaara accounts start on. */
+    fuelPlanCode: z.string().trim().max(40),
     defaultCurrency: z.string().trim().length(3).toUpperCase(),
     /** Shown to businesses on the payment screen: bank name, account name and number(s). */
     billingBankDetails: z.string().trim().max(1000),

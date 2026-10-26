@@ -12,6 +12,7 @@ import {
   CreditCard,
   FileText,
   FolderKanban,
+  Fuel,
   Gauge,
   Headset,
   Layers,
@@ -54,7 +55,7 @@ import { DataTable, type Column } from '../../components/ui/Table';
 import { Tabs } from '../../components/ui/Tabs';
 import { ListToolbar } from '../../components/ListToolbar';
 import { fmtAmount } from '../business/Billing';
-import { BudgetMark, FlowMark, GravityMark } from '../auth/AuthLayout';
+import { BudgetMark, FlowMark, FuelMark, GravityMark } from '../auth/AuthLayout';
 import { VENTURE_TONE, useVentures, type Venture } from './hubVentures';
 
 // ---------------------------------------------------------------- shared
@@ -115,6 +116,7 @@ interface Overview {
   gravityAccountsActive: number | null;
   flowAccountsActive: number | null;
   budgetAccountsActive: number | null;
+  fuelAccountsActive?: number | null;
 }
 interface Service {
   id: string;
@@ -363,7 +365,7 @@ export function HubOverviewPage() {
       </section>
       {!ventureId && <VentureGrid />}
       {venture?.kind === 'pos' && <PosConsoleLinks pending={o?.posPaymentsPending ?? 0} />}
-      {(venture?.kind === 'gravity' || venture?.kind === 'flow' || venture?.kind === 'budget') && <ProductConsoleLinks product={venture.kind} pending={venture.paymentsPending ?? 0} />}
+      {(venture?.kind === 'gravity' || venture?.kind === 'flow' || venture?.kind === 'budget' || venture?.kind === 'fuel') && <ProductConsoleLinks product={venture.kind} pending={venture.paymentsPending ?? 0} />}
       {!o ? (
         <SkeletonRows rows={4} />
       ) : (
@@ -400,6 +402,11 @@ export function HubOverviewPage() {
           {o.budgetAccountsActive !== null && o.budgetAccountsActive !== undefined && (
             <Link to="/superadmin/budget/accounts">
               <StatCard label={t('budget.active_accounts')} value={o.budgetAccountsActive} icon={<PiggyBank className="size-5" />} tone="amber" />
+            </Link>
+          )}
+          {o.fuelAccountsActive !== null && o.fuelAccountsActive !== undefined && (
+            <Link to="/superadmin/fuel/accounts">
+              <StatCard label={t('fuel.active_accounts')} value={o.fuelAccountsActive} icon={<Fuel className="size-5" />} tone="gray" />
             </Link>
           )}
           {o.posBusinessesActive !== null && (
@@ -494,6 +501,8 @@ function VentureGrid() {
                     <FlowMark className="size-10 shrink-0" />
                   ) : v.kind === 'budget' ? (
                     <BudgetMark className="size-10 shrink-0" />
+                  ) : v.kind === 'fuel' ? (
+                    <FuelMark className="size-10 shrink-0" />
                   ) : (
                     <span className={clsx('grid size-10 shrink-0 place-items-center rounded-xl text-white', tone.dot)}>{v.kind === 'pos' ? <Store className="size-5" /> : <FolderKanban className="size-5" />}</span>
                   )}
@@ -590,22 +599,29 @@ function signupUrl(product: 'gravity' | 'flow' | 'budget') {
 }
 
 /** Inside the Gravity or Gravity Flow project: its accounts, payments and plan. */
-function ProductConsoleLinks({ product, pending }: { product: 'gravity' | 'flow' | 'budget'; pending: number }) {
+function ProductConsoleLinks({ product, pending }: { product: 'gravity' | 'flow' | 'budget' | 'fuel'; pending: number }) {
   const { t } = useTranslation();
   const links: [string, string, React.ComponentType<{ className?: string }>][] = [
     [`/superadmin/${product}/accounts`, `${product}.accounts`, Building2],
     [`/superadmin/${product}/payments`, 'superadmin.nav.payments', Banknote],
     [`/superadmin/${product}/plans`, 'gravity.nav_plan', Layers],
   ];
-  const url = signupUrl(product);
+  // Theyo Fihaara has no public sign-up yet: Super Admin opens each shed's account.
+  const url = product === 'fuel' ? null : signupUrl(product);
   return (
     <section aria-label={t(`${product}.console`)}>
       <h2 className="mb-3 text-lg font-semibold">{t(`${product}.console`)}</h2>
       <p className="-mt-2 mb-3 text-sm text-slate-500">
-        {t('gravity.signup_link')}{' '}
-        <a href={url} target="_blank" rel="noreferrer" className="font-medium text-brand-700 hover:underline dark:text-brand-300" dir="ltr">
-          {url.replace(/^https?:\/\//, '')}
-        </a>
+        {url ? (
+          <>
+            {t('gravity.signup_link')}{' '}
+            <a href={url} target="_blank" rel="noreferrer" className="font-medium text-brand-700 hover:underline dark:text-brand-300" dir="ltr">
+              {url.replace(/^https?:\/\//, '')}
+            </a>
+          </>
+        ) : (
+          t('fuel.sa.no_signup')
+        )}
       </p>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {links.map(([to, label, Icon]) => (

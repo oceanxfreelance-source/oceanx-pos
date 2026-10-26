@@ -10,7 +10,7 @@ import { FarumaWarning } from '../../components/FarumaWarning';
 import { ChangePasswordForm } from '../../components/ChangePasswordForm';
 import { useFormat } from '../../lib/format';
 import { PayPanel, useBilling } from './Billing';
-import { BudgetMark, FlowMark, GravityMark } from '../auth/AuthLayout';
+import { BudgetMark, FlowMark, FuelMark, GravityMark } from '../auth/AuthLayout';
 import { productPath, useProductTheme } from '../../lib/product';
 import { useOnline } from '../../lib/budgetOffline';
 
@@ -27,7 +27,7 @@ function Frame({ icon, title, body, children, wide }: { icon: React.ReactNode; t
       <FarumaWarning />
       <div className={`mx-auto flex min-h-dvh flex-col justify-center px-5 py-10 ${wide ? 'max-w-2xl' : 'max-w-lg'}`}>
         <div className="mb-6 flex items-center gap-2">
-          {product === 'gravity' ? <GravityMark className="size-9" /> : product === 'flow' ? <FlowMark className="size-9" /> : product === 'budget' ? <BudgetMark className="size-9" /> : <Logo />}
+          {product === 'gravity' ? <GravityMark className="size-9" /> : product === 'flow' ? <FlowMark className="size-9" /> : product === 'budget' ? <BudgetMark className="size-9" /> : product === 'fuel' ? <FuelMark className="size-9" /> : <Logo />}
           <span className="font-semibold">{gravity ? t(`${product}.name`) : t('app.name')}</span>
         </div>
         <Card className="animate-pop-in">
