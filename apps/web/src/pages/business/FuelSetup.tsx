@@ -415,7 +415,7 @@ function Choice({ on, onClick, title, hint, disabled }: { on: boolean; onClick: 
   );
 }
 
-function Segmented({ value, options, onChange, disabled }: { value: string; options: [string, string][]; onChange: (v: string) => void; disabled?: boolean }) {
+export function Segmented({ value, options, onChange, disabled }: { value: string; options: [string, string][]; onChange: (v: string) => void; disabled?: boolean }) {
   return (
     <div className="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="radiogroup">
       {options.map(([v, label]) => (

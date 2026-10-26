@@ -99,10 +99,42 @@ test('fuel: a shed signs up and gets in at once', async ({ page, browser }) => {
   await page.getByLabel('Amount (MVR)').fill('150');
   await page.screenshot({ path: `${SHOTS}/fuel-setup-5.png` });
   await page.getByRole('button', { name: 'Finish set-up' }).click();
-  await expect(page.getByRole('heading', { name: 'Your shed is set up' })).toBeVisible();
-  await expect(page.getByText('Petrol 17.21')).toBeVisible();
-  await page.screenshot({ path: `${SHOTS}/fuel-home-ready.png` });
-  // Changes later in Shed settings: add diesel with its own tank.
+  // The dashboard: the day, the tanks, the week, and a big Sell button (an owner-only shed does it all).
+  await expect(page.getByText('Sales today')).toBeVisible();
+  await expect(page.getByText('Not measured yet: do a dip to start.')).toBeVisible();
+  await page.getByRole('button', { name: 'Dip' }).first().click();
+  await page.getByLabel(/^Litres measured/).fill('1200');
+  await page.getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Dip saved')).toBeVisible();
+  await expect(page.getByText('1,200', { exact: false }).first()).toBeVisible();
+  await page.getByRole('button', { name: 'Sell fuel' }).click();
+  const sell = page.getByRole('dialog');
+  await sell.getByRole('button', { name: '200', exact: true }).click();
+  await expect(sell.getByText(/Rf 200\.00/)).toBeVisible();
+  await sell.getByRole('button', { name: 'Sell', exact: true }).click();
+  await expect(page.getByText(/Sold 11\.62 L/)).toBeVisible();
+  await expect(page.getByText('1 sale', { exact: true })).toBeVisible();
+  await page.screenshot({ path: `${SHOTS}/fuel-dashboard.png`, fullPage: true });
+  // Credit customers: a boat that pays later.
+  await page.getByRole('link', { name: 'Credit customers' }).click();
+  await page.getByRole('button', { name: 'Add customer' }).click();
+  await page.getByLabel(/^Name/).fill('Dhoni Raalhu');
+  await page.getByLabel(/^Credit limit/).fill('5000');
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Customer saved')).toBeVisible();
+  await page.getByRole('link', { name: 'Till' }).click();
+  await page.getByRole('radio', { name: 'Litres' }).click();
+  await page.getByRole('button', { name: '20 L' }).click();
+  await page.getByRole('radio', { name: 'Credit' }).click();
+  await page.getByLabel(/^Customer/).selectOption({ label: 'Dhoni Raalhu · owes 0.00' });
+  await page.getByLabel(/^Boat or vehicle/).fill('Raalhu 1');
+  await page.getByRole('button', { name: 'Sell', exact: true }).click();
+  await expect(page.getByText(/Sold 20\.00 L/)).toBeVisible();
+  await page.screenshot({ path: `${SHOTS}/fuel-till.png`, fullPage: true });
+  await page.getByRole('link', { name: 'Tanks' }).click();
+  await expect(page.getByText('Dip: 1,200 L')).toBeVisible();
+  await page.screenshot({ path: `${SHOTS}/fuel-tanks.png`, fullPage: true });
+  // Changes later in Shed settings.
   await page.getByRole('link', { name: 'Shed settings' }).first().click();
   await expect(page.getByRole('heading', { name: 'Shed settings' })).toBeVisible();
   await page.getByRole('radio', { name: /Shifts/ }).click();

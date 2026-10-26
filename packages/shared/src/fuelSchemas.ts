@@ -90,3 +90,47 @@ export const fuelSetupSchema = z
     for (const [i, t] of v.tanks.entries()) if (!v.nozzles.some((n) => n.tankKey === t.key)) ctx.addIssue({ code: 'custom', path: ['tanks', i], message: 'no_nozzle' });
   });
 export type FuelSetup = z.infer<typeof fuelSetupSchema>;
+
+export const FUEL_PAYMENTS = ['cash', 'card', 'transfer', 'credit'] as const;
+export type FuelPayment = (typeof FUEL_PAYMENTS)[number];
+
+/** A sale at the till: litres (or an amount in MVR, turned into litres at the price) from one nozzle. */
+export const fuelSaleSchema = z
+  .object({
+    nozzleId: z.string().uuid(),
+    /** What the person asked for: litres, or rufiyaa worth. */
+    by: z.enum(['litres', 'amount']),
+    value: z.coerce.number().positive().max(1_000_000),
+    payment: z.enum(FUEL_PAYMENTS),
+    customerId: z.string().uuid().optional().nullable(),
+    /** Add the shed's delivery charge (when it has one on). */
+    delivery: z.boolean().default(false),
+    vehicle: z.string().trim().max(60).default(''),
+  })
+  .superRefine((v, ctx) => {
+    if (v.payment === 'credit' && !v.customerId) ctx.addIssue({ code: 'custom', path: ['customerId'], message: 'required' });
+  });
+export type FuelSaleInput = z.infer<typeof fuelSaleSchema>;
+
+/** Fuel arrived (delivery), or the tank was measured (dip). */
+export const fuelStockMoveSchema = z.object({
+  tankId: z.string().uuid(),
+  kind: z.enum(['delivery', 'dip']),
+  litres: z.coerce.number().min(0).max(1_000_000),
+  cost: z.coerce.number().min(0).max(100_000_000).optional().nullable(),
+  supplier: z.string().trim().max(80).default(''),
+  note: z.string().trim().max(200).default(''),
+});
+
+export const fuelCustomerSchema = z.object({
+  name: z.string().trim().min(1).max(80),
+  phone: z.string().trim().max(30).default(''),
+  creditLimit: z.coerce.number().min(0).max(100_000_000).default(0),
+  note: z.string().trim().max(200).default(''),
+});
+
+export const fuelCreditPaymentSchema = z.object({
+  amount: z.coerce.number().positive().max(100_000_000),
+  method: z.enum(['cash', 'card', 'transfer']),
+  note: z.string().trim().max(200).default(''),
+});

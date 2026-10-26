@@ -311,3 +311,24 @@ html.reduce-motion *::after {
 .doc-a4[dir='ltr'] p[dir]:not(.text-center) {
   text-align: left;
 }
+
+/* Theyo Fihaara tank gauges: the level eases to its height; the surface moves slowly. */
+.fuel-level {
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fuel-wave {
+  animation: fuel-wave 4s linear infinite;
+}
+@keyframes fuel-wave {
+  to {
+    transform: translateX(80px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fuel-wave {
+    animation: none;
+  }
+  .fuel-level {
+    transition: none;
+  }
+}

@@ -2200,3 +2200,114 @@ export const fuelNozzles = pgTable(
   },
   (t) => [index('fuel_nozzles_business_idx').on(t.businessId)],
 );
+
+/** A credit customer of a shed (a boat, a council, a contractor): buys now, pays later. */
+export const fuelCustomers = pgTable(
+  'fuel_customers',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    phone: text('phone').notNull().default(''),
+    /** The most this customer may owe (MVR). 0: no limit. */
+    creditLimit: numeric('credit_limit', { precision: 12, scale: 2, mode: 'number' }).notNull().default(0),
+    note: text('note').notNull().default(''),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [index('fuel_customers_business_idx').on(t.businessId)],
+);
+
+/** One sale at the till: litres from one nozzle, paid now or put on a customer's credit. */
+export const fuelSales = pgTable(
+  'fuel_sales',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    nozzleId: uuid('nozzle_id')
+      .notNull()
+      .references(() => fuelNozzles.id),
+    tankId: uuid('tank_id')
+      .notNull()
+      .references(() => fuelTanks.id),
+    fuel: text('fuel').notNull(),
+    litres: numeric('litres', { precision: 12, scale: 2, mode: 'number' }).notNull(),
+    pricePerL: numeric('price_per_l', { precision: 10, scale: 2, mode: 'number' }).notNull(),
+    fuelAmount: numeric('fuel_amount', { precision: 12, scale: 2, mode: 'number' }).notNull(),
+    deliveryCharge: numeric('delivery_charge', { precision: 12, scale: 2, mode: 'number' }).notNull().default(0),
+    total: numeric('total', { precision: 12, scale: 2, mode: 'number' }).notNull(),
+    /** cash | card | transfer | credit */
+    payment: text('payment').notNull(),
+    customerId: uuid('customer_id').references(() => fuelCustomers.id),
+    /** Boat or vehicle name / number, as the customer says it. */
+    vehicle: text('vehicle').notNull().default(''),
+    createdBy: uuid('created_by'),
+    createdByName: text('created_by_name').notNull().default(''),
+    createdAt: createdAt(),
+    voidedAt: ts('voided_at'),
+    voidedBy: uuid('voided_by'),
+  },
+  (t) => [
+    index('fuel_sales_business_created_idx').on(t.businessId, t.createdAt),
+    index('fuel_sales_customer_idx').on(t.customerId),
+    check('fuel_sales_payment_ck', sql`${t.payment} IN ('cash','card','transfer','credit')`),
+    check('fuel_sales_credit_ck', sql`${t.payment} <> 'credit' OR ${t.customerId} IS NOT NULL`),
+  ],
+);
+
+/** Fuel into a tank (a delivery) or a measured level (a dip; the stock is set to it). */
+export const fuelStockMoves = pgTable(
+  'fuel_stock_moves',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    tankId: uuid('tank_id')
+      .notNull()
+      .references(() => fuelTanks.id),
+    /** delivery | dip */
+    kind: text('kind').notNull(),
+    litres: numeric('litres', { precision: 12, scale: 2, mode: 'number' }).notNull(),
+    /** For a dip: what the book said just before (so the difference can be shown). */
+    bookL: numeric('book_l', { precision: 12, scale: 2, mode: 'number' }),
+    /** For a delivery: what it cost (MVR), if known. */
+    cost: numeric('cost', { precision: 12, scale: 2, mode: 'number' }),
+    supplier: text('supplier').notNull().default(''),
+    note: text('note').notNull().default(''),
+    createdBy: uuid('created_by'),
+    createdByName: text('created_by_name').notNull().default(''),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index('fuel_stock_moves_tank_idx').on(t.tankId, t.createdAt),
+    check('fuel_stock_moves_kind_ck', sql`${t.kind} IN ('delivery','dip')`),
+  ],
+);
+
+/** Money a credit customer paid back. */
+export const fuelCreditPayments = pgTable(
+  'fuel_credit_payments',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    customerId: uuid('customer_id')
+      .notNull()
+      .references(() => fuelCustomers.id),
+    amount: numeric('amount', { precision: 12, scale: 2, mode: 'number' }).notNull(),
+    /** cash | card | transfer */
+    method: text('method').notNull(),
+    note: text('note').notNull().default(''),
+    createdBy: uuid('created_by'),
+    createdByName: text('created_by_name').notNull().default(''),
+    createdAt: createdAt(),
+  },
+  (t) => [index('fuel_credit_payments_customer_idx').on(t.customerId)],
+);

@@ -99,6 +99,9 @@ export const PERMISSIONS = [
   // Theyo Fihaara: the fuel shed system.
   p('fuel.view', 'fuel'),
   p('fuel.manage', 'fuel'),
+  p('fuel.sell', 'fuel'),
+  p('fuel.stock', 'fuel'),
+  p('fuel.credit', 'fuel'),
 
   p('users.view', 'users'),
   p('users.create', 'users'),
@@ -233,3 +236,10 @@ export const RETAIL_SYSTEM_ROLE_KEYS: readonly SystemRoleKey[] = ['business_admi
 const RETAIL_CASHIER_EXTRA: PermissionKey[] = ['products.view', 'inventory.view', 'quotations.view', 'quotations.create', 'quotations.edit', 'quotations.print', 'quotations.send', 'invoices.view', 'invoices.create', 'invoices.print'];
 const FOOD_ONLY_PERMS = new Set<string>(['tables.view', 'online_orders.manage', 'karaoke.view', 'reservations.view']);
 export const RETAIL_CASHIER_PERMISSIONS: readonly PermissionKey[] = [...new Set([...SYSTEM_ROLE_TEMPLATES.cashier.filter((k) => !FOOD_ONLY_PERMS.has(k)), ...RETAIL_CASHIER_EXTRA])];
+
+/**
+ * Theyo Fihaara sheds: the owner (everything; many sheds are run by the owner alone) and, if the shed has
+ * staff, a pump attendant who sells fuel and sees the day.
+ */
+export const FUEL_SYSTEM_ROLE_KEYS: readonly SystemRoleKey[] = ['business_admin', 'cashier'];
+export const FUEL_ATTENDANT_PERMISSIONS: readonly PermissionKey[] = ['dashboard.view', 'fuel.view', 'fuel.sell'];

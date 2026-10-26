@@ -1,6 +1,8 @@
 import { eq, sql } from 'drizzle-orm';
 import {
   defaultBusinessSettings,
+  FUEL_ATTENDANT_PERMISSIONS,
+  FUEL_SYSTEM_ROLE_KEYS,
   isRetailType,
   RETAIL_CASHIER_PERMISSIONS,
   RETAIL_SYSTEM_ROLE_KEYS,
@@ -29,6 +31,8 @@ export const SYSTEM_ROLE_NAMES: Record<SystemRoleKey, string> = {
 };
 /** Shops: the same two roles under shop names. */
 const RETAIL_ROLE_NAMES: Partial<Record<SystemRoleKey, string>> = { business_admin: 'Owner', cashier: 'Cashier / Salesperson' };
+/** Fuel sheds: the owner and the pump attendant. */
+const FUEL_ROLE_NAMES: Partial<Record<SystemRoleKey, string>> = { business_admin: 'Owner', cashier: 'Pump attendant' };
 
 export function slugify(name: string): string {
   const base = name
@@ -139,9 +143,12 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
   const retail = isRetailType(input.businessType);
   // Gravity (quotations & invoices only) is one person: just the owner's admin role, no POS roles.
   // A takeaway shop has no kitchen or waiters: owner, manager and cashier.
+  const fuel = product === 'fuel';
   const roleKeys = isSoloProduct(product)
     ? GRAVITY_SYSTEM_ROLE_KEYS
-    : retail
+    : fuel
+      ? FUEL_SYSTEM_ROLE_KEYS
+      : retail
       ? RETAIL_SYSTEM_ROLE_KEYS
       : input.businessType === 'takeaway'
         ? (['business_admin', 'manager', 'cashier'] as const)
@@ -149,11 +156,11 @@ export async function provisionBusiness(tx: Executor, input: ProvisionInput) {
   for (const key of roleKeys) {
     const [role] = await tx
       .insert(roles)
-      .values({ businessId: business.id, name: (retail && RETAIL_ROLE_NAMES[key]) || SYSTEM_ROLE_NAMES[key], systemKey: key })
+      .values({ businessId: business.id, name: (fuel && FUEL_ROLE_NAMES[key]) || (retail && RETAIL_ROLE_NAMES[key]) || SYSTEM_ROLE_NAMES[key], systemKey: key })
       .returning({ id: roles.id });
     if (!role) throw new AppError('internal_error');
     roleIds[key] = role.id;
-    const perms = retail && key === 'cashier' ? RETAIL_CASHIER_PERMISSIONS : SYSTEM_ROLE_TEMPLATES[key];
+    const perms = fuel && key === 'cashier' ? FUEL_ATTENDANT_PERMISSIONS : retail && key === 'cashier' ? RETAIL_CASHIER_PERMISSIONS : SYSTEM_ROLE_TEMPLATES[key];
     if (perms.length) await tx.insert(rolePermissions).values(perms.map((permissionKey) => ({ roleId: role.id, permissionKey })));
   }
 

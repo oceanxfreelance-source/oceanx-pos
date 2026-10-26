@@ -11922,8 +11922,8 @@
   },
   {
     "key": "perm.fuel_manage",
-    "english": "Sell fuel and manage tanks, customers and prices",
-    "suggested": "ތެޔޮ ވިއްކައި ޓޭންކު، ކަސްޓަމަރުން އަދި އަގުތައް ބެލެހެއްޓުން",
+    "english": "Change shed settings (prices, tanks, nozzles) and cancel sales",
+    "suggested": "ފިހާރައިގެ ސެޓިންގްސް (އަގު، ޓޭންކު، ނޮޒަލް) ބަދަލުކުރުމާއި ވިއްކުން ކެންސަލްކުރުން",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
   },
@@ -12570,5 +12570,705 @@
     "suggested": "{{fuel}} ފީފާ",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.nav_till",
+    "english": "Till",
+    "suggested": "ވިއްކާތަން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.nav_tanks",
+    "english": "Tanks",
+    "suggested": "ޓޭންކުތައް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.nav_credit",
+    "english": "Credit customers",
+    "suggested": "ދަރަނި ކަސްޓަމަރުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "perm.fuel_sell",
+    "english": "Sell fuel at the till",
+    "suggested": "ވިއްކާތަނުން ތެޔޮ ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "perm.fuel_stock",
+    "english": "Record fuel deliveries and tank dips",
+    "suggested": "ތެޔޮ އައުމާއި ޓޭންކު ޑިޕް ލިޔުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "perm.fuel_credit",
+    "english": "Add credit customers and take their payments",
+    "suggested": "ދަރަނި ކަސްޓަމަރުން އިތުރުކޮށް ފައިސާ ބަލައިގަތުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.pay.cash",
+    "english": "Cash",
+    "suggested": "ނަގުދު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.pay.card",
+    "english": "Card",
+    "suggested": "ކާޑު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.pay.transfer",
+    "english": "Transfer",
+    "suggested": "ޓްރާންސްފަރ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.pay.credit",
+    "english": "Credit",
+    "suggested": "ދަރަނި",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.sell_fuel",
+    "english": "Sell fuel",
+    "suggested": "ތެޔޮ ވިއްކާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.sell",
+    "english": "Sell",
+    "suggested": "ވިއްކާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.subtitle",
+    "english": "Sell at the pump and see the day’s sales.",
+    "suggested": "ޕަމްޕުން ވިއްކައި ދުވަހުގެ ވިއްކުން ބަލާ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.nozzle",
+    "english": "Nozzle",
+    "suggested": "ނޮޒަލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.how_much",
+    "english": "How much?",
+    "suggested": "ކިހާވަރެއް؟",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.by_amount",
+    "english": "Rufiyaa",
+    "suggested": "ރުފިޔާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.by_litres",
+    "english": "Litres",
+    "suggested": "ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.amount_label",
+    "english": "Amount (MVR)",
+    "suggested": "އަދަދު (ރ.)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.litres_label",
+    "english": "Litres",
+    "suggested": "ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.paid_by",
+    "english": "Paid by",
+    "suggested": "ފައިސާ ދައްކަނީ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.customer",
+    "english": "Customer",
+    "suggested": "ކަސްޓަމަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.pick_customer",
+    "english": "Choose a customer",
+    "suggested": "ކަސްޓަމަރަކު ހޮވާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.no_customers_owner",
+    "english": "No credit customers yet. Add them in Credit customers.",
+    "suggested": "އަދި ދަރަނި ކަސްޓަމަރުން ނެތް. ދަރަނި ކަސްޓަމަރުންގެ ތެރެއިން އިތުރުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.no_customers",
+    "english": "No credit customers yet. Ask the owner to add them.",
+    "suggested": "އަދި ދަރަނި ކަސްޓަމަރުން ނެތް. ވެރިފަރާތަށް އިތުރުކުރުމަށް އެދޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.vehicle",
+    "english": "Boat or vehicle",
+    "suggested": "ދޯނި ނުވަތަ ގާޑި",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.vehicle_hint",
+    "english": "Optional",
+    "suggested": "ބޭނުންނަމަ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.add_delivery",
+    "english": "Add delivery charge",
+    "suggested": "ޑެލިވަރީ ޗާޖު އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.sold",
+    "english": "Sold {{litres}} L · {{total}}",
+    "suggested": "{{litres}} ލީޓަރު ވިއްކައިފި · {{total}}",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.today",
+    "english": "Today",
+    "suggested": "މިއަދު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.yesterday",
+    "english": "Yesterday",
+    "suggested": "އިއްޔެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.void",
+    "english": "Cancel",
+    "suggested": "ކެންސަލް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.void_confirm",
+    "english": "Cancel this sale of {{total}}? It leaves the totals and the tank stock.",
+    "suggested": "{{total}} ގެ މި ވިއްކުން ކެންސަލްކުރަންތަ؟ ޖުމްލައާއި ޓޭންކުގެ ތެޔޮން މި ވިއްކުން ނަގާލެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.voided",
+    "english": "cancelled",
+    "suggested": "ކެންސަލްކުރެވިފަ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.till.voided_toast",
+    "english": "Sale cancelled",
+    "suggested": "ވިއްކުން ކެންސަލްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.sales_today",
+    "english": "Sales today",
+    "suggested": "މިއަދުގެ ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.sales_count_one",
+    "english": "{{count}} sale",
+    "suggested": "{{count}} ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.sales_count_other",
+    "english": "{{count}} sales",
+    "suggested": "{{count}} ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.litres_today",
+    "english": "Litres today",
+    "suggested": "މިއަދު ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.cash_today",
+    "english": "Cash today",
+    "suggested": "މިއަދުގެ ނަގުދު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.cash_hint",
+    "english": "Card and transfer: {{card}}",
+    "suggested": "ކާޑާއި ޓްރާންސްފަރ: {{card}}",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.owed",
+    "english": "Owed to you",
+    "suggested": "ތިބާއަށް ލިބެން ޖެހޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.owed_hint_one",
+    "english": "{{count}} customer",
+    "suggested": "{{count}} ކަސްޓަމަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.owed_hint_other",
+    "english": "{{count}} customers",
+    "suggested": "{{count}} ކަސްޓަމަރުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.tanks",
+    "english": "Tanks",
+    "suggested": "ޓޭންކުތައް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.see_tanks",
+    "english": "Deliveries and dips",
+    "suggested": "ތެޔޮ އައުމާއި ޑިޕް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.week",
+    "english": "Last 7 days",
+    "suggested": "ފަހުގެ 7 ދުވަސް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.week_empty",
+    "english": "Bars appear as you sell.",
+    "suggested": "ވިއްކާވަރަކަށް ބާރު ފެންނާނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.today",
+    "english": "Today",
+    "suggested": "މިއަދު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.latest",
+    "english": "Latest sales",
+    "suggested": "އެންމެ ފަހުގެ ވިއްކުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.all_sales",
+    "english": "All sales",
+    "suggested": "ހުރިހާ ވިއްކުމެއް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.no_sales",
+    "english": "No sales yet today.",
+    "suggested": "މިއަދު އަދި ވިއްކާފައެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.shed",
+    "english": "Your shed",
+    "suggested": "ތިބާގެ ފިހާރަ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.per_litre",
+    "english": "{{price}} / L",
+    "suggested": "{{price}} / ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.paid_today",
+    "english": "Paid today",
+    "suggested": "މިއަދު ދެއްކި ގޮތް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.plan",
+    "english": "Plan",
+    "suggested": "ޕްލޭން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.plan_until",
+    "english": "until {{date}}",
+    "suggested": "{{date}} އަށް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.low_alert",
+    "english": "Order fuel soon: {{tanks}}.",
+    "suggested": "އަވަހަށް ތެޔޮ އޯޑަރުކުރޭ: {{tanks}}.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.not_set_up",
+    "english": "The shed is not set up yet",
+    "suggested": "ފިހާރަ އަދި ސެޓްކޮށްފައެއް ނެތް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.dash.not_set_up_body",
+    "english": "The owner sets the prices, tanks and nozzles first.",
+    "suggested": "ފުރަތަމަ ވެރިފަރާތުން އަގުތަކާއި ޓޭންކާއި ނޮޒަލް ސެޓްކުރާނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.subtitle",
+    "english": "What is in each tank, fuel arriving, and dips.",
+    "suggested": "ކޮންމެ ޓޭންކެއްގައި ހުރި ތެޔޮ، ތެޔޮ އައުން އަދި ޑިޕް.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.of_capacity",
+    "english": "{{pct}}% of {{capacity}} L",
+    "suggested": "{{capacity}} ލީޓަރުގެ {{pct}}%",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.not_measured",
+    "english": "Not measured yet: do a dip to start.",
+    "suggested": "އަދި މިނެއް ނުނަގާ: ފެށުމަށް ޑިޕެއް ނަގާ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.order_more",
+    "english": "Order more",
+    "suggested": "އިތުރަށް އޯޑަރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.almost_empty",
+    "english": "Almost empty",
+    "suggested": "ހުސްވާން ކައިރި",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.delivery",
+    "english": "Fuel arrived",
+    "suggested": "ތެޔޮ އައީ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.dip",
+    "english": "Dip",
+    "suggested": "ޑިޕް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.delivery_hint",
+    "english": "The litres that went into the tank or drums.",
+    "suggested": "ޓޭންކަށް ނުވަތަ ފީފާއަށް ލި ލީޓަރު.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.dip_hint",
+    "english": "Measure with the dip stick. The stock becomes what you measured.",
+    "suggested": "ޑިޕް ދަނޑިން މިނުގަނޭ. ތެޔޮ ހުރި މިންވަރަކީ މިނުނު އަދަދު.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.litres_in",
+    "english": "Litres in",
+    "suggested": "ލި ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.litres_measured",
+    "english": "Litres measured",
+    "suggested": "މިނުނު ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.now_book",
+    "english": "Now about {{litres}} L of {{capacity}} L",
+    "suggested": "މިހާރު ގާތްގަނޑަކަށް {{capacity}} ލީޓަރުގެ ތެރެއިން {{litres}} ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.after",
+    "english": "After this: {{litres}} L",
+    "suggested": "މީގެ ފަހުން: {{litres}} ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.difference",
+    "english": "difference {{litres}} L",
+    "suggested": "ތަފާތު {{litres}} ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.supplier",
+    "english": "Supplier",
+    "suggested": "ސަޕްލަޔަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.cost",
+    "english": "Cost (MVR)",
+    "suggested": "ޚަރަދު (ރ.)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.note",
+    "english": "Note",
+    "suggested": "ނޯޓް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.delivery_saved",
+    "english": "Delivery saved",
+    "suggested": "ތެޔޮ އައި ކަން ލިޔެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.dip_saved",
+    "english": "Dip saved",
+    "suggested": "ޑިޕް ލިޔެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.history",
+    "english": "Deliveries and dips",
+    "suggested": "ތެޔޮ އައުމާއި ޑިޕް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.delivery_row",
+    "english": "{{litres}} L arrived",
+    "suggested": "{{litres}} ލީޓަރު އައި",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.dip_row",
+    "english": "Dip: {{litres}} L",
+    "suggested": "ޑިޕް: {{litres}} ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.tanks.no_history",
+    "english": "Nothing yet. Record a dip to start the stock.",
+    "suggested": "އަދި އެއްވެސް އެއްޗެއް ނެތް. ތެޔޮ ގުނަން ފެށުމަށް ޑިޕެއް ލިޔޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.subtitle",
+    "english": "Owed to you: {{total}}",
+    "suggested": "ތިބާއަށް ލިބެން ޖެހޭ: {{total}}",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.add",
+    "english": "Add customer",
+    "suggested": "ކަސްޓަމަރެއް އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.edit",
+    "english": "Edit customer",
+    "suggested": "ކަސްޓަމަރު ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.name",
+    "english": "Name",
+    "suggested": "ނަން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.name_hint",
+    "english": "A boat, a council, a company or a person",
+    "suggested": "ދޯންޏެއް، ކައުންސިލެއް، ކުންފުންޏެއް ނުވަތަ މީހެއް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.limit",
+    "english": "Credit limit (MVR)",
+    "suggested": "ދަރަނީގެ ލިމިޓް (ރ.)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.limit_hint",
+    "english": "The most they may owe. Leave empty for no limit.",
+    "suggested": "ދަރަނި ވެވޭނެ އެންމެ ގިނަ އަދަދު. ލިމިޓެއް ނެތްނަމަ ހުސްކޮށް ބާއްވާ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.saved",
+    "english": "Customer saved",
+    "suggested": "ކަސްޓަމަރު ސޭވްކުރެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.owed",
+    "english": "owed",
+    "suggested": "ދަރަނި",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.owes",
+    "english": "owes {{amount}}",
+    "suggested": "ދަރަނި {{amount}}",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.owes_now",
+    "english": "{{name}} owes {{amount}}",
+    "suggested": "{{name}} ގެ ދަރަނި {{amount}}",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.take_payment",
+    "english": "Take payment",
+    "suggested": "ފައިސާ ބަލައިގަނޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.amount",
+    "english": "Amount (MVR)",
+    "suggested": "އަދަދު (ރ.)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.payment_saved",
+    "english": "Payment saved",
+    "suggested": "ފައިސާ ލިޔެވިއްޖެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.paid_row",
+    "english": "Paid ({{method}})",
+    "suggested": "ދެއްކި ({{method}})",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.no_history",
+    "english": "No fuel or payments yet.",
+    "suggested": "އަދި ތެލާއި ފައިސާ ނެތް.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.empty",
+    "english": "No credit customers yet",
+    "suggested": "އަދި ދަރަނި ކަސްޓަމަރުން ނެތް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "fuel.credit.empty_body",
+    "english": "Add the boats, councils and companies that buy now and pay later.",
+    "suggested": "މިހާރު ގަނެ ފަހުން ފައިސާ ދައްކާ ދޯނިތަކާއި ކައުންސިލްތަކާއި ކުންފުނިތައް އިތުރުކުރޭ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
   }
 ]

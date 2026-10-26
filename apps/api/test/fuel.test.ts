@@ -112,4 +112,72 @@ describe('Theyo Fihaara (fuel sheds) in Super Admin', () => {
     const steal = await other.put('/api/fuel/setup', { config: again.config, tanks: [{ ...again.tanks[0] }], nozzles: [{ name: 'X', tankKey: again.tanks[0].key, openingMeter: 0 }] });
     expect(steal.statusCode).toBe(422);
   });
+
+  it('owner-only shed: the owner sells, takes deliveries, dips, gives credit and sees it all on the dashboard', async () => {
+    const c = new Client(env.app);
+    const r = await c.post('/api/auth/register', { product: 'fuel', businessName: 'Solo Fuel', ownerName: 'Ali', email: 'ali@solofuel.test', password: 'Fuel-Shed-Pass-1', phone: '7771234', island: 'Fuvahmulah' });
+    expect(r.statusCode).toBe(201);
+    // The owner holds every Theyo permission; the shed starts with just Owner and Pump attendant roles.
+    expect(r.json().permissions).toEqual(expect.arrayContaining(['dashboard.view', 'fuel.view', 'fuel.manage', 'fuel.sell', 'fuel.stock', 'fuel.credit']));
+    const roles = (await c.get('/api/roles')).json().items as { name: string; permissions: string[] }[];
+    expect(roles.map((x) => x.name).sort()).toEqual(['Owner', 'Pump attendant']);
+    expect(roles.find((x) => x.name === 'Pump attendant')!.permissions.sort()).toEqual(['dashboard.view', 'fuel.sell', 'fuel.view']);
+
+    // Nothing can be sold before the set-up.
+    const s0 = (await c.get('/api/fuel/setup')).json();
+    const setup = (
+      await c.put('/api/fuel/setup', {
+        config: { ...s0.config, mode: 'one', fuels: ['petrol'], prices: { petrol: 20 }, deliveryCharge: { on: true, type: 'fixed', amount: 50 }, credit: true },
+        tanks: [{ key: 't1', name: 'Petrol drums', fuel: 'petrol', storage: 'drums', capacityL: 2000, reorderL: 500 }],
+        nozzles: [{ name: 'N1', tankKey: 't1', openingMeter: 100 }],
+      })
+    ).json();
+    const tank = setup.tanks[0].id as string;
+    const nozzle = setup.nozzles[0].id as string;
+
+    expect((await c.post('/api/fuel/stock', { tankId: tank, kind: 'dip', litres: 1000 })).statusCode).toBe(201);
+    expect((await c.post('/api/fuel/stock', { tankId: tank, kind: 'delivery', litres: 5000 })).statusCode).toBe(422);
+    expect((await c.post('/api/fuel/stock', { tankId: tank, kind: 'delivery', litres: 400, cost: 6000, supplier: 'STO' })).statusCode).toBe(201);
+
+    const byLitres = await c.post('/api/fuel/sales', { nozzleId: nozzle, by: 'litres', value: 10, payment: 'cash' });
+    expect(byLitres.statusCode).toBe(201);
+    expect(byLitres.json()).toMatchObject({ litres: 10, fuelAmount: 200, total: 200, nozzleName: 'N1' });
+    const byAmount = (await c.post('/api/fuel/sales', { nozzleId: nozzle, by: 'amount', value: 100, payment: 'transfer', delivery: true })).json();
+    expect(byAmount).toMatchObject({ litres: 5, fuelAmount: 100, deliveryCharge: 50, total: 150 });
+
+    // Credit: needs a customer, keeps to the limit, and payments bring it down.
+    expect((await c.post('/api/fuel/sales', { nozzleId: nozzle, by: 'litres', value: 5, payment: 'credit' })).statusCode).toBe(422);
+    const boat = (await c.post('/api/fuel/customers', { name: 'Dhoni Raalhu', phone: '7779999', creditLimit: 300 })).json();
+    expect((await c.post('/api/fuel/sales', { nozzleId: nozzle, by: 'litres', value: 10, payment: 'credit', customerId: boat.id, vehicle: 'Raalhu 1' })).statusCode).toBe(201);
+    const over = await c.post('/api/fuel/sales', { nozzleId: nozzle, by: 'litres', value: 10, payment: 'credit', customerId: boat.id });
+    expect(over.statusCode).toBe(409);
+    expect(over.json().error.code).toBe('credit_limit_exceeded');
+    expect((await c.post(`/api/fuel/customers/${boat.id}/payments`, { amount: 500, method: 'cash' })).statusCode).toBe(422);
+    expect((await c.post(`/api/fuel/customers/${boat.id}/payments`, { amount: 150, method: 'cash' })).json()).toMatchObject({ owed: 50 });
+
+    // A wrong sale is voided: it leaves the totals and the stock.
+    const wrong = (await c.post('/api/fuel/sales', { nozzleId: nozzle, by: 'litres', value: 3, payment: 'card' })).json();
+    expect((await c.post(`/api/fuel/sales/${wrong.id}/void`)).json()).toMatchObject({ voided: true });
+
+    const d = (await c.get('/api/fuel/dashboard')).json();
+    expect(d.today).toMatchObject({ count: 3, total: 550, byPayment: { cash: 200, transfer: 150, credit: 200, card: 0 }, litresByFuel: { petrol: 25 } });
+    expect(d.owed).toEqual({ total: 50, customers: 1 });
+    expect(d.tanks[0]).toMatchObject({ stockL: 1375, measured: true, capacityL: 2000 });
+    expect(d.week).toHaveLength(7);
+    expect(d.week[6]).toMatchObject({ total: 550, litres: 25 });
+    expect(d.recent).toHaveLength(4);
+
+    // A dip sets the stock and remembers what the book said.
+    await c.post('/api/fuel/stock', { tankId: tank, kind: 'dip', litres: 1370 });
+    const tanks = (await c.get('/api/fuel/tanks')).json();
+    expect(tanks.tanks[0]).toMatchObject({ stockL: 1370 });
+    expect(tanks.moves[0]).toMatchObject({ kind: 'dip', litres: 1370, bookL: 1375 });
+    expect((await c.get(`/api/fuel/customers/${boat.id}`)).json()).toMatchObject({ customer: { owed: 50 }, sales: [{ litres: 10, vehicle: 'Raalhu 1' }], payments: [{ amount: 150 }] });
+
+    // Another shed sees none of it and cannot sell from this nozzle.
+    const other = new Client(env.app);
+    await other.post('/api/auth/register', { product: 'fuel', businessName: 'Other Fuel', ownerName: 'B', email: 'b@other2.test', password: 'Fuel-Shed-Pass-1', phone: '7770000', island: 'Male' });
+    expect((await other.get('/api/fuel/customers')).json().customers).toEqual([]);
+    expect((await other.post('/api/fuel/sales', { nozzleId: nozzle, by: 'litres', value: 1, payment: 'cash' })).statusCode).toBe(403);
+  });
 });

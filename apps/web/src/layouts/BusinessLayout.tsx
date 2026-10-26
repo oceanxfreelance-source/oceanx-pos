@@ -4,7 +4,7 @@ import { posTabletFor } from '../lib/desktop';
 import { TabletPosOnly } from '../components/ScreenExit';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, CreditCard, FileSpreadsheet, FileText, FileUp, Fuel, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, ShoppingCart, Star, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
+import { ArrowLeftRight, Banknote, BarChart3, Boxes, CalendarClock, CalendarDays, CalendarRange, Check, ChefHat, ChevronDown, Contact, Cylinder, CreditCard, FileSpreadsheet, FileText, FileUp, Fuel, Globe, HandCoins, History, Languages, LayoutDashboard, LayoutGrid, ListChecks, Lock, LogOut, Mic2, MonitorSmartphone, Package, PackagePlus, Puzzle, QrCode, Receipt, ScanBarcode, Settings, ShieldCheck, SlidersHorizontal, ShoppingCart, Star, Store, UserCircle, Users, UtensilsCrossed, Wallet } from 'lucide-react';
 import { SETTINGS_SECTION_PERMISSIONS } from '@oceanx/shared';
 import { lastProduct, signedInBefore, takeawayOnlyOf, useBiz, useBizSession, type BusinessSession } from '../auth/business';
 import { productPath, useProductTheme } from '../lib/product';
@@ -66,8 +66,13 @@ export function useBusinessNav(): NavGroup[] {
     finance.push({ to: '/transactions', label: 'flow.nav_transactions', icon: ArrowLeftRight });
     finance.push({ to: '/months', label: 'flow.nav_months', icon: CalendarRange });
   }
-  // Theyo Fihaara: the shed's own settings.
-  if (hasModule('fuel') && can('fuel.manage')) operations.push({ to: '/shed-settings', label: 'fuel.nav_settings', icon: Fuel });
+  // Theyo Fihaara: the till, tanks (deliveries and dips), credit customers and the shed's own settings.
+  if (hasModule('fuel')) {
+    if (can('fuel.sell') || can('fuel.view')) operations.push({ to: '/fuel-till', label: 'fuel.nav_till', icon: Fuel });
+    if (can('fuel.view')) operations.push({ to: '/fuel-tanks', label: 'fuel.nav_tanks', icon: Cylinder });
+    if (can('fuel.view')) operations.push({ to: '/fuel-customers', label: 'fuel.nav_credit', icon: HandCoins });
+    if (can('fuel.manage')) operations.push({ to: '/shed-settings', label: 'fuel.nav_settings', icon: SlidersHorizontal });
+  }
   // Gravity Budget: every record, savings goals, the plan (limits and bills) and past months.
   if (hasModule('budget') && can('budget.view')) {
     finance.push({ to: '/spending', label: 'budget.nav_spending', icon: ArrowLeftRight });

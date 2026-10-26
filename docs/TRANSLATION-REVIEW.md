@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1416 · **confirmed**: 380
+Status: **needs_review**: 1516 · **confirmed**: 380
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -358,6 +358,49 @@ review of the whole file is still recommended before launch.
 | `fuel.aside_3` | For one-nozzle island sheds and busy harbours | އެއް ނޮޒަލްގެ ރަށު ފިހާރައަށާއި ބުރަ ބަނދަރުތަކަށް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.aside_title` | Know every litre and every rufiyaa. | ކޮންމެ ލީޓަރެއް އަދި ކޮންމެ ރުފިޔާއެއް އެނގޭނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.console` | Theyo Fihaara console | ތެޔޮ ފިހާރަ ކޮންސޯލް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.credit.add` | Add customer | ކަސްޓަމަރެއް އިތުރުކުރޭ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.amount` | Amount (MVR) | އަދަދު (ރ.) | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.edit` | Edit customer | ކަސްޓަމަރު ބަދަލުކުރޭ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.empty` | No credit customers yet | އަދި ދަރަނި ކަސްޓަމަރުން ނެތް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.empty_body` | Add the boats, councils and companies that buy now and pay later. | މިހާރު ގަނެ ފަހުން ފައިސާ ދައްކާ ދޯނިތަކާއި ކައުންސިލްތަކާއި ކުންފުނިތައް އިތުރުކުރޭ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.limit` | Credit limit (MVR) | ދަރަނީގެ ލިމިޓް (ރ.) | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.limit_hint` | The most they may owe. Leave empty for no limit. | ދަރަނި ވެވޭނެ އެންމެ ގިނަ އަދަދު. ލިމިޓެއް ނެތްނަމަ ހުސްކޮށް ބާއްވާ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.name` | Name | ނަން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.name_hint` | A boat, a council, a company or a person | ދޯންޏެއް، ކައުންސިލެއް، ކުންފުންޏެއް ނުވަތަ މީހެއް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.no_history` | No fuel or payments yet. | އަދި ތެލާއި ފައިސާ ނެތް. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.owed` | owed | ދަރަނި | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.owes` | owes {{amount}} | ދަރަނި {{amount}} | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.owes_now` | {{name}} owes {{amount}} | {{name}} ގެ ދަރަނި {{amount}} | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.paid_row` | Paid ({{method}}) | ދެއްކި ({{method}}) | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.payment_saved` | Payment saved | ފައިސާ ލިޔެވިއްޖެ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.saved` | Customer saved | ކަސްޓަމަރު ސޭވްކުރެވިއްޖެ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.subtitle` | Owed to you: {{total}} | ތިބާއަށް ލިބެން ޖެހޭ: {{total}} | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.credit.take_payment` | Take payment | ފައިސާ ބަލައިގަނޭ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.all_sales` | All sales | ހުރިހާ ވިއްކުމެއް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.cash_hint` | Card and transfer: {{card}} | ކާޑާއި ޓްރާންސްފަރ: {{card}} | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.cash_today` | Cash today | މިއަދުގެ ނަގުދު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.latest` | Latest sales | އެންމެ ފަހުގެ ވިއްކުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.litres_today` | Litres today | މިއަދު ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.low_alert` | Order fuel soon: {{tanks}}. | އަވަހަށް ތެޔޮ އޯޑަރުކުރޭ: {{tanks}}. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.no_sales` | No sales yet today. | މިއަދު އަދި ވިއްކާފައެއް ނެތް. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.not_set_up` | The shed is not set up yet | ފިހާރަ އަދި ސެޓްކޮށްފައެއް ނެތް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.not_set_up_body` | The owner sets the prices, tanks and nozzles first. | ފުރަތަމަ ވެރިފަރާތުން އަގުތަކާއި ޓޭންކާއި ނޮޒަލް ސެޓްކުރާނެ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.owed` | Owed to you | ތިބާއަށް ލިބެން ޖެހޭ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.owed_hint_one` | {{count}} customer | {{count}} ކަސްޓަމަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.owed_hint_other` | {{count}} customers | {{count}} ކަސްޓަމަރުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.paid_today` | Paid today | މިއަދު ދެއްކި ގޮތް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.per_litre` | {{price}} / L | {{price}} / ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.plan` | Plan | ޕްލޭން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.plan_until` | until {{date}} | {{date}} އަށް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.sales_count_one` | {{count}} sale | {{count}} ވިއްކުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.sales_count_other` | {{count}} sales | {{count}} ވިއްކުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.sales_today` | Sales today | މިއަދުގެ ވިއްކުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.see_tanks` | Deliveries and dips | ތެޔޮ އައުމާއި ޑިޕް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.shed` | Your shed | ތިބާގެ ފިހާރަ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.tanks` | Tanks | ޓޭންކުތައް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.today` | Today | މިއަދު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.week` | Last 7 days | ފަހުގެ 7 ދުވަސް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.dash.week_empty` | Bars appear as you sell. | ވިއްކާވަރަކަށް ބާރު ފެންނާނެ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
 | `fuel.diesel` | Diesel | ޑީސަލް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.display.amount` | MVR | ރ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.display.litres` | Litres | ލީޓަރު | needs_review | Theyo Fihaara in Super Admin; please check. |
@@ -378,9 +421,16 @@ review of the whole file is still recommended before launch.
 | `fuel.home.title` | Your Theyo Fihaara account is ready | ތިބާގެ ތެޔޮ ފިހާރަ އެކައުންޓް ތައްޔާރު | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.login_subtitle` | Sign in to your shed. | ތިބާގެ ފިހާރައަށް ސައިން އިން ކުރައްވާ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.name` | Theyo Fihaara | ތެޔޮ ފިހާރަ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.nav_credit` | Credit customers | ދަރަނި ކަސްޓަމަރުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
 | `fuel.nav_settings` | Shed settings | ފިހާރައިގެ ސެޓިންގްސް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.nav_tanks` | Tanks | ޓޭންކުތައް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.nav_till` | Till | ވިއްކާތަން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
 | `fuel.new_account` | New fuel shed | އައު ތެޔޮ ފިހާރައެއް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.no_account` | New shed? | އައު ފިހާރައެއް؟ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.pay.card` | Card | ކާޑު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.pay.cash` | Cash | ނަގުދު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.pay.credit` | Credit | ދަރަނި | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.pay.transfer` | Transfer | ޓްރާންސްފަރ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
 | `fuel.payments` | Theyo Fihaara payments | ތެޔޮ ފިހާރަ ފައިސާ ދެއްކުން | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.pending_body` | Thank you, {{name}}. The OceanX team will call you to set up your shed. You can sign in here any time. | ޝުކުރިއްޔާ، {{name}}. ތިބާގެ ފިހާރަ ސެޓްކުރުމަށް OceanX ޓީމުން ގުޅާނެ. ކޮންމެ ވަގުތެއްގައި މިތާނގައި ސައިން އިން ކުރެވޭނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.pending_title` | We got your request | ތިބާގެ އެދުން ލިބިއްޖެ | needs_review | Theyo Fihaara in Super Admin; please check. |
@@ -461,6 +511,53 @@ review of the whole file is still recommended before launch.
 | `fuel.setup.title` | Set up your shed | ފިހާރަ ސެޓްކުރޭ | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.setup.variance` | Tank loss alert above (%) | ޓޭންކުގެ ގެއްލުން މިއަށްވުރެ ގިނަނަމަ އިންޒާރު (%) | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.tagline` | Fuel shed system | ތެޔޮ ފިހާރައިގެ ސިސްޓަމް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.tanks.after` | After this: {{litres}} L | މީގެ ފަހުން: {{litres}} ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.almost_empty` | Almost empty | ހުސްވާން ކައިރި | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.cost` | Cost (MVR) | ޚަރަދު (ރ.) | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.delivery` | Fuel arrived | ތެޔޮ އައީ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.delivery_hint` | The litres that went into the tank or drums. | ޓޭންކަށް ނުވަތަ ފީފާއަށް ލި ލީޓަރު. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.delivery_row` | {{litres}} L arrived | {{litres}} ލީޓަރު އައި | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.delivery_saved` | Delivery saved | ތެޔޮ އައި ކަން ލިޔެވިއްޖެ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.difference` | difference {{litres}} L | ތަފާތު {{litres}} ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.dip` | Dip | ޑިޕް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.dip_hint` | Measure with the dip stick. The stock becomes what you measured. | ޑިޕް ދަނޑިން މިނުގަނޭ. ތެޔޮ ހުރި މިންވަރަކީ މިނުނު އަދަދު. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.dip_row` | Dip: {{litres}} L | ޑިޕް: {{litres}} ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.dip_saved` | Dip saved | ޑިޕް ލިޔެވިއްޖެ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.history` | Deliveries and dips | ތެޔޮ އައުމާއި ޑިޕް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.litres_in` | Litres in | ލި ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.litres_measured` | Litres measured | މިނުނު ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.no_history` | Nothing yet. Record a dip to start the stock. | އަދި އެއްވެސް އެއްޗެއް ނެތް. ތެޔޮ ގުނަން ފެށުމަށް ޑިޕެއް ލިޔޭ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.not_measured` | Not measured yet: do a dip to start. | އަދި މިނެއް ނުނަގާ: ފެށުމަށް ޑިޕެއް ނަގާ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.note` | Note | ނޯޓް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.now_book` | Now about {{litres}} L of {{capacity}} L | މިހާރު ގާތްގަނޑަކަށް {{capacity}} ލީޓަރުގެ ތެރެއިން {{litres}} ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.of_capacity` | {{pct}}% of {{capacity}} L | {{capacity}} ލީޓަރުގެ {{pct}}% | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.order_more` | Order more | އިތުރަށް އޯޑަރުކުރޭ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.subtitle` | What is in each tank, fuel arriving, and dips. | ކޮންމެ ޓޭންކެއްގައި ހުރި ތެޔޮ، ތެޔޮ އައުން އަދި ޑިޕް. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.tanks.supplier` | Supplier | ސަޕްލަޔަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.add_delivery` | Add delivery charge | ޑެލިވަރީ ޗާޖު އިތުރުކުރޭ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.amount_label` | Amount (MVR) | އަދަދު (ރ.) | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.by_amount` | Rufiyaa | ރުފިޔާ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.by_litres` | Litres | ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.customer` | Customer | ކަސްޓަމަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.how_much` | How much? | ކިހާވަރެއް؟ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.litres_label` | Litres | ލީޓަރު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.no_customers` | No credit customers yet. Ask the owner to add them. | އަދި ދަރަނި ކަސްޓަމަރުން ނެތް. ވެރިފަރާތަށް އިތުރުކުރުމަށް އެދޭ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.no_customers_owner` | No credit customers yet. Add them in Credit customers. | އަދި ދަރަނި ކަސްޓަމަރުން ނެތް. ދަރަނި ކަސްޓަމަރުންގެ ތެރެއިން އިތުރުކުރޭ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.nozzle` | Nozzle | ނޮޒަލް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.paid_by` | Paid by | ފައިސާ ދައްކަނީ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.pick_customer` | Choose a customer | ކަސްޓަމަރަކު ހޮވާ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.sell` | Sell | ވިއްކާ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.sell_fuel` | Sell fuel | ތެޔޮ ވިއްކާ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.sold` | Sold {{litres}} L · {{total}} | {{litres}} ލީޓަރު ވިއްކައިފި · {{total}} | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.subtitle` | Sell at the pump and see the day’s sales. | ޕަމްޕުން ވިއްކައި ދުވަހުގެ ވިއްކުން ބަލާ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.today` | Today | މިއަދު | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.vehicle` | Boat or vehicle | ދޯނި ނުވަތަ ގާޑި | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.vehicle_hint` | Optional | ބޭނުންނަމަ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.void` | Cancel | ކެންސަލް | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.void_confirm` | Cancel this sale of {{total}}? It leaves the totals and the tank stock. | {{total}} ގެ މި ވިއްކުން ކެންސަލްކުރަންތަ؟ ޖުމްލައާއި ޓޭންކުގެ ތެޔޮން މި ވިއްކުން ނަގާލެވޭނެ. | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.voided` | cancelled | ކެންސަލްކުރެވިފަ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.voided_toast` | Sale cancelled | ވިއްކުން ކެންސަލްކުރެވިއްޖެ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `fuel.till.yesterday` | Yesterday | އިއްޔެ | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
 | `gravity.accounts` | Gravity accounts | Gravity އެކައުންޓްތައް | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.accounts_subtitle` | Businesses using Gravity for quotations and invoices. | ކޯޓޭޝަނާއި އިންވޮއިސްއަށް Gravity ބޭނުންކުރާ ވިޔަފާރިތައް. | needs_review | New: Gravity (quotation & invoice generator). |
 | `gravity.active_accounts` | Active Gravity accounts | ހިނގަމުންދާ Gravity އެކައުންޓް | needs_review | New: Gravity (quotation & invoice generator). |
@@ -1001,7 +1098,10 @@ review of the whole file is still recommended before launch.
 | `perm.credit_view` | View customer due | ކަސްޓަމަރުންގެ ދަރަނި ބަލާ | needs_review | Depends on the credit terminology decision above. |
 | `perm.finance_manage` | Add, change and delete income and expenses | އާމްދަނީއާއި ޚަރަދު ލިޔުން، ބަދަލުކުރުމާއި ފޮހެލުން | needs_review | New: Gravity Flow. |
 | `perm.finance_view` | View income, expenses and profit | އާމްދަނީ، ޚަރަދާއި ފައިދާ ބެލުން | needs_review | New: Gravity Flow. |
-| `perm.fuel_manage` | Sell fuel and manage tanks, customers and prices | ތެޔޮ ވިއްކައި ޓޭންކު، ކަސްޓަމަރުން އަދި އަގުތައް ބެލެހެއްޓުން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `perm.fuel_credit` | Add credit customers and take their payments | ދަރަނި ކަސްޓަމަރުން އިތުރުކޮށް ފައިސާ ބަލައިގަތުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `perm.fuel_manage` | Change shed settings (prices, tanks, nozzles) and cancel sales | ފިހާރައިގެ ސެޓިންގްސް (އަގު، ޓޭންކު، ނޮޒަލް) ބަދަލުކުރުމާއި ވިއްކުން ކެންސަލްކުރުން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `perm.fuel_sell` | Sell fuel at the till | ވިއްކާތަނުން ތެޔޮ ވިއްކުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
+| `perm.fuel_stock` | Record fuel deliveries and tank dips | ތެޔޮ އައުމާއި ޓޭންކު ޑިޕް ލިޔުން | needs_review | Theyo Fihaara dashboard, till, tanks and credit; please check. |
 | `perm.fuel_view` | View the fuel shed (sales, tanks, customers) | ތެޔޮ ފިހާރަ ބަލާ (ވިއްކުން، ޓޭންކު، ކަސްޓަމަރުން) | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `perm.gst_view` | View the GST report | ޖީއެސްޓީ ރިޕޯޓު ބަލާ | needs_review | Refunds, GST report and import add-ons. |
 | `perm.import_run` | Import from a file | ފައިލަކުން އިމްޕޯޓްކުރޭ | needs_review | Refunds, GST report and import add-ons. |
