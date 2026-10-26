@@ -199,3 +199,9 @@ Free setup, 30-day trial, bank-transfer billing (existing).
 3. ~~Printing~~ — decided: optional (off by default); support 80 mm thermal when a shed has one.
 4. ~~Delivery~~ — decided: optional delivery charge; each shed turns it on and sets/adjusts its own amount. It appears as a separate line on the sale, receipt and invoice, and in reports as delivery income.
 5. ~~App icon~~ — decided: the two-word logo in white on **black** (files: `docs/marketing/fuel-demo/logo/icons/theyofihaara-icon-black-*.png`).
+
+## Dhivehi words (from the owner)
+
+| English | Dhivehi | Note |
+|---|---|---|
+| Drum (200 L fuel barrel) | ފީފާ | Used on all Dhivehi screens, e.g. "Full drums left" → ފުރިހަމަ ފީފާ |
