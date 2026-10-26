@@ -752,4 +752,111 @@ document.addEventListener('input', (e) => {
 });
 document.addEventListener('change', (e) => { if (e.target.id === 'dp_tank') { S.form.dp_tank = e.target.value; const p = $('#dpprev'); if (p) p.innerHTML = dipPreview(); } if (e.target.id === 'py_cust') { S.modal.id = e.target.value; S.modal.inv = ''; render(); } });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.modal) A.close(); });
+
+// ================= Test guide + notes (for the owner while checking the demo; not part of the product) =================
+const TASKS = [
+  ['Start', [
+    ['ov', 'Look at Overview', 'Is this what you want to see first in the morning? What is missing or not needed?', () => A.go({ r: 'overview' })],
+  ]],
+  ['Selling', [
+    ['s1', 'Walk-in sale, cash', 'Point of sale → pick P2 → tap 20 L → Complete sale. Is it fast enough for a busy jetty?', () => A.go({ r: 'till' })],
+    ['s2', 'Sale by amount', 'Tap “Amount”, type 500 → Complete sale. Do customers ask like this?', () => A.go({ r: 'till' })],
+    ['s3', 'Credit customer with quotation price', 'Credit customer… → Sample Island Council. The price changes to the quotation price. Add the delivery charge. Complete sale.', () => A.go({ r: 'till' })],
+    ['s4', 'New customer at the till', '+ New customer → name and phone → Save and sell on credit. Is this how staff would do it?', () => A.go({ r: 'till' })],
+    ['s5', 'Over the credit limit', 'Credit customer… → Hussain (limit 5,000) → 300 L → On credit. The till stops it until the owner approves. Right rule?', () => A.go({ r: 'till' })],
+    ['s6', 'Shop item with fuel', 'Add shop item → engine oil, on the same bill as fuel.', () => A.go({ r: 'till' })],
+    ['s7', 'Receipt by Viber or PDF', 'Choose Viber or PDF before Complete sale and look at the receipt.', () => A.go({ r: 'till' })],
+    ['s8', 'Petty cash from the till', 'Expense (top of the till) → e.g. MVR 200 for workers, from till cash.', () => A.go({ r: 'till' })],
+  ]],
+  ['Closing', [
+    ['c1', 'Close shift', 'Shifts → Close shift → type the cash counted. Type a wrong amount: a note is needed above MVR 100.', () => A.go({ r: 'closeShift' })],
+    ['c2', 'Small shed: close the day', 'Settings → One person + Drums. Then Today → Close the day. Simple enough for one person?', () => A.go({ r: 'settings' })],
+  ]],
+  ['Fuel stock', [
+    ['t1', 'Record a dip', 'Tanks & dips → Record dip → T2 → e.g. 47 cm. See litres and the variance.', () => A.go({ r: 'tanks' })],
+    ['t2', 'New delivery', 'New delivery → T2 → save. Watch the tank fill. Is received vs invoiced how you check the barge?', () => A.go({ r: 'deliveries' })],
+    ['t3', 'Drums (ފީފާ)', 'Settings → Stock: Drums. Look at Drums & stock, sell some petrol and see the open drum go down.', () => A.go({ r: 'settings' })],
+  ]],
+  ['Money owed', [
+    ['u1', 'Unpaid and payment received', 'Unpaid → approve the till-added customer → Paid on a customer → save. Does the balance make sense?', () => A.go({ r: 'unpaid' })],
+    ['u2', 'Customer statement and limit', 'Credit accounts → click a customer → change the limit.', () => A.go({ r: 'credit' })],
+    ['q1', 'Quotation to payment', 'New quotation → Approve (PO) → sell against it at the till → Make invoice → Invoices → Mark paid.', () => A.go({ r: 'quotes' })],
+  ]],
+  ['Owner', [
+    ['o1', 'Change the fuel price', 'Price lists → new price → Save. The till uses it at once.', () => A.go({ r: 'prices' })],
+    ['o2', 'Reports', 'Reports → Daily sales, Profit, Who owes, Tank variance. Which report do you need that is not here?', () => A.go({ r: 'reports' })],
+    ['o3', 'Settings', 'Turn delivery charge, printer, credit, quotations on and off. Anything else a shed needs to set?', () => A.go({ r: 'settings' })],
+    ['o4', 'What each person sees', 'Click the name at the bottom of the sidebar: Owner → Manager → Attendant → Accountant.', () => A.go({ r: 'overview' })],
+    ['o5', 'Dhivehi', 'Switch to ދިވެހި and read every screen. Mark any word that is wrong.', () => A.lang()],
+  ]],
+];
+const G = { open: false, tab: 'tasks', checks: {}, notes: [], db: null, store: 'local' };
+const GKEY = 'theyo-guide-v1';
+function gLoadLocal() { try { const x = JSON.parse(localStorage.getItem(GKEY)); if (x) { G.checks = x.checks || {}; G.notes = x.notes || []; } } catch (e) {} }
+function gSaveLocal() { try { localStorage.setItem(GKEY, JSON.stringify({ checks: G.checks, notes: G.notes })); } catch (e) {} }
+const ROUTE_NAMES = { overview: 'Overview', till: 'Point of sale', shifts: 'Shifts', closeShift: 'Close shift', tanks: 'Tanks & dips', deliveries: 'Deliveries', expenses: 'Expenses', credit: 'Credit accounts', unpaid: 'Unpaid', quotes: 'Quotations & invoices', prices: 'Price lists', items: 'Shop items', reports: 'Reports', settings: 'Settings' };
+const totalTasks = TASKS.reduce((a, g) => a + g[1].length, 0);
+function renderGuide() {
+  const el = document.getElementById('guide');
+  const ae = document.activeElement;
+  if (ae && el.contains(ae) && ae.tagName === 'TEXTAREA') { G.dirty = true; return; }
+  const done = Object.values(G.checks).filter((c) => c.rating).length;
+  const fab = `<a class="gfab" data-g="toggle">${G.open ? 'Close test guide' : `Test guide · ${done}/${totalTasks}`}</a><a class="gfab gnote" data-g="note">+ Note on this screen</a>`;
+  if (!G.open) { el.innerHTML = `<div class="gbar">${fab}</div>`; return; }
+  const kinds = { change: ['Change', '#b45309'], bug: ['Wrong', '#b91c1c'], idea: ['Idea', '#1d4ed8'], good: ['Good', '#15803d'] };
+  const tasks = TASKS.map(([g, items]) => `<div class="gg">${g}</div>` + items.map(([id, title, how]) => { const c = G.checks[id] || {};
+    return `<div class="gt ${c.rating || ''}"><div class="gth"><b>${title}</b>${c.rating ? `<span class="gst ${c.rating}">${c.rating === 'good' ? 'Works' : 'Needs change'}</span>` : ''}</div><div class="gtd">${how}</div>
+    <div class="gtr"><a data-g="go" data-id="${id}">Go there →</a><span></span><a class="gb ${c.rating === 'good' ? 'on' : ''}" data-g="rate" data-id="${id}" data-v="good">Works</a><a class="gb ${c.rating === 'change' ? 'onc' : ''}" data-g="rate" data-id="${id}" data-v="change">Needs change</a></div>
+    ${c.rating === 'change' || c.note ? `<textarea id="gn_${id}" data-gid="${id}" placeholder="What should change?">${esc(c.note || '')}</textarea>` : ''}</div>`; }).join('')).join('');
+  const notes = G.notes.length ? G.notes.map((n) => `<div class="gn"><div class="gnh"><span class="gk" style="color:${kinds[n.kind][1]};border-color:${kinds[n.kind][1]}">${kinds[n.kind][0]}</span><span class="gm">${esc(n.screen)}${n.lang === 'dv' ? ' · Dhivehi' : ''}</span><a class="gx" data-g="del" data-id="${n.id}" title="Delete">✕</a></div><div>${esc(n.text)}</div></div>`).join('')
+    : `<div class="gempty">No notes yet. On any screen, tap “+ Note on this screen” and write what to fix or add.</div>`;
+  el.innerHTML = `<div class="gpanel"><div class="ghead"><div><b>Test guide</b><div class="gsub">${done} of ${totalTasks} checked · ${G.notes.length} notes · ${G.store === 'db' ? 'saved, Claude can read these' : 'saved in this browser'}</div></div><a class="gx" data-g="toggle">✕</a></div>
+  <div class="gtabs"><a class="${G.tab === 'tasks' ? 'on' : ''}" data-g="tab" data-v="tasks">Things to check</a><a class="${G.tab === 'notes' ? 'on' : ''}" data-g="tab" data-v="notes">My notes (${G.notes.length})</a></div>
+  <div class="gbody">${G.tab === 'tasks' ? tasks : notes + (G.notes.length ? `<a class="gcopy" data-g="copy">Copy all notes</a>` : '')}</div></div><div class="gbar">${fab}</div>`;
+}
+async function gSetCheck(id, patch) {
+  G.checks[id] = { ...(G.checks[id] || {}), ...patch, at: Date.now() };
+  if (G.store === 'db') { try { await G.db.doc('checks/' + id).set(G.checks[id]); } catch (e) { toast('Could not save. Try again.'); } } else gSaveLocal();
+}
+async function gAddNote(kind, text) {
+  const n = { kind, text, screen: ROUTE_NAMES[S.route] || S.route, route: S.route, lang: S.lang, mode: S.set.mode, stock: S.set.stock, role: S.role, created: Date.now() };
+  if (G.store === 'db') { try { await G.db.collection('feedback').add(n); } catch (e) { toast(e && e.code === 'quota_exceeded' ? 'Too many notes saved. Delete some first.' : 'Could not save the note. Try again.'); return false; } }
+  else { G.notes.unshift({ ...n, id: 'n' + n.created }); gSaveLocal(); }
+  return true;
+}
+document.addEventListener('click', async (e) => {
+  const a = e.target.closest('[data-g]'); if (!a) return; e.preventDefault();
+  const k = a.dataset.g;
+  if (k === 'toggle') G.open = !G.open;
+  else if (k === 'tab') G.tab = a.dataset.v;
+  else if (k === 'go') { for (const [, items] of TASKS) for (const t of items) if (t[0] === a.dataset.id) t[3](); }
+  else if (k === 'rate') { const c = G.checks[a.dataset.id] || {}; await gSetCheck(a.dataset.id, { rating: c.rating === a.dataset.v ? '' : a.dataset.v }); }
+  else if (k === 'note') { S.modal = { type: 'fb' }; S.form = { fbk: 'change' }; render(); setTimeout(() => document.getElementById('fb_text')?.focus(), 30); return; }
+  else if (k === 'del') { if (G.store === 'db') { try { await G.db.doc('feedback/' + a.dataset.id).delete(); } catch (err) {} } else { G.notes = G.notes.filter((n) => n.id !== a.dataset.id); gSaveLocal(); } }
+  else if (k === 'copy') { const txt = G.notes.map((n) => `[${n.kind}] ${n.screen}: ${n.text}`).join('\n') + '\n\n' + TASKS.flatMap((g) => g[1]).filter((t) => G.checks[t[0]]?.rating).map((t) => `${t[1]}: ${G.checks[t[0]].rating === 'good' ? 'works' : 'needs change'}${G.checks[t[0]].note ? ' — ' + G.checks[t[0]].note : ''}`).join('\n');
+    try { await navigator.clipboard.writeText(txt); toast('Copied. Paste it to Claude.'); } catch (err) { toast('Could not copy. Select the notes and copy them.'); } }
+  renderGuide();
+});
+document.addEventListener('focusout', async (e) => {
+  const t = e.target; if (t.dataset && t.dataset.gid) { const v = t.value.trim(); if (v !== (G.checks[t.dataset.gid]?.note || '')) await gSetCheck(t.dataset.gid, { note: v }); setTimeout(() => { if (G.dirty) { G.dirty = false; renderGuide(); } }, 0); }
+});
+M.fb = () => `<h2>Note on this screen</h2><p class="mut">Screen: <b>${esc(ROUTE_NAMES[S.route] || S.route)}</b>${S.lang === 'dv' ? ' · Dhivehi' : ''}. Write what to fix, add or remove.</p>
+  <div class="row" style="gap:6px;margin:10px 0">${[['change', 'Change this'], ['bug', 'Something is wrong'], ['idea', 'New idea'], ['good', 'This is good']].map(([k, n]) => `<a class="bt sm${S.form.fbk === k ? ' pr' : ''}" data-a="fbk" data-v="${k}">${n}</a>`).join('')}</div>
+  <textarea class="inp wide" id="fb_text" rows="5" style="text-align:start" placeholder="e.g. Staff need a button for “fill full tank”">${esc(S.form.fb_text || '')}</textarea>
+  <div class="mf"><a class="bt" data-a="close">Cancel</a><a class="bt pr" data-a="saveFb">Save note</a></div>`;
+A.fbk = (d) => { S.form.fb_text = document.getElementById('fb_text')?.value || ''; S.form.fbk = d.v; render(); };
+A.saveFb = async () => { const txt = (document.getElementById('fb_text')?.value || '').trim(); if (!txt) return toast('Write the note first'); if (await gAddNote(S.form.fbk || 'change', txt)) { S.modal = null; render(); renderGuide(); toast('Note saved'); } };
+gLoadLocal();
+(async () => {
+  try {
+    if (!window.claude || !window.claude.use) return;
+    const db = await window.claude.use('db'); if (!db) return;
+    G.db = db; G.store = 'db'; G.notes = []; G.checks = {};
+    db.collection('feedback').orderBy('created', 'desc').onSnapshot((snap) => { G.notes = snap.docs.map((d) => ({ id: d.id, ...d.data() })); renderGuide(); }, () => {});
+    db.collection('checks').onSnapshot((snap) => { const c = {}; snap.docs.forEach((d) => (c[d.id] = d.data())); G.checks = c; renderGuide(); }, () => {});
+    renderGuide();
+  } catch (e) {}
+})();
+
 render();
+renderGuide();
