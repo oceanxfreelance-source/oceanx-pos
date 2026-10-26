@@ -173,7 +173,7 @@ storedFiles (photos), messageLog (reminders), billing.
 - GST: **to confirm with MIRA / an accountant how GST applies to fuel** before building this report.
 
 ### Tank and drum animation (in the app)
-- Tanks & dips shows each tank as a drawing with a moving fuel level (gentle wave), not just numbers.
+- Tanks & dips shows each tank as a realistic steel tank (shell, welded seams, supports, manhole, fill and vent pipes) with a cut-away showing the moving fuel level. Level height follows real horizontal-cylinder geometry.
 - On opening the screen the level rises to the current amount; numbers count up with it.
 - Level = last dip − sales since the dip + deliveries, so it drops as nozzles sell.
 - Dashed **reorder line**; below it the fuel turns red and the tank shows "Below reorder".
