@@ -13,8 +13,8 @@ import { Input } from '../../components/ui/Form';
 import { Alert } from '../../components/ui/Card';
 import { FullscreenButton } from '../../components/FullscreenButton';
 import { LanguagePicker } from './LanguagePicker';
+import { HarbourScene } from './HarbourScene';
 
-const PRICE = 17.21;
 
 /** Theyo Fihaara's dark, amber look while one of its screens is open. */
 export function useFuelPalette(active = true) {
@@ -28,45 +28,6 @@ export function useFuelPalette(active = true) {
       forceDark(false);
     };
   }, [active]);
-}
-
-/** A pump's display: litres and rufiyaa counting up as fuel goes in, like the dispenser at the shed. */
-function PumpDisplay({ compact = false }: { compact?: boolean }) {
-  const { t } = useTranslation();
-  const [litres, setLitres] = useState(25);
-  useEffect(() => {
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('reduce-motion')) return;
-    let raf = 0;
-    const t0 = performance.now();
-    // 5 s filling to 25 L, then 2.5 s holding the sale, again.
-    const tick = (now: number) => {
-      const s = ((now - t0) / 1000) % 7.5;
-      const p = Math.min(1, s / 5);
-      setLitres(Math.round(25 * (1 - Math.pow(1 - p, 2)) * 100) / 100);
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-  const rows: [string, string][] = [
-    [t('fuel.display.amount'), (litres * PRICE).toFixed(2)],
-    [t('fuel.display.litres'), litres.toFixed(2)],
-    ...(compact ? [] : ([[t('fuel.display.price'), PRICE.toFixed(2)]] as [string, string][])),
-  ];
-  return (
-    <div className="fuel-display rounded-2xl p-1.5" aria-hidden>
-      <div className={clsx('rounded-xl border border-zinc-800 bg-black', compact ? 'grid grid-cols-2 gap-px' : 'space-y-px')}>
-        {rows.map(([label, value]) => (
-          <div key={label} className={clsx('flex items-baseline justify-between gap-4', compact ? 'px-3 py-2' : 'px-5 py-3')}>
-            <span className="text-[10px] font-semibold tracking-[0.18em] text-zinc-500 uppercase">{label}</span>
-            <span className={clsx('fuel-digits tabular-nums', compact ? 'text-xl' : 'text-4xl')} dir="ltr">
-              {value}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 }
 
 function Brand() {
@@ -85,45 +46,40 @@ function Brand() {
 }
 
 /**
- * Theyo Fihaara's own sign-in and sign-up frame: black and amber, with a working pump display on the left.
- * Different from OceanX POS and the Gravity apps on purpose.
+ * Theyo Fihaara's own sign-in and sign-up frame: a night harbour with the shed lit up, and the form on a glass
+ * card over it. Different from OceanX POS and the Gravity apps on purpose.
  */
 export function FuelAuthShell({ title, subtitle, children, footer }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode }) {
   const { t } = useTranslation();
   useFuelPalette();
   return (
     <div className="fuel-auth relative min-h-dvh text-zinc-100">
-      <div className="absolute end-4 top-4 z-10">
+      <HarbourScene litresLabel={t('fuel.display.litres')} />
+      <div className="absolute end-4 top-4 z-20">
         <FullscreenButton />
       </div>
-      <div className="grid min-h-dvh lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
-        <aside className="fuel-aside relative hidden flex-col justify-between overflow-hidden border-e border-zinc-800 p-12 lg:flex">
+      <div className="relative z-10 grid min-h-dvh lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)]">
+        <section className="hidden flex-col justify-between p-12 lg:flex">
           <Brand />
-          <div className="mx-auto w-full max-w-md">
-            <div className="mb-3 flex items-center gap-2 text-xs font-medium text-zinc-400">
-              <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_8px] shadow-emerald-500/70" />
-              {t('fuel.display.pump')}
-            </div>
-            <PumpDisplay />
-          </div>
-          <div className="max-w-md">
-            <p className="text-3xl leading-tight font-semibold text-balance text-white">{t('fuel.aside_title')}</p>
-            <ul className="mt-4 space-y-2 text-zinc-300">
+          <div className="fuel-rise max-w-xl">
+            <p className="text-5xl leading-[1.05] font-semibold tracking-tight text-balance text-white [text-shadow:0_2px_30px_rgb(0_0_0/0.6)]">{t('fuel.aside_title')}</p>
+            <ul className="mt-6 space-y-2 text-zinc-300 [text-shadow:0_1px_12px_rgb(0_0_0/0.8)]">
               {['fuel.aside_1', 'fuel.aside_2', 'fuel.aside_3'].map((k) => (
-                <li key={k} className="flex gap-2">
-                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-brand-400" />
+                <li key={k} className="flex gap-2.5">
+                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-brand-400 shadow-[0_0_8px] shadow-brand-400" />
                   {t(k)}
                 </li>
               ))}
             </ul>
           </div>
-        </aside>
-        <main className="flex flex-col justify-center px-5 py-10 sm:px-10">
-          <div className="mx-auto w-full max-w-md">
-            <div className="mb-6 space-y-5 lg:hidden">
+        </section>
+        <main className="flex flex-col justify-end px-4 pt-[34vh] pb-6 sm:px-8 lg:justify-center lg:py-10 lg:pe-12">
+          <div className="lg:hidden">
+            <div className="absolute start-5 top-5">
               <Brand />
-              <PumpDisplay compact />
             </div>
+          </div>
+          <div className="fuel-glass fuel-rise mx-auto w-full max-w-md rounded-3xl p-6 sm:p-8">
             <h1 className="text-2xl font-semibold tracking-tight text-balance text-white">{title}</h1>
             {subtitle && <p className="mt-1.5 text-sm text-zinc-400">{subtitle}</p>}
             <div className="mt-7">{children}</div>

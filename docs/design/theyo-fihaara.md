@@ -191,8 +191,8 @@ storedFiles (photos), messageLog (reminders), billing.
 ### Super Admin and sign-up (built)
 - Theyo Fihaara is its own project in Super Admin (product `fuel`): Fuel sheds, Payments, Plan & trial, plus the project's own leads, clients, quotations, invoices, jobs, tasks and tickets.
 - One plan to start: MVR 599 a month, 14-day free trial; Super Admin changes both under Plan & trial. The Small / Standard / Pro idea below can be added later.
-- Own address: **https://theyo.oceanx.app**, with its own black-and-amber sign-in and sign-up and a pump display counting litres and MVR.
-- Sheds request an account at **https://theyo.oceanx.app/register** (shed name, island, nozzles, tanks or drums, owner, Viber phone). It waits as **Pending** in Super Admin → Fuel sheds; the team calls, then approves. Super Admin can also open a shed directly.
+- Own address: **https://theyo.oceanx.app**, with its own sign-in and sign-up: a night harbour scene (lit shed, pump display counting litres, dhoni at the jetty) and the form on a glass card.
+- Sheds sign up themselves at **https://theyo.oceanx.app/register** (shed name, island, nozzles, tanks or drums, owner, Viber phone) and get in at once on the free trial. Super Admin sees every shed under Fuel sheds (address shows island, nozzles, tanks or drums) and controls plan, trial and payments; it can also open a shed directly.
 - A shed account gets the shed only (team, roles, activity log), never POS features or add-ons. Until Phase 1 is built, the owner's home says the account is ready and lists what is coming.
 
 ## 10. Plans (idea)

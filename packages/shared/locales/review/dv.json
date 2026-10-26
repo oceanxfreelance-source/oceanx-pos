@@ -11971,8 +11971,8 @@
   },
   {
     "key": "fuel.request_account",
-    "english": "Request an account",
-    "suggested": "އެކައުންޓަކަށް އެދޭ",
+    "english": "Create an account",
+    "suggested": "އެކައުންޓެއް ހަދާ",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
   },
@@ -11985,8 +11985,8 @@
   },
   {
     "key": "fuel.register_subtitle",
-    "english": "Tell us about your shed. The OceanX team will call you to set it up.",
-    "suggested": "ތިބާގެ ފިހާރައާ ބެހޭގޮތުން ކިޔައިދެއްވާ. ސެޓްއަޕް ކުރުމަށް OceanX ޓީމުން ގުޅާނެ.",
+    "english": "Your shed account opens right away, with a free trial.",
+    "suggested": "ތިބާގެ ފިހާރައިގެ އެކައުންޓް ވަގުތުން ހުޅުވޭނެ، ހިލޭ ޓްރަޔަލަކާއެކު.",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
   },
@@ -12055,15 +12055,15 @@
   },
   {
     "key": "fuel.reg.submit",
-    "english": "Request my shed account",
-    "suggested": "ފިހާރައިގެ އެކައުންޓަށް އެދޭ",
+    "english": "Create my shed account",
+    "suggested": "ފިހާރައިގެ އެކައުންޓް ހަދާ",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
   },
   {
     "key": "fuel.reg.after",
-    "english": "We call you, set up your pumps and tanks with you, then your account opens.",
-    "suggested": "އަޅުގަނޑުމެން ގުޅައި، ތިބާއާއެކު ޕަމްޕާއި ޓޭންކު ސެޓްކޮށް، ދެން އެކައުންޓް ހުޅުވޭނެ.",
+    "english": "You can start right away. The OceanX team can help you set up your pumps and tanks.",
+    "suggested": "ވަގުތުން ފެށޭނެ. ޕަމްޕާއި ޓޭންކު ސެޓްކުރުމަށް OceanX ޓީމުން އެހީތެރިވެދެވޭނެ.",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
   },

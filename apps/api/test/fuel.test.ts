@@ -49,15 +49,15 @@ describe('Theyo Fihaara (fuel sheds) in Super Admin', () => {
     expect((await owner.get('/api/products')).statusCode).toBe(403);
   });
 
-  it('a shed asks for an account: it waits for Super Admin, with the island and what it has', async () => {
+  it('a shed signs up and gets in at once, on its free trial, with the island and what it has', async () => {
     const c = new Client(env.app);
     const missing = await c.post('/api/auth/register', { product: 'fuel', businessName: 'X Fuel', ownerName: 'X', email: 'x@fuel.test', password: 'Fuel-Shed-Pass-1' });
     expect(missing.statusCode).toBe(422);
     expect(Object.keys(missing.json().error.fields).sort()).toEqual(['island', 'phone']);
     const r = await c.post('/api/auth/register', { product: 'fuel', businessName: 'Island Fuel', ownerName: 'Ali', email: 'ali@islandfuel.test', password: 'Fuel-Shed-Pass-1', phone: '7771234', island: 'Thinadhoo, Gaafu Dhaalu', fuelNozzles: '2-4', fuelStock: 'drums' });
     expect(r.statusCode).toBe(201);
-    expect(r.json()).toMatchObject({ state: 'business_pending', business: { product: 'fuel', status: 'pending' } });
-    const list = (await sa.get('/api/superadmin/businesses?product=fuel&status=pending')).json().items;
+    expect(r.json()).toMatchObject({ state: 'ok', business: { product: 'fuel', status: 'active' }, subscription: { planCode: 'fuel', effectiveStatus: 'trialing' } });
+    const list = (await sa.get('/api/superadmin/businesses?product=fuel')).json().items;
     expect(list.map((b: { name: string }) => b.name)).toEqual(['Island Fuel']);
     const detail = (await sa.get(`/api/superadmin/businesses/${list[0].id}`)).json();
     expect(detail.business.address).toBe('Thinadhoo, Gaafu Dhaalu · 2-4 nozzles · drums');

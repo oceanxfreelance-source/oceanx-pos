@@ -226,7 +226,7 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
     const settings = await getPlatformSettings(db);
     if (settings.registrationMode === 'closed') throw new AppError('registration_closed', 'Registration is closed');
     const body = parse(registerBusinessSchema, req.body);
-    // Theyo Fihaara: a shed asks for an account; the team calls them, then approves it in Super Admin.
+    // Theyo Fihaara: a shed signs up and starts its free trial at once; Super Admin sees it and controls plan and payments.
     if (body.product === 'fuel') {
       const fields: Record<string, { code: string }> = {};
       if (!body.phone) fields.phone = { code: 'required' };
@@ -275,7 +275,7 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
         currency: body.currency,
         // Gravity and Gravity Flow owners start their free trial at once (no approval); Super Admin sees every
         // Gravity sign-up and controls plans, trials and payments. An unpaid Gravity trial is deleted 48 hours after it ends.
-        status: body.product === 'fuel' ? 'pending' : settings.registrationMode === 'open' || body.product !== 'pos' ? 'active' : 'pending',
+        status: settings.registrationMode === 'open' || body.product !== 'pos' ? 'active' : 'pending',
         planId: plan.id,
         owner: { name: body.ownerName, email: body.email, language: body.language, passwordHash, phone: body.phone },
       });

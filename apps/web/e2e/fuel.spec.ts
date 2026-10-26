@@ -41,7 +41,6 @@ test('fuel: Super Admin opens a fuel shed and the owner signs in', async ({ page
   const p = await ctx.newPage();
   await p.goto('/fuel/login');
   await expect(p.getByText('New shed?')).toBeVisible();
-  await expect(p.getByText('Litres', { exact: true }).first()).toBeVisible();
   await p.getByLabel('Email').fill(`owner-${run}@fuel.test`);
   await p.getByLabel('Password').fill(password);
   await p.getByRole('button', { name: 'Sign in' }).click();
@@ -56,11 +55,19 @@ test('fuel: Super Admin opens a fuel shed and the owner signs in', async ({ page
 });
 
 /** A shed asks for an account on its own black-and-amber page; it waits for the team, then Super Admin approves it. */
-test('fuel: a shed requests an account and waits for approval', async ({ page, browser }) => {
+test('fuel: a shed signs up and gets in at once', async ({ page, browser }) => {
   const run = Date.now().toString(36);
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/fuel/login');
+  await page.waitForTimeout(3500);
   await page.screenshot({ path: `${SHOTS}/fuel-login.png` });
-  await page.getByRole('link', { name: 'Request an account' }).click();
+  const phoneLogin = await page.context().browser()!.newContext({ viewport: { width: 390, height: 844 } });
+  const pl = await phoneLogin.newPage();
+  await pl.goto('/fuel/login');
+  await pl.waitForTimeout(3000);
+  await pl.screenshot({ path: `${SHOTS}/fuel-login-phone.png` });
+  await phoneLogin.close();
+  await page.getByRole('link', { name: 'Create an account' }).click();
   await expect(page.getByRole('heading', { name: 'Get Theyo Fihaara for your shed' })).toBeVisible();
   await page.getByLabel(/^Shed name/).fill(`Island Fuel ${run}`);
   await page.getByLabel(/^Island and atoll/).fill('Thinadhoo, Gaafu Dhaalu');
@@ -71,9 +78,8 @@ test('fuel: a shed requests an account and waits for approval', async ({ page, b
   await page.getByLabel(/^Email/).fill(`ali-${run}@fuel.test`);
   await page.getByLabel(/^Password/).fill('Island-Fuel-2026');
   await page.screenshot({ path: `${SHOTS}/fuel-register.png`, fullPage: true });
-  await page.getByRole('button', { name: 'Request my shed account' }).click();
-  await expect(page.getByRole('heading', { name: 'We got your request' })).toBeVisible();
-  await page.screenshot({ path: `${SHOTS}/fuel-pending.png` });
+  await page.getByRole('button', { name: 'Create my shed account' }).click();
+  await expect(page.getByRole('heading', { name: 'Your Theyo Fihaara account is ready' })).toBeVisible();
   const phone = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const p = await phone.newPage();
   await p.goto('/fuel/register');
