@@ -6,12 +6,15 @@ import { DeviceThemeToggle } from '../../components/DeviceThemeToggle';
 import { FullscreenButton } from '../../components/FullscreenButton';
 import { InstallApp } from '../../components/InstallApp';
 import { useNavyPalette, useProductTheme } from '../../lib/product';
+import { FuelAuthShell } from './FuelAuth';
 
 export function AuthLayout({ title, subtitle, children, footer, aside, variant = 'business' }: { title: ReactNode; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode; aside?: ReactNode; variant?: 'business' | 'superadmin' | 'gravity' | 'flow' | 'budget' | 'fuel' }) {
   const { t } = useTranslation();
   const gravityFamily = variant === 'gravity' || variant === 'flow' || variant === 'budget';
   useProductTheme(gravityFamily ? variant : 'pos');
   useNavyPalette(variant === 'superadmin');
+  // Theyo Fihaara has its own black-and-amber sign-in, with a pump display.
+  if (variant === 'fuel') return <FuelAuthShell title={title} subtitle={subtitle} footer={footer}>{children}</FuelAuthShell>;
   return (
     <div className="relative min-h-dvh">
       <FarumaWarning />
@@ -23,10 +26,10 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
         <div className="flex flex-col justify-center px-5 py-10 sm:px-10">
           <div className="mx-auto w-full max-w-sm">
             <div className="mb-8 flex items-center gap-3">
-              {variant === 'gravity' ? <GravityMark className="size-10" /> : variant === 'flow' ? <FlowMark className="size-10" /> : variant === 'budget' ? <BudgetMark className="size-10" /> : variant === 'fuel' ? <FuelMark className="size-10" /> : <Logo className="size-10" />}
+              {variant === 'gravity' ? <GravityMark className="size-10" /> : variant === 'flow' ? <FlowMark className="size-10" /> : variant === 'budget' ? <BudgetMark className="size-10" /> : <Logo className="size-10" />}
               <div>
-                <p className="text-lg font-semibold tracking-tight">{gravityFamily || variant === 'fuel' ? t(`${variant}.name`) : t('app.name')}</p>
-                <p className="text-xs text-slate-500">{variant === 'superadmin' ? t('superadmin.console') : gravityFamily || variant === 'fuel' ? t(`${variant}.tagline`) : t('app.tagline')}</p>
+                <p className="text-lg font-semibold tracking-tight">{gravityFamily ? t(`${variant}.name`) : t('app.name')}</p>
+                <p className="text-xs text-slate-500">{variant === 'superadmin' ? t('superadmin.console') : gravityFamily ? t(`${variant}.tagline`) : t('app.tagline')}</p>
               </div>
             </div>
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">{title}</h1>
@@ -46,12 +49,10 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
               ? 'gravity-surface relative hidden overflow-hidden lg:block'
               : gravityFamily
                 ? 'gravity-surface relative hidden overflow-hidden lg:block'
-                : variant === 'fuel'
-                  ? 'relative hidden overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-950 to-black lg:block'
-                  : 'relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 lg:block'
+                : 'relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 lg:block'
           }
         >
-          {aside ?? (variant === 'gravity' ? <GravityAside /> : variant === 'flow' ? <FlowAside /> : variant === 'budget' ? <BudgetAside /> : variant === 'fuel' ? <FuelAside /> : <AuthAside />)}
+          {aside ?? (variant === 'gravity' ? <GravityAside /> : variant === 'flow' ? <FlowAside /> : variant === 'budget' ? <BudgetAside /> : <AuthAside />)}
         </div>
       </div>
     </div>
@@ -206,19 +207,4 @@ function BudgetAside() {
 /** Theyo Fihaara's mark: its two-word logo in white on black (the app icon). */
 export function FuelMark({ className }: { className?: string }) {
   return <img src="/fuel/icon-192.png" alt="" aria-hidden className={`rounded-[22%] ${className ?? ''}`} />;
-}
-
-function FuelAside() {
-  const { t } = useTranslation();
-  return (
-    <div className="flex h-full flex-col justify-end p-12 text-white">
-      <img src="/fuel/icon-512.png" alt="" aria-hidden className="absolute -end-16 -top-16 size-[26rem] rounded-[22%] opacity-20" />
-      <p className="max-w-md text-3xl leading-tight font-semibold">{t('fuel.aside_title')}</p>
-      <ul className="mt-4 max-w-md space-y-1.5 text-zinc-300">
-        <li>✓ {t('fuel.aside_1')}</li>
-        <li>✓ {t('fuel.aside_2')}</li>
-        <li>✓ {t('fuel.aside_3')}</li>
-      </ul>
-    </div>
-  );
 }

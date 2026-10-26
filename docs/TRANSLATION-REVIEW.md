@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1331 · **confirmed**: 380
+Status: **needs_review**: 1351 · **confirmed**: 380
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -358,6 +358,10 @@ review of the whole file is still recommended before launch.
 | `fuel.aside_3` | For one-nozzle island sheds and busy harbours | އެއް ނޮޒަލްގެ ރަށު ފިހާރައަށާއި ބުރަ ބަނދަރުތަކަށް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.aside_title` | Know every litre and every rufiyaa. | ކޮންމެ ލީޓަރެއް އަދި ކޮންމެ ރުފިޔާއެއް އެނގޭނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.console` | Theyo Fihaara console | ތެޔޮ ފިހާރަ ކޮންސޯލް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.display.amount` | MVR | ރ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.display.litres` | Litres | ލީޓަރު | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.display.price` | Price / L | އަގު / ލީޓަރު | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.display.pump` | Pump 2 · Petrol · filling | ޕަމްޕު 2 · ޕެޓްރޯލް · ޖަހަމުން | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.home.body` | We are setting up the system for your shed. The OceanX team will contact you before it starts. | ތިބާގެ ފިހާރައަށް ސިސްޓަމް ތައްޔާރުކުރަމުން. ފެށުމުގެ ކުރިން OceanX ޓީމުން ގުޅާނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.home.coming` | What you will use | ތިބާ ބޭނުންކުރާނެ އެއްޗެހި | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.home.plan` | Plan: {{plan}} · until {{date}} | ޕްލޭން: {{plan}} · {{date}} އާ ހަމައަށް | needs_review | Theyo Fihaara in Super Admin; please check. |
@@ -367,13 +371,29 @@ review of the whole file is still recommended before launch.
 | `fuel.home.step_tanks` | Tanks, dips and deliveries, or drums for small sheds | ޓޭންކު، ޑިޕް އަދި ޑެލިވަރީ، ނުވަތަ ކުދި ފިހާރަތަކަށް ފީފާ | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.home.step_till` | Sell fuel at the till: walk-in, credit and new customers | ކައުންޓަރުން ތެޔޮ ވިއްކުން: އާންމު، ދަރަނި އަދި އައު ކަސްޓަމަރުން | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.home.title` | Your Theyo Fihaara account is ready | ތިބާގެ ތެޔޮ ފިހާރަ އެކައުންޓް ތައްޔާރު | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.login_subtitle` | Sign in to your shed. | ތިބާގެ ފިހާރައަށް ސައިން އިން ކުރައްވާ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.name` | Theyo Fihaara | ތެޔޮ ފިހާރަ | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.new_account` | New fuel shed | އައު ތެޔޮ ފިހާރައެއް | needs_review | Theyo Fihaara in Super Admin; please check. |
-| `fuel.no_account` | Your account is opened by the OceanX team. Contact us to get started. | ތިބާގެ އެކައުންޓް ހުޅުވައިދެނީ OceanX ޓީމުން. ފެށުމަށް އަޅުގަނޑުމެންނާ ގުޅުއްވާ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.no_account` | New shed? | އައު ފިހާރައެއް؟ | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.payments` | Theyo Fihaara payments | ތެޔޮ ފިހާރަ ފައިސާ ދެއްކުން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.pending_body` | Thank you, {{name}}. The OceanX team will call you to set up your shed. You can sign in here any time. | ޝުކުރިއްޔާ، {{name}}. ތިބާގެ ފިހާރަ ސެޓްކުރުމަށް OceanX ޓީމުން ގުޅާނެ. ކޮންމެ ވަގުތެއްގައި މިތާނގައި ސައިން އިން ކުރެވޭނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.pending_title` | We got your request | ތިބާގެ އެދުން ލިބިއްޖެ | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.plan_title` | Theyo Fihaara plan | ތެޔޮ ފިހާރަ ޕްލޭން | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.after` | We call you, set up your pumps and tanks with you, then your account opens. | އަޅުގަނޑުމެން ގުޅައި، ތިބާއާއެކު ޕަމްޕާއި ޓޭންކު ސެޓްކޮށް، ދެން އެކައުންޓް ހުޅުވޭނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.drums` | Drums | ފީފާ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.island` | Island and atoll | ރަށާއި އަތޮޅު | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.island_placeholder` | e.g. Thinadhoo, Gaafu Dhaalu | މިސާލު: ތިނަދޫ، ގދ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.nozzles` | How many nozzles? | ނޮޒަލް ކިތައް؟ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.phone` | Phone (Viber) | ފޯނު (ވައިބަރ) | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.section_shed` | Your shed | ތިބާގެ ފިހާރަ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.section_you` | You | ތިބާ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.stock` | Fuel is kept in | ތެޔޮ ބަހައްޓަނީ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.submit` | Request my shed account | ފިހާރައިގެ އެކައުންޓަށް އެދޭ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.reg.tanks` | Tanks | ޓޭންކު | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.register_subtitle` | Tell us about your shed. The OceanX team will call you to set it up. | ތިބާގެ ފިހާރައާ ބެހޭގޮތުން ކިޔައިދެއްވާ. ސެޓްއަޕް ކުރުމަށް OceanX ޓީމުން ގުޅާނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.register_title` | Get Theyo Fihaara for your shed | ތިބާގެ ފިހާރައަށް ތެޔޮ ފިހާރަ ހޯދާ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.request_account` | Request an account | އެކައުންޓަކަށް އެދޭ | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.sa.create` | Open shed account | ފިހާރައިގެ އެކައުންޓް ހުޅުވާ | needs_review | Theyo Fihaara in Super Admin; please check. |
-| `fuel.sa.no_signup` | No public sign-up yet: open each shed's account here. | އަދި ޕަބްލިކް ސައިން އަޕެއް ނެތް: ކޮންމެ ފިހާރައެއްގެ އެކައުންޓް މިތާނގައި ހުޅުވާ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.sa.shed_name` | Shed name | ފިހާރައިގެ ނަން | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.tagline` | Fuel shed system | ތެޔޮ ފިހާރައިގެ ސިސްޓަމް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `gravity.accounts` | Gravity accounts | Gravity އެކައުންޓްތައް | needs_review | New: Gravity (quotation & invoice generator). |

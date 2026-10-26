@@ -187,7 +187,15 @@ storedFiles (photos), messageLog (reminders), billing.
 - `docs/marketing/fuel-demo/prototype/theyo-fihaara-demo.html`: one file, opens in any browser, no internet needed, nothing is sent or published. SAMPLE DATA only; changes stay in that browser (Settings → Reset sample data).
 - Try: sell (walk-in, credit, + New customer, delivery line, shop items, receipt), close shift / close the day, record dip, new delivery (tank fills), expenses, Unpaid + payment received + approve till-added customers, quotation → PO → sell against it → invoice → paid, price change, reports, settings (one person / shifts, 1 or 4 nozzles, tanks / drums, delivery charge, printer, limits), English / Dhivehi, and switch role (Owner, Manager, Attendant, Accountant) from the bottom of the sidebar.
 - Dhivehi lines are needs_review.
- (idea)
+
+### Super Admin and sign-up (built)
+- Theyo Fihaara is its own project in Super Admin (product `fuel`): Fuel sheds, Payments, Plan & trial, plus the project's own leads, clients, quotations, invoices, jobs, tasks and tickets.
+- One plan to start: MVR 599 a month, 14-day free trial; Super Admin changes both under Plan & trial. The Small / Standard / Pro idea below can be added later.
+- Own address: **https://theyo.oceanx.app**, with its own black-and-amber sign-in and sign-up and a pump display counting litres and MVR.
+- Sheds request an account at **https://theyo.oceanx.app/register** (shed name, island, nozzles, tanks or drums, owner, Viber phone). It waits as **Pending** in Super Admin → Fuel sheds; the team calls, then approves. Super Admin can also open a shed directly.
+- A shed account gets the shed only (team, roles, activity log), never POS features or add-ons. Until Phase 1 is built, the owner's home says the account is ready and lists what is coming.
+
+## 10. Plans (idea)
 
 | Plan | For | MVR / month |
 |---|---|---|

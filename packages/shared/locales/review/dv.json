@@ -11782,8 +11782,8 @@
   },
   {
     "key": "fuel.no_account",
-    "english": "Your account is opened by the OceanX team. Contact us to get started.",
-    "suggested": "ތިބާގެ އެކައުންޓް ހުޅުވައިދެނީ OceanX ޓީމުން. ފެށުމަށް އަޅުގަނޑުމެންނާ ގުޅުއްވާ.",
+    "english": "New shed?",
+    "suggested": "އައު ފިހާރައެއް؟",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
   },
@@ -11840,13 +11840,6 @@
     "key": "fuel.sa.shed_name",
     "english": "Shed name",
     "suggested": "ފިހާރައިގެ ނަން",
-    "status": "needs_review",
-    "notes": "Theyo Fihaara in Super Admin; please check."
-  },
-  {
-    "key": "fuel.sa.no_signup",
-    "english": "No public sign-up yet: open each shed's account here.",
-    "suggested": "އަދި ޕަބްލިކް ސައިން އަޕެއް ނެތް: ކޮންމެ ފިހާރައެއްގެ އެކައުންޓް މިތާނގައި ހުޅުވާ.",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
   },
@@ -11973,6 +11966,153 @@
     "key": "fuel.aside_3",
     "english": "For one-nozzle island sheds and busy harbours",
     "suggested": "އެއް ނޮޒަލްގެ ރަށު ފިހާރައަށާއި ބުރަ ބަނދަރުތަކަށް",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.request_account",
+    "english": "Request an account",
+    "suggested": "އެކައުންޓަކަށް އެދޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.register_title",
+    "english": "Get Theyo Fihaara for your shed",
+    "suggested": "ތިބާގެ ފިހާރައަށް ތެޔޮ ފިހާރަ ހޯދާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.register_subtitle",
+    "english": "Tell us about your shed. The OceanX team will call you to set it up.",
+    "suggested": "ތިބާގެ ފިހާރައާ ބެހޭގޮތުން ކިޔައިދެއްވާ. ސެޓްއަޕް ކުރުމަށް OceanX ޓީމުން ގުޅާނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.section_shed",
+    "english": "Your shed",
+    "suggested": "ތިބާގެ ފިހާރަ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.section_you",
+    "english": "You",
+    "suggested": "ތިބާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.island",
+    "english": "Island and atoll",
+    "suggested": "ރަށާއި އަތޮޅު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.island_placeholder",
+    "english": "e.g. Thinadhoo, Gaafu Dhaalu",
+    "suggested": "މިސާލު: ތިނަދޫ، ގދ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.nozzles",
+    "english": "How many nozzles?",
+    "suggested": "ނޮޒަލް ކިތައް؟",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.stock",
+    "english": "Fuel is kept in",
+    "suggested": "ތެޔޮ ބަހައްޓަނީ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.tanks",
+    "english": "Tanks",
+    "suggested": "ޓޭންކު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.drums",
+    "english": "Drums",
+    "suggested": "ފީފާ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.phone",
+    "english": "Phone (Viber)",
+    "suggested": "ފޯނު (ވައިބަރ)",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.submit",
+    "english": "Request my shed account",
+    "suggested": "ފިހާރައިގެ އެކައުންޓަށް އެދޭ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.reg.after",
+    "english": "We call you, set up your pumps and tanks with you, then your account opens.",
+    "suggested": "އަޅުގަނޑުމެން ގުޅައި، ތިބާއާއެކު ޕަމްޕާއި ޓޭންކު ސެޓްކޮށް، ދެން އެކައުންޓް ހުޅުވޭނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.pending_title",
+    "english": "We got your request",
+    "suggested": "ތިބާގެ އެދުން ލިބިއްޖެ",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.pending_body",
+    "english": "Thank you, {{name}}. The OceanX team will call you to set up your shed. You can sign in here any time.",
+    "suggested": "ޝުކުރިއްޔާ، {{name}}. ތިބާގެ ފިހާރަ ސެޓްކުރުމަށް OceanX ޓީމުން ގުޅާނެ. ކޮންމެ ވަގުތެއްގައި މިތާނގައި ސައިން އިން ކުރެވޭނެ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.display.litres",
+    "english": "Litres",
+    "suggested": "ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.display.amount",
+    "english": "MVR",
+    "suggested": "ރ.",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.display.price",
+    "english": "Price / L",
+    "suggested": "އަގު / ލީޓަރު",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.display.pump",
+    "english": "Pump 2 · Petrol · filling",
+    "suggested": "ޕަމްޕު 2 · ޕެޓްރޯލް · ޖަހަމުން",
+    "status": "needs_review",
+    "notes": "Theyo Fihaara in Super Admin; please check."
+  },
+  {
+    "key": "fuel.login_subtitle",
+    "english": "Sign in to your shed.",
+    "suggested": "ތިބާގެ ފިހާރައަށް ސައިން އިން ކުރައްވާ.",
     "status": "needs_review",
     "notes": "Theyo Fihaara in Super Admin; please check."
   }

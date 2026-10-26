@@ -16,6 +16,7 @@ import { AppLoader } from './components/AppLoader';
 import { HOST_PRODUCT } from './lib/product';
 const BusinessLogin = lazy(() => import('./pages/auth/BusinessLogin'));
 const Register = lazy(() => import('./pages/auth/Register'));
+const FuelRegister = lazy(() => import('./pages/auth/FuelAuth'));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
 const Dashboard = lazy(() => import('./pages/business/Dashboard'));
@@ -231,7 +232,7 @@ const router = createBrowserRouter([
     children: [
       // On Gravity's or Gravity Flow's own address the plain sign-in and sign-up are that product's.
       { path: 'login', element: <BusinessLogin product={HOST_PRODUCT} /> },
-      { path: 'register', element: <Register product={HOST_PRODUCT} /> },
+      { path: 'register', element: HOST_PRODUCT === 'fuel' ? <FuelRegister /> : <Register product={HOST_PRODUCT} /> },
       // Gravity (quotation & invoice generator): its own sign-up and sign-in look, same accounts system.
       { path: 'gravity', element: <Navigate to="/gravity/register" replace /> },
       { path: 'gravity/register', element: <Register product="gravity" /> },
@@ -244,9 +245,9 @@ const router = createBrowserRouter([
       { path: 'budget', element: <Navigate to="/budget/register" replace /> },
       { path: 'budget/register', element: <Register product="budget" /> },
       { path: 'budget/login', element: <BusinessLogin product="budget" /> },
-      // Theyo Fihaara (fuel sheds): sign-in only; Super Admin opens each shed's account.
+      // Theyo Fihaara (fuel sheds): its own sign-in, and a request for a shed account (approved in Super Admin).
       { path: 'fuel', element: <Navigate to="/fuel/login" replace /> },
-      { path: 'fuel/register', element: <Navigate to="/fuel/login" replace /> },
+      { path: 'fuel/register', element: <FuelRegister /> },
       { path: 'fuel/login', element: <BusinessLogin product="fuel" /> },
       { path: 'forgot-password', element: <ForgotPassword domain="business" /> },
       { path: 'reset-password', element: <ResetPassword domain="business" /> },

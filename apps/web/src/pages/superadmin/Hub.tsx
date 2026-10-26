@@ -591,7 +591,7 @@ function VentureDialog({ venture, onClose }: { venture: Venture | null; onClose:
 
 declare const __APP_URLS__: Record<string, string>;
 /** Where a product's customers sign up: its own address when it has one, else /gravity or /flow here. */
-function signupUrl(product: 'gravity' | 'flow' | 'budget') {
+function signupUrl(product: 'gravity' | 'flow' | 'budget' | 'fuel') {
   const own = (typeof __APP_URLS__ !== 'undefined' && __APP_URLS__[product]) || '';
   if (own) return `${own.replace(/\/$/, '')}/register`;
   const main = (typeof __APP_URLS__ !== 'undefined' && __APP_URLS__.pos) || window.location.origin;
@@ -606,8 +606,7 @@ function ProductConsoleLinks({ product, pending }: { product: 'gravity' | 'flow'
     [`/superadmin/${product}/payments`, 'superadmin.nav.payments', Banknote],
     [`/superadmin/${product}/plans`, 'gravity.nav_plan', Layers],
   ];
-  // Theyo Fihaara has no public sign-up yet: Super Admin opens each shed's account.
-  const url = product === 'fuel' ? null : signupUrl(product);
+  const url = signupUrl(product);
   return (
     <section aria-label={t(`${product}.console`)}>
       <h2 className="mb-3 text-lg font-semibold">{t(`${product}.console`)}</h2>

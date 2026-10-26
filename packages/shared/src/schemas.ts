@@ -72,6 +72,12 @@ export const registerBusinessSchema = z.object({
   language: z.enum(LANGUAGE_CODES).default('en'),
   /** Gravity Budget: "Rf and $": dollars kept as their own money next to the main currency. */
   usdWallet: z.boolean().default(false),
+  /** Theyo Fihaara: where the shed is (island and atoll). */
+  island: z.string().trim().max(120).default(''),
+  /** Theyo Fihaara: how many nozzles, roughly. */
+  fuelNozzles: z.enum(['1', '2-4', '5+']).optional(),
+  /** Theyo Fihaara: fuel kept in underground tanks or in drums. */
+  fuelStock: z.enum(['tanks', 'drums']).optional(),
 });
 
 // ---------------------------------------------------------------- business: me / users / roles

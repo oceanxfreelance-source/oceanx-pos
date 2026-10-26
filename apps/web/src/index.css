@@ -111,6 +111,54 @@
   --color-brand-900: #07263b;
   --color-brand-950: #031827;
 }
+:root[data-palette='fuel'] {
+  /* Theyo Fihaara sign-in and sign-up: black pages, amber actions (like a pump's display). */
+  --color-brand-50: #fffbeb;
+  --color-brand-100: #fef3c7;
+  --color-brand-200: #fde68a;
+  --color-brand-300: #fcd34d;
+  --color-brand-400: #fbbf24;
+  --color-brand-500: #f59e0b;
+  --color-brand-600: #b45309;
+  --color-brand-700: #92400e;
+  --color-brand-800: #78350f;
+  --color-brand-900: #451a03;
+  --color-brand-950: #2a1002;
+  --color-slate-50: #fafafa;
+  --color-slate-100: #f4f4f5;
+  --color-slate-200: #e4e4e7;
+  --color-slate-300: #d4d4d8;
+  --color-slate-400: #a1a1aa;
+  --color-slate-500: #71717a;
+  --color-slate-600: #52525b;
+  --color-slate-700: #3f3f46;
+  --color-slate-800: #27272a;
+  --color-slate-900: #18181b;
+  --color-slate-950: #0c0c0d;
+}
+:root[data-palette='fuel'] body {
+  background: #0c0c0d;
+}
+.fuel-auth {
+  background: #0c0c0d;
+}
+.fuel-aside {
+  background:
+    radial-gradient(40rem 30rem at 85% 110%, rgb(245 158 11 / 0.12), transparent 60%),
+    repeating-linear-gradient(135deg, rgb(255 255 255 / 0.018) 0 2px, transparent 2px 14px),
+    #101012;
+}
+.fuel-display {
+  background: linear-gradient(180deg, #2a2a2e, #141416);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 20px 50px rgb(0 0 0 / 0.5);
+}
+.fuel-digits {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', Menlo, monospace;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fbbf24;
+  text-shadow: 0 0 12px rgb(251 191 36 / 0.45);
+}
 :root[data-palette='navy'] {
   /* Super Admin: the whole console in the colours of Gravity's logo — deep navy pages, green actions. */
   --color-brand-50: #ecf8f2;

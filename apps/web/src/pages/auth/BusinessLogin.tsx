@@ -42,11 +42,16 @@ export default function BusinessLogin({ product = 'pos' }: { product?: Product }
     <AuthLayout
       variant={product === 'pos' ? 'business' : product}
       title={t('auth.login_title')}
-      subtitle={t('auth.login_subtitle')}
+      subtitle={product === 'fuel' ? t('fuel.login_subtitle') : t('auth.login_subtitle')}
       footer={
         <div className="space-y-4">
           {product === 'fuel' ? (
-            <p>{t('fuel.no_account')}</p>
+            <p>
+              {t('fuel.no_account')}{' '}
+              <Link to={productPath('fuel', 'register')} className="font-medium text-brand-300 hover:underline">
+                {t('fuel.request_account')}
+              </Link>
+            </p>
           ) : (
             <p>
               {product === 'pos' ? t('auth.no_account') : t(`${product}.no_account`)}{' '}

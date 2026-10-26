@@ -11,6 +11,7 @@ import { ChangePasswordForm } from '../../components/ChangePasswordForm';
 import { useFormat } from '../../lib/format';
 import { PayPanel, useBilling } from './Billing';
 import { BudgetMark, FlowMark, FuelMark, GravityMark } from '../auth/AuthLayout';
+import { useFuelPalette } from '../auth/FuelAuth';
 import { productPath, useProductTheme } from '../../lib/product';
 import { useOnline } from '../../lib/budgetOffline';
 
@@ -60,6 +61,8 @@ export function StatusScreen() {
   const f = useFormat();
   switch (s.state) {
     case 'business_pending':
+      // Theyo Fihaara: the shed asked for an account; the team calls them before approving it.
+      if (s.business.product === 'fuel') return <FuelPending name={s.business.name} />;
       return <Frame icon={<Clock className="size-6" />} title={t('status.pending_title')} body={t('status.pending_body', { name: s.business.name })} />;
     case 'business_suspended':
     case 'business_deactivated':
@@ -125,4 +128,11 @@ function ExpiredPay() {
       </div>
     );
   return null;
+}
+
+/** Theyo Fihaara: a shed's request is waiting for the team's call, in the same black-and-amber look as its sign-up. */
+function FuelPending({ name }: { name: string }) {
+  const { t } = useTranslation();
+  useFuelPalette();
+  return <Frame icon={<Clock className="size-6" />} title={t('fuel.pending_title')} body={t('fuel.pending_body', { name })} />;
 }

@@ -3458,7 +3458,7 @@
   "fuel": {
     "name": "Theyo Fihaara",
     "tagline": "Fuel shed system",
-    "no_account": "Your account is opened by the OceanX team. Contact us to get started.",
+    "no_account": "New shed?",
     "accounts": "Fuel sheds",
     "accounts_subtitle": "Sheds using Theyo Fihaara, their trial and plan.",
     "new_account": "New fuel shed",
@@ -3468,7 +3468,6 @@
     "active_accounts": "Fuel sheds",
     "sa": {
       "shed_name": "Shed name",
-      "no_signup": "No public sign-up yet: open each shed's account here.",
       "create": "Open shed account"
     },
     "home": {
@@ -3485,6 +3484,31 @@
     "aside_title": "Know every litre and every rufiyaa.",
     "aside_1": "Meters, cash and tank dips checked at every close",
     "aside_2": "Credit customers and government invoices in one place",
-    "aside_3": "For one-nozzle island sheds and busy harbours"
+    "aside_3": "For one-nozzle island sheds and busy harbours",
+    "request_account": "Request an account",
+    "register_title": "Get Theyo Fihaara for your shed",
+    "register_subtitle": "Tell us about your shed. The OceanX team will call you to set it up.",
+    "reg": {
+      "section_shed": "Your shed",
+      "section_you": "You",
+      "island": "Island and atoll",
+      "island_placeholder": "e.g. Thinadhoo, Gaafu Dhaalu",
+      "nozzles": "How many nozzles?",
+      "stock": "Fuel is kept in",
+      "tanks": "Tanks",
+      "drums": "Drums",
+      "phone": "Phone (Viber)",
+      "submit": "Request my shed account",
+      "after": "We call you, set up your pumps and tanks with you, then your account opens."
+    },
+    "pending_title": "We got your request",
+    "pending_body": "Thank you, {{name}}. The OceanX team will call you to set up your shed. You can sign in here any time.",
+    "display": {
+      "litres": "Litres",
+      "amount": "MVR",
+      "price": "Price / L",
+      "pump": "Pump 2 · Petrol · filling"
+    },
+    "login_subtitle": "Sign in to your shed."
   }
 }

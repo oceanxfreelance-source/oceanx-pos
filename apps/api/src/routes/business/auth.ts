@@ -226,8 +226,13 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
     const settings = await getPlatformSettings(db);
     if (settings.registrationMode === 'closed') throw new AppError('registration_closed', 'Registration is closed');
     const body = parse(registerBusinessSchema, req.body);
-    // Theyo Fihaara has no public sign-up yet: Super Admin opens each shed's account.
-    if (body.product === 'fuel') throw new AppError('registration_closed', 'Registration is closed');
+    // Theyo Fihaara: a shed asks for an account; the team calls them, then approves it in Super Admin.
+    if (body.product === 'fuel') {
+      const fields: Record<string, { code: string }> = {};
+      if (!body.phone) fields.phone = { code: 'required' };
+      if (!body.island) fields.island = { code: 'required' };
+      if (Object.keys(fields).length) throw new AppError('validation_failed', 'Missing shed details', { fields });
+    }
     const planCode = { pos: settings.defaultPlanCode, gravity: settings.gravityPlanCode, flow: settings.flowPlanCode, budget: settings.budgetPlanCode, fuel: settings.fuelPlanCode }[body.product];
     const [plan] = await db
       .select()
@@ -262,10 +267,15 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
         businessType: body.product === 'pos' ? body.businessType : 'other',
         email: body.email,
         phone: body.phone,
+        // Theyo Fihaara: the island and what the shed has, for the team's first call.
+        address:
+          body.product === 'fuel'
+            ? [body.island, body.fuelNozzles && `${body.fuelNozzles} nozzles`, body.fuelStock && (body.fuelStock === 'drums' ? 'drums' : 'tanks')].filter(Boolean).join(' · ')
+            : undefined,
         currency: body.currency,
         // Gravity and Gravity Flow owners start their free trial at once (no approval); Super Admin sees every
         // Gravity sign-up and controls plans, trials and payments. An unpaid Gravity trial is deleted 48 hours after it ends.
-        status: settings.registrationMode === 'open' || body.product !== 'pos' ? 'active' : 'pending',
+        status: body.product === 'fuel' ? 'pending' : settings.registrationMode === 'open' || body.product !== 'pos' ? 'active' : 'pending',
         planId: plan.id,
         owner: { name: body.ownerName, email: body.email, language: body.language, passwordHash, phone: body.phone },
       });
@@ -278,8 +288,8 @@ export async function businessAuthPublicRoutes(app: FastifyInstance, opts: { aut
         await tx.update(businesses).set({ budgetUsdWallet: true }).where(eq(businesses.id, res.business.id));
         await addDollarCategories(tx, res.business.id);
       }
-      // Gravity: Super Admin keeps every sign-up's details, even after an unpaid trial is deleted.
-      if (body.product === 'gravity') {
+      // Gravity and Theyo Fihaara: Super Admin keeps every sign-up's details, even after an unpaid trial is deleted.
+      if (body.product === 'gravity' || body.product === 'fuel') {
         await tx.insert(signups).values({
           businessId: res.business.id,
           product: body.product,
