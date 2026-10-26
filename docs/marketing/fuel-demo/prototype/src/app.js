@@ -529,7 +529,7 @@ P.settings = () => {
   const seg = (key, opts, val) => `<div class="tabs">${opts.map(([v, n]) => `<a class="${String(val) === String(v) ? 'on' : ''}" data-a="setv" data-k="${key}" data-v="${v}">${t(n)}</a>`).join('')}</div>`;
   const tog = (key, on) => `<a class="tog${on ? ' on' : ''}" data-a="setv" data-k="${key}" data-v="${on ? 0 : 1}"><i></i></a>`;
   const row = (a, b, c) => `<div class="srow"><div><b class="w5">${t(a)}</b><div class="mut sm">${t(b)}</div></div>${c}</div>`;
-  return `<div class="ph"><div><h1>${t('Settings')}</h1><div class="s">${t('Each shed turns on only what it uses · try them, the whole demo changes')}</div></div><a class="bt" data-a="reset">${t('Reset sample data')}</a></div>
+  return `<div class="ph"><div><h1>${t('Settings')}</h1><div class="s">${t('Each shed turns on only what it uses · try them, the whole demo changes')}</div></div><a class="bt${S.resetArm ? ' pr' : ''}" data-a="reset">${t(S.resetArm ? 'Tap again to reset' : 'Reset sample data')}</a></div>
   <div class="g2">
   <div class="card"><div class="ch"><h3>${t('Working mode')}</h3></div>${row('How the shed works', 'Changes the menu and the closing screen', seg('mode', [['shifts', 'Shifts'], ['one', 'One person']], s.mode))}${row('Nozzles', 'One nozzle skips the pump choice at the till', seg('nozzles', [[4, '4 nozzles'], [1, '1 nozzle']], s.nozzles))}${row('Stock', 'Underground tanks or drums', seg('stock', [['tanks', 'Tanks'], ['drums', 'Drums']], s.stock))}</div>
   <div class="card"><div class="ch"><h3>${t('Delivery charge')}</h3>${tog('delivery.on', s.delivery.on)}</div>${row('Charge type', 'Shown as its own line on the bill', seg('delivery.type', [['fixed', 'Fixed'], ['litre', 'Per litre']], s.delivery.type))}${row('Default amount', 'Staff can change or remove it on each sale', `<input class="inp" id="delamt" data-live="delamt" value="${S.form.delamt ?? s.delivery.amount}" style="width:110px">`)}</div>
@@ -600,7 +600,7 @@ const v = (id) => ($('#' + id)?.value ?? '').trim();
 const fv = (id) => parseFloat(v(id).replace(/,/g, '')) || 0;
 let toastT;
 function toast(msg) { const el = $('#toast'); el.innerHTML = msg; el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2600); }
-A.go = (d) => { S.route = d.r; S.form = {}; if (d.r === 'till' && !S.till) tillReset(); render(); window.scrollTo(0, 0); };
+A.go = (d) => { S.resetArm = false; S.route = d.r; S.form = {}; if (d.r === 'till' && !S.till) tillReset(); render(); window.scrollTo(0, 0); };
 A.lang = () => { S.lang = S.lang === 'en' ? 'dv' : 'en'; render(); };
 A.role = () => { const r = ['owner', 'manager', 'attendant', 'accountant']; S.role = r[(r.indexOf(S.role) + 1) % 4]; S.route = S.role === 'attendant' ? 'till' : S.role === 'accountant' ? 'unpaid' : 'overview'; if (S.route === 'till') tillReset(); render(); toast(tf('Now viewing as {r}', { r: t(cap(S.role)) })); };
 A.tab = (d) => { S.tab[d.k] = d.v; render(); };
@@ -718,7 +718,7 @@ A.setv = (d) => {
   if (k === 'mode' && val === 'one' && !openShift()) A.openShift();
   tillReset(); render();
 };
-A.reset = () => { if (!confirm(t('Reset all sample data?'))) return; const lang = S.lang; S = seed(); S.lang = lang; S.route = 'settings'; render(); toast(t('Sample data reset')); };
+A.reset = () => { if (!S.resetArm) { S.resetArm = true; render(); return; } const lang = S.lang; S = seed(); S.lang = lang; S.route = 'settings'; render(); toast(t('Sample data reset')); };
 
 // ---------- render
 function render() {
