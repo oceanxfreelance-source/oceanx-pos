@@ -197,4 +197,4 @@ Free setup, 30-day trial, bank-transfer billing (existing).
 2. ~~Web address~~ — decided: `theyofihaara.oceanx.app`.
 3. ~~Printing~~ — decided: optional (off by default); support 80 mm thermal when a shed has one.
 4. Do sheds need delivery (bowser/drums to boats) as a separate charge/flow?
-5. Short logo for small app icon.
+5. ~~App icon~~ — decided: the two-word logo in white on **black** (files: `docs/marketing/fuel-demo/logo/icons/theyofihaara-icon-black-*.png`).
