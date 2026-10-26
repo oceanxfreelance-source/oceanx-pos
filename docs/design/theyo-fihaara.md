@@ -183,7 +183,11 @@ storedFiles (photos), messageLog (reminders), billing.
 - Animations are light (SVG), stop when the tab is hidden, and respect "reduce motion".
 - Demo: `docs/marketing/fuel-demo/live/tanks-live.html`, Dhivehi: `tanks-live-dhivehi.html` (SAMPLE DATA).
 
-## 10. Plans (idea)
+### Clickable demo (offline)
+- `docs/marketing/fuel-demo/prototype/theyo-fihaara-demo.html`: one file, opens in any browser, no internet needed, nothing is sent or published. SAMPLE DATA only; changes stay in that browser (Settings → Reset sample data).
+- Try: sell (walk-in, credit, + New customer, delivery line, shop items, receipt), close shift / close the day, record dip, new delivery (tank fills), expenses, Unpaid + payment received + approve till-added customers, quotation → PO → sell against it → invoice → paid, price change, reports, settings (one person / shifts, 1 or 4 nozzles, tanks / drums, delivery charge, printer, limits), English / Dhivehi, and switch role (Owner, Manager, Attendant, Accountant) from the bottom of the sidebar.
+- Dhivehi lines are needs_review.
+ (idea)
 
 | Plan | For | MVR / month |
 |---|---|---|
