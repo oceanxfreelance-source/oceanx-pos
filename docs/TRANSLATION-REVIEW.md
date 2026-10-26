@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1327 · **confirmed**: 380
+Status: **needs_review**: 1331 · **confirmed**: 380
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -353,6 +353,10 @@ review of the whole file is still recommended before launch.
 | `fuel.accounts` | Fuel sheds | ތެޔޮ ފިހާރަތައް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.accounts_subtitle` | Sheds using Theyo Fihaara, their trial and plan. | ތެޔޮ ފިހާރަ ބޭނުންކުރާ ފިހާރަތައް، އެމީހުންގެ ޓްރަޔަލް އަދި ޕްލޭން. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.active_accounts` | Fuel sheds | ތެޔޮ ފިހާރަތައް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.aside_1` | Meters, cash and tank dips checked at every close | ކޮންމެ ބަންދުކުރުމެއްގައި މީޓަރު، ނަގުދު އަދި ޓޭންކު ޑިޕް ބެލޭނެ | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.aside_2` | Credit customers and government invoices in one place | ދަރަނި ކަސްޓަމަރުން އަދި ސަރުކާރުގެ އިންވޮއިސް އެއްތަނެއްގައި | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.aside_3` | For one-nozzle island sheds and busy harbours | އެއް ނޮޒަލްގެ ރަށު ފިހާރައަށާއި ބުރަ ބަނދަރުތަކަށް | needs_review | Theyo Fihaara in Super Admin; please check. |
+| `fuel.aside_title` | Know every litre and every rufiyaa. | ކޮންމެ ލީޓަރެއް އަދި ކޮންމެ ރުފިޔާއެއް އެނގޭނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.console` | Theyo Fihaara console | ތެޔޮ ފިހާރަ ކޮންސޯލް | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.home.body` | We are setting up the system for your shed. The OceanX team will contact you before it starts. | ތިބާގެ ފިހާރައަށް ސިސްޓަމް ތައްޔާރުކުރަމުން. ފެށުމުގެ ކުރިން OceanX ޓީމުން ގުޅާނެ. | needs_review | Theyo Fihaara in Super Admin; please check. |
 | `fuel.home.coming` | What you will use | ތިބާ ބޭނުންކުރާނެ އެއްޗެހި | needs_review | Theyo Fihaara in Super Admin; please check. |

@@ -46,10 +46,12 @@ export function AuthLayout({ title, subtitle, children, footer, aside, variant =
               ? 'gravity-surface relative hidden overflow-hidden lg:block'
               : gravityFamily
                 ? 'gravity-surface relative hidden overflow-hidden lg:block'
-                : 'relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 lg:block'
+                : variant === 'fuel'
+                  ? 'relative hidden overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-950 to-black lg:block'
+                  : 'relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 lg:block'
           }
         >
-          {aside ?? (variant === 'gravity' ? <GravityAside /> : variant === 'flow' ? <FlowAside /> : variant === 'budget' ? <BudgetAside /> : <AuthAside />)}
+          {aside ?? (variant === 'gravity' ? <GravityAside /> : variant === 'flow' ? <FlowAside /> : variant === 'budget' ? <BudgetAside /> : variant === 'fuel' ? <FuelAside /> : <AuthAside />)}
         </div>
       </div>
     </div>
@@ -204,4 +206,19 @@ function BudgetAside() {
 /** Theyo Fihaara's mark: its two-word logo in white on black (the app icon). */
 export function FuelMark({ className }: { className?: string }) {
   return <img src="/fuel/icon-192.png" alt="" aria-hidden className={`rounded-[22%] ${className ?? ''}`} />;
+}
+
+function FuelAside() {
+  const { t } = useTranslation();
+  return (
+    <div className="flex h-full flex-col justify-end p-12 text-white">
+      <img src="/fuel/icon-512.png" alt="" aria-hidden className="absolute -end-16 -top-16 size-[26rem] rounded-[22%] opacity-20" />
+      <p className="max-w-md text-3xl leading-tight font-semibold">{t('fuel.aside_title')}</p>
+      <ul className="mt-4 max-w-md space-y-1.5 text-zinc-300">
+        <li>✓ {t('fuel.aside_1')}</li>
+        <li>✓ {t('fuel.aside_2')}</li>
+        <li>✓ {t('fuel.aside_3')}</li>
+      </ul>
+    </div>
+  );
 }
