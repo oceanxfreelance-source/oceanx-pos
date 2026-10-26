@@ -22,6 +22,7 @@ cpSync(path.join(root, 'apps/web/dist'), path.join(out, 'static'), { recursive: 
 writeFileSync(path.join(out, 'static/gravity.html'), gravityShell(readFileSync(path.join(out, 'static/index.html'), 'utf8')));
 writeFileSync(path.join(out, 'static/flow.html'), flowShell(readFileSync(path.join(out, 'static/index.html'), 'utf8')));
 writeFileSync(path.join(out, 'static/budget.html'), budgetShell(readFileSync(path.join(out, 'static/index.html'), 'utf8')));
+writeFileSync(path.join(out, 'static/fuel.html'), fuelShell(readFileSync(path.join(out, 'static/index.html'), 'utf8')));
 
 // 2. API → single bundled function. Native argon2 bindings are copied next to it.
 await build({
@@ -69,10 +70,12 @@ writeFileSync(
         // Gravity Flow's address (any host with "flow" in it), Gravity Budget's ("budget") and Gravity's ("gravity"): their own app shells.
         { src: '^/(?:index\\.html)?$', has: [{ type: 'host', value: '.*flow.*' }], dest: '/flow.html', headers: { 'cache-control': 'no-cache' } },
         { src: '^/(?:index\\.html)?$', has: [{ type: 'host', value: '.*budget.*' }], dest: '/budget.html', headers: { 'cache-control': 'no-cache' } },
+        { src: '^/(?:index\\.html)?$', has: [{ type: 'host', value: '.*theyo.*' }], dest: '/fuel.html', headers: { 'cache-control': 'no-cache' } },
         { src: '^/(?:index\\.html)?$', has: [{ type: 'host', value: gravityHostPattern() }], dest: '/gravity.html', headers: { 'cache-control': 'no-cache' } },
         { handle: 'filesystem' },
         { src: '^/(.*)$', has: [{ type: 'host', value: '.*flow.*' }], dest: '/flow.html', headers: { 'cache-control': 'no-cache' } },
         { src: '^/(.*)$', has: [{ type: 'host', value: '.*budget.*' }], dest: '/budget.html', headers: { 'cache-control': 'no-cache' } },
+        { src: '^/(.*)$', has: [{ type: 'host', value: '.*theyo.*' }], dest: '/fuel.html', headers: { 'cache-control': 'no-cache' } },
         { src: '^/(.*)$', has: [{ type: 'host', value: gravityHostPattern() }], dest: '/gravity.html', headers: { 'cache-control': 'no-cache' } },
         // The app shell must always be fresh so a new deploy is picked up on the next visit.
         { src: '^/(.*)$', dest: '/index.html', headers: { 'cache-control': 'no-cache' } },
@@ -204,6 +207,37 @@ function budgetShell(html) {
     out = out.replace(re, to);
   }
   return out.replace(/OceanX POS/g, 'Gravity Budget');
+}
+
+/** index.html with Theyo Fihaara's name, icons, theme colour, manifest and Open Graph tags (its address: any host with "theyo"). */
+function fuelShell(html) {
+  const title = 'Theyo Fihaara: fuel shed system';
+  const base = (process.env.FUEL_APP_URL ?? '').replace(/\/$/, '');
+  const desc = 'Pumps, tanks, shifts, credit customers, quotations and invoices for fuel sheds in the Maldives.';
+  const swaps = [
+    [/<title>[^<]*<\/title>/, `<title>${title}</title>`],
+    [/<meta name="theme-color" content="[^"]*" \/>/, '<meta name="theme-color" content="#0f0f10" />'],
+    [/<link rel="manifest" href="[^"]*" \/>/, '<link rel="manifest" href="/fuel.webmanifest" />'],
+    [/<link rel="apple-touch-icon" href="[^"]*" \/>/, '<link rel="apple-touch-icon" href="/fuel/apple-touch-icon.png" />'],
+    [/<link rel="icon" type="image\/png" sizes="32x32" href="[^"]*" \/>/, '<link rel="icon" type="image/png" sizes="32x32" href="/fuel/icon-64.png" />'],
+    [/<link rel="icon" type="image\/png" sizes="192x192" href="[^"]*" \/>/, '<link rel="icon" type="image/png" sizes="192x192" href="/fuel/icon-192.png" />'],
+    [/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${desc}" />`],
+    [/<meta property="og:site_name" content="[^"]*" \/>/, '<meta property="og:site_name" content="Theyo Fihaara" />'],
+    [/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${title}" />`],
+    [/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${desc}" />`],
+    [/<meta property="og:url" content="[^"]*" \/>/, base ? `<meta property="og:url" content="${base}/" />` : ''],
+    [/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${base}/fuel/icon-512.png" />`],
+    [/<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${title}" />`],
+    [/<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${desc}" />`],
+    [/<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${base}/fuel/icon-512.png" />`],
+    [/<meta property="og:image:alt" content="[^"]*" \/>/, '<meta property="og:image:alt" content="Theyo Fihaara" />'],
+  ];
+  let out = html;
+  for (const [re, to] of swaps) {
+    if (!re.test(out)) continue;
+    out = out.replace(re, to);
+  }
+  return out.replace(/OceanX POS/g, 'Theyo Fihaara');
 }
 
 /** /download/pos.apk, /download/gravity.apk, /download/flow.apk and /download/budget.apk → the APK of the app version in android/app/build.gradle. */
