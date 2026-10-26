@@ -17,7 +17,7 @@ quotations and invoices for government, expenses and profit.
 ## 2. How it ships
 
 - A new product **`fuel`** next to `pos`, `gravity`, `flow`, `budget`: own sign-up, sign-in, address
-  **`theyofihaara.oceanx.app`**, plan and Super Admin console.
+  **`theyo.oceanx.app`**, plan and Super Admin console.
 - **Same backend as OceanX POS.** Fuel adds tables and screens; it reuses sales, customers, cash closing,
   quotations, invoices, payments, suppliers, purchases, expenses, products, staff, roles, billing, languages,
   offline, printing.
@@ -194,7 +194,7 @@ Free setup, 30-day trial, bank-transfer billing (existing).
 ## 12. Open questions
 
 1. GST treatment of fuel sales (rate / zero-rated / exempt) and what the GST report must show.
-2. ~~Web address~~ — decided: `theyofihaara.oceanx.app`.
+2. ~~Web address~~ — decided: `theyo.oceanx.app`.
 3. ~~Printing~~ — decided: optional (off by default); support 80 mm thermal when a shed has one.
 4. Do sheds need delivery (bowser/drums to boats) as a separate charge/flow?
 5. ~~App icon~~ — decided: the two-word logo in white on **black** (files: `docs/marketing/fuel-demo/logo/icons/theyofihaara-icon-black-*.png`).

@@ -95,6 +95,6 @@ correct GST handling for fuel; need accurate tank charts.
   (This replaces the earlier "Walk-in + Unpaid by time" idea.)
 
 ## Decided (26 Oct 2026)
-- Address: theyofihaara.oceanx.app
+- Address: theyo.oceanx.app
 - Printing is optional (off by default); digital receipts / PDF always available; 80 mm thermal supported when present.
 - App icon: two-word logo, white on black (docs/marketing/fuel-demo/logo/icons/theyofihaara-icon-black-*.png).
