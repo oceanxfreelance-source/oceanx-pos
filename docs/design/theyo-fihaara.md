@@ -193,7 +193,7 @@ Free setup, 30-day trial, bank-transfer billing (existing).
 
 ## 12. Open questions
 
-1. GST treatment of fuel sales (rate / zero-rated / exempt) and what the GST report must show.
+1. GST treatment of fuel sales (rate / zero-rated / exempt) and what the GST report must show. — **parked: discuss last**; the GST setting stays configurable (rate per item, can be 0%) so nothing blocks the build.
 2. ~~Web address~~ — decided: `theyo.oceanx.app`.
 3. ~~Printing~~ — decided: optional (off by default); support 80 mm thermal when a shed has one.
 4. Do sheds need delivery (bowser/drums to boats) as a separate charge/flow?
