@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ComponentProps, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -44,7 +44,34 @@ const FUEL_LIST: Fuel[] = ['petrol', 'diesel'];
 const STEPS = ['mode', 'fuels', 'storage', 'nozzles', 'extras'] as const;
 type Step = (typeof STEPS)[number];
 const newKey = () => `new-${Math.random().toString(36).slice(2, 10)}`;
-const num = (v: string) => (v === '' ? '' : Number(v));
+
+/**
+ * A number box that keeps what is typed ("15." or "0.0") while typing, so a decimal point can be entered.
+ * Accepts a comma as the point. Gives the number back ('' when empty).
+ */
+function NumberInput({ value, onValue, ...rest }: Omit<ComponentProps<typeof Input>, 'value' | 'onChange'> & { value: number | '' | undefined; onValue: (v: number | '') => void }) {
+  const [text, setText] = useState(value === '' || value == null ? '' : String(value));
+  useEffect(() => {
+    const shown = text === '' ? '' : Number(text);
+    if ((value ?? '') !== shown) setText(value === '' || value == null ? '' : String(value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+  return (
+    <Input
+      {...rest}
+      inputMode="decimal"
+      dir="ltr"
+      value={text}
+      onChange={(e) => {
+        let v = e.target.value.replace(',', '.').replace(/[^0-9.]/g, '');
+        const dot = v.indexOf('.');
+        if (dot >= 0) v = v.slice(0, dot + 1) + v.slice(dot + 1).replace(/\./g, '');
+        setText(v);
+        onValue(v === '' || v === '.' ? '' : Number(v));
+      }}
+    />
+  );
+}
 
 /** The next free nozzle name: P1, P2, … */
 function nextNozzleName(nozzles: Nozzle[]) {
@@ -147,14 +174,12 @@ export function FuelSetupEditor({ variant }: { variant: 'wizard' | 'page' }) {
               <div key={f} className={clsx('rounded-2xl p-4 ring-1 transition', on ? 'bg-brand-50/60 ring-brand-500 dark:bg-brand-950/40' : 'ring-slate-200 dark:ring-slate-700')}>
                 <Switch checked={on} disabled={readOnly} onChange={(v) => setC({ fuels: v ? FUEL_LIST.filter((x) => x === f || config.fuels.includes(x)) : config.fuels.filter((x) => x !== f) })} label={fuelName(f)} />
                 {on && (
-                  <Input
+                  <NumberInput
                     className="mt-3"
                     label={t('fuel.setup.price')}
-                    inputMode="decimal"
-                    dir="ltr"
                     value={config.prices[f] ?? ''}
                     disabled={readOnly}
-                    onChange={(e) => setC({ prices: { ...config.prices, [f]: e.target.value === '' ? undefined : Number(e.target.value) } })}
+                    onValue={(v) => setC({ prices: { ...config.prices, [f]: v === '' ? undefined : v } })}
                   />
                 )}
               </div>
@@ -194,8 +219,8 @@ export function FuelSetupEditor({ variant }: { variant: 'wizard' | 'page' }) {
                   )}
                 </div>
                 <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                  <Input label={t(tk.storage === 'drums' ? 'fuel.setup.capacity_drums' : 'fuel.setup.capacity')} inputMode="decimal" dir="ltr" value={tk.capacityL} disabled={readOnly} onChange={(e) => set({ capacityL: num(e.target.value) })} />
-                  <Input label={t('fuel.setup.reorder')} inputMode="decimal" dir="ltr" value={tk.reorderL} disabled={readOnly} onChange={(e) => set({ reorderL: num(e.target.value) })} />
+                  <NumberInput label={t(tk.storage === 'drums' ? 'fuel.setup.capacity_drums' : 'fuel.setup.capacity')} value={tk.capacityL} disabled={readOnly} onValue={(v) => set({ capacityL: v })} />
+                  <NumberInput label={t('fuel.setup.reorder')} value={tk.reorderL} disabled={readOnly} onValue={(v) => set({ reorderL: v })} />
                   {tk.storage === 'drums' && <Input label={t('fuel.setup.drum_size')} inputMode="numeric" dir="ltr" value={tk.drumSizeL} disabled={readOnly} onChange={(e) => set({ drumSizeL: Number(e.target.value) || 200 })} />}
                 </div>
               </div>
@@ -244,7 +269,7 @@ export function FuelSetupEditor({ variant }: { variant: 'wizard' | 'page' }) {
                     return (
                       <div key={n.id ?? `${tk.key}-${nozzles.indexOf(n)}`} className="grid grid-cols-[6rem_1fr] gap-2">
                         <Input label={t('fuel.setup.nozzle_name')} value={n.name} disabled={readOnly} onChange={(e) => set({ name: e.target.value })} />
-                        <Input label={t('fuel.setup.meter')} inputMode="decimal" dir="ltr" value={n.openingMeter} disabled={readOnly} onChange={(e) => set({ openingMeter: num(e.target.value) })} />
+                        <NumberInput label={t('fuel.setup.meter')} value={n.openingMeter} disabled={readOnly} onValue={(v) => set({ openingMeter: v })} />
                       </div>
                     );
                   })}
@@ -261,7 +286,7 @@ export function FuelSetupEditor({ variant }: { variant: 'wizard' | 'page' }) {
         <div className="space-y-5">
           <Switch checked={config.credit} disabled={readOnly} onChange={(v) => setC({ credit: v })} label={t('fuel.setup.credit')} description={t('fuel.setup.credit_hint')} />
           {config.credit && (
-            <Input label={t('fuel.setup.till_limit')} inputMode="decimal" dir="ltr" value={config.tillCustomerLimit} disabled={readOnly} onChange={(e) => setC({ tillCustomerLimit: Number(e.target.value) || 0 })} />
+            <NumberInput label={t('fuel.setup.till_limit')} value={config.tillCustomerLimit} disabled={readOnly} onValue={(v) => setC({ tillCustomerLimit: v || 0 })} />
           )}
           <Switch checked={config.quotations} disabled={readOnly} onChange={(v) => setC({ quotations: v })} label={t('fuel.setup.quotations')} description={t('fuel.setup.quotations_hint')} />
           <Switch
@@ -279,14 +304,12 @@ export function FuelSetupEditor({ variant }: { variant: 'wizard' | 'page' }) {
                 options={[['fixed', t('fuel.setup.delivery_fixed')], ['per_litre', t('fuel.setup.delivery_per_litre')]]}
                 onChange={(v) => setC({ deliveryCharge: { ...config.deliveryCharge, type: v as 'fixed' | 'per_litre' } })}
               />
-              <Input
+              <NumberInput
                 className="w-40"
                 label={t('fuel.setup.delivery_amount')}
-                inputMode="decimal"
-                dir="ltr"
                 value={config.deliveryCharge.amount}
                 disabled={readOnly}
-                onChange={(e) => setC({ deliveryCharge: { ...config.deliveryCharge, amount: Number(e.target.value) || 0 } })}
+                onValue={(v) => setC({ deliveryCharge: { ...config.deliveryCharge, amount: v || 0 } })}
               />
             </div>
           )}
@@ -307,8 +330,8 @@ export function FuelSetupEditor({ variant }: { variant: 'wizard' | 'page' }) {
             />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Input label={t('fuel.setup.cash_tol')} inputMode="decimal" dir="ltr" value={config.cashTolerance} disabled={readOnly} onChange={(e) => setC({ cashTolerance: Number(e.target.value) || 0 })} />
-            <Input label={t('fuel.setup.variance')} inputMode="decimal" dir="ltr" value={config.variancePercent} disabled={readOnly} onChange={(e) => setC({ variancePercent: Number(e.target.value) || 0 })} />
+            <NumberInput label={t('fuel.setup.cash_tol')} value={config.cashTolerance} disabled={readOnly} onValue={(v) => setC({ cashTolerance: v || 0 })} />
+            <NumberInput label={t('fuel.setup.variance')} value={config.variancePercent} disabled={readOnly} onValue={(v) => setC({ variancePercent: v || 0 })} />
           </div>
         </div>
       ),

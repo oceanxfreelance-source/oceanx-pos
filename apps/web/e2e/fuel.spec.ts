@@ -86,7 +86,9 @@ test('fuel: a shed signs up and gets in at once', async ({ page, browser }) => {
   await page.getByRole('switch', { name: 'Diesel' }).click();
   await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.getByText('Enter a price for each fuel.')).toBeVisible();
-  await page.getByLabel('Price per litre (MVR)').fill('17.21');
+  // Typed key by key, as a person does: the point stays (15.55, not 1555).
+  await page.getByLabel('Price per litre (MVR)').pressSequentially('17.21');
+  await expect(page.getByLabel('Price per litre (MVR)')).toHaveValue('17.21');
   await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('radio', { name: 'Drums' }).click();
   await page.getByLabel(/All drums hold/).fill('1600');
