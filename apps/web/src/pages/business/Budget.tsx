@@ -800,6 +800,52 @@ function SavingsCard({ wallet, today, manage }: { wallet: BudgetWallet; today: s
   );
 }
 
+/** Home: what is still owed on the loans paid from the salary, and whether this month's repayment is cut. */
+function SalaryLoansHome({ today }: { today: string }) {
+  const { t } = useTranslation();
+  const money = useMoney();
+  const { session } = useBiz();
+  const on = !!session?.budgetSalaryLoans;
+  const q = useSalaryLoans(on);
+  const items = (q.data?.items ?? []).filter((l) => l.remaining > 0);
+  if (!on || !items.length) return null;
+  const owed = items.reduce((a, l) => a + l.remaining, 0);
+  const active = items.filter((l) => l.isActive);
+  const month = today.slice(0, 7);
+  const cutThisMonth = active.length > 0 && active.every((l) => l.lastCutOn?.startsWith(month));
+  return (
+    <Link to="/plan" className="block rounded-2xl bg-white px-4 py-3 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+      <span className="flex items-center gap-3">
+        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-amber-50 text-xl dark:bg-amber-950">🏦</span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-xs text-slate-500">{t('budget.salary_loans.home_title')}</span>
+          <span className="block text-lg font-semibold tabular-nums">{money(owed)}</span>
+        </span>
+        <span className={clsx('shrink-0 rounded-full px-2.5 py-1 text-xs font-medium', cutThisMonth ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200' : 'bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100')}>
+          {cutThisMonth ? t('budget.salary_loans.home_done') : t('budget.salary_loans.home_next', { amount: money(q.data?.monthlyTotal ?? 0) })}
+        </span>
+      </span>
+      {items.length > 0 && (
+        <span className="mt-2 block space-y-1.5">
+          {items.slice(0, 3).map((l) => (
+            <span key={l.id} className="block">
+              <span className="flex justify-between gap-3 text-xs">
+                <span className="truncate text-slate-600 dark:text-slate-300" dir="auto">
+                  {l.name}
+                </span>
+                <span className="shrink-0 tabular-nums text-slate-500">{t('budget.salary_loans.home_left', { amount: money(l.remaining), count: l.monthsLeft })}</span>
+              </span>
+              <span className="mt-1 block h-1 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                <span className="block h-full rounded-full bg-amber-500" style={{ width: `${l.amountDue > 0 ? Math.min(100, Math.round((l.paid * 100) / l.amountDue)) : 0}%` }} />
+              </span>
+            </span>
+          ))}
+        </span>
+      )}
+    </Link>
+  );
+}
+
 /**
  * Gravity Budget home, kept simple and clean for a phone: what is left this month and what can be spent each day,
  * one warning (if any), savings, the three budgets closest to their limit, bills still to pay, and the last records.
@@ -898,6 +944,8 @@ function HomeBody({ data, wallet }: { data: Overview; wallet: BudgetWallet }) {
       {o.isCurrent && wallet === 'main' && <LoanReminderCard />}
 
       <SavingsCard wallet={wallet} today={o.today} manage={manage} />
+
+      {wallet === 'main' && <SalaryLoansHome today={o.today} />}
 
       <BillsDue o={o} manage={manage} />
 

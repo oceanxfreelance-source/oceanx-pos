@@ -3346,7 +3346,12 @@
       "cut_label": "यसबाट ऋणको किस्ता काट्नुहोस्: {{amount}}",
       "cut_hint": "ऋणको खर्चमा लेखिन्छ, यो महिना एक पटक।",
       "cut_toast_one": "सुरक्षित भयो। ऋणका लागि {{amount}} काटियो।",
-      "cut_toast_other": "सुरक्षित भयो। {{count}} ऋणका लागि {{amount}} काटियो।"
+      "cut_toast_other": "सुरक्षित भयो। {{count}} ऋणका लागि {{amount}} काटियो।",
+      "home_title": "बाँकी ऋण",
+      "home_next": "अर्को तलब: {{amount}}",
+      "home_done": "यो महिना काटियो ✓",
+      "home_left_one": "{{amount}} · {{count}} महिना बाँकी",
+      "home_left_other": "{{amount}} · {{count}} महिना बाँकी"
     }
   },
   "app_update": {

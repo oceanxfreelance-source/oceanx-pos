@@ -3346,7 +3346,12 @@
       "cut_label": "इसमें से लोन की किस्त काटें: {{amount}}",
       "cut_hint": "लोन के खर्च में लिखा जाएगा, इस महीने एक बार।",
       "cut_toast_one": "सहेजा गया। लोन के लिए {{amount}} कटा।",
-      "cut_toast_other": "सहेजा गया। {{count}} लोन के लिए {{amount}} कटा।"
+      "cut_toast_other": "सहेजा गया। {{count}} लोन के लिए {{amount}} कटा।",
+      "home_title": "लोन बाकी",
+      "home_next": "अगला वेतन: {{amount}}",
+      "home_done": "इस महीने कटा ✓",
+      "home_left_one": "{{amount}} · {{count}} महीना बाकी",
+      "home_left_other": "{{amount}} · {{count}} महीने बाकी"
     }
   },
   "app_update": {

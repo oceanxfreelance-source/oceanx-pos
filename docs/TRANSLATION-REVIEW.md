@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1543 · **confirmed**: 380
+Status: **needs_review**: 1548 · **confirmed**: 380
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -179,6 +179,11 @@ review of the whole file is still recommended before launch.
 | `budget.salary_loans.each_salary` | Cut from each salary: {{amount}} | ކޮންމެ މުސާރައަކުން ކެނޑޭނީ: {{amount}} | needs_review | Gravity Budget loan repayment from salary; please check. |
 | `budget.salary_loans.edit` | Edit loan | ލޯނު ބަދަލުކުރޭ | needs_review | Gravity Budget loan repayment from salary; please check. |
 | `budget.salary_loans.hint` | Write what you still owe and the monthly repayment. When you add your salary, the repayment is cut automatically. | ލޯނުގެ ބާކީއާއި މަހަކު ދައްކާ އަދަދު ލިޔުއްވާ. މުސާރަ ލިޔުއްވާއިރު، އެ އަދަދު އަމިއްލައަށް ކެނޑޭނެ. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.home_done` | This month cut ✓ | މި މަހުގެ ކެނޑިއްޖެ ✓ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.home_left_one` | {{amount}} · {{count}} month left | {{amount}} · {{count}} މަސް ބާކީ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.home_left_other` | {{amount}} · {{count}} months left | {{amount}} · {{count}} މަސް ބާކީ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.home_next` | Next salary: {{amount}} | ދެން މުސާރައިން: {{amount}} | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.home_title` | Loans still owed | ލޯނުން ދައްކަން ބާކީ | needs_review | Gravity Budget loan repayment from salary; please check. |
 | `budget.salary_loans.monthly` | Monthly repayment | މަހަކު ދައްކާ އަދަދު | needs_review | Gravity Budget loan repayment from salary; please check. |
 | `budget.salary_loans.monthly_hint` | Cut from your salary each month. | ކޮންމެ މަހަކު މުސާރައިން ކެނޑޭނެ. | needs_review | Gravity Budget loan repayment from salary; please check. |
 | `budget.salary_loans.monthly_line_one` | {{amount}} a month · {{count}} month left | މަހަކު {{amount}} · {{count}} މަސް ބާކީ | needs_review | Gravity Budget loan repayment from salary; please check. |

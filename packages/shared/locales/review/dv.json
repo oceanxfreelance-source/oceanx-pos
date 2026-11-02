@@ -13459,5 +13459,40 @@
     "suggested": "ރައްކާކުރެވިއްޖެ. {{count}} ލޯނަށް {{amount}} ކެނޑިއްޖެ.",
     "status": "needs_review",
     "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.home_title",
+    "english": "Loans still owed",
+    "suggested": "ލޯނުން ދައްކަން ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.home_next",
+    "english": "Next salary: {{amount}}",
+    "suggested": "ދެން މުސާރައިން: {{amount}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.home_done",
+    "english": "This month cut ✓",
+    "suggested": "މި މަހުގެ ކެނޑިއްޖެ ✓",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.home_left_one",
+    "english": "{{amount}} · {{count}} month left",
+    "suggested": "{{amount}} · {{count}} މަސް ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.home_left_other",
+    "english": "{{amount}} · {{count}} months left",
+    "suggested": "{{amount}} · {{count}} މަސް ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
   }
 ]

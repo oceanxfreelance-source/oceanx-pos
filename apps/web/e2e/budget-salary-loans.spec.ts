@@ -32,8 +32,11 @@ test('budget: loan repayment is cut from the salary automatically', async ({ pag
   await expect(page.getByText(/Cut from each salary: .*3,000\.00/)).toBeVisible();
   await page.screenshot({ path: `${SHOTS}/budget-salary-loans.png`, fullPage: true });
 
-  // Salary in: the repayment is ticked and cut.
+  // Home: what is still owed, and the next salary's cut.
   await page.goto('/');
+  await expect(page.getByText('Loans still owed')).toBeVisible();
+  await expect(page.getByText(/Next salary: .*3,000\.00/)).toBeVisible();
+  // Salary in: the repayment is ticked and cut.
   await page.getByRole('button', { name: 'Add', exact: true }).click();
   const add = page.getByRole('dialog');
   await add.getByRole('tab', { name: 'Income' }).click();
@@ -45,6 +48,9 @@ test('budget: loan repayment is cut from the salary automatically', async ({ pag
   await add.getByRole('button', { name: 'Save' }).click();
   await expect(page.getByText(/Saved\. .*3,000\.00\W* cut for your loan\./)).toBeVisible();
   await expect(page.getByText('BML loan').first()).toBeVisible();
+  await expect(page.getByText('This month cut ✓')).toBeVisible();
+  await expect(page.getByText(/4,000\.00\W* · 2 months left/)).toBeVisible();
+  await page.screenshot({ path: `${SHOTS}/budget-salary-loans-home.png`, fullPage: true });
 
   // My budget: 4,000 still owed, 2 months left.
   await page.getByRole('link', { name: 'My budget' }).last().click();

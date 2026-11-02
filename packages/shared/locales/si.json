@@ -3346,7 +3346,12 @@
       "cut_label": "මෙයින් ණය වාරික කපන්න: {{amount}}",
       "cut_hint": "ණය වියදමක් ලෙස ලියැවේ, මේ මාසයේ එක් වරක්.",
       "cut_toast_one": "සුරැකිණි. ණයට {{amount}} කැපුණා.",
-      "cut_toast_other": "සුරැකිණි. ණය {{count}} කට {{amount}} කැපුණා."
+      "cut_toast_other": "සුරැකිණි. ණය {{count}} කට {{amount}} කැපුණා.",
+      "home_title": "ඉතිරි ණය",
+      "home_next": "ඊළඟ වැටුප: {{amount}}",
+      "home_done": "මේ මාසය කැපුණා ✓",
+      "home_left_one": "{{amount}} · මාස {{count}} ඉතිරි",
+      "home_left_other": "{{amount}} · මාස {{count}} ඉතිරි"
     }
   },
   "app_update": {

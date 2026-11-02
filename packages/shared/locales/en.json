@@ -3346,7 +3346,12 @@
       "cut_label": "Cut loan repayments from this: {{amount}}",
       "cut_hint": "Written as spending under Loans, once this month.",
       "cut_toast_one": "Saved. {{amount}} cut for your loan.",
-      "cut_toast_other": "Saved. {{amount}} cut for {{count}} loans."
+      "cut_toast_other": "Saved. {{amount}} cut for {{count}} loans.",
+      "home_title": "Loans still owed",
+      "home_next": "Next salary: {{amount}}",
+      "home_done": "This month cut ✓",
+      "home_left_one": "{{amount}} · {{count}} month left",
+      "home_left_other": "{{amount}} · {{count}} months left"
     }
   },
   "app_update": {

@@ -3346,7 +3346,12 @@
       "cut_label": "এখান থেকে লোনের কিস্তি কাটুন: {{amount}}",
       "cut_hint": "লোনের খরচে লেখা হবে, এই মাসে একবার।",
       "cut_toast_one": "সংরক্ষিত। লোনের জন্য {{amount}} কাটা হয়েছে।",
-      "cut_toast_other": "সংরক্ষিত। {{count}}টি লোনের জন্য {{amount}} কাটা হয়েছে।"
+      "cut_toast_other": "সংরক্ষিত। {{count}}টি লোনের জন্য {{amount}} কাটা হয়েছে।",
+      "home_title": "লোন বাকি",
+      "home_next": "পরের বেতন: {{amount}}",
+      "home_done": "এই মাসে কাটা হয়েছে ✓",
+      "home_left_one": "{{amount}} · {{count}} মাস বাকি",
+      "home_left_other": "{{amount}} · {{count}} মাস বাকি"
     }
   },
   "app_update": {

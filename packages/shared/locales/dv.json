@@ -3346,7 +3346,12 @@
       "cut_label": "މީގެ ތެރެއިން ލޯނަށް ކަނޑާ: {{amount}}",
       "cut_hint": "ލޯނުގެ ޚަރަދެއްގެ ގޮތުގައި ލިޔެވޭނެ، މި މަހު އެއް ފަހަރު.",
       "cut_toast_one": "ރައްކާކުރެވިއްޖެ. ލޯނަށް {{amount}} ކެނޑިއްޖެ.",
-      "cut_toast_other": "ރައްކާކުރެވިއްޖެ. {{count}} ލޯނަށް {{amount}} ކެނޑިއްޖެ."
+      "cut_toast_other": "ރައްކާކުރެވިއްޖެ. {{count}} ލޯނަށް {{amount}} ކެނޑިއްޖެ.",
+      "home_title": "ލޯނުން ދައްކަން ބާކީ",
+      "home_next": "ދެން މުސާރައިން: {{amount}}",
+      "home_done": "މި މަހުގެ ކެނޑިއްޖެ ✓",
+      "home_left_one": "{{amount}} · {{count}} މަސް ބާކީ",
+      "home_left_other": "{{amount}} · {{count}} މަސް ބާކީ"
     }
   },
   "app_update": {
