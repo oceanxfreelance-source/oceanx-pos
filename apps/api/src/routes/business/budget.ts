@@ -15,6 +15,8 @@ import {
   budgetSavingsMoveSchema,
   budgetWalletQuerySchema,
   budgetWalletsSchema,
+  budgetSalaryLoanSchema,
+  budgetSalaryLoansSwitchSchema,
   daysInMonth,
   monthSchema,
   PAID_WITH,
@@ -22,7 +24,7 @@ import {
   type BudgetWallet,
 } from '@oceanx/shared';
 import type { Executor } from '../../db/client';
-import { budgetBills, budgetCategories, budgetEntries, budgetGoalMoves, budgetGoals, businesses } from '../../db/schema';
+import { budgetBills, budgetCategories, budgetEntries, budgetGoalMoves, budgetGoals, budgetSalaryLoans, businesses } from '../../db/schema';
 import { bizCtx, requirePermission } from '../../guards/business';
 import { audit } from '../../lib/audit';
 import { AppError, notFound } from '../../lib/errors';
@@ -528,13 +530,20 @@ export async function budgetRoutes(app: FastifyInstance) {
       }
     }
     checkWallet(ctx, body.wallet);
-    if (body.categoryId) await loadCategory(ctx, body.categoryId, body.kind, body.wallet);
-    const [e] = await db
-      .insert(budgetEntries)
-      .values({ ...(body.id ? { id: body.id } : {}), businessId: ctx.businessId, kind: body.kind, wallet: body.wallet, amount: body.amount, occurredOn: body.occurredOn, categoryId: body.categoryId, note: body.note, paidWith: body.paidWith, createdBy: ctx.user.id })
-      .returning();
+    const cat = body.categoryId ? await loadCategory(ctx, body.categoryId, body.kind, body.wallet) : null;
+    // Salary in: this month's loan repayments are cut from it (when the person turned that on).
+    const cut = body.kind === 'income' && body.wallet === 'main' && ctx.access.business.budgetSalaryLoans && (body.cutLoans ?? cat?.key === 'salary');
+    const res = await db.transaction(async (tx) => {
+      const [e] = await tx
+        .insert(budgetEntries)
+        .values({ ...(body.id ? { id: body.id } : {}), businessId: ctx.businessId, kind: body.kind, wallet: body.wallet, amount: body.amount, occurredOn: body.occurredOn, categoryId: body.categoryId, note: body.note, paidWith: body.paidWith, createdBy: ctx.user.id })
+        .returning();
+      const loanCuts = cut ? await cutSalaryLoans(tx, ctx, e!) : [];
+      return { ...e!, loanCuts };
+    });
+    if (res.loanCuts.length) await audit(db, { ...actor(ctx), action: 'budget.salary_loans_cut', entityType: 'budget_entry', entityId: res.id, metadata: { loans: res.loanCuts.length, total: res.loanCuts.reduce((a, c) => a + c.amount, 0) }, req });
     reply.status(201);
-    return e;
+    return res;
   });
 
   app.put('/budget/entries/:id', { preHandler: requirePermission('budget.manage') }, async (req) => {
@@ -553,8 +562,140 @@ export async function budgetRoutes(app: FastifyInstance) {
 
   app.delete('/budget/entries/:id', { preHandler: requirePermission('budget.manage') }, async (req) => {
     const ctx = bizCtx(req);
-    const [e] = await db.update(budgetEntries).set({ deletedAt: new Date() }).where(own(budgetEntries, ctx, idParam(req))).returning({ id: budgetEntries.id });
+    const now = new Date();
+    const [e] = await db.update(budgetEntries).set({ deletedAt: now }).where(own(budgetEntries, ctx, idParam(req))).returning({ id: budgetEntries.id });
     if (!e) throw notFound();
+    // A deleted salary takes its loan repayments with it (they are owed again).
+    await db
+      .update(budgetEntries)
+      .set({ deletedAt: now })
+      .where(and(eq(budgetEntries.businessId, ctx.businessId), eq(budgetEntries.fromEntryId, e.id), isNull(budgetEntries.deletedAt)));
+    return { ok: true };
+  });
+
+  // ---------------------------------------------------------------- loan repayment from salary
+  /** What each loan still owes: the amount due less the repayments written for it. */
+  const salaryLoansOf = async (exec: Executor, businessId: string) => {
+    const loans = await exec
+      .select()
+      .from(budgetSalaryLoans)
+      .where(and(eq(budgetSalaryLoans.businessId, businessId), isNull(budgetSalaryLoans.deletedAt)))
+      .orderBy(asc(budgetSalaryLoans.createdAt));
+    const paid = loans.length
+      ? await exec
+          .select({ id: budgetEntries.salaryLoanId, sum: sql<string>`coalesce(sum(${budgetEntries.amount}),0)`, last: sql<string | null>`max(${budgetEntries.occurredOn})` })
+          .from(budgetEntries)
+          .where(and(eq(budgetEntries.businessId, businessId), isNull(budgetEntries.deletedAt), isNotNull(budgetEntries.salaryLoanId)))
+          .groupBy(budgetEntries.salaryLoanId)
+      : [];
+    const byLoan = new Map(paid.map((p) => [p.id, p]));
+    return loans.map((l) => {
+      const p = byLoan.get(l.id);
+      const paidSum = n(p?.sum);
+      const remaining = Math.max(0, l.amountDue - paidSum);
+      return {
+        id: l.id,
+        name: l.name,
+        amountDue: l.amountDue,
+        monthlyAmount: l.monthlyAmount,
+        isActive: l.isActive,
+        paid: paidSum,
+        remaining,
+        monthsLeft: remaining > 0 ? Math.ceil(remaining / l.monthlyAmount) : 0,
+        lastCutOn: p?.last ?? null,
+      };
+    });
+  };
+
+  /** Write this month's repayments for a salary record: once a month per loan, never more than is owed. */
+  async function cutSalaryLoans(tx: Executor, ctx: Ctx, income: typeof budgetEntries.$inferSelect) {
+    const month = income.occurredOn.slice(0, 7);
+    const range = monthRange(month);
+    const loans = (await salaryLoansOf(tx, ctx.businessId)).filter((l) => l.isActive && l.remaining > 0);
+    if (!loans.length) return [];
+    const done = await tx
+      .select({ id: budgetEntries.salaryLoanId })
+      .from(budgetEntries)
+      .where(and(eq(budgetEntries.businessId, ctx.businessId), isNull(budgetEntries.deletedAt), isNotNull(budgetEntries.salaryLoanId), gte(budgetEntries.occurredOn, range.from), lte(budgetEntries.occurredOn, range.to)));
+    const doneIds = new Set(done.map((d) => d.id));
+    const due = loans.filter((l) => !doneIds.has(l.id));
+    if (!due.length) return [];
+    const categoryId = await loansCategory(tx, ctx.businessId);
+    const cuts: { loanId: string; name: string; amount: number; remaining: number }[] = [];
+    for (const l of due) {
+      const amount = Math.min(l.monthlyAmount, l.remaining);
+      await tx.insert(budgetEntries).values({ businessId: ctx.businessId, kind: 'expense', wallet: 'main', amount, occurredOn: income.occurredOn, categoryId, note: l.name, paidWith: 'transfer', salaryLoanId: l.id, fromEntryId: income.id, createdBy: ctx.user.id });
+      cuts.push({ loanId: l.id, name: l.name, amount, remaining: l.remaining - amount });
+    }
+    return cuts;
+  }
+
+  /** The "Loans & card payments" spending category (made if the person removed it). */
+  async function loansCategory(tx: Executor, businessId: string) {
+    const find = () =>
+      tx
+        .select({ id: budgetCategories.id })
+        .from(budgetCategories)
+        .where(and(eq(budgetCategories.businessId, businessId), eq(budgetCategories.kind, 'expense'), eq(budgetCategories.wallet, 'main'), eq(budgetCategories.key, 'loans'), isNull(budgetCategories.deletedAt)))
+        .limit(1);
+    const [had] = await find();
+    if (had) return had.id;
+    const [made] = await tx
+      .insert(budgetCategories)
+      .values({ businessId, kind: 'expense', wallet: 'main', name: 'Loans & card payments', key: 'loans', emoji: '💳', sortOrder: 90 })
+      .onConflictDoNothing()
+      .returning({ id: budgetCategories.id });
+    if (made) return made.id;
+    // A category with that name already exists (made by the person): use it.
+    const [same] = await tx
+      .select({ id: budgetCategories.id })
+      .from(budgetCategories)
+      .where(and(eq(budgetCategories.businessId, businessId), eq(budgetCategories.kind, 'expense'), eq(budgetCategories.wallet, 'main'), sql`lower(${budgetCategories.name}) = 'loans & card payments'`, isNull(budgetCategories.deletedAt)));
+    return same?.id ?? null;
+  }
+
+  app.get('/budget/salary-loans', { preHandler: requirePermission('budget.view') }, async (req) => {
+    const ctx = bizCtx(req);
+    const items = await salaryLoansOf(db, ctx.businessId);
+    return { on: ctx.access.business.budgetSalaryLoans, items, monthlyTotal: items.filter((l) => l.isActive && l.remaining > 0).reduce((a, l) => a + Math.min(l.monthlyAmount, l.remaining), 0) };
+  });
+
+  /** The person's own setting: cut loan repayments from the salary, or stop (loans are kept). */
+  app.post('/budget/salary-loans/switch', { preHandler: requirePermission('budget.manage') }, async (req) => {
+    const ctx = bizCtx(req);
+    const body = parse(budgetSalaryLoansSwitchSchema, req.body);
+    await db.update(businesses).set({ budgetSalaryLoans: body.on, updatedAt: new Date() }).where(eq(businesses.id, ctx.businessId));
+    await audit(db, { ...actor(ctx), action: body.on ? 'budget.salary_loans_on' : 'budget.salary_loans_off', entityType: 'business', entityId: ctx.businessId, req });
+    return { on: body.on };
+  });
+
+  app.post('/budget/salary-loans', { preHandler: requirePermission('budget.manage') }, async (req, reply) => {
+    const ctx = bizCtx(req);
+    const body = parse(budgetSalaryLoanSchema, req.body);
+    const [l] = await db.insert(budgetSalaryLoans).values({ businessId: ctx.businessId, name: body.name, amountDue: body.owed, monthlyAmount: body.monthly, isActive: body.isActive }).returning({ id: budgetSalaryLoans.id });
+    await audit(db, { ...actor(ctx), action: 'budget.salary_loan_added', entityType: 'budget_salary_loan', entityId: l!.id, req });
+    reply.status(201);
+    return (await salaryLoansOf(db, ctx.businessId)).find((x) => x.id === l!.id);
+  });
+
+  /** "Still owed" is what is owed now: repayments already written stay counted. */
+  app.put('/budget/salary-loans/:id', { preHandler: requirePermission('budget.manage') }, async (req) => {
+    const ctx = bizCtx(req);
+    const body = parse(budgetSalaryLoanSchema, req.body);
+    const cur = (await salaryLoansOf(db, ctx.businessId)).find((x) => x.id === idParam(req));
+    if (!cur) throw notFound();
+    await db
+      .update(budgetSalaryLoans)
+      .set({ name: body.name, amountDue: body.owed + cur.paid, monthlyAmount: body.monthly, isActive: body.isActive, updatedAt: new Date() })
+      .where(own(budgetSalaryLoans, ctx, cur.id));
+    return (await salaryLoansOf(db, ctx.businessId)).find((x) => x.id === cur.id);
+  });
+
+  /** Removing a loan keeps the repayments already written (they were really paid). */
+  app.delete('/budget/salary-loans/:id', { preHandler: requirePermission('budget.manage') }, async (req) => {
+    const ctx = bizCtx(req);
+    const [l] = await db.update(budgetSalaryLoans).set({ deletedAt: new Date() }).where(own(budgetSalaryLoans, ctx, idParam(req))).returning({ id: budgetSalaryLoans.id });
+    if (!l) throw notFound();
     return { ok: true };
   });
 

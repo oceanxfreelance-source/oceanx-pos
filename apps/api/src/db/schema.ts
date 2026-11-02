@@ -215,6 +215,8 @@ export const businesses = pgTable(
     betaFeatures: text('beta_features').array().notNull().default(sql`'{}'::text[]`),
     /** Gravity Budget: dollars kept as their own money (records, budgets, savings), next to the main currency. */
     budgetUsdWallet: boolean('budget_usd_wallet').notNull().default(false),
+    /** Gravity Budget: loan repayments are cut from the salary automatically (turned on by the person). */
+    budgetSalaryLoans: boolean('budget_salary_loans').notNull().default(false),
     address: text('address').notNull().default(''),
     logoPath: text('logo_path'),
     /** Company stamp printed on documents. */
@@ -1902,6 +1904,32 @@ export const budgetBills = pgTable(
 );
 
 /**
+ * Gravity Budget: a loan paid back from the salary (a bank loan, a card). When salary comes in, the monthly
+ * repayment is written as spending automatically, once a month, until nothing is owed. What is still owed is
+ * amountDue minus the repayments written for it.
+ */
+export const budgetSalaryLoans = pgTable(
+  'budget_salary_loans',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    businessId: uuid('business_id')
+      .notNull()
+      .references(() => businesses.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    amountDue: money('amount_due').notNull(),
+    monthlyAmount: money('monthly_amount').notNull(),
+    isActive: boolean('is_active').notNull().default(true),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+    deletedAt: ts('deleted_at'),
+  },
+  (t) => [
+    unique('budget_salary_loans_business_id_uq').on(t.businessId, t.id),
+    check('budget_salary_loans_amount_ck', sql`${t.amountDue} > 0 AND ${t.monthlyAmount} > 0`),
+  ],
+);
+
+/**
  * Gravity Budget: one income or spending record. Amounts are whole minor units, always positive; the kind says
  * which way the money went. occurredOn is the day in the account's time zone. A paid bill links to its bill.
  * Deleting keeps the row (deleted_at).
@@ -1923,6 +1951,9 @@ export const budgetEntries = pgTable(
     billId: uuid('bill_id'),
     /** Which money: 'main' (the account's currency) or 'usd' (dollars kept apart, never exchanged). */
     wallet: text('wallet').notNull().default('main'),
+    /** A loan repayment cut from the salary: the loan, and the salary record that caused it. */
+    salaryLoanId: uuid('salary_loan_id'),
+    fromEntryId: uuid('from_entry_id'),
     createdBy: uuid('created_by'),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
@@ -1932,6 +1963,8 @@ export const budgetEntries = pgTable(
     index('budget_entries_business_day_idx').on(t.businessId, t.occurredOn),
     tenantFk('budget_entries_category_fk', t, t.categoryId, budgetCategories),
     tenantFk('budget_entries_bill_fk', t, t.billId, budgetBills),
+    tenantFk('budget_entries_salary_loan_fk', t, t.salaryLoanId, budgetSalaryLoans),
+    index('budget_entries_from_entry_idx').on(t.fromEntryId),
     check('budget_entries_kind_ck', sql`${t.kind} IN ('income','expense')`),
     check('budget_entries_amount_ck', sql`${t.amount} > 0`),
   ],

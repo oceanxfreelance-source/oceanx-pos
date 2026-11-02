@@ -55,6 +55,11 @@ export const budgetEntrySchema = z.object({
   categoryId: z.string().uuid().nullable().default(null),
   note: z.string().trim().max(300).default(''),
   paidWith: z.enum(PAID_WITH).default('cash'),
+  /**
+   * Income only, when loan repayment from salary is on: cut this month's loan repayments from it. Left out, it
+   * is done for the Salary category.
+   */
+  cutLoans: z.boolean().optional(),
 });
 
 export const budgetListQuerySchema = z.object({
@@ -155,3 +160,14 @@ export const budgetLoanPaymentSchema = z.object({
 });
 
 export const budgetLoanPersonSchema = z.object({ name: personName, phone: personPhone });
+
+/** Loan repayment from salary: on or off (the person's own setting). */
+export const budgetSalaryLoansSwitchSchema = z.object({ on: z.boolean() });
+
+/** A loan paid back from the salary: what is still owed now and how much is paid each month. */
+export const budgetSalaryLoanSchema = z.object({
+  name: z.string().trim().min(1).max(60),
+  owed: moneyTextSchema,
+  monthly: moneyTextSchema,
+  isActive: z.boolean().default(true),
+});

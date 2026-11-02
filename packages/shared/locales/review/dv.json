@@ -13270,5 +13270,194 @@
     "suggested": "މިހާރު ގަނެ ފަހުން ފައިސާ ދައްކާ ދޯނިތަކާއި ކައުންސިލްތަކާއި ކުންފުނިތައް އިތުރުކުރޭ.",
     "status": "needs_review",
     "notes": "Theyo Fihaara dashboard, till, tanks and credit; please check."
+  },
+  {
+    "key": "budget.salary_loans.title",
+    "english": "Loan repayment from salary",
+    "suggested": "މުސާރައިން ލޯނު ދެއްކުން",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.hint",
+    "english": "Write what you still owe and the monthly repayment. When you add your salary, the repayment is cut automatically.",
+    "suggested": "ލޯނުގެ ބާކީއާއި މަހަކު ދައްކާ އަދަދު ލިޔުއްވާ. މުސާރަ ލިޔުއްވާއިރު، އެ އަދަދު އަމިއްލައަށް ކެނޑޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.on_toast",
+    "english": "Loan repayment from salary is on",
+    "suggested": "މުސާރައިން ލޯނު ދެއްކުން ފެށިއްޖެ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.off_toast",
+    "english": "Loan repayment from salary is off",
+    "suggested": "މުސާރައިން ލޯނު ދެއްކުން ނިއްވައިފި",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.add",
+    "english": "Add loan",
+    "suggested": "ލޯނެއް އިތުރުކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.edit",
+    "english": "Edit loan",
+    "suggested": "ލޯނު ބަދަލުކުރޭ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.name",
+    "english": "Loan",
+    "suggested": "ލޯނު",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.name_hint",
+    "english": "e.g. BML loan, car loan, credit card",
+    "suggested": "މިސާލަކަށް: ބީއެމްއެލް ލޯނު، ކާރު ލޯނު، ކްރެޑިޓް ކާޑު",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.owed",
+    "english": "Still owed",
+    "suggested": "ދައްކަން ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.owed_hint",
+    "english": "What you still owe on this loan today.",
+    "suggested": "މިއަދު މި ލޯނުން ދައްކަން ބާކީ އަދަދު.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.monthly",
+    "english": "Monthly repayment",
+    "suggested": "މަހަކު ދައްކާ އަދަދު",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.monthly_hint",
+    "english": "Cut from your salary each month.",
+    "suggested": "ކޮންމެ މަހަކު މުސާރައިން ކެނޑޭނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.active",
+    "english": "Cut from salary",
+    "suggested": "މުސާރައިން ކަނޑާ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.active_hint",
+    "english": "Turn off to pause this loan for now.",
+    "suggested": "މި ލޯނު މިހާރަށް ހުއްޓާލަން ނިއްވާލައްވާ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.paused",
+    "english": "paused",
+    "suggested": "ހުއްޓާލާފަ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.monthly_line_one",
+    "english": "{{amount}} a month · {{count}} month left",
+    "suggested": "މަހަކު {{amount}} · {{count}} މަސް ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.monthly_line_other",
+    "english": "{{amount}} a month · {{count}} months left",
+    "suggested": "މަހަކު {{amount}} · {{count}} މަސް ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.paid_off",
+    "english": "Paid off 🎉",
+    "suggested": "ދައްކާ ނިމިއްޖެ 🎉",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.still_owed",
+    "english": "still owed",
+    "suggested": "ބާކީ",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.each_salary",
+    "english": "Cut from each salary: {{amount}}",
+    "suggested": "ކޮންމެ މުސާރައަކުން ކެނޑޭނީ: {{amount}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.none",
+    "english": "No loans yet.",
+    "suggested": "އަދި ލޯނެއް ނެތް.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.delete",
+    "english": "Remove this loan?",
+    "suggested": "މި ލޯނު ފޮހެލަންތަ؟",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.delete_body",
+    "english": "Repayments already written stay in your spending.",
+    "suggested": "ލިޔެވިފައިވާ ދެއްކުންތައް ޚަރަދުގައި ބާކީ ހުންނާނެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.cut_label",
+    "english": "Cut loan repayments from this: {{amount}}",
+    "suggested": "މީގެ ތެރެއިން ލޯނަށް ކަނޑާ: {{amount}}",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.cut_hint",
+    "english": "Written as spending under Loans, once this month.",
+    "suggested": "ލޯނުގެ ޚަރަދެއްގެ ގޮތުގައި ލިޔެވޭނެ، މި މަހު އެއް ފަހަރު.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.cut_toast_one",
+    "english": "Saved. {{amount}} cut for your loan.",
+    "suggested": "ރައްކާކުރެވިއްޖެ. ލޯނަށް {{amount}} ކެނޑިއްޖެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
+  },
+  {
+    "key": "budget.salary_loans.cut_toast_other",
+    "english": "Saved. {{amount}} cut for {{count}} loans.",
+    "suggested": "ރައްކާކުރެވިއްޖެ. {{count}} ލޯނަށް {{amount}} ކެނޑިއްޖެ.",
+    "status": "needs_review",
+    "notes": "Gravity Budget loan repayment from salary; please check."
   }
 ]

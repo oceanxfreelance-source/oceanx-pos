@@ -75,6 +75,8 @@ export async function buildSessionPayload(req: FastifyRequest, ctx: BusinessCont
     features: await budgetFeaturesFor(db, b),
     /** Gravity Budget: dollars kept as their own money too (own budgets, savings and totals). */
     budgetUsdWallet: b.product === 'budget' && b.budgetUsdWallet,
+    /** Gravity Budget: loan repayments are cut from the salary automatically. */
+    budgetSalaryLoans: b.product === 'budget' && b.budgetSalaryLoans,
     permissions: [...ctx.permissions].sort(),
     outlet: accessibleOutlets.find((o) => o.id === ctx.outletId) ?? null,
     outlets: accessibleOutlets,

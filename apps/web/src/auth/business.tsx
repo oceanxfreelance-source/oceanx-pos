@@ -46,6 +46,8 @@ export interface BusinessSession {
   features?: string[];
   /** Gravity Budget: dollars kept as their own money too ("Rf and $"). */
   budgetUsdWallet?: boolean;
+  /** Gravity Budget: loan repayments are cut from the salary automatically (the person's own setting). */
+  budgetSalaryLoans?: boolean;
   permissions: string[];
   outlet: { id: string; name: string } | null;
   outlets: { id: string; name: string; isDefault: boolean }[];

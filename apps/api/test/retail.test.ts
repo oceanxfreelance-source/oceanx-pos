@@ -219,8 +219,9 @@ describe('retail shops', () => {
     const q = (
       await owner.post('/api/quotations', {
         customerId: council.id,
-        quotationDate: '2026-10-01',
-        validUntil: '2026-10-31',
+        // Dates from today: a quotation valid until a day already past cannot be made.
+        quotationDate: new Date().toISOString().slice(0, 10),
+        validUntil: new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10),
         customerRef: 'RFQ/2026/118',
         items: [{ name: 'A4 paper (box)', quantity: 10, unitPrice: 250 }],
       })

@@ -346,12 +346,18 @@ function EntryDialog({ kind: initialKind, wallet: initialWallet = 'main', entry,
   const [paidWith, setPaidWith] = useState<PaidWith>(entry?.paidWith ?? 'cash');
   const [more, setMore] = useState(!!entry && (!!entry.note || entry.occurredOn !== today || entry.paidWith !== 'cash'));
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [cutChoice, setCutChoice] = useState<boolean | null>(null);
+  const { session } = useBiz();
+  const money = useMoney();
+  const loansOn = !!session?.budgetSalaryLoans && !entry;
+  const salaryLoans = useSalaryLoans(loansOn);
+  const owing = (salaryLoans.data?.items ?? []).filter((l) => l.isActive && l.remaining > 0);
   const toastError = useToastError();
   const save = useMutation({
     // Runs offline too: a new record then waits on the phone and is sent when the phone is online.
     networkMode: 'always',
     mutationFn: async () => {
-      const body = { kind, wallet, amount: amount.trim(), occurredOn: date, categoryId: categoryId || null, note, paidWith };
+      const body = { kind, wallet, amount: amount.trim(), occurredOn: date, categoryId: categoryId || null, note, paidWith, ...(showCut ? { cutLoans: cutLoans } : {}) };
       if (entry) return api.put(`/budget/entries/${entry.id}`, body);
       const keepOnPhone = () => {
         const text = body.amount.replace(/,/g, '');
@@ -362,14 +368,16 @@ function EntryDialog({ kind: initialKind, wallet: initialWallet = 'main', entry,
       };
       if (!navigator.onLine) return keepOnPhone();
       try {
-        return await api.post('/budget/entries', body);
+        return await api.post<{ loanCuts?: { amount: number }[] }>('/budget/entries', body);
       } catch (err) {
         if (err instanceof ApiError && err.code === 'network_error') return keepOnPhone();
         throw err;
       }
     },
     onSuccess: (r) => {
-      toast.success(r === 'offline' ? t('budget.offline.saved') : t('common.saved'));
+      const cuts: { amount: number }[] = r && typeof r === 'object' && 'loanCuts' in r ? ((r as { loanCuts?: { amount: number }[] }).loanCuts ?? []) : [];
+      if (cuts.length) toast.success(t('budget.salary_loans.cut_toast', { count: cuts.length, amount: money(cuts.reduce((a, c) => a + c.amount, 0)) }));
+      else toast.success(r === 'offline' ? t('budget.offline.saved') : t('common.saved'));
       refresh(qc);
       onClose();
     },
@@ -385,6 +393,10 @@ function EntryDialog({ kind: initialKind, wallet: initialWallet = 'main', entry,
   });
   const fieldErr = useFieldErrors(save.error);
   const options = (cats.data?.items ?? []).filter((c) => c.kind === kind && (c.wallet ?? 'main') === wallet);
+  // Loan repayment from salary: income in the main money cuts this month's repayments (Salary: ticked by itself).
+  const showCut = loansOn && kind === 'income' && wallet === 'main' && owing.length > 0;
+  const cutLoans = cutChoice ?? options.find((c) => c.id === categoryId)?.key === 'salary';
+  const cutTotal = owing.reduce((a, l) => a + Math.min(l.monthlyAmount, l.remaining), 0);
   return (
     <Dialog
       open
@@ -473,6 +485,15 @@ function EntryDialog({ kind: initialKind, wallet: initialWallet = 'main', entry,
           ))}
         </div>
         {fieldErr('categoryId') && <p className="text-sm text-rose-600">{fieldErr('categoryId')}</p>}
+        {showCut && (
+          <label className="flex items-start gap-3 rounded-2xl bg-amber-50 p-3 text-sm text-amber-950 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-100 dark:ring-amber-900">
+            <input type="checkbox" className="mt-0.5 size-4 accent-amber-600" checked={cutLoans} onChange={(e) => setCutChoice(e.target.checked)} />
+            <span>
+              <span className="block font-medium">{t('budget.salary_loans.cut_label', { amount: money(cutTotal) })}</span>
+              <span className="block text-xs opacity-80">{t('budget.salary_loans.cut_hint')}</span>
+            </span>
+          </label>
+        )}
         {!more ? (
           <button type="button" onClick={() => setMore(true)} className="mx-auto flex items-center gap-1 text-sm text-slate-500">
             {f.date(date)} · {t(`budget.paid.${paidWith}`)} <ChevronDown className="size-4" /> <span className="font-medium text-brand-700 dark:text-brand-300">{t('budget.more_details')}</span>
@@ -1662,6 +1683,160 @@ function BillDialog({ bill, categories, onClose }: { bill?: BillRow; categories:
   );
 }
 
+export interface SalaryLoan {
+  id: string;
+  name: string;
+  amountDue: number;
+  monthlyAmount: number;
+  isActive: boolean;
+  paid: number;
+  remaining: number;
+  monthsLeft: number;
+  lastCutOn: string | null;
+}
+function useSalaryLoans(enabled = true) {
+  return useQuery({ queryKey: [...KEY, 'salary-loans'], queryFn: () => api.get<{ on: boolean; items: SalaryLoan[]; monthlyTotal: number }>('/budget/salary-loans'), enabled });
+}
+
+/**
+ * Loan repayment from salary (the person's own setting): their loans, what is still owed and the monthly
+ * repayment. When salary is written down, this month's repayments are cut from it automatically.
+ */
+function SalaryLoansCard() {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const money = useMoney();
+  const { session, setSession } = useBiz();
+  const toastError = useToastError();
+  const on = !!session?.budgetSalaryLoans;
+  const loans = useSalaryLoans(on);
+  const [editing, setEditing] = useState<SalaryLoan | 'new' | null>(null);
+  const turn = useMutation({
+    mutationFn: (v: boolean) => api.post<{ on: boolean }>('/budget/salary-loans/switch', { on: v }),
+    onSuccess: (r) => {
+      if (session) setSession({ ...session, budgetSalaryLoans: r.on });
+      toast.success(r.on ? t('budget.salary_loans.on_toast') : t('budget.salary_loans.off_toast'));
+      if (r.on && !loans.data?.items.length) setEditing('new');
+      refresh(qc);
+    },
+    onError: toastError,
+  });
+  const items = loans.data?.items ?? [];
+  return (
+    <Card padded={false}>
+      <div className="p-4">
+        <Switch checked={on} disabled={turn.isPending} onChange={(v) => turn.mutate(v)} label={`🏦 ${t('budget.salary_loans.title')}`} description={t('budget.salary_loans.hint')} />
+      </div>
+      {on && (
+        <div className="border-t border-slate-100 dark:border-slate-800">
+          {items.length > 0 && (
+            <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+              {items.map((l) => {
+                const pct = l.amountDue > 0 ? Math.min(100, Math.round((l.paid * 100) / l.amountDue)) : 0;
+                return (
+                  <li key={l.id}>
+                    <button type="button" onClick={() => setEditing(l)} className="block w-full px-4 py-3 text-start hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                      <span className="flex items-center gap-3">
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-medium" dir="auto">
+                            {l.name}
+                            {!l.isActive && <span className="ms-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-500 dark:bg-slate-800">{t('budget.salary_loans.paused')}</span>}
+                          </span>
+                          <span className="block text-xs text-slate-500">
+                            {l.remaining > 0 ? t('budget.salary_loans.monthly_line', { amount: money(Math.min(l.monthlyAmount, l.remaining)), count: l.monthsLeft }) : t('budget.salary_loans.paid_off')}
+                          </span>
+                        </span>
+                        <span className="shrink-0 text-end">
+                          <span className="block text-sm font-semibold tabular-nums">{money(l.remaining)}</span>
+                          <span className="block text-xs text-slate-500">{t('budget.salary_loans.still_owed')}</span>
+                        </span>
+                        <Pencil className="size-4 shrink-0 text-slate-400" />
+                      </span>
+                      <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                        <span className={clsx('block h-full rounded-full', l.remaining > 0 ? 'bg-amber-500' : 'bg-emerald-500')} style={{ width: `${pct}%` }} />
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          <div className="flex flex-wrap items-center justify-between gap-2 p-4">
+            {items.length > 0 ? <p className="text-sm text-slate-600 dark:text-slate-300">{t('budget.salary_loans.each_salary', { amount: money(loans.data?.monthlyTotal ?? 0) })}</p> : <p className="text-sm text-slate-500">{t('budget.salary_loans.none')}</p>}
+            <Button size="sm" variant="subtle" icon={<Plus className="size-4" />} onClick={() => setEditing('new')}>
+              {t('budget.salary_loans.add')}
+            </Button>
+          </div>
+        </div>
+      )}
+      {editing && <SalaryLoanDialog loan={editing === 'new' ? null : editing} onClose={() => setEditing(null)} />}
+    </Card>
+  );
+}
+
+function SalaryLoanDialog({ loan, onClose }: { loan: SalaryLoan | null; onClose: () => void }) {
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const mainSymbol = useMainSymbol();
+  const toastError = useToastError();
+  const [name, setName] = useState(loan?.name ?? '');
+  const [owed, setOwed] = useState(loan ? toText(loan.remaining) : '');
+  const [monthly, setMonthly] = useState(loan ? toText(loan.monthlyAmount) : '');
+  const [active, setActive] = useState(loan?.isActive ?? true);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const save = useMutation({
+    mutationFn: () => {
+      const body = { name: name.trim(), owed: owed.trim(), monthly: monthly.trim(), isActive: active };
+      return loan ? api.put(`/budget/salary-loans/${loan.id}`, body) : api.post('/budget/salary-loans', body);
+    },
+    onSuccess: () => {
+      toast.success(t('common.saved'));
+      refresh(qc);
+      onClose();
+    },
+  });
+  const remove = useMutation({
+    mutationFn: () => api.delete(`/budget/salary-loans/${loan!.id}`),
+    onSuccess: () => {
+      toast.success(t('flow.deleted'));
+      refresh(qc);
+      onClose();
+    },
+    onError: toastError,
+  });
+  const fieldErr = useFieldErrors(save.error);
+  return (
+    <Dialog
+      open
+      onClose={onClose}
+      title={loan ? t('budget.salary_loans.edit') : t('budget.salary_loans.add')}
+      footer={
+        <div className="flex w-full items-center gap-2">
+          {loan && <Button variant="ghost" icon={<Trash2 className="size-4" />} aria-label={t('common.delete')} onClick={() => setConfirmDelete(true)} />}
+          <Button size="lg" className="flex-1" onClick={() => save.mutate()} loading={save.isPending} disabled={!name.trim() || !owed.trim() || !monthly.trim()}>
+            {t('common.save')}
+          </Button>
+        </div>
+      }
+    >
+      <form
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          save.mutate();
+        }}
+      >
+        <Input label={t('budget.salary_loans.name')} placeholder={t('budget.salary_loans.name_hint')} value={name} onChange={(e) => setName(e.target.value)} maxLength={60} error={fieldErr('name')} autoFocus={!loan} />
+        <Input label={`${t('budget.salary_loans.owed')} (${mainSymbol})`} hint={t('budget.salary_loans.owed_hint')} inputMode="decimal" dir="ltr" value={owed} onChange={(e) => setOwed(e.target.value)} error={fieldErr('owed')} />
+        <Input label={`${t('budget.salary_loans.monthly')} (${mainSymbol})`} hint={t('budget.salary_loans.monthly_hint')} inputMode="decimal" dir="ltr" value={monthly} onChange={(e) => setMonthly(e.target.value)} error={fieldErr('monthly')} />
+        {loan && <Switch checked={active} onChange={setActive} label={t('budget.salary_loans.active')} description={t('budget.salary_loans.active_hint')} />}
+        {save.error && !fieldErr('name') && !fieldErr('owed') && !fieldErr('monthly') ? <p className="text-sm text-rose-600">{String((save.error as Error).message)}</p> : null}
+      </form>
+      <ConfirmDialog open={confirmDelete} onClose={() => setConfirmDelete(false)} onConfirm={() => remove.mutate()} loading={remove.isPending} danger title={t('budget.salary_loans.delete')} message={t('budget.salary_loans.delete_body')} confirmLabel={t('common.delete')} />
+    </Dialog>
+  );
+}
+
 /** "Dollars too": keep dollars as their own money (own budgets, savings and totals), never mixed with the main money. */
 function DollarsCard() {
   const { t } = useTranslation();
@@ -1725,6 +1900,7 @@ function PlanBody({ wallet }: { wallet: BudgetWallet }) {
         <p className="text-sm text-slate-500">{t('budget.plan_hint')}</p>
       </div>
       {manage && <DollarsCard />}
+      {manage && wallet === 'main' && <SalaryLoansCard />}
       {usdOn && (
         <div className="flex justify-center">
           <WalletSwitch value={wallet} onChange={setWallet} />

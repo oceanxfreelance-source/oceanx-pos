@@ -3,7 +3,7 @@
 Generated from `packages/shared/locales/review/dv.json` — edit that file, then run
 `npx tsx packages/shared/scripts/review-md.ts`.
 
-Status: **needs_review**: 1516 · **confirmed**: 380
+Status: **needs_review**: 1543 · **confirmed**: 380
 
 All other Dhivehi strings (`packages/shared/locales/dv.json`, 764 keys) are complete drafts using common Maldivian
 business usage (English loanwords in Thaana for system terms such as ޕާސްވޯޑް, ސެޓިންގްސް, އިންވޮއިސް). A native
@@ -167,6 +167,33 @@ review of the whole file is still recommended before launch.
 | `budget.payday_admin_switch` | Offer pay on salary day | މުސާރަ ލިބޭ ދުވަހު ދެއްކުމުގެ އޮފަރ | needs_review | Gravity Budget: pay on salary day offer (new). |
 | `budget.payday_admin_title` | Pay on salary day | މުސާރަ ލިބޭ ދުވަހު ފައިސާ ދެއްކުން | needs_review | Gravity Budget: pay on salary day offer (new). |
 | `budget.payday_admin_unpaid` | Not paid yet | އަދި ނުދައްކާ | needs_review | Gravity Budget: pay on salary day offer (new). |
+| `budget.salary_loans.active` | Cut from salary | މުސާރައިން ކަނޑާ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.active_hint` | Turn off to pause this loan for now. | މި ލޯނު މިހާރަށް ހުއްޓާލަން ނިއްވާލައްވާ. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.add` | Add loan | ލޯނެއް އިތުރުކުރޭ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.cut_hint` | Written as spending under Loans, once this month. | ލޯނުގެ ޚަރަދެއްގެ ގޮތުގައި ލިޔެވޭނެ، މި މަހު އެއް ފަހަރު. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.cut_label` | Cut loan repayments from this: {{amount}} | މީގެ ތެރެއިން ލޯނަށް ކަނޑާ: {{amount}} | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.cut_toast_one` | Saved. {{amount}} cut for your loan. | ރައްކާކުރެވިއްޖެ. ލޯނަށް {{amount}} ކެނޑިއްޖެ. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.cut_toast_other` | Saved. {{amount}} cut for {{count}} loans. | ރައްކާކުރެވިއްޖެ. {{count}} ލޯނަށް {{amount}} ކެނޑިއްޖެ. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.delete` | Remove this loan? | މި ލޯނު ފޮހެލަންތަ؟ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.delete_body` | Repayments already written stay in your spending. | ލިޔެވިފައިވާ ދެއްކުންތައް ޚަރަދުގައި ބާކީ ހުންނާނެ. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.each_salary` | Cut from each salary: {{amount}} | ކޮންމެ މުސާރައަކުން ކެނޑޭނީ: {{amount}} | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.edit` | Edit loan | ލޯނު ބަދަލުކުރޭ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.hint` | Write what you still owe and the monthly repayment. When you add your salary, the repayment is cut automatically. | ލޯނުގެ ބާކީއާއި މަހަކު ދައްކާ އަދަދު ލިޔުއްވާ. މުސާރަ ލިޔުއްވާއިރު، އެ އަދަދު އަމިއްލައަށް ކެނޑޭނެ. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.monthly` | Monthly repayment | މަހަކު ދައްކާ އަދަދު | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.monthly_hint` | Cut from your salary each month. | ކޮންމެ މަހަކު މުސާރައިން ކެނޑޭނެ. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.monthly_line_one` | {{amount}} a month · {{count}} month left | މަހަކު {{amount}} · {{count}} މަސް ބާކީ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.monthly_line_other` | {{amount}} a month · {{count}} months left | މަހަކު {{amount}} · {{count}} މަސް ބާކީ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.name` | Loan | ލޯނު | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.name_hint` | e.g. BML loan, car loan, credit card | މިސާލަކަށް: ބީއެމްއެލް ލޯނު، ކާރު ލޯނު، ކްރެޑިޓް ކާޑު | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.none` | No loans yet. | އަދި ލޯނެއް ނެތް. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.off_toast` | Loan repayment from salary is off | މުސާރައިން ލޯނު ދެއްކުން ނިއްވައިފި | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.on_toast` | Loan repayment from salary is on | މުސާރައިން ލޯނު ދެއްކުން ފެށިއްޖެ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.owed` | Still owed | ދައްކަން ބާކީ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.owed_hint` | What you still owe on this loan today. | މިއަދު މި ލޯނުން ދައްކަން ބާކީ އަދަދު. | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.paid_off` | Paid off 🎉 | ދައްކާ ނިމިއްޖެ 🎉 | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.paused` | paused | ހުއްޓާލާފަ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.still_owed` | still owed | ބާކީ | needs_review | Gravity Budget loan repayment from salary; please check. |
+| `budget.salary_loans.title` | Loan repayment from salary | މުސާރައިން ލޯނު ދެއްކުން | needs_review | Gravity Budget loan repayment from salary; please check. |
 | `budget.savings.goals` | Goals | ލަނޑުދަނޑިތައް | needs_review | Gravity Budget: dollars and savings (new). |
 | `budget.savings.hint` | Money put aside. No goal needed. | ވަކިކޮށް ބެހެއްޓި ފައިސާ. ލަނޑުދަނޑިއެއް ބޭނުމެއް ނޫން. | needs_review | Gravity Budget: dollars and savings (new). |
 | `budget.savings.save` | Save | ސޭވްކުރައްވާ | needs_review | Gravity Budget: dollars and savings (new). |
