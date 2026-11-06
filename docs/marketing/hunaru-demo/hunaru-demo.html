@@ -1,0 +1,243 @@
+<title>Hunaru Freelance Pay</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Nunito+Sans:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: client phone and freelancer phone side by side on wide screens, a tab switch on phones; one shared order flow. */
+:root{
+  --bg:#f3f1ec; --panel:#ffffff; --ink:#18223a; --muted:#646c7e; --line:#e2ded5;
+  --accent:#e2603b; --accent-ink:#ffffff; --accent-soft:#fbe7df;
+  --navy:#1d2c4f; --navy-ink:#ffffff;
+  --held:#9a6500; --held-soft:#fbf0d6; --ok:#177a4f; --ok-soft:#e1f3ea; --info:#2b5dab; --info-soft:#e4ecf9;
+  --display:'Sora','Segoe UI',system-ui,sans-serif; --body:'Nunito Sans','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1420; --panel:#171e2e; --ink:#e9ecf4; --muted:#9aa3b8; --line:#283149;
+  --accent:#f0805f; --accent-ink:#2a0e05; --accent-soft:#3a2018; --navy:#24365f; --navy-ink:#ffffff;
+  --held:#f1c25c; --held-soft:#3a2d0f; --ok:#5fd29d; --ok-soft:#153325; --info:#86aef0; --info-soft:#1b2a45; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1420; --panel:#171e2e; --ink:#e9ecf4; --muted:#9aa3b8; --line:#283149;
+  --accent:#f0805f; --accent-ink:#2a0e05; --accent-soft:#3a2018; --navy:#24365f; --navy-ink:#ffffff;
+  --held:#f1c25c; --held-soft:#3a2d0f; --ok:#5fd29d; --ok-soft:#153325; --info:#86aef0; --info-soft:#1b2a45; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;margin:0;
+  padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1060px;margin:0 auto;display:grid;gap:22px}
+.sample{display:inline-block;font-size:11px;letter-spacing:.12em;font-weight:800;text-transform:uppercase;color:var(--held);background:var(--held-soft);padding:3px 9px;border-radius:999px;margin-bottom:10px}
+header.top h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,40px);margin:0;letter-spacing:-.02em;text-wrap:balance}
+header.top p{margin:6px 0 0;color:var(--muted);max-width:64ch}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.step{font-size:13px;font-weight:700;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--panel)}
+.step.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.switch{display:none;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;width:max-content}
+.switch button{border:0;background:none;color:var(--muted);font:700 14px var(--body);padding:8px 14px;border-radius:9px;cursor:pointer}
+.switch button[aria-pressed="true"]{background:var(--navy);color:var(--navy-ink)}
+.phones{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+.phone{background:var(--panel);border:1px solid var(--line);border-radius:28px;overflow:hidden;min-width:0;box-shadow:0 18px 40px -26px rgb(0 0 0 / .4)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px;background:var(--navy);color:var(--navy-ink)}
+.bar small{display:block;opacity:.75;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.bar b{font-family:var(--display);font-size:19px}
+.bar .tag{font-size:12px;opacity:.8}
+.screen{padding:16px 18px 20px;display:grid;gap:14px}
+.cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.cat{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:700 13px var(--body);padding:7px 12px;border-radius:999px;cursor:pointer}
+.cat[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.gigs{display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
+.gig{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:10px;background:var(--panel);color:var(--ink);text-align:left;font:inherit;cursor:pointer;min-width:0;width:100%}
+.gig[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.thumb{flex:none;width:64px;height:64px;border-radius:12px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:20px;color:#fff}
+.gig .mid{flex:1;min-width:0}
+.gig .mid b{display:block;overflow-wrap:anywhere}
+.gig .mid span{font-size:13px;color:var(--muted)}
+.from{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.card{border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:12px}
+.card h3{margin:0;font-family:var(--display);font-size:17px}
+.pk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pk button{border:1px solid var(--line);border-radius:12px;padding:9px 6px;background:var(--panel);color:var(--ink);font:inherit;cursor:pointer;text-align:center}
+.pk button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pk b{display:block;font-size:13px}
+.pk span{font-weight:800;font-variant-numeric:tabular-nums}
+.pk em{display:block;font-style:normal;font-size:11px;color:var(--muted)}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);font:800 14px var(--body);padding:11px 14px;border-radius:12px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.dark{background:var(--navy);border-color:var(--navy);color:var(--navy-ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.gig:focus-visible,.cat:focus-visible,.pk button:focus-visible,.switch button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.status{display:flex;align-items:center;gap:10px;border-radius:14px;padding:12px;font-weight:700}
+.status.held{background:var(--held-soft);color:var(--held)}
+.status.work{background:var(--info-soft);color:var(--info)}
+.status.ok{background:var(--ok-soft);color:var(--ok)}
+.status .ic{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:currentColor}
+.status .ic svg{width:16px;height:16px;stroke:var(--panel)}
+.chat{display:grid;gap:8px;font-size:14px}
+.bubble{max-width:85%;padding:9px 12px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}
+.bubble.me{justify-self:end;background:var(--accent-soft);border-color:transparent}
+.bubble small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.file{display:flex;gap:8px;align-items:center;font-weight:700}
+.money{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.money div{border-radius:14px;padding:12px;border:1px solid var(--line)}
+.money small{display:block;color:var(--muted);font-weight:700;font-size:12px}
+.money b{font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.money .h b{color:var(--held)} .money .a b{color:var(--ok)}
+.orders{display:grid;gap:8px}
+.order{border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
+.order .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.order .top b{min-width:0;overflow-wrap:anywhere}
+.pill{font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.pill.held{background:var(--held-soft);color:var(--held)} .pill.work{background:var(--info-soft);color:var(--info)} .pill.ok{background:var(--ok-soft);color:var(--ok)}
+.note{color:var(--muted);font-size:13px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:10px 16px;border-radius:12px;font-weight:700;font-size:14px;max-width:calc(100% - 32px)}
+@media (max-width:840px){.phones{grid-template-columns:1fr}.switch{display:flex}.phone[data-hide="true"]{display:none}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="sample">Clickable demo · sample data</span>
+    <h1>Hunaru: hire Maldivian freelancers, pay safely</h1>
+    <p>The client pays, Hunaru holds the money, the freelancer delivers, and the money is released when the client approves. Try it: order on the client phone, deliver on the freelancer phone.</p>
+    <div class="steps" aria-label="Order progress">
+      <span class="step" id="s1">1 · Choose a gig</span><span class="step" id="s2">2 · Pay (held)</span><span class="step" id="s3">3 · Delivered</span><span class="step" id="s4">4 · Approved, money released</span>
+    </div>
+  </header>
+
+  <div class="switch" role="group" aria-label="Choose a phone">
+    <button type="button" id="tab-c" aria-pressed="true">Client</button>
+    <button type="button" id="tab-f" aria-pressed="false">Freelancer</button>
+  </div>
+
+  <div class="phones">
+    <section class="phone" id="client" aria-label="Client phone">
+      <div class="bar"><div><small>Client</small><b>Ahmed's Café</b></div><span class="tag">Sample client</span></div>
+      <div class="screen" id="client-screen"></div>
+    </section>
+    <section class="phone" id="free" aria-label="Freelancer phone">
+      <div class="bar"><div><small>Freelancer</small><b>Shifa Designs</b></div><span class="tag">Sample freelancer</span></div>
+      <div class="screen" id="free-screen"></div>
+    </section>
+  </div>
+  <p class="note">Planned: Dhivehi and English, bank transfer with slip upload, withdrawals to any Maldivian bank, disputes handled by the Hunaru team. Holding client money needs advice from the Maldives Monetary Authority or a partner bank first.</p>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const fmt = (n) => 'Rf ' + n.toLocaleString('en-US');
+const CATS = ['All', 'Design', 'Video', 'Translation', 'Photo', 'Web'];
+const GIGS = [
+  { id: 'logo', cat: 'Design', title: 'Logo and brand colours', by: 'Shifa Designs', color: '#e2603b', mine: true, rating: 4.9, n: 38,
+    pk: [['Basic', 500, 3, '1 logo, 2 revisions'], ['Standard', 900, 5, '3 ideas, colours, 4 revisions'], ['Premium', 1500, 7, 'Full brand kit, social pack']] },
+  { id: 'reel', cat: 'Video', title: 'TikTok and Reels editing', by: 'Nazim Edits', color: '#2b5dab', rating: 4.8, n: 52,
+    pk: [['Basic', 250, 2, '1 video up to 30 s'], ['Standard', 600, 3, '3 videos, captions'], ['Premium', 1400, 5, '8 videos, music, captions']] },
+  { id: 'dv', cat: 'Translation', title: 'English ⇄ Dhivehi translation', by: 'Leena Translates', color: '#177a4f', rating: 5.0, n: 21,
+    pk: [['Basic', 150, 1, 'Up to 300 words'], ['Standard', 400, 2, 'Up to 1,000 words'], ['Premium', 900, 3, 'Up to 3,000 words, proofread']] },
+  { id: 'menu', cat: 'Photo', title: 'Food photos for your menu', by: 'Hulhumalé Lens', color: '#9a6500', rating: 4.7, n: 17,
+    pk: [['Basic', 800, 3, '10 edited photos'], ['Standard', 1500, 4, '25 photos'], ['Premium', 2800, 6, '50 photos, 2 short clips']] },
+  { id: 'site', cat: 'Web', title: 'One-page website for your shop', by: 'Code by Ibbe', color: '#18223a', rating: 4.8, n: 12,
+    pk: [['Basic', 2500, 7, '1 page, contact form'], ['Standard', 4500, 10, 'Up to 4 pages'], ['Premium', 7500, 14, 'Shop with orders']] },
+];
+const FEE = 0.10;
+let cat = 'All', gigId = 'logo', pkIdx = 1;
+// Freelancer starts with two finished orders so the earnings card has real numbers.
+const free = { available: 2160, held: 0, orders: [
+  { id: 'H-1042', client: 'Island Bakery', gig: 'Logo and brand colours', pk: 'Standard', price: 900, state: 'done' },
+  { id: 'H-1039', client: 'Reef Tours', gig: 'Logo and brand colours', pk: 'Premium', price: 1500, state: 'done' },
+] };
+let order = null; // the client's live order: state = held | delivered | done
+const $ = (id) => document.getElementById(id);
+function toast(t) { const el = $('toast'); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => (el.hidden = true), 2800); }
+const icon = { lock: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  box: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' };
+
+function steps() {
+  const s = !order ? 1 : order.state === 'held' ? 2 : order.state === 'delivered' ? 3 : 4;
+  [1, 2, 3, 4].forEach((i) => $('s' + i).classList.toggle('on', i === s));
+}
+
+function renderClient() {
+  const el = $('client-screen');
+  if (order) {
+    const g = GIGS.find((x) => x.id === order.gig);
+    const st = order.state === 'held'
+      ? `<div class="status held"><span class="ic">${icon.lock}</span><span>${fmt(order.price)} paid and held by Hunaru. ${g.by} is working on it.</span></div>`
+      : order.state === 'delivered'
+        ? `<div class="status work"><span class="ic">${icon.box}</span><span>Delivered. Check the files, then approve to release the money.</span></div>`
+        : `<div class="status ok"><span class="ic">${icon.check}</span><span>Approved. ${fmt(order.price)} released to ${g.by}. Thank you!</span></div>`;
+    el.innerHTML = `
+      <div class="card"><h3>Order ${order.id}</h3><div class="note">${g.title} · ${order.pk} · due in ${order.days} days</div>${st}
+        <div class="chat">
+          <div class="bubble me">Hi! Logo for our café, ocean colours please.<small>You · today</small></div>
+          <div class="bubble">Got it, I'll send 3 ideas soon.<small>${g.by}</small></div>
+          ${order.state !== 'held' ? `<div class="bubble"><span class="file">📎 logo-ideas-final.zip</span>Here are your files. Let me know if you want changes.<small>${g.by}</small></div>` : ''}
+        </div>
+        ${order.state === 'delivered' ? `<div class="row"><button class="btn primary" type="button" id="approve">Approve and release ${fmt(order.price)}</button><button class="btn" type="button" id="revise">Ask for a change</button></div><p class="note">If you don't reply in 3 days, the money is released automatically.</p>` : ''}
+        ${order.state === 'done' ? `<div class="row"><button class="btn dark" type="button" id="again">Order something else</button></div>` : ''}
+        ${order.state === 'held' ? `<p class="note">Switch to the freelancer phone to deliver the work.</p>` : ''}
+      </div>`;
+    if ($('approve')) $('approve').onclick = () => {
+      order.state = 'done';
+      const fo = free.orders.find((o) => o.id === order.id); fo.state = 'done';
+      if (GIGS.find((x) => x.id === order.gig).mine) { free.held -= order.price; free.available += Math.round(order.price * (1 - FEE)); }
+      toast(`Released. ${GIGS.find((x) => x.id === order.gig).by} gets ${fmt(Math.round(order.price * (1 - FEE)))}.`); render();
+    };
+    if ($('revise')) $('revise').onclick = () => { order.state = 'held'; free.orders.find((o) => o.id === order.id).state = 'held'; toast('Change requested. The order is back in progress.'); render(); };
+    if ($('again')) $('again').onclick = () => { order = null; render(); };
+    return;
+  }
+  const list = GIGS.filter((g) => cat === 'All' || g.cat === cat);
+  if (!list.some((g) => g.id === gigId)) gigId = list[0].id;
+  const g = GIGS.find((x) => x.id === gigId);
+  const p = g.pk[pkIdx];
+  el.innerHTML = `
+    <div class="cats" role="group" aria-label="Categories">${CATS.map((c) => `<button type="button" class="cat" data-cat="${c}" aria-pressed="${c === cat}">${c}</button>`).join('')}</div>
+    <div class="gigs">${list.map((x) => `<button type="button" class="gig" data-gig="${x.id}" aria-current="${x.id === gigId}">
+      <span class="thumb" style="background:${x.color}">${x.by[0]}</span>
+      <span class="mid"><b>${x.title}</b><span>${x.by} · ★ ${x.rating} (${x.n})</span></span>
+      <span class="from">from ${fmt(x.pk[0][1])}</span></button>`).join('')}</div>
+    <div class="card"><h3>${g.title}</h3><div class="note">by ${g.by} · ★ ${g.rating} from ${g.n} orders</div>
+      <div class="pk" role="group" aria-label="Packages">${g.pk.map((k, i) => `<button type="button" data-pk="${i}" aria-pressed="${i === pkIdx}"><b>${k[0]}</b><span>${fmt(k[1])}</span><em>${k[2]} days</em></button>`).join('')}</div>
+      <div class="note">${p[3]}</div>
+      <button class="btn primary" type="button" id="pay">Pay ${fmt(p[1])} · held until you approve</button>
+      <p class="note">You pay by bank transfer and upload the slip. The freelancer is paid only after you approve the work.</p>
+    </div>`;
+  $('pay').onclick = () => {
+    order = { id: 'H-' + (1043 + Math.floor(Math.random() * 50)), gig: g.id, pk: p[0], price: p[1], days: p[2], state: 'held' };
+    if (g.mine) { free.orders.unshift({ id: order.id, client: "Ahmed's Café", gig: g.title, pk: p[0], price: p[1], state: 'held' }); free.held += p[1]; }
+    else free.orders.unshift({ id: order.id, client: "Ahmed's Café", gig: g.title, pk: p[0], price: p[1], state: 'held', other: g.by });
+    toast(`Slip sent. ${fmt(p[1])} is held safely.`); render();
+  };
+}
+
+function renderFree() {
+  const el = $('free-screen');
+  const mine = free.orders.filter((o) => !o.other);
+  el.innerHTML = `
+    <div class="money"><div class="h"><small>Held (in progress)</small><b>${fmt(free.held)}</b></div><div class="a"><small>Available to withdraw</small><b>${fmt(free.available)}</b></div></div>
+    <button class="btn dark" type="button" id="withdraw" ${free.available ? '' : 'disabled'}>Withdraw ${fmt(free.available)} to my bank</button>
+    <div class="card"><h3>My gigs</h3><div class="note">Logo and brand colours · from Rf 500 · ★ 4.9 (38)</div><div class="note">Instagram post designs · from Rf 300 · ★ 4.8 (14)</div></div>
+    <div class="card"><h3>Orders</h3><div class="orders">${mine.map((o) => `<div class="order">
+      <div class="top"><b>${o.client} · ${o.pk}</b><span class="pill ${o.state === 'held' ? 'held' : o.state === 'delivered' ? 'work' : 'ok'}">${o.state === 'held' ? 'To do · money held' : o.state === 'delivered' ? 'Delivered · waiting' : 'Paid'}</span></div>
+      <div class="note">${o.id} · ${o.gig} · ${fmt(o.price)} (you get ${fmt(Math.round(o.price * (1 - FEE)))})</div>
+      ${o.state === 'held' ? `<button class="btn primary" type="button" data-deliver="${o.id}">Deliver files</button>` : ''}
+    </div>`).join('')}</div>
+    ${order && GIGS.find((x) => x.id === order.gig)?.mine === false ? `<p class="note">This sample freelancer only sees orders for Shifa Designs. Order the logo gig to try the full flow.</p>` : ''}
+    </div>`;
+  $('withdraw').onclick = () => { toast(`${fmt(free.available)} sent to your BML account (sample).`); free.available = 0; render(); };
+  el.querySelectorAll('[data-deliver]').forEach((b) => (b.onclick = () => {
+    const o = free.orders.find((x) => x.id === b.dataset.deliver); o.state = 'delivered';
+    if (order && order.id === o.id) order.state = 'delivered';
+    toast('Files delivered. The client can approve now.'); render();
+  }));
+}
+
+function render() { renderClient(); renderFree(); steps(); }
+document.addEventListener('click', (e) => {
+  const c = e.target.closest('[data-cat]'); if (c) { cat = c.dataset.cat; pkIdx = 1; return render(); }
+  const g = e.target.closest('[data-gig]'); if (g) { gigId = g.dataset.gig; pkIdx = 1; return render(); }
+  const k = e.target.closest('[data-pk]'); if (k) { pkIdx = +k.dataset.pk; return render(); }
+});
+function tab(w) { $('tab-c').setAttribute('aria-pressed', w === 'c'); $('tab-f').setAttribute('aria-pressed', w === 'f'); $('client').dataset.hide = w !== 'c'; $('free').dataset.hide = w !== 'f'; }
+$('tab-c').onclick = () => tab('c'); $('tab-f').onclick = () => tab('f');
+tab('c');
+render();
+</script>
